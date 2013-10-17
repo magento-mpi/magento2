@@ -1323,3 +1323,109 @@
         line-height: 1.2;
     }
 }
+
+/*
+    My Account -> Advanced Checkout -> Order by SKU
+-------------------------------------- */
+.cart.table.failed {
+    .action.tocart {
+        padding:9px 11px;
+    }
+    .configure-popup {
+        display: inline-block;
+        margin-top:15px;
+    }
+}
+.form.addbysku {
+    .fields {
+        display: block;
+        padding-bottom:10px;
+        .label { display: none; }
+        .action.remove {
+            .iconAfter(@content: @icon-collapse, @size: 16px, @font: 'icons');
+            .iconHideText(16px);
+            float:right;
+            color: @primary5;
+            &:hover,
+            &:active,
+            &:focus,
+            &.active {
+                color: @primary4;
+                outline: none;
+            }
+            margin-top: 5px;
+            background: none;
+            border:0;
+        }
+        &:first-child {
+            .label {
+                display: block;
+            }
+            .action.remove {
+                margin-top: 25px;
+            }
+        }
+    }
+    .field.upload.skus {
+        float:left;
+        width: 60%;
+        background-color:@primary1;
+        .formField();
+        padding:25px;
+        margin-right:30px;
+        position:relative;
+        z-index: 1;
+        .action.reset {
+            position:absolute;
+            right: 10px;
+            top: 15px;
+            &:extend(.action.delete all);
+            border:0;
+            background: none;
+            color: @primary5;
+            &:hover,
+            &:active,
+            &:focus,
+            &.active {
+                color: @primary4;
+                outline: none;
+            }
+        }
+        input[type="file"] {
+            width:100%;
+            overflow: hidden;
+            text-overflow:ellipsis;
+        }
+    }
+    .field.qty { width:20%; }
+    &:extend(.form.send.friend all);
+    .action.add {
+        &:extend(.secondary.action all);
+    }
+    .sidebar & {
+        .fieldset {
+            width:auto;
+            padding:5px;
+            margin-bottom:15px;
+            .field {
+                padding-right:5px;
+                &.qty {
+                    width:30%;
+                }
+            }
+        }
+        .action.add {
+            span {
+            .iconAfter(@content: @icon-expand, @size: 16px, @font: 'icons');
+            .iconHideText(16px);
+                width:32px;
+            }
+            height:29px;
+            padding:1px 0 0;
+        }
+
+        .actions {
+            width:auto;
+        }
+    }
+}

@@ -33,7 +33,7 @@ strong {
     Forms
 -------------------------------------- */
 .field.required > .label > span:first-child:after {
-    content: ' *';
+    content: '*';
     color: @requiredField;
 }
 
@@ -1687,7 +1687,7 @@ body {
     z-index: 1;
 }
 
-.cart.main.actions {
+.cart.actions {
     padding: 20px 0;
     .action.continue {
         position: absolute;
@@ -1705,6 +1705,9 @@ body {
     width: 100%;
     thead tr:last-child th {
         padding-bottom: 10px;
+    }
+    th > span {
+        white-space: nowrap
     }
     th.col.item > span {
         display: none;
@@ -1728,11 +1731,19 @@ body {
     td.col.subtotal {
         text-align: right;
     }
+    .img.photo.container,
     .product.photo {
         padding-right: 20px;
         display: table-cell;
         width: 1%;
         vertical-align: top;
+    }
+    .product.photo {
+        .img.photo.container {
+            display: block;
+            padding:0;
+            width:auto;
+        }
     }
     .product.details {
         display: table-cell;

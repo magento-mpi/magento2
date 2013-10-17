@@ -729,8 +729,8 @@ input[type="reset"],
 .action.mySecondaryButton,
 .popup .actions .action.cancel,
 .multicheckout .action.update,
-.cart.main.actions .action.update,
-.cart.main.actions .action.clear,
+.cart.actions .action.update,
+.cart.actions .action.clear,
 .block.compare .action.compare,
 .data.comparison .cell.remove .action.delete,
 .form.send.friend .actions > .primary .action.add,
@@ -741,8 +741,8 @@ input[type="reset"],
 .action.mySecondaryButton,
 .popup .actions .action.cancel,
 .multicheckout .action.update,
-.cart.main.actions .action.update,
-.cart.main.actions .action.clear,
+.cart.actions .action.update,
+.cart.actions .action.clear,
 .block.compare .action.compare,
 .data.comparison .cell.remove .action.delete,
 .form.send.friend .actions > .primary .action.add,
@@ -769,12 +769,12 @@ input[type="reset"]:hover,
 .multicheckout .action.update:focus,
 .multicheckout .action.update:active,
 .multicheckout .action.update:hover,
-.cart.main.actions .action.update:focus,
-.cart.main.actions .action.update:active,
-.cart.main.actions .action.update:hover,
-.cart.main.actions .action.clear:focus,
-.cart.main.actions .action.clear:active,
-.cart.main.actions .action.clear:hover,
+.cart.actions .action.update:focus,
+.cart.actions .action.update:active,
+.cart.actions .action.update:hover,
+.cart.actions .action.clear:focus,
+.cart.actions .action.clear:active,
+.cart.actions .action.clear:hover,
 .block.compare .action.compare:focus,
 .block.compare .action.compare:active,
 .block.compare .action.compare:hover,
@@ -842,8 +842,8 @@ input[type="reset"],
 .multicheckout .action.continue,
 .multicheckout .action.submit,
 .multicheckout .action.add,
-.cart.main.actions .action.update,
-.cart.main.actions .action.clear,
+.cart.actions .action.update,
+.cart.actions .action.clear,
 .cart.summary .block .action,
 .action.checkout,
 .form.newsletter.manage .action.save,
@@ -3913,7 +3913,7 @@ strong {
     Forms
 -------------------------------------- */
 .field.required > .label > span:first-child:after {
-  content: ' *';
+  content: '*';
   color: #da370a;
 }
 /*
@@ -5887,10 +5887,10 @@ body {
 .cart.container:after {
   clear: both;
 }
-.cart.main.actions {
+.cart.actions {
   padding: 20px 0;
 }
-.cart.main.actions .action.continue {
+.cart.actions .action.continue {
   position: absolute;
   text-decoration: underline;
   right: 0;
@@ -5901,6 +5901,9 @@ body {
 }
 .items.data thead tr:last-child th {
   padding-bottom: 10px;
+}
+.items.data th > span {
+  white-space: nowrap;
 }
 .items.data th.col.item > span {
   display: none;
@@ -5924,11 +5927,17 @@ body {
 .items.data td.col.subtotal {
   text-align: right;
 }
+.items.data .img.photo.container,
 .items.data .product.photo {
   padding-right: 20px;
   display: table-cell;
   width: 1%;
   vertical-align: top;
+}
+.items.data .product.photo .img.photo.container {
+  display: block;
+  padding: 0;
+  width: auto;
 }
 .items.data .product.details {
   display: table-cell;

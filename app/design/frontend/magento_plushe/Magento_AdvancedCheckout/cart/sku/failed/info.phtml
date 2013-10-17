@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Order by SKU Failed item info
+ *
+ * @see \Magento\AdvancedCheckout\Block\Sku\Products\Info
+ * @var $this \Magento\AdvancedCheckout\Block\Sku\Products\Info
+ */
+$_item = $this->getItem();
+$escapedSku = $this->escapeHtml($_item->getSku());
+?>
+<div class="product attibute sku"><strong class="type"><?php echo __('Sku')?></strong><div class="value"><?php echo $escapedSku ?></div></div>
+<?php echo $this->getTierPriceHtml(); ?>
+<div class="message error item"><div><?php echo $this->getMessage(); ?></div></div>
+<?php echo $this->getLink(); ?>
+<input type="hidden" name="failed[<?php echo $escapedSku; ?>][sku]" value="<?php echo $this->escapeHtml($_item->getSku()); ?>" />
+<input type="hidden" name="failed[<?php echo $escapedSku; ?>][code]" value="<?php echo $_item->getCode(); ?>" />
+<input type="hidden" name="failed[<?php echo $escapedSku; ?>][qty]" value="<?php echo $_item->getQty(); ?>" class="sku_failed_qty" data-role="sku-failed-qty" />
+<?php if (!$this->isItemSkuFailed()): ?>
+    <?php if ($_item->getQtyMaxAllowed()): ?>
+        <input type="hidden" class="qty_max_allowed" value="<?php echo $_item->getQtyMaxAllowed() ?>"/>
+    <?php endif ?>
+    <?php if ($_item->getQtyMinAllowed()): ?>
+        <input type="hidden" class="qty_min_allowed" value="<?php echo $_item->getQtyMinAllowed() ?>"/>
+    <?php endif ?>
+    <?php if ($_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS): ?>
+        <input type="hidden" class="qty_increments" value="<?php echo $_item->getQtyIncrements() ?>"/>
+    <?php endif ?>
+<?php endif; ?>
