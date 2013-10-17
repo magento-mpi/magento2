@@ -24,12 +24,12 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     {
         $tree = new Tree();
         // add some nodes to our tree in a grandparent, parent, child relationship
-        $tree->addRoot($this->getNode('A'));
-        $tree->addChild($this->getNode('B'));
-        $tree->addSibling($this->getNode('C'));
-        $tree->addRoot($this->getNode('L1'));
-        $tree->addChild($this->getNode('L2.1'));
-        $tree->addSibling($this->getNode('L2.2'));
+        $nodeA = $tree->addRoot($this->getNode('A'));
+        $nodeB = $nodeA->addChild($this->getNode('B'));
+        $nodeB->addSibling($this->getNode('C'));
+        $nodeL1 = $tree->addRoot($this->getNode('L1'));
+        $nodeL2 = $nodeL1->addChild($this->getNode('L2.1'));
+        $nodeL2->addSibling($this->getNode('L2.2'));
         // check results
         $this->compareTree(
             $tree,
@@ -44,27 +44,27 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     {
         $tree = new Tree();
         // add some nodes to our tree in a grandparent, parent, child relationship
-        $tree->addChild($this->getNode('A'));
-        $tree->addChild($this->getNode('B'));
-        $tree->addChild($this->getNode('C'));
+        $nodeA = $tree->addChild($this->getNode('A'));
+        $nodeB = $nodeA->addChild($this->getNode('B'));
+        $nodeB->addChild($this->getNode('C'));
         // check results
         $this->compareTree($tree, "A" . PHP_EOL . ".B" . PHP_EOL . "..C" . PHP_EOL);
         // next test
         $tree->clear();
         // add some nodes to our tree in a parent, child, child relationship
-        $tree->addRoot($this->getNode('X'));
-        $tree->addChild($this->getNode('Y1'), false);
-        $tree->addChild($this->getNode('Y2'), false);
+        $nodeX = $tree->addRoot($this->getNode('X'));
+        $nodeX->addChild($this->getNode('Y1'));
+        $nodeX->addChild($this->getNode('Y2'));
         // check results
         $this->compareTree($tree, "X" . PHP_EOL . ".Y1" . PHP_EOL . ".Y2" . PHP_EOL);
         // next test
         $tree->clear();
         // add some nodes to our tree in a parent, child, child relationship
-        $tree->addRoot($this->getNode('X'));
-        $tree->addChild($this->getNode('Y1'));
-        $tree->addSibling($this->getNode('Y2'));
-        $tree->addChild($this->getNode('Z1'));
-        $tree->addSibling($this->getNode('Z2'));
+        $nodeX = $tree->addRoot($this->getNode('X'));
+        $nodeY1 = $nodeX->addChild($this->getNode('Y1'));
+        $nodeY2 = $nodeY1->addSibling($this->getNode('Y2'));
+        $nodeZ1 = $nodeY2->addChild($this->getNode('Z1'));
+        $nodeZ1->addSibling($this->getNode('Z2'));
         // check results
         $this->compareTree(
             $tree,
@@ -80,33 +80,46 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $tree = new Tree();
         // add some nodes to our tree in a grandparent, parent, child relationship
         $nodeA = $tree->addChild($this->getNode('A'));
-        $nodeB = $tree->addChild($this->getNode('B'));
-        $nodeC = $tree->addSibling($this->getNode('C'));
+        $nodeB = $nodeA->addChild($this->getNode('B'));
+        $nodeC = $nodeB->addSibling($this->getNode('C'));
         // check results
         $this->compareTree($tree, "A" . PHP_EOL . ".B" . PHP_EOL . ".C" . PHP_EOL);
         // add siblings
-        $tree->setCurrentNode($nodeA);
-        $tree->addSibling($this->getNode('A\''));
-        $tree->setCurrentNode($nodeB);
-        $tree->addSibling($this->getNode('B\''));
-        $tree->setCurrentNode($nodeC);
-        $tree->addSibling($this->getNode('C\''));
+        $nodeAP = $nodeA->addSibling($this->getNode('A\''));
+        $nodeB->addSibling($this->getNode('B\''));
+        $nodeC->addSibling($this->getNode('C\''));
         // check results
         $this->compareTree(
             $tree,
             "A" . PHP_EOL . ".B" . PHP_EOL . ".B'" . PHP_EOL . ".C" . PHP_EOL . ".C'" . PHP_EOL . "A'" . PHP_EOL
         );
         // add root sibling to original node
-        $tree->setCurrentNode($nodeA);
-        $tree->addSibling($this->getNode("A''"));
+        $nodeA->addSibling($this->getNode("A''"));
+        $nodeAP->addSibling($this->getNode("A'''"), false);
         // check results
         $this->compareTree(
             $tree,
             "A" . PHP_EOL . ".B" . PHP_EOL . ".B'" . PHP_EOL . ".C" . PHP_EOL . ".C'" . PHP_EOL . "A''" . PHP_EOL .
-            "A'" . PHP_EOL
+            "A'''" . PHP_EOL . "A'" . PHP_EOL
         );
     }
 
+    /**
+     * This method test manipulating a tree just using the nodes.
+     */
+    public function testNodeManipulation() {
+        $tree = new Tree();
+        // add some nodes to our tree
+        $nodeA = $tree->addRoot($this->getNode('A'));
+        $nodeB2 = $nodeA->addChild($this->getNode("B2"));
+        $this->assertEquals($nodeA, $nodeB2->getParent(), "Child node's parent is not set!");
+        $nodeB1 = $nodeB2->addSibling($this->getNode("B1"), false);
+        $this->assertEquals($nodeA, $nodeB1->getParent(), "Child node's parent is not set!");
+        $nodeB3 = $nodeB2->addSibling($this->getNode("B3"), true);
+        $this->assertEquals($nodeA, $nodeB3->getParent(), "Child node's parent is not set!");
+        // check results
+        $this->compareTree($tree, "A" . PHP_EOL . ".B1" . PHP_EOL . ".B2" . PHP_EOL . ".B3" . PHP_EOL);
+    }
     /**
      * This method dumps the tree and compares it to the passed in value.
      */

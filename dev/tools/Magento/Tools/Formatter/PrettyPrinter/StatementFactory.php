@@ -40,11 +40,11 @@ class StatementFactory
             $statementName = $this->nodeMap[$parserNode->getType()];
         }
         // TODO: remove this check once all statement types have been accounted for
-//        \PHPUnit_Framework_Assert::assertNotEquals(
-//            UnknownStatement::getType(),
-//            $statementName,
-//            "Unable to resolve node type of '" . $parserNode->getType() . "'"
-//        );
+        \PHPUnit_Framework_Assert::assertNotEquals(
+            UnknownStatement::getType(),
+            $statementName,
+            "Unable to resolve node type of '" . $parserNode->getType() . "'"
+        );
         // return an instance of the class with the parsed node as a parameter
         return new $statementName($parserNode);
     }
@@ -58,7 +58,7 @@ class StatementFactory
         $this->register('Stmt_Use', UseStatement::getType());
         $this->register('Stmt_UseUse', UseStatement::getType());
         $this->register('Stmt_Class', ClassStatement::getType());
-//        $this->register('Stmt_ClassMethod', MethodStatement::getType());
+        $this->register('Stmt_ClassMethod', MethodStatement::getType());
         $this->register('Stmt_InlineHTML', InlineHtmlStatement::getType());
         $this->register('Name', ClassReference::getType());
     }

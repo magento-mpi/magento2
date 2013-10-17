@@ -8,7 +8,6 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
@@ -26,14 +25,12 @@ class UnknownStatement extends StatementAbstract
     }
 
     /**
-     * This method is used to process the current node.
-     *
-     * @param Tree $tree
+     * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     * @param TreeNode $treeNode Node containing the current statement.
      */
-    public function process(Tree $tree)
+    public function resolve(TreeNode $treeNode)
     {
-        $tree->addRoot(
-            new TreeNode((new Line('Unknown node: '))->add($this->node->getType())->add(new HardLineBreak()))
-        );
+        // replace the statement with the line since it is resolved or at least in the process of being resolved
+        $treeNode->setData((new Line('Unknown node: '))->add($this->node->getType())->add(new HardLineBreak()));
     }
 }

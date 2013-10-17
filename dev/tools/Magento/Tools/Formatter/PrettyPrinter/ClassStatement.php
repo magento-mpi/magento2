@@ -8,7 +8,6 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
@@ -26,42 +25,53 @@ class ClassStatement extends StatementAbstract
     }
 
     /**
-     * This method is used to process the current node.
-     *
-     * @param Tree $tree
+     * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     * @param TreeNode $treeNode Node containing the current statement.
      */
-    public function process(Tree $tree)
-    {
-        /* Reference
-        return $this->pModifiers($node->type)
-             . 'class ' . $node->name
-             . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
-             . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-             . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-         */
+    public function resolve(TreeNode $treeNode) {
         // add the comments from the current node
-        $this->addComments($tree);
+        $this->addCommentsBefore($treeNode);
         // add the class line
         $line = new Line();
         $this->addModifier($this->node->type, $line);
         $line->add('class ')->add($this->node->name);
-        $tree->addSibling(new TreeNode($line));
+        // replace the statement with the line since it is resolved or at least in the process of being resolved
+        $treeNode->setData($line);
         // add in extends declaration
         if (!empty($this->node->extends)) {
             $line->add(' extends ');
-            Printer::processStatement($this->node->extends, $tree);
+            $this->resolveNode($this->node->extends, $treeNode);
         }
         // add in the implement declarations
         if (!empty($this->node->implements)) {
             $line->add(' implements');
-            $this->processArgumentList($this->node->implements, $tree, $line);
+            $this->processArgumentList($this->node->implements, $treeNode, $line);
         }
         $line->add(new HardLineBreak());
         // add the opening brace on a new line
-        $tree->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
+        $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
         // processing the child nodes
-        Printer::processStatements($this->node->stmts, $tree);
+        $this->processNodes($this->node->stmts, $treeNode);
         // add the closing brace on a new line
-        $tree->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+    }
+
+    /**
+     * This method processes the newly added node.
+     * @param TreeNode $originatingNode Node where new nodes are originating from
+     * @param TreeNode $newNode Newly added node containing the statement
+     * @param int $index 0 based index of the new node
+     * @param int $total total number of nodes to be added
+     * @return TreeNode Returns the originating node since just children are being added.
+     */
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total) {
+        // this is called to add the member nodes to the class
+        $originatingNode->addChild($newNode);
+        // add a separator between all nodes
+        if ($index < $total - 1) {
+            $originatingNode->addChild(new TreeNode(new Line(new HardLineBreak())));
+        }
+        // always return the originating node
+        return $originatingNode;
     }
 }

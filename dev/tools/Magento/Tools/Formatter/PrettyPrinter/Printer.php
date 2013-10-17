@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
+use PHPParser_Node;
 use PHPParser_Parser;
 use Magento\Tools\Formatter\ParserLexer;
 use Magento\Tools\Formatter\Tree\Tree;
@@ -40,17 +41,8 @@ class Printer
         $parser = new PHPParser_Parser(new ParserLexer());
         // parse the code into statements
         $statements = $parser->parse($this->originalCode);
-        // resolve the code into its final version
-        $tree = new Tree();
-        $tree->addChild(new TreeNode((new Line('<?php'))->add(new HardLineBreak())), false);
-        $this->processStatements($statements, $tree);
-        // level the nodes to even out the lines
-        $visitor = new NodeLeveler($tree);
-        $tree->traverse($visitor);
-        // print out the nodes
-        $visitor = new NodePrinter();
-        $tree->traverse($visitor);
-        $this->formattedCode = $visitor->result;
+        // convert the statements to text
+        $this->resolveStatements($statements);
     }
 
     /**
@@ -62,31 +54,51 @@ class Printer
     }
 
     /**
-     * This method parses the given statement.
-     * @param \PHPParser_NodeAbstract $node
-     * @param Tree $tree Tree representation of the resulting code
+     * This method adds a new sibling for the passed in node.
+     * @param PHPParser_Node $node Node obtained from the parser.
+     * @param TreeNode $treeNode Tree node location where the object is going to be added.
+     * @return TreeNode Newly added node.
      */
-    public static function processStatement(\PHPParser_NodeAbstract $node, Tree $tree)
-    {
+    protected function addRootForNode(PHPParser_Node $node, TreeNode $treeNode) {
         $statement = StatementFactory::getInstance()->getStatement($node);
-        $statement->process($tree);
+        return $treeNode->addSibling(new TreeNode($statement));
     }
 
     /**
-     * This method looks at the group of statements and process them as an array or as an individual statement.
-     * @param $statements
-     * @param Tree $tree Tree representation of the resulting code
+     * This method resolves the statements into lines.
+     * @param mixed $statements PHP Parser nodes to resolve
      */
-    public static function processStatements($statements, Tree $tree)
-    {
-        // if it is an array, process each element in the array
+    protected function resolveStatements($statements) {
+        // create a new tree, presuming that it is php
+        $tree = new Tree();
+        $treeNode = $tree->addRoot(new TreeNode((new Line('<?php'))->add(new HardLineBreak())));
+        // add in the root nodes
         if (is_array($statements)) {
             foreach ($statements as $node) {
-                self::processStatement($node, $tree);
+                $treeNode = $this->addRootForNode($node, $treeNode);
             }
         } else {
-            // otherwise, it just a single statement
-            self::processStatement($statements, $tree);
+            $this->addRootForNode($statements, $treeNode);
         }
+        // loop through the tree, resolving nodes until there are no more nodes to resolve
+        $visitor = new LineResolver();
+        do {
+            // reset for th next run of the resolved
+            $visitor->statementCount = 0;
+            // visit all of the nodes, resolving each node to a line
+            $tree->traverse($visitor);
+        } while ($visitor->statementCount > 0);
+        // format the processed tree
+        $this->formatTree($tree);
+    }
+
+    protected function formatTree($tree) {
+        // level the nodes to even out the lines
+        $visitor = new NodeLeveler();
+        $tree->traverse($visitor);
+        // print out the nodes
+        $visitor = new NodePrinter();
+        $tree->traverse($visitor);
+        $this->formattedCode = $visitor->result;
     }
 }

@@ -27,6 +27,42 @@ class PrinterTest extends TestBase
         return array(
             array(<<<ORIGINALCODESNIPPET
 <?php
+/**
+ * Class Foo
+ */
+class Foo extends Bar implements Zulu {
+    /** alpha method */
+    public function alpha() {
+        return \$this;
+    }
+    /** beta method */
+    public function beta() {
+        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha();
+    }
+}
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+/**
+ * Class Foo
+ */
+class Foo extends Bar implements Zulu
+{
+    /** alpha method */
+    public function alpha()
+    {
+    }
+
+    /** beta method */
+    public function beta()
+    {
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
   namespace Magento\\Test;
 class Foo {
     function x() {
@@ -42,6 +78,9 @@ namespace Magento\\Test;
 
 class Foo
 {
+    public function x()
+    {
+    }
 }
 
 FORMATTEDCODESNIPPET
@@ -64,6 +103,9 @@ namespace Magento\\Test;
 
 class Foo
 {
+    public function x()
+    {
+    }
 }
 
 FORMATTEDCODESNIPPET
@@ -86,40 +128,13 @@ namespace Magento\\Test;
 
 class Foo
 {
+    public function x()
+    {
+    }
 }
 
 FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
-<?php
-/**
- * Class Foo
- */
-class Foo extends Bar implements Zulu {
-    /** alpha method */
-    public function alpha() {
-        return \$this;
-    }
-
-    /** beta method */
-    public function beta() {
-        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha();
-    }
-}
-ORIGINALCODESNIPPET
-                , <<<FORMATTEDCODESNIPPET
-<?php
-/**
- * Class Foo
- */
-class Foo extends Bar implements Zulu
-{
-Unknown node: Stmt_ClassMethod
-Unknown node: Stmt_ClassMethod
-}
-
-FORMATTEDCODESNIPPET
-                )
+            )
         );
     }
 

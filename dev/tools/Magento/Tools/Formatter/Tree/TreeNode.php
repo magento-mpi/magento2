@@ -12,7 +12,7 @@ namespace Magento\Tools\Formatter\Tree;
  * Class TreeNode
  * @package Magento\Tools\Formatter\PrettyPrinter
  */
-class TreeNode
+class TreeNode implements Node
 {
     /**
      * This member holds the list of children of this node.
@@ -22,9 +22,15 @@ class TreeNode
 
     /**
      * This member holds the data associated with the node.
-     * @param mixed $data User defined data for the node
+     * @var mixed $data User defined data for the node
      */
     protected $data;
+
+    /**
+     * This member holds the parent of the current node (i.e. a circular reference).
+     * @var Node
+     */
+    protected $parent;
 
     /**
      * This method is used to construct a new tree node with the given data.
@@ -32,23 +38,45 @@ class TreeNode
      */
     public function __construct($data)
     {
-        $this->data = $data;
+        $this->setData($data);
     }
 
     /**
      * This method adds the named child to the end of the children nodes
-     * @param TreeNode $treeNode Child node to be added
+     * @param TreeNode $newChild Child node to be added
      * @param TreeNode $adjacentNode Optional child node to place new node next to
+     * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
+     * added prior to this node.
+     * @return TreeNode
      */
-    public function addChild(TreeNode $treeNode, TreeNode $adjacentNode = null)
+    public function addChild(TreeNode $newChild, TreeNode $adjacentNode = null, $after = true)
     {
         // if adding a child next to an existing child
         if (null !== $adjacentNode) {
-            $this->setNodeWithinArray($this->children, $treeNode, $adjacentNode);
+            $this->setNodeWithinArray($this->children, $newChild, $adjacentNode, $after);
         } else {
             // otherwise, just add it to the end of the list
-            $this->children[] = $treeNode;
+            $this->children[] = $newChild;
         }
+        // add this node as the parent of the new node
+        $newChild->setParent($this);
+        // as a convenience, return the newly added node
+        return $newChild;
+    }
+
+    /**
+     * This method adds a sibling node to the current node by adding the new sibling as a child of this nodes parent.
+     * @param TreeNode $newSibling Sibling node to be added
+     * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
+     * added prior to this node.
+     * @return TreeNode
+     */
+    public function addSibling(TreeNode $newSibling, $after = true) {
+        if (null !== $this->parent) {
+            $this->parent->addChild($newSibling, $this, $after);
+        }
+        // as a convenience, return the newly added node
+        return $newSibling;
     }
 
     /**
@@ -70,6 +98,14 @@ class TreeNode
     }
 
     /**
+     * This method returns the parent node of the current node.
+     * @return TreeNode Node that holds this node as a child.
+     */
+    public function getParent() {
+        return $this->parent;
+    }
+
+    /**
      * This method returns if this node has children.
      * @return bool Indicator if this node has children.
      */
@@ -79,21 +115,51 @@ class TreeNode
     }
 
     /**
-     * @param $nodes
-     * @param $treeNode
-     * @param null $adjacentNode
+     * This method sets the data associated with the node.
+     * @param mixed $data User defined data for the node
      */
-    public static function setNodeWithinArray(&$nodes, $treeNode, $adjacentNode = null)
-    {
+    public function setData($data) {
+        $this->data = $data;
+    }
+
+    /**
+     * This method set the parent node of the current node.
+     * @param Node $parent Node that holds this node as a child.
+     */
+    public function setParent(Node $parent) {
+        $this->parent = $parent;
+    }
+
+    /**
+     * This method inserts the new node node into the passed in array.
+     * @param array $nodes Array of nodes where the insert is going to take place.
+     * @param TreeNode $newNode New node to add to the list.
+     * @param TreeNode $adjacentNode Optional node indicating where the new node should be inserted.
+     * @param bool $after Flag indicating that the new node should be added after the adjacent node. If false, the
+     * new node is added prior to this node.
+     */
+    public static function setNodeWithinArray(
+        array &$nodes,
+        TreeNode $newNode,
+        TreeNode $adjacentNode = null,
+        $after = true
+    ) {
         // find the existing child
         $index = array_search($adjacentNode, $nodes, true);
-        // if it could not be found and the existing child is not the last one in the list
-        if (false !== $index && $index < sizeof($nodes) - 1) {
+        if (false !== $index) {
             // found it, so splice in the new child
-            array_splice($nodes, $index + 1, 0, array($treeNode));
+            if ($after) {
+                // put the value after the found one if flagged
+                $index++;
+            }
+            // splice in the new node
+            array_splice($nodes, $index, 0, array($newNode));
+        } elseif (!$after && sizeof($nodes) > 0) {
+            // shouldn't really get here, but could; just add it to the start of the list
+            array_splice($nodes, 0, 0, array($newNode));
         } else {
             // shouldn't really get here, but could; just add it to the end of the list
-            $nodes[] = $treeNode;
+            $nodes[] = $newNode;
         }
     }
 }

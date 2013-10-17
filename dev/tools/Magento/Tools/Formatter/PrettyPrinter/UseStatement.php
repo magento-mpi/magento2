@@ -22,12 +22,10 @@ class UseStatement extends StatementAbstract
     }
 
     /**
-     * This method is used to process the current node.
-     *
-     * @param Tree $tree
+     * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     * @param TreeNode $treeNode Node containing the current statement.
      */
-    public function process(Tree $tree)
-    {
+    public function resolve(TreeNode $treeNode) {
         if ($this->node instanceof \PHPParser_Node_Stmt_Use) {
             /* Reference
             $result = '';
@@ -41,25 +39,27 @@ class UseStatement extends StatementAbstract
             foreach ($this->node->uses as $use) {
                 // add the line to the tree
                 $line = new Line('use ');
-                $tree->addSibling(new TreeNode($line));
+                // add the line prior to current node only out of convenience
+                $useTreeNode = $treeNode->addSibling(new TreeNode($line), false);
                 // process the name
-                Printer::processStatement($use, $tree);
+                $this->resolveNode($use, $useTreeNode);
                 // finish out the line
                 $line->add(';')->add(new HardLineBreak());
             }
             // add a newline after the block
             $line = new Line(new HardLineBreak());
-            $tree->addSibling(new TreeNode($line));
+            // replace the statement with the line since it is resolved
+            $treeNode->setData($line);
         } elseif ($this->node instanceof \PHPParser_Node_Stmt_UseUse) {
             /* Reference
             return $this->p($node->name)
                  . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
              */
             // process the name
-            Printer::processStatement($this->node->name, $tree);
+            $this->resolveNode($this->node->name, $treeNode);
             // process the alias, if needed
             if ($this->node->name->getLast() !== $this->node->alias) {
-                $line = $tree->getCurrentNode()->getData();
+                $line = $treeNode->getData();
                 $line->add(' as ')->add($this->node->alias);
             }
         }

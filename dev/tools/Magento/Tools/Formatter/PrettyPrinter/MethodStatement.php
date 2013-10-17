@@ -23,11 +23,10 @@ class MethodStatement extends StatementAbstract
     }
 
     /**
-     * This method is used to process the current node.
-     *
-     * @param Tree $tree
+     * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     * @param TreeNode $treeNode Node containing the current statement.
      */
-    public function process(Tree $tree)
+    public function resolve(TreeNode $treeNode)
     {
         /* Reference
         // predetermine parameters for the function
@@ -52,20 +51,22 @@ class MethodStatement extends StatementAbstract
         return $result;
          */
         // add the comments from the current node
-        $this->addComments($tree);
+        $this->addCommentsBefore($treeNode);
         // add the class line
         $line = new Line();
         $this->addModifier($this->node->type, $line);
         $line->add('function ');
-        $functionNode = $tree->addChild(new TreeNode($line));
+        // replace the statement with the line since it is resolved or at least in the process of being resolved
+        $treeNode->setData($line);
         if ($this->node->byRef) {
             $line->add('&');
         }
         $line->add($this->node->name)->add('(');
         // . $parameters .
         $line->add(')')->add(new HardLineBreak());
-        $tree->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
+        $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
         // process statements
-        $tree->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        // add closing block
+        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
     }
 }

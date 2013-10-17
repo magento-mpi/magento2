@@ -12,41 +12,27 @@ namespace Magento\Tools\Formatter\Tree;
  * Class Tree
  * @package Magento\Tools\Formatter\PrettyPrinter
  */
-class Tree
+class Tree implements Node
 {
     /**
-     * This member holds the current node of the tree, which can be interpreted as the last added node.
-     * @var TreeNode
-     */
-    protected $currentNode;
-
-    /**
      * This member holds the root(s) of the tree.
-     * @var TreeNode
      */
     protected $rootNode;
 
     /**
-     * This method adds the passed in node as a child in the current node. If the root is not set, it is added as the
-     * root.
-     * @param TreeNode $treeNode Node to be added as a the child of the current node.
-     * @param bool $setCurrent Flag indicating if the newly added node should be made current
+     * This method adds the named child to the end of the children nodes
+     * @param TreeNode $newChild Child node to be added
+     * @param TreeNode $adjacentNode Optional child node to place new node next to
+     * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
+     * added prior to this node.
+     * @return TreeNode
      */
-    public function addChild(TreeNode $treeNode, $setCurrent = true)
+    public function addChild(TreeNode $newChild, TreeNode $adjacentNode = null, $after = true)
     {
-        // if no node, then add this as the root
-        if (null === $this->rootNode || null === $this->currentNode) {
-            $this->addRoot($treeNode);
-        } else {
-            // otherwise, add it as a child of the current node
-            $this->currentNode->addChild($treeNode);
-        }
-        // make the new node the current node
-        if ($setCurrent) {
-            $this->currentNode = $treeNode;
-        }
+        // defer to adding a new root
+        $this->addRoot($newChild, $adjacentNode, $after);
         // as a convenience, return the newly added node
-        return $treeNode;
+        return $newChild;
     }
 
     /**
@@ -54,47 +40,45 @@ class Tree
      * there are existing roots, an array of roots will be generated.
      * @param TreeNode $treeNode Node to be added as a root.
      * @param TreeNode $adjacentNode Optional root node to place new node next to
+     * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
+     * added prior to this node.
+     * @return TreeNode
      */
-    public function addRoot(TreeNode $treeNode, TreeNode $adjacentNode = null)
+    public function addRoot(TreeNode $treeNode, TreeNode $adjacentNode = null, $after = true)
     {
         // if no root, make the new node the root
         if (null === $this->rootNode) {
             $this->rootNode = $treeNode;
         } elseif (is_array($this->rootNode)) {
             // if an array, then just splice the new node into the array
-            TreeNode::setNodeWithinArray($this->rootNode, $treeNode, $adjacentNode);
+            TreeNode::setNodeWithinArray($this->rootNode, $treeNode, $adjacentNode, $after);
         } else {
             // only a single root, so make it an array
-            $this->rootNode = array($this->rootNode, $treeNode);
+            if ($after) {
+                $this->rootNode = array($this->rootNode, $treeNode);
+            } else {
+                $this->rootNode = array($treeNode, $this->rootNode);
+            }
         }
-        // make the new node the current node
-        $this->currentNode = $treeNode;
+        // make the tree itself the parent of the new root
+        $treeNode->setParent($this);
         // as a convenience, return the newly added node
         return $treeNode;
     }
 
     /**
-     * This method makes the passed in node a sibling node to the current node. If there is no root node, the new node
-     * will be added as a root
-     * @param TreeNode $treeNode Node to be added as a sibling.
+     * This method adds a sibling node to the roots nodes.
+     * @param TreeNode $newSibling Sibling node to be added
+     * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
+     * added prior to this node.
+     * @return TreeNode
      */
-    public function addSibling(TreeNode $treeNode)
+    public function addSibling(TreeNode $newSibling, $after = true)
     {
-        // if no root, make the new node the root
-        if (null === $this->rootNode || null === $this->currentNode) {
-            $this->addRoot($treeNode);
-        } else {
-            $parent = $this->findCurrentParent();
-            if (null !== $parent) {
-                // found the parent of the current node, so insert a new child next to the existing child
-                $parent->addChild($treeNode, $this->currentNode);
-                $this->currentNode = $treeNode;
-            } else {
-                $this->addRoot($treeNode, $this->currentNode);
-            }
-        }
+        // defer to adding a new root
+        $this->addRoot($newSibling);
         // as a convenience, return the newly added node
-        return $treeNode;
+        return $newSibling;
     }
 
     /**
@@ -103,46 +87,6 @@ class Tree
     public function clear()
     {
         $this->rootNode = null;
-        $this->currentNode = null;
-    }
-
-    /**
-     * This method returns the parent node of the current node.
-     */
-    public function findCurrentParent()
-    {
-        return $this->findParent($this->currentNode);
-    }
-
-    /**
-     * This method returns the parent node of the passed in node.
-     * @param TreeNode $treeNode Node to find the parent for.
-     */
-    public function findParent(TreeNode $treeNode)
-    {
-        $visitor = new FindParent($treeNode);
-        if (null !== $treeNode) {
-            $this->traverse($visitor);
-        }
-        return $visitor->parent;
-    }
-
-    /**
-     * This method returns the current node in the tree.
-     * @return TreeNode Node currently being tracked as the current node.
-     */
-    public function getCurrentNode()
-    {
-        return $this->currentNode;
-    }
-
-    /**
-     * This member sets the current node of the tree to the passed in node.
-     * @param TreeNode $currentNode Node in this tree which should be made current.
-     */
-    public function setCurrentNode(TreeNode $currentNode)
-    {
-        $this->currentNode = $currentNode;
     }
 
     /**
