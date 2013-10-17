@@ -147,7 +147,7 @@ class TreeElement extends Element
         $newNode = $node->find('.x-tree-node:nth-of-type(' . $counter . ')' );
 
         //Get list of all children nodes to work with
-        while($newNode->isVisible()) {
+        while ($newNode->isVisible()) {
             $nodeList[] = $newNode;
             ++$counter;
             $newNode = $node->find('.x-tree-node:nth-of-type(' . $counter . ')' );
@@ -158,12 +158,11 @@ class TreeElement extends Element
             /** @var Element $currentNode */
             $nodesNames = $currentNode->find('div > a > span');
             $nodesContents = $currentNode->find($this->nodeCssClass);
-            $nodePresent = $nodesContents->isVisible();
             $text = $nodesNames->getText();
             $nodeArray[] = array(
                 'name' => $text,
                 'element' => $currentNode,
-                'subnodes' => ($nodePresent)? $this->_getNodeContent($nodesContents) : null
+                'subnodes' => ( $nodesContents->isVisible())? $this->_getNodeContent($nodesContents) : null
             );
         }
 
