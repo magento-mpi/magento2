@@ -32,7 +32,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $fileResolver = new \Magento\App\Module\Declaration\FileResolver($applicationDirs);
         $converter = new \Magento\App\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock(
-            'Magento\Core\Model\Module\Declaration\SchemaLocator', array(), array(), '', false
+            'Magento\App\Module\Declaration\SchemaLocator', array(), array(), '', false
         );
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $this->_model = new \Magento\App\Module\Declaration\Reader\Filesystem(

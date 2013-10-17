@@ -41,8 +41,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface', array(), array(), '', false, false);
-        $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false, false);
+        $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false, false);
+        $this->_responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false, false);
 
         $this->_requestFactoryMock = $this->getMock(
             'Magento\FullPageCache\Model\RequestProcessorFactory', array(), array(), '', false, false

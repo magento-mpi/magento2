@@ -63,7 +63,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_website = $this->getMockBuilder('Magento\Core\Model\Website')
             ->disableOriginalConstructor()
-            ->setMethods(array('getStoreIds'))
+            ->setMethods(array('getStoreIds', '__wakeup'))
             ->getMock();
         $this->_senderMock = $this->getMockBuilder('Magento\Core\Model\Sender')
             ->disableOriginalConstructor()
@@ -75,7 +75,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_attribute = $this->getMockBuilder('Magento\Eav\Model\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIsVisible'))
+            ->setMethods(array('getIsVisible', '__wakeup'))
             ->getMock();
         $this->_resourceMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer')
             ->disableOriginalConstructor()

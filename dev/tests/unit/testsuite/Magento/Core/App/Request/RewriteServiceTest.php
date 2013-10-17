@@ -36,11 +36,12 @@ class RewriteServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_routerListMock = $this->getMock('\Magento\App\RouterList', array(), array(), '', false);
-        $this->_rewriteFactoryMock
-            = $this->getMock('\Magento\Core\Url\RewriteFactory', array('create'), array(), '', false);
         $this->_configMock = $this->getMock('\Magento\Core\Model\Config', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface',
-            array('isStraight', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'));
+        $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
+        $this->_rewriteFactoryMock = $this->getMock(
+            '\Magento\Core\Model\Url\RewriteFactory', array('create'), array(), '', false
+        );
+
         $this->_model = new \Magento\Core\App\Request\RewriteService(
             $this->_routerListMock,
             $this->_rewriteFactoryMock,
@@ -58,8 +59,8 @@ class RewriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testApplyRewritesWhenRequestIsNotStraight()
     {
         $this->_requestMock->expects($this->once())->method('isStraight')->will($this->returnValue(false));
-        $urlRewrite = $this->getMock('\Magento\Core\Model\Url\Rewrite', array('rewrite'), array(), '', false);
-        $this->_rewriteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($urlRewrite));
+        $urlRewriteMock = $this->getMock('\Magento\Core\Model\Url\Rewrite', array(), array(), '', false);
+        $this->_rewriteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($urlRewriteMock));
         $this->_model->applyRewrites($this->_requestMock);
     }
 }

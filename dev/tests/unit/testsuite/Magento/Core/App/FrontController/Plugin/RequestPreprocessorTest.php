@@ -61,16 +61,14 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface',
-            array('getPost', 'getMethod', 'getPathInfo', 'setDispatched', 'getRequestUri', 'getModuleName',
-                'setModuleName', 'getActionName', 'setActionName', 'getParam'));
+        $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $this->_invocationChainMock
             = $this->getMock('\Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
         $this->_rewriteServiceMock =
             $this->getMock('\Magento\Core\App\Request\RewriteService', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
-        $this->_urlMock = $this->getMock('\Magento\Core\Url', array(), array(), '', false);
+        $this->_urlMock = $this->getMock('\Magento\Core\Model\Url', array(), array(), '', false);
         $this->_backendDataMock = $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);;
 

@@ -47,7 +47,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException Exception
      * @expectedExceptionMessage Unknown application mode: unknown mode
      */
     public function testConstructorException()

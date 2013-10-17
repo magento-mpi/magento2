@@ -40,9 +40,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_registry = $this->getMock('Magento\Core\Model\Registry', array('registry'), array(), '', false);
 
         $website = new \Magento\Object(array('id' => 5));
-        $storeManager = $this->getMockForAbstractClass(
-            'Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
-        );
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(

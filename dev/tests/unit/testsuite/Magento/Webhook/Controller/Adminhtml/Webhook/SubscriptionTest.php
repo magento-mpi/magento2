@@ -93,7 +93,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockRequest = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockResponse = $this->getMockBuilder('Magento\App\Request\Http')
+        $this->_mockResponse = $this->getMockBuilder('Magento\App\Response\Http')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRegistry = $this->getMockBuilder('Magento\Core\Model\Registry')
