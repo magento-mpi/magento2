@@ -32,7 +32,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $expectedFile = self::$_tmpDir . '/local.xml';
 
         $request = $this->getMock(
-            'Magento\App\RequestInterface',
+            'Magento\App\Request\Http',
             array('getDistroBaseUrl'),
             array(),
             '',

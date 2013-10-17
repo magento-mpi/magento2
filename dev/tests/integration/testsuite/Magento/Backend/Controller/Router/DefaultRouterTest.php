@@ -49,7 +49,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
     public function testRouterCannotProcessRequestsWithWrongFrontName()
     {
-        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('frontend/admin/dashboard'));
@@ -60,7 +60,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
     public function testRouterCanProcessRequestsWithProperFrontName()
     {
-        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('backend/admin/dashboard'));

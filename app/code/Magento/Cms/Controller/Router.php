@@ -148,7 +148,7 @@ class Router extends \Magento\App\Router\AbstractRouter
             $identifier
         );
 
-        return $this->_controllerFactory->createController('Magento\Core\Controller\Varien\Action\Forward',
+        return $this->_controllerFactory->createController('Magento\App\Action\Forward',
             array('request' => $request)
         );
     }

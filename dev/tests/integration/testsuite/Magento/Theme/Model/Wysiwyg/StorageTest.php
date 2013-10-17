@@ -49,8 +49,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         /** @var $theme \Magento\Core\Model\Theme */
         $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->getCollection()->getFirstItem();
 
-        /** @var $request \Magento\App\RequestInterface */
-        $request = $this->_objectManager->get('Magento\App\RequestInterface');
+        /** @var $request \Magento\App\Request\Http */
+        $request = $this->_objectManager->get('Magento\App\Request\Http');
         $request->setParam(\Magento\Theme\Helper\Storage::PARAM_THEME_ID, $theme->getId());
         $request->setParam(\Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE,
             \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE);

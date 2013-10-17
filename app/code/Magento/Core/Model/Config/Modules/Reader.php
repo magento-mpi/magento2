@@ -129,4 +129,16 @@ class Reader
         }
         return $this->_moduleDirs->getDir($moduleName, $type);
     }
+
+    /**
+     * Set path to the corresponding module directory
+     *
+     * @param string $moduleName
+     * @param string $type directory type (etc, controllers, locale etc)
+     * @param string $path
+     */
+    public function setModuleDir($moduleName, $type, $path)
+    {
+        $this->_customModuleDirs[$moduleName][$type] = $path;
+    }
 }

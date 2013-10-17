@@ -104,10 +104,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
 
         $moduleList = $objectManager->create('Magento\App\ModuleList', array(
-            'reader' => $objectManager->create('Magento\Core\Model\Module\Declaration\Reader\Filesystem',
+            'reader' => $objectManager->create('Magento\App\Module\Declaration\Reader\Filesystem',
                 array(
                     'fileResolver' => $objectManager->create(
-                        'Magento\Core\Model\Module\Declaration\FileResolver',
+                        'Magento\App\Module\Declaration\FileResolver',
                         array(
                             'applicationDirs' => $dirs
                         )
