@@ -10,6 +10,7 @@ namespace Magento\Data;
 
 /**
  * Tests for \Magento\Data\Form\Factory
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,7 +53,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testFormKeyUsing()
     {
         $formKey = 'form-key';
-        $sessionMock = $this->getMock('Magento\Core\Model\Session\AbstractSession', array('getFormKey'),array(), '',
+        $sessionMock = $this->getMock('Magento\Core\Model\Session\AbstractSession', array('getFormKey'), array(), '',
             false);
         $sessionMock->expects($this->once())->method('getFormKey')->will($this->returnValue($formKey));
 

@@ -20,6 +20,7 @@
  * @method \Magento\Backend\Block\Widget\Form setUseContainer($flag)
  */
 namespace Magento\Data;
+
 use \Magento\Core\Model\Session\AbstractSession;
 
 class Form extends \Magento\Data\Form\AbstractForm
