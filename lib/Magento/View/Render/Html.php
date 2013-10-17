@@ -39,6 +39,7 @@ class Html implements Render
      */
     public function renderTemplate($template, array $data)
     {
+        // wrap block's result with ui data containers
         return $this->fetchView($template, $data);
     }
 

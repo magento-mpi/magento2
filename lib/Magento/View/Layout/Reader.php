@@ -8,7 +8,7 @@
 
 namespace Magento\View\Layout;
 
-use Magento\View\Container as ContainerInterface;
+use Magento\View\Layout\Handle;
 use Magento\View\Layout\File\Source\Aggregated;
 use Magento\Core\Model\Layout\Argument\Processor;
 use Magento\Core\Model\Layout\Element as LayoutElement;
@@ -63,60 +63,6 @@ class Reader
     }
 
     /**
-     * @param $handle
-     * @param ContainerInterface $container
-     */
-    public function loadHandle($handle, ContainerInterface $container)
-    {
-        // TODO: find a better way of assembling elements declarations
-        $this->meta = & $container->getMeta();
-
-        // TODO: try cache first
-
-        $updateFiles = $this->fileSource->getFiles($container->getDesignTheme(), $handle);
-        foreach ($updateFiles as $file) {
-            /** @var $file \Magento\Core\Model\Layout\File */
-            $fileStr = file_get_contents($file->getFilename());
-            /** @var $fileXml \Magento\Core\Model\Layout\Element */
-            $fileXml = $this->loadXmlString($fileStr);
-            $this->xmlAsArray($fileXml, $this->meta);
-        }
-    }
-
-    /**
-     * @param $xmlString
-     * @return \SimpleXMLElement
-     */
-    protected function loadXmlString($xmlString)
-    {
-        return simplexml_load_string($xmlString, 'Magento\\View\\Layout\\Element');
-    }
-
-    /**
-     * @param array $raw
-     * @return array
-     */
-    protected function parseRawHandle(array $raw)
-    {
-        $result = array();
-        foreach ($raw as $key => $value) {
-            if (!is_array($value)) {
-                $result[$key] = $value;
-            } else {
-                $val = isset($value['@']) ? $value['@'] : array();
-                if ('block' === $key) {
-                    $val['type'] = 'container';
-                    $result[$val['name']] = $val;
-                } elseif ('action' === $key) {
-                    $val['type'] = 'container';
-                    $result[$val['name']] = $val;
-                }
-            }
-        }
-        return $result;
-    }
-
-    /**
      * @param LayoutElement $xml
      * @param array $container
      * @param string $parentName
@@ -148,7 +94,9 @@ class Reader
 
         // add children values
         if ($xml->hasChildren()) {
-            foreach ($xml->children() as $name => $childXml) {
+            foreach ($xml as $childXml) {
+                $name = $childXml->getName();
+
                 if ($childXml->getAttribute('name')) {
                     $childName = $childXml->getAttribute('name');
                 } else {

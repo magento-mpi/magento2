@@ -8,8 +8,8 @@
 
 namespace Magento\View\Layout;
 
-use Magento\View\Container\Block;
-use Magento\View\Container\ReferenceBlock;
+use Magento\View\Layout\Handle\Render\Block;
+use Magento\View\Layout\Handle\Reference\Block as ReferenceBlock;
 
 class Element extends \Magento\Simplexml\Element
 {

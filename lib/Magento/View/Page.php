@@ -6,35 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Container;
+namespace Magento\View\Layout\Container\Render;
 
-use Magento\ObjectManager;
 use Magento\View\Container as ContainerInterface;
 use Magento\View\Render\Html;
-use Magento\View\ViewFactory;
-use Magento\View\Context;
 use Magento\View\Render\RenderFactory;
+use Magento\View\ViewFactory;
+use Magento\View\Context ;
+use Magento\ObjectManager;
 
-class Container extends Base implements ContainerInterface
+class Page extends Base implements ContainerInterface
 {
     /**
      * Container type
      */
-    const TYPE = 'container';
-
-    /**#@+
-     * Names of container options in layout
-     */
-    const CONTAINER_OPT_HTML_TAG = 'htmlTag';
-    const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
-    const CONTAINER_OPT_HTML_ID = 'htmlId';
-    const CONTAINER_OPT_LABEL = 'label';
-    /**#@-*/
-
-    /**
-     * @var array
-     */
-    protected $containerInfo = array();
+    const TYPE = 'page';
 
     /**
      * @param Context $context
@@ -44,9 +30,6 @@ class Container extends Base implements ContainerInterface
      * @param ContainerInterface $parent [optional]
      * @param array $meta [optional]
      * @throws \InvalidArgumentException
-     * @todo Reduce NPathComplexity
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Context $context,
@@ -58,20 +41,8 @@ class Container extends Base implements ContainerInterface
     ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
-        $this->containerInfo['label'] = isset($this->meta['label']) ? $this->meta['label'] : null;
-        $this->containerInfo['tag'] = isset($this->meta['htmlTag']) ? $this->meta['htmlTag'] : null;
-        $this->containerInfo['class'] = isset($this->meta['htmlClass']) ? $this->meta['htmlClass'] : null;
-        $this->containerInfo['id'] = isset($this->meta['htmlId']) ? $this->meta['htmlId'] : null;
-
-        if (empty($this->containerInfo['tag'])
-            && (!empty($this->containerInfo['class']) || !empty($this->containerInfo['id']))) {
-            throw new \InvalidArgumentException('HTML ID or class will not have effect, if HTML tag is not specified.');
-        }
-
-        // Share parent data with nested elements
-        if (isset($this->parent)) {
-            $this->dataProviders = & $this->parent->getDataProviders();
-        }
+        $this->addHandle('default');
+        $this->addHandle($context->getFullActionName());
     }
 
     /**
@@ -109,6 +80,6 @@ class Container extends Base implements ContainerInterface
         }
 
         $render = $this->renderFactory->get($type);
-        return $render->renderContainer($result, $this->containerInfo);
+        return $render->renderContainer($result);
     }
 }

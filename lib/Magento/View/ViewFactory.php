@@ -138,18 +138,12 @@ class ViewFactory
     /**
      * @param string $type
      * @param array $arguments
-     * @throws \InvalidArgumentException
      * @return ContainerInterface
      */
     public function create($type, array $arguments)
     {
         $className = 'Magento\\View\\Container\\' . ucfirst(str_replace('_', '\\', $type));
-        $element = $this->objectManager->create($className, $arguments);
 
-        if (($element instanceof ContainerInterface) === false) {
-            throw new \InvalidArgumentException(sprintf('Type "%s" is not instance on Magento\View\Container', $type));
-        }
-
-        return $element;
+        return $this->objectManager->create($className, $arguments);
     }
 }

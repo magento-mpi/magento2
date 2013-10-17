@@ -8,21 +8,24 @@
 
 namespace Magento\View\Layout;
 
-use Magento\View\Layout;
 use Magento\View\Context;
-use Magento\View\Container as ContainerInterface;
-use Magento\View\Container\Container;
-use Magento\View\Container\Base;
-use Magento\View\Container\Block;
-use Magento\View\ViewFactory;
-use Magento\ObjectManager;
+use Magento\View\Layout;
+use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleFactory;
+use Magento\View\Layout\Handle\Render;
+use Magento\Core\Model\BlockFactory;
+use Magento\View\Layout\ProcessorFactory;
 use Magento\Core\Model\View\DesignInterface;
 use Magento\View\Design\ThemeFactory;
 use Magento\Core\Exception;
 use Magento\Core\Block\AbstractBlock;
 
-class DefaultLayout implements Layout
+use Magento\ObjectManager;
+
+class DefaultLayout extends \Magento\Simplexml\Config implements Layout
 {
+    static protected $inc = 0;
+
     /**
      * @var /SimpleXMLElement
      */
@@ -49,14 +52,19 @@ class DefaultLayout implements Layout
     protected $context;
 
     /**
-     * @var ViewFactory
+     * @var HandleFactory
      */
-    protected $viewFactory;
+    protected $handleFactory;
 
     /**
-     * @var ObjectManager
+     * @var BlockFactory
      */
-    protected $objectManager;
+    protected $blockFactory;
+
+    /**
+     * @var ProcessorFactory
+     */
+    protected $processorFactory;
 
     /**
      * @var Reader
@@ -72,6 +80,11 @@ class DefaultLayout implements Layout
      * @var ThemeFactory
      */
     protected $themeFactory;
+
+    /**
+     * @var \Magento\View\Layout\Processor
+     */
+    protected $processor;
 
     /**
      * @var array
@@ -97,15 +110,16 @@ class DefaultLayout implements Layout
         DesignInterface $design,
         ThemeFactory $themeFactory,
         Context $context,
-        ViewFactory $viewFactory,
-        ObjectManager $objectManager,
+        HandleFactory $handleFactory,
+        BlockFactory $blockFactory,
+        ProcessorFactory $processorFactory,
         Reader $layoutReader
     ) {
         $this->design = $design;
-        $this->themeFactory = $themeFactory;
         $this->context = $context;
-        $this->viewFactory = $viewFactory;
-        $this->objectManager = $objectManager;
+        $this->handleFactory = $handleFactory;
+        $this->blockFactory = $blockFactory;
+        $this->processorFactory = $processorFactory;
         $this->layoutReader = $layoutReader;
     }
 
@@ -116,14 +130,11 @@ class DefaultLayout implements Layout
      */
     public function getUpdate()
     {
-        $theme = $this->getThemeInstance($this->getArea());
-        return $this->objectManager->get(
-            'Magento\\View\\Layout\\Processor',
-            array(
-                'layout' => $this,
-                'theme' => $theme,
-            )
-        );
+        if (!$this->processor) {
+            $theme = $this->_getThemeInstance($this->getArea());
+            $this->processor = $this->processorFactory->create(array('theme' => $theme));
+        }
+        return $this->processor;
     }
 
     /**
@@ -139,7 +150,6 @@ class DefaultLayout implements Layout
         }
 
         $themeIdentifier = $this->design->getConfigurationDesignTheme($area);
-        // TODO: ?
         return $this->themeFactory->getTheme($themeIdentifier);
     }
 
@@ -163,31 +173,71 @@ class DefaultLayout implements Layout
      */
     public function generateElements()
     {
-        $this->layoutReader->generateFromXml($this->xml, $this->meta);
-        $this->root = $this->viewFactory->create(
-            $this->meta['type'],
-            array(
-                'context' => $this->context,
-                'meta' => $this->meta,
-            )
+        $this->meta = array(
+            'type' => 'container',
+            'name' => '.',
+            'children' => array(),
         );
 
-        Base::$allElements['root'] = $this->root;
+        foreach ($this->_xml as $node) {
+            $type = $node->getName();
+            /** @var $handle Handle */
+            $handle = $this->handleFactory->get($type);
+            $handle->parse($node, $this, $this->meta);
+        }
 
-        $this->root->register();
+        $handle = $this->handleFactory->get($this->meta['type']);
+        $handle->register($this->meta, $this, $this->context);
 
         return $this;
     }
 
+    public function addElement($name, array & $element)
+    {
+        if (isset($this->elements[$name])) {
+            //throw new \Exception('The element with same name already exists: ' . $name);
+        }
+        $this->elements[$name] = & $element;
+    }
+
     /**
-     * Retrieve container by name
+     * @param $name
+     * @return Handle
+     */
+    public function & getElement($name)
+    {
+        if (!isset($this->elements[$name])) {
+            // to be independent from layout elements positions
+            $this->elements[$name] = array();
+        }
+
+        $result = & $this->elements[$name];
+
+        return $result;
+    }
+
+    /**
+     * Check if element exists in layout structure
      *
      * @param string $name
-     * @return ContainerInterface
+     * @return bool
      */
-    public function getElement($name)
+    public function hasElement($name)
     {
-        return isset(Base::$allElements[$name]) ? Base::$allElements[$name] : null;
+        return isset($this->elements[$name]);
+    }
+
+    /**
+     * Remove block from registry
+     *
+     * @param string $name
+     * @return DefaultLayout
+     */
+    public function unsetElement($name)
+    {
+        unset($this->elements[$name]);
+
+        return $this;
     }
 
     /**
@@ -203,7 +253,9 @@ class DefaultLayout implements Layout
     {
         $element = $this->getElement($name);
         if ($element) {
-            return $element->render();
+            /** @var $handle Render */
+            $handle = $this->handleFactory->get($element['type']);
+            return $handle->render($element, $this, $this->context);
         }
         return '';
     }
@@ -216,7 +268,7 @@ class DefaultLayout implements Layout
      */
     public function addOutputElement($name)
     {
-        $this->root = $this->getElement($name);
+        $this->meta = $this->getElement($name);
 
         return $this;
     }
@@ -228,36 +280,9 @@ class DefaultLayout implements Layout
      */
     public function getOutput()
     {
-        if (isset($this->root)) {
-            return $this->root->render();
-        }
-        return '';
-    }
-
-    /**
-     * Check if element exists in layout structure
-     *
-     * @param string $name
-     * @return bool
-     * @todo DELETE (only two-three calls from outside)
-     */
-    public function hasElement($name)
-    {
-        return isset($this->elements[$name]);
-    }
-
-    /**
-     * Remove block from registry
-     *
-     * @param string $name
-     * @return DefaultLayout
-     * @todo DELETE (only two-three calls from outside)
-     */
-    public function unsetElement($name)
-    {
-        unset($this->elements[$name]);
-
-        return $this;
+        /** @var $root Render */
+        $root = $this->handleFactory->get($this->meta['type']);
+        return $root->render($this->meta, $this, $this->context);
     }
 
     /**
@@ -267,7 +292,13 @@ class DefaultLayout implements Layout
      */
     public function getAllBlocks()
     {
-        return $this->elements;
+        $blocks = array();
+        foreach ($this->elements as $name => $element) {
+            if (isset($element['_wrapped_'])) {
+                $blocks[$name] = $element['_wrapped_'];
+            }
+        }
+        return $blocks;
     }
 
     /**
@@ -279,8 +310,8 @@ class DefaultLayout implements Layout
     public function getBlock($name)
     {
         $element = $this->getElement($name);
-        if ($element) {
-            return $element->getWrappedElement();
+        if ($element && isset($element['_wrapped_'])) {
+            return $element['_wrapped_'];
         }
         return false;
     }
@@ -295,11 +326,8 @@ class DefaultLayout implements Layout
     public function getChildBlock($parentName, $alias)
     {
         $parent = $this->getElement($parentName);
-        if ($parent) {
-            $child = $parent->getElement($alias);
-            if ($child) {
-                return $child->getWrappedElement();
-            }
+        if ($parent && isset($parent['children'][$alias]['_wrapped_'])) {
+            return $parent['children'][$alias]['_wrapped_'];
         }
         return null;
     }
@@ -316,9 +344,10 @@ class DefaultLayout implements Layout
     {
         $parent = $this->getElement($parentName);
         if ($parent) {
-            $element = $this->getElement($elementName);
+            $element = & $this->getElement($elementName);
             if ($element) {
-                $parent->attach($element, $alias);
+                $childName = !empty($alias) ? $alias : $elementName;
+                $parent['children'][$childName] = & $element;
             }
         }
         return $this;
@@ -352,12 +381,9 @@ class DefaultLayout implements Layout
      */
     public function unsetChild($parentName, $alias)
     {
-        $parent = $this->getElement($parentName);
+        $parent = & $this->getElement($parentName);
         if ($parent) {
-            $child = $parent->getElement($alias);
-            if ($child) {
-                $parent->detach($child, $alias);
-            }
+            unset($parent['children'][$alias]);
         }
         return $this;
     }
@@ -371,8 +397,8 @@ class DefaultLayout implements Layout
     public function getChildNames($parentName)
     {
         $parent = $this->getElement($parentName);
-        if ($parent) {
-            return array_keys($parent->getChildrenElements());
+        if ($parent && isset($parent['children'])) {
+            return array_keys($parent['children']);
         }
         return array();
     }
@@ -387,11 +413,18 @@ class DefaultLayout implements Layout
      */
     public function getChildBlocks($parentName)
     {
+        $result = array();
+
         $parent = $this->getElement($parentName);
-        if ($parent) {
-            return $parent->getChildBlocks();
+        if ($parent && isset($parent['children'])) {
+            foreach ($parent['children'] as $child) {
+                if (isset($child['_wrapped_'])) {
+                    $result[$child['name']] = $child['_wrapped_'];
+                }
+            }
         }
-        return array();
+
+        return $result;
     }
 
     /**
@@ -404,11 +437,8 @@ class DefaultLayout implements Layout
     public function getChildName($parentName, $alias)
     {
         $parent = $this->getElement($parentName);
-        if ($parent) {
-            $child = $parent->getChild($alias);
-            if ($child) {
-                return $child->getName();
-            }
+        if ($parent && isset($parent['children'][$alias]['name'])) {
+            return $parent['children'][$alias]['name'];
         }
         return false;
     }
@@ -450,11 +480,8 @@ class DefaultLayout implements Layout
     public function getParentName($childName)
     {
         $child = $this->getElement($childName);
-        if ($child) {
-            $parent = $child->getParentElement();
-            if ($parent) {
-                return $parent->getName();
-            }
+        if (isset($child) && isset($child['parent']['name'])) {
+            return $child['parent']['name'];
         }
         return false;
     }
@@ -470,9 +497,22 @@ class DefaultLayout implements Layout
     public function createBlock($type, $name = '', array $attributes = array())
     {
         $attributes['type'] = $type;
-        $attributes['name_in_layout'] = $name;
+        $block = $this->blockFactory->createBlock($type, $attributes);
 
-        return $this->objectManager->create($type, $attributes);
+        if (empty($name)) {
+            $name = 'Anonymous-' . self::$inc++;
+        }
+        $block->setNameInLayout($name);
+
+        $element = array(
+            'name' => $name,
+            'type' => 'block',
+            'class' => $type,
+            '_wrapped_' => $block
+        );
+        $this->addElement($name, $element);
+
+        return $block;
     }
 
     /**
@@ -482,27 +522,34 @@ class DefaultLayout implements Layout
      * @param string $name
      * @param string $parentName
      * @param string $alias
-     * @return \Magento\View\Container\Block
-     * @todo DELETE (use viewFactory and addElement instead)
+     * @return AbstractBlock
      */
     public function addBlock($class, $name = '', $parentName = '', $alias = '')
     {
-        $element = $this->viewFactory->createBlock(
-            $this->context,
-            array(
-                'class' => $class,
+        $block = $this->createBlock($class, $name);
+        if ($block) {
+            $element = array(
                 'name' => $name,
-            )
-        );
-        if ($element) {
+                'as' => $alias,
+                'type' => 'block',
+                '_wrapped_' => $block
+            );
+            if ($name) {
+                $this->addElement($name, $element);
+            }
+
             if ($parentName) {
-                $parent = $this->getElement($parentName);
+                $parent = & $this->getElement($parentName);
                 if ($parent) {
-                    $parent->attach($element, $alias);
+                    $childName = isset($alias) ? $alias : $name;
+                    if ($childName) {
+                        $parent['children'][$childName] = & $element;
+                    }
                 }
             }
         }
-        return $element;
+
+        return $block;
     }
 
     /**
@@ -510,26 +557,25 @@ class DefaultLayout implements Layout
      *
      * @param string $name
      * @param string $label
-     * @param array $meta
+     * @param array $options
      * @param string $parentName
      * @param string $alias
      * @return \Magento\View\Container\Container
      * @todo DELETE (use viewFactory and addElement instead)
      */
-    public function addContainer($name, $label, array $meta = array(), $parentName = '', $alias = '')
+    public function addContainer($name, $label, array $options = array(), $parentName = '', $alias = '')
     {
         $meta['name'] = $name;
         $meta['label'] = $label;
-        $element = $this->viewFactory->createContainer($this->context, $meta);
-        if ($element) {
-            if ($parentName) {
-                $parent = $this->getElement($parentName);
-                if ($parent) {
-                    $parent->attach($element, $alias);
-                }
+        if ($parentName) {
+            $parent = & $this->getElement($parentName);
+            if (isset($parent)) {
+                $childName = isset($alias) ? $alias : $name;
+                $parent['children'][$childName] = & $options;
             }
         }
-        return $element;
+
+        return $this;
     }
 
     /**
