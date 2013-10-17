@@ -69,7 +69,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpperCaseWordsWithSeparators($string, $sourceSeparator, $destinationSeparator, $expected)
     {
-        $actual = \Magento\Core\Helper\String::upperCaseWords($string);
+        $actual = \Magento\Core\Helper\String::upperCaseWords($string, $sourceSeparator, $destinationSeparator);
         $this->assertEquals($expected, $actual);
     }
 
