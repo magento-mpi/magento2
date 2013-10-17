@@ -39,11 +39,10 @@ class CustomerGrid extends Grid
      */
     public function deleteAll()
     {
-        $rootElement = $this->_rootElement;
-        $rootElement
+        $this->_rootElement
             ->find('//*[@id="customerGrid_massaction"]//a[text()="Select All"]', Locator::SELECTOR_XPATH)
             ->click();
-        $rootElement
+        $this->_rootElement
             ->find('customerGrid_massaction-select', Locator::SELECTOR_ID, 'select')
             ->setValue('Delete');
         $this->_rootElement

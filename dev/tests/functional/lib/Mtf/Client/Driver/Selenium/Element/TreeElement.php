@@ -89,14 +89,9 @@ class TreeElement extends Element
     {
         $pathArray = explode('/', $path);
         $structureChunk = $this->getStructure(); //Set the root of a structure as a first structure chunk
-        for($i=0; $i<count($pathArray);$i++) {
-            $pathChunk = $pathArray[$i];
-            $structureChunk = $this->deep($pathChunk, $structureChunk);
-            if ($i == count($pathArray)-1) {
-                $structureChunk = $structureChunk['element'];
-            } else {
-                $structureChunk = $structureChunk['subnodes'];
-            }
+        for($i = 0; $i < count($pathArray); $i++) {
+            $structureChunk = $this->deep($pathArray[$i], $structureChunk);
+            $structureChunk = ($i == count($pathArray) - 1) ? $structureChunk['element'] : $structureChunk['subnodes'];
         }
         if ($structureChunk) {
             $needleElement = $structureChunk->find('div > a');

@@ -63,9 +63,8 @@ class Addresses extends Block
     public function selectAddresses(Checkout $fixture)
     {
         $products = $fixture->getBindings();
-        $rootElement = $this->_rootElement;
         foreach ($products as $key => $value) {
-            $rootElement->find('//tr[//a[text()="' . $key . '"]]/following-sibling::*//select',
+            $this->_rootElement->find('//tr[//a[text()="' . $key . '"]]/following-sibling::*//select',
                 Locator::SELECTOR_XPATH, 'select')->setValue($value);
         }
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();

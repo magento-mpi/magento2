@@ -118,8 +118,7 @@ class Review extends Block
     public function selectShippingMethod(Checkout $fixture)
     {
         $shippingMethod = $fixture->getShippingMethods()->getData('fields');
-        $rootElement = $this->_rootElement;
-        $rootElement->find($this->shippingMethod, Locator::SELECTOR_CSS, 'select')
+        $this->_rootElement->find($this->shippingMethod, Locator::SELECTOR_CSS, 'select')
             ->setOptionGroupValue($shippingMethod['shipping_service'], $shippingMethod['shipping_method']);
     }
 
