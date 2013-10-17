@@ -40,6 +40,9 @@ class CreateTest extends Functional
      */
     public function testCreateProduct(Product $product)
     {
+        //Create Category
+        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+        $category->persist();
         //Data
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $createProductPage->init($product);
@@ -47,9 +50,12 @@ class CreateTest extends Functional
         //Steps
         $createProductPage->open();
         $productBlockForm->fill($product);
+        $productBlockForm->fillCategory($category->getCategoryName());
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->assertProductSaveResult($product);
+        $this->assertOnGrid($product);
+        $this->assertOnCategory($category, $product);
     }
 
     /**
@@ -58,5 +64,41 @@ class CreateTest extends Functional
     public function dataProviderTestCreateProduct()
     {
         return new FixtureIterator(Factory::getFixtureFactory()->getMagentoCatalogProduct());
+    }
+
+    /**
+     * Assert existing product on admin product grid
+     *
+     * @param Product $product
+     */
+    protected function assertOnGrid($product)
+    {
+        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage->open();
+        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
+        $gridBlock = $productGridPage->getProductGrid();
+        $this->assertTrue($gridBlock->isProductExist($product->getProductSku()));
+    }
+
+    /**
+     * @param Fixture $category
+     * @param Product $product
+     */
+    protected function assertOnCategory($category, $product)
+    {
+        //Pages
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $categoryPage->init($category);
+        $categoryPage->open();
+        //Verification on category product list
+        $productListBlock = $categoryPage->getListProductBlock();
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $productListBlock->openProductViewPage($product->getProductName());
+        //Verification on product detail page
+        $productViewBlock = $productPage->getViewBlock();
+        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

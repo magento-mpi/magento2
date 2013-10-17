@@ -25,20 +25,15 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 class ProductForm extends FormTabs
 {
     /**
-     * Custom tab classes for product form
-     *
-     * @var array
-     */
-    protected $_tabClasses = array(
-        'product_info_tabs_bundle_content' =>
-            '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle'
-    );
-
-    /**
      * Initialize block elements
      */
     protected function _init()
     {
+        //Custom tab classes for product form
+        $this->_tabClasses = array(
+            'product_info_tabs_bundle_content' =>
+            '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle'
+        );
         $this->saveButton = '#save-split-button-button';
     }
 
@@ -56,5 +51,18 @@ class ProductForm extends FormTabs
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
 
         parent::fill($fixture);
+    }
+
+    /**
+     * Select category
+     */
+    public function fillCategory($name)
+    {
+        $this->_rootElement->find('category_ids-suggest', Locator::SELECTOR_ID)->setValue($name);
+        $parentLocation = '//*[@id="attribute-category_ids-container"]';
+        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]';
+        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
+            $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
+        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
     }
 }

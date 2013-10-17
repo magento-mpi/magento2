@@ -46,6 +46,26 @@ class Product extends DataFixture
     }
 
     /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getProductSku()
+    {
+        return $this->getData('fields/sku/value');
+    }
+
+    /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getProductPrice()
+    {
+        return $this->getData('fields/price/value');
+    }
+
+    /**
      * Get product url
      *
      * @return string
@@ -69,8 +89,6 @@ class Product extends DataFixture
 
         return $this;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * {inheritdoc}
