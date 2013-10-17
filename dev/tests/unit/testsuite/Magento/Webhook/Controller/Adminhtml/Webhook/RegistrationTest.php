@@ -96,10 +96,10 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockRequest = $this->getMockBuilder('Magento\App\RequestInterface')
+        $this->_mockRequest = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockResponse = $this->getMock('Magento\App\ResponseInterface');
+        $this->_mockResponse = $this->getMock('Magento\App\Response\Http');
     }
 
     public function testActivateActionException()

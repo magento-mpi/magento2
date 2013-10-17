@@ -20,7 +20,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getRequest')
             ->will($this->returnValue($request));
 
-        $response = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false);
+        $response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $context->expects($this->any())
             ->method('getResponse')
             ->will($this->returnValue($response));
@@ -81,9 +81,15 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getUrl')
             ->with('*/*')
             ->will($this->returnValue('redirect_url'));
+
         $response->expects($this->once())
             ->method('setRedirect')
             ->with('redirect_url');
+
+        $response->expects($this->once())
+            ->method('getHeader')
+            ->with('X-Frame-Options')
+            ->will($this->returnValue(false));
 
         // Run
         $controller->cleanMediaAction();

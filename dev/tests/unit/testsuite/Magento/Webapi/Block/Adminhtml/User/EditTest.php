@@ -28,9 +28,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\App\RequestInterface')
+        $this->_request = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
-            ->setMethods(array('getParam'))
             ->getMock();
 
         $this->_request->expects($this->any())

@@ -31,15 +31,16 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
      */
     protected $_response;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_routerListMock;
+
     protected function setUp()
     {
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            '', false);
-        $this->_request  = new \Magento\App\RequestInterface($storeManager, $helperMock, null);
-        $this->_response = new \Magento\App\Response\Http(
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false)
-        );
+        $this->_routerListMock = $this->getMock('\Magento\App\RouterList', array(), array(), '', false);
+        $this->_request  = new \Magento\App\Request\Http($this->_routerListMock);
+        $this->_response = new \Magento\App\Response\Http();
 
         $this->_object = new \Magento\App\Action\Redirect($this->_request, $this->_response);
     }

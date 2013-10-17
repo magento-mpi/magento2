@@ -30,9 +30,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
 
-        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $request = $this->getMockForAbstractClass('Magento\App\RequestInterface',
-            array($backendData), '', false, false, true, array('setActionName'));
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);

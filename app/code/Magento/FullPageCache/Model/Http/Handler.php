@@ -9,7 +9,7 @@
  */
 namespace Magento\FullPageCache\Model\Http;
 
-class Handler implements \Magento\HTTP\HandlerInterface
+class Handler
 {
     /**
      * List of available request processors

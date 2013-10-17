@@ -13,12 +13,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\App\RequestInterface */
     protected $_model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_routerListMock;
+
     protected function setUp()
     {
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(),
-            '', false);
-        $this->_model = new \Magento\App\RequestInterface($storeManager, $helperMock, null);
+        $this->_routerListMock = $this->getMock('\Magento\App\RouterList', array(), array(), '', false);
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
     }
 
     /**

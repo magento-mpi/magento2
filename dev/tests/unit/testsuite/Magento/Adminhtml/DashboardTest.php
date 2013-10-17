@@ -10,19 +10,13 @@ namespace Magento\Adminhtml;
 class DashboardTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\RequestInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     protected function setUp()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        /** @var $request \Magento\App\RequestInterface|PHPUnit_Framework_MockObject_MockObject */
-        $this->_request = $objectManagerHelper->getObject('Magento\App\RequestInterface',
-            array('helper' => $helperMock));
+        $this->_request = $$this->getMock('Magento\App\Request\Http');
     }
 
     protected function tearDown()
@@ -112,7 +106,6 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     protected function _factory($request, $response = null, $objectManager = null)
     {
         if (!$response) {
-            $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
             /** @var $response \Magento\App\ResponseInterface|PHPUnit_Framework_MockObject_MockObject */
             $response = $this->getMock('Magento\App\ResponseInterface');
             $response->headersSentThrowsException = false;

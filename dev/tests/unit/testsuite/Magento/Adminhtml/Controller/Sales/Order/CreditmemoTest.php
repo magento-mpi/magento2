@@ -40,11 +40,9 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_responseMock = $this->getMock('Magento\App\ResponseInterface',
-            array('setRedirect'), array(), '', false
-        );
+        $this->_responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->_responseMock->headersSentThrowsException = false;
-        $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',
             array('addError', 'setFormData'), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);

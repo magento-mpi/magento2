@@ -92,15 +92,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetModuleDir()
     {
-        $expectedResult = new \stdClass();
-        $this->_dirsMock->expects($this->once())
+        $this->_dirsMock->expects($this->any())
             ->method('getDir')
             ->with('Test_Module', 'etc')
-            ->will($this->returnValue($expectedResult));
-        $this->assertSame($expectedResult, $this->_model->getModuleDir('etc', 'Test_Module'));
-
-        // Custom value overrides the default one
-        $this->_model->setModuleDir('Test_Module', 'etc', 'app/code/Test/Module/etc');
+            ->will($this->returnValue('app/code/Test/Module/etc'));
         $this->assertEquals('app/code/Test/Module/etc', $this->_model->getModuleDir('etc', 'Test_Module'));
     }
 }

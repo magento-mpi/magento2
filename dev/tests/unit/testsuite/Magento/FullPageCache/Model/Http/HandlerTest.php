@@ -32,20 +32,31 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryMock;
+    protected $_requestFactoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_responseFactoryMock;
 
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('\Magento\App\RequestInterface', array(), array(), '', false, false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false, false);
-        $this->_factoryMock = $this->getMock('Magento\FullPageCache\Model\RequestProcessorFactory',
-            array(), array(), '', false, false);
+
+        $this->_requestFactoryMock = $this->getMock(
+            'Magento\FullPageCache\Model\RequestProcessorFactory', array(), array(), '', false, false
+        );
+        $this->_responseFactoryMock = $this->getMock(
+            '\Magento\App\ResponseFactory', array(), array(), '', false, false
+        );
     }
 
     protected function tearDown()
     {
         unset($this->_configMock);
-        unset($this->_factoryMock);
+        unset($this->_requestFactoryMock);
+        unset($this->_responseFactoryMock);
         unset($this->_requestMock);
         unset($this->_responseMock);
         unset($this->_model);
@@ -53,11 +64,15 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleWithoutProcessors()
     {
-        $this->_factoryMock->expects($this->never())->method('create');
+        $this->_requestFactoryMock->expects($this->never())->method('create');
         $this->_requestMock->expects($this->never())->method('setDispatched');
         $this->_responseMock->expects($this->never())->method('sendResponse');
 
-        $this->_model = new \Magento\FullPageCache\Model\Http\Handler(array(), $this->_factoryMock);
+        $this->_model = new \Magento\FullPageCache\Model\Http\Handler(
+            $this->_responseFactoryMock,
+            $this->_requestFactoryMock,
+            array()
+        );
         $this->_model->handle($this->_requestMock, $this->_responseMock);
     }
 
@@ -66,7 +81,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $processorMock = $this->getMock(
             'Magento\FullPageCache\Model\Processor', array(), array(), '', false, false
         );
-        $this->_factoryMock->expects($this->once())
+        $this->_requestFactoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
 
         $processorMock->expects($this->once())
@@ -80,8 +95,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock->expects($this->once())->method('sendResponse');
 
         $this->_model = new \Magento\FullPageCache\Model\Http\Handler(
-            array(array('sortOrder' => 10, 'class' => 'processor_class')),
-            $this->_factoryMock
+            $this->_responseFactoryMock,
+            $this->_requestFactoryMock,
+            array(array('sortOrder' => 10, 'class' => 'processor_class'))
         );
         $this->_model->handle($this->_requestMock, $this->_responseMock);
     }
@@ -91,7 +107,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $processorMock = $this->getMock(
             'Magento\FullPageCache\Model\Processor', array(), array(), '', false, false
         );
-        $this->_factoryMock->expects($this->once())
+        $this->_requestFactoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
 
         $processorMock->expects($this->once())
@@ -105,8 +121,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock->expects($this->never())->method('sendResponse');
 
         $this->_model = new \Magento\FullPageCache\Model\Http\Handler(
-            array(array('sortOrder' => 10, 'class' => 'processor_class')),
-            $this->_factoryMock
+            $this->_responseFactoryMock,
+            $this->_requestFactoryMock,
+            array(array('sortOrder' => 10, 'class' => 'processor_class'))
         );
         $this->_model->handle($this->_requestMock, $this->_responseMock);
     }

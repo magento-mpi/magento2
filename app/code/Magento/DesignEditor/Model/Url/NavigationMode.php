@@ -69,7 +69,7 @@ class NavigationMode extends \Magento\Core\Model\Url
             $this->_themeId = $data['themeId'];
         }
         parent::__construct(
-            $routerList, $securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $session, $data
+            $routerList, $request, $securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $session, $data
         );
     }
 

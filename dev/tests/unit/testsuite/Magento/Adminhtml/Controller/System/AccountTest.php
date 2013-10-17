@@ -48,9 +48,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMockBuilder('Magento\App\RequestInterface')
+        $this->_requestMock = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
-            ->setMethods(array('getOriginalPathInfo'))
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Magento\App\ResponseInterface')
             ->disableOriginalConstructor()

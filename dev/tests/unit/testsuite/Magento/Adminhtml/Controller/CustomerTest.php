@@ -63,15 +63,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\App\RequestInterface')
+        $this->_request = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
-            ->setMethods(array('getParam'))
             ->getMock();
 
-        $this->_response = $this->getMockBuilder('Magento\App\ResponseInterface')
+        $this->_response = $this->getMockBuilder('Magento\App\Response\Http')
             ->disableOriginalConstructor()
             ->setMethods(array('setRedirect', 'getHeader'))
             ->getMock();
+
         $this->_response->expects($this->any())
             ->method('getHeader')
             ->with($this->equalTo('X-Frame-Options'))

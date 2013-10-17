@@ -162,7 +162,7 @@ abstract class AbstractBlock extends \Magento\Object
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_storeManager             = $context->getApp();
+        $this->_storeManager    = $context->getApp();
         parent::__construct($data);
         $this->_construct();
     }

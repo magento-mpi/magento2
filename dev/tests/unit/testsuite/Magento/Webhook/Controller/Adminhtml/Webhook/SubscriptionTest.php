@@ -52,6 +52,9 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     protected $_mockRequest;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockResponse;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
     /**
@@ -87,7 +90,10 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockSubscriptionSvc = $this->getMockBuilder('Magento\Webhook\Service\SubscriptionV1')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockRequest = $this->getMockBuilder('Magento\App\RequestInterface')
+        $this->_mockRequest = $this->getMockBuilder('Magento\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_mockResponse = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRegistry = $this->getMockBuilder('Magento\Core\Model\Registry')
@@ -552,6 +558,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             'session' => $this->_mockBackendModSess,
             'translator' => $this->_mockTranslateModel,
             'request' => $this->_mockRequest,
+            'response' => $this->_mockResponse,
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper

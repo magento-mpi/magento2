@@ -31,7 +31,7 @@ class CronTest extends \PHPUnit_Framework_TestCase
     {
         $appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $configScopeMock = $this->getMock('Magento\Config\ScopeInterface', array(), array(), '', false);
+        $configScopeMock = $this->getMock('Magento\Config\Scope', array(), array(), '', false);
 
         $map = array(
             array('Magento\Core\Model\App', $appMock),

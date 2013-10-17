@@ -10,12 +10,12 @@ namespace Magento\Backend\Model\Router;
 class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
@@ -26,12 +26,15 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_helperMock->expects($this->any())->method('getAreaFrontName')->will($this->returnValue('backend'));
         $this->_model = new \Magento\Backend\App\Router\NoRouteHandler($this->_helperMock);
     }
 
+    /**
+     * @covers Magento\Backend\App\Router\NoRouteHandler::process
+     */
     public function testProcessWithBackendAreaFrontName()
     {
         $this->_requestMock
@@ -60,6 +63,9 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->_model->process($this->_requestMock));
     }
 
+    /**
+     * @covers Magento\Backend\App\Router\NoRouteHandler::process
+     */
     public function testProcessWithoutAreaFrontName()
     {
         $this->_requestMock

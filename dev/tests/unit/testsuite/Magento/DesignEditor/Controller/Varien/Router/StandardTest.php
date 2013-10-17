@@ -73,22 +73,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      */
     public function matchDataProvider()
     {
-        $vdeUrl    = self::TEST_HOST . '/' . self::VDE_FRONT_NAME . self::TEST_PATH;
-        $notVdeUrl = self::TEST_HOST . self::TEST_PATH;
-
-        $silencedMethods = array('_isFrontArea');
         $excludedRouters = array(
             'admin' => 'admin router',
             'vde'   => 'vde router',
         );
 
         // test data to verify routers match logic
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
-        $matchedRequest = $this->getMock('Magento\App\RequestInterface',
-            $silencedMethods,
-            array($storeManager, $helperMock, $vdeUrl)
-        );
+        $matchedRequest = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $routerMockedMethods = array('match');
 
         $matchedController = $this->getMockForAbstractClass(
@@ -116,27 +107,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
         return array(
             'not vde request' => array(
-                '$request' => $this->getMock(
-                    'Magento\App\RequestInterface', $silencedMethods, array(
-                        $storeManager, $helperMock, $notVdeUrl
-                    )
-                ),
+                '$request' => $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
                 '$isVde'           => false,
                 '$isLoggedIn'      => true,
                 '$isConfiguration' => false,
             ),
             'not logged as admin' => array(
-                '$request' => $this->getMock(
-                    'Magento\App\RequestInterface', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
-                ),
+                '$request' => $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
                 '$isConfiguration' => false,
             ),
             'no matched routers' => array(
-                '$request' => $this->getMock(
-                    'Magento\App\RequestInterface', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
-                ),
+                '$request' => $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
                 '$isConfiguration' => false,

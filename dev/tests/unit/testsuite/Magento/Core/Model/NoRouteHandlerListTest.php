@@ -15,7 +15,7 @@ class NoRouteHandlerListTest extends \PHPUnit_Framework_TestCase
     protected $_objectManagerMock;
 
     /**
-     * @var \Magento\Core\App\Router\NoRouteHandlerList
+     * @var \Magento\App\Router\NoRouteHandlerList
      */
     protected $_model;
 
@@ -33,7 +33,7 @@ class NoRouteHandlerListTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_model = new \Magento\Core\App\Router\NoRouteHandlerList($this->_objectManagerMock, $handlersList);
+        $this->_model = new \Magento\App\Router\NoRouteHandlerList($this->_objectManagerMock, $handlersList);
     }
 
     public function testGetHandlers()
