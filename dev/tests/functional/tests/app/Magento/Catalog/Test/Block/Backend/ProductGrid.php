@@ -32,6 +32,7 @@ class ProductGrid extends Grid
         parent::_init();
         $this->filters = array(
             'name' => '#productGrid_product_filter_name',
+            'sku' => '#productGrid_product_filter_sku'
         );
     }
 
@@ -56,18 +57,6 @@ class ProductGrid extends Grid
     }
 
     /**
-     * filter grid by sku
-     *
-     * @param string $sku
-     */
-    public function filterBySku($sku)
-    {
-        $this->_rootElement->find('productGrid_product_filter_sku', Locator::SELECTOR_ID)->setValue($sku);
-        $this->_rootElement->find('//*[@class="filter-actions"]//button[@title="Search"]', Locator::SELECTOR_XPATH)
-            ->click();
-    }
-
-    /**
      * Check if product exists in grid
      *
      * @param string $sku
@@ -75,8 +64,7 @@ class ProductGrid extends Grid
      */
     public function isProductExist($sku)
     {
-        $this->filterBySku($sku);
-        $this->waitForElementNotVisible($this->loadingMask);
+        $this->search(array('sku' => $sku));
         $location = '//table[@id="productGrid_table"]//td[text()[normalize-space()="' . $sku . '"]]';
         return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
 
