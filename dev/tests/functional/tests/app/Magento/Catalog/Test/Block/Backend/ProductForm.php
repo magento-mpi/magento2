@@ -51,18 +51,21 @@ class ProductForm extends FormTabs
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
 
         parent::fill($fixture);
+        if ($fixture->getCategoryName()) {
+            $this->fillCategory($fixture->getCategoryName());
+        }
     }
 
     /**
      * Select category
      */
-    public function fillCategory($name)
+    protected function fillCategory($name)
     {
         $this->_rootElement->find('category_ids-suggest', Locator::SELECTOR_ID)->setValue($name);
         $parentLocation = '//*[@id="attribute-category_ids-container"]';
         $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]';
         $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
-            $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
+        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
         $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
     }
 }

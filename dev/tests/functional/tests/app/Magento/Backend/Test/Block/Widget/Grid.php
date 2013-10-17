@@ -156,4 +156,21 @@ abstract class Grid extends Block
     {
         //
     }
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @return bool
+     */
+    public function isRowVisible(array $filter)
+    {
+        $this->search($filter);
+        $location = '//div[@class="grid"]//tr[';
+        foreach ($filter as $value) {
+            $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
+        }
+        $location = $location . implode(' and ', $rows) . ']';
+        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
+    }
 }

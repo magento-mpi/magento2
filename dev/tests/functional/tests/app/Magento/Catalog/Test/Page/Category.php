@@ -41,20 +41,23 @@ class Category extends Page
      */
     protected function _init()
     {
-        $this->_url = $_ENV['app_frontend_url'] . self::MCA;
+        $this->_url = $_ENV['app_frontend_url'];
         $this->listProductBlock = Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
             $this->_browser->find('.products.wrapper.grid', Locator::SELECTOR_CSS)
         );
     }
 
     /**
-     * Page initialization
+     * Open category by name from menu
      *
-     * @param DataFixture $fixture
+     * @param string $categoryName
      */
-    public function init(DataFixture $fixture)
+    public function openCategory($categoryName)
     {
-        $this->_url = $this->_url . '/id/' . $fixture->getCategoryId();
+        $this->open();
+        $location = '//nav[@class="navigation"]//a[span[text()="' . $categoryName . '"]]';
+        $this->_browser->find($location, Locator::SELECTOR_XPATH)->click();
+
     }
 
     /**
@@ -64,7 +67,6 @@ class Category extends Page
      */
     public function getListProductBlock()
     {
-        $this->_browser->find('.products.wrapper.grid', Locator::SELECTOR_CSS)->click();
         return $this->listProductBlock;
     }
 }

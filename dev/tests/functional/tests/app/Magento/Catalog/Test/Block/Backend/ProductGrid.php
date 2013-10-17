@@ -55,18 +55,4 @@ class ProductGrid extends Grid
             ->click();
         $this->_rootElement->acceptAlert();
     }
-
-    /**
-     * Check if product exists in grid
-     *
-     * @param string $sku
-     * @return bool
-     */
-    public function isProductExist($sku)
-    {
-        $this->search(array('sku' => $sku));
-        $location = '//table[@id="productGrid_table"]//td[text()[normalize-space()="' . $sku . '"]]';
-        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
-
-    }
 }
