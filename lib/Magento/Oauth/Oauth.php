@@ -21,29 +21,14 @@ class Oauth implements \Magento\Oauth\OauthInterface
     const XML_PATH_CONSUMER_EXPIRATION_PERIOD = 'oauth/consumer/expiration_period';
 
     /**
-     * Consumer expiration period in seconds
-     */
-    const CONSUMER_EXPIRATION_PERIOD_DEFAULT = 300;
-
-    /**
      * Consumer HTTP POST maxredirects xpath
      */
     const XML_PATH_CONSUMER_POST_MAXREDIRECTS = 'oauth/consumer/post_maxredirects';
 
     /**
-     * Consumer HTTPS POST maxredirects default
-     */
-    const CONSUMER_POST_MAXREDIRECTS = 0;
-
-    /**
      * Consumer HTTP TIMEOUT xpath
      */
     const XML_PATH_CONSUMER_POST_TIMEOUT = 'oauth/consumer/post_timeout';
-
-    /**
-     * Consumer HTTP TIMEOUT default
-     */
-    const CONSUMER_POST_TIMEOUT = 5;
 
     /** @var  \Magento\Oauth\Model\Consumer\Factory */
     private $_consumerFactory;
@@ -74,8 +59,8 @@ class Oauth implements \Magento\Oauth\OauthInterface
      * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
      * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
      * @param \Magento\Oauth\Helper\Oauth $oauthHelper
-     * @param \Magento\Core\Model\StoreManagerInterface
-     * @param \Magento\HTTP\ZendClient
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\HTTP\ZendClient $httpClient
      * @param \Zend_Oauth_Http_Utility $httpUtility
      * @param \Magento\Core\Model\Date $date
      */
@@ -143,14 +128,8 @@ class Oauth implements \Magento\Oauth\OauthInterface
                     'oauth_verifier' => $verifier->getVerifier()
                 )
             );
-            $maxredirects = $this->_oauthHelper->getConfigValue(
-                self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
-                self::CONSUMER_POST_MAXREDIRECTS
-            );
-            $timeout = $this->_oauthHelper->getConfigValue(
-                self::XML_PATH_CONSUMER_POST_TIMEOUT,
-                self::CONSUMER_POST_TIMEOUT
-            );
+            $maxredirects = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_POST_MAXREDIRECTS);
+            $timeout = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_POST_TIMEOUT);
             $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
             $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
             return array('oauth_verifier' => $verifier->getVerifier());
@@ -170,10 +149,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
         // must use consumer within expiration period
         $consumerTS = strtotime($consumer->getCreatedAt());
-        $expiry = $this->_oauthHelper->getConfigValue(
-            self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
-            self::CONSUMER_EXPIRATION_PERIOD_DEFAULT
-        );
+        $expiry = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
         if ($this->_date->timestamp() - $consumerTS > $expiry) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
@@ -321,6 +297,14 @@ class Oauth implements \Magento\Oauth\OauthInterface
      */
     public function buildAuthorizationHeader($request)
     {
+        $required = array(
+            "oauth_consumer_key",
+            "oauth_consumer_secret",
+            "oauth_token",
+            "oauth_token_secret",
+            "request_url"
+        );
+        $this->_checkRequiredParams($request, $required);
         $headerParameters = array(
             'oauth_nonce' => $this->_oauthHelper->generateNonce(),
             'oauth_timestamp' => $this->_date->timestamp(),
@@ -333,7 +317,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
         $headerParameters['oauth_signature'] = $this->_httpUtility->sign(
             $request,
             isset($headerParameters['oauth_signature_method']) ? $headerParameters['oauth_signature_method']
-                : 'HMAC-SHA1',
+                : self::SIGNATURE_SHA1,
             $headerParameters['oauth_consumer_secret'],
             $headerParameters['oauth_token_secret'],
             isset($headerParameters['http_method']) ? $headerParameters['http_method'] : 'POST',

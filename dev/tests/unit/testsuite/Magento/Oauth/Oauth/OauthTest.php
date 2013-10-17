@@ -45,9 +45,6 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Store */
     protected $_storeMock;
 
-    /** @var \Magento\Core\Model\Store\Config */
-    protected $_storeConfigMock;
-
     private $_oauthToken;
     private $_oauthSecret;
     private $_oauthVerifier;
@@ -113,14 +110,14 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+        $storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $coreDataMock = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_oauthHelperMock = $this->getMockBuilder('\Magento\Oauth\Helper\Oauth')
-            ->setConstructorArgs(array($coreDataMock, $this->_storeConfigMock))
+            ->setConstructorArgs(array($coreDataMock, $storeConfigMock))
             ->setMethods(array('generateNonce'))
             ->getMock();
         $this->_storeManagerMock->expects($this->any())
@@ -161,7 +158,6 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         unset($this->_oauthHelperMock);
         unset($this->_storeManagerMock);
         unset($this->_storeMock);
-        unset($this->_storeConfigMock);
         unset($this->_httpClientMock);
         unset($this->_dateMock);
         unset($this->_service);
@@ -302,7 +298,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setupConsumer();
         $this->_dateMock->expects($this->any())->method('timestamp')->will($this->returnValue(9999999999));
-        $this->_storeConfigMock->expects($this->any())->method('getConfig')->will($this->returnValue(0));
+        $this->_storeMock->expects($this->any())->method('getConfig')->will($this->returnValue(0));
 
         $this->_oauth->getRequestToken($this->_getRequestTokenParams());
     }
@@ -334,7 +330,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     protected function _makeValidExpirationPeriod()
     {
         $this->_dateMock->expects($this->any())->method('timestamp')->will($this->returnValue(0));
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')->will($this->returnValue(300));
+        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(300));
     }
 
     /**
@@ -800,7 +796,83 @@ class OauthTest extends \PHPUnit_Framework_TestCase
             'oauth_token="7c0709f789e1f38a17aa4b9a28e1b06c",' .
             'oauth_token_secret="a6agsfrsfgsrjjjjyy487939244ssggg",' .
             'oauth_signature="valid_signature"';
-        $this->assertequals($expectedHeader, $oauthHeader, 'Generated Oauth header is incorrect');
+        $this->assertEquals($expectedHeader, $oauthHeader, 'Generated Oauth header is incorrect');
+    }
+
+    /**
+     * @dataProvider dataProviderMissingParamForBuildAuthorizationHeaderTest
+     */
+    public function testMissingParamForBuildAuthorizationHeader($expectedMessage, $request)
+    {
+        $this->setExpectedException(
+            '\Magento\Oauth\Exception',
+            $expectedMessage,
+            \Magento\Oauth\Oauth::ERR_PARAMETER_ABSENT
+        );
+        $this->_oauth->buildAuthorizationHeader($request);
+    }
+
+    public function dataProviderMissingParamForBuildAuthorizationHeaderTest()
+    {
+        return [
+            [
+                'oauth_consumer_key',
+                [ //'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+                    'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+                    'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+                    'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
+                    'request_url' => 'http://www.example.com/endpoint',
+                    'custom_param1' => 'foo',
+                    'custom_param2' => 'bar'
+                ]
+            ],
+            [
+                'oauth_consumer_secret',
+                [
+                    'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+                    //'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+                    'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+                    'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
+                    'request_url' => 'http://www.example.com/endpoint',
+                    'custom_param1' => 'foo',
+                    'custom_param2' => 'bar'
+                ]
+            ],
+            [
+                'oauth_token',
+                [
+                    'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+                    'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+                    //'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+                    'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
+                    'request_url' => 'http://www.example.com/endpoint',
+                    'custom_param1' => 'foo',
+                    'custom_param2' => 'bar'
+                ]
+            ],
+            [
+                'oauth_token_secret',
+                [
+                    'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+                    'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+                    'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+                    //'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
+                    'request_url' => 'http://www.example.com/endpoint',
+                    'custom_param1' => 'foo',
+                    'custom_param2' => 'bar'
+                ]
+            ],
+            [
+                'request_url',
+                [
+                    'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+                    'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+                    'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+                    'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg'
+                    //'request_url' => 'http://www.example.com/endpoint',
+                ]
+            ]
+        ];
     }
 
     protected function _getAccessTokenRequiredParams($amendments = array())
