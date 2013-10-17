@@ -69,7 +69,8 @@ class Block extends Base implements ContainerInterface
             $parent->attach($this, $this->alias);
         }
 
-        $this->wrappedElement = $this->objectManager->create($this->meta['class'],
+        $this->wrappedElement = $this->objectManager->create(
+            $this->meta['class'],
             array(
                 'container' => $this,
                 'data' => $this->arguments,
@@ -82,7 +83,8 @@ class Block extends Base implements ContainerInterface
         }
 
         foreach ($this->getChildren() as $child) {
-            $metaElement = $this->viewFactory->create($child['type'],
+            $metaElement = $this->viewFactory->create(
+                $child['type'],
                 array(
                     'context' => $this->context,
                     'parent' => $this,

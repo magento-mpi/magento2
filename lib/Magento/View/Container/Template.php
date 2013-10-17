@@ -61,11 +61,12 @@ class Template extends Base implements ContainerInterface
         }
 
         foreach ($this->getChildren() as $child) {
-            $metaElement = $this->viewFactory->create($child['type'],
+            $metaElement = $this->viewFactory->create(
+                $child['type'],
                 array(
                     'context' => $this->context,
                     'parent' => $this,
-                    'meta' => $child
+                    'meta' => $child,
                 )
             );
             $metaElement->register($this);
@@ -79,7 +80,7 @@ class Template extends Base implements ContainerInterface
     public function render($type = Html::TYPE_HTML)
     {
         $dataProviders = $this->getDataProviders();
-        // TODO: probably prepare limited proxy to avoid violations
+        // TODO: Probably prepare limited proxy to avoid violations
         $dataProviders['view'] = $this;
 
         $render = $this->renderFactory->get($type);
@@ -93,7 +94,7 @@ class Template extends Base implements ContainerInterface
      */
     protected function getTemplateFile()
     {
-        // TODO: rid of using area
+        // TODO: Rid of using area
         $this->meta['area'] = $this->context->getArea();
         return $this->filesystem->getFilename($this->meta['path'], $this->meta);
     }

@@ -103,13 +103,13 @@ class Reader
             if (!is_array($value)) {
                 $result[$key] = $value;
             } else {
-                $_val = isset($value['@']) ? $value['@'] : array();
+                $val = isset($value['@']) ? $value['@'] : array();
                 if ('block' === $key) {
-                    $_val['type'] = 'container';
-                    $result[$_val['name']] = $_val;
+                    $val['type'] = 'container';
+                    $result[$val['name']] = $val;
                 } elseif ('action' === $key) {
-                    $_val['type'] = 'container';
-                    $result[$_val['name']] = $_val;
+                    $val['type'] = 'container';
+                    $result[$val['name']] = $val;
                 }
             }
         }

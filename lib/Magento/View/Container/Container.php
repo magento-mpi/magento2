@@ -44,6 +44,7 @@ class Container extends Base implements ContainerInterface
      * @param ContainerInterface $parent [optional]
      * @param array $meta [optional]
      * @throws \InvalidArgumentException
+     * @todo Reduce NPathComplexity
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -67,7 +68,7 @@ class Container extends Base implements ContainerInterface
             throw new \InvalidArgumentException('HTML ID or class will not have effect, if HTML tag is not specified.');
         }
 
-        // share parent data with nested elements
+        // Share parent data with nested elements
         if (isset($this->parent)) {
             $this->dataProviders = & $this->parent->getDataProviders();
         }
@@ -83,7 +84,8 @@ class Container extends Base implements ContainerInterface
         }
 
         foreach ($this->getChildren() as $child) {
-            $metaElement = $this->viewFactory->create($child['type'],
+            $metaElement = $this->viewFactory->create(
+                $child['type'],
                 array(
                     'context' => $this->context,
                     'parent' => $this,

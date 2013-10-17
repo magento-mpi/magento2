@@ -15,23 +15,24 @@ use Magento\View\Design\Theme as ThemeInterface;
 use Magento\Core\Model\Dir;
 use Magento\Filesystem;
 use Magento\View\Layout\File\Factory;
+use Magento\Core\Exception;
 
 class Theme implements Source
 {
     /**
      * @var Filesystem
      */
-    private $_filesystem;
+    private $filesystem;
 
     /**
      * @var Dir
      */
-    private $_dirs;
+    private $dirs;
 
     /**
      * @var Factory
      */
-    private $_fileFactory;
+    private $fileFactory;
 
     /**
      * @param Filesystem $filesystem
@@ -43,9 +44,9 @@ class Theme implements Source
         Dir $dirs,
         Factory $fileFactory
     ) {
-        $this->_filesystem = $filesystem;
-        $this->_dirs = $dirs;
-        $this->_fileFactory = $fileFactory;
+        $this->filesystem = $filesystem;
+        $this->dirs = $dirs;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -55,8 +56,8 @@ class Theme implements Source
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $files = $this->_filesystem->searchKeys(
-            $this->_dirs->getDir(Dir::THEMES),
+        $files = $this->filesystem->searchKeys(
+            $this->dirs->getDir(Dir::THEMES),
             "{$themePath}/{$namespace}_{$module}/layout/override/theme/*/{$filePath}.xml"
         );
 
@@ -76,12 +77,16 @@ class Theme implements Source
                 $moduleFull = $matches[1];
                 $ancestorThemeCode = $matches[2];
                 if (!isset($themes[$ancestorThemeCode])) {
-                    throw new \Magento\Core\Exception(sprintf(
-                        "Trying to override layout file '%s' for theme '%s', which is not ancestor of theme '%s'",
-                        $filename, $ancestorThemeCode, $theme->getCode()
-                    ));
+                    throw new Exception(
+                        sprintf(
+                            "Trying to override layout file '%s' for theme '%s', which is not ancestor of theme '%s'",
+                            $filename,
+                            $ancestorThemeCode,
+                            $theme->getCode()
+                        )
+                    );
                 }
-                $result[] = $this->_fileFactory->create($filename, $moduleFull, $themes[$ancestorThemeCode]);
+                $result[] = $this->fileFactory->create($filename, $moduleFull, $themes[$ancestorThemeCode]);
             }
         }
         return $result;

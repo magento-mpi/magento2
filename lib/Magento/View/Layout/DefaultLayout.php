@@ -18,6 +18,8 @@ use Magento\View\ViewFactory;
 use Magento\ObjectManager;
 use Magento\Core\Model\View\DesignInterface;
 use Magento\View\Design\ThemeFactory;
+use Magento\Core\Exception;
+use Magento\Core\Block\AbstractBlock;
 
 class DefaultLayout implements Layout
 {
@@ -114,11 +116,14 @@ class DefaultLayout implements Layout
      */
     public function getUpdate()
     {
-        $theme = $this->_getThemeInstance($this->getArea());
-        return $this->objectManager->get('Magento\\View\\Layout\\Processor', array(
-            'layout' => $this,
-            'theme' => $theme
-        ));
+        $theme = $this->getThemeInstance($this->getArea());
+        return $this->objectManager->get(
+            'Magento\\View\\Layout\\Processor',
+            array(
+                'layout' => $this,
+                'theme' => $theme,
+            )
+        );
     }
 
     /**
@@ -127,13 +132,14 @@ class DefaultLayout implements Layout
      * @param string $area
      * @return \Magento\View\Design\Theme
      */
-    protected function _getThemeInstance($area)
+    protected function getThemeInstance($area)
     {
         if ($this->design->getDesignTheme()->getArea() == $area || $this->design->getArea() == $area) {
             return $this->design->getDesignTheme();
         }
 
         $themeIdentifier = $this->design->getConfigurationDesignTheme($area);
+        // TODO: ?
         return $this->themeFactory->getTheme($themeIdentifier);
     }
 
@@ -158,7 +164,8 @@ class DefaultLayout implements Layout
     public function generateElements()
     {
         $this->layoutReader->generateFromXml($this->xml, $this->meta);
-        $this->root = $this->viewFactory->create($this->meta['type'],
+        $this->root = $this->viewFactory->create(
+            $this->meta['type'],
             array(
                 'context' => $this->context,
                 'meta' => $this->meta,
@@ -267,7 +274,7 @@ class DefaultLayout implements Layout
      * Get block object by name
      *
      * @param string $name
-     * @return bool|\Magento\Core\Block\AbstractBlock
+     * @return bool|AbstractBlock
      */
     public function getBlock($name)
     {
@@ -458,7 +465,7 @@ class DefaultLayout implements Layout
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return AbstractBlock
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
@@ -480,7 +487,8 @@ class DefaultLayout implements Layout
      */
     public function addBlock($class, $name = '', $parentName = '', $alias = '')
     {
-        $element = $this->viewFactory->createBlock($this->context,
+        $element = $this->viewFactory->createBlock(
+            $this->context,
             array(
                 'class' => $class,
                 'name' => $name,
@@ -531,6 +539,8 @@ class DefaultLayout implements Layout
      * @param string $newName
      * @return bool
      * @todo DELETE (used mostly in setNameInLayout)
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function renameElement($oldName, $newName)
     {
@@ -543,6 +553,8 @@ class DefaultLayout implements Layout
      * @param string $name
      * @return bool|string
      * @todo DELETE
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getElementAlias($name)
     {
@@ -555,6 +567,8 @@ class DefaultLayout implements Layout
      * @param string $name
      * @return \Magento\Core\Model\Layout
      * @todo DELETE
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function removeOutputElement($name)
     {
@@ -587,12 +601,12 @@ class DefaultLayout implements Layout
     {
         if (!isset($this->helpers[$class])) {
             if (!class_exists($class)) {
-                throw new \Magento\Core\Exception(__('Invalid block class name: %1', $class));
+                throw new Exception(__('Invalid block class name: %1', $class));
             }
 
             $helper = $this->createBlock($class);
             if ($helper) {
-                if ($helper instanceof \Magento\Core\Block\AbstractBlock) {
+                if ($helper instanceof AbstractBlock) {
                     $helper->setLayout($this);
                 }
                 $this->helpers[$class] = $helper;
@@ -636,7 +650,6 @@ class DefaultLayout implements Layout
     public function setArea($area)
     {
         $this->area = $area;
-
         return $this;
     }
 
@@ -728,7 +741,7 @@ class DefaultLayout implements Layout
      * Save block in blocks registry
      *
      * @param string $name
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param AbstractBlock $block
      * @return Layout
      * @todo DELETE
      *

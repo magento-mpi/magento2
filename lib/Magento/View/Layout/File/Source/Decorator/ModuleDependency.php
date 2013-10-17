@@ -20,19 +20,19 @@ class ModuleDependency implements Source
     /**
      * @var Source
      */
-    private $_subject;
+    private $subject;
 
     /**
      * @var ModuleListInterface
      */
-    private $_moduleList;
+    private $moduleList;
 
     /**
      * Fully-qualified names of modules, ordered by their priority in the system
      *
      * @var array|null
      */
-    private $_orderedModules = null;
+    private $orderedModules;
 
     /**
      * @param Source $subject
@@ -42,8 +42,8 @@ class ModuleDependency implements Source
         Source $subject,
         ModuleListInterface $listInterface
     ) {
-        $this->_subject = $subject;
-        $this->_moduleList = $listInterface;
+        $this->subject = $subject;
+        $this->moduleList = $listInterface;
     }
 
     /**
@@ -53,7 +53,7 @@ class ModuleDependency implements Source
      */
     public function getFiles(Theme $theme, $filePath = '*')
     {
-        $result = $this->_subject->getFiles($theme, $filePath);
+        $result = $this->subject->getFiles($theme, $filePath);
         usort($result, array($this, 'compareFiles'));
         return $result;
     }
@@ -70,8 +70,8 @@ class ModuleDependency implements Source
         if ($fileOne->getModule() == $fileTwo->getModule()) {
             return strcmp($fileOne->getName(), $fileTwo->getName());
         }
-        $moduleOnePriority = $this->_getModulePriority($fileOne->getModule());
-        $moduleTwoPriority = $this->_getModulePriority($fileTwo->getModule());
+        $moduleOnePriority = $this->getModulePriority($fileOne->getModule());
+        $moduleTwoPriority = $this->getModulePriority($fileTwo->getModule());
         if ($moduleOnePriority == $moduleTwoPriority) {
             return strcmp($fileOne->getModule(), $fileTwo->getModule());
         }
@@ -84,16 +84,16 @@ class ModuleDependency implements Source
      * @param string $moduleName
      * @return int
      */
-    protected function _getModulePriority($moduleName)
+    protected function getModulePriority($moduleName)
     {
-        if ($this->_orderedModules === null) {
-            $this->_orderedModules = array();
-            foreach ($this->_moduleList->getModules() as $module) {
-                $this->_orderedModules[] = $module['name'];
+        if ($this->orderedModules === null) {
+            $this->orderedModules = array();
+            foreach ($this->moduleList->getModules() as $module) {
+                $this->orderedModules[] = $module['name'];
             }
         }
-        $result = array_search($moduleName, $this->_orderedModules);
-        // assume unknown modules have the same priority, distinctive from known modules
+        $result = array_search($moduleName, $this->orderedModules);
+        // Assume unknown modules have the same priority, distinctive from known modules
         if ($result === false) {
             return -1;
         }

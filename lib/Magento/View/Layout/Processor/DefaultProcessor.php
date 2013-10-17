@@ -12,6 +12,9 @@ use Magento\View\Layout\Processor;
 
 class DefaultProcessor implements Processor
 {
+    /**
+     * @todo ?
+     */
     public function generateXml()
     {
         // TODO:

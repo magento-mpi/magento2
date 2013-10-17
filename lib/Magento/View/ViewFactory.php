@@ -40,9 +40,13 @@ class ViewFactory
      */
     public function createPage(Context $context, array $meta = array())
     {
-        $view = $this->objectManager->create('Magento\\View\\Container\\Page',
-            array('context' => $context, 'meta' => $meta));
-
+        $view = $this->objectManager->create(
+            'Magento\\View\\Container\\Page',
+            array(
+                'context' => $context,
+                'meta' => $meta,
+            )
+        );
         return $view;
     }
 
@@ -53,9 +57,13 @@ class ViewFactory
      */
     public function createBlock(Context $context, array $meta = array())
     {
-        $view = $this->objectManager->create('Magento\\View\\Container\\Block',
-            array('context' => $context, 'meta' => $meta));
-
+        $view = $this->objectManager->create(
+            'Magento\\View\\Container\\Block',
+            array(
+                'context' => $context,
+                'meta' => $meta,
+            )
+        );
         return $view;
     }
 
@@ -66,9 +74,13 @@ class ViewFactory
      */
     public function createContainer(Context $context, array $meta = array())
     {
-        $view = $this->objectManager->create('Magento\\View\\Container\\Container',
-            array('context' => $context, 'meta' => $meta));
-
+        $view = $this->objectManager->create(
+            'Magento\\View\\Container\\Container',
+            array(
+                'context' => $context,
+                'meta' => $meta,
+            )
+        );
         return $view;
     }
 
@@ -79,9 +91,13 @@ class ViewFactory
      */
     public function createDataProvider(Context $context, array $meta = array())
     {
-        $view = $this->objectManager->create('Magento\\View\\Container\\Data',
-            array('context' => $context, 'meta' => $meta));
-
+        $view = $this->objectManager->create(
+            'Magento\\View\\Container\\Data',
+            array(
+                'context' => $context,
+                'meta' => $meta,
+            )
+        );
         return $view;
     }
 
@@ -92,9 +108,13 @@ class ViewFactory
      */
     public function createHandle(Context $context, array $meta = array())
     {
-        $handle = $this->objectManager->create('Magento\\View\\Container\\Handle',
-            array('context' => $context, 'meta' => $meta));
-
+        $handle = $this->objectManager->create(
+            'Magento\\View\\Container\\Handle',
+            array(
+                'context' => $context,
+                'meta' => $meta,
+            )
+        );
         return $handle;
     }
 
@@ -105,9 +125,13 @@ class ViewFactory
      */
     public function createTemplate(Context $context, array $meta = array())
     {
-        $view = $this->objectManager->create('Magento\\View\\Container\\Template',
-            array('context' => $context, 'meta' => $meta));
-
+        $view = $this->objectManager->create(
+            'Magento\\View\\Container\\Template',
+            array(
+                'context' => $context,
+                'meta' => $meta,
+            )
+        );
         return $view;
     }
 

@@ -170,9 +170,7 @@ abstract class Base implements ContainerInterface
      */
     public function addHandle($handleName)
     {
-        $handle = $this->viewFactory->createHandle($this->context, array(
-            'handle' => $handleName,
-        ));
+        $handle = $this->viewFactory->createHandle($this->context, array('handle' => $handleName));
         $handle->register($this);
     }
 
@@ -353,13 +351,12 @@ abstract class Base implements ContainerInterface
      * @param string $before
      * @param string $after
      * @throws \LogicException
+     * @todo Reduce CyclomaticComplexity
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function attach(ContainerInterface $child, $alias = null, $before = null, $after = null)
     {
-        // TODO: reduce CyclomaticComplexity
-
         $name = isset($alias) ? $alias : $child->getName();
 
         if (isset($this->elements[$name])) {
@@ -434,7 +431,7 @@ abstract class Base implements ContainerInterface
      */
     public function __toString()
     {
-        // TODO: there is no chance to enforce other render type this way
+        // TODO: There is no chance to enforce other render type this way
         try {
             $this->register();
             return $this->render();

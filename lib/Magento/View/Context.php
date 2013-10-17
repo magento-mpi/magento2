@@ -1,6 +1,6 @@
 <?php
 /**
- * Application Runtime Context.
+ * Application Runtime Context
  *
  * {license_notice}
  *
@@ -10,144 +10,171 @@
 
 namespace Magento\View;
 
+use Magento\Core\Controller\Request\Http as Request;
+use Magento\Core\Controller\Varien\Front;
+
+use Magento\Core\Model\Event\Manager as EventManager;
+use Magento\Core\Model\Translate;
+use Magento\Core\Model\Store\Config as StoreConfig;
+use Magento\Core\Model\Factory\Helper as FactoryHelper;
+use Magento\Core\Model\View\Url as ViewUrl;
+use Magento\Core\Model\View\Config as ViewConfig;
+use Magento\Core\Model\Logger;
+use Magento\Core\Model\App;
+use Magento\Core\Model\App\State as AppState;
+
+use Magento\Core\Model\Session\AbstractSession;
+use Magento\Core\Model\UrlInterface;
+use Magento\Core\Model\CacheInterface as Cache;
+use Magento\Core\Model\View\DesignInterface;
+use Magento\Core\Model\Cache\StateInterface as CacheState;
+
+/**
+ * @todo Reduce fields number
+ * @todo Reduce class dependencies
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Context
 {
     /**
      * @var \Magento\Core\Controller\Request\Http
      */
-    protected $_request;
+    protected $request;
 
     /**
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager;
+    protected $eventManager;
 
     /**
      * @var \Magento\Core\Model\UrlInterface
      */
-    protected $_urlBuilder;
+    protected $urlBuilder;
 
     /**
      * @var \Magento\Core\Model\Translate
      */
-    protected $_translator;
+    protected $translator;
 
     /**
      * @var \Magento\Core\Model\CacheInterface
      */
-    protected $_cache;
+    protected $cache;
 
     /**
      * @var \Magento\Core\Model\View\DesignInterface
      */
-    protected $_design;
+    protected $design;
 
     /**
      * @var \Magento\Core\Model\Session
      */
-    protected $_session;
+    protected $session;
 
     /**
      * @var \Magento\Core\Model\Store\Config
      */
-    protected $_storeConfig;
+    protected $storeConfig;
 
     /**
      * @var \Magento\Core\Controller\Varien\Front
      */
-    protected $_frontController;
+    protected $frontController;
 
     /**
      * @var \Magento\Core\Model\Factory\Helper
      */
-    protected $_helperFactory;
+    protected $helperFactory;
 
     /**
      * @var \Magento\Core\Model\View\Url
      */
-    protected $_viewUrl;
+    protected $viewUrl;
 
     /**
      * View config model
      *
      * @var \Magento\Core\Model\View\Config
      */
-    protected $_viewConfig;
+    protected $viewConfig;
 
     /**
      * @var \Magento\Core\Model\Cache\StateInterface
      */
-    protected $_cacheState;
+    protected $cacheState;
 
     /**
      * @var \Magento\Core\Model\Logger
      */
-    protected $_logger;
+    protected $logger;
 
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_app;
+    protected $app;
 
     /**
      * @var \Magento\Core\Model\App\State
      */
-    protected $_appState;
+    protected $appState;
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Controller\Varien\Front $frontController
-     * @param \Magento\Core\Model\Factory\Helper $helperFactory
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\Config $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\App\State $appState
-     * @param array $data
+     * @param Request $request
+     * @param EventManager $eventManager
+     * @param UrlInterface $urlBuilder
+     * @param Translate $translator
+     * @param Cache $cache
+     * @param DesignInterface $design
+     * @param AbstractSession $session
+     * @param StoreConfig $storeConfig
+     * @param Front $frontController
+     * @param FactoryHelper $helperFactory
+     * @param ViewUrl $viewUrl
+     * @param ViewConfig $viewConfig
+     * @param CacheState $cacheState
+     * @param Logger $logger
+     * @param App $app
+     * @param AppState $appState
+     * @todo reduce parameter number
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\View\DesignInterface $design,
-        \Magento\Core\Model\Session\AbstractSession $session,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Controller\Varien\Front $frontController,
-        \Magento\Core\Model\Factory\Helper $helperFactory,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\Config $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\App $app,
-        \Magento\Core\Model\App\State $appState,
-        array $data = array()
+        Request $request,
+        EventManager $eventManager,
+        UrlInterface $urlBuilder,
+        Translate $translator,
+        Cache $cache,
+        DesignInterface $design,
+        AbstractSession $session,
+        StoreConfig $storeConfig,
+        Front $frontController,
+        FactoryHelper $helperFactory,
+        ViewUrl $viewUrl,
+        ViewConfig $viewConfig,
+        CacheState $cacheState,
+        Logger $logger,
+        App $app,
+        AppState $appState
     ) {
-        $this->_request         = $request;
-        $this->_eventManager    = $eventManager;
-        $this->_urlBuilder      = $urlBuilder;
-        $this->_translator      = $translator;
-        $this->_cache           = $cache;
-        $this->_design          = $design;
-        $this->_session         = $session;
-        $this->_storeConfig     = $storeConfig;
-        $this->_frontController = $frontController;
-        $this->_helperFactory   = $helperFactory;
-        $this->_viewUrl         = $viewUrl;
-        $this->_viewConfig      = $viewConfig;
-        $this->_cacheState      = $cacheState;
-        $this->_logger          = $logger;
-        $this->_app             = $app;
-        $this->_appState        = $appState;
+        $this->request         = $request;
+        $this->eventManager    = $eventManager;
+        $this->urlBuilder      = $urlBuilder;
+        $this->translator      = $translator;
+        $this->cache           = $cache;
+        $this->design          = $design;
+        $this->session         = $session;
+        $this->storeConfig     = $storeConfig;
+        $this->frontController = $frontController;
+        $this->helperFactory   = $helperFactory;
+        $this->viewUrl         = $viewUrl;
+        $this->viewConfig      = $viewConfig;
+        $this->cacheState      = $cacheState;
+        $this->logger          = $logger;
+        $this->app             = $app;
+        $this->appState        = $appState;
     }
 
     /**
@@ -155,7 +182,7 @@ class Context
      */
     public function getCache()
     {
-        return $this->_cache;
+        return $this->cache;
     }
 
     /**
@@ -163,7 +190,7 @@ class Context
      */
     public function getDesignPackage()
     {
-        return $this->_design;
+        return $this->design;
     }
 
     /**
@@ -171,7 +198,7 @@ class Context
      */
     public function getEventManager()
     {
-        return $this->_eventManager;
+        return $this->eventManager;
     }
 
     /**
@@ -179,7 +206,7 @@ class Context
      */
     public function getFrontController()
     {
-        return $this->_frontController;
+        return $this->frontController;
     }
 
     /**
@@ -187,7 +214,7 @@ class Context
      */
     public function getHelperFactory()
     {
-        return $this->_helperFactory;
+        return $this->helperFactory;
     }
 
     /**
@@ -195,7 +222,7 @@ class Context
      */
     public function getLayout()
     {
-        return $this->_layout;
+        return $this->layout;
     }
 
     /**
@@ -203,7 +230,7 @@ class Context
      */
     public function getRequest()
     {
-        return $this->_request;
+        return $this->request;
     }
 
     /**
@@ -211,7 +238,7 @@ class Context
      */
     public function getSession()
     {
-        return $this->_session;
+        return $this->session;
     }
 
     /**
@@ -219,7 +246,7 @@ class Context
      */
     public function getStoreConfig()
     {
-        return $this->_storeConfig;
+        return $this->storeConfig;
     }
 
     /**
@@ -227,7 +254,7 @@ class Context
      */
     public function getTranslator()
     {
-        return $this->_translator;
+        return $this->translator;
     }
 
     /**
@@ -235,7 +262,7 @@ class Context
      */
     public function getUrlBuilder()
     {
-        return $this->_urlBuilder;
+        return $this->urlBuilder;
     }
 
     /**
@@ -243,7 +270,7 @@ class Context
      */
     public function getViewUrl()
     {
-        return $this->_viewUrl;
+        return $this->viewUrl;
     }
 
     /**
@@ -251,7 +278,7 @@ class Context
      */
     public function getViewConfig()
     {
-        return $this->_viewConfig;
+        return $this->viewConfig;
     }
 
     /**
@@ -259,7 +286,7 @@ class Context
      */
     public function getCacheState()
     {
-        return $this->_cacheState;
+        return $this->cacheState;
     }
 
     /**
@@ -267,7 +294,7 @@ class Context
      */
     public function getLogger()
     {
-        return $this->_logger;
+        return $this->logger;
     }
 
     /**
@@ -275,44 +302,76 @@ class Context
      */
     public function getApp()
     {
-        return $this->_app;
+        return $this->app;
     }
 
+    /**
+     * Retrieve layout area
+     *
+     * @return string
+     */
     public function getArea()
     {
-        return $this->_app->getLayout()->getArea();
+        return $this->app->getLayout()->getArea();
     }
 
+    /**
+     * Retrieve the module name
+     *
+     * @return string
+     */
     public function getModuleName()
     {
         return $this->getRequest()->getModuleName();
     }
 
+    /**
+     * Retrieve the module name
+     *
+     * @return string
+     * @todo alias of getModuleName
+     */
     public function getFrontName()
     {
         return $this->getRequest()->getModuleName();
     }
 
+    /**
+     * Retrieve the controller name
+     *
+     * @return string
+     */
     public function getControllerName()
     {
         return $this->getRequest()->getControllerName();
     }
 
+    /**
+     * Retrieve the action name
+     *
+     * @return string
+     */
     public function getActionName()
     {
         return $this->getRequest()->getActionName();
     }
 
+    /**
+     * Retrieve the full action name
+     *
+     * @return string
+     */
     public function getFullActionName()
     {
         return strtolower($this->getFrontName() . '_' . $this->getControllerName() . '_' . $this->getActionName());
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @return string
+     */
     public function getAcceptType()
     {
-        // TODO do intelligence here
+        // TODO: do intelligence here
         $type = $this->getHeader('Accept', 'html');
         if (strpos($type, 'json') !== false) {
             return 'json';
@@ -325,31 +384,86 @@ class Context
         }
     }
 
+    /**
+     * Retrieve a member of the $_POST superglobal
+     *
+     * If no $key is passed, returns the entire $_POST array.
+     *
+     * @param string $key
+     * @param mixed $default Default value to use if key not found
+     * @return mixed Returns null if key does not exist
+     */
     public function getPost($key = null, $default = null)
     {
         return $this->getRequest()->getPost($key, $default);
     }
 
+    /**
+     * Retrieve a member of the $_POST superglobal
+     *
+     * If no $key is passed, returns the entire $_POST array.
+     *
+     * @param string $key
+     * @param mixed $default Default value to use if key not found
+     * @return mixed alias of getPost
+     */
     public function getQuery($key = null, $default = null)
     {
         return $this->getRequest()->getPost($key, $default);
     }
 
+    /**
+     * Retrieve a parameter
+     *
+     * Retrieves a parameter from the instance. Priority is in the order of
+     * userland parameters (see {@link setParam()}), $_GET, $_POST. If a
+     * parameter matching the $key is not found, null is returned.
+     *
+     * If the $key is an alias, the actual key aliased will be used.
+     *
+     * @param mixed $key
+     * @param mixed $default Default value to use if key not found
+     * @return mixed
+     */
     public function getParam($key = null, $default = null)
     {
         return $this->getRequest()->getParam($key, $default);
     }
 
+    /**
+     * Retrieve an array of parameters
+     *
+     * Retrieves a merged array of parameters, with precedence of userland
+     * params (see {@link setParam()}), $_GET, $_POST (i.e., values in the
+     * userland params will take precedence over all others).
+     *
+     * @return array
+     */
     public function getParams()
     {
         return $this->getRequest()->getParams();
     }
 
-    public function getHeader($name, $default = null)
+    /**
+     * Return the value of the given HTTP header.
+     *
+     * Pass the header name as the plain, HTTP-specified header name. Ex.:
+     * Ask for 'Accept' to get the Accept header,
+     * 'Accept-Encoding' to get the Accept-Encoding header.
+     *
+     * @param $header
+     * @return string|false HTTP header value, or false if not found
+     */
+    public function getHeader($header)
     {
-        return $this->getRequest()->getHeader($name, $default);
+        return $this->getRequest()->getHeader($header);
     }
 
+    /**
+     * Return the raw body of the request, if present
+     *
+     * @return string|false Raw body, or false if not present
+     */
     public function getRawBody()
     {
         return $this->getRequest()->getRawBody();
@@ -360,14 +474,17 @@ class Context
      */
     public function getAppState()
     {
-        return $this->_appState;
+        return $this->appState;
     }
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
+    /**
+     * Retrieve design theme instance
+     *
+     * @return \Magento\Core\Model\Theme
+     */
     public function getDesignTheme()
     {
-        $theme = $this->_design->getDesignTheme();
+        $theme = $this->design->getDesignTheme();
         $theme->setCode('magento_plushe');
         $theme->setThemePath('magento_plushe');
         $theme->setId(8);
@@ -376,6 +493,8 @@ class Context
     }
 
     /**
+     * Retrieve parent theme instance
+     *
      * @param \Magento\Core\Model\Theme $theme
      * @return \Magento\Core\Model\Theme
      * @throws \Exception

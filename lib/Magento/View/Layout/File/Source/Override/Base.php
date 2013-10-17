@@ -21,17 +21,17 @@ class Base implements Source
     /**
      * @var Filesystem
      */
-    private $_filesystem;
+    private $filesystem;
 
     /**
      * @var Dir
      */
-    private $_dirs;
+    private $dirs;
 
     /**
      * @var Factory
      */
-    private $_fileFactory;
+    private $fileFactory;
 
     /**
      * @param Filesystem $filesystem
@@ -43,9 +43,9 @@ class Base implements Source
         Dir $dirs,
         Factory $fileFactory
     ) {
-        $this->_filesystem = $filesystem;
-        $this->_dirs = $dirs;
-        $this->_fileFactory = $fileFactory;
+        $this->filesystem = $filesystem;
+        $this->dirs = $dirs;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -55,8 +55,8 @@ class Base implements Source
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $files = $this->_filesystem->searchKeys(
-            $this->_dirs->getDir(Dir::THEMES),
+        $files = $this->filesystem->searchKeys(
+            $this->dirs->getDir(Dir::THEMES),
             "{$themePath}/{$namespace}_{$module}/layout/override/base/{$filePath}.xml"
         );
 
@@ -64,7 +64,7 @@ class Base implements Source
         foreach ($files as $filename) {
             $moduleDir = dirname(dirname(dirname(dirname($filename))));
             $moduleFull = basename($moduleDir);
-            $result[] = $this->_fileFactory->create($filename, $moduleFull);
+            $result[] = $this->fileFactory->create($filename, $moduleFull);
         }
         return $result;
     }

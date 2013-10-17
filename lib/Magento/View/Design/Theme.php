@@ -1,16 +1,13 @@
 <?php
 /**
+ * Minimal required interface a theme has to implement
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Minimal required interface a theme has to implement
- */
 namespace Magento\View\Design;
 
 use Magento\Core\Model\ThemeInterface;
@@ -52,5 +49,8 @@ interface Theme extends ThemeInterface
      */
     public function getCode();
 
+    /**
+     * @return mixed
+     */
     public function isPhysical();
 }

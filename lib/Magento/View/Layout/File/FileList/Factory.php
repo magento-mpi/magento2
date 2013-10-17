@@ -17,14 +17,14 @@ class Factory
     /**
      * @var ObjectManager
      */
-    private $_objectManager;
+    private $objectManager;
 
     /**
      * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -34,6 +34,6 @@ class Factory
      */
     public function create()
     {
-        return $this->_objectManager->create('Magento\View\Layout\File\FileList');
+        return $this->objectManager->create('Magento\View\Layout\File\FileList');
     }
 }

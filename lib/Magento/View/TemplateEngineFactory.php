@@ -18,20 +18,21 @@ class TemplateEngineFactory
     /**
      * @var ObjectManager
      */
-    protected $_objectManager;
+    protected $objectManager;
 
-    /**
+    /**#@+
      * Template engine types
      */
     const ENGINE_TWIG = 'twig';
     const ENGINE_PHTML = 'phtml';
+    /**#@-*/
 
     /**
      * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -44,9 +45,9 @@ class TemplateEngineFactory
     public function get($name)
     {
         if (self::ENGINE_PHTML == $name) {
-            return $this->_objectManager->get('Magento\\View\\TemplateEngine\\Php');
+            return $this->objectManager->get('Magento\\View\\TemplateEngine\\Php');
         }
-        // unknown type, throw exception
+        // Unknown type, throw exception
         throw new \InvalidArgumentException('Unknown template engine type: ' . $name);
     }
 }

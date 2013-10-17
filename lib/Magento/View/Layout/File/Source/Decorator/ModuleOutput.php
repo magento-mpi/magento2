@@ -20,12 +20,12 @@ class ModuleOutput implements Source
     /**
      * @var Source
      */
-    private $_subject;
+    private $subject;
 
     /**
      * @var \Magento\Core\Model\ModuleManager
      */
-    private $_moduleManager;
+    private $moduleManager;
 
     /**
      * @param Source $subject
@@ -35,8 +35,8 @@ class ModuleOutput implements Source
         Source $subject,
         ModuleManager $moduleManager
     ) {
-        $this->_subject = $subject;
-        $this->_moduleManager = $moduleManager;
+        $this->subject = $subject;
+        $this->moduleManager = $moduleManager;
     }
 
     /**
@@ -47,8 +47,8 @@ class ModuleOutput implements Source
     public function getFiles(Theme $theme, $filePath = '*')
     {
         $result = array();
-        foreach ($this->_subject->getFiles($theme, $filePath) as $file) {
-            if ($this->_moduleManager->isOutputEnabled($file->getModule())) {
+        foreach ($this->subject->getFiles($theme, $filePath) as $file) {
+            if ($this->moduleManager->isOutputEnabled($file->getModule())) {
                 $result[] = $file;
             }
         }

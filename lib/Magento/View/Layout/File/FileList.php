@@ -15,7 +15,7 @@ class FileList
     /**
      * @var \Magento\View\Layout\File[]
      */
-    private $_files = array();
+    private $files = array();
 
     /**
      * Retrieve all layout file instances
@@ -24,7 +24,7 @@ class FileList
      */
     public function getAll()
     {
-        return array_values($this->_files);
+        return array_values($this->files);
     }
 
     /**
@@ -36,14 +36,14 @@ class FileList
     public function add(array $files)
     {
         foreach ($files as $file) {
-            $identifier = $this->_getFileIdentifier($file);
-            if (array_key_exists($identifier, $this->_files)) {
-                $filename = $this->_files[$identifier]->getFilename();
+            $identifier = $this->getFileIdentifier($file);
+            if (array_key_exists($identifier, $this->files)) {
+                $filename = $this->files[$identifier]->getFilename();
                 throw new \LogicException(
                     "Layout file '{$file->getFilename()}' is indistinguishable from the file '{$filename}'."
                 );
             }
-            $this->_files[$identifier] = $file;
+            $this->files[$identifier] = $file;
         }
     }
 
@@ -56,13 +56,13 @@ class FileList
     public function replace(array $files)
     {
         foreach ($files as $file) {
-            $identifier = $this->_getFileIdentifier($file);
-            if (!array_key_exists($identifier, $this->_files)) {
+            $identifier = $this->getFileIdentifier($file);
+            if (!array_key_exists($identifier, $this->files)) {
                 throw new \LogicException(
                     "Overriding layout file '{$file->getFilename()}' does not match to any of the files."
                 );
             }
-            $this->_files[$identifier] = $file;
+            $this->files[$identifier] = $file;
         }
     }
 
@@ -72,7 +72,7 @@ class FileList
      * @param \Magento\View\Layout\File $file
      * @return string
      */
-    protected function _getFileIdentifier(\Magento\View\Layout\File $file)
+    protected function getFileIdentifier(\Magento\View\Layout\File $file)
     {
         $theme = ($file->getTheme() ? 'theme:' . $file->getTheme()->getFullPath() : 'base');
         return $theme . '|module:' . $file->getModule() . '|file:' . $file->getName();

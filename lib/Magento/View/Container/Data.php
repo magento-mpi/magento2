@@ -34,17 +34,19 @@ class Data extends Base implements ContainerInterface
             }
 
             foreach ($this->getChildren() as $child) {
-                $metaElement = $this->viewFactory->create($child['type'],
+                $metaElement = $this->viewFactory->create(
+                    $child['type'],
                     array(
                         'context' => $this->context,
                         'parent' => $this,
-                        'meta' => $child
+                        'meta' => $child,
                     )
                 );
                 $metaElement->register($this);
             }
 
-            $this->data = $this->objectManager->create($this->meta['class'],
+            $this->data = $this->objectManager->create(
+                $this->meta['class'],
                 array(
                     'container' => $this,
                     'data' => $this->arguments,
@@ -73,7 +75,7 @@ class Data extends Base implements ContainerInterface
      */
     public function getWrappedElement()
     {
-        // TODO: check if data is object
+        // TODO: Check if data is object
         return $this->data;
     }
 

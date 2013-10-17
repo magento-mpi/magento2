@@ -17,17 +17,17 @@ class File
     /**
      * @var string
      */
-    private $_filename;
+    private $filename;
 
     /**
      * @var string
      */
-    private $_module;
+    private $module;
 
     /**
      * @var \Magento\Core\Model\ThemeInterface
      */
-    private $_theme;
+    private $theme;
 
     /**
      * @param string $filename
@@ -36,9 +36,9 @@ class File
      */
     public function __construct($filename, $module, ThemeInterface $theme = null)
     {
-        $this->_filename = $filename;
-        $this->_module = $module;
-        $this->_theme = $theme;
+        $this->filename = $filename;
+        $this->module = $module;
+        $this->theme = $theme;
     }
 
     /**
@@ -48,7 +48,7 @@ class File
      */
     public function getFilename()
     {
-        return $this->_filename;
+        return $this->filename;
     }
 
     /**
@@ -58,7 +58,7 @@ class File
      */
     public function getName()
     {
-        return basename($this->_filename);
+        return basename($this->filename);
     }
 
     /**
@@ -68,7 +68,7 @@ class File
      */
     public function getModule()
     {
-        return $this->_module;
+        return $this->module;
     }
 
     /**
@@ -78,7 +78,7 @@ class File
      */
     public function getTheme()
     {
-        return $this->_theme;
+        return $this->theme;
     }
 
     /**
@@ -88,6 +88,6 @@ class File
      */
     public function isBase()
     {
-        return is_null($this->_theme);
+        return is_null($this->theme);
     }
 }

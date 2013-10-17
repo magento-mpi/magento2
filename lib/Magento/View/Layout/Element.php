@@ -8,6 +8,9 @@
 
 namespace Magento\View\Layout;
 
+use Magento\View\Container\Block;
+use Magento\View\Container\ReferenceBlock;
+
 class Element extends \Magento\Simplexml\Element
 {
     /**
@@ -18,10 +21,8 @@ class Element extends \Magento\Simplexml\Element
     public function getBlockName()
     {
         $tagName = (string)$this->getName();
-        if (empty($this['name']) || !in_array($tagName, array(
-                \Magento\View\Container\Block::TYPE,
-                \Magento\View\Container\ReferenceBlock::TYPE,
-        ))) {
+        if (empty($this['name'])
+            || !in_array($tagName, array(Block::TYPE, ReferenceBlock::TYPE))) {
             return false;
         }
         return (string)$this['name'];

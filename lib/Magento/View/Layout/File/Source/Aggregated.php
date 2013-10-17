@@ -21,47 +21,47 @@ class Aggregated implements Source
     /**
      * @var Factory
      */
-    private $_fileListFactory;
+    private $fileListFactory;
 
     /**
      * @var Source
      */
-    private $_baseFiles;
+    private $baseFiles;
 
     /**
      * @var Source
      */
-    private $_themeFiles;
+    private $themeFiles;
 
     /**
      * @var Source
      */
-    private $_overridingBaseFiles;
+    private $overrideBaseFiles;
 
     /**
      * @var Source
      */
-    private $_overridingThemeFiles;
+    private $overrideThemeFiles;
 
     /**
      * @param Factory $fileListFactory
      * @param Source $baseFiles
      * @param Source $themeFiles
-     * @param Source $overridingBaseFiles
-     * @param Source $overridingThemeFiles
+     * @param Source $overrideBaseFiles
+     * @param Source $overrideThemeFiles
      */
     public function __construct(
         Factory $fileListFactory,
         Source $baseFiles,
         Source $themeFiles,
-        Source $overridingBaseFiles,
-        Source $overridingThemeFiles
+        Source $overrideBaseFiles,
+        Source $overrideThemeFiles
     ) {
-        $this->_fileListFactory = $fileListFactory;
-        $this->_baseFiles = $baseFiles;
-        $this->_themeFiles = $themeFiles;
-        $this->_overridingBaseFiles = $overridingBaseFiles;
-        $this->_overridingThemeFiles = $overridingThemeFiles;
+        $this->fileListFactory = $fileListFactory;
+        $this->baseFiles = $baseFiles;
+        $this->themeFiles = $themeFiles;
+        $this->overrideBaseFiles = $overrideBaseFiles;
+        $this->overrideThemeFiles = $overrideThemeFiles;
     }
 
     /**
@@ -71,13 +71,13 @@ class Aggregated implements Source
      */
     public function getFiles(Theme $theme, $filePath = '*')
     {
-        $list = $this->_fileListFactory->create();
-        $list->add($this->_baseFiles->getFiles($theme, $filePath));
+        $list = $this->fileListFactory->create();
+        $list->add($this->baseFiles->getFiles($theme, $filePath));
 
-        foreach ($this->_getInheritedThemes($theme) as $currentTheme) {
-            $list->add($this->_themeFiles->getFiles($currentTheme, $filePath));
-            $list->replace($this->_overridingBaseFiles->getFiles($currentTheme, $filePath));
-            $list->replace($this->_overridingThemeFiles->getFiles($currentTheme, $filePath));
+        foreach ($this->getInheritedThemes($theme) as $currentTheme) {
+            $list->add($this->themeFiles->getFiles($currentTheme, $filePath));
+            $list->replace($this->overrideBaseFiles->getFiles($currentTheme, $filePath));
+            $list->replace($this->overrideThemeFiles->getFiles($currentTheme, $filePath));
         }
         return $list->getAll();
     }
@@ -88,7 +88,7 @@ class Aggregated implements Source
      * @param Theme $theme
      * @return Theme[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
      */
-    protected function _getInheritedThemes(Theme $theme)
+    protected function getInheritedThemes(Theme $theme)
     {
         $result = array();
         while ($theme) {

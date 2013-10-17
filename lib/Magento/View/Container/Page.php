@@ -55,11 +55,12 @@ class Page extends Base implements ContainerInterface
         }
 
         foreach ($this->getChildren() as $child) {
-            $metaElement = $this->viewFactory->create($child['type'],
+            $metaElement = $this->viewFactory->create(
+                $child['type'],
                 array(
                     'context' => $this->context,
                     'parent' => $this,
-                    'meta' => $child
+                    'meta' => $child,
                 )
             );
             $metaElement->register($this);
