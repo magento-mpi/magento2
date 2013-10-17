@@ -76,14 +76,14 @@ class StringTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function upperCaseWordsDataProviderWithSeparators()
+    public function upperCaseWordsWithSeparatorsDataProvider()
     {
         return array(
             array(
                 'test test2_test3\test4|test5',
                 '|',
                 '\\',
-                'Test_Test2_test3\test4\Test5',
+                'Test\Test2_test3\test4\Test5',
             ),
         );
     }
