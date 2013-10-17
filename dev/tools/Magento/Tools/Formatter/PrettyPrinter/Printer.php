@@ -60,7 +60,8 @@ class Printer
      * @param TreeNode $treeNode Tree node location where the object is going to be added.
      * @return TreeNode Newly added node.
      */
-    protected function addRootForNode(PHPParser_Node $node, TreeNode $treeNode) {
+    protected function addRootForNode(PHPParser_Node $node, TreeNode $treeNode)
+    {
         $statement = StatementFactory::getInstance()->getStatement($node);
         return $treeNode->addSibling(new TreeNode($statement));
     }
@@ -69,7 +70,8 @@ class Printer
      * This method resolves the statements into lines.
      * @param mixed $statements PHP Parser nodes to resolve
      */
-    protected function resolveStatements($statements) {
+    protected function resolveStatements($statements)
+    {
         // create a new tree, presuming that it is php
         $tree = new Tree();
         $treeNode = $tree->addRoot(new TreeNode((new Line('<?php'))->add(new HardLineBreak())));
@@ -98,7 +100,8 @@ class Printer
      * level) and prints the tree.
      * @param Tree $tree Tree to operate upon.
      */
-    protected function formatTree(Tree $tree) {
+    protected function formatTree(Tree $tree)
+    {
         // level the nodes to even out the lines
         $visitor = new NodeLeveler();
         $tree->traverse($visitor);

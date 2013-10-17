@@ -51,11 +51,23 @@ class Foo extends Bar implements Zulu
     /** alpha method */
     public function alpha()
     {
+        return \$this;
     }
 
     /** beta method */
     public function beta()
     {
+        return \$this
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha()
+            ->alpha();
     }
 }
 
@@ -80,6 +92,9 @@ class Foo
 {
     public function x()
     {
+        echo 'y';
+
+        echo 'z';
     }
 }
 
@@ -105,6 +120,9 @@ class Foo
 {
     public function x()
     {
+        echo 'y';
+
+        echo 'z';
     }
 }
 
@@ -130,6 +148,9 @@ class Foo
 {
     public function x()
     {
+        // Comment at start of block
+        echo 'y';
+        echo 'z';
     }
 }
 
@@ -208,6 +229,38 @@ FORMATTEDCODESNIPPET
             array(
                 "<?php /** filedoco */namespace LocalNs2; use SE1, SE2, SE3; class LocalC4 {}",
                 "<?php\n/** filedoco */\nnamespace LocalNs2;\n\nuse SE1;\nuse SE2;\nuse SE3;\n\nclass LocalC4\n{\n}\n"
+            ),
+        );
+    }
+
+    /**
+     * This method tests the printing around properties of a class.
+     *
+     * @dataProvider dataProviderProperties
+     */
+    public function testProperties($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    public function dataProviderProperties()
+    {
+        return array(
+            array(
+                "<?php class LocalClass {/** const doco */ const PI=3.14; /** member doc */ private \$foo='bar';}",
+                "<?php\nclass LocalClass\n{\n    /** const doco */\n    const PI = 3.14;\n\n    /** member doc */\n" .
+                "    private \$foo = 'bar';\n}\n"
+            ),
+            array(
+                "<?php class Local2 {/** const doco */ const PI=3.14,e=2.71828; /** const2 doco */ const mu=1;}",
+                "<?php\nclass Local2\n{\n    /** const doco */\n    const PI = 3.14, e = 2.71828;\n\n" .
+                "    /** const2 doco */\n    const mu = 1;\n}\n"
+            ),
+            array(
+                "<?php class Local3 {public static \$a;protected \$b;private \$c;public \$d,\$e,\$f;}",
+                "<?php\nclass Local3\n{\n    public static \$a;\n\n    protected \$b;\n\n    private \$c;\n\n" .
+                "    public \$d, \$e, \$f;\n}\n"
             ),
         );
     }

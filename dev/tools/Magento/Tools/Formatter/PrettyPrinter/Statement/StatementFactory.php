@@ -5,8 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+
+use PHPParser_Node;
 
 /**
  * This class controls the mapping of the parser nodes to printer nodes.
@@ -29,9 +30,9 @@ class StatementFactory
     /**
      * This method returns an instance of a statement class used to process the given node.
      *
-     * @param \PHPParser_Node $parserNode
+     * @param PHPParser_Node $parserNode
      */
-    public function getStatement(\PHPParser_Node $parserNode)
+    public function getStatement(PHPParser_Node $parserNode)
     {
         // assume the type is not recognized
         $statementName = UnknownStatement::getType();
@@ -51,16 +52,29 @@ class StatementFactory
 
     /**
      * This method constructs the new factory. By default, it registers the known statement types.
+     *
+     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
      */
     protected function __construct()
     {
         $this->register('Stmt_Namespace', NamespaceStatement::getType());
         $this->register('Stmt_Use', UseStatement::getType());
-        $this->register('Stmt_UseUse', UseStatement::getType());
+        $this->register('Stmt_UseUse', UseReference::getType());
         $this->register('Stmt_Class', ClassStatement::getType());
+        $this->register('Stmt_ClassConst', ConstantStatement::getType());
+        $this->register('Const', ConstantReference::getType());
+        $this->register('Stmt_Property', PropertyStatement::getType());
+        $this->register('Stmt_PropertyProperty', PropertyReference::getType());
         $this->register('Stmt_ClassMethod', MethodStatement::getType());
         $this->register('Stmt_InlineHTML', InlineHtmlStatement::getType());
         $this->register('Name', ClassReference::getType());
+        $this->register('Scalar_DNumber', DecimalNumberReference::getType());
+        $this->register('Scalar_LNumber', IntegerNumberReference::getType());
+        $this->register('Scalar_String', StringReference::getType());
+        $this->register('Stmt_Return', ReturnStatement::getType());
+        $this->register('Expr_Variable', ExpressionReference::getType());
+        $this->register('Expr_MethodCall', MethodCall::getType());
+        $this->register('Stmt_Echo', EchoStatement::getType());
     }
 
     /**
@@ -81,10 +95,10 @@ class StatementFactory
      */
     public static function getInstance()
     {
+        // if the singleton object has not been allocated, then allocate it
         if (null === self::$instance) {
             self::$instance = new StatementFactory();
         }
-
         return self::$instance;
     }
 }

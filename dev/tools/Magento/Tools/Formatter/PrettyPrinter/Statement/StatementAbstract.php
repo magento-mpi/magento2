@@ -10,42 +10,35 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use PHPParser_Node;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node;
+use PHPParser_Node_Stmt_Class;
 
 /**
  * This class is the base class for all printer statements.
  */
-abstract class StatementAbstract
+abstract class StatementAbstract extends BaseAbstract
 {
     const ATTRIBUTE_COMMENTS = 'comments';
 
     /**
-     * This member holds the current node.
-     * @var \PHPParser_NodeAbstract
-     */
-    protected $node;
-
-    /**
-     * This method constructs a new statement based on the specify node.
-     * @param \PHPParser_NodeAbstract $node
-     */
-    public function __construct(\PHPParser_NodeAbstract $node)
-    {
-        $this->node = $node;
-    }
-
-    /**
-     * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     * This method resolves the current statement, presumably held in the passed in tree node, into
+     * lines. Derived classes must replace the statement in the tree, or this method will repeat
+     * comments.
      * @param TreeNode $treeNode Node containing the current statement.
      */
-    public abstract function resolve(TreeNode $treeNode);
+    public function resolve(TreeNode $treeNode)
+    {
+        // all statements have potential of having comments, so resolve those
+        $this->addCommentsBefore($treeNode);
+    }
 
     /**
      * This method adds any comments in the current node as prior siblings to the current node.
      * @param TreeNode $treeNode Node representing the current node.
      */
-    protected function addCommentsBefore(TreeNode $treeNode) {
+    protected function addCommentsBefore(TreeNode $treeNode)
+    {
         // only attempt to add comments if they are present
         if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
             // add individual lines of the comments to the tree
@@ -68,47 +61,28 @@ abstract class StatementAbstract
      */
     protected function addModifier($modifiers, Line $line)
     {
-        if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT) {
+        if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT) {
             $line->add('abstract ');
         }
 
-        if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_FINAL) {
+        if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_FINAL) {
             $line->add('final ');
         }
 
-        if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) {
+        if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) {
             $line->add('public ');
         }
 
-        if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED) {
+        if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED) {
             $line->add('protected ');
         }
 
-        if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE) {
+        if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE) {
             $line->add('private ');
         }
 
-        if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_STATIC) {
+        if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) {
             $line->add('static ');
-        }
-    }
-
-    /**
-     * This method adds the arguments to the current line
-     * @param array $arguments
-     * @param TreeNode $treeNode
-     * @param Line $line
-     */
-    protected function processArgumentList(array $arguments, TreeNode $treeNode, Line $line)
-    {
-        foreach ($arguments as $index => $argument) {
-            $line->add(new ConditionalLineBreak(' '));
-            // process the argument itself
-            $this->resolveNode($argument, $treeNode);
-            // in not the last on, separate with a comma
-            if ($index < sizeof($arguments) - 1) {
-                $line->add(',');
-            }
         }
     }
 
@@ -119,7 +93,8 @@ abstract class StatementAbstract
      * @param int $index 0 based index of the new node
      * @param int $total total number of nodes to be added
      */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total) {
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
+    {
         // default action is to do nothing, since it is up to the derived node to determine exactly
         // what needs to be done with the newly added node
         return $originatingNode;
@@ -145,26 +120,5 @@ abstract class StatementAbstract
         }
         // return the last node that was added (or whatever was returned from the last node processing)
         return $originatingNode;
-    }
-
-    /**
-     * This method resolves the node immediately.
-     * @param PHPParser_Node $node
-     * @param TreeNode $treeNode TreeNode representing the current node.
-     */
-    protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
-    {
-        $statement = StatementFactory::getInstance()->getStatement($node);
-        $statement->resolve($treeNode);
-    }
-
-    /**
-     * This method returns the full name of the class.
-     *
-     * @return string Full name of the class is called through.
-     */
-    public static function getType()
-    {
-        return get_called_class();
     }
 }

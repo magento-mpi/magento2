@@ -122,8 +122,10 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     }
     /**
      * This method dumps the tree and compares it to the passed in value.
+     * @param Tree $tree
+     * @param $expectedValue
      */
-    protected function compareTree($tree, $expectedValue)
+    protected function compareTree(Tree $tree, $expectedValue)
     {
         $visitor = new DumpNodeVisitor();
         $tree->traverse($visitor);

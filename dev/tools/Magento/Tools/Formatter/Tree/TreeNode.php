@@ -71,7 +71,8 @@ class TreeNode implements Node
      * added prior to this node.
      * @return TreeNode
      */
-    public function addSibling(TreeNode $newSibling, $after = true) {
+    public function addSibling(TreeNode $newSibling, $after = true)
+    {
         if (null !== $this->parent) {
             $this->parent->addChild($newSibling, $this, $after);
         }
@@ -101,7 +102,8 @@ class TreeNode implements Node
      * This method returns the parent node of the current node.
      * @return TreeNode Node that holds this node as a child.
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
@@ -118,7 +120,8 @@ class TreeNode implements Node
      * This method sets the data associated with the node.
      * @param mixed $data User defined data for the node
      */
-    public function setData($data) {
+    public function setData($data)
+    {
         $this->data = $data;
     }
 
@@ -126,7 +129,8 @@ class TreeNode implements Node
      * This method set the parent node of the current node.
      * @param Node $parent Node that holds this node as a child.
      */
-    public function setParent(Node $parent) {
+    public function setParent(Node $parent)
+    {
         $this->parent = $parent;
     }
 

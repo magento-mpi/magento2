@@ -10,14 +10,15 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node_Stmt_Namespace;
 
 class NamespaceStatement extends StatementAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param \PHPParser_Node_Stmt_Namespace $node
+     * @param PHPParser_Node_Stmt_Namespace $node
      */
-    public function __construct(\PHPParser_Node_Stmt_Namespace $node)
+    public function __construct(PHPParser_Node_Stmt_Namespace $node)
     {
         parent::__construct($node);
     }
@@ -28,8 +29,7 @@ class NamespaceStatement extends StatementAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
-        // add the comments from the current node
-        $this->addCommentsBefore($treeNode);
+        parent::resolve($treeNode);
         // add the namespace line
         $line = new Line('namespace ');
         // replace the statement with the line since it is resolved or at least in the process of being resolved
@@ -49,7 +49,8 @@ class NamespaceStatement extends StatementAbstract
      * @param int $total total number of nodes to be added
      * @return TreeNode Returns the newly added node.
      */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total) {
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
+    {
         // this is called to add the use and class lines
         return $originatingNode->addSibling($newNode);
     }

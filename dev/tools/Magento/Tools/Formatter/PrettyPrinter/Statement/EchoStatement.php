@@ -7,17 +7,18 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_InlineHTML;
+use PHPParser_Node_Stmt_Echo;
 
-class InlineHtmlStatement extends StatementAbstract
+class EchoStatement extends StatementAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Stmt_InlineHTML $node
+     * @param PHPParser_Node_Stmt_Echo $node
      */
-    public function __construct(PHPParser_Node_Stmt_InlineHTML $node)
+    public function __construct(PHPParser_Node_Stmt_Echo $node)
     {
         parent::__construct($node);
     }
@@ -30,9 +31,17 @@ class InlineHtmlStatement extends StatementAbstract
     {
         parent::resolve($treeNode);
         /* Reference
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
-         */
+        return 'echo ' . $this->pCommaSeparated($node->exprs) . ';';
+        */
+        /** @var Line $line */
+        $line = new Line();
+        // add the class line
+        $line->add('echo ');
         // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData(new Line($this->node->value));
-    }
+        $treeNode->setData($line);
+        // add the arguments
+        $this->processArgumentList($this->node->exprs, $treeNode, $line, false);
+        // add in the terminator
+        $line->add(';')->add(new HardLineBreak());
+   }
 }

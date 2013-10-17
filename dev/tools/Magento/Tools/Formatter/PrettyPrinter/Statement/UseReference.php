@@ -9,15 +9,15 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_InlineHTML;
+use PHPParser_Node_Stmt_UseUse;
 
-class InlineHtmlStatement extends StatementAbstract
+class UseReference extends ReferenceAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Stmt_InlineHTML $node
+     * @param PHPParser_Node_Stmt_UseUse $node
      */
-    public function __construct(PHPParser_Node_Stmt_InlineHTML $node)
+    public function __construct(PHPParser_Node_Stmt_UseUse $node)
     {
         parent::__construct($node);
     }
@@ -28,11 +28,17 @@ class InlineHtmlStatement extends StatementAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
-        parent::resolve($treeNode);
         /* Reference
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
+        return $this->p($node->name)
+             . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
          */
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData(new Line($this->node->value));
+        // process the name
+        $this->resolveNode($this->node->name, $treeNode);
+        // process the alias, if needed
+        if ($this->node->name->getLast() !== $this->node->alias) {
+            /** @var Line $line */
+            $line = $treeNode->getData();
+            $line->add(' as ')->add($this->node->alias);
+        }
     }
 }

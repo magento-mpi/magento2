@@ -7,17 +7,18 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_InlineHTML;
+use PHPParser_Node_Stmt_ClassConst;
 
-class InlineHtmlStatement extends StatementAbstract
+class ConstantStatement extends StatementAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Stmt_InlineHTML $node
+     * @param PHPParser_Node_Stmt_ClassConst $node
      */
-    public function __construct(PHPParser_Node_Stmt_InlineHTML $node)
+    public function __construct(PHPParser_Node_Stmt_ClassConst $node)
     {
         parent::__construct($node);
     }
@@ -30,9 +31,15 @@ class InlineHtmlStatement extends StatementAbstract
     {
         parent::resolve($treeNode);
         /* Reference
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
-         */
+        return 'const ' . $this->pCommaSeparated($node->consts) . ';';
+        */
+        // add the const line
+        $line = new Line('const ');
         // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData(new Line($this->node->value));
+        $treeNode->setData($line);
+        // add in the list of actual constants
+        $this->processArgumentList($this->node->consts, $treeNode, $line, false);
+        // terminate the line
+        $line->add(';')->add(new HardLineBreak());
     }
 }

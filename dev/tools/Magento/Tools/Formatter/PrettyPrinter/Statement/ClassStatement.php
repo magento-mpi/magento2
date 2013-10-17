@@ -30,9 +30,9 @@ class ClassStatement extends StatementAbstract
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
      */
-    public function resolve(TreeNode $treeNode) {
-        // add the comments from the current node
-        $this->addCommentsBefore($treeNode);
+    public function resolve(TreeNode $treeNode)
+    {
+        parent::resolve($treeNode);
         // add the class line
         $line = new Line();
         $this->addModifier($this->node->type, $line);
@@ -66,7 +66,8 @@ class ClassStatement extends StatementAbstract
      * @param int $total total number of nodes to be added
      * @return TreeNode Returns the originating node since just children are being added.
      */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total) {
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
+    {
         // this is called to add the member nodes to the class
         $originatingNode->addChild($newNode);
         // add a separator between all nodes

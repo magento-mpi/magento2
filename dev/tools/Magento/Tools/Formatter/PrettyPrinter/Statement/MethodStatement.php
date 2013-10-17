@@ -11,14 +11,15 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node_Stmt_ClassMethod;
 
 class MethodStatement extends StatementAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param \PHPParser_Node_Stmt_ClassMethod $node
+     * @param PHPParser_Node_Stmt_ClassMethod $node
      */
-    public function __construct(\PHPParser_Node_Stmt_ClassMethod $node)
+    public function __construct(PHPParser_Node_Stmt_ClassMethod $node)
     {
         parent::__construct($node);
     }
@@ -29,6 +30,7 @@ class MethodStatement extends StatementAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         // predetermine parameters for the function
         $parameters = $this->getParametersForCall($node->params);
@@ -51,8 +53,6 @@ class MethodStatement extends StatementAbstract
         $result .= self::EOL;
         return $result;
          */
-        // add the comments from the current node
-        $this->addCommentsBefore($treeNode);
         // add the class line
         $line = new Line();
         $this->addModifier($this->node->type, $line);
@@ -66,8 +66,25 @@ class MethodStatement extends StatementAbstract
         // . $parameters .
         $line->add(')')->add(new HardLineBreak());
         $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
-        // process statements
+        // process content of the methods
+        $this->processNodes($this->node->stmts, $treeNode);
         // add closing block
         $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+    }
+
+    /**
+     * This method processes the newly added node.
+     * @param TreeNode $originatingNode Node where new nodes are originating from
+     * @param TreeNode $newNode Newly added node containing the statement
+     * @param int $index 0 based index of the new node
+     * @param int $total total number of nodes to be added
+     * @return TreeNode Returns the originating node since just children are being added.
+     */
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
+    {
+        // this is called to add the member nodes to the class
+        $originatingNode->addChild($newNode);
+        // always return the originating node
+        return $originatingNode;
     }
 }

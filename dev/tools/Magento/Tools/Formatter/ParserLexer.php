@@ -67,7 +67,8 @@ class ParserLexer extends PHPParser_Lexer
                 } elseif (T_DOC_COMMENT === $token[0]) {
                     $startAttributes['comments'][] = new \PHPParser_Comment_Doc($token[1], $token[2]);
                 } elseif ($newlineCount > 1) {
-                    // We found more than one newline, could be developer added spacing pretend it's a comment to preserve it.
+                    // We found more than one newline, could be developer added spacing pretend it's
+                    // a comment to preserve it.
                     for ($i = 1; $i < $newlineCount; $i++) {
                         $startAttributes['comments'][] = new \PHPParser_Comment_Doc("\n", $token[2]);
                     }
