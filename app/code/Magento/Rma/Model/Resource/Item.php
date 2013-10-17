@@ -278,9 +278,6 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
          */
         $parent = array();
 
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = $this->_productFactory->create();
-
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
             if ($parentId && ($item->getId() != $parentId) && ($item->getParentItemId() != $parentId)) {
@@ -296,9 +293,10 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
 
             /* checks enable on product level */
-            $product->reset();
-            $product->setStoreId($item->getStoreId());
-            $product->load($item->getProductId());
+            /** @var $product \Magento\Catalog\Model\Product */
+            $product = $this->_productFactory->create()
+                ->setStoreId($item->getStoreId())
+                ->load($item->getProductId());
 
             if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;
