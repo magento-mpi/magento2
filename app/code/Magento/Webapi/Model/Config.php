@@ -28,7 +28,7 @@ class Config
     protected $_configCacheType;
 
     /**
-     * var \Magento\Webapi\Model\Config\Reader
+     * @var \Magento\Webapi\Model\Config\Reader
      */
     protected $_configReader;
 
