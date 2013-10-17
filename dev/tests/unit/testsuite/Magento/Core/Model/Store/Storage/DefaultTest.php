@@ -115,6 +115,12 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Core\Model\Website', $this->_model->getWebsite($websiteId));
     }
 
+    public function testGetWebsiteEmptyString()
+    {
+        $websiteId = '';
+        $this->assertInstanceOf('Magento\Core\Model\Website', $this->_model->getWebsite($websiteId));
+    }
+
     public function testGetWebsitesWithDefault()
     {
         $withDefault = true;
