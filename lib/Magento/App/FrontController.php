@@ -11,6 +11,9 @@ namespace Magento\App;
 
 use Zend\Stdlib\Exception\LogicException;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class FrontController implements FrontControllerInterface
 {
     /**
