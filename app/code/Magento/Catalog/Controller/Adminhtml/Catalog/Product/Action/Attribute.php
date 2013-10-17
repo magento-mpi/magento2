@@ -190,11 +190,11 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Rertive data manipulation helper
      *
-     * @return \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     * @return \Magento\Catalog\Helper\Product\Edit\Action\Attribute
      */
     protected function _getHelper()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
+        return $this->_objectManager->get('Magento\Catalog\Helper\Product\Edit\Action\Attribute');
     }
 
     protected function _isAllowed()

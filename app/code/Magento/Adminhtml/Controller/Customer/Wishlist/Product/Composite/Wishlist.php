@@ -84,7 +84,7 @@ class Wishlist
             $configureResult->setMessage($e->getMessage());
         }
 
-        $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
+        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($this, $configureResult);
 
         return $this;

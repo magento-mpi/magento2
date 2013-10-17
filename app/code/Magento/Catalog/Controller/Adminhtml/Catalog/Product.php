@@ -1071,7 +1071,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
         $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
         if ($session->hasCompositeProductResult()
             && $session->getCompositeProductResult() instanceof \Magento\Object) {
-            $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
                 ->renderUpdateResult($this, $session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {

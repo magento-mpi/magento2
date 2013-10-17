@@ -553,7 +553,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         // Render page
-        $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
+        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -596,7 +596,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         // Render page
-        $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
+        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($this, $configureResult);
 
         return $this;

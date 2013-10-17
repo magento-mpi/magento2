@@ -135,8 +135,8 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                       . DS . $data['sitemap_filename'];
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
                 $validator = $this->_objectManager->create('Magento\Core\Model\File\Validator\AvailablePath');
-                /** @var $helper \Magento\Adminhtml\Helper\Catalog */
-                $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog');
+                /** @var $helper \Magento\Catalog\Helper\Catalog */
+                $helper = $this->_objectManager->get('Magento\Catalog\Helper\Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {

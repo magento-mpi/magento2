@@ -11,14 +11,14 @@
 /**
  * Adminhtml catalog product action attribute update helper
  */
-namespace Magento\Adminhtml\Helper\Catalog\Product\Edit\Action;
+namespace Magento\Catalog\Helper\Product\Edit\Action;
 
 class Attribute extends \Magento\Backend\Helper\Data
 {
     /**
      * Selected products for mass-update
      *
-     * @var \Magento\Catalog\Model\Entity\Product\Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected $_products;
 

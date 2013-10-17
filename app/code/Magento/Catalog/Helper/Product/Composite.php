@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Helper\Catalog\Product;
+namespace Magento\Catalog\Helper\Product;
 
 class Composite extends \Magento\Core\Helper\AbstractHelper
 {
@@ -76,7 +76,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      * Init layout of product configuration update result
      *
      * @param \Magento\Backend\Controller\Adminhtml\Action $controller
-     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
+     * @return \Magento\Catalog\Helper\Product\Composite
      */
     protected function _initUpdateResultLayout($controller)
     {
@@ -92,7 +92,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      *
      * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @param \Magento\Object $updateResult
-     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
+     * @return \Magento\Catalog\Helper\Product\Composite
      */
     public function renderUpdateResult($controller, \Magento\Object $updateResult)
     {
@@ -111,7 +111,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
       * @param \Magento\Backend\Controller\Adminhtml\Action $controller
       * @param bool $isOk
       * @param string $productType
-      * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
+      * @return \Magento\Catalog\Helper\Product\Composite
       */
     protected function _initConfigureResultLayout($controller, $isOk, $productType)
     {
@@ -135,7 +135,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      *
      * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @param \Magento\Object $configureResult
-     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
+     * @return \Magento\Catalog\Helper\Product\Composite
      */
     public function renderConfigureResult($controller, \Magento\Object $configureResult)
     {

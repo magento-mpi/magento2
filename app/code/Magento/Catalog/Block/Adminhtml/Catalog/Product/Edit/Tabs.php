@@ -41,9 +41,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Adminhtml catalog
      *
-     * @var \Magento\Adminhtml\Helper\Catalog
+     * @var \Magento\Catalog\Helper\Catalog
      */
-    protected $_adminhtmlCatalog = null;
+    protected $_helperCatalog = null;
 
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
@@ -52,7 +52,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
     /**
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
-     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Catalog\Helper\Catalog $helperCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -62,7 +62,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
-        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Catalog\Helper\Catalog $helperCatalog,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -71,7 +71,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        $this->_helperCatalog = $helperCatalog;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $authSession, $data);
@@ -272,10 +272,10 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     public function getAttributeTabBlock()
     {
-        if (is_null($this->_adminhtmlCatalog->getAttributeTabBlock())) {
+        if (is_null($this->_helperCatalog->getAttributeTabBlock())) {
             return $this->_attributeTabBlock;
         }
-        return $this->_adminhtmlCatalog->getAttributeTabBlock();
+        return $this->_helperCatalog->getAttributeTabBlock();
     }
 
     public function setAttributeTabBlock($attributeTabBlock)

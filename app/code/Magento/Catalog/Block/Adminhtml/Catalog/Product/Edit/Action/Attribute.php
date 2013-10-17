@@ -24,18 +24,18 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
     /**
      * Adminhtml catalog product edit action attribute
      *
-     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     * @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute
      */
     protected $_helperActionAttribute = null;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $helperActionAttribute
+     * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helperActionAttribute
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $helperActionAttribute,
+        \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helperActionAttribute,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
@@ -81,11 +81,11 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
     /**
      * Retrieve block attributes update helper
      *
-     * @return \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     * @return \Magento\Catalog\Helper\Product\Edit\Action\Attribute
      */
     protected function _getHelper()
     {
-        return $this->helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
+        return $this->helper('Magento\Catalog\Helper\Product\Edit\Action\Attribute');
     }
 
     /**

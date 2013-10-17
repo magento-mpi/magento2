@@ -480,8 +480,8 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
             ->setCurrentCustomerId($customerId);
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -526,8 +526,8 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -571,8 +571,8 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -658,8 +658,8 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

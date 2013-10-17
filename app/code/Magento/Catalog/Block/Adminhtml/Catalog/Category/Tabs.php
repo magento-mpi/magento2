@@ -32,11 +32,11 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_coreRegistry = null;
 
     /**
-     * Adminhtml catalog
+     * Catalog helper
      *
-     * @var \Magento\Adminhtml\Helper\Catalog
+     * @var \Magento\Catalog\Helper\Catalog
      */
-    protected $_adminhtmlCatalog = null;
+    protected $_helperCatalog = null;
 
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
@@ -45,7 +45,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
     /**
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
-     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Catalog\Helper\Catalog $helperCatalog
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -54,7 +54,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
-        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Catalog\Helper\Catalog $helperCatalog,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
@@ -63,7 +63,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
-        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        $this->_helperCatalog = $helperCatalog;
         parent::__construct($coreData, $context, $authSession, $data);
     }
 
@@ -96,7 +96,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     public function getAttributeTabBlock()
     {
-        if ($block = $this->_adminhtmlCatalog->getCategoryAttributeTabBlock()) {
+        if ($block = $this->_helperCatalog->getCategoryAttributeTabBlock()) {
             return $block;
         }
         return $this->_attributeTabBlock;

@@ -92,7 +92,7 @@ class Attributes
      */
     public function getAttributes()
     {
-        return $this->helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')
+        return $this->helper('Magento\Catalog\Helper\Product\Edit\Action\Attribute')
             ->getAttributes()->getItems();
     }
 
