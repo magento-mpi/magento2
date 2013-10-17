@@ -992,4 +992,5 @@ return array(
     array('Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Shipment\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Parent'),
+    array('Magento\Core\Model\TemplateEngine\Factory', 'Magento\Core\Model\TemplateEngine\Pool')
 );

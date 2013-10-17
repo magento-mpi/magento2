@@ -394,4 +394,12 @@
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Model\TemplateEngine\Pool">
+        <param name="engines">
+            <value>
+                <phtml>Magento\Core\Model\TemplateEngine\Php</phtml>
+                <twig>Magento\Core\Model\TemplateEngine\Twig</twig>
+            </value>
+        </param>
+    </type>
 </config>

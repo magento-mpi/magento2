@@ -13,79 +13,93 @@ namespace Magento\Core\Block;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetTemplateFile()
-    {
-        $template = 'fixture';
-        $area = 'areaFixture';
-        $params = array('module' => 'Magento_Core', 'area' => $area);
-
-        $fileSystem = $this->getMock('Magento\Core\Model\View\FileSystem', array(), array(), '', false);
-        $fileSystem->expects($this->once())->method('getFilename')->with($template, $params);
-        $arguments = array(
-            'viewFileSystem' => $fileSystem,
-            'data'           => array('template' => $template, 'area' => $area),
-        );
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $block = $helper->getObject('Magento\Core\Block\Template', $arguments);
-
-        $block->getTemplateFile();
-    }
+    /**
+     * @var \Magento\Core\Block\Template
+     */
+    protected $_block;
 
     /**
-     * @param string $filename
-     * @param string $expectedOutput
-     * @dataProvider fetchViewDataProvider
+     * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function testFetchView($filename, $expectedOutput)
+    protected $_filesystem;
+
+    /**
+     * @var \Magento\Core\Model\TemplateEngine\EngineInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_templateEngine;
+
+    /**
+     * @var \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_viewFileSystem;
+
+    protected function setUp()
     {
-        $map = array(
+        $dirMap = array(
             array(\Magento\Core\Model\Dir::APP, __DIR__),
-            array(\Magento\Core\Model\Dir::THEMES, __DIR__ . 'design'),
+            array(\Magento\Core\Model\Dir::THEMES, __DIR__ . '/design'),
         );
-        $dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
-        $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
-        $layout = $this->getMock('Magento\Core\Model\Layout', array('isDirectOutput'), array(), '', false);
-        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-        $design = $this->getMock('Magento\Core\Model\View\DesignInterface', array(), array(), '', false);
-        $translator = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
+        $dirs->expects($this->any())->method('getDir')->will($this->returnValueMap($dirMap));
 
-        $objectManagerMock = $this->getMock('Magento\ObjectManager', array('get', 'create', 'configure'));
-        $objectManagerMock->expects($this->any())
+        $this->_viewFileSystem = $this->getMock('\Magento\Core\Model\View\FileSystem', array(), array(), '', false);
+
+        $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
+
+        $this->_templateEngine = $this->getMock('\Magento\Core\Model\TemplateEngine\EngineInterface');
+
+        $enginePool = $this->getMock('Magento\Core\Model\TemplateEngine\Pool', array(), array(), '', false);
+        $enginePool->expects($this->any())
             ->method('get')
-            ->with('Magento\Core\Model\TemplateEngine\Php')
-            ->will($this->returnValue(new \Magento\Core\Model\TemplateEngine\Php()));
-        $engineFactory = new \Magento\Core\Model\TemplateEngine\Factory($objectManagerMock);
+            ->with('phtml')
+            ->will($this->returnValue($this->_templateEngine));
 
-        $arguments = array(
-            'design'        => $design,
-            'layout'        => $layout,
-            'dirs'          => $dirMock,
-            'filesystem'    => $filesystem,
-            'translator'    => $translator,
-            'engineFactory' => $engineFactory,
-        );
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $context = $this->getMock('\Magento\Core\Block\Template\Context', array(), array(), '', false);
+        $context->expects($this->any())->method('getEnginePool')->will($this->returnValue($enginePool));
+        $context->expects($this->any())->method('getDirs')->will($this->returnValue($dirs));
+        $context->expects($this->any())->method('getFilesystem')->will($this->returnValue($this->_filesystem));
+        $context->expects($this->any())->method('getViewFileSystem')->will($this->returnValue($this->_viewFileSystem));
 
-        $block = $this->getMock(
+        $this->_block = $this->getMock(
             'Magento\Core\Block\Template',
             array('getShowTemplateHints'),
-            $helper->getConstructArguments('Magento\Core\Block\Template', $arguments)
+            array(
+                $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false),
+                $context,
+                array('template' => 'template.phtml', 'area' => 'frontend', 'module_name' => 'Fixture_Module')
+            )
         );
-        $layout->expects($this->once())->method('isDirectOutput')->will($this->returnValue(false));
-
-        $this->assertSame($block, $block->assign(array('varOne' => 'value1', 'varTwo' => 'value2')));
-        $this->assertEquals($expectedOutput, $block->fetchView(__DIR__ . "/_files/{$filename}"));
     }
 
-    /**
-     * @return array
-     */
-    public function fetchViewDataProvider()
+    public function testGetTemplateFile()
     {
-        return array(
-            array('template_test_assign.phtml', 'value1, value2'),
-            array('invalid_file', ''),
-        );
+        $params = array('module' => 'Fixture_Module', 'area' => 'frontend');
+        $this->_viewFileSystem->expects($this->once())->method('getFilename')->with('template.phtml', $params);
+        $this->_block->getTemplateFile();
+    }
+
+    public function testFetchView()
+    {
+        $this->expectOutputString('');
+
+        $this->_filesystem
+            ->expects($this->once())
+            ->method('isPathInDirectory')
+            ->with('template.phtml', __DIR__)
+            ->will($this->returnValue(true))
+        ;
+        $this->_filesystem
+            ->expects($this->once())->method('isFile')->with('template.phtml')->will($this->returnValue(true));
+
+        $output = '<h1>Template Contents</h1>';
+        $vars = array('var1' => 'value1', 'var2' => 'value2');
+        $this->_templateEngine
+            ->expects($this->once())
+            ->method('render')
+            ->with($this->identicalTo($this->_block), 'template.phtml', $vars)
+            ->will($this->returnValue($output))
+        ;
+        $this->_block->assign($vars);
+        $this->assertEquals($output, $this->_block->fetchView('template.phtml'));
     }
 }

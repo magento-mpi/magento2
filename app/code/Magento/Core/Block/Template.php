@@ -73,9 +73,9 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_template;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Factory
+     * @var \Magento\Core\Model\TemplateEngine\Pool
      */
-    protected $_tmplEngineFactory;
+    protected $_templateEnginePool;
 
     /**
      * Core data
@@ -104,7 +104,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
-        $this->_tmplEngineFactory = $context->getEngineFactory();
+        $this->_templateEnginePool = $context->getEnginePool();
         $this->_app = $context->getApp();
         parent::__construct($context, $data);
     }
@@ -261,8 +261,8 @@ HTML;
                 || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
-                $extension = pathinfo($fileName, PATHINFO_EXTENSION); 
-                $templateEngine = $this->_tmplEngineFactory->get($extension);
+                $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+                $templateEngine = $this->_templateEnginePool->get($extension);
                 echo $templateEngine->render($this, $fileName, $this->_viewVars);
             } else {
                 $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
