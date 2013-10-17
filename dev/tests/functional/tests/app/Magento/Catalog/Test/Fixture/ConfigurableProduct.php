@@ -32,6 +32,16 @@ class ConfigurableProduct extends Product
         return $this;
     }
 
+    /**
+     * Get variations product prices
+     *
+     * @return array
+     */
+    public function getVariations()
+    {
+        return $this->_data['configurable_options']['configurable_items'];
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -65,10 +75,25 @@ class ConfigurableProduct extends Product
                         'price' => array(
                             'value' => '9.99',
                             'group' => static::GROUP_PRODUCT_DETAILS
+                        ),
+                        'tax_class_id' => array(
+                            'value' => 'Taxable Goods',
+                            'group' => static::GROUP_PRODUCT_DETAILS,
+                            'input' => 'select'
+                        ),
+                        'weight' => array(
+                            'value' => '1',
+                            'group' => static::GROUP_PRODUCT_DETAILS
                         )
+                    ),
+                    'configurable_options' => array(
+                        'configurable_items' => array(
+                            array('product_price' => '1', 'product_quantity' => '100'),
+                            array('product_price' => '2', 'product_quantity' => '200')
+                        ),
                     )
                 )
-            ),
+            )
         );
 
         //Default data set
