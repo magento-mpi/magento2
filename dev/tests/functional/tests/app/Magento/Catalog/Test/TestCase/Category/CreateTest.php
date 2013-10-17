@@ -13,6 +13,7 @@ namespace Magento\Catalog\Test\TestCase\Category;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Catalog\Test\Fixture\Category;
 
 /**
  * Class CreateTest
@@ -28,6 +29,7 @@ class CreateTest extends Functional
     public function testCreateCategory()
     {
         //Data
+        /** @var Category $category */
         $category = Factory::getFixtureFactory()->getMagentoCatalogCategory()->switchData('subcategory');
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
@@ -38,6 +40,7 @@ class CreateTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
+        $loader->waitLoader();
         $treeBlock->selectDefaultCategory();
         $loader->waitLoader();
         $treeBlock->addSubcategory();
@@ -46,5 +49,15 @@ class CreateTest extends Functional
         $formBlock->save($category);
         //Verifying
         $messageBlock->waitForSuccessMessage($category);
+        $categoryId = $formBlock->getCategoryId();
+
+        $catalogCategoryFrontendPage = Factory::getPageFactory()->getCatalogCategoryView();
+//        $catalogCategoryFrontendPage->setCategoryUrlByName($category->getCategoryName());
+        $catalogCategoryFrontendPage->initUrl($categoryId);
+        $catalogCategoryFrontendPage->open();
+        $categoryTitleBlock = $catalogCategoryFrontendPage->getCategoryTitleBlock();
+        $categoryTitle = $categoryTitleBlock->getCategoryTitle();
+
+        $this->assertEquals($categoryTitle, $category->getCategoryName());
     }
 }

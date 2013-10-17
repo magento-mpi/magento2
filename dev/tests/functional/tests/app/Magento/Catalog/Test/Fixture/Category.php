@@ -33,7 +33,17 @@ class Category extends DataFixture
      */
     public function getCategoryName()
     {
-        return $this->_data['name']['value'];
+        return $this->_data['fields']['name']['value'];
+    }
+
+    /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getCategoryId()
+    {
+        return isset($this->_data['fields']['id']) ? $this->_data['fields']['id']['value'] : null;
     }
 
     /**
@@ -41,7 +51,8 @@ class Category extends DataFixture
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateCategory($this);
+        $id = Factory::getApp()->magentoCatalogCreateCategory($this);
+        $this->_data['fields']['id']['value'] = $id;
 
         return $this;
     }
@@ -73,7 +84,7 @@ class Category extends DataFixture
                             'value' => 'Yes',
                             'group' => static::GROUP_GENERAL_INFORMATION,
                             'input' => 'select'
-                        ),
+                        )
                     )
                 )
             ),
