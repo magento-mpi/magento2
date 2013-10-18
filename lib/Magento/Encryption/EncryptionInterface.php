@@ -37,7 +37,7 @@ interface EncryptionInterface
      * @param string $password
      * @param string $hash
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateHash($password, $hash);
 

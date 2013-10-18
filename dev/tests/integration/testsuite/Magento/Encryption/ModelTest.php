@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\Encryption;
 
 class ModelTest extends \PHPUnit_Framework_TestCase
 {
