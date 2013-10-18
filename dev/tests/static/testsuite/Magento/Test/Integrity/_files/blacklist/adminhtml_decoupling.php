@@ -14,7 +14,6 @@ return array(
     'Block/Admin',
     'Block/Backup',
     'Block/Cache',
-    'Block/Catalog',
     'Block/Checkout',
     'Block/Cms',
     'Block/Customer',
@@ -41,7 +40,6 @@ return array(
     'Block/Tax',
 
     // Controllers
-    'Controller/Catalog',
     'Controller/Checkout',
     'Controller/Cms',
     'Controller/Customer',
@@ -67,7 +65,6 @@ return array(
 
     // Helpers
     'Helper/Addresses',
-    'Helper/Catalog',
     'Helper/Dashboard',
     'Helper/Media',
     'Helper/Data',
@@ -89,7 +86,6 @@ return array(
     // Views
     'view/adminhtml/admin',
     'view/adminhtml/backup',
-    'view/adminhtml/catalog',
     'view/adminhtml/cms',
     'view/adminhtml/customer',
     'view/adminhtml/dashboard',
@@ -112,9 +108,7 @@ return array(
     'view/adminhtml/variables.js',
 
     // Layouts
-    'layout/ADMINHTML_CATALOG',
     'layout/adminhtml_cache',
-    'layout/adminhtml_catalog',
     'layout/adminhtml_cms',
     'layout/adminhtml_customer',
     'layout/adminhtml_dashboard',
@@ -128,7 +122,6 @@ return array(
     'layout/adminhtml_system',
     'layout/adminhtml_tax',
     'layout/adminhtml_urlrewrite',
-    'layout/catalog_product',
     'layout/default',
     'layout/editor',
     'layout/empty',
