@@ -31,14 +31,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_frontNameResolverMock;
+    protected $_frontResolverMock;
 
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false);
         $this->_primaryConfigMock =
             $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false, false);
-        $this->_frontNameResolverMock
+        $this->_frontResolverMock
             = $this->getMock('\Magento\Backend\App\Area\FrontNameResolver', array(), array(), '', false);
         $this->_helper = new \Magento\Backend\Helper\Data(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
@@ -48,20 +48,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
             $this->getMock('\Magento\Backend\Model\UrlProxy', array(), array(), '', false),
             $this->getMock('\Magento\Backend\Model\AuthProxy', array(), array(), '', false),
-            $this->_frontNameResolverMock
+            $this->_frontResolverMock
         );
     }
 
     public function testGetAreaFrontNameLocalConfigCustomFrontName()
     {
-        $this->_frontNameResolverMock->expects($this->once())->method('getFrontName')->will($this->returnValue('custom_backend'));
+        $this->_frontResolverMock->expects($this->once())
+            ->method('getFrontName')
+            ->will($this->returnValue('custom_backend'));
 
         $this->assertEquals('custom_backend', $this->_helper->getAreaFrontName());
     }
 
     public function testClearAreaFrontName()
     {
-        $this->_frontNameResolverMock
+        $this->_frontResolverMock
             ->expects($this->at(0))->method('getFrontName')->will($this->returnValue('custom_backend'));
         $this->_helper->getAreaFrontName();
         $this->_helper->clearAreaFrontName();
