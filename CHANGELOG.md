@@ -13,6 +13,7 @@
   * Unable to place order within PayPal Payments Advanced and Payflow link
   * Fatal error on placing order with Billing Agreement
   * Unable to create a new widget instance
+  * Error on Customers Segments Conditions tab while choose 'Number of Orders' condition
   * Blank page when placing order via Ogone
   * Impossible to create product if multiple attribute assigned to attribute set
   * Removed JavaScript unit test TreeSuggestTest.prototype.testBind as it is obsolete
