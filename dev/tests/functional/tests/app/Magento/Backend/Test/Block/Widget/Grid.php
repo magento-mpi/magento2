@@ -105,6 +105,7 @@ abstract class Grid extends Block
         $this->resetFilter();
         $this->_prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
+        sleep(2); // @TODO This sleep should be resolved in MAGETWO-16069
         $this->waitForElementNotVisible($this->loadingMask);
     }
 
@@ -154,5 +155,23 @@ abstract class Grid extends Block
     public function deleteAll()
     {
         //
+    }
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @return bool
+     */
+    public function isRowVisible(array $filter)
+    {
+        $this->search($filter);
+        $location = '//div[@class="grid"]//tr[';
+        $rows = array();
+        foreach ($filter as $value) {
+            $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
+        }
+        $location = $location . implode(' and ', $rows) . ']';
+        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

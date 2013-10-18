@@ -11,17 +11,13 @@
  */
 namespace Mtf\Util\Protocol;
 
+use Mtf\Util\Protocol\CurlInterface;
+
 /**
  * HTTP CURL Adapter
  */
-class CurlTransport
+class CurlTransport implements CurlInterface
 {
-    /**
-     * HTTP request methods
-     */
-    const GET = 'GET';
-    const POST = 'POST';
-
     /**
      * Parameters array
      *
@@ -57,7 +53,7 @@ class CurlTransport
     protected $_options = array();
 
     /**
-     * Apply current configuration array to transport resource
+     * Apply current configuration array to curl resource
      *
      * @return $this
      */
@@ -125,38 +121,30 @@ class CurlTransport
     /**
      * Send request to the remote server
      *
-     * @param string $method
-     * @param string $url
+     * @param $method
+     * @param $url
      * @param string $http_ver
      * @param array $headers
-     * @param string $body
-     * @return string Request as text
+     * @param array $params
      */
-    public function write($method, $url, $http_ver = '1.1', $headers = array(), $body = '')
+    public function write($method, $url, $http_ver = '1.1', $headers = array(), $params = array())
     {
         $this->_applyConfig();
+        $options = array(
+            CURLOPT_URL                 => $url,
+            CURLOPT_RETURNTRANSFER      => true,
+            CURLOPT_FOLLOWLOCATION      => true,
+            CURLOPT_HTTPHEADER          => $headers,
+            CURLOPT_COOKIEFILE          => ''
+        );
 
-        // set url to post to
-        curl_setopt($this->_getResource(), CURLOPT_URL, $url);
-        curl_setopt($this->_getResource(), CURLOPT_RETURNTRANSFER, true);
-        if ($method == self::POST) {
-            curl_setopt($this->_getResource(), CURLOPT_POST, true);
-            curl_setopt($this->_getResource(), CURLOPT_POSTFIELDS, $body);
-        } elseif ($method == self::GET) {
-            curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
+        if ($method == CurlInterface::POST) {
+            $options[CURLOPT_POST]          = true;
+            $options[CURLOPT_POSTFIELDS]    = $params;
+        } elseif ($method == CurlInterface::GET) {
+            $options[CURLOPT_HTTPGET]       = true;
         }
-
-        if (is_array($headers)) {
-            curl_setopt($this->_getResource(), CURLOPT_HTTPHEADER, $headers);
-        }
-
-        /**
-         * @internal Curl options setter have to be re-factored
-         */
-        $header = isset($this->_config['header']) ? $this->_config['header'] : true;
-        curl_setopt($this->_getResource(), CURLOPT_HEADER, $header);
-
-        return $body;
+        curl_setopt_array($this->_getResource(), $options);
     }
 
     /**
@@ -167,26 +155,16 @@ class CurlTransport
     public function read()
     {
         $response = curl_exec($this->_getResource());
-
-        // Remove 100 and 101 responses headers
-        if ($this->extractCode($response) == 100 || $this->extractCode($response) == 101) {
-            $response = preg_split('/^\r?$/m', $response, 2);
-            $response = trim($response[1]);
-        }
-
         return $response;
     }
 
     /**
      * Close the connection to the server
-     *
-     * @return $this
      */
     public function close()
     {
         curl_close($this->_getResource());
         $this->_resource = null;
-        return $this;
     }
 
     /**

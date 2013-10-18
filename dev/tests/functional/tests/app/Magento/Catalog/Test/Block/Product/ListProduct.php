@@ -35,7 +35,7 @@ class ListProduct extends Block
      */
     protected function _init()
     {
-        $this->productTitle = '.product-name';
+        $this->productTitle = '.product.name';
     }
 
     /**
@@ -49,5 +49,17 @@ class ListProduct extends Block
         return $this->_rootElement->find($this->productTitle, Locator::SELECTOR_CSS)
             ->find('//*[@title="' . $productName .'"]', Locator::SELECTOR_XPATH)
             ->isVisible();
+    }
+
+    /**
+     * Open product view page by clicking on product name
+     *
+     * @param string $productName
+     */
+    public function openProductViewPage($productName)
+    {
+        $this->_rootElement->find($this->productTitle, Locator::SELECTOR_CSS)
+            ->find('//*[@title="' . $productName .'"]', Locator::SELECTOR_XPATH)
+            ->click();
     }
 }

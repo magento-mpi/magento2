@@ -13,7 +13,6 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Util\FixtureIterator;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
@@ -34,12 +33,10 @@ class CreateTest extends Functional
 
     /**
      * Test product create
-     *
-     * @param Product $product
-     * @dataProvider dataProviderTestCreateProduct
      */
-    public function testCreateProduct(Product $product)
+    public function testCreateProduct()
     {
+        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple_with_category');
         //Data
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $createProductPage->init($product);
@@ -50,13 +47,41 @@ class CreateTest extends Functional
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->assertProductSaveResult($product);
+        $this->assertOnGrid($product);
+        $this->assertOnCategory($product);
     }
 
     /**
-     * @return Product
+     * Assert existing product on admin product grid
+     *
+     * @param Product $product
      */
-    public function dataProviderTestCreateProduct()
+    protected function assertOnGrid($product)
     {
-        return new FixtureIterator(Factory::getFixtureFactory()->getMagentoCatalogProduct());
+        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage->open();
+        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
+        $gridBlock = $productGridPage->getProductGrid();
+        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+    }
+
+    /**
+     * @param Product $product
+     */
+    protected function assertOnCategory($product)
+    {
+        //Pages
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $categoryPage->openCategory($product->getCategoryName());
+        //Verification on category product list
+        $productListBlock = $categoryPage->getListProductBlock();
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $productListBlock->openProductViewPage($product->getProductName());
+        //Verification on product detail page
+        $productViewBlock = $productPage->getViewBlock();
+        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

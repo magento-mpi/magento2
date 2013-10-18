@@ -8,17 +8,12 @@
  * @license     {license_link}
  */
 
-
-/**
- * Model for synchronization from DB to filesystem
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\Resource\File\Storage;
 
-class File extends \Magento\Core\Model\Resource\AbstractResource
+/**
+ * Class File
+ */
+class File
 {
     /**
      * Prefix of model events names
@@ -183,30 +178,6 @@ class File extends \Magento\Core\Model\Resource\AbstractResource
             throw new \Magento\Core\Exception(__('Unable to save file: %1', $filePath));
         }
 
-        return false;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function _construct()
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function _getReadAdapter()
-    {
-        return false;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function _getWriteAdapter()
-    {
         return false;
     }
 
