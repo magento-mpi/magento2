@@ -40,8 +40,8 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         $this->_objectManager->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap(array(
-                array('Magento\TestFramework\Request', $request),
-                array('Magento\TestFramework\Response', $response),
+                array('Magento\App\RequestInterface', $request),
+                array('Magento\App\ResponseInterface', $response),
                 array('Magento\Core\Model\Session', $session),
             )));
     }
