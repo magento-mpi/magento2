@@ -51,11 +51,11 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     }
                 }
 
-        /** @var \Magento\View\Layout\Element $node */
-        $errors = array();
-        foreach ($handles as $node) {
-            $this->_collectHierarchyErrors($node, $xml, $errors);
-        }
+                /** @var \Magento\View\Layout\Element $node */
+                $errors = array();
+                foreach ($handles as $node) {
+                    $this->_collectHierarchyErrors($node, $xml, $errors);
+                }
 
                 if ($errors) {
                     $this->fail("There are errors while checking the page type and fragment types hierarchy at:\n"
