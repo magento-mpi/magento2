@@ -235,4 +235,5 @@ return array(
     array('CHARS_PASSWORD_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_UPPERS'),
     array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_DIGITS'),
     array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_SPECIALS'),
+    array('XML_NODE_REMOTE_ADDR_HEADERS', '\Magento\Core\Helper\Http'),
 );

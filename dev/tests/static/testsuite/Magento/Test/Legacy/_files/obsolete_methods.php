@@ -860,4 +860,11 @@ return array(
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
     array('getRandomString', '\Magento\Core\Helper\Data'),
+    array('getHttpHost', '\Magento\Core\Helper\Http'),
+    array('getHttpUserAgent', '\Magento\Core\Helper\Http'),
+    array('getHttpUserAcceptLanguage', '\Magento\Core\Helper\Http'),
+    array('getHttpUserAcceptCharset', '\Magento\Core\Helper\Http'),
+    array('getHttpUserAcceptReferer', '\Magento\Core\Helper\Http'),
+    array('getHttpUserRemoteAddr', '\Magento\Core\Helper\Http'),
+    array('getHttpUserServerAddr', '\Magento\Core\Helper\Http'),
 );
