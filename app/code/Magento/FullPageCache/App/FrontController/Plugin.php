@@ -29,10 +29,10 @@ class Plugin
     public function __construct(
         \Magento\App\ResponseFactory $responseFactory,
         \Magento\FullPageCache\Model\RequestProcessorFactory $factory,
-        array $requestProcessors
+        array $requestProcessors = array()
     ) {
         $this->_responseFactory = $responseFactory;
-        if ($requestProcessors) {
+        if (!empty($requestProcessors)) {
             usort($requestProcessors, array($this, '_cmp'));
 
             foreach($requestProcessors as $processorConfig) {
