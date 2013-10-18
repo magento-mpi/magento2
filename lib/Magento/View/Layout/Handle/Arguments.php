@@ -32,6 +32,13 @@ class Arguments implements Handle
         $this->argumentProcessor = $argumentProcessor;
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param Element $layoutElement
+     * @param Layout $layout
+     * @param array $parentNode
+     */
     public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
     {
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -45,6 +52,13 @@ class Arguments implements Handle
         $parentNode['arguments'] = $this->processArguments($arguments);
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param array $meta
+     * @param Layout $layout
+     * @param array $parentNode
+     */
     public function register(array & $meta, Layout $layout, array & $parentNode = null)
     {
         //

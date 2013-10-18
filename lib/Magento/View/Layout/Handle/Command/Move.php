@@ -27,7 +27,7 @@ class Move implements Command
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $node = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -45,7 +45,7 @@ class Move implements Command
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         $elementName = isset($meta['element']) ? $meta['element'] : null;
         if (isset($elementName)) {
@@ -53,9 +53,8 @@ class Move implements Command
             if (isset($element) && isset($element['parent']['name'])) {
                 $layout->unsetChild($element['parent']['name'], $elementName);
 
-                $destinationName = isset($meta['destination']) ? $meta['destination'] : null;
-                if (isset($destinationName)) {
-                    $destination = & $layout->getElement($destinationName);
+                if (isset($meta['destination'])) {
+                    $destination = & $layout->getElement($meta['destination']);
                     if ($destination) {
                         $alias = isset($meta['alias']) ? $meta['alias'] : null;
                         $before = isset($meta['before']) ? $meta['before'] : null;

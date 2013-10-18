@@ -8,7 +8,6 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
@@ -20,9 +19,8 @@ use Magento\View\Layout\HandleFactory;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\Processor;
 use Magento\View\Layout\Reader;
-use Magento\View\LayoutFactory;
 
-class Update implements Comman
+class Update implements Command
 {
     /**
      * Container type
@@ -40,26 +38,18 @@ class Update implements Comman
     protected $layoutReader;
 
     /**
-     * @var LayoutFactory
-     */
-    protected $layoutFactory;
-
-    /**
      * @param ProcessorFactory $processorFactory
      * @param HandleFactory $handleFactory
      * @param Reader $layoutReader
-     * @param LayoutFactory $layoutFactory
      */
     public function __construct(
         ProcessorFactory $processorFactory,
         HandleFactory $handleFactory,
-        Reader $layoutReader,
-        LayoutFactory $layoutFactory
+        Reader $layoutReader
     ) {
         $this->processorFactory = $processorFactory;
         $this->handleFactory = $handleFactory;
         $this->layoutReader = $layoutReader;
-        $this->layoutFactory = $layoutFactory;
     }
 
     /**
@@ -67,7 +57,7 @@ class Update implements Comman
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $node = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -97,7 +87,7 @@ class Update implements Comman
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         // TODO:
     }

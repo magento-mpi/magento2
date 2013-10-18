@@ -25,7 +25,7 @@ class Block extends OriginalBlock
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $name = $layoutElement->getAttribute('name');
         if (isset($name)) {

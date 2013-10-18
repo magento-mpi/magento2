@@ -121,6 +121,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         $this->blockFactory = $blockFactory;
         $this->processorFactory = $processorFactory;
         $this->layoutReader = $layoutReader;
+        $this->themeFactory = $themeFactory;
     }
 
     /**
@@ -145,7 +146,9 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     protected function getThemeInstance($area)
     {
-        if ($this->design->getDesignTheme()->getArea() == $area || $this->design->getArea() == $area) {
+        if ($this->design->getDesignTheme()->getArea() == $area
+            || $this->design->getArea() == $area
+        ) {
             return $this->design->getDesignTheme();
         }
 
@@ -192,6 +195,10 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         return $this;
     }
 
+    /**
+     * @param $name
+     * @param array $element
+     */
     public function addElement($name, array & $element)
     {
         if (isset($this->elements[$name])) {
@@ -508,7 +515,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
             'name' => $name,
             'type' => 'block',
             'class' => $type,
-            '_wrapped_' => $block
+            '_wrapped_' => $block,
         );
         $this->addElement($name, $element);
 
@@ -532,7 +539,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
                 'name' => $name,
                 'as' => $alias,
                 'type' => 'block',
-                '_wrapped_' => $block
+                '_wrapped_' => $block,
             );
             if ($name) {
                 $this->addElement($name, $element);
@@ -560,7 +567,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      * @param array $options
      * @param string $parentName
      * @param string $alias
-     * @return \Magento\View\Container\Container
+     * @return Layout
      * @todo DELETE (use viewFactory and addElement instead)
      */
     public function addContainer($name, $label, array $options = array(), $parentName = '', $alias = '')

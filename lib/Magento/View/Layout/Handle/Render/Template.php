@@ -63,7 +63,7 @@ class Template implements Render
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $name = $layoutElement->getAttribute('name');
         if (isset($name)) {
@@ -98,7 +98,7 @@ class Template implements Render
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         if (isset($meta['children'])) {
             foreach ($meta['children'] as & $child) {
@@ -117,14 +117,12 @@ class Template implements Render
      * @param $type
      * @return string
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = null, $type = Html::TYPE_HTML)
+    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
     {
         $render = $this->renderFactory->get($type);
 
-        $data = array();
-        if (isset($parentNode)) {
-            $data = isset($parentNode['_data_']) ? $parentNode['_data_'] : array();
-        }
+        $data = isset($parentNode['_data_']) ? $parentNode['_data_'] : array();
+
         if (isset($meta['_data_']) && is_array($meta['_data_'])) {
             $data = array_merge($data, $meta['_data_']);
         }

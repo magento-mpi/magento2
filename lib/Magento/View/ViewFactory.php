@@ -12,11 +12,7 @@ use Magento\ObjectManager;
 use Magento\View\Context;
 
 use Magento\View\Container as ContainerInterface;
-use Magento\View\Container\Page;
-use Magento\View\Container\Block;
-use Magento\View\Container\Data;
-use Magento\View\Container\Handle;
-use Magento\View\Container\Template;
+use Magento\View\Layout\Handle;
 
 class ViewFactory
 {
@@ -36,29 +32,12 @@ class ViewFactory
     /**
      * @param Context $context
      * @param array $meta
-     * @return Page
-     */
-    public function createPage(Context $context, array $meta = array())
-    {
-        $view = $this->objectManager->create(
-            'Magento\\View\\Container\\Page',
-            array(
-                'context' => $context,
-                'meta' => $meta,
-            )
-        );
-        return $view;
-    }
-
-    /**
-     * @param Context $context
-     * @param array $meta
-     * @return Block
+     * @return Handle\Render\Block
      */
     public function createBlock(Context $context, array $meta = array())
     {
         $view = $this->objectManager->create(
-            'Magento\\View\\Container\\Block',
+            'Magento\\View\\Layout\\Handle\\Render\\Block',
             array(
                 'context' => $context,
                 'meta' => $meta,
@@ -70,12 +49,12 @@ class ViewFactory
     /**
      * @param Context $context
      * @param array $meta
-     * @return Container
+     * @return Handle\Render\Container
      */
     public function createContainer(Context $context, array $meta = array())
     {
         $view = $this->objectManager->create(
-            'Magento\\View\\Container\\Container',
+            'Magento\\View\\Layout\\Handle\\Render\\Container',
             array(
                 'context' => $context,
                 'meta' => $meta,
@@ -87,12 +66,12 @@ class ViewFactory
     /**
      * @param Context $context
      * @param array $meta
-     * @return Data
+     * @return Handle\Data\Source
      */
     public function createDataProvider(Context $context, array $meta = array())
     {
         $view = $this->objectManager->create(
-            'Magento\\View\\Container\\Data',
+            'Magento\\View\\Layout\\Handle\\Data\\Source',
             array(
                 'context' => $context,
                 'meta' => $meta,
@@ -104,12 +83,12 @@ class ViewFactory
     /**
      * @param Context $context
      * @param array $meta
-     * @return Handle
+     * @return Handle\Render\Preset
      */
-    public function createHandle(Context $context, array $meta = array())
+    public function createPreset(Context $context, array $meta = array())
     {
         $handle = $this->objectManager->create(
-            'Magento\\View\\Container\\Handle',
+            'Magento\\View\\Layout\\Handle\\Render\\Preset',
             array(
                 'context' => $context,
                 'meta' => $meta,
@@ -121,12 +100,12 @@ class ViewFactory
     /**
      * @param Context $context
      * @param array $meta
-     * @return Template
+     * @return Handle\Render\Template
      */
     public function createTemplate(Context $context, array $meta = array())
     {
         $view = $this->objectManager->create(
-            'Magento\\View\\Container\\Template',
+            'Magento\\View\\Layout\\Handle\\Render\\Template',
             array(
                 'context' => $context,
                 'meta' => $meta,
@@ -139,11 +118,18 @@ class ViewFactory
      * @param string $type
      * @param array $arguments
      * @return ContainerInterface
+     * @throws \InvalidArgumentException
+     * @todo remove or update
      */
     public function create($type, array $arguments)
     {
         $className = 'Magento\\View\\Container\\' . ucfirst(str_replace('_', '\\', $type));
+        $model = $this->objectManager->create($className, $arguments);
 
-        return $this->objectManager->create($className, $arguments);
+        if (($model instanceof ContainerInterface) === false) {
+            throw new \InvalidArgumentException(sprintf('Type "%s" is not instance on Magento\View\Container', $type));
+        }
+
+        return $model;
     }
 }

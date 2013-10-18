@@ -20,12 +20,10 @@ class TemplateEngineFactory
      */
     protected $objectManager;
 
-    /**#@+
-     * Template engine types
+    /**
+     * Template engine type
      */
-    const ENGINE_TWIG = 'twig';
     const ENGINE_PHTML = 'phtml';
-    /**#@-*/
 
     /**
      * @param ObjectManager $objectManager
@@ -44,9 +42,7 @@ class TemplateEngineFactory
      */
     public function get($name)
     {
-        if (self::ENGINE_TWIG == $name) {
-            return $this->objectManager->get('Magento\\View\\TemplateEngine\\Twig');
-        } elseif (self::ENGINE_PHTML == $name) {
+        if (self::ENGINE_PHTML == $name) {
             return $this->objectManager->get('Magento\\View\\TemplateEngine\\Php');
         }
         // Unknown type, throw exception

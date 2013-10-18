@@ -12,5 +12,5 @@ use Magento\View\Layout\Handle;
 
 interface Data extends Handle
 {
-    //
+    // TODO:
 }

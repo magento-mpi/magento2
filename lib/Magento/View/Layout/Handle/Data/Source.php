@@ -51,7 +51,7 @@ class Source implements Data
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $node = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -92,7 +92,7 @@ class Source implements Data
      * @param array $parentNode
      * @throws \Exception
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         if (isset($meta['class'])) {
             if (!class_exists($meta['class'])) {

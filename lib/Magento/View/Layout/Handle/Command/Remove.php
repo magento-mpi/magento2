@@ -27,7 +27,7 @@ class Remove implements Command
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $node = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -45,7 +45,7 @@ class Remove implements Command
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         $elementName = isset($meta['element']) ? $meta['element'] : null;
         if (isset($elementName)) {
