@@ -77,22 +77,30 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_queryFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * Construct
-     * 
+     *
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory,
+        \Magento\Escaper $escaper
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_queryFactory = $queryFactory;
+        $this->_escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -168,7 +176,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getEscapedQueryText()
     {
-        return $this->escapeHtml($this->getQueryText());
+        return $this->_escaper->escapeHtml($this->getQueryText());
     }
 
     /**
@@ -317,7 +325,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $wordsFull = $stringHelper->splitWords($this->getQueryText(), true);
             $wordsLike = $stringHelper->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());
             if (count($wordsFull) > count($wordsLike)) {
-                $wordsCut = array_map(array($this, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
+                $wordsCut = array_map(array($this->_escaper, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
                 $this->addNoteMessage(
                     __('Sorry, but the maximum word count is %1. We left out this part of your search: %2.', $this->getMaxQueryWords(), join(' ', $wordsCut))
                 );
