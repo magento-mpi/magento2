@@ -33,7 +33,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param string $installDate
      * @param bool $dbCompatibleMode
@@ -48,7 +48,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         $installDate,
         $dbCompatibleMode = true
     ) {

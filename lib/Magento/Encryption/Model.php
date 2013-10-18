@@ -15,9 +15,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
+namespace Magento\Encryption;
 
-class Encryption implements \Magento\Core\Model\EncryptionInterface
+class Model implements EncryptionInterface
 {
     const PARAM_CRYPT_KEY = 'crypt.key';
 
@@ -27,16 +27,6 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
     protected $_crypt;
 
     /**
-     * @var string
-     */
-    protected $_helper;
-
-    /**
-     * @var \Magento\ObjectManager|null
-     */
-    protected $_objectManager = null;
-
-    /**
      * Cryptographic key
      *
      * @var string
@@ -44,37 +34,20 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
     protected $_cryptKey;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @var \Magento\CryptFactory
+     */
+    protected $_cryptFactory;
+
+    /**
+     * @param \Magento\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\CryptFactory $cryptFactory,
         $cryptKey
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_cryptFactory = $cryptFactory;
         $this->_cryptKey = $cryptKey;
-    }
-
-    /**
-     * Set helper instance
-     *
-     * @param \Magento\Core\Helper\Data|string $helper
-     * @return \Magento\Core\Model\Encryption
-     * @throws \InvalidArgumentException
-     */
-    public function setHelper($helper)
-    {
-        if (!is_string($helper)) {
-            if ($helper instanceof \Magento\Core\Helper\AbstractHelper) {
-                $helper = get_class($helper);
-            } else {
-                throw new \InvalidArgumentException(
-                    'Input parameter "$helper" must be either "string" or instance of "Magento\Core\Helper\AbstractHelper"'
-                );
-            }
-        }
-        $this->_helper = $helper;
-        return $this;
     }
 
     /**
@@ -92,7 +65,7 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
     public function getHash($password, $salt = false)
     {
         if (is_integer($salt)) {
-            $salt = $this->_objectManager->get($this->_helper)->getRandomString($salt);
+            $salt = $this->_getRandomString($salt);
         }
         return $salt === false ? $this->hash($password) : $this->hash($salt . $password) . ':' . $salt;
     }
@@ -136,15 +109,15 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
      */
     protected function _getCrypt($key = null)
     {
-        if (null !== $key) {
-            return $this->_objectManager->create('Magento\Crypt', array('key' => $key));
-        }
+        if ($key === null) {
+            if (!$this->_crypt) {
+                $this->_crypt = $this->_cryptFactory->create(array('key' => $this->_cryptKey));
+            }
 
-        if (!$this->_crypt) {
-            $this->_crypt = $this->_objectManager->create('Magento\Crypt', array('key' => $this->_cryptKey));
+            return $this->_crypt;
+        } else {
+            return $this->_cryptFactory->create(array('key' => $key));
         }
-        
-        return $this->_crypt;
     }
 
     /**
@@ -178,5 +151,27 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
     public function validateKey($key)
     {
         return $this->_getCrypt($key);
+    }
+
+    /**
+     * Get random string composed of chars given
+     *
+     * TODO: Replace this function with lib/Math/Random invocation when it's ready
+     *
+     * @param int $length
+     * @param null $chars
+     * @return string
+     */
+    protected function _getRandomString($length, $chars = null)
+    {
+        if (is_null($chars)) {
+            $chars = \Magento\Core\Helper\Data::CHARS_LOWERS . \Magento\Core\Helper\Data::CHARS_UPPERS
+                . \Magento\Core\Helper\Data::CHARS_DIGITS;
+        }
+        mt_srand(10000000*(double)microtime());
+        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $length; $i++) {
+            $str .= $chars[mt_rand(0, $lc)];
+        }
+        return $str;
     }
 }

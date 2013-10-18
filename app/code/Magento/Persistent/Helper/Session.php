@@ -74,7 +74,7 @@ class Session extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -91,7 +91,7 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

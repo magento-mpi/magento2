@@ -42,11 +42,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheConfig;
 
     /**
-     * @var \Magento\Core\Model\EncryptionFactory
-     */
-    protected $_encryptorFactory;
-
-    /**
      * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
@@ -77,7 +72,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\ModuleManager $moduleManager
      * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
-     * @param \Magento\Core\Model\EncryptionFactory $encryptorFactory
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\App $app
@@ -91,7 +85,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\ModuleManager $moduleManager,
         \Magento\Core\Controller\Request\HttpProxy $httpRequest,
         \Magento\Core\Model\Cache\Config $cacheConfig,
-        \Magento\Core\Model\EncryptionFactory $encryptorFactory,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\App $app,
@@ -103,7 +96,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
-        $this->_encryptorFactory = $encryptorFactory;
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
@@ -159,14 +151,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getCacheConfig()
     {
         return $this->_cacheConfig;
-    }
-
-    /**
-     * @return \Magento\Core\Model\EncryptionFactory
-     */
-    public function getEncryptorFactory()
-    {
-        return $this->_encryptorFactory;
     }
 
     /**

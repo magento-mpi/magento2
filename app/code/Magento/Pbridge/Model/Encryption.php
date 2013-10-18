@@ -16,16 +16,16 @@ class Encryption extends \Magento\Pci\Model\Encryption
     /**
      * Constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\CryptFactory $cryptFactory
      * @param string $cryptKey
      * @param $key
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\CryptFactory $cryptFactory,
         $cryptKey,
         $key
     ) {
-        parent::__construct($objectManager, $cryptKey);
+        parent::__construct($cryptFactory, $cryptKey);
         $this->_keys = array($key);
         $this->_keyVersion = 0;
     }

@@ -5,19 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\Encryption;
 
 interface EncryptionInterface
 {
-    /**
-     * Set helper instance
-     *
-     * @param \Magento\Core\Helper\Data|string $helper
-     * @return \Magento\Core\Model\Encryption
-     * @throws \InvalidArgumentException
-     */
-    public function setHelper($helper);
-
     /**
      * Generate a [salted] hash.
      *

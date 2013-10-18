@@ -31,7 +31,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_encryptorMock = $this->getMockBuilder('Magento\Core\Model\Encryption')
+        $this->_encryptorMock = $this->getMockBuilder('Magento\Encryption\Model')
             ->disableOriginalConstructor()
             ->getMock();
 

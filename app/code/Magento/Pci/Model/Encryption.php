@@ -15,7 +15,7 @@
  */
 namespace Magento\Pci\Model;
 
-class Encryption extends \Magento\Core\Model\Encryption
+class Encryption extends \Magento\Encryption\Model
 {
     const HASH_VERSION_MD5    = 0;
     const HASH_VERSION_SHA256 = 1;
@@ -33,15 +33,15 @@ class Encryption extends \Magento\Core\Model\Encryption
     protected $_keys = array();
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\CryptFactory $cryptFactory,
         $cryptKey
     ) {
         parent::__construct(
-            $objectManager,
+            $cryptFactory,
             $cryptKey
         );
         // load all possible keys

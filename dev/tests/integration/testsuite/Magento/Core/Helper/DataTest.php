@@ -43,7 +43,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEncryptor()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Encryption', $this->_helper->getEncryptor());
+        $this->assertInstanceOf('Magento\Encryption\Model', $this->_helper->getEncryptor());
     }
 
     public function testCurrency()
