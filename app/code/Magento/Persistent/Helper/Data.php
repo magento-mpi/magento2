@@ -44,16 +44,16 @@ class Data extends \Magento\Core\Helper\Data
     protected $_checkoutData;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * Core url
      *
      * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl;
-
-    /**
-     * @var \Magento\Escaper
-     */
-    protected $_escaper;
 
     /**
      * @param \Magento\Core\Helper\Context $context

@@ -96,10 +96,10 @@ class Message extends \Magento\Core\Helper\Data
         $dbCompatibleMode = true
     )
     {
+        $this->_escaper = $escaper;
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
-        $this->_escaper = $escaper;
         parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );

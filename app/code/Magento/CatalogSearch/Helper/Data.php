@@ -315,15 +315,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $this->addNoteMessage(__('Your search query can\'t be longer than %1, so we had to shorten your query.', $this->getMaxQueryLength()));
         }
 
-        /* @var $stringHelper \Magento\Core\Helper\String */
-        $stringHelper = $this->_coreString;
-
         $searchType = $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
         if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
         ) {
-            $wordsFull = $stringHelper->splitWords($this->getQueryText(), true);
-            $wordsLike = $stringHelper->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());
+            $wordsFull = $this->_coreString->splitWords($this->getQueryText(), true);
+            $wordsLike = $this->_coreString->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());
             if (count($wordsFull) > count($wordsLike)) {
                 $wordsCut = array_map(array($this->_escaper, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
                 $this->addNoteMessage(
