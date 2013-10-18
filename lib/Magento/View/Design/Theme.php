@@ -50,6 +50,8 @@ interface Theme extends ThemeInterface
     public function getCode();
 
     /**
+     * @inheritdoc
+     *
      * @return mixed
      */
     public function isPhysical();

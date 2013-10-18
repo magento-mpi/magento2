@@ -60,9 +60,9 @@ class Block implements Render
      * @param Element $layoutElement
      * @param Layout $layout
      * @param array $parentNode
-     * @return $this
+     * @return Render
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $name = $layoutElement->getAttribute('name');
         if (isset($name)) {
@@ -102,7 +102,7 @@ class Block implements Render
      * @param array $parentNode
      * @throws \Exception
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         if (!class_exists($meta['class'])) {
             throw new \Exception(__('Invalid block class name: ' . $meta['class']));
@@ -140,7 +140,7 @@ class Block implements Render
      * @param $type
      * @return mixed
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = null, $type = Html::TYPE_HTML)
+    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
     {
         return $meta['_wrapped_']->toHtml();
     }

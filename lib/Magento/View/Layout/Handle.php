@@ -14,7 +14,17 @@ use Magento\View\Layout\Element;
 
 interface Handle
 {
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null);
+    /**
+     * @param Element $layoutElement
+     * @param Layout $layout
+     * @param array $parentNode
+     */
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array());
 
-    public function register(array & $meta, Layout $layout, array & $parentNode = null);
+    /**
+     * @param array $meta
+     * @param Layout $layout
+     * @param array $parentNode
+     */
+    public function register(array & $meta, Layout $layout, array & $parentNode = array());
 }

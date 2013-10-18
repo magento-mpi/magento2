@@ -27,14 +27,19 @@ class RenderFactory
     }
 
     /**
-     * @param string $type
-     * @param array $arguments [optional]
-     * @return Render
+     * @param $type
+     * @return mixed
+     * @throws \InvalidArgumentException
      */
-    public function get($type, array $arguments = array())
+    public function get($type)
     {
         $className = 'Magento\\View\\Render\\' . ucfirst($type);
+        $model = $this->objectManager->get($className);
 
-        return $this->objectManager->get($className, $arguments);
+        if (($model instanceof Render) === false) {
+            throw new \InvalidArgumentException(sprintf('Type "%s" is not instance on Magento\View\Render', $type));
+        }
+
+        return $model;
     }
 }

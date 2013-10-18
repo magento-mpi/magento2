@@ -387,8 +387,6 @@ class Context
     /**
      * Retrieve a member of the $_POST superglobal
      *
-     * If no $key is passed, returns the entire $_POST array.
-     *
      * @param string $key
      * @param mixed $default Default value to use if key not found
      * @return mixed Returns null if key does not exist
@@ -400,8 +398,6 @@ class Context
 
     /**
      * Retrieve a member of the $_POST superglobal
-     *
-     * If no $key is passed, returns the entire $_POST array.
      *
      * @param string $key
      * @param mixed $default Default value to use if key not found
@@ -415,12 +411,6 @@ class Context
     /**
      * Retrieve a parameter
      *
-     * Retrieves a parameter from the instance. Priority is in the order of
-     * userland parameters (see {@link setParam()}), $_GET, $_POST. If a
-     * parameter matching the $key is not found, null is returned.
-     *
-     * If the $key is an alias, the actual key aliased will be used.
-     *
      * @param mixed $key
      * @param mixed $default Default value to use if key not found
      * @return mixed
@@ -433,10 +423,6 @@ class Context
     /**
      * Retrieve an array of parameters
      *
-     * Retrieves a merged array of parameters, with precedence of userland
-     * params (see {@link setParam()}), $_GET, $_POST (i.e., values in the
-     * userland params will take precedence over all others).
-     *
      * @return array
      */
     public function getParams()
@@ -446,10 +432,6 @@ class Context
 
     /**
      * Return the value of the given HTTP header.
-     *
-     * Pass the header name as the plain, HTTP-specified header name. Ex.:
-     * Ask for 'Accept' to get the Accept header,
-     * 'Accept-Encoding' to get the Accept-Encoding header.
      *
      * @param $header
      * @return string|false HTTP header value, or false if not found

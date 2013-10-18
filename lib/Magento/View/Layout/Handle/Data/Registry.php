@@ -24,6 +24,9 @@ class Registry
      */
     protected $blockFactory;
 
+    /**
+     * @var array
+     */
     protected $dataSources = array();
 
     /**
@@ -34,6 +37,12 @@ class Registry
         $this->blockFactory = $blockFactory;
     }
 
+    /**
+     * @param string $name
+     * @param string $class
+     * @return \Magento\Core\Block\AbstractBlock
+     * @throws \Exception
+     */
     public function get($name, $class)
     {
         if (!isset($this->dataSources[$name])) {

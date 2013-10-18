@@ -26,7 +26,7 @@ class Action implements Command
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $node = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -52,7 +52,7 @@ class Action implements Command
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         $method = isset($meta['method']) ? $meta['method'] : null;
         if (isset($method) && isset($meta['parent']['_wrapped_'])) {

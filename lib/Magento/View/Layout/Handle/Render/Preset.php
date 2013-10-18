@@ -65,8 +65,7 @@ class Preset implements Render
         RenderFactory $renderFactory,
         Reader $layoutReader,
         LayoutFactory $layoutFactory
-    )
-    {
+    ) {
         $this->processorFactory = $processorFactory;
         $this->handleFactory = $handleFactory;
         $this->renderFactory = $renderFactory;
@@ -74,7 +73,13 @@ class Preset implements Render
         $this->layoutFactory = $layoutFactory;
     }
 
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    /**
+     * @param Element $layoutElement
+     * @param Layout $layout
+     * @param array $parentNode
+     * @return array|void
+     */
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $name = $layoutElement->getAttribute('name');
         if (isset($name)) {
@@ -123,7 +128,12 @@ class Preset implements Render
 
     }
 
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    /**
+     * @param array $meta
+     * @param Layout $layout
+     * @param array $parentNode
+     */
+    public function register(array & $meta, Layout $layout, array & $parentNode = array())
     {
         if (isset($meta['children'])) {
             foreach ($meta['children'] as & $child) {
@@ -135,7 +145,14 @@ class Preset implements Render
         }
     }
 
-    public function render(array & $meta, Layout $layout, array & $parentNode = null, $type = Html::TYPE_HTML)
+    /**
+     * @param array $meta
+     * @param Layout $layout
+     * @param array $parentNode
+     * @param $type
+     * @return mixed
+     */
+    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
     {
         $result = '';
 

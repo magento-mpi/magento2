@@ -9,6 +9,7 @@
 namespace Magento\View;
 
 use Magento\View\Layout\Processor;
+use Magento\View\Layout\Handle;
 
 interface Layout
 {
@@ -57,6 +58,18 @@ interface Layout
      * @return string
      */
     public function getOutput();
+
+    /**
+     * @param string $name
+     * @param array $element
+     */
+    public function addElement($name, array & $element);
+
+    /**
+     * @param string $name
+     * @return Handle
+     */
+    public function & getElement($name);
 
     /**
      * Check if element exists in layout structure

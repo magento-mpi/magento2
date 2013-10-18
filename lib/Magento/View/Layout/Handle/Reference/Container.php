@@ -25,7 +25,7 @@ class Container extends OriginalContainer
      * @param Layout $layout
      * @param array $parentNode
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
         $name = $layoutElement->getAttribute('name');
         if (isset($name)) {
@@ -42,14 +42,12 @@ class Container extends OriginalContainer
                     foreach ($layoutElement as $childXml) {
                         /** @var $childXml Element */
                         $type = $childXml->getName();
-                        $name = $childXml->getAttribute('name');
                         /** @var $handle Handle */
                         $handle = $this->handleFactory->get($type);
                         $handle->parse($childXml, $layout, $originalBlock);
                     }
                 }
             }
-
         }
     }
 }
