@@ -56,11 +56,8 @@ class WsdlGenerationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         );
     }
 
-
-
     public function providerTestMultiServiceWsdl()
     {
-
         return array(
             array(
                 11,
@@ -125,6 +122,88 @@ class WsdlGenerationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $wsdlUrl = $this->_getBaseWsdlUrl() . '&invalid';
         $responseContent = $this->_getWsdlContent($wsdlUrl);
         $this->assertContains("Not allowed parameters", $responseContent);
+    }
+
+    public function testSoapFaultBinding()
+    {
+        $wsdlUrl = $this->_getBaseWsdlUrl() . '&services=testModule3ErrorV1';
+        $wsdlContent = $this->_convertXmlToString($this->_getWsdlContent($wsdlUrl));
+        // @codingStandardsIgnoreStart
+        $faultsInPortType = <<< FAULT_IN_PORT_TYPE
+<operation name="testModule3ErrorV1ParameterizedServiceException">
+    <input message="tns:testModule3ErrorV1ParameterizedServiceExceptionRequest"/>
+    <output message="tns:testModule3ErrorV1ParameterizedServiceExceptionResponse"/>
+    <fault name="testModule3ErrorV1ParameterizedServiceExceptionFirst" message="tns:testModule3ErrorV1ParameterizedServiceExceptionFirstFault"/>
+    <fault name="testModule3ErrorV1ParameterizedServiceExceptionSecond" message="tns:testModule3ErrorV1ParameterizedServiceExceptionSecondFault"/>
+</operation>
+FAULT_IN_PORT_TYPE;
+        $this->assertContains(
+            $this->_convertXmlToString($faultsInPortType),
+            $wsdlContent,
+            'SOAP Fault section in port type section is invalid'
+        );
+
+        $faultsInBinding = <<< FAULT_IN_BINDING
+<fault name="testModule3ErrorV1ParameterizedServiceExceptionFirst">
+    <soap:fault name="testModule3ErrorV1ParameterizedServiceExceptionFirst" use="literal"/>
+</fault>
+<fault name="testModule3ErrorV1ParameterizedServiceExceptionSecond">
+    <soap:fault name="testModule3ErrorV1ParameterizedServiceExceptionSecond" use="literal"/>
+</fault>
+FAULT_IN_BINDING;
+        $this->assertContains(
+            $this->_convertXmlToString($faultsInBinding),
+            $wsdlContent,
+            'SOAP Fault section in binding section is invalid'
+        );
+
+        $faultsInMessages = <<< FAULT_IN_MESSAGES
+<message name="testModule3ErrorV1ParameterizedServiceExceptionFirstFault">
+    <part name="messageParameters" element="tns:testModule3ErrorV1ParameterizedServiceExceptionFirstFault"/>
+</message>
+<message name="testModule3ErrorV1ParameterizedServiceExceptionSecondFault">
+    <part name="messageParameters" element="tns:testModule3ErrorV1ParameterizedServiceExceptionSecondFault"/>
+</message>
+FAULT_IN_MESSAGES;
+        $this->assertContains(
+            $this->_convertXmlToString($faultsInMessages),
+            $wsdlContent,
+            'SOAP Fault declaration in messages section is invalid'
+        );
+
+        $faultsInComplexTypes = <<< FAULT_IN_COMPLEX_TYPES
+<xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionFirstFault">
+    <xsd:sequence>
+        <xsd:element name="firstFaultMessage" type="xsd:string"/>
+        <xsd:element name="firstFaultDetail1" type="xsd:double"/>
+        <xsd:element name="firstFaultDetail2" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:element name="testModule3ErrorV1ParameterizedServiceExceptionSecondFault" type="tns:testModule3ErrorV1ParameterizedServiceExceptionSecondFault"/>
+<xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionSecondFault">
+    <xsd:sequence>
+        <xsd:element name="secondFaultMessage" type="xsd:string"/>
+        <xsd:element name="secondFaultDetail1" type="xsd:double"/>
+    </xsd:sequence>
+</xsd:complexType>
+FAULT_IN_COMPLEX_TYPES;
+        // @codingStandardsIgnoreEnd
+        $this->assertContains(
+            $this->_convertXmlToString($faultsInComplexTypes),
+            $wsdlContent,
+            'SOAP Fault complex types declaration is invalid'
+        );
+    }
+
+    /**
+     * Remove unnecessary spaces and line breaks from xml string.
+     *
+     * @param string $xml
+     * @return string
+     */
+    protected function _convertXmlToString($xml)
+    {
+        return str_replace(array('    ', "\n", "\r"), '', $xml);
     }
 
     /**
