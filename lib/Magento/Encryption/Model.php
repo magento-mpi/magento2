@@ -165,8 +165,8 @@ class Model implements EncryptionInterface
     protected function _getRandomString($length, $chars = null)
     {
         if (is_null($chars)) {
-            $chars = \Magento\Core\Helper\Data::CHARS_LOWERS . \Magento\Core\Helper\Data::CHARS_UPPERS
-                . \Magento\Core\Helper\Data::CHARS_DIGITS;
+            $chars = \Magento\Math\Random::CHARS_LOWERS . \Magento\Math\Random::CHARS_UPPERS
+                . \Magento\Math\Random::CHARS_DIGITS;
         }
         mt_srand(10000000*(double)microtime());
         for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $length; $i++) {

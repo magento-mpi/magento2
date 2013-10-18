@@ -105,12 +105,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Crypt', $this->_helper->validateKey($validKey));
     }
 
-    public function testGetRandomString()
-    {
-        $string = $this->_helper->getRandomString(10);
-        $this->assertEquals(10, strlen($string));
-    }
-
     public function testGetValidateHash()
     {
         $password = uniqid();

@@ -227,4 +227,12 @@ return array(
     array('XML_NODE_SESSION_SAVE_PATH', 'Magento\Core\Model\Session\AbstractSession',
         'Magento_Core_Model_Session_AbstractSession::PARAM_SESSION_SAVE_PATH'
     ),
+    array('CHARS_LOWERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_LOWERS'),
+    array('CHARS_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_UPPERS'),
+    array('CHARS_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_DIGITS'),
+    array('CHARS_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_SPECIALS'),
+    array('CHARS_PASSWORD_LOWERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_LOWERS'),
+    array('CHARS_PASSWORD_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_UPPERS'),
+    array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_DIGITS'),
+    array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_SPECIALS'),
 );

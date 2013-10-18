@@ -445,7 +445,7 @@ class Installer extends \Magento\Object
     public function getValidEncryptionKey($key = null)
     {
         if (!$key) {
-            $key = md5($this->_coreData->getRandomString(10));
+            $key = md5(\Magento\Math\Random::getRandomString(10));
         }
         $this->_coreData->validateKey($key);
         return $key;

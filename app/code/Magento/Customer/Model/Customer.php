@@ -491,7 +491,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function generatePassword($length = 6)
     {
-        return $this->_coreData->getRandomString($length);
+        return \Magento\Math\Random::getRandomString($length);
     }
 
     /**

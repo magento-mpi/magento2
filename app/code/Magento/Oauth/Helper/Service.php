@@ -37,28 +37,19 @@ class Service extends \Magento\Core\Helper\AbstractHelper
      */
     const CALLBACK_ESTABLISHED = 'oob';
 
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
     /** @var \Magento\Core\Model\Store\Config */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {
         parent::__construct($context);
-        $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
     }
 
@@ -77,9 +68,9 @@ class Service extends \Magento\Core\Helper\AbstractHelper
             $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
         } else {
             // fallback to mt_rand() if openssl is not installed
-            $randomString = $this->_coreData->getRandomString(
+            $randomString = \Magento\Math\Random::getRandomString(
                 $length,
-                \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS
+                \Magento\Math\Random::CHARS_DIGITS . \Magento\Math\Random::CHARS_LOWERS
             );
         }
 

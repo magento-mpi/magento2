@@ -23,15 +23,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
 
-    const CHARS_LOWERS                          = 'abcdefghijklmnopqrstuvwxyz';
-    const CHARS_UPPERS                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const CHARS_DIGITS                          = '0123456789';
-    const CHARS_SPECIALS                        = '!$*+-.=?@^_|~';
-    const CHARS_PASSWORD_LOWERS                 = 'abcdefghjkmnpqrstuvwxyz';
-    const CHARS_PASSWORD_UPPERS                 = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-    const CHARS_PASSWORD_DIGITS                 = '23456789';
-    const CHARS_PASSWORD_SPECIALS               = '!$*-.=?@_';
-
     /**
      * Config pathes to merchant country code and merchant VAT number
      */
@@ -339,18 +330,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function validateKey($key)
     {
         return $this->getEncryptor()->validateKey($key);
-    }
-
-    public function getRandomString($len, $chars = null)
-    {
-        if (is_null($chars)) {
-            $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
-        }
-        mt_srand(10000000*(double)microtime());
-        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $len; $i++) {
-            $str .= $chars[mt_rand(0, $lc)];
-        }
-        return $str;
     }
 
     /**
