@@ -33,7 +33,7 @@ class Category extends DataFixture
      */
     public function getCategoryName()
     {
-        return $this->_data['name']['value'];
+        return $this->_data['fields']['name']['value'];
     }
 
     /**
@@ -56,7 +56,11 @@ class Category extends DataFixture
         $this->_repository = array(
             'subcategory' => array(
                 'config' => array(
-                    'constraint' => 'Success'
+                    'constraint' => 'Success',
+                    'request_params' => array(
+                        'store' => '0',
+                        'parent' => '2'
+                    )
                 ),
                 'data' => array(
                     'fields' => array(

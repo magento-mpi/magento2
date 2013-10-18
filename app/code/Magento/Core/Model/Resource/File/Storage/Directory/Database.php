@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * \Directory storage database resource model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\Resource\File\Storage\Directory;
 
+/**
+ * Class Database
+ */
 class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
 {
     /**

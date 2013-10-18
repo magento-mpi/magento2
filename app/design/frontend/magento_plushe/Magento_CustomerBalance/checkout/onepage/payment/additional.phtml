@@ -1,0 +1,48 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this \Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional */
+?>
+<?php
+/**
+ * @see \Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional
+ */
+?>
+<?php if ($this->isDisplayContainer()): ?>
+<div class="checkout onepage payment additional customerbalance" id="customerbalance-placer">
+    <input type="hidden" name="payment[use_customer_balance]" value="0"/>
+    <div class="field choice payment">
+        <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1"
+               id="use-customer-balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
+
+        <?php $balance = $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
+        <label for="use-customer-balance" class="label">
+            <span>
+                <?php echo __('Use Store Credit'); ?>
+                (<span id="customerbalance-available-amount"><?php echo $balance; ?></span>
+                <?php echo __('available'); ?>)
+            </span>
+        </label>
+    </div>
+</div>
+<script type="text/javascript">
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
+            function() {
+                $('#use-customer-balance').checkoutBalance({
+                    balance: <?php echo (float)$this->getBalance(); ?>,
+                    amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                    usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>
+                });
+            });
+    })(jQuery);
+</script>
+<?php endif; ?>
+

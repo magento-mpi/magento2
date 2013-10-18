@@ -40,6 +40,15 @@ class CreateCategory extends Direct
         $data = $this->_convertData($dataSet);
         $category->isObjectNew(true);
         $category->setData($data);
+
+        if (isset($data['parent_id'])) {
+            $parentId = $data['parent_id'];
+        } else {
+            $parentId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
+        }
+        $parentCategory = $objectManager->create('Magento\Catalog\Model\Category')->load($parentId);
+        $category->setPath($parentCategory->getPath());
+
         $category->save();
 
         return $category->getId();
