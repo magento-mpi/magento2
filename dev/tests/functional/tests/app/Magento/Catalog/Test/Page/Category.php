@@ -13,7 +13,6 @@ namespace Magento\Catalog\Test\Page;
 
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
 use Mtf\Page\Page;
 
 /**
@@ -32,7 +31,7 @@ class Category extends Page
     /**
      * List of results of product search
      *
-     * @var ListProduct
+     * @var \Magento\Catalog\Test\Block\Product\ListProduct
      */
     private $listProductBlock;
 

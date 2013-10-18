@@ -58,6 +58,8 @@ class ProductForm extends FormTabs
 
     /**
      * Select category
+     *
+     * @param string $name
      */
     protected function fillCategory($name)
     {

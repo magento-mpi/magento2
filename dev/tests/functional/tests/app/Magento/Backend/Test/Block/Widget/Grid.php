@@ -167,6 +167,7 @@ abstract class Grid extends Block
     {
         $this->search($filter);
         $location = '//div[@class="grid"]//tr[';
+        $rows = array();
         foreach ($filter as $value) {
             $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
         }

@@ -12,7 +12,6 @@
 
 namespace Magento\Catalog\Test\Block\Backend;
 
-use Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid;
 

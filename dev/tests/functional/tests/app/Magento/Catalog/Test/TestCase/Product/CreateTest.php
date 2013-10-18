@@ -53,14 +53,6 @@ class CreateTest extends Functional
     }
 
     /**
-     * @return Product
-     */
-    public function dataProviderTestCreateProduct()
-    {
-        return new FixtureIterator(Factory::getFixtureFactory()->getMagentoCatalogProduct());
-    }
-
-    /**
      * Assert existing product on admin product grid
      *
      * @param Product $product
