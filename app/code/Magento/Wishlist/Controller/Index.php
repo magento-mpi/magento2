@@ -238,7 +238,7 @@ class Index
 
             /** @var $helper \Magento\Wishlist\Helper\Data */
             $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), $this->_objectManager->get('Magento\Escaper')->escapeUrl($referer));
+            $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()), $this->_objectManager->get('Magento\Escaper')->escapeUrl($referer));
             $session->addSuccess($message);
         }
         catch (\Magento\Core\Exception $e) {
