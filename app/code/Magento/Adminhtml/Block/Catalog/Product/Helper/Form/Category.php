@@ -20,7 +20,7 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
 class Category extends \Magento\Data\Form\Element\Multiselect
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

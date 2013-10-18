@@ -30,7 +30,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_weeeTax;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

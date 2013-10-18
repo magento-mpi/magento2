@@ -15,8 +15,8 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPagerHtml()
     {
-        /** @var $layout \Magento\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
         /** @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar */
         $block = $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
         /** @var $childBlock \Magento\Core\Block\Text */

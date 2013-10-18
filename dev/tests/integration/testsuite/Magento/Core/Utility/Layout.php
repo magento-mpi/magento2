@@ -47,7 +47,7 @@ class Layout
             ->will(\PHPUnit_Framework_TestCase::returnValue($files));
         $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
-            'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
+            'Magento\View\Layout\Processor', array('fileSource' => $fileSource, 'cache' => $cache)
         );
     }
 
@@ -78,13 +78,13 @@ class Layout
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
-            'mergeFactory'       => $objectManager->get('Magento\Core\Model\Layout\MergeFactory'),
+            'processorFactory'       => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
             'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),
-            'design'             => $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+            'design'             => $objectManager->get('Magento\View\Design'),
             'blockFactory'       => $objectManager->create('Magento\Core\Model\BlockFactory', array()),
             'structure'          => $objectManager->create('Magento\Data\Structure', array()),
             'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),

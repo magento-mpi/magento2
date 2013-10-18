@@ -22,7 +22,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

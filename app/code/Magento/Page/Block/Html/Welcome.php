@@ -20,7 +20,7 @@ namespace Magento\Page\Block\Html;
 class Welcome extends \Magento\Core\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

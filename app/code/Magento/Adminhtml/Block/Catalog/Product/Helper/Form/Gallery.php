@@ -26,7 +26,7 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

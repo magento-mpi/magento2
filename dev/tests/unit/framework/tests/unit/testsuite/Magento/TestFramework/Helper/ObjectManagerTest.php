@@ -20,11 +20,11 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_blockDependencies = array(
         'request'         => 'Magento\Core\Controller\Request\Http',
-        'layout'          => 'Magento\Core\Model\Layout',
+        'layout'          => 'Magento\View\Layout',
         'eventManager'    => 'Magento\Core\Model\Event\Manager',
         'translator'      => 'Magento\Core\Model\Translate',
         'cache'           => 'Magento\Core\Model\CacheInterface',
-        'design'          => 'Magento\Core\Model\View\DesignInterface',
+        'design'          => 'Magento\View\Design',
         'session'         => 'Magento\Core\Model\Session',
         'storeConfig'     => 'Magento\Core\Model\Store\Config',
         'frontController' => 'Magento\Core\Controller\Varien\Front'
@@ -56,8 +56,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         }
 
         $area = 'frontend';
-        /** @var $layoutMock \Magento\View\Layout */
-        $layoutMock = $this->getMock('Magento\Core\Model\Layout', array('getArea'), array(), '', false);
+        /** @var $layoutMock \Magento\Core\Model\Layout */
+        $layoutMock = $this->getMockBuilder('Magento\View\Layout')->getMockForAbstractClass();
         $layoutMock->expects($this->once())
             ->method('getArea')
             ->will($this->returnValue($area));

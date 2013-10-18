@@ -24,7 +24,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testSetFieldset()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+        $objectManager->get('Magento\View\Design')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $layout = $objectManager->create('Magento\Core\Model\Layout');

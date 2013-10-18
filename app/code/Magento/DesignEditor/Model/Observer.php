@@ -84,7 +84,7 @@ class Observer
     {
         /** @var $configuration \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration */
         $configuration = $event->getData('configuration');
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\Theme */
         $theme = $event->getData('theme');
         if ($configuration->getControlConfig() instanceof \Magento\DesignEditor\Model\Config\Control\QuickStyles) {
             /** @var $renderer \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer */

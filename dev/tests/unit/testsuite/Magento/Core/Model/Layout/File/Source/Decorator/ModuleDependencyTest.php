@@ -55,7 +55,7 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiles(array $fixtureFiles, array $expectedFiles, $message)
     {
-        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\View\Design\Theme');
         $this->_fileSource
             ->expects($this->once())
             ->method('getFiles')

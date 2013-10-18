@@ -13,7 +13,7 @@ class LayoutFunctions
 {
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     private $_layout;
 

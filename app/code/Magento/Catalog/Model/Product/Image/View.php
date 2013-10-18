@@ -73,18 +73,18 @@ class View extends \Magento\Object
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $_viewConfig;
 
     /**
      * @param \Magento\Catalog\Helper\Image $helperImage
-     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\View\Config $viewConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Image $helperImage,
-        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\View\Config $viewConfig,
         array $data = array()
     ) {
         $this->_helperImage = $helperImage;

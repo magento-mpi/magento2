@@ -106,7 +106,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @param $expected array
      * @dataProvider parseDataProvider
      */
@@ -142,7 +142,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento\Core\Model\Layout\Element'
+            'Magento\View\Layout\Element'
         );
 
         return array(
@@ -161,7 +161,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
                 $layout->xpath('//argument[@name="testArrayWithUpdater"]'),
                 array(
                     'type' => 'array',
-                    'updaters' => array('Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater'),
+                    'updaters' => array('Magento\Sales\Model\Order\Grid\Massaction\ItemsUpdater'),
                     'value' => array(
                         'add' => 'array',
                     ),

@@ -26,7 +26,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     /**
      * Design package instance
      *
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design = null;
 
@@ -41,7 +41,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      * Construct
      *
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -50,7 +50,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

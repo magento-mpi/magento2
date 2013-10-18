@@ -25,7 +25,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock('Magento\Catalog\Block\Product\NewProduct');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
@@ -51,7 +51,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(2, array_shift($keys));
 
         $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface')
+            ->get('Magento\View\Design')
             ->getDesignTheme();
 
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);
@@ -85,7 +85,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
         $this->_block->setProductsCount(5);
         $this->_block->setTemplate('product/widget/new/content/new_list.phtml');
         $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Layout'));
+            ->get('Magento\View\Layout'));
 
         $html = $this->_block->toHtml();
         $this->assertNotEmpty($html);

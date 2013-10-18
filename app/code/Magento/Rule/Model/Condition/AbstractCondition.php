@@ -56,7 +56,7 @@ abstract class AbstractCondition
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

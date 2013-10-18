@@ -8,15 +8,15 @@
 
 namespace Magento\View;
 
+use Magento\Backend\Block\Widget\Form\Element;
 use Magento\View\Layout\Processor;
-use Magento\View\Layout\Handle;
 
 interface Layout
 {
     /**
      * Retrieve the layout processor
      *
-     * @return Processor
+     * @return Layout\Processor
      */
     public function getUpdate();
 
@@ -24,14 +24,11 @@ interface Layout
      * Layout xml generation
      *
      * @return Layout
-     * @todo MERGE with generateElements()
      */
     public function generateXml();
 
     /**
      * Create structure of elements from the loaded XML configuration
-     *
-     * @todo MERGE with generateXml()
      */
     public function generateElements();
 
@@ -48,7 +45,7 @@ interface Layout
      * Add an element to output
      *
      * @param string $name
-     * @return \Magento\View\Layout
+     * @return Layout
      */
     public function addOutputElement($name);
 
@@ -60,24 +57,10 @@ interface Layout
     public function getOutput();
 
     /**
-     * @param $name
-     * @param array $element
-     * @return Layout
-     */
-    public function addElement($name, array & $element);
-
-    /**
-     * @param string $name
-     * @return array
-     */
-    public function & getElement($name);
-
-    /**
      * Check if element exists in layout structure
      *
      * @param string $name
      * @return bool
-     * @todo DELETE (only two-three calls from outside)
      */
     public function hasElement($name);
 
@@ -86,7 +69,6 @@ interface Layout
      *
      * @param string $name
      * @return Layout
-     * @todo DELETE (only two-three calls from outside)
      */
     public function unsetElement($name);
 
@@ -101,7 +83,7 @@ interface Layout
      * Get block object by name
      *
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return Element\Block|bool
      */
     public function getBlock($name);
 
@@ -206,20 +188,18 @@ interface Layout
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return \Magento\Core\Block\AbstractBlock
-     * @todo DELETE (use viewFactory)
+     * @return Element\Block
      */
     public function createBlock($type, $name = '', array $attributes = array());
 
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string|Element\Block $block
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock
-     * @todo DELETE (use viewFactory and addElement instead)
+     * @return Element\Block
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '');
 
@@ -231,7 +211,6 @@ interface Layout
      * @param array $options
      * @param string $parent
      * @param string $alias
-     * @todo DELETE (use viewFactory and addElement instead)
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '');
 
@@ -241,7 +220,6 @@ interface Layout
      * @param string $oldName
      * @param string $newName
      * @return bool
-     * @todo DELETE (used mostly in setNameInLayout)
      */
     public function renameElement($oldName, $newName);
 
@@ -250,7 +228,6 @@ interface Layout
      *
      * @param string $name
      * @return bool|string
-     * @todo DELETE
      */
     public function getElementAlias($name);
 
@@ -258,8 +235,7 @@ interface Layout
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\View\Layout
-     * @todo DELETE
+     * @return Layout
      */
     public function removeOutputElement($name);
 
@@ -267,7 +243,6 @@ interface Layout
      * Retrieve messages block
      *
      * @return \Magento\Core\Block\Messages
-     * @todo DELETE use whatever instead
      */
     public function getMessagesBlock();
 
@@ -275,9 +250,7 @@ interface Layout
      * Get block singleton
      *
      * @param string $type
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Helper\AbstractHelper
-     * @todo DELETE use object manager or view factory
+     * @return Element\Block
      */
     public function getBlockSingleton($type);
 
@@ -285,7 +258,6 @@ interface Layout
      * Retrieve block factory
      *
      * @return \Magento\Core\Model\BlockFactory
-     * @todo DELETE
      */
     public function getBlockFactory();
 
@@ -293,7 +265,6 @@ interface Layout
      * Retrieve layout area
      *
      * @return string
-     * @todo DELETE
      */
     public function getArea();
 
@@ -302,7 +273,6 @@ interface Layout
      *
      * @param $area
      * @return Layout
-     * @todo DELETE
      */
     public function setArea($area);
 
@@ -311,7 +281,6 @@ interface Layout
      *
      * @param   bool $flag
      * @return  Layout
-     * @todo DELETE
      */
     public function setDirectOutput($flag);
 
@@ -319,7 +288,6 @@ interface Layout
      * Retrieve direct output flag
      *
      * @return bool
-     * @todo DELETE
      */
     public function isDirectOutput();
 
@@ -329,7 +297,6 @@ interface Layout
      * @param string $name
      * @param string $attribute
      * @return mixed
-     * @todo DELETE
      */
     public function getElementProperty($name, $attribute);
 
@@ -338,7 +305,6 @@ interface Layout
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isBlock($name);
 
@@ -347,7 +313,6 @@ interface Layout
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isContainer($name);
 
@@ -356,7 +321,6 @@ interface Layout
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isManipulationAllowed($name);
 
@@ -364,9 +328,8 @@ interface Layout
      * Save block in blocks registry
      *
      * @param string $name
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param  Element\Block $block
      * @return Layout
-     * @todo DELETE
      */
     public function setBlock($name, $block);
 }

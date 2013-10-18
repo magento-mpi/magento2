@@ -1,7 +1,5 @@
 <?php
 /**
- * Minimal required interface a theme has to implement
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,10 +8,23 @@
 
 namespace Magento\View\Design;
 
-use Magento\Core\Model\ThemeInterface;
-
-interface Theme extends ThemeInterface
+/**
+ * Theme Interface
+ *
+ * @package Magento\View\Design
+ */
+interface Theme
 {
+    /**
+     * Separator between theme_path elements
+     */
+    const PATH_SEPARATOR = '/';
+
+    /**
+     * Separator between parts of full theme code (package and theme code)
+     */
+    const CODE_SEPARATOR = '/';
+
     /**
      * Retrieve code of an area a theme belongs to
      *
@@ -38,7 +49,7 @@ interface Theme extends ThemeInterface
     /**
      * Retrieve parent theme instance
      *
-     * @return \Magento\Core\Model\ThemeInterface|null
+     * @return Theme|null
      */
     public function getParentTheme();
 
@@ -50,9 +61,9 @@ interface Theme extends ThemeInterface
     public function getCode();
 
     /**
-     * @inheritdoc
+     * Check if theme is physical
      *
-     * @return mixed
+     * @return bool
      */
     public function isPhysical();
 }

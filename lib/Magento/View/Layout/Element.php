@@ -8,21 +8,58 @@
 
 namespace Magento\View\Layout;
 
-use Magento\View\Layout\Handle\Render\Block;
-use Magento\View\Layout\Handle\Reference\Block as ReferenceBlock;
-
 class Element extends \Magento\Simplexml\Element
 {
-    /**
-     * Retrive the name of block
-     *
-     * @return bool|string
+    /**#@+
+     * Supported layout directives
      */
+    const TYPE_BLOCK = 'block';
+    const TYPE_CONTAINER = 'container';
+    const TYPE_ACTION = 'action';
+    const TYPE_ARGUMENTS = 'arguments';
+    const TYPE_ARGUMENT = 'argument';
+    const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+    const TYPE_REFERENCE_CONTAINER = 'referenceContainer';
+    const TYPE_REMOVE = 'remove';
+    const TYPE_MOVE = 'move';
+    /**#@-*/
+
+    public function prepare()
+    {
+        switch ($this->getName()) {
+            case self::TYPE_BLOCK:
+                $this->prepareBlock();
+                break;
+
+            case self::TYPE_REFERENCE_BLOCK:
+            case self::TYPE_REFERENCE_CONTAINER:
+                $this->prepareReference();
+                break;
+
+            case self::TYPE_ACTION:
+                $this->prepareAction();
+                break;
+
+            case self::TYPE_ARGUMENT:
+                $this->prepareActionArgument();
+                break;
+
+            default:
+                break;
+        }
+        foreach ($this as $child) {
+            $child->prepare();
+        }
+        return $this;
+    }
+
     public function getBlockName()
     {
         $tagName = (string)$this->getName();
-        if (empty($this['name'])
-            || !in_array($tagName, array(Block::TYPE, ReferenceBlock::TYPE))) {
+        if (empty($this['name']) || !in_array($tagName, array(
+                self::TYPE_BLOCK,
+                self::TYPE_REFERENCE_BLOCK,
+        ))) {
             return false;
         }
         return (string)$this['name'];
@@ -37,7 +74,16 @@ class Element extends \Magento\Simplexml\Element
      */
     public function getElementName()
     {
-        return $this->getName();
+        $tagName = $this->getName();
+        if (!in_array($tagName, array(
+            self::TYPE_BLOCK,
+            self::TYPE_REFERENCE_BLOCK,
+            self::TYPE_CONTAINER,
+            self::TYPE_REFERENCE_CONTAINER
+        ))) {
+            return false;
+        }
+        return $this->getAttribute('name');
     }
 
     /**
@@ -53,34 +99,51 @@ class Element extends \Magento\Simplexml\Element
         } elseif ($this->getAttribute('after')) {
             $sibling = $this->getAttribute('after');
         }
+
         return $sibling;
     }
 
     /**
-     * @param array $args
-     * @return $this
+     * Add parent element name to parent attribute
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return Element
      */
-    public function prepareBlock($args)
+    public function prepareBlock()
     {
         $parent = $this->getParent();
         if (isset($parent['name']) && !isset($this['parent'])) {
             $this->addAttribute('parent', (string)$parent['name']);
         }
+
         return $this;
     }
 
     /**
-     * @param array $args
-     * @return $this
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return Element
      */
-    public function prepareAction($args)
+    public function prepareReference()
+    {
+        return $this;
+    }
+
+    /**
+     * Add parent element name to block attribute
+     *
+     * @return Element
+     */
+    public function prepareAction()
     {
         $parent = $this->getParent();
         $this->addAttribute('block', (string)$parent['name']);
+
+        return $this;
+    }
+
+    /**
+     * @return Element
+     */
+    public function prepareActionArgument()
+    {
         return $this;
     }
 }

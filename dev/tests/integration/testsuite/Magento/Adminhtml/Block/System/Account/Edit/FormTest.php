@@ -26,8 +26,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
-        /** @var $layout \Magento\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
 
         /** @var \Magento\Adminhtml\Block\System\Account\Edit\Form */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Account\Edit\Form');

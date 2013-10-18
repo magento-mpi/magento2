@@ -18,7 +18,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -43,7 +43,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cache;
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design;
 
@@ -75,7 +75,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $_viewConfig;
 
@@ -101,13 +101,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Controller\Varien\Front $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\View\Config $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\App $app
@@ -120,13 +120,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Controller\Varien\Front $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\View\Config $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\App $app,
@@ -159,7 +159,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\View\Design
      */
     public function getDesignPackage()
     {
@@ -191,7 +191,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function getLayout()
     {
@@ -247,7 +247,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\View\Config
+     * @return \Magento\View\Config
      */
     public function getViewConfig()
     {

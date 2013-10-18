@@ -24,7 +24,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForm()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+        $objectManager->get('Magento\View\Design')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $objectManager->get('Magento\Core\Model\Registry')

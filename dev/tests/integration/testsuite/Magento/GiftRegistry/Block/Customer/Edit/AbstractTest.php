@@ -27,7 +27,7 @@ class AbstractTest
         $this->getMockForAbstractClass(
             'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit', array(), self::STUB_CLASS, false
         );
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock(self::STUB_CLASS);
 
         $value = null;

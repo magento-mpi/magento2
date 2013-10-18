@@ -41,7 +41,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Design package instance
      *
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design;
 
@@ -91,7 +91,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Page\Helper\Layout $pageLayout
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\UrlInterface $url
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -103,7 +103,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         \Magento\Cms\Model\Page $page,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Page\Helper\Layout $pageLayout,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\UrlInterface $url,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

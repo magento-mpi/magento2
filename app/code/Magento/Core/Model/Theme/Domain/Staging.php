@@ -28,11 +28,11 @@ class Staging
     protected $_themeCopyService;
 
     /**
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
      */
     public function __construct(
-        \Magento\Core\Model\Theme $theme,
+        \Magento\View\Design\Theme $theme,
         \Magento\Core\Model\Theme\CopyService $themeCopyService
     ) {
         $this->_theme = $theme;

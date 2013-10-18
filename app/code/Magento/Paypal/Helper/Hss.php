@@ -30,7 +30,7 @@ class Hss extends \Magento\Core\Helper\AbstractHelper
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

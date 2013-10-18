@@ -63,7 +63,7 @@ class Image
      * @param \Magento\Core\Model\Theme\Image\Uploader $uploader
      * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
@@ -71,7 +71,7 @@ class Image
         \Magento\Core\Model\Theme\Image\Uploader $uploader,
         \Magento\Core\Model\Theme\Image\Path $themeImagePath,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Theme $theme = null
+        \Magento\View\Design\Theme $theme = null
     ) {
         $this->_filesystem = $filesystem;
         $this->_imageFactory = $imageFactory;

@@ -59,7 +59,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

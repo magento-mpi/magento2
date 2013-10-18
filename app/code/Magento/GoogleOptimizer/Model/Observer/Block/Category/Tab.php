@@ -17,7 +17,7 @@ class Tab
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -25,8 +25,10 @@ class Tab
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\View\Layout $layout
      */
-    public function __construct(\Magento\GoogleOptimizer\Helper\Data $helper, \Magento\View\Layout $layout)
-    {
+    public function __construct(
+        \Magento\GoogleOptimizer\Helper\Data $helper,
+        \Magento\View\Layout $layout
+    ) {
         $this->_helper = $helper;
         $this->_layout = $layout;
     }

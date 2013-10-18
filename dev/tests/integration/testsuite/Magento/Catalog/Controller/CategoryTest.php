@@ -83,7 +83,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
-        $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);

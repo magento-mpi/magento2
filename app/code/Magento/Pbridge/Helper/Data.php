@@ -101,7 +101,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Layout
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

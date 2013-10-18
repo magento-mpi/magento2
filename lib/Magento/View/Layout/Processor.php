@@ -126,12 +126,4 @@ interface Processor
      * @return array
      */
     public function getContainers();
-
-    /**
-     * Cleanup circular references
-     *
-     * Destructor should be called explicitly in order to work around the PHP bug
-     * https://bugs.php.net/bug.php?id=62468
-     */
-    public function __destruct();
 }

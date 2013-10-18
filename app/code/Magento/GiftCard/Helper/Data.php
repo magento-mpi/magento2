@@ -16,7 +16,7 @@ namespace Magento\GiftCard\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

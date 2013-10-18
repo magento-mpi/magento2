@@ -14,7 +14,7 @@ namespace Magento\Core\Model\View;
 class PublicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_model;
 
@@ -42,7 +42,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\Url');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+            ->get('Magento\View\Design');
     }
 
     protected function tearDown()
@@ -429,7 +429,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+            ->get('Magento\View\Design');
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -519,7 +519,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+            ->get('Magento\View\Design');
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -576,7 +576,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         // Reinit model with new directories
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+            ->get('Magento\View\Design');
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -627,7 +627,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
 
         $this->_model->setDesignTheme(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme'));
+            ->create('Magento\View\Design\Theme'));
     }
 
     /**

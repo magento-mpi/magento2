@@ -18,7 +18,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
 {
     public function testRenderAddress()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock('Magento\Paypal\Block\Express\Review');
         $addressData = include(__DIR__ . '/../../../Sales/_files/address_data.php');
         $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
