@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Fixture;
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-
+use Mtf\Client\Driver\Selenium\Browser;
 /**
  * Class Product
  *
@@ -25,8 +25,10 @@ class Product extends DataFixture
     /**
      * Attribute set for mapping data into ui tabs
      */
-    const GROUP_PRODUCT_DETAILS = 'product_info_tabs_product-details';
-    const GROUP_ADVANCED_SEO = 'product_info_tabs_search-optimization';
+    const GROUP_PRODUCT_DETAILS     = 'product_info_tabs_product-details';
+    const GROUP_ADVANCED_SEO        = 'product_info_tabs_search-optimization';
+    const GROUP_PRODUCT_WEBSITE     = 'product_info_tabs_websites';
+    const GROUP_PRODUCT_INVENTORY   = 'product_info_tabs_advanced-inventory';
 
     /**
      * Possible options used for visibility field
@@ -152,34 +154,66 @@ class Product extends DataFixture
                         'set'  => 4,
                     )
                 ),
-
                 'data' => array(
                     'fields' => array(
                         'name'   => array(
                             'value' => 'Simple Product %isolation%',
                             'group' => static::GROUP_PRODUCT_DETAILS,
+                            'curl'  => 'product[name]'
                         ),
                         'sku'    => array(
                             'value' => 'simple_sku_%isolation%',
-                            'group' => static::GROUP_PRODUCT_DETAILS
+                            'group' => static::GROUP_PRODUCT_DETAILS,
+                            'curl'  => 'product[sku]'
                         ),
                         'price'  => array(
-                            'value' => '10',
+                            'value' => 10,
                             'group' => static::GROUP_PRODUCT_DETAILS,
+                            'curl'  => 'product[price]'
                         ),
                         'tax_class_id' => array(
                             'value' => 'Taxable Goods',
                             'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select'
+                            'input' => 'select',
+                            'curl'  => 'product[tax_class_id]'
                         ),
                         'qty'    => array(
-                            'value' => '1000.00',
-                            'group' => static::GROUP_PRODUCT_DETAILS
+                            'value' => 1000,
+                            'group' => static::GROUP_PRODUCT_DETAILS,
+                            'curl'  => 'product[quantity_and_stock_status][qty]'
                         ),
                         'weight' => array(
                             'value' => '1',
                             'group' => static::GROUP_PRODUCT_DETAILS,
-                        )
+                            'curl'  => 'product[weight]'
+                        ),
+                        'meta_title' => array(
+                            'value' => 'Meta Title',
+                            'group' => static::GROUP_ADVANCED_SEO,
+                            'curl'  => 'product[meta_title]'
+                        ),
+                        'meta_keyword' => array(
+                            'value' => 'Meta Keyword',
+                            'group' => static::GROUP_ADVANCED_SEO,
+                            'curl'  => 'product[meta_keyword]'
+                        ),
+                        'meta_description' => array(
+                            'value' => 'Meta Description',
+                            'group' => static::GROUP_ADVANCED_SEO,
+                            'curl'  => 'product[meta_description]'
+                        ),
+                        'product_website_1' => array(
+                            'value' => 'Yes',
+                            'group' => static::GROUP_PRODUCT_WEBSITE,
+                            'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
+                            'curl'  => 'product[website_ids][]'
+                        ),
+                        'inventory_manage_stock' => array(
+                            'value' => 'No',
+                            'group' => static::GROUP_PRODUCT_INVENTORY,
+                            'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
+                            'curl'  => 'product[stock_data][manage_stock]'
+                        ),
                     )
                 )
             )
@@ -189,5 +223,38 @@ class Product extends DataFixture
 
         //Default data set
         $this->switchData('simple');
+    }
+
+    /**
+     * Get Url params
+     *
+     * @param string $urlKey
+     * @return string
+     */
+    public function getUrlParams($urlKey)
+    {
+        $params = array();
+        $config = $this->getDataConfig();
+        if (!empty($config[$urlKey]) && is_array($config[$urlKey])) {
+            foreach ($config[$urlKey] as $key => $value) {
+                $params[] = $key .'/' .$value;
+            }
+        }
+        return implode('/', $params);
+    }
+
+    /**
+     * Returns data for curl POST params
+     *
+     * @return array
+     */
+    public function getPostParams()
+    {
+        $fields = $this->getData('fields');
+        $params = array();
+        foreach ($fields as $fieldId => $fieldData) {
+            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
+        }
+        return $params;
     }
 }
