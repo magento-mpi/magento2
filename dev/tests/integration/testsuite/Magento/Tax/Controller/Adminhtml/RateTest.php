@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Tax;
+namespace Magento\Tax\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -23,7 +23,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_rate/ajaxSave');
+        $this->dispatch('backend/tax/rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
@@ -92,7 +92,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_rate/ajaxSave');
+        $this->dispatch('backend/tax/rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')

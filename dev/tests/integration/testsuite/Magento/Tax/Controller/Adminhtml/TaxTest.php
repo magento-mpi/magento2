@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Tax;
+namespace Magento\Tax\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -27,7 +27,7 @@ class TaxTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_tax/ajaxSave');
+        $this->dispatch('backend/tax/tax/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
