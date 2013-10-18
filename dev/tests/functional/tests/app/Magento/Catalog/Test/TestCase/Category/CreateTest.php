@@ -49,15 +49,15 @@ class CreateTest extends Functional
         $formBlock->save($category);
         //Verifying
         $messageBlock->waitForSuccessMessage($category);
-        $categoryId = $formBlock->getCategoryId();
 
-        $catalogCategoryFrontendPage = Factory::getPageFactory()->getCatalogCategoryView();
-//        $catalogCategoryFrontendPage->setCategoryUrlByName($category->getCategoryName());
-        $catalogCategoryFrontendPage->initUrl($categoryId);
-        $catalogCategoryFrontendPage->open();
-        $categoryTitleBlock = $catalogCategoryFrontendPage->getCategoryTitleBlock();
-        $categoryTitle = $categoryTitleBlock->getCategoryTitle();
+        //Open created category on frontend
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $frontendHomePage->open();
+        $navigationMenu = $frontendHomePage->getTopmenu();
+        $navigationMenu->selectCategoryByName($category->getCategoryName());
+        $pageTitleBlock = $frontendHomePage->getTitleBlock();
+        $categoryTitle = $pageTitleBlock->getTitle();
 
-        $this->assertEquals($categoryTitle, $category->getCategoryName());
+        $this->assertEquals($category->getCategoryName(), $categoryTitle);
     }
 }

@@ -10,24 +10,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block;
+namespace Magento\Core\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Category title block
  *
- * @package Magento\Catalog\Test\Block
+ * @package Magento\Core\Test\Block
  */
-class CategoryTitle extends Block
+class Title extends Block
 {
     /**
      * Get title of current category
      *
      * @return string
      */
-    public function getCategoryTitle()
+    public function getTitle()
     {
         if($this->_rootElement->isVisible()) {
             return $this->_rootElement->getText();
