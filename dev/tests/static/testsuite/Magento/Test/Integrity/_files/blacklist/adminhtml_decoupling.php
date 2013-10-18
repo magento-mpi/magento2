@@ -87,7 +87,6 @@ return array(
     'view/adminhtml/rating',
     'view/adminhtml/report',
     'view/adminhtml/review',
-    'view/adminhtml/sales',
     'view/adminhtml/store',
     'view/adminhtml/system',
     'view/adminhtml/tax',

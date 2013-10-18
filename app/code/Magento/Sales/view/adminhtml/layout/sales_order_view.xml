@@ -11,12 +11,12 @@
     <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-sales-order-create-giftmessage-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/giftmessage.js</argument>
+                <argument name="file" xsi:type="string">Magento_Sales::order/create/giftmessage.js</argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-sales-order-giftoptions-tooltip-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/giftoptions_tooltip.js</argument>
+                <argument name="file" xsi:type="string">Magento_Sales::order/giftoptions_tooltip.js</argument>
             </arguments>
         </block>
     </referenceBlock>
@@ -25,36 +25,36 @@
     </referenceContainer>
     <referenceContainer name="left">
         <block class="Magento\Sales\Block\Adminhtml\Order\View\Tabs" name="sales_order_tabs">
-            <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Info" name="order_tab_info" template="sales/order/view/tab/info.phtml">
+            <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Info" name="order_tab_info" template="order/view/tab/info.phtml">
                 <block class="Magento\Sales\Block\Adminhtml\Order\View\Messages" name="order_messages"/>
-                <block class="Magento\Sales\Block\Adminhtml\Order\View\Info" name="order_info" template="sales/order/view/info.phtml"/>
-                <block class="Magento\Sales\Block\Adminhtml\Order\View\Items" name="order_items" template="sales/order/view/items.phtml">
-                    <block class="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" as="default" template="sales/order/view/items/renderer/default.phtml"/>
+                <block class="Magento\Sales\Block\Adminhtml\Order\View\Info" name="order_info" template="order/view/info.phtml"/>
+                <block class="Magento\Sales\Block\Adminhtml\Order\View\Items" name="order_items" template="order/view/items.phtml">
+                    <block class="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" as="default" template="order/view/items/renderer/default.phtml"/>
                     <action method="addColumnRender">
                         <argument name="column" xsi:type="string">qty</argument>
                         <argument name="block" xsi:type="string">Magento\Sales\Block\Adminhtml\Items\Column\Qty</argument>
-                        <argument name="template" xsi:type="string">sales/items/column/qty.phtml</argument>
+                        <argument name="template" xsi:type="string">items/column/qty.phtml</argument>
                     </action>
                     <action method="addColumnRender">
                         <argument name="column" xsi:type="string">name</argument>
                         <argument name="block" xsi:type="string">Magento\Sales\Block\Adminhtml\Items\Column\Name</argument>
-                        <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
+                        <argument name="template" xsi:type="string">items/column/name.phtml</argument>
                     </action>
                     <action method="addColumnRender">
                         <argument name="column" xsi:type="string">name</argument>
                         <argument name="block" xsi:type="string">Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped</argument>
-                        <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
+                        <argument name="template" xsi:type="string">items/column/name.phtml</argument>
                         <argument name="type" xsi:type="string">grouped</argument>
                     </action>
                     <block class="Magento\Core\Block\Text\ListText" name="order_item_extra_info"/>
                 </block>
                 <block class="Magento\Sales\Block\Adminhtml\Order\Payment" name="order_payment"/>
-                <block class="Magento\Sales\Block\Adminhtml\Order\View\History" name="order_history" template="sales/order/view/history.phtml"/>
-                <block class="Magento\Adminhtml\Block\Template" name="gift_options" template="sales/order/giftoptions.phtml">
-                    <block class="Magento\Sales\Block\Adminhtml\Order\View\Giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"/>
+                <block class="Magento\Sales\Block\Adminhtml\Order\View\History" name="order_history" template="order/view/history.phtml"/>
+                <block class="Magento\Adminhtml\Block\Template" name="gift_options" template="order/giftoptions.phtml">
+                    <block class="Magento\Sales\Block\Adminhtml\Order\View\Giftmessage" name="order_giftmessage" template="order/view/giftmessage.phtml"/>
                 </block>
-                <block class="Magento\Sales\Block\Adminhtml\Order\Totals" name="order_totals" template="sales/order/totals.phtml">
-                    <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
+                <block class="Magento\Sales\Block\Adminhtml\Order\Totals" name="order_totals" template="order/totals.phtml">
+                    <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Tax" name="tax" template="order/totals/tax.phtml"/>
                 </block>
             </block>
             <action method="addTab">

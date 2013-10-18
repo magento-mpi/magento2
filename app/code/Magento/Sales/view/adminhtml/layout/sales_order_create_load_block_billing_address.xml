@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Billing\Address" template="sales/order/create/form/address.phtml" name="billing_address"/>
+        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Billing\Address" template="order/create/form/address.phtml" name="billing_address"/>
     </referenceContainer>
 </layout>

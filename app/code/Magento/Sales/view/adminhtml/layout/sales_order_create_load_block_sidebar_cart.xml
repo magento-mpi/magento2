@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Cart" template="sales/order/create/sidebar/items.phtml" name="sidebar_cart"/>
+        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Cart" template="order/create/sidebar/items.phtml" name="sidebar_cart"/>
     </referenceContainer>
 </layout>

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Reorder" template="sales/order/create/sidebar/items.phtml" name="sidebar_reorder"/>
+        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Reorder" template="order/create/sidebar/items.phtml" name="sidebar_reorder"/>
     </referenceContainer>
 </layout>
