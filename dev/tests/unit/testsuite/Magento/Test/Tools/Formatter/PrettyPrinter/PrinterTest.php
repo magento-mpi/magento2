@@ -22,6 +22,13 @@ class PrinterTest extends TestBase
         $this->assertEquals($formattedCode, $printer->getFormattedCode());
     }
 
+    /**
+     * Provide data to test method
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function dataProviderBasics()
     {
         return array(
@@ -150,6 +157,42 @@ class Foo
     {
         // Comment at start of block
         echo 'y';
+        echo 'z';
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
+        // Comment at start of block
+
+        // echo 'b';
+
+        echo 'y';
+
+        echo 'z';
+        // Comment at end of block
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function x()
+    {
+        // Comment at start of block
+
+        // echo 'b';
+
+        echo 'y';
+
         echo 'z';
     }
 }
