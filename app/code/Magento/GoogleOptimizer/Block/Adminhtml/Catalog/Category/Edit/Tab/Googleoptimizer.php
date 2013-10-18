@@ -10,7 +10,7 @@
 namespace Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab;
 
 class Googleoptimizer
-    extends \Magento\Catalog\Block\Adminhtml\Catalog\Form
+    extends \Magento\Catalog\Block\Adminhtml\Form
 {
     /**
      * @var \Magento\Core\Model\Registry

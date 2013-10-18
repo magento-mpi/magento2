@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Review\Product;
 
-class Grid extends \Magento\Catalog\Block\Adminhtml\Catalog\Product\Grid
+class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 {
     /**
      * @var \Magento\Core\Model\Resource\Website\CollectionFactory

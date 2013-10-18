@@ -83,7 +83,7 @@ class Set extends \Magento\Backend\Controller\Adminhtml\Action
             __('Manage Product Sets'));
 
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Set\Main')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
         );
 
         $this->renderLayout();
@@ -198,7 +198,7 @@ class Set extends \Magento\Backend\Controller\Adminhtml\Action
 
 
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Set\Toolbar\Add')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add')
         );
 
         $this->renderLayout();

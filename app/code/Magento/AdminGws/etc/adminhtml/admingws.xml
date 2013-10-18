@@ -238,16 +238,16 @@
     <group name="block_html_before">
         <callback class="magento_adminhtml_block_customer" method="widgetCustomerGridContainer" />
         <callback class="magento_adminhtml_block_system_store_store" method="widgetManageStores" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product" method="widgetProductGridContainer" />
+        <callback class="magento_catalog_block_adminhtml_product" method="widgetProductGridContainer" />
         <callback class="magento_catalogEvent_block_adminhtml_event" method="restrictCatalogEventEditForm" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product_attribute" method="removeCatalogProductAttributeAddButton" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product_attribute_edit" method="removeCatalogProductAttributeButtons" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product_attribute_edit_tab_main" method="disableCatalogProductAttributeEditTabMainFields" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product_attribute_edit_tab_options" method="disableCatalogProductAttributeEditTabOptionsFields" />
-        <callback class="magento_catalog_block_adminhtml_catalog_category_edit_form" method="widgetCatalogEventCategoryEditButtons" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute" method="removeCatalogProductAttributeAddButton" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute_edit" method="removeCatalogProductAttributeButtons" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute_edit_tab_main" method="disableCatalogProductAttributeEditTabMainFields" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute_edit_tab_options" method="disableCatalogProductAttributeEditTabOptionsFields" />
+        <callback class="magento_catalog_block_adminhtml_category_edit_form" method="widgetCatalogEventCategoryEditButtons" />
         <callback class="magento_adminhtml_block_newsletter_queue_edit_form" method="setIsRequiredSubscribersFromFieldForNewsletterQueueForm" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product_edit_action_attribute_tab_websites" method="catalogProductMassUpdateWebsites" />
-        <callback class="magento_catalog_block_adminhtml_catalog_product_grid" method="catalogProductPrepareMassaction" />
+        <callback class="magento_catalog_block_adminhtml_product_edit_action_attribute_tab_websites" method="catalogProductMassUpdateWebsites" />
+        <callback class="magento_catalog_block_adminhtml_product_grid" method="catalogProductPrepareMassaction" />
         <callback class="magento_adminhtml_block_cms_page_edit" method="removeCmsPageButtons" />
         <callback class="magento_adminhtml_block_cms_block_edit" method="removeCmsBlockButtons" />
         <callback class="magento_adminhtml_block_poll_edit" method="removePollButtons" />

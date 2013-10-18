@@ -12,7 +12,7 @@
 namespace Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit;
 
 class Buttons
-    extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCategory
+    extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
     /**
      * Factory for event collections

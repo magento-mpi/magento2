@@ -30,7 +30,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
         $productTypeId = $this->getRequest()->getParam('product_type_id', null);
 
         $productsGrid = $this->getLayout()->createBlock(
-            'Magento\Catalog\Block\Adminhtml\Catalog\Product\Widget\Chooser',
+            'Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser',
             '',
             array(
                 'data' => array(
@@ -46,7 +46,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!$this->getRequest()->getParam('products_grid')) {
             $categoriesTree = $this->getLayout()->createBlock(
-                'Magento\Catalog\Block\Adminhtml\Catalog\Category\Widget\Chooser',
+                'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser',
                 '',
                 array(
                     'data' => array(
@@ -57,7 +57,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
                 )
             );
 
-            $html = $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Widget\Chooser\Container')
+            $html = $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser\Container')
                 ->setTreeHtml($categoriesTree->toHtml())
                 ->setGridHtml($html)
                 ->toHtml();

@@ -81,7 +81,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute'))
             ->renderLayout();
     }
 

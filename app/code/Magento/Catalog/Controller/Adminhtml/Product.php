@@ -148,14 +148,14 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
      * @param string $inputName
      * @param \Magento\Adminhtml\Block\Widget\Grid $gridBlock
      * @param array $productsArray
-     * @return \Magento\Catalog\Block\Adminhtml\Catalog\Product\Edit\Tab\Ajax\Serializer
+     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer
      */
     protected function _createSerializerBlock(
         $inputName,
         \Magento\Adminhtml\Block\Widget\Grid $gridBlock,
         $productsArray
     ) {
-        return $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Edit\Tab\Ajax\Serializer')
+        return $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
             ->setGridBlock($gridBlock)
             ->setProducts($productsArray)
             ->setInputElementName($inputName);
@@ -306,7 +306,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
             ->getStore($storeId)->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
-            'Magento\Catalog\Block\Adminhtml\Catalog\Helper\Form\Wysiwyg\Content',
+            'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg\Content',
             '',
             array(
                 'data' => array(
@@ -341,7 +341,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Edit\Tab\\' . $blockClassSuffix)
+                ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\\' . $blockClassSuffix)
                 ->toHtml()
         );
     }
@@ -965,7 +965,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\NewAttribute\Product\Created')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
         );
         $this->renderLayout();
     }
@@ -974,7 +974,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $this->loadLayout('popup');
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Created')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
         );
         $this->renderLayout();
     }
@@ -1117,7 +1117,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
     public function suggestAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Search')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

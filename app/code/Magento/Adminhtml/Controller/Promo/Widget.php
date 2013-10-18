@@ -65,7 +65,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 
 
                 $block = $this->getLayout()->createBlock(
-                        'Magento\Catalog\Block\Adminhtml\Catalog\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
+                        'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
                         array('data' => array('js_form_object' => $request->getParam('form')))
                     )
                     ->setCategoryIds($ids)
@@ -100,7 +100,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Category\Tree')
+                $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
                     ->getTreeJson($category)
             );
         }

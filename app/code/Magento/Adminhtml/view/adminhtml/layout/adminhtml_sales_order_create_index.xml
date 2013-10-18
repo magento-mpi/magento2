@@ -101,6 +101,6 @@
         </block>
     </referenceBlock>
     <referenceContainer name="before_body_end">
-        <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Composite\Configure" template="Magento_Catalog::catalog/product/composite/configure.phtml"/>
+        <block class="Magento\Catalog\Block\Adminhtml\Product\Composite\Configure" template="Magento_Catalog::catalog/product/composite/configure.phtml"/>
     </referenceContainer>
 </layout>

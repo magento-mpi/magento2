@@ -18,7 +18,7 @@
 namespace Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form;
 
 class Config
-    extends \Magento\Catalog\Block\Adminhtml\Catalog\Product\Helper\Form\Config
+    extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
 {
     /**
      * Gift wrapping data

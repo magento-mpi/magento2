@@ -123,7 +123,7 @@ class Observer
 
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * @see \Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Edit\Tab\Main
+     * @see \Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Main
      *
      * @param \Magento\Event\Observer $observer
      */

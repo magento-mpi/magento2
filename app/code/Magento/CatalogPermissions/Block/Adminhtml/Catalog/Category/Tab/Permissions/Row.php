@@ -17,7 +17,7 @@
 namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions;
 
 class Row
-    extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCategory
+    extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
 
     protected $_template = 'catalog/category/tab/permissions/row.phtml';

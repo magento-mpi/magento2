@@ -27,7 +27,7 @@
     </referenceBlock>
     <update handle="adminhtml_sku_errors_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Composite\Configure" name="configure.popup"/>
+        <block class="Magento\Catalog\Block\Adminhtml\Product\Composite\Configure" name="configure.popup"/>
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage" name="ID" template="manage.phtml">
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store\Switcher" name="checkout.store.switcher"/>
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages" name="checkout.message"/>

@@ -17,7 +17,7 @@
 namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
 
 class Permissions
-    extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCategory
+    extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
 
