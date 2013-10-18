@@ -773,9 +773,6 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_oauthHelperMock->expects($this->any())
             ->method('generateNonce')
             ->will($this->returnValue('tyukmnjhgfdcvxstyuioplkmnhtfvert'));
-        $this->_oauthHelperMock->expects($this->any())
-            ->method('generateNonce')
-            ->will($this->returnValue('tyukmnjhgfdcvxstyuioplkmnhtfvert'));
 
         $request = array(
             'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
@@ -880,7 +877,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $requiredParams = [
             'oauth_consumer_key' => $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH),
             'oauth_signature' => '',
-            'oauth_signature_method' => (string)\Magento\Oauth\OauthInterface::SIGNATURE_SHA1,
+            'oauth_signature_method' => \Magento\Oauth\OauthInterface::SIGNATURE_SHA1,
             'oauth_nonce' => '',
             'oauth_timestamp' => (string)time(),
             'oauth_token' => $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN),

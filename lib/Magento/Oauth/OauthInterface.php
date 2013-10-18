@@ -153,7 +153,7 @@ interface OauthInterface
     public function validateAccessToken($request);
 
     /**
-     * Builds the authorization header for an authenticated API request
+     * Build the authorization header for an authenticated API request
      *
      * @param array $request containing parameters to build the Oauth HTTP Authorization header
      * <pre>
