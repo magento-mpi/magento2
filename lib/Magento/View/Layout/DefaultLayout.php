@@ -191,7 +191,6 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
 
         $handle = $this->handleFactory->get($this->meta['type']);
         $handle->register($this->meta, $this);
-        //var_dump($this->meta['children']['root']['children']['content']['children']['sales_order.grid.container']['children']);dd();
         return $this;
     }
 
@@ -319,7 +318,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         $element = & $this->getElement($name);
         if (!isset($element['_wrapped_'])) {
             if (isset($element['parent_name'])) {
-                $parent = & $this->getParentName($element['parent_name']);
+                $parent = & $this->getElement($element['parent_name']);
                 if ($parent) {
                     $handle = $this->handleFactory->get($element['type']);
                     $handle->register($element, $this, $parent);
@@ -363,6 +362,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         if ($parent) {
             $element = & $this->getElement($elementName);
             if ($element) {
+                $element['parent_name'] = $parentName;
                 $childName = !empty($alias) ? $alias : $elementName;
                 $parent['children'][$childName] = & $element;
             }
@@ -497,8 +497,9 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     public function getParentName($childName)
     {
         $child = $this->getElement($childName);
-        if (isset($child) && !empty($child['parent']['name'])) {
-            return $child['parent']['name'];
+
+        if (isset($child) && !empty($child['parent_name'])) {
+            return $child['parent_name'];
         }
         return false;
     }
@@ -549,6 +550,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
             $element = array(
                 'name' => $name,
                 'as' => $alias,
+                'parent_name' => $parentName,
                 'type' => 'block',
                 '_wrapped_' => $block,
             );
