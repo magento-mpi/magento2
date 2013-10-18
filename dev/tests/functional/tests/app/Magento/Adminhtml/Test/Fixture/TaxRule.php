@@ -59,13 +59,16 @@ class TaxRule extends DataFixture
                             'value' => 'Tax Rule %isolation%'
                         ),
                         'tax_rate'    => array(
-                            'value' => '1'
+                            'value' => '1',
+                            'curl' => 'tax_rate[]'
                         ),
                         'tax_product_class'  => array(
                             'value' => '2',
+                            'curl' => 'tax_product_class[]'
                         ),
                         'tax_customer_class' => array(
-                            'value' => '3'
+                            'value' => '3',
+                            'curl' => 'tax_customer_class[]'
                         ),
                         'priority'    => array(
                             'value' => '0'
@@ -80,5 +83,20 @@ class TaxRule extends DataFixture
 
         //Default data set
         $this->switchData('tax_rule');
+    }
+
+    /**
+     * Returns data for curl POST params
+     *
+     * @return array
+     */
+    public function getCurlPostParams()
+    {
+        $fields = $this->getData('fields');
+        $params = array();
+        foreach ($fields as $fieldId => $fieldData) {
+            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
+        }
+        return $params;
     }
 }

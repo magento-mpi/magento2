@@ -14,7 +14,10 @@ namespace Magento\Adminhtml\Test\Handler\Curl;
 
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
+use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\System\Config;
 
 /**
  * Class Create Customer and Product tax class.
@@ -25,24 +28,18 @@ use Mtf\Util\Protocol\CurlTransport;
 class CreateTaxClass extends Curl
 {
     /**
-     * Post request for creating tax rule
+     * Post request for creating tax class
      *
      * @param Fixture $fixture [optional]
      * @return mixed|string
      */
     public function execute(Fixture $fixture = null)
     {
-        $data = $fixture->getData('fields');
-        $fields = array();
-        foreach ($data as $key => $field) {
-            $fields[$key] = $field['value'];
-        }
         $url = $_ENV['app_backend_url'] . 'admin/tax_tax/ajaxSAve/?isAjax=true';
-        $curl = new CurlTransport();
-        $curl->write(CurlTransport::POST, $url, '1.0', array(), $fields);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fixture->getCurlPostParams());
         $response = $curl->read();
         $curl->close();
-
         return $response;
     }
 }

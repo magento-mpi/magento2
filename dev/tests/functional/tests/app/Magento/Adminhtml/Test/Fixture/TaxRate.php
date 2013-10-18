@@ -61,7 +61,7 @@ class TaxRate extends DataFixture
                         'rate'    => array(
                             'value' => '10'
                         ),
-                        'v'  => array(
+                        'tax_country_id'  => array(
                             'value' => 'US',
                         ),
                         'tax_postcode' => array(
@@ -77,5 +77,20 @@ class TaxRate extends DataFixture
 
         //Default data set
         $this->switchData('tax_rate');
+    }
+
+    /**
+     * Returns data for curl POST params
+     *
+     * @return array
+     */
+    public function getCurlPostParams()
+    {
+        $fields = $this->getData('fields');
+        $params = array();
+        foreach ($fields as $fieldId => $fieldData) {
+            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
+        }
+        return $params;
     }
 }

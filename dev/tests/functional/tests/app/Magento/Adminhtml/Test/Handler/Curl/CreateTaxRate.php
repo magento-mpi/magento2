@@ -14,7 +14,10 @@ namespace Magento\Adminhtml\Test\Handler\Curl;
 
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
+use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\System\Config;
 
 /**
  * Class Create Tax Rate.
@@ -32,17 +35,11 @@ class CreateTaxRate extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
-        $data = $fixture->getData('fields');
-        $fields = array();
-        foreach ($data as $key => $field) {
-            $fields[$key] = $field['value'];
-        }
         $url = $_ENV['app_backend_url'] . 'admin/tax_rate/save/';
-        $curl = new CurlTransport();
-        $curl->write(CurlTransport::POST, $url, '1.0', array(), $fields);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fixture->getCurlPostParams());
         $response = $curl->read();
         $curl->close();
-
         return $response;
     }
 }
