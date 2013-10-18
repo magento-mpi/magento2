@@ -84,19 +84,4 @@ class TaxRule extends DataFixture
         //Default data set
         $this->switchData('tax_rule');
     }
-
-    /**
-     * Returns data for curl POST params
-     *
-     * @return array
-     */
-    public function getCurlPostParams()
-    {
-        $fields = $this->getData('fields');
-        $params = array();
-        foreach ($fields as $fieldId => $fieldData) {
-            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
-        }
-        return $params;
-    }
 }

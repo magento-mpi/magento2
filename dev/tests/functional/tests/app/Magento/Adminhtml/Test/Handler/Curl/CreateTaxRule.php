@@ -27,8 +27,33 @@ use Mtf\System\Config;
  */
 class CreateTaxRule extends Curl
 {
+    protected $_substitution = array(
+        'tax_rate'              => 'tax_rate[]',
+        'tax_product_class'     => 'tax_product_class[]',
+        'tax_customer_class'    => 'tax_customer_class[]'
+    );
+
     /**
-     * Post request for creating tax rule
+     * Returns data for curl POST params
+     *
+     * @return array
+     */
+    public function PostParams($fixture)
+    {
+        $data = $fixture->getData('fields');
+        $fields = array();
+        foreach ($data as $key => $field) {
+            if (array_key_exists($key, $this->_substitution)) {
+                $fields[$this->_substitution[$key]] = $field['value'];
+            } else {
+                $fields[$key] = $field['value'];
+            }
+        }
+        return $fields;
+    }
+
+    /**
+     * Post request for creating tax rate
      *
      * @param Fixture $fixture [optional]
      * @return mixed|string
@@ -37,7 +62,7 @@ class CreateTaxRule extends Curl
     {
         $url = $_ENV['app_backend_url'] . 'admin/tax_rule/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fixture->getCurlPostParams());
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $this->PostParams($fixture));
         $response = $curl->read();
         $curl->close();
         return $response;

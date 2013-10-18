@@ -83,19 +83,4 @@ class TaxClass extends DataFixture
         //Default data set
         $this->switchData('customer_tax_class');
     }
-
-    /**
-     * Returns data for curl POST params
-     *
-     * @return array
-     */
-    public function getCurlPostParams()
-    {
-        $fields = $this->getData('fields');
-        $params = array();
-        foreach ($fields as $fieldId => $fieldData) {
-            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
-        }
-        return $params;
-    }
 }
