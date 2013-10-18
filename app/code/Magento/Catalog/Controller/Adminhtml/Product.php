@@ -12,7 +12,7 @@
  * Catalog product controller
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Controller\Adminhtml;

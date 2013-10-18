@@ -13,7 +13,7 @@
  * Product price block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Catalog
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 

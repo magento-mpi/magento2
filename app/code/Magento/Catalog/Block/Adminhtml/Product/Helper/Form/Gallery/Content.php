@@ -13,7 +13,7 @@
  * Catalog product form gallery content
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Data\Form\Element\AbstractElement getElement()

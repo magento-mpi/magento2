@@ -12,7 +12,7 @@
  * Attribute form apply element
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;

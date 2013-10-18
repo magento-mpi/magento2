@@ -12,7 +12,7 @@
  * Adminhtml catalog product composite helper
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Helper\Product;

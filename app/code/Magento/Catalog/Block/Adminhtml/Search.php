@@ -13,7 +13,7 @@
  *
  * @category    Magento
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
