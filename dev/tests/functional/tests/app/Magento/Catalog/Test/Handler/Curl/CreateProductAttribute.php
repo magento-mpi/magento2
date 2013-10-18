@@ -34,7 +34,7 @@ class CreateProductAttribute extends Curl
     {
         $url = $_ENV['app_backend_url'] . 'admin/catalog_product_attribute/save';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fixture->getPostParams());
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fixture->getCurlPostParams());
         $response = $curl->read();
         $curl->close();
         return $response;

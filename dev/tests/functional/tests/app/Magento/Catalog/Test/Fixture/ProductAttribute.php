@@ -40,17 +40,16 @@ class ProductAttribute extends DataFixture
      */
     protected function _initData()
     {
-        $this->_defaultConfig = array();
         $this->_repository = array(
             'text-global-attribute' => array(
-                'config'    => array(),
-                'data'      => array(
+                'config' => array(),
+                'data' => array(
                     'fields' => array(
-                        'attribute_code'    => array(
+                        'attribute_code' => array(
                             'value' => 'attribute_%isolation%',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                         ),
-                        'attribute_label'   => array(
+                        'attribute_label' => array(
                             'value' => 'Auto Generated Attribute #%isolation%',
                             'curl'  => 'frontend_label[0]',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN
@@ -79,7 +78,7 @@ class ProductAttribute extends DataFixture
                             'value' => '',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                         ),
-                        'frontend_label[1]'     => array(
+                        'frontend_label[1]' => array(
                             'value' => 'Label for Auto Generated Attribute #%isolation%',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_LABELS,
                         ),
@@ -131,7 +130,7 @@ class ProductAttribute extends DataFixture
      *
      * @return array
      */
-    public function getPostParams()
+    public function getCurlPostParams()
     {
         $fields = $this->getData('fields');
         $params = array();
