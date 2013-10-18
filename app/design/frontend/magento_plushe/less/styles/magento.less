@@ -705,7 +705,7 @@
 //
 
 .loader {
-    background: url("@{baseDir}/images/ajax-loader-small.gif") no-repeat 50% 50%;
+    background: url("@{baseDir}/images/loader.gif") no-repeat 50% 50%;
     .size(20px);
 }
 
@@ -722,7 +722,7 @@
         padding-right: 30px;
         position: relative;
         &:after {
-            background: url("@{baseDir}/images/ajax-loader-small.gif") no-repeat 50% 50%;
+            background: url("@{baseDir}/images/loader.gif") no-repeat 50% 50%;
             .size(16px);
             content: "";
             margin: -8px 0 0;
@@ -761,7 +761,7 @@
             bottom: 0;
         }
         &:after {
-            background: url("@{baseDir}/images/ajax-loader-small.gif") no-repeat 50% 50%;
+            background: url("@{baseDir}/images/loader.gif") no-repeat 50% 50%;
             .size(16px);
             content: "";
             margin: -8px 0 0 -8px;
@@ -1118,33 +1118,6 @@
 //            </div>
 //        </div>
 //
-//        <div class="block giftcard active">
-//            <div class="title active"><strong>Gift Cards</strong></div>
-//            <div class="content">
-//                <form>
-//                    <fieldset class="fieldset giftcard">
-//                        <div class="field">
-//                            <label for="giftcard-code" class="label"><span>Enter the gift card code</span></label>
-//                            <div class="control">
-//                                <input type="text" value="" name="giftcard_code" class="input-text">
-//                            </div>
-//                        </div>
-//                        <div class="actions">
-//                            <div class="primary">
-//                                <button value="Add Gift Card" type="submit" class="action submit">
-//                                    <span>Add Gift Card</span>
-//                                </button>
-//                            </div>
-//                            <div class="secondary">
-//                                <button value="Check Gift Card status and balance" type="button" class="action check">
-//                                    <span>Check Gift Card status and balance</span>
-//                                </button>
-//                            </div>
-//                        </div>
-//                    </fieldset>
-//                </form>
-//            </div>
-//        </div>
 //
 //    </div>
 //  ```
@@ -1174,7 +1147,6 @@
             }
         }
         &.coupon,
-        &.giftcard,
         &.estimate {
             .actions {
                 display: table-cell;
@@ -1183,7 +1155,6 @@
                 vertical-align: bottom;
             }
         }
-        &.giftcard .field,
         &.coupon .field,
         .field.postcode {
             display: table-cell;
@@ -1198,19 +1169,6 @@
             padding-top: 25px;
             .actions {
                 text-align: right;
-            }
-        }
-        &.giftcard {
-            padding-bottom: 25px;
-            position: relative;
-            .action.check {
-                &:extend(.button.link all);
-                font-size: @baseFontSizeMiddle;
-                font-weight: @baseFontWeightBolder;
-                bottom: 0;
-                left: 0;
-                position: absolute;
-                text-decoration: none;
             }
         }
     }

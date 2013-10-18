@@ -41,6 +41,6 @@ class OverviewTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Sales\Model\Quote');
         $item->setQuote($quote);
         // assure that default renderer was obtained
-        $this->assertSelectCount('h2.product-name a', 1, $this->_block->getRowItemHtml($item));
+        $this->assertSelectCount('strong.product.name a', 1, $this->_block->getRowItemHtml($item));
     }
 }
