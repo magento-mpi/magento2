@@ -11,6 +11,8 @@
 
 namespace Magento\Cms\Test\Page;
 
+use Magento\Core\Test\Block\Title;
+use Magento\Page\Test\Block\Html\Topmenu;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -37,6 +39,16 @@ class Home extends Page
     private $searchBlock;
 
     /**
+     * @var Topmenu
+     */
+    private $topmenuBlock;
+
+    /**
+     * @var Title
+     */
+    private $titleBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -44,6 +56,12 @@ class Home extends Page
         $this->_url = $_ENV['app_frontend_url'];
         $this->searchBlock = Factory::getBlockFactory()->getMagentoCatalogSearch(
             $this->_browser->find('search_mini_form', Locator::SELECTOR_ID));
+        $this->topmenuBlock = Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
+            $this->_browser->find('#nav', Locator::SELECTOR_CSS)
+        );
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoCoreTitle(
+            $this->_browser->find('.page-title', Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -54,5 +72,25 @@ class Home extends Page
     public function getSearchBlock()
     {
         return $this->searchBlock;
+    }
+
+    /**
+     * Get category title block
+     *
+     * @return Topmenu
+     */
+    public function getTopmenu()
+    {
+        return $this->topmenuBlock;
+    }
+
+    /**
+     * Get title block
+     *
+     * @return Title
+     */
+    public function getTitleBlock()
+    {
+        return $this->titleBlock;
     }
 }

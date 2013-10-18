@@ -61,6 +61,6 @@ class Tree extends Block
      */
     public function selectDefaultCategory()
     {
-        $this->_rootElement->find($this->defaultCategory, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->clickByPath('0');
     }
 }
