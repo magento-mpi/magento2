@@ -51,7 +51,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var \Magento\App\RouterList
+     * @var \Magento\App\RouterListInterface
      */
     protected $_routerList;
 
@@ -61,13 +61,13 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     private $_pathInfoProcessor;
 
     /**
-     * @param \Magento\App\RouterList $routerList
+     * @param \Magento\App\RouterListInterface $routerList
      * @param string $uri
      * @param array $directFrontNames
      * @param PathInfoProcessorInterface $pathInfoProcessor
      */
     public function __construct(
-        \Magento\App\RouterList $routerList,
+        \Magento\App\RouterListInterface $routerList,
         $uri = null,
         $directFrontNames = array(),
         \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor = null
