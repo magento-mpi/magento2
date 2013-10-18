@@ -121,13 +121,11 @@ class Storage extends \Magento\Core\Model\AbstractModel
     /**
      * Show if there were errors while synchronize process
      *
-     * @param  \Magento\Core\Model\AbstractModel $sourceModel
-     * @param  \Magento\Core\Model\AbstractModel $destinationModel
+     * @param $sourceModel
+     * @param $destinationModel
      * @return bool
      */
-    protected function _synchronizeHasErrors(\Magento\Core\Model\AbstractModel $sourceModel,
-        \Magento\Core\Model\AbstractModel $destinationModel
-    ) {
+    protected function _synchronizeHasErrors($sourceModel, $destinationModel) {
         if (!$sourceModel || !$destinationModel) {
             return true;
         }
