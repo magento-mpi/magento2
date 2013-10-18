@@ -18,7 +18,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type_Select */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Select', 'select');

@@ -70,7 +70,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -79,7 +79,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Layout $layout
+        \Magento\View\Layout $layout
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;

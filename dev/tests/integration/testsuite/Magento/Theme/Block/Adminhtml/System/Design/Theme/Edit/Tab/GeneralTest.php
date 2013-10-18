@@ -16,7 +16,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
  */
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\Layout */
+    /** @var \Magento\View\Layout */
     protected $_layout;
 
     /** @var \Magento\Core\Model\Theme */

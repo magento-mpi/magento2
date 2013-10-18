@@ -23,7 +23,7 @@ class UnitofmeasureTest extends \PHPUnit_Framework_TestCase
                 'parameters' => array('area' => 'adminhtml')
             )
         ));
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure */
         $block = $layout->createBlock('Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure');

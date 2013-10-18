@@ -33,7 +33,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSubscriptionTitle()
     {
-        /** @var \Magento\Core\Model\Layout $layout */
+        /** @var \Magento\View\Layout $layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         $subscription = array(
@@ -52,7 +52,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     public function testEditSubscriptionTitle()
     {
-        /** @var \Magento\Core\Model\Layout $layout */
+        /** @var \Magento\View\Layout $layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         $subscription = array(

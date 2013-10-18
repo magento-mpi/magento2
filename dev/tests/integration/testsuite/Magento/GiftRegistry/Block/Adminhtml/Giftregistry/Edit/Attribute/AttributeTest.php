@@ -14,7 +14,7 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
 class AttributeTest
     extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\Layout */
+    /** @var \Magento\View\Layout */
     protected $_layout = null;
 
     /** @var \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute */

@@ -16,7 +16,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
  */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\Layout */
+    /** @var \Magento\View\Layout */
     protected $_layout = null;
 
     /** @var \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form */

@@ -16,7 +16,7 @@ namespace Magento\PricePermissions\Model;
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\Layout */
+    /** @var \Magento\View\Layout */
     protected $_layout = null;
 
     protected function setUp()

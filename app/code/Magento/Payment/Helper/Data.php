@@ -58,7 +58,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -67,7 +67,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\App\Emulation $appEmulation,

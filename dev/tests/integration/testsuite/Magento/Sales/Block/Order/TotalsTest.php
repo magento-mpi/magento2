@@ -15,7 +15,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlChildrenInitialized()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\Totals', 'block');
         $block->setOrder(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()

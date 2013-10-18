@@ -146,7 +146,7 @@ class Observer
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\Core\Controller\Request\Http $requestHttp
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -165,7 +165,7 @@ class Observer
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\Core\Controller\Request\Http $requestHttp,
-        \Magento\Core\Model\Layout $layout
+        \Magento\View\Layout $layout
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;

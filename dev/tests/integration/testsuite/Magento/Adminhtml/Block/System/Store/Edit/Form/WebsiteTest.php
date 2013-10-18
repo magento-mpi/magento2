@@ -37,7 +37,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Core\Model\Registry')->register($key, $value);
         }
 
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $objectManager->get('Magento\Core\Model\Layout');
 
         $this->_block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit\Form\Website');

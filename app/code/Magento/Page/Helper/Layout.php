@@ -31,12 +31,12 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Page\Model\Config $config
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
         \Magento\Page\Model\Config $config,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         \Magento\Core\Helper\Context $context
     ) {
         parent::__construct($context);

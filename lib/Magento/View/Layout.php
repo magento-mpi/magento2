@@ -47,7 +47,7 @@ interface Layout
      * Add an element to output
      *
      * @param string $name
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function addOutputElement($name);
 
@@ -244,7 +244,7 @@ interface Layout
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      * @todo DELETE
      */
     public function removeOutputElement($name);

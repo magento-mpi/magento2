@@ -11,7 +11,7 @@ namespace Magento\View\Layout;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\File\Source\Aggregated;
 use Magento\Core\Model\Layout\Argument\Processor;
-use Magento\Core\Model\Layout\Element as LayoutElement;
+use Magento\View\Layout\Element as LayoutElement;
 
 class Reader
 {

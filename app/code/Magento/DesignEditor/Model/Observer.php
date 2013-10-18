@@ -45,7 +45,7 @@ class Observer
      */
     public function clearJs(\Magento\Event\Observer $event)
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $event->getEvent()->getLayout();
         $blockHead = $layout->getBlock('head');
         if (!$blockHead || !$blockHead->getData('vde_design_mode')) {

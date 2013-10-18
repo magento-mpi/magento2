@@ -17,7 +17,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
  */
 class AccordionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\Layout */
+    /** @var \Magento\View\Layout */
     protected $_layout = null;
 
     /** @var \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion */

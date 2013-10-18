@@ -44,7 +44,7 @@ class Context extends \Magento\Core\Block\Context
 
     /**
      * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
@@ -66,7 +66,7 @@ class Context extends \Magento\Core\Block\Context
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,

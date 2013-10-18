@@ -18,7 +18,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetItemExtraInfoHtml()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Sales\Items\AbstractItems */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Sales\Items\AbstractItems', 'block');

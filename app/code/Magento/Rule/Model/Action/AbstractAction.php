@@ -28,12 +28,12 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
 
     /**
      * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;

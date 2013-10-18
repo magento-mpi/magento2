@@ -56,7 +56,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         }
 
         $area = 'frontend';
-        /** @var $layoutMock \Magento\Core\Model\Layout */
+        /** @var $layoutMock \Magento\View\Layout */
         $layoutMock = $this->getMock('Magento\Core\Model\Layout', array('getArea'), array(), '', false);
         $layoutMock->expects($this->once())
             ->method('getArea')

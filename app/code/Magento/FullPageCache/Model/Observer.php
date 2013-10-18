@@ -456,7 +456,7 @@ class Observer
             return $this;
         }
         $event = $observer->getEvent();
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $event->getData('layout');
         $name = $event->getData('element_name');
         if (!$layout->isBlock($name) || !($block = $layout->getBlock($name))) {

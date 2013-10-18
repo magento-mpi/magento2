@@ -56,7 +56,7 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testServiceCalls()
     {
-        /** @var \Magento\Core\Model\Layout $layout */
+        /** @var \Magento\View\Layout $layout */
         $layout = $this->_getLayoutModel('layout_update.xml');
         $serviceCalls = $layout->getServiceCalls();
         $expectedServiceCalls = array(
@@ -87,7 +87,7 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('dataServiceGraph' => $this->_dataServiceGraph)

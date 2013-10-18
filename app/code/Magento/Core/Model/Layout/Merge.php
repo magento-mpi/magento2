@@ -13,7 +13,9 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge
+use Magento\View\Layout\Processor;
+
+class Merge implements Processor
 {
     /**#@+
      * Available item type names
@@ -107,7 +109,7 @@ class Merge
      *
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\View\Layout\File\Source $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
@@ -118,7 +120,7 @@ class Merge
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+        \Magento\View\Layout\File\Source $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\Core\Model\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,

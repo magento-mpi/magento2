@@ -29,7 +29,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     /**
      * @var /SimpleXMLElement
      */
-    protected $xml;
+    protected $_xml;
 
     /**
      * @var array
@@ -126,12 +126,12 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return \Magento\View\Layout\Processor
      */
     public function getUpdate()
     {
         if (!$this->processor) {
-            $theme = $this->_getThemeInstance($this->getArea());
+            $theme = $this->getThemeInstance($this->getArea());
             $this->processor = $this->processorFactory->create(array('theme' => $theme));
         }
         return $this->processor;
@@ -147,10 +147,10 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     {
         if ($this->design->getDesignTheme()->getArea() == $area || $this->design->getArea() == $area) {
             return $this->design->getDesignTheme();
+        } else {
+            $themeIdentifier = $this->design->getConfigurationDesignTheme($area);
+            return $this->themeFactory->getTheme($themeIdentifier);
         }
-
-        $themeIdentifier = $this->design->getConfigurationDesignTheme($area);
-        return $this->themeFactory->getTheme($themeIdentifier);
     }
 
     /**
@@ -161,7 +161,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function generateXml()
     {
-        $this->xml = $this->getUpdate()->asSimplexml();
+        $this->_xml = $this->getUpdate()->asSimplexml();
         return $this;
     }
 
@@ -611,7 +611,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      * @todo DELETE
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

@@ -27,7 +27,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
@@ -37,7 +37,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct(

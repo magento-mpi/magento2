@@ -20,7 +20,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
     public function testDeserializeRenders()
     {
         $childBlock = $this->getMock('Magento\Core\Block\AbstractBlock', array(), array(), '', false);
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $this->getMock('Magento\Core\Model\Layout', array(
             'createBlock', 'getChildName', 'setChild'
         ), array(), '', false);

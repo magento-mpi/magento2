@@ -209,10 +209,10 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Set layout object
      *
-     * @param   \Magento\Core\Model\Layout $layout
+     * @param   \Magento\View\Layout $layout
      * @return  \Magento\Core\Block\AbstractBlock
      */
-    public function setLayout(\Magento\Core\Model\Layout $layout)
+    public function setLayout(\Magento\View\Layout $layout)
     {
         $this->_layout = $layout;
         $this->_eventManager->dispatch('core_block_abstract_prepare_layout_before', array('block' => $this));
