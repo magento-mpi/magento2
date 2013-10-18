@@ -17,22 +17,22 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\App\Area\FrontNameResolverFactory
      */
-    protected $_frontNameResolverFactory;
+    protected $_resolverFactory;
 
     protected function setUp()
     {
-        $this->_frontNameResolverFactory = $this
+        $this->_resolverFactory = $this
             ->getMock('\Magento\App\Area\FrontNameResolverFactory', array(), array(), '', false);
     }
 
     public function testGetCodeByFrontNameWhenAreaDoesNotContentFrontName()
     {
         $expected = 'expectedFrontName';
-        $this->_model = new \Magento\App\AreaList($this->_frontNameResolverFactory,
+        $this->_model = new \Magento\App\AreaList($this->_resolverFactory,
             array('testArea' => array('frontNameResolver' => 'testValue')), $expected);
 
         $resolverMock = $this->getMock('\Magento\App\Area\FrontNameResolverInterface');
-        $this->_frontNameResolverFactory->expects($this->any())->method('create')
+        $this->_resolverFactory->expects($this->any())->method('create')
             ->with('testValue')->will($this->returnValue($resolverMock));
 
         $actual = $this->_model->getCodeByFrontName('testFrontName');
@@ -42,7 +42,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
     public function testGetCodeByFrontNameReturnsAreaCode()
     {
         $expected = 'testArea';
-        $this->_model = new \Magento\App\AreaList($this->_frontNameResolverFactory,
+        $this->_model = new \Magento\App\AreaList($this->_resolverFactory,
             array('testArea'=>array('frontName' => 'testFrontName')), $expected);
 
         $actual = $this->_model->getCodeByFrontName('testFrontName');
@@ -52,7 +52,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
     public function testGetFrontNameWhenAreaCodeAndFrontNameAreSet()
     {
         $expected = 'testFrontName';
-        $this->_model = new \Magento\App\AreaList($this->_frontNameResolverFactory,
+        $this->_model = new \Magento\App\AreaList($this->_resolverFactory,
             array('testAreaCode' => array('frontName' => 'testFrontName')), $expected);
 
         $actual = $this->_model->getFrontName('testAreaCode');
@@ -61,7 +61,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFrontNameWhenAreaCodeAndFrontNameArentSet()
     {
-        $this->_model = new \Magento\App\AreaList($this->_frontNameResolverFactory, array(), '');
+        $this->_model = new \Magento\App\AreaList($this->_resolverFactory, array(), '');
 
         $actual = $this->_model->getFrontName('testAreaCode');
         $this->assertNull($actual);
@@ -69,7 +69,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function getFrontName()
     {
-        $this->_model = new \Magento\App\AreaList($this->_frontNameResolverFactory, array(), '');
+        $this->_model = new \Magento\App\AreaList($this->_resolverFactory, array(), '');
 
         $actual = $this->_model->getFrontName('testAreaCode');
         $this->assertNull($actual);
@@ -77,7 +77,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCodes()
     {
-        $this->_model = new \Magento\App\AreaList($this->_frontNameResolverFactory,
+        $this->_model = new \Magento\App\AreaList($this->_resolverFactory,
             array('area1' => 'value1', 'area2' => 'value2'), '');
 
         $expected = array(0 => 'area1', 1 => 'area2');
