@@ -30,12 +30,9 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         ;
         $session = new \Magento\Object(array('messages' => $messagesCollection));
         $request = new \Magento\TestFramework\Request(
-            $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false),
-            $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
+            $this->getMock('Magento\App\RouterListInterface', array(), array(), '', false)
         );
-        $response = new \Magento\TestFramework\Response(
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false)
-        );
+        $response = new \Magento\TestFramework\Response();
 
         $this->_objectManager = $this->getMock(
             'Magento\TestFramework\ObjectManager', array('get', 'create'), array(), '', false

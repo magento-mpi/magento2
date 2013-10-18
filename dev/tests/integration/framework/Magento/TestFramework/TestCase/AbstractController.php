@@ -104,7 +104,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = $this->_objectManager->get('Magento\App\RequestInterface');
+            $this->_request = $this->_objectManager->get('Magento\TestFramework\Request');
         }
         return $this->_request;
     }
@@ -117,7 +117,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = $this->_objectManager->get('Magento\App\ResponseInterface');
+            $this->_response = $this->_objectManager->get('Magento\TestFramework\Response');
         }
         return $this->_response;
     }
