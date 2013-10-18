@@ -190,8 +190,8 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         }
 
         $handle = $this->handleFactory->get($this->meta['type']);
-        $handle->register($this->meta, $this, $this->context);
-
+        $handle->register($this->meta, $this);
+        //var_dump($this->meta['children']['root']['children']['content']['children']['sales_order.grid.container']['children']);dd();
         return $this;
     }
 
@@ -209,7 +209,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
 
     /**
      * @param $name
-     * @return Handle
+     * @return array
      */
     public function & getElement($name)
     {
@@ -316,7 +316,17 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getBlock($name)
     {
-        $element = $this->getElement($name);
+        $element = & $this->getElement($name);
+        if (!isset($element['_wrapped_'])) {
+            if (isset($element['parent_name'])) {
+                $parent = & $this->getParentName($element['parent_name']);
+                if ($parent) {
+                    $handle = $this->handleFactory->get($element['type']);
+                    $handle->register($element, $this, $parent);
+                }
+            }
+        }
+
         if ($element && isset($element['_wrapped_'])) {
             return $element['_wrapped_'];
         }
@@ -349,7 +359,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function setChild($parentName, $elementName, $alias)
     {
-        $parent = $this->getElement($parentName);
+        $parent = & $this->getElement($parentName);
         if ($parent) {
             $element = & $this->getElement($elementName);
             if ($element) {
@@ -487,7 +497,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     public function getParentName($childName)
     {
         $child = $this->getElement($childName);
-        if (isset($child) && isset($child['parent']['name'])) {
+        if (isset($child) && !empty($child['parent']['name'])) {
             return $child['parent']['name'];
         }
         return false;
@@ -503,12 +513,13 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
-        $attributes['type'] = $type;
         $block = $this->blockFactory->createBlock($type, $attributes);
 
         if (empty($name)) {
             $name = 'Anonymous-' . self::$inc++;
         }
+        $block->setType($type);
+        $block->setLayout($this);
         $block->setNameInLayout($name);
 
         $element = array(
@@ -548,7 +559,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
             if ($parentName) {
                 $parent = & $this->getElement($parentName);
                 if ($parent) {
-                    $childName = isset($alias) ? $alias : $name;
+                    $childName = !empty($alias) ? $alias : $name;
                     if ($childName) {
                         $parent['children'][$childName] = & $element;
                     }
@@ -577,7 +588,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         if ($parentName) {
             $parent = & $this->getElement($parentName);
             if (isset($parent)) {
-                $childName = isset($alias) ? $alias : $name;
+                $childName = !empty($alias) ? $alias : $name;
                 $parent['children'][$childName] = & $options;
             }
         }

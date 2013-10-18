@@ -60,14 +60,15 @@ interface Layout
     public function getOutput();
 
     /**
-     * @param string $name
+     * @param $name
      * @param array $element
+     * @return Layout
      */
     public function addElement($name, array & $element);
 
     /**
      * @param string $name
-     * @return Handle
+     * @return array
      */
     public function & getElement($name);
 

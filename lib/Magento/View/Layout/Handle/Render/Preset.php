@@ -93,6 +93,7 @@ class Preset implements Render
 
             $alias = isset($element['as']) ? $element['as'] : $name;
             if (isset($alias) && $parentNode) {
+                $element['parent_name'] = $parentNode['name'];
                 $parentNode['children'][$alias] = & $element;
             }
 

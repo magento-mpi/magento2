@@ -24,6 +24,7 @@ class Block extends OriginalBlock
      * @param Element $layoutElement
      * @param Layout $layout
      * @param array $parentNode
+     * @return Handle\Render
      */
     public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
     {
@@ -49,5 +50,7 @@ class Block extends OriginalBlock
                 }
             }
         }
+
+        return $this;
     }
 }

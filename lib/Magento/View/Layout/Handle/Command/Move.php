@@ -36,7 +36,7 @@ class Move implements Command
             }
         }
         $node['type'] = self::TYPE;
-
+        $node['parent_name'] = $parentNode['name'];
         $parentNode['children'][] = & $node;
     }
 

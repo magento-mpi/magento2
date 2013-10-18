@@ -43,7 +43,7 @@ class Action implements Command
             $arguments[$name] = $value;
         }
         $node['arguments'] = $arguments;
-
+        $node['parent_name'] = $parentNode['name'];
         $parentNode['children'][] = & $node;
     }
 

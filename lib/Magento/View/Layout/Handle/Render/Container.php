@@ -75,8 +75,9 @@ class Container implements Render
             }
             $element['type'] = self::TYPE;
 
-            $alias = isset($element['as']) ? $element['as'] : $name;
+            $alias = !empty($element['as']) ? $element['as'] : $name;
             if (isset($alias) && $parentNode) {
+                $element['parent_name'] = $parentNode['name'];
                 $parentNode['children'][$alias] = & $element;
             }
 
@@ -132,10 +133,10 @@ class Container implements Render
 
         $render = $this->renderFactory->get($type);
 
-        $containerInfo['label'] = isset($meta['label']) ? $meta['label'] : null;
-        $containerInfo['tag'] = isset($meta['htmlTag']) ? $meta['htmlTag'] : null;
-        $containerInfo['class'] = isset($meta['htmlClass']) ? $meta['htmlClass'] : null;
-        $containerInfo['id'] = isset($meta['htmlId']) ? $meta['htmlId'] : null;
+        $containerInfo['label'] = !empty($meta['label']) ? $meta['label'] : null;
+        $containerInfo['tag'] = !empty($meta['htmlTag']) ? $meta['htmlTag'] : null;
+        $containerInfo['class'] = !empty($meta['htmlClass']) ? $meta['htmlClass'] : null;
+        $containerInfo['id'] = !empty($meta['htmlId']) ? $meta['htmlId'] : null;
 
         $result = $render->renderContainer($result, $containerInfo);
 

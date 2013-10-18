@@ -75,9 +75,10 @@ class Block implements Render
             }
             $element['type'] = self::TYPE;
 
-            $alias = isset($element['as']) ? $element['as'] : $name;
+            $alias = !empty($element['as']) ? $element['as'] : $name;
 
             if (isset($alias) && $parentNode) {
+                $element['parent_name'] = $parentNode['name'];
                 $parentNode['children'][$alias] = & $element;
             }
 
@@ -113,7 +114,7 @@ class Block implements Render
         /** @var $block \Magento\Core\Block\Template */
         $block = $this->blockFactory->createBlock($meta['class'], array('data' => $arguments));
 
-        $name = isset($meta['name']) ? $meta['name'] : null;
+        $name = !empty($meta['name']) ? $meta['name'] : null;
         $block->setNameInLayout($name);
         $block->setLayout($layout);
 
