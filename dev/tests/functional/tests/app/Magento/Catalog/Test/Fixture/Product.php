@@ -11,6 +11,7 @@
 
 namespace Magento\Catalog\Test\Fixture;
 
+use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
@@ -36,6 +37,30 @@ class Product extends DataFixture
     const VISIBILITY_BOTH = 'Catalog, Search';
 
     /**
+     * Custom constructor to create product with assigned category
+     *
+     * @param Config $configuration
+     * @param array $placeholders
+     */
+    public function __construct(Config $configuration, $placeholders =  array())
+    {
+        parent::__construct($configuration, $placeholders);
+
+        $this->_placeholders['category'] = array($this, 'categoryProvider');
+    }
+
+    /**
+     * Create new category
+     *
+     * @return string
+     */
+    protected function categoryProvider()
+    {
+        return Factory::getFixtureFactory()->getMagentoCatalogCategory()
+            ->switchData('subcategory')->persist()->getCategoryName();
+    }
+
+    /**
      * Get product name
      *
      * @return string
@@ -43,6 +68,36 @@ class Product extends DataFixture
     public function getProductName()
     {
         return $this->getData('fields/name/value');
+    }
+
+    /**
+     * Get product sku
+     *
+     * @return string
+     */
+    public function getProductSku()
+    {
+        return $this->getData('fields/sku/value');
+    }
+
+    /**
+     * Get product price
+     *
+     * @return string
+     */
+    public function getProductPrice()
+    {
+        return $this->getData('fields/price/value');
+    }
+
+    /**
+     * Get category name
+     *
+     * @return string
+     */
+    public function getCategoryName()
+    {
+        return $this->getData('category_name');
     }
 
     /**
@@ -69,8 +124,6 @@ class Product extends DataFixture
 
         return $this;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * {inheritdoc}
@@ -174,8 +227,10 @@ class Product extends DataFixture
                         )
                     )
                 )
-            ),
+            )
         );
+        $this->_repository['simple_with_category'] = $this->_repository['simple'];
+        $this->_repository['simple_with_category']['data']['category_name'] = '%category%';
 
         //Default data set
         $this->switchData('simple');

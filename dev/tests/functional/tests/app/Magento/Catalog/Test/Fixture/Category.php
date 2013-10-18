@@ -33,20 +33,19 @@ class Category extends DataFixture
      */
     public function getCategoryName()
     {
-        return $this->_data['fields']['name']['value'];
+        return $this->getData('fields/name/value');
     }
 
     /**
      * Create category
+     *
+     * @return Category
      */
     public function persist()
     {
         Factory::getApp()->magentoCatalogCreateCategory($this);
-
         return $this;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * {inheritdoc}
@@ -78,6 +77,9 @@ class Category extends DataFixture
                             'group' => static::GROUP_GENERAL_INFORMATION,
                             'input' => 'select'
                         ),
+                        'parent_id' => array(
+                            'value' => '2',
+                        )
                     )
                 )
             ),
