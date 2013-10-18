@@ -125,6 +125,10 @@ return array(
     array('XML_PATH_CHECK_EXTENSIONS', 'Magento\Install\Model\Config'),
     array('XML_PATH_CONNECTION_TYPE', 'Magento\Core\Model\Config\Resource'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
+    array('XML_PATH_DEBUG_TEMPLATE_HINTS', 'Magento\Core\Block\Template',
+        'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS'),
+    array('XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS', 'Magento\Core\Block\Template',
+        'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
     array('XML_PATH_DEFAULT_LOCALE', 'Magento\Core\Model\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE'

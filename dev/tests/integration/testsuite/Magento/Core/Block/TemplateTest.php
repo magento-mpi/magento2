@@ -51,21 +51,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('another_area', $this->_block->getArea());
     }
 
-    public function testGetDirectOutput()
-    {
-        $this->assertFalse($this->_block->getDirectOutput());
-
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
-        $layout->setDirectOutput(true);
-        $this->_block->setLayout($layout);
-        $this->assertTrue($this->_block->getDirectOutput());
-    }
-
-    public function testGetShowTemplateHints()
-    {
-        $this->assertFalse($this->_block->getShowTemplateHints());
-    }
-
     /**
      * @covers \Magento\Core\Block\Template::_toHtml
      * @covers \Magento\Core\Block\AbstractBlock::toHtml

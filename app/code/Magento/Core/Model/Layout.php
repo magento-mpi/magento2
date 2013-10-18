@@ -126,13 +126,6 @@ class Layout extends \Magento\Simplexml\Config
     protected $_helpers = array();
 
     /**
-     * Flag to have blocks' output go directly to browser as oppose to return result
-     *
-     * @var boolean
-     */
-    protected $_directOutput = false;
-
-    /**
      * A variable for transporting output into observer during rendering
      *
      * @var \Magento\Object
@@ -349,28 +342,6 @@ class Layout extends \Magento\Simplexml\Config
     public function setArea($areaCode)
     {
         $this->_area = $areaCode;
-    }
-
-    /**
-     * Declaring layout direct output flag
-     *
-     * @param   bool $flag
-     * @return  \Magento\Core\Model\Layout
-     */
-    public function setDirectOutput($flag)
-    {
-        $this->_directOutput = $flag;
-        return $this;
-    }
-
-    /**
-     * Retrieve direct output flag
-     *
-     * @return bool
-     */
-    public function isDirectOutput()
-    {
-        return $this->_directOutput;
     }
 
     /**

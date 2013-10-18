@@ -60,14 +60,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getFilesystem')->will($this->returnValue($this->_filesystem));
         $context->expects($this->any())->method('getViewFileSystem')->will($this->returnValue($this->_viewFileSystem));
 
-        $this->_block = $this->getMock(
-            'Magento\Core\Block\Template',
-            array('getShowTemplateHints'),
-            array(
-                $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false),
-                $context,
-                array('template' => 'template.phtml', 'area' => 'frontend', 'module_name' => 'Fixture_Module')
-            )
+        $this->_block = new \Magento\Core\Block\Template(
+            $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false),
+            $context,
+            array('template' => 'template.phtml', 'area' => 'frontend', 'module_name' => 'Fixture_Module')
         );
     }
 

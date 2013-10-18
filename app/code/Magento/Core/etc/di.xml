@@ -394,7 +394,8 @@
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\TemplateEngine\Pool">
+    <type name="Magento\Core\Model\TemplateEngine\Factory">
+        <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
         <param name="engines">
             <value>
                 <phtml>Magento\Core\Model\TemplateEngine\Php</phtml>
