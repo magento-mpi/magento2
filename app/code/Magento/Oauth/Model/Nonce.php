@@ -21,6 +21,11 @@ namespace Magento\Oauth\Model;
 class Nonce extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Nonce length
+     */
+    const NONCE_LENGTH = 32;
+
+    /**
      * Oauth data
      *
      * @var \Magento\Oauth\Helper\Oauth

@@ -89,6 +89,12 @@ interface OauthInterface
      * )
      * </pre>
      * @return array - The request token/secret pair.
+     * <pre>
+     * array (
+     *         'oauth_token' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf',
+     *         'oauth_token_secret' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf'
+     * )
+     * </pre>
      * @throws \Magento\Oauth\Exception
      */
     public function getRequestToken($request);
@@ -112,6 +118,12 @@ interface OauthInterface
      * )
      * </pre>
      * @return array - The access token/secret pair.
+     * <pre>
+     * array (
+     *         'oauth_token' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf',
+     *         'oauth_token_secret' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf'
+     * )
+     * </pre>
      * @throws \Magento\Oauth\Exception
      */
     public function getAccessToken($request);
@@ -133,7 +145,10 @@ interface OauthInterface
      *         'http_method' => 'POST'
      * )
      * </pre>
-     * @return boolean true if access token request is valid
+     * @return array contains isValid key with a boolean value true if the access token request is valid
+     * <pre>
+     * array ('isValid' => true)
+     * </pre>
      * @throws \Magento\Oauth\Exception
      */
     public function validateAccessTokenRequest($request);
@@ -147,13 +162,17 @@ interface OauthInterface
      *       'token' => 'a6aa81cc3e65e2960a4879392445e718'
      * )
      * </pre>
-     * @return boolean true if requested access token exists, is associated with a consumer and is valid
+     * @return array contains isValid key with a boolean value true
+     *               if requested access token exists, is associated with a consumer and is valid
+     * <pre>
+     * array ('isValid' => true)
+     * </pre>
      * @throws \Magento\Oauth\Exception
      */
     public function validateAccessToken($request);
 
     /**
-     * Build the authorization header for an authenticated API request
+     * Build the Oauth authorization header for an authenticated API request
      *
      * @param array $request containing parameters to build the Oauth HTTP Authorization header
      * <pre>

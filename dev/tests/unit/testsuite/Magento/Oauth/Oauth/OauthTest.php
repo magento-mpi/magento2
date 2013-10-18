@@ -715,13 +715,8 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_setupConsumer();
         $this->_setupNonce();
         $this->_setupToken(true, \Magento\Oauth\Model\Token::TYPE_ACCESS);
-
-        $this->assertTrue(
-            $this->_oauth->validateAccessTokenRequest
-                (
-                    $this->_getAccessTokenRequiredParams()
-                )['isValid']
-        );
+        $requiredParams = $this->_getAccessTokenRequiredParams();
+        $this->assertTrue($this->_oauth->validateAccessTokenRequest($requiredParams)['isValid']);
     }
 
     /**

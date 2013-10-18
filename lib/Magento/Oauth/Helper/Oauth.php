@@ -136,12 +136,11 @@ class Oauth extends \Magento\Core\Helper\AbstractHelper
     /**
      * Generate random string for nonce
      *
-     * @param int $length
      * @return string
      */
-    public function generateNonce($length = 32)
+    public function generateNonce()
     {
-        return $this->_generateRandomString($length);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Nonce::NONCE_LENGTH);
     }
 
     /**
