@@ -57,7 +57,6 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('Magento\HTTP\ZendClient')
             ->will($this->returnValue($httpClient));
-        $params = json_decode(base64_decode(urldecode($fixture)), true);
         $httpClient->expects($this->once())->method('setUri')->will($this->returnValue($httpClient));
         $httpClient->expects($this->once())->method('setParameterGet')->will(($this->returnValue($httpClient)));
         $httpClient->expects($this->once())->method('setConfig')->will(($this->returnValue($httpClient)));
@@ -97,10 +96,6 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')->with('ga')
             ->will($this->returnValue(urlencode(base64_encode(json_encode(array(1))))));
         $this->_request->expects($this->at(1))->method('getParam')->with('h')->will($this->returnValue($fixture));
-        $tunnelResponse = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $httpClient = $this->getMock('Magento\HTTP\ZendClient',
-            array('setUri', 'setParameterGet', 'setConfig', 'request', 'getHeaders')
-        );
         /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data|PHPUnit_Framework_MockObject_MockObject */
         $helper = $this->getMock('Magento\Adminhtml\Helper\Dashboard\Data',
             array('getChartDataHash'), array(), '', false, false
