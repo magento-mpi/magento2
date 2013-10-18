@@ -251,6 +251,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave()
     {
+        $this->markTestIncomplete('MAGETWO-9199');
         /** @var $product \Magento\Catalog\Model\Product */
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');
@@ -258,7 +259,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $product->setData('links_purchased_separately', 'value'); // this attribute is applicable only for downloadable
         $this->_model->beforeSave($product);
         $this->assertTrue($product->canAffectOptions());
-        $this->markTestIncomplete('MAGETWO-9199');
         $this->assertFalse($product->hasData('links_purchased_separately'));
     }
 
