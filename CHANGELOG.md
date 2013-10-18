@@ -1,3 +1,4 @@
+* Fixed System displays an error 'Invalid website code requested:' while enabling payment method
 * View abstraction was moved into lib
 * Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
 * Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme

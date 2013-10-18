@@ -15,8 +15,10 @@ use Magento\App\State;
 use Magento\Core\Model\AppInterface;
 use Magento\Core\Model\Config;
 use Magento\Core\Model\Cookie;
-use Magento\Core\Model\Store\StorageInterface;
 use Magento\Core\Model\Store;
+use Magento\Core\Model\Store\StorageInterface;
+use Magento\Core\Model\Store\Group;
+use Magento\Core\Model\Store\Exception as StoreException;
 use Magento\Core\Model\StoreFactory;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Core\Model\Website;
@@ -83,7 +85,7 @@ class Db implements StorageInterface
     /**
      * Groups cache
      *
-     * @var Store\Group
+     * @var Group
      */
     protected $_groups = array();
 
@@ -118,7 +120,7 @@ class Db implements StorageInterface
     /**
      * Group factory
      *
-     * @var Store\Group\Factory
+     * @var Group\Factory
      */
     protected $_groupFactory;
 
@@ -144,7 +146,7 @@ class Db implements StorageInterface
     /**
      * @param StoreFactory $storeFactory
      * @param Website\Factory $websiteFactory
-     * @param Store\Group\Factory $groupFactory
+     * @param Group\Factory $groupFactory
      * @param Config $config
      * @param Cookie $cookie
      * @param State $appState
@@ -157,7 +159,7 @@ class Db implements StorageInterface
     public function __construct(
         StoreFactory $storeFactory,
         Website\Factory $websiteFactory,
-        Store\Group\Factory $groupFactory,
+        Group\Factory $groupFactory,
         Config $config,
         Cookie $cookie,
         State $appState,
@@ -200,7 +202,7 @@ class Db implements StorageInterface
     /**
      * Initialize currently ran store
      *
-     * @throws Store\Exception
+     * @throws StoreException
      */
     public function initCurrentStore()
     {
@@ -401,7 +403,7 @@ class Db implements StorageInterface
         }
 
         foreach ($groupCollection as $group) {
-            /* @var $group Store\Group */
+            /* @var $group Group */
             if (!isset($groupStores[$group->getId()])) {
                 $groupStores[$group->getId()] = array();
             }
@@ -457,7 +459,7 @@ class Db implements StorageInterface
      *
      * @param null|string|bool|int|Store $storeId
      * @return Store
-     * @throws Store\Exception
+     * @throws StoreException
      */
     public function getStore($storeId = null)
     {
@@ -578,15 +580,15 @@ class Db implements StorageInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|Store\Group|string $groupId
-     * @return Store\Group
+     * @param null|Group|string $groupId
+     * @return Group
      * @throws Exception
      */
     public function getGroup($groupId = null)
     {
         if (is_null($groupId)) {
             $groupId = $this->getStore()->getGroupId();
-        } elseif ($groupId instanceof Store\Group) {
+        } elseif ($groupId instanceof Group) {
             return $groupId;
         }
         if (empty($this->_groups[$groupId])) {
@@ -609,14 +611,14 @@ class Db implements StorageInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Store\Group
+     * @return Group
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
         $groups = array();
         if (is_array($this->_groups)) {
             foreach ($this->_groups as $group) {
-                /** @var $group Store\Group */
+                /** @var $group Group */
                 if (!$withDefault && $group->getId() == 0) {
                     continue;
                 }
@@ -709,11 +711,11 @@ class Db implements StorageInterface
     }
 
     /**
-     * @throws Store\Exception
+     * @throws StoreException
      */
     public function throwStoreException()
     {
-        throw new Store\Exception('');
+        throw new StoreException('');
     }
 
     /**

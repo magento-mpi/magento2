@@ -38,7 +38,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that getWebsite returns the default site when defaults are passed in for id
      */
-    public function testGetWebsiteDefault() {
+    public function testGetWebsiteDefault()
+    {
         $this->assertFalse($this->_model->getWebsite());
         $website = Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite();
