@@ -112,4 +112,18 @@ class View extends Block
             ->find('//*[@class="price-box"]//span[@class="price"]', Locator::SELECTOR_XPATH)
             ->getText();
     }
+
+    /**
+     * Return configurable product options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        for ($i =2; $i<=3; $i++) {
+            $options[] = $this->_rootElement
+                ->find(".super-attribute-select option:nth-child($i)")->getText();
+        }
+        return $options;
+    }
 }

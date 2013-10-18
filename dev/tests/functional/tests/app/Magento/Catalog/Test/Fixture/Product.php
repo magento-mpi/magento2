@@ -220,10 +220,6 @@ class Product extends DataFixture
                         'weight' => array(
                             'value' => '1',
                             'group' => static::GROUP_PRODUCT_DETAILS
-                        ),
-                        'category_ids' => array(
-                            'value' => array('2'),
-                            'group' => static::GROUP_PRODUCT_DETAILS
                         )
                     )
                 )
