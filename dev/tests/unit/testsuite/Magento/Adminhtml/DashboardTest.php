@@ -14,9 +14,23 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     protected $_request;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_response;
+
     protected function setUp()
     {
-        $this->_request = $$this->getMock('Magento\App\Request\Http');
+        $this->_request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
+
+        $this->_response->expects($this->any())
+            ->method('setBody')
+            ->will($this->returnValue($this->_response));
+
+        $this->_response->expects($this->any())
+            ->method('setHeader')
+            ->will($this->returnValue($this->_response));
     }
 
     protected function tearDown()
@@ -49,14 +63,14 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\HTTP\ZendClient')
             ->will($this->returnValue($httpClient));
 
-        $controller = $this->_factory($this->_request, null, $objectManager);
+        $controller = $this->_factory($this->_request, $this->_response, $objectManager);
         $controller->tunnelAction();
         $this->assertEquals('success_msg', $controller->getResponse()->getBody());
     }
 
     public function testTunnelAction400()
     {
-        $controller = $this->_factory($this->_request);
+        $controller = $this->_factory($this->_request, $this->_response);
         $controller->tunnelAction();
         $this->assertEquals(400, $controller->getResponse()->getHttpResponseCode());
     }
@@ -90,7 +104,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Core\Model\Logger')
             ->will($this->returnValue($loggerMock));
 
-        $controller = $this->_factory($this->_request, null, $objectManager);
+        $controller = $this->_factory($this->_request, $this->_response, $objectManager);
         $controller->tunnelAction();
         $this->assertEquals(503, $controller->getResponse()->getHttpResponseCode());
     }
@@ -107,7 +121,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     {
         if (!$response) {
             /** @var $response \Magento\App\ResponseInterface|PHPUnit_Framework_MockObject_MockObject */
-            $response = $this->getMock('Magento\App\ResponseInterface');
+            $response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {

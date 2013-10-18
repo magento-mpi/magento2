@@ -73,6 +73,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      */
     public function matchDataProvider()
     {
+        $vdeUrl    = self::TEST_HOST . '/' . self::VDE_FRONT_NAME . self::TEST_PATH;
+        $notVdeUrl = self::TEST_HOST . self::TEST_PATH;
+
         $excludedRouters = array(
             'admin' => 'admin router',
             'vde'   => 'vde router',
@@ -83,7 +86,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $routerMockedMethods = array('match');
 
         $matchedController = $this->getMockForAbstractClass(
-            'Magento\Core\Controller\Varien\AbstractAction', array(), '', false);
+            'Magento\App\Action\AbstractAction', array(), '', false);
 
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock(
@@ -105,21 +108,31 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             array('matched' => $matchedRouter, 'not_matched' => $notMatchedRouter)
         );
 
+        $requestMockNoVde = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $requestMockNoVde->expects($this->any())
+            ->method('getPathInfo')
+            ->will($this->returnValue($notVdeUrl));
+
+        $requestMockVde = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $requestMockVde->expects($this->any())
+            ->method('getPathInfo')
+            ->will($this->returnValue($vdeUrl));
+
         return array(
             'not vde request' => array(
-                '$request' => $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
+                '$request'         => $requestMockNoVde,
                 '$isVde'           => false,
                 '$isLoggedIn'      => true,
                 '$isConfiguration' => false,
             ),
             'not logged as admin' => array(
-                '$request' => $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
+                '$request'         => $requestMockVde,
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
                 '$isConfiguration' => false,
             ),
             'no matched routers' => array(
-                '$request' => $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
+                '$request'         => $requestMockVde,
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
                 '$isConfiguration' => false,
@@ -152,16 +165,11 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         array $routers
     ) {
         // default mocks - not affected on method functionality
-        $controllerFactory  = $this->getMock(
-            'Magento\Core\Controller\Varien\Action\Factory', array(), array(), '', false);
         $objectManager      = $this->getMock('Magento\ObjectManager');
-        $filesystem         = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-
         $helper         = $this->_getHelperMock($isVde);
         $backendSession = $this->_getBackendSessionMock($isVde, $isLoggedIn);
         $stateModel     = $this->_getStateModelMock($routers);
         $configuration  = $this->_getConfigurationMock($isVde, $isLoggedIn, $isConfiguration);
-        $app            = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
             switch ($name) {
                 case 'Magento\DesignEditor\Helper\Data':
@@ -192,12 +200,17 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($routers));
         }
 
+        $routerListMock = $this->getMock('Magento\App\RouterListInterface');
+        $routerListMock->expects($this->any())
+            ->method('getRouters')
+            ->will($this->returnValue(array()));
+
         $router = new \Magento\DesignEditor\Controller\Varien\Router\Standard(
-            $controllerFactory,
+            $routerListMock,
+            $this->getMock('Magento\App\ActionFactory', array(), array(), '', false),
             $objectManager,
-            $filesystem,
-            $app,
-            $this->getMock('Magento\Config\ScopeInterface', array(), array(), '', false),
+            $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock(),
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
@@ -205,6 +218,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Url', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
             $this->getMock('Magento\App\State', array(), array(), '', false),
+            $this->getMock('Magento\Core\App\Request\RewriteService', array(), array(), '', false),
             'frontend',
             'Magento\Core\Controller\Varien\Action',
             'vde'

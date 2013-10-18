@@ -84,6 +84,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestFactoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
 
+        $this->_responseFactoryMock->expects($this->once())
+            ->method('create')->will($this->returnValue($this->_responseMock));
+
         $processorMock->expects($this->once())
             ->method('extractContent')
             ->with($this->_requestMock, $this->_responseMock, false)
@@ -109,6 +112,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_requestFactoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
+
+        $this->_responseFactoryMock->expects($this->once())
+            ->method('create')->will($this->returnValue($this->_responseMock));
 
         $processorMock->expects($this->once())
             ->method('extractContent')
