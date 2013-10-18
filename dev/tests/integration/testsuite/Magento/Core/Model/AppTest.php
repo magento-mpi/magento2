@@ -117,7 +117,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
     public function testGetSafeNotExistingStore()
     {
         $this->_mageModel->getSafeStore(100);
-        $this->assertEquals('noRoute', $this->_mageModel->getRequest()->getActionName());
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Request\Http');
+        $this->assertEquals('noRoute', $request->getActionName());
     }
 
     public function testGetStores()
@@ -235,7 +236,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertContains($expectedHeader, $this->_model->getResponse()->getHeaders());
         $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\TestFramework\Response');
+            ->create('Magento\App\ResponseInterface');
         $this->_model->setResponse($response);
         $this->assertSame($response, $this->_model->getResponse());
         $this->assertEmpty($this->_model->getResponse()->getHeaders());

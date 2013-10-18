@@ -35,10 +35,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\App\ModuleList',
             array(
                 'reader' => $objectManager->create(
-                    'Magento\Core\Model\Module\Declaration\Reader\Filesystem',
+                    'Magento\App\Module\Declaration\Reader\Filesystem',
                     array(
                         'fileResolver' => $objectManager->create(
-                            'Magento\Core\Model\Module\Declaration\FileResolver',
+                            'Magento\App\Module\Declaration\FileResolver',
                             array(
                                 'applicationDirs' => $dirs
                             )
