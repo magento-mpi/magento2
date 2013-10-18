@@ -175,14 +175,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
     public function testRunApp()
     {
-        $requestMock = $this->getMock('Magento\TestFramework\Request', array(), array(), '', false);
-        $responseMock = $this->getMock('Magento\TestFramework\Response', array(), array(), '', false);
-
-        $this->_application
-            ->expects($this->once())
-            ->method('run')
-            ->with($requestMock, $responseMock)
-        ;
-        $this->_object->runApp($requestMock, $responseMock);
+        $this->_application->expects($this->once())->method('run');
+        $this->_object->runApp();
     }
 }
