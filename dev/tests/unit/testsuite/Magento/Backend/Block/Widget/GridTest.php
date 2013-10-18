@@ -66,7 +66,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('getApp')
             ->will($this->returnValue($appMock));
 
-        $block = new \Magento\Backend\Block\Widget\Grid($helperMock, $contextMock, $urlMock);
+        $block = new \Magento\Backend\Block\Widget\Grid($helperMock, $contextMock, $storeManagerMock, $urlMock);
 
         $this->assertFalse($block->getRssLists());
 
