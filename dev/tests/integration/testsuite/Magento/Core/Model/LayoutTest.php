@@ -74,7 +74,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUpdate()
     {
-        $this->assertInstanceOf('Magento\View\Layout\Processor', $this->_layout->getUpdate());
+        $this->assertInstanceOf('Magento\View\Layout\ProcessorInterface', $this->_layout->getUpdate());
     }
 
     public function testGetSetDirectOutput()

@@ -17,17 +17,17 @@ class Tab
     protected $_helper;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
         \Magento\GoogleOptimizer\Helper\Data $helper,
-        \Magento\View\Layout $layout
+        \Magento\View\LayoutInterface $layout
     ) {
         $this->_helper = $helper;
         $this->_layout = $layout;

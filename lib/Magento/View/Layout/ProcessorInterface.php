@@ -8,13 +8,13 @@
 
 namespace Magento\View\Layout;
 
-interface Processor
+interface ProcessorInterface
 {
     /**
      * Add XML update instruction
      *
      * @param string $update
-     * @return Processor
+     * @return ProcessorInterface
      */
     public function addUpdate($update);
 
@@ -36,7 +36,7 @@ interface Processor
      * Add handle(s) to update
      *
      * @param array|string $handleName
-     * @return Processor
+     * @return ProcessorInterface
      */
     public function addHandle($handleName);
 
@@ -44,7 +44,7 @@ interface Processor
      * Remove handle from update
      *
      * @param string $handleName
-     * @return Processor
+     * @return ProcessorInterface
      */
     public function removeHandle($handleName);
 
@@ -60,7 +60,7 @@ interface Processor
      * Return whether any page handles have been added or not.
      *
      * @param array $handlesToTry
-     * @return Processor
+     * @return ProcessorInterface
      */
     public function addPageHandles(array $handlesToTry);
 
@@ -96,7 +96,7 @@ interface Processor
      *
      * @param array|string $handles
      * @throws \Magento\Exception
-     * @return Processor
+     * @return ProcessorInterface
      */
     public function load($handles = array());
 

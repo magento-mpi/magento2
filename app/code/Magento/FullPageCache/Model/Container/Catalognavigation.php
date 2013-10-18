@@ -27,7 +27,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct(

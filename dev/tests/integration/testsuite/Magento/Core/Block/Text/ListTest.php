@@ -14,7 +14,7 @@ namespace Magento\Core\Block\Text;
 class ListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -25,7 +25,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $this->_block = $this->_layout->createBlock('Magento\Core\Block\Text\ListText');
     }
 

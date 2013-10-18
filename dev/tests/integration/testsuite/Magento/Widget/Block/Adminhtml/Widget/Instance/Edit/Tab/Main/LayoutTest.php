@@ -26,7 +26,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock(
                 'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout',
                 '',
@@ -36,7 +36,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 ))
             );
         $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
         );
     }
 

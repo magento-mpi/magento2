@@ -39,13 +39,13 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
     protected $_wysiwygConfig;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
@@ -55,7 +55,7 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
      */
     public function __construct(
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,

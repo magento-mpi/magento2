@@ -25,7 +25,7 @@ namespace Magento\Core\Model;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
+class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutInterface
 {
     /**#@+
      * Supported layout directives
@@ -88,7 +88,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Layout Update module
      *
-     * @var \Magento\View\Layout\Processor
+     * @var \Magento\View\Layout\ProcessorInterface
      */
     protected $_update;
 
@@ -297,7 +297,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\View\Layout\Processor
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function getUpdate()
     {

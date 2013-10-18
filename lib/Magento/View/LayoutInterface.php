@@ -10,19 +10,19 @@ namespace Magento\View;
 
 use Magento\Backend\Block\Widget\Form\Element;
 
-interface Layout
+interface LayoutInterface
 {
     /**
      * Retrieve the layout processor
      *
-     * @return Layout\Processor
+     * @return Layout\ProcessorInterface
      */
     public function getUpdate();
 
     /**
      * Layout xml generation
      *
-     * @return Layout
+     * @return LayoutInterface
      */
     public function generateXml();
 
@@ -44,7 +44,7 @@ interface Layout
      * Add an element to output
      *
      * @param string $name
-     * @return Layout
+     * @return LayoutInterface
      */
     public function addOutputElement($name);
 
@@ -67,7 +67,7 @@ interface Layout
      * Remove block from registry
      *
      * @param string $name
-     * @return Layout
+     * @return LayoutInterface
      */
     public function unsetElement($name);
 
@@ -101,7 +101,7 @@ interface Layout
      * @param string $parentName
      * @param string $elementName
      * @param string $alias
-     * @return Layout
+     * @return LayoutInterface
      */
     public function setChild($parentName, $elementName, $alias);
 
@@ -124,7 +124,7 @@ interface Layout
      *
      * @param string $parentName
      * @param string $alias
-     * @return Layout
+     * @return LayoutInterface
      */
     public function unsetChild($parentName, $alias);
 
@@ -234,7 +234,7 @@ interface Layout
      * Remove an element from output
      *
      * @param string $name
-     * @return Layout
+     * @return LayoutInterface
      */
     public function removeOutputElement($name);
 
@@ -271,7 +271,7 @@ interface Layout
      * Set layout area
      *
      * @param $area
-     * @return Layout
+     * @return LayoutInterface
      */
     public function setArea($area);
 
@@ -279,7 +279,7 @@ interface Layout
      * Declaring layout direct output flag
      *
      * @param   bool $flag
-     * @return  Layout
+     * @return  LayoutInterface
      */
     public function setDirectOutput($flag);
 
@@ -328,7 +328,7 @@ interface Layout
      *
      * @param string $name
      * @param  Element\Block $block
-     * @return Layout
+     * @return LayoutInterface
      */
     public function setBlock($name, $block);
 }

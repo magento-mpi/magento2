@@ -13,7 +13,7 @@ class LayoutFunctions
 {
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     private $_layout;
 
@@ -23,7 +23,7 @@ class LayoutFunctions
     private $_blockTracker;
 
     public function __construct(
-        \Magento\View\Layout $layout
+        \Magento\View\LayoutInterface $layout
     ) {
         $this->_layout = $layout;
     }

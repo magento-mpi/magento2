@@ -24,7 +24,7 @@ class UnitofmeasureTest extends \PHPUnit_Framework_TestCase
             )
         ));
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure */
         $block = $layout->createBlock('Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure');
         $this->assertNotEmpty($block->toHtml());

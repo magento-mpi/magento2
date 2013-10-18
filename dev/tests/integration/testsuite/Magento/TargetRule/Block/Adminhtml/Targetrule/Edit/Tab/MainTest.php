@@ -32,7 +32,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ->register('current_target_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\TargetRule\Model\Rule'));
 
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main');
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main', '_prepareForm');

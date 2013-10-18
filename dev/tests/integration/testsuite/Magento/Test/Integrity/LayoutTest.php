@@ -51,11 +51,11 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     }
                 }
 
-                /** @var \Magento\View\Layout\Element $node */
-                $errors = array();
-                foreach ($handles as $node) {
-                    $this->_collectHierarchyErrors($node, $xml, $errors);
-                }
+        /** @var \Magento\View\Layout\Element $node */
+        $errors = array();
+        foreach ($handles as $node) {
+            $this->_collectHierarchyErrors($node, $xml, $errors);
+        }
 
                 if ($errors) {
                     $this->fail("There are errors while checking the page type and fragment types hierarchy at:\n"
@@ -75,9 +75,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected function _composeXml(\Magento\View\Design\ThemeInterface $theme)
     {
-        /** @var \Magento\View\Layout\Processor $layoutUpdate */
+        /** @var \Magento\View\Layout\ProcessorInterface $layoutUpdate */
         $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Layout\Processor', array('theme' => $theme));
+            ->create('Magento\View\Layout\ProcessorInterface', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 

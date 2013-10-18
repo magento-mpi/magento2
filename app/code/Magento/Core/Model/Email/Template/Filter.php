@@ -76,7 +76,7 @@ class Filter extends \Magento\Filter\Template
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -99,7 +99,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\View\LayoutFactory $layoutFactory
      */
     public function __construct(
@@ -109,7 +109,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\View\LayoutFactory $layoutFactory
     ) {
         $this->_coreData = $coreData;
@@ -253,7 +253,7 @@ class Filter extends \Magento\Filter\Template
         if (isset($params['area'])) {
             $layoutParams['area'] = $params['area'];
         }
-        /** @var $layout \Magento\View\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = $this->_layoutFactory->create($layoutParams);
         $layout->getUpdate()->addHandle($params['handle'])
             ->load();

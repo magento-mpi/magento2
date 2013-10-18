@@ -21,7 +21,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -35,14 +35,14 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento\View\Layout');
+        $this->_layout = $this->_objectManager->get('Magento\View\LayoutInterface');
         $this->_block = $this->_layout->createBlock('Magento\Webapi\Block\Adminhtml\User\Edit\Tabs',
             'webapi.user.edit.tabs');
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento\View\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\View\LayoutInterface');
         unset($this->_objectManager, $this->_layout, $this->_block);
     }
 

@@ -116,7 +116,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals(
             $area,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')->getArea()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')->getArea()
         );
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('test_default');
 

@@ -31,7 +31,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             ->register('current_reminder_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Reminder\Model\Rule'));
 
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General');
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General', '_prepareForm');

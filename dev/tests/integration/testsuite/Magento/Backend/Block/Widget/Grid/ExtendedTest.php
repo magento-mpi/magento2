@@ -22,7 +22,7 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layoutMock;
 
@@ -31,7 +31,7 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->_layoutMock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Layout');
+            ->get('Magento\View\LayoutInterface');
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Backend\Block\Template\Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(

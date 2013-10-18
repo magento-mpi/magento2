@@ -18,7 +18,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_request;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -96,7 +96,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
@@ -115,7 +115,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $request,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
@@ -191,7 +191,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {

@@ -90,7 +90,7 @@ class Layout extends \Magento\Core\Block\Html\Select
      * Retrieve new layout merge model instance
      *
      * @param array $arguments
-     * @return \Magento\View\Layout\Processor
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     protected function _getLayoutProcessor(array $arguments)
     {

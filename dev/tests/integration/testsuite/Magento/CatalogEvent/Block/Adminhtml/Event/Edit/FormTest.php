@@ -29,7 +29,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('magento_catalogevent_event', $event);
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');

@@ -60,7 +60,7 @@ class Observer
     protected $_customerFactory;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -116,7 +116,7 @@ class Observer
      * @param \Magento\Persistent\Helper\Data $mPersistentData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Persistent\Model\Observer $observer
      * @param \Magento\Catalog\Model\Product\Compare\Item $compareItem
@@ -134,7 +134,7 @@ class Observer
         \Magento\Persistent\Helper\Data $mPersistentData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Persistent\Model\Observer $observer,
         \Magento\Catalog\Model\Product\Compare\Item $compareItem,

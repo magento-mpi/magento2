@@ -75,7 +75,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCssFiles($theme)
     {
-        /** @var $layoutProcessor \Magento\View\Layout\Processor */
+        /** @var $layoutProcessor \Magento\View\Layout\ProcessorInterface */
         $layoutProcessor = $this->_layoutProcessorFactory->create(array('theme' => $theme));
         $layoutElement = $layoutProcessor->getFileLayoutUpdatesXml();
 
