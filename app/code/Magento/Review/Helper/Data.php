@@ -34,17 +34,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Escaper $escaper
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -60,7 +68,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDetailHtml($origDetail)
     {
-        return nl2br($this->_coreString->truncate($this->escapeHtml($origDetail), 50));
+        return nl2br($this->_coreString->truncate($this->_escaper->escapeHtml($origDetail), 50));
     }
 
     /**

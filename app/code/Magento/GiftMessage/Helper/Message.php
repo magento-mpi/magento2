@@ -57,6 +57,11 @@ class Message extends \Magento\Core\Helper\Data
     protected $_giftMessageFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -70,6 +75,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
+     * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -86,12 +92,14 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
+        \Magento\Escaper $escaper,
         $dbCompatibleMode = true
     )
     {
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
+        $this->_escaper = $escaper;
         parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
@@ -223,7 +231,7 @@ class Message extends \Magento\Core\Helper\Data
     {
         $message = $this->getGiftMessageForEntity($entity);
         if ($message) {
-            return nl2br($this->escapeHtml($message->getMessage()));
+            return nl2br($this->_escaper->escapeHtml($message->getMessage()));
         }
         return null;
     }

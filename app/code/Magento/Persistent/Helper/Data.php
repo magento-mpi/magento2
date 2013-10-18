@@ -51,6 +51,11 @@ class Data extends \Magento\Core\Helper\Data
     protected $_coreUrl;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -64,6 +69,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -80,12 +86,14 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Escaper $escaper,
         $dbCompatibleMode = true
     )
     {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
+        $this->_escaper = $escaper;
         parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
@@ -174,7 +182,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->escapeHtml($this->_persistentSession->getCustomer()->getName()));
+        return __('(Not %1?)', $this->_escaper->escapeHtml($this->_persistentSession->getCustomer()->getName()));
     }
 
     /**

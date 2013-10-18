@@ -32,13 +32,6 @@ class Observer
     protected $_persistentData = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Persistent session
      *
      * @var \Magento\Persistent\Helper\Session
@@ -130,11 +123,15 @@ class Observer
     protected $_websiteCollectionFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
      * @param \Magento\Core\Model\Session $session
@@ -147,13 +144,13 @@ class Observer
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\Core\Controller\Request\Http $requestHttp
      * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Escaper $escaper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
         \Magento\Core\Model\Session $session,
@@ -165,11 +162,11 @@ class Observer
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\Core\Controller\Request\Http $requestHttp,
-        \Magento\Core\Model\Layout $layout
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Escaper $escaper
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
-        $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
         $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_session = $session;
@@ -182,6 +179,7 @@ class Observer
         $this->_persistentConfigFactory = $persistentConfigFactory;
         $this->_requestHttp = $requestHttp;
         $this->_layout = $layout;
+        $this->_escaper = $escaper;
     }
 
     /**
@@ -248,8 +246,7 @@ class Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $escapedName = $this->_coreData
-            ->escapeHtml($this->_getPersistentCustomer()->getName(), null);
+        $escapedName = $this->_escaper->escapeHtml($this->_getPersistentCustomer()->getName(), null);
 
         $this->_applyAccountLinksPersistentData();
         $welcomeMessage = __('Welcome, %1!', $escapedName)
