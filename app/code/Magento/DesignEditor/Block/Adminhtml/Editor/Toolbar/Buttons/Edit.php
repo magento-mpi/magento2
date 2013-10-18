@@ -178,7 +178,7 @@ class Edit
                 )
             )
         );
-        return $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
+        return $this->escapeHtml(json_encode($data));
     }
 
     /**
@@ -199,7 +199,7 @@ class Edit
                 )
             )
         );
-        return $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
+        return $this->escapeHtml(json_encode($data));
     }
 
     /**

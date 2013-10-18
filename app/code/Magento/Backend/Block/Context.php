@@ -37,6 +37,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -59,12 +60,13 @@ class Context extends \Magento\Core\Block\Context
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
             $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app,
-            $data
+            $escaper, $data
         );
     }
 

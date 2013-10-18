@@ -107,11 +107,9 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $_sitemapData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData;
+    protected $_escaper;
 
     /**
      * @var \Magento\Sitemap\Model\Resource\Catalog\CategoryFactory
@@ -149,7 +147,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $_request;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Filesystem $filesystem
@@ -166,7 +164,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Core\Model\Context $context,
         \Magento\Filesystem $filesystem,
@@ -182,7 +180,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
         $this->_categoryFactory = $categoryFactory;
@@ -285,7 +283,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
          */
         if (!$file->fileExists($realPath, false)) {
             throw new \Magento\Core\Exception(__('Please create the specified folder "%1" before saving the sitemap.',
-                $this->_coreData->escapeHtml($this->getSitemapPath())));
+                $this->_escaper->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {

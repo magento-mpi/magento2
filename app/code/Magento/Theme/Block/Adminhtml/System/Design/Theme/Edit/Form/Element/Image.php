@@ -21,7 +21,7 @@ class Image extends \Magento\Data\Form\Element\Image
     protected $_imagePath;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
@@ -29,7 +29,7 @@ class Image extends \Magento\Data\Form\Element\Image
      * @param array $attributes
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Core\Model\UrlInterface $urlBuilder,
@@ -38,7 +38,7 @@ class Image extends \Magento\Data\Form\Element\Image
     ) {
         $this->_imagePath = $imagePath;
         parent::__construct(
-            $coreData,
+            $escaper,
             $factoryElement,
             $factoryCollection,
             $urlBuilder,

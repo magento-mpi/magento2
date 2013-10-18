@@ -77,11 +77,9 @@ class Recommendations extends \Magento\Core\Block\Template
         }
         $result = array();
 
-        /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = $this->_coreData;
         foreach ($recommendations as $recommendation) {
             $result[] = array(
-                'word'        => $coreHelper->escapeHtml($recommendation['query_text']),
+                'word'        => $this->escapeHtml($recommendation['query_text']),
                 'num_results' => $recommendation['num_results'],
                 'link'        => $this->getUrl("*/*/") . "?q=" . urlencode($recommendation['query_text'])
             );

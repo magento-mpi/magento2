@@ -27,13 +27,12 @@ class WeightTest extends \PHPUnit_Framework_TestCase
 
     public function testSetForm()
     {
-        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new \Magento\Data\Form($session, $factory, $collectionFactory);
+        $form = $objectManager->getObject('Magento\Data\Form', array('factoryCollection' => $collectionFactory));
 
         $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
@@ -58,13 +57,18 @@ class WeightTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($form))
             ->will($this->returnSelf());
 
+        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $factory->expects($this->once())
             ->method('create')
             ->with($this->equalTo('checkbox'))
             ->will($this->returnValue($this->_virtual));
 
-        $this->_model = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight($coreHelper, $factory,
-            $collectionFactory, $helper);
+        $this->_model = $objectManager->getObject('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight', array(
+            'factoryElement' => $factory,
+            'factoryCollection' => $collectionFactory,
+            'helper' => $helper,
+        ));
+
         $this->_model->setForm($form);
     }
 }

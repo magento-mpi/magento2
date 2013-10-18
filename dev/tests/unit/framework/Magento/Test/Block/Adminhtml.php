@@ -100,6 +100,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Core\Model\Cache\StateInterface');
         $appMock                    = $this->_makeMock('Magento\Core\Model\App');
+        $escaperMock                = $this->_makeMock('Magento\Escaper');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
 
@@ -131,6 +132,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $templateFactoryMock,
             $authorizationMock,
             $appMock,
+            $escaperMock,
             $backendSessionMock,
             $this->_localeMock
         );

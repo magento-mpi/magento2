@@ -80,7 +80,12 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_relatedCacheTypes;
 
     /**
-     * @param \Magento\Widget\Helper\Data $widgetData
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -96,7 +101,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Widget\Helper\Data $widgetData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -111,7 +116,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
         array $relatedCacheTypes = array(),
         array $data = array()
     ) {
-        $this->_widgetData = $widgetData;
+        $this->_escaper = $escaper;
         $this->_coreData = $coreData;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_cacheTypeList = $cacheTypeList;
@@ -472,7 +477,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
                 $xml .= '<action method="setData">'
                     . '<argument name="name" xsi:type="string">' . $name . '</argument>'
                     . '<argument name="value" xsi:type="string">'
-                    . $this->_widgetData->escapeHtml($value) . '</argument>'
+                    . $this->_escaper->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

@@ -84,6 +84,11 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_url;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Helper\Context $context
@@ -96,6 +101,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -107,7 +113,8 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\UrlInterface $url,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Escaper $escaper
     ) {
         $this->_sessionPool = $sessionFactory;
         // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
@@ -119,6 +126,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
+        $this->_escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -195,7 +203,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
 
         $contentHeadingBlock = $action->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {
-            $contentHeading = $this->escapeHtml($this->_page->getContentHeading());
+            $contentHeading = $this->_escaper->escapeHtml($this->_page->getContentHeading());
             $contentHeadingBlock->setContentHeading($contentHeading);
         }
 

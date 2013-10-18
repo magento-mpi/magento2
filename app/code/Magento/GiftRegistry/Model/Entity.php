@@ -190,6 +190,11 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $request;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\Context $context
@@ -198,8 +203,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
-     * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
-     * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Item $itemModel
@@ -213,8 +216,10 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
+     * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -240,6 +245,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
         \Magento\Core\Controller\Request\Http $request,
+        \Magento\Escaper $escaper,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
@@ -265,7 +271,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $this->changesFactory = $changesFactory;
         $this->request = $request;
         $this->storeManager = $storeManager;
-
+        $this->_escaper = $escaper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -467,8 +473,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
-        $senderName = $this->_giftRegistryData->escapeHtml($this->getSenderName());
-        $senderEmail = $this->_giftRegistryData->escapeHtml($this->getSenderEmail());
+        $senderName = $this->_escaper->escapeHtml($this->getSenderName());
+        $senderEmail = $this->_escaper->escapeHtml($this->getSenderEmail());
         $result = new \Magento\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
@@ -492,7 +498,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
                 );
             }
 
-            $recipient['name'] = $this->_giftRegistryData->escapeHtml($recipient['name']);
+            $recipient['name'] = $this->_escaper->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
                     __('Please enter a recipient name.')

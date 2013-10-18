@@ -167,7 +167,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
             return false;
         }
         return $this->_backendData->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => $this->_coreData->urlEncode($this->getValue()),
+            'image'      => $this->_escaper->urlEncode($this->getValue()),
         ));
     }
 

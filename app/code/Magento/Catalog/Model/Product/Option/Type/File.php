@@ -48,11 +48,9 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_coreFileStorageDatabase = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper;
 
     /**
      * Dir
@@ -82,7 +80,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Core\Model\UrlInterface $url
      * @param \Magento\Core\Model\Dir $dir
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Filesystem $filesystem
@@ -94,7 +92,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Core\Model\UrlInterface $url,
         \Magento\Core\Model\Dir $dir,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Filesystem $filesystem,
@@ -104,7 +102,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_url = $url;
         $this->_dir = $dir;
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
         $this->_fileSize = $fileSize;
@@ -611,7 +609,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             return sprintf('<a href="%s" target="_blank">%s</a> %s',
                 $this->_getOptionDownloadUrl($urlRoute, $urlParams),
-                $this->_coreData->escapeHtml($title),
+                $this->_escaper->escapeHtml($title),
                 $sizes
             );
         } catch (\Exception $e) {
@@ -658,7 +656,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         try {
             $value = unserialize($optionValue);
             return sprintf('%s [%d]',
-                $this->_coreData->escapeHtml($value['title']),
+                $this->_escaper->escapeHtml($value['title']),
                 $this->getConfigurationItemOption()->getId()
             );
 

@@ -869,8 +869,8 @@ class Product extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(__('SKU for product %1 has been changed to %2.',
-                            $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getName()),
-                            $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getSku()))
+                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
+                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku()))
                     );
                 }
 

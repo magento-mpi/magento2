@@ -128,6 +128,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_formFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
@@ -137,6 +142,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -147,7 +153,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Customer\Model\FormFactory $formFactory
+        \Magento\Customer\Model\FormFactory $formFactory,
+        \Magento\Escaper $escaper
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
@@ -157,6 +164,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_groupFactory = $groupFactory;
         $this->_formFactory = $formFactory;
+        $this->_escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -433,7 +441,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $result = array();
         $options = explode(';', $options);
         foreach ($options as $value) {
-            $value = $this->escapeHtml(trim($value));
+            $value = $this->_escaper->escapeHtml(trim($value));
             $result[$value] = $value;
         }
         return $result;
@@ -651,7 +659,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         } else if ($validationResult->getRequestSuccess()) {
             $message = sprintf(
                 __('The VAT ID entered (%s) is not a valid VAT ID.') . ' ',
-                $this->escapeHtml($customerAddress->getVatId())
+                $this->_escaper->escapeHtml($customerAddress->getVatId())
             );
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
                 $message .= $willChargeTaxMessage;

@@ -93,6 +93,11 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Translate $translate
@@ -100,6 +105,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -112,6 +118,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Escaper $escaper,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -121,6 +128,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         $this->_translate = $translate;
         $this->_catalogImage = $catalogImage;
         $this->_sendfriendData = $sendfriendData;
+        $this->_escaper = $escaper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -160,8 +168,8 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
         $sender  = array(
-            'name'  => $this->_getHelper()->escapeHtml($this->getSender()->getName()),
-            'email' => $this->_getHelper()->escapeHtml($this->getSender()->getEmail())
+            'name'  => $this->_escaper->escapeHtml($this->getSender()->getName()),
+            'email' => $this->_escaper->escapeHtml($this->getSender()->getEmail())
         );
 
         $mailTemplate->setDesignConfig(array(

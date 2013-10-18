@@ -56,11 +56,9 @@ class Filter extends \Magento\Filter\Template
     protected $_logger;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper = null;
 
     /**
      * Core store config
@@ -94,7 +92,7 @@ class Filter extends \Magento\Filter\Template
 
     /**
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
@@ -104,7 +102,7 @@ class Filter extends \Magento\Filter\Template
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
@@ -112,7 +110,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Model\LayoutFactory $layoutFactory
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -384,7 +382,7 @@ class Filter extends \Magento\Filter\Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return $this->_coreData->escapeHtml($params['var'], $allowedTags);
+        return $this->_escaper->escapeHtml($params['var'], $allowedTags);
     }
 
     /**

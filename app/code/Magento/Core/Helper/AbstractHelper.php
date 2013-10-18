@@ -182,38 +182,6 @@ abstract class AbstractHelper
     }
 
     /**
-     * Escape html entities
-     *
-     * @param   string|array $data
-     * @param   array $allowedTags
-     * @return  mixed
-     */
-    public function escapeHtml($data, $allowedTags = null)
-    {
-        if (is_array($data)) {
-            $result = array();
-            foreach ($data as $item) {
-                $result[] = $this->escapeHtml($item);
-            }
-        } else {
-            // process single item
-            if (strlen($data)) {
-                if (is_array($allowedTags) and !empty($allowedTags)) {
-                    $allowed = implode('|', $allowedTags);
-                    $result = preg_replace('/<([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)>/si', '##$1$2$3##', $data);
-                    $result = htmlspecialchars($result, ENT_COMPAT, 'UTF-8', false);
-                    $result = preg_replace('/##([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)##/si', '<$1$2$3>', $result);
-                } else {
-                    $result = htmlspecialchars($data, ENT_COMPAT, 'UTF-8', false);
-                }
-            } else {
-                $result = $data;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Remove html tags, but leave "<" and ">" signs
      *
      * @param string $html
@@ -240,53 +208,9 @@ abstract class AbstractHelper
     public function stripTags($data, $allowableTags = null, $escape = false)
     {
         $result = strip_tags($data, $allowableTags);
-        return $escape ? $this->escapeHtml($result, $allowableTags) : $result;
-    }
-
-    /**
-     * Escape html entities in url
-     *
-     * @param string $data
-     * @return string
-     */
-    public function escapeUrl($data)
-    {
-        return htmlspecialchars($data);
-    }
-
-    /**
-     * Escape quotes in java script
-     *
-     * @param mixed $data
-     * @param string $quote
-     * @return mixed
-     */
-    public function jsQuoteEscape($data, $quote = '\'')
-    {
-        if (is_array($data)) {
-            $result = array();
-            foreach ($data as $item) {
-                $result[] = str_replace($quote, '\\' . $quote, $item);
-            }
-            return $result;
-        }
-        return str_replace($quote, '\\' . $quote, $data);
-    }
-
-    /**
-     * Escape quotes inside html attributes
-     * Use $addSlashes = false for escaping js that inside html attribute (onClick, onSubmit etc)
-     *
-     * @param string $data
-     * @param bool $addSlashes
-     * @return string
-     */
-    public function quoteEscape($data, $addSlashes = false)
-    {
-        if ($addSlashes === true) {
-            $data = addslashes($data);
-        }
-        return htmlspecialchars($data, ENT_QUOTES, null, false);
+        /** @var \Magento\Escaper $escaper */
+        $escaper = \Magento\Core\Model\ObjectManager::getInstance()->get('\Magento\Escaper');
+        return $escape ? $escaper->escapeHtml($result, $allowableTags) : $result;
     }
 
     /**

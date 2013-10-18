@@ -142,6 +142,11 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_app;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -163,6 +168,7 @@ abstract class AbstractBlock extends \Magento\Object
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
         $this->_app             = $context->getApp();
+        $this->_escaper         = $context->getEscaper();
         parent::__construct($data);
         $this->_construct();
     }
@@ -861,7 +867,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->helper('Magento\Core\Helper\Data')->escapeHtml($data, $allowedTags);
+        return $this->_escaper->escapeHtml($data, $allowedTags);
     }
 
     /**
@@ -885,7 +891,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function escapeUrl($data)
     {
-        return $this->helper('Magento\Core\Helper\Data')->escapeUrl($data);
+        return $this->_escaper->escapeUrl($data);
     }
 
     /**
@@ -898,7 +904,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function quoteEscape($data, $addSlashes = false)
     {
-        return $this->helper('Magento\Core\Helper\Data')->quoteEscape($data, $addSlashes);
+        return $this->_escaper->quoteEscape($data, $addSlashes);
     }
 
     /**
@@ -910,7 +916,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function jsQuoteEscape($data, $quote = '\'')
     {
-        return $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($data, $quote);
+        return $this->_escaper->jsQuoteEscape($data, $quote);
     }
 
     /**

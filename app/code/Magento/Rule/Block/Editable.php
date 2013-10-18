@@ -72,9 +72,9 @@ class Editable
                 . '<a href="javascript:void(0)" class="label">';
 
             if ($this->_translator->isAllowed()) {
-                $html .= $this->_coreData->escapeHtml($valueName);
+                $html .= $this->escapeHtml($valueName);
             } else {
-                $html .= $this->_coreData->escapeHtml($this->_coreString->truncate($valueName, 33, '...'));
+                $html .= $this->escapeHtml($this->_coreString->truncate($valueName, 33, '...'));
             }
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();

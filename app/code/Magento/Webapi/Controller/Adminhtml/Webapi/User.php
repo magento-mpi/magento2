@@ -87,7 +87,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Magento\Escaper')->escapeHtml($user->getApiKey())
             : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);

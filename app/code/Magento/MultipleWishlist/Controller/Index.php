@@ -122,7 +122,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             try {
                 $wishlist = $this->_editWishlist($customerId, $name, $visibility);
                 $this->_getSession()->addSuccess(
-                    __('Wish List "%1" was saved.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName()))
+                    __('Wish List "%1" was saved.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
                 );
                 $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
             } catch (\Magento\Core\Exception $e) {
@@ -222,7 +222,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             $wishlist = $this->_editWishlist($customerId, $wishlistName, $visibility, $wishlistId);
 
             $this->_getSession()->addSuccess(
-                __('Wish List "%1" was saved.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName()))
+                __('Wish List "%1" was saved.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -274,7 +274,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             $wishlist->delete();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $this->_wishlistSession->addSuccess(
-                __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName()))
+                __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -357,8 +357,8 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $item = $this->_itemFactory->create();
                 $item->loadWithOptions($itemId);
 
-                $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
-                $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
+                $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
+                $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName());
 
                 $this->_copyItem($item, $wishlist, $qty);
                 $this->_getSession()->addSuccess(
@@ -431,7 +431,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 }
             }
         }
-        $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
+        $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
 
         $wishlist->save();
 
@@ -448,7 +448,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         }
 
         if (count($alreadyPresent)) {
-            $names = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($this->_joinProductNames($alreadyPresent));
+            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->_getSession()->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );
@@ -456,7 +456,7 @@ class Index extends \Magento\Wishlist\Controller\Index
 
         if (count($copied)) {
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $names = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($this->_joinProductNames($copied));
+            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($copied));
             $this->_getSession()->addSuccess(
                 __('%1 items were copied to %2: %3.', count($copied), $wishlistName, $names)
             );
@@ -527,8 +527,8 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $item = $this->_itemFactory->create();
                 $item->loadWithOptions($itemId);
 
-                $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
-                $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
+                $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName());
+                $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
 
                 $this->_moveItem($item, $wishlist, $wishlists, $this->getRequest()->getParam('qty', null));
                 $this->_getSession()->addSuccess(
@@ -605,7 +605,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
         }
 
-        $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
+        $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
 
         if (count($notFound)) {
             $this->_getSession()->addError(
@@ -614,14 +614,14 @@ class Index extends \Magento\Wishlist\Controller\Index
         }
 
         if (count($notAllowed)) {
-            $names = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($this->_joinProductNames($notAllowed));
+            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($notAllowed));
             $this->_getSession()->addError(
                 __('%1 items cannot be moved: %2.', count($notAllowed), $names)
             );
         }
 
         if (count($alreadyPresent)) {
-            $names = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($this->_joinProductNames($alreadyPresent));
+            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->_getSession()->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );
@@ -635,7 +635,7 @@ class Index extends \Magento\Wishlist\Controller\Index
 
         if (count($moved)) {
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $names = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($this->_joinProductNames($moved));
+            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($moved));
             $this->_getSession()->addSuccess(
                 __('%1 items were moved to %2: %3.', count($moved), $wishlistName, $names)
             );

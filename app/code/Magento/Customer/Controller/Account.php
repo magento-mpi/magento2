@@ -679,7 +679,7 @@ class Account extends \Magento\Core\Controller\Front\Action
                     return;
                 }
             }
-            $email = $this->_objectManager->get('Magento\Customer\Helper\Data')->escapeHtml($email);
+            $email = $this->_objectManager->get('Magento\Escaper')->escapeHtml($email);
             $this->_getSession()->addSuccess(
                 __('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );

@@ -22,40 +22,38 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * @var mixed
      */
-    protected $_formattedOptionValue = null;
+    protected $_formattedOptionValue;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper;
 
     /**
      * Core string
      *
      * @var \Magento\Core\Helper\String
      */
-    protected $_coreString = null;
+    protected $_coreString;
 
     /**
      * Construct
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
@@ -112,7 +110,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = $this->_coreData->escapeHtml(
+            $this->_formattedOptionValue = $this->_escaper->escapeHtml(
                 $this->getEditableOptionValue($optionValue)
             );
         }

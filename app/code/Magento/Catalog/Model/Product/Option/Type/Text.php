@@ -27,29 +27,27 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_coreString = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper = null;
 
     /**
      * Constructor
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_coreString = $coreString;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
@@ -107,6 +105,6 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function getFormattedOptionValue($value)
     {
-        return $this->_coreData->escapeHtml($value);
+        return $this->_escaper->escapeHtml($value);
     }
 }

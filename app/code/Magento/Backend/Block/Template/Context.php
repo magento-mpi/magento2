@@ -52,6 +52,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\LocaleInterface $locale
      *
@@ -80,13 +81,14 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
             $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
-            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app
+            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app, $escaper
         );
         $this->_storeManager = $storeManager;
         $this->_authorization = $authorization;

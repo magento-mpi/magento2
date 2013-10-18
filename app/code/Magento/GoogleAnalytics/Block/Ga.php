@@ -130,9 +130,9 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),
-                $this->jsQuoteEscape($this->_coreData->escapeHtml($address->getCity())),
-                $this->jsQuoteEscape($this->_coreData->escapeHtml($address->getRegion())),
-                $this->jsQuoteEscape($this->_coreData->escapeHtml($address->getCountry()))
+                $this->jsQuoteEscape($this->escapeHtml($address->getCity())),
+                $this->jsQuoteEscape($this->escapeHtml($address->getRegion())),
+                $this->jsQuoteEscape($this->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",

@@ -84,11 +84,12 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
-        \Magento\Core\Model\App $app
+        \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
-            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app
+            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app, $escaper
         );
 
         $this->_dirs = $dirs;

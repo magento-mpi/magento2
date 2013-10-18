@@ -148,45 +148,45 @@ class Layout
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('-- Please Select --'))
+            'label' => $this->jsQuoteEscape(__('-- Please Select --'))
         );
         $options[] = array(
             'label' => __('Categories'),
             'value' => array(
                 array(
                     'value' => 'anchor_categories',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Anchor Categories'))
+                    'label' => $this->jsQuoteEscape(__('Anchor Categories'))
                 ),
                 array(
                     'value' => 'notanchor_categories',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Non-Anchor Categories'))
+                    'label' => $this->jsQuoteEscape(__('Non-Anchor Categories'))
                 )
             )
         );
         foreach ($this->_productType->getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
-               'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($type['label'])
+               'label' => $this->jsQuoteEscape($type['label'])
             );
         }
         array_unshift($productsOptions, array(
             'value' => 'all_products',
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Product Types'))
+            'label' => $this->jsQuoteEscape(__('All Product Types'))
         ));
         $options[] = array(
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Products')),
+            'label' => $this->jsQuoteEscape(__('Products')),
             'value' => $productsOptions
         );
         $options[] = array(
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Generic Pages')),
+            'label' => $this->jsQuoteEscape(__('Generic Pages')),
             'value' => array(
                 array(
                     'value' => 'all_pages',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Pages'))
+                    'label' => $this->jsQuoteEscape(__('All Pages'))
                 ),
                 array(
                     'value' => 'pages',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Specified Page'))
+                    'label' => $this->jsQuoteEscape(__('Specified Page'))
                 )
             )
         );
@@ -284,7 +284,7 @@ class Layout
     {
         $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
-                'label'     => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Remove Layout Update')),
+                'label'     => $this->jsQuoteEscape(__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
                 'class'     => 'action-delete'
             ));

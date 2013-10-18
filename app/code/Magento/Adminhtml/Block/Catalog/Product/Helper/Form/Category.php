@@ -103,7 +103,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     {
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
-        $selectorOptions = $this->_coreData->jsonEncode($this->_getSelectorOptions());
+        $selectorOptions = $this->_escaper->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout

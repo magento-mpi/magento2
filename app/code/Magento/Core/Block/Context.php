@@ -95,6 +95,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_app;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -111,6 +116,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
      * @param array $data
      */
     public function __construct(
@@ -130,6 +136,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -148,6 +155,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cacheState      = $cacheState;
         $this->_logger          = $logger;
         $this->_app             = $app;
+        $this->_escaper         = $escaper;
     }
 
     /**
@@ -276,5 +284,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getApp()
     {
         return $this->_app;
+    }
+
+    /**
+     * @return \Magento\Escaper
+     */
+    public function getEscaper()
+    {
+        return $this->_escaper;
     }
 }
