@@ -340,7 +340,7 @@ return array(
     array('getDirectOutput', 'Magento\Core\Model\Layout'),
     array('getDistroServerVars', 'Magento\Core\Model\Config', 'getDistroBaseUrl'),
     array('getElementClass', 'Magento\Core\Model\Layout\Update'),
-    array('getEngineFactory', 'Magento\Core\Block\Template', 'getEnginePool'),
+    array('getEngineFactory', 'Magento\Core\Block\Template\Context', 'getEnginePool'),
     array('getEntityIdsToIncrementIds', 'Magento\Rss\Model\Resource\Order'),
     array('getEntityTypeIdsToTypes', 'Magento\Rss\Model\Resource\Order'),
     array('getEventConfig', 'Magento\Core\Model\Config'),
