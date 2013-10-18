@@ -236,7 +236,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function getLayout()
     {

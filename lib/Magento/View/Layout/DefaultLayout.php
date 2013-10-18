@@ -519,14 +519,15 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         if (empty($name)) {
             $name = 'Anonymous-' . self::$inc++;
         }
-        $block->setType($type);
-        $block->setLayout($this);
+        //$block->setType($type);
         $block->setNameInLayout($name);
+        $block->setLayout($this);
 
         $element = array(
             'name' => $name,
             'type' => 'block',
             'class' => $type,
+            'registered' => true,
             '_wrapped_' => $block,
         );
         $this->addElement($name, $element);

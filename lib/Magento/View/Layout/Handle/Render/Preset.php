@@ -125,8 +125,6 @@ class Preset implements Render
                 $node['layout'] = $personalLayout;
             }
         }
-
-
     }
 
     /**
@@ -138,10 +136,14 @@ class Preset implements Render
     {
         if (isset($meta['children'])) {
             foreach ($meta['children'] as & $child) {
-                $child['parent'] = & $meta;
-                /** @var $handle Render */
-                $handle = $this->handleFactory->get($child['type']);
-                $handle->register($child, $meta['layout'], $meta);
+                if (!isset($child['registered'])) {
+                    $child['registered'] = true;
+                    $child['parent'] = & $meta;
+                    /** @var $handle Render */
+                    $handle = $this->handleFactory->get($child['type']);
+                    $handle->register($child, $layout, $meta);
+                }
+
             }
         }
     }
