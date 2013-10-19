@@ -8,14 +8,12 @@
 
 namespace Magento\View\Layout\Handle\Data;
 
-use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Data;
 use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
-use Magento\View\Layout\Handle\Data\Registry;
 
 class Source implements Data
 {
@@ -25,53 +23,40 @@ class Source implements Data
     const TYPE = 'data';
 
     /**
-     * @var \Magento\View\Layout\HandleFactory
+     * @var HandleFactory
      */
     protected $handleFactory;
 
     /**
-     * @var \Magento\View\Layout\Handle\Data\Registry
-     */
-    protected $dataRegistry;
-
-    /**
      * @param HandleFactory $handleFactory
-     * @param Registry $dataRegistry
      */
-    public function __construct(
-        HandleFactory $handleFactory,
-        Registry $dataRegistry
-    ) {
+    public function __construct(HandleFactory $handleFactory) {
         $this->handleFactory = $handleFactory;
-        $this->dataRegistry = $dataRegistry;
     }
 
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Source
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $node = array();
+        $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
             if ($attribute) {
-                $node[$attributeName] = (string)$attribute;
+                $element[$attributeName] = (string)$attribute;
             }
         }
 
-        $node['type'] = self::TYPE;
+        $element['type'] = self::TYPE;
+        $elementName = $element['name'];
 
-        $name = isset($node['name']) ? $node['name'] : null;
-        if (isset($name)) {
-            // if ($name == 'product.tooltip')var_dump($parentNode);
-            // add element to the layout registry (for quick reference)
-            $layout->addElement($name, $node);
-        }
+        $layout->addElement($elementName, $element);
 
-        $alias = isset($node['as']) ? $node['as'] : $name;
-        if (isset($alias) && $parentNode) {
-            $parentNode['children'][$alias] = & $node;
+        $alias = isset($node['as']) ? $node['as'] : $elementName;
+        if (isset($alias) && $parentName) {
+            $layout->setChild($parentName, $elementName, $alias);
         }
 
         // parse children
@@ -81,31 +66,33 @@ class Source implements Data
                 $type = $childXml->getName();
                 /** @var $handle Handle */
                 $handle = $this->handleFactory->get($type);
-                $handle->parse($childXml, $layout, $node);
+                $handle->parse($childXml, $layout, $elementName);
             }
         }
+
+        return $this;
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      * @throws \Exception
+     * @return Source
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        if (isset($meta['class'])) {
-            if (!class_exists($meta['class'])) {
-                throw new \Exception(__('Invalid Data Provider class name: ' . $meta['class']));
+        if (isset($element['class'])) {
+            if (!class_exists($element['class'])) {
+                throw new \Exception(__('Invalid Data Provider class name: ' . $element['class']));
             }
 
-            $name = isset($meta['name']) ? $meta['name'] : null;
+            $elementName = isset($element['name']) ? $element['name'] : null;
+            $alias = isset($element['as']) ? $element['as'] : $elementName;
 
-            $data = $this->dataRegistry->get($name, $meta['class']);
-
-            $alias = isset($meta['as']) ? $meta['as'] : $name;
-
-            $parentNode['_data_'][$alias] = $data;
+            $layout->addDataSource($element['class'], $elementName, $parentName, $alias);
         }
+
+        return $this;
     }
 }

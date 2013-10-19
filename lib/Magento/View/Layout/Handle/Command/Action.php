@@ -8,7 +8,6 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
@@ -21,43 +20,62 @@ class Action implements Command
      */
     const TYPE = 'action';
 
+    private static $inc = 0;
+
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Action
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $node = array();
+        $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
             if ($attribute) {
-                $node[$attributeName] = (string)$attribute;
+                $element[$attributeName] = (string)$attribute;
             }
         }
-        $node['type'] = self::TYPE;
+        $element['type'] = self::TYPE;
+        $elementName = isset($element['name']) ? $element['name'] : ('Command-Action-' . self::$inc++);
 
         $arguments = array();
         foreach ($layoutElement as $argument) {
+            /** @var $argument Element */
             $name = $argument->getAttribute('name');
             $value = (string) $argument;
             $arguments[$name] = $value;
         }
-        $node['arguments'] = $arguments;
-        $node['parent_name'] = $parentNode['name'];
-        $parentNode['children'][] = & $node;
+        $element['arguments'] = $arguments;
+
+        $layout->addElement($elementName, $element);
+        if (isset($parentName)) {
+            $layout->setChild($parentName, $elementName, $elementName);
+        }
+
+        return $this;
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Action
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        $method = isset($meta['method']) ? $meta['method'] : null;
-        if (isset($method) && isset($meta['parent']['_wrapped_'])) {
-            $arguments = isset($meta['arguments']) ? $meta['arguments'] : array();
-            call_user_func_array(array($meta['parent']['_wrapped_'], $method), $arguments);
+        $method = isset($element['method']) ? $element['method'] : null;
+        if (isset($method) && isset($parentName)) {
+            $arguments = isset($element['arguments']) ? $element['arguments'] : array();
+            $block = $layout->getBlock($parentName);
+            if (isset($block)) {
+                call_user_func_array(array($block, $method), $arguments);
+            }
         }
+
+        $alias = $layout->getChildAlias($parentName, $element['name']);
+        $layout->unsetChild($parentName, $alias);
+
+        return $this;
     }
 }

@@ -17,14 +17,15 @@ interface Handle
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array());
+    public function parse(Element $layoutElement, Layout $layout, $parentName);
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Handle
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array());
+    public function register(array $element, Layout $layout, $parentName);
 }

@@ -10,7 +10,6 @@ namespace Magento\View\Layout\Handle\Render;
 
 use Magento\View\Layout\Handle\Render;
 
-use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
@@ -18,7 +17,6 @@ use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\Processor;
-use Magento\View\Layout\Reader;
 use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
 
@@ -30,11 +28,6 @@ class Preset implements Render
      * @var ProcessorFactory
      */
     protected $processorFactory;
-
-    /**
-     * @var Reader
-     */
-    protected $layoutReader;
 
     /**
      * @var LayoutFactory
@@ -56,34 +49,31 @@ class Preset implements Render
      * @param ProcessorFactory $processorFactory
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
-     * @param Reader $layoutReader
      * @param LayoutFactory $layoutFactory
      */
     public function __construct(
         ProcessorFactory $processorFactory,
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
-        Reader $layoutReader,
         LayoutFactory $layoutFactory
     ) {
         $this->processorFactory = $processorFactory;
         $this->handleFactory = $handleFactory;
         $this->renderFactory = $renderFactory;
-        $this->layoutReader = $layoutReader;
         $this->layoutFactory = $layoutFactory;
     }
 
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
-     * @return array|void
+     * @param string $parentName
+     * @return Preset
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $name = $layoutElement->getAttribute('name');
-        if (isset($name)) {
-            $element = & $layout->getElement($name);
+        $elementName = $layoutElement->getAttribute('name');
+        if (isset($elementName)) {
+            $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
                     $element[$attributeName] = (string)$attribute;
@@ -91,13 +81,14 @@ class Preset implements Render
             }
             $element['type'] = self::TYPE;
 
-            $alias = isset($element['as']) ? $element['as'] : $name;
-            if (isset($alias) && $parentNode) {
-                $element['parent_name'] = $parentNode['name'];
-                $parentNode['children'][$alias] = & $element;
+            $layout->addElement($elementName, $element);
+
+            if (isset($parentName)) {
+                $alias = isset($element['as']) ? $element['as'] : $elementName;
+                $layout->setChild($parentName, $elementName, $alias);
             }
 
-            if (isset($parentNode) && isset($element['handle'])) {
+            if (isset($parentName) && isset($element['handle'])) {
                 $personalLayout = $this->layoutFactory->create();
 
                 /** @var $layoutProcessor Processor */
@@ -109,7 +100,7 @@ class Preset implements Render
                     $type = $childElement->getName();
                     /** @var $handle Handle */
                     $handle = $this->handleFactory->get($type);
-                    $handle->parse($childElement, $personalLayout, $element);
+                    $handle->parse($childElement, $personalLayout, $elementName);
                 }
 
                 // parse children
@@ -119,52 +110,56 @@ class Preset implements Render
                         $type = $childXml->getName();
                         /** @var $handle Handle */
                         $handle = $this->handleFactory->get($type);
-                        $handle->parse($childXml, $personalLayout, $element);
+                        $handle->parse($childXml, $personalLayout, $elementName);
                     }
                 }
                 $node['layout'] = $personalLayout;
             }
         }
+
+        return $this;
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        if (isset($meta['children'])) {
-            foreach ($meta['children'] as & $child) {
-                if (!isset($child['registered'])) {
-                    $child['registered'] = true;
-                    $child['parent'] = & $meta;
-                    /** @var $handle Render */
-                    $handle = $this->handleFactory->get($child['type']);
-                    $handle->register($child, $layout, $meta);
-                }
+        if (isset($element['name']) && !isset($element['is_registered'])) {
+            $elementName = $element['name'];
 
+            $layout->setElementAttribute($elementName, 'is_registered', true);
+
+            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+                $child = $layout->getElement($childName);
+                /** @var $handle Render */
+                $handle = $this->handleFactory->get($child['type']);
+                $handle->register($child, $layout, $elementName);
             }
         }
     }
 
     /**
-     * @param array $meta
+     * @param array $elements
      * @param Layout $layout
-     * @param array $parentNode
      * @param $type
      * @return mixed
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
+    public function render(array $elements, Layout $layout, $type = Html::TYPE_HTML)
     {
         $result = '';
 
-        $children = isset($meta['children']) ? $meta['children'] : array();
-        foreach ($children as $child) {
-            /** @var $handle Render */
-            $handle = $this->handleFactory->get($child['type']);
-            if ($handle instanceof Render) {
-                $result .= $handle->render($child, $layout, $parentNode, $type);
+        if (isset($element['name'])) {
+            $elementName = $element['name'];
+            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+                $child = $layout->getElement($childName);
+                /** @var $handle Render */
+                $handle = $this->handleFactory->get($child['type']);
+                if ($handle instanceof Render) {
+                    $result .= $handle->render($child, $layout, $type);
+                }
             }
         }
 

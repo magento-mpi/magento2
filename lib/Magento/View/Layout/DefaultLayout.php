@@ -8,19 +8,20 @@
 
 namespace Magento\View\Layout;
 
+use Magento\View\DataSourcePool;
+use Magento\View\BlockPool;
 use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\HandleFactory;
-use Magento\View\Layout\Handle\Render;
-use Magento\Core\Model\BlockFactory;
+use Magento\View\Layout\Handle\Render\Block;
 use Magento\View\Layout\ProcessorFactory;
-use Magento\Core\Model\View\DesignInterface;
 use Magento\View\Design\ThemeFactory;
-use Magento\Core\Exception;
-use Magento\Core\Block\AbstractBlock;
-
+use Magento\View\Registry;
 use Magento\ObjectManager;
+
+use Magento\Core\Block\AbstractBlock;
+use Magento\Core\Model\View\DesignInterface;
 
 class DefaultLayout extends \Magento\Simplexml\Config implements Layout
 {
@@ -31,10 +32,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     protected $_xml;
 
-    /**
-     * @var array
-     */
-    protected $meta = array();
+    protected $root;
 
     /**
      * @var array
@@ -42,9 +40,9 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     protected $elements = array();
 
     /**
-     * @var Element
+     * @var Registry
      */
-    protected $root;
+    protected $registry;
 
     /**
      * @var Context
@@ -57,19 +55,9 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     protected $handleFactory;
 
     /**
-     * @var BlockFactory
-     */
-    protected $blockFactory;
-
-    /**
      * @var ProcessorFactory
      */
     protected $processorFactory;
-
-    /**
-     * @var Reader
-     */
-    protected $layoutReader;
 
     /**
      * @var DesignInterface
@@ -80,6 +68,16 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      * @var ThemeFactory
      */
     protected $themeFactory;
+
+    /**
+     * @var BlockPool
+     */
+    protected $blockPool;
+
+    /**
+     * @var DataSourcePool
+     */
+    protected $dataSourcePool;
 
     /**
      * @var \Magento\View\Layout\Processor
@@ -111,17 +109,19 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         ThemeFactory $themeFactory,
         Context $context,
         HandleFactory $handleFactory,
-        BlockFactory $blockFactory,
         ProcessorFactory $processorFactory,
-        Reader $layoutReader
+        Registry $registry,
+        BlockPool $blockPool,
+        DataSourcePool $dataSourcePool
     ) {
         $this->design = $design;
+        $this->themeFactory = $themeFactory;
         $this->context = $context;
         $this->handleFactory = $handleFactory;
-        $this->blockFactory = $blockFactory;
         $this->processorFactory = $processorFactory;
-        $this->layoutReader = $layoutReader;
-        $this->themeFactory = $themeFactory;
+        $this->registry = $registry;
+        $this->blockPool = $blockPool;
+        $this->dataSourcePool = $dataSourcePool;
     }
 
     /**
@@ -176,50 +176,39 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function generateElements()
     {
-        $this->meta = array(
+        $this->root = array(
             'type' => 'container',
-            'name' => '.',
-            'children' => array(),
+            'name' => '.'
         );
+
+        $this->registry->createElement('.', $this->root);
 
         foreach ($this->_xml as $node) {
             $type = $node->getName();
             /** @var $handle Handle */
             $handle = $this->handleFactory->get($type);
-            $handle->parse($node, $this, $this->meta);
+            $handle->parse($node, $this, $this->root['name']);
         }
 
-        $handle = $this->handleFactory->get($this->meta['type']);
-        $handle->register($this->meta, $this);
+        $this->root = $this->registry->getElement('.');
+
+        $handle = $this->handleFactory->get($this->root['type']);
+        $handle->register($this->root, $this, null);
+
+        $this->root = $this->registry->getElement('.');
         return $this;
     }
 
     /**
      * @param $name
      * @param array $element
+     * @return Layout
      */
-    public function addElement($name, array & $element)
+    public function addElement($name, array $element)
     {
-        if (isset($this->elements[$name])) {
-            //throw new \Exception('The element with same name already exists: ' . $name);
-        }
-        $this->elements[$name] = & $element;
-    }
+        $this->registry->createElement($name, $element);
 
-    /**
-     * @param $name
-     * @return array
-     */
-    public function & getElement($name)
-    {
-        if (!isset($this->elements[$name])) {
-            // to be independent from layout elements positions
-            $this->elements[$name] = array();
-        }
-
-        $result = & $this->elements[$name];
-
-        return $result;
+        return $this;
     }
 
     /**
@@ -230,7 +219,12 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function hasElement($name)
     {
-        return isset($this->elements[$name]);
+        return $this->registry->hasElement($name);
+    }
+
+    public function getElement($name)
+    {
+        return $this->registry->getElement($name);
     }
 
     /**
@@ -241,7 +235,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function unsetElement($name)
     {
-        unset($this->elements[$name]);
+        $this->registry->unsetElement($name);
 
         return $this;
     }
@@ -257,11 +251,11 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function renderElement($name, $useCache = true)
     {
-        $element = $this->getElement($name);
+        $element = $this->registry->getElement($name);
         if ($element) {
-            /** @var $handle Render */
+            /** @var $handle \Magento\View\Layout\Handle\Render */
             $handle = $this->handleFactory->get($element['type']);
-            return $handle->render($element, $this, $this->context);
+            return $handle->render($element, $this);
         }
         return '';
     }
@@ -274,7 +268,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function addOutputElement($name)
     {
-        $this->meta = $this->getElement($name);
+        $this->root = $this->registry->getElement($name);
 
         return $this;
     }
@@ -286,9 +280,9 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getOutput()
     {
-        /** @var $root Render */
-        $root = $this->handleFactory->get($this->meta['type']);
-        return $root->render($this->meta, $this, $this->context);
+        /** @var $handle \Magento\View\Layout\Handle\Render */
+        $handle = $this->handleFactory->get($this->root['type']);
+        return $handle->render($this->root, $this);
     }
 
     /**
@@ -298,38 +292,26 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getAllBlocks()
     {
-        $blocks = array();
-        foreach ($this->elements as $name => $element) {
-            if (isset($element['_wrapped_'])) {
-                $blocks[$name] = $element['_wrapped_'];
-            }
-        }
-        return $blocks;
+        return $this->blockPool->get();
     }
 
     /**
      * Get block object by name
      *
      * @param string $name
-     * @return bool|AbstractBlock
+     * @return AbstractBlock|null
      */
     public function getBlock($name)
     {
-        $element = & $this->getElement($name);
-        if (!isset($element['_wrapped_'])) {
-            if (isset($element['parent_name'])) {
-                $parent = & $this->getElement($element['parent_name']);
-                if ($parent) {
-                    $handle = $this->handleFactory->get($element['type']);
-                    $handle->register($element, $this, $parent);
-                }
-            }
-        }
+        $block = $this->blockPool->get($name);
+        if (!$block) {
+            $element = $this->getElement($name);
+            $parentName = $this->getParentName($name);
 
-        if ($element && isset($element['_wrapped_'])) {
-            return $element['_wrapped_'];
+            $handler = $this->handleFactory->get($element['type']);
+            $handler->register($element, $this, $parentName);
         }
-        return false;
+        return $this->blockPool->get($name);
     }
 
     /**
@@ -341,11 +323,13 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getChildBlock($parentName, $alias)
     {
-        $parent = $this->getElement($parentName);
-        if ($parent && isset($parent['children'][$alias]['_wrapped_'])) {
-            return $parent['children'][$alias]['_wrapped_'];
-        }
-        return null;
+        $childId = $this->registry->getChildId($parentName, $alias);
+        return $this->getBlock($childId);
+    }
+
+    public function getChildAlias($parentId, $childId)
+    {
+        return $this->registry->getChildAlias($parentId, $childId);
     }
 
     /**
@@ -358,15 +342,8 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function setChild($parentName, $elementName, $alias)
     {
-        $parent = & $this->getElement($parentName);
-        if ($parent) {
-            $element = & $this->getElement($elementName);
-            if ($element) {
-                $element['parent_name'] = $parentName;
-                $childName = !empty($alias) ? $alias : $elementName;
-                $parent['children'][$childName] = & $element;
-            }
-        }
+        $this->registry->setAsChild($elementName, $parentName, $alias);
+
         return $this;
     }
 
@@ -386,7 +363,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true)
     {
-        // TODO:
+        $this->registry->reorderChild($parentName, $childName, $offsetOrSibling);
     }
 
     /**
@@ -398,10 +375,8 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function unsetChild($parentName, $alias)
     {
-        $parent = & $this->getElement($parentName);
-        if ($parent) {
-            unset($parent['children'][$alias]);
-        }
+        $this->registry->unsetChild($parentName, $alias);
+
         return $this;
     }
 
@@ -413,11 +388,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getChildNames($parentName)
     {
-        $parent = $this->getElement($parentName);
-        if ($parent && isset($parent['children'])) {
-            return array_keys($parent['children']);
-        }
-        return array();
+        return $this->registry->getChildren($parentName);
     }
 
     /**
@@ -432,16 +403,21 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     {
         $result = array();
 
-        $parent = $this->getElement($parentName);
-        if ($parent && isset($parent['children'])) {
-            foreach ($parent['children'] as $child) {
-                if (isset($child['_wrapped_'])) {
-                    $result[$child['name']] = $child['_wrapped_'];
-                }
+        $children = $this->registry->getChildren($parentName);
+        if (!empty($children)) {
+            foreach ($children as $childId => $alias) {
+                $result[] = $this->getBlock($childId);
             }
         }
 
         return $result;
+    }
+
+    public function setElementAttribute($name, $attribute, $value)
+    {
+        $this->registry->setAttribute($name, $attribute, $value);
+
+        return $this;
     }
 
     /**
@@ -453,11 +429,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getChildName($parentName, $alias)
     {
-        $parent = $this->getElement($parentName);
-        if ($parent && isset($parent['children'][$alias]['name'])) {
-            return $parent['children'][$alias]['name'];
-        }
-        return false;
+        return $this->registry->getChildId($parentName, $alias);
     }
 
     /**
@@ -471,7 +443,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function addToParentGroup($blockName, $parentGroupName)
     {
-        // TODO:
+        return $this->registry->addToParentGroup($blockName, $parentGroupName);
     }
 
     /**
@@ -485,7 +457,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getGroupChildNames($blockName, $groupName)
     {
-        // TODO:
+        return $this->registry->getGroupChildNames($blockName, $groupName);
     }
 
     /**
@@ -496,12 +468,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function getParentName($childName)
     {
-        $child = $this->getElement($childName);
-
-        if (isset($child) && !empty($child['parent_name'])) {
-            return $child['parent_name'];
-        }
-        return false;
+        return $this->registry->getParentId($childName);
     }
 
     /**
@@ -514,11 +481,12 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
-        $block = $this->blockFactory->createBlock($type, $attributes);
-
         if (empty($name)) {
             $name = 'Anonymous-' . self::$inc++;
         }
+
+        $block = $this->blockPool->add($name, $type, $attributes);
+
         //$block->setType($type);
         $block->setNameInLayout($name);
         $block->setLayout($this);
@@ -527,10 +495,9 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
             'name' => $name,
             'type' => 'block',
             'class' => $type,
-            'registered' => true,
-            '_wrapped_' => $block,
+            'is_registered' => true
         );
-        $this->addElement($name, $element);
+        $this->registry->createElement($name, $element);
 
         return $block;
     }
@@ -539,38 +506,48 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      * Add a block to registry, create new object if needed
      *
      * @param string $class
-     * @param string $name
+     * @param string $elementName
      * @param string $parentName
      * @param string $alias
      * @return AbstractBlock
      */
-    public function addBlock($class, $name = '', $parentName = '', $alias = '')
+    public function addBlock($class, $elementName, $parentName = '', $alias = '')
     {
-        $block = $this->createBlock($class, $name);
-        if ($block) {
-            $element = array(
-                'name' => $name,
-                'as' => $alias,
-                'parent_name' => $parentName,
-                'type' => 'block',
-                '_wrapped_' => $block,
-            );
-            if ($name) {
-                $this->addElement($name, $element);
-            }
-
-            if ($parentName) {
-                $parent = & $this->getElement($parentName);
-                if ($parent) {
-                    $childName = !empty($alias) ? $alias : $name;
-                    if ($childName) {
-                        $parent['children'][$childName] = & $element;
-                    }
-                }
-            }
+        $block = $this->createBlock($class, $elementName);
+        if ($block && !empty($parentName)) {
+            $this->registry->setAsChild($parentName, $elementName, $alias);
         }
 
         return $block;
+    }
+
+    public function addDataSource($class, $dataName, $parentName, $alias)
+    {
+        $data = $this->createDataSource($class, $dataName);
+        if ($data && !empty($parentName)) {
+            // TODO:
+        }
+
+        return $data;
+    }
+
+    public function getAllDataSources()
+    {
+        return $this->dataSourcePool->get();
+    }
+
+    /**
+     * Data Source Factory
+     *
+     * @param  string $class
+     * @param  string $dataName
+     * @return AbstractBlock
+     */
+    public function createDataSource($class, $dataName)
+    {
+        $data = $this->dataSourcePool->add($dataName, $class);
+
+        return $data;
     }
 
     /**
@@ -586,14 +563,12 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      */
     public function addContainer($name, $label, array $options = array(), $parentName = '', $alias = '')
     {
-        $meta['name'] = $name;
-        $meta['label'] = $label;
+        $options['name'] = $name;
+        $options['label'] = $label;
+
+        $this->addElement($name, $options);
         if ($parentName) {
-            $parent = & $this->getElement($parentName);
-            if (isset($parent)) {
-                $childName = !empty($alias) ? $alias : $name;
-                $parent['children'][$childName] = & $options;
-            }
+            $this->setChild($parentName, $name, $alias);
         }
 
         return $this;
@@ -660,7 +635,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
      * Get block singleton
      *
      * @param string $class
-     * @throws \Magento\Core\Exception
+     * @throws \Exception
      * @return \Magento\Core\Helper\AbstractHelper
      * @todo DELETE use object manager or view factory
      */
@@ -668,7 +643,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     {
         if (!isset($this->helpers[$class])) {
             if (!class_exists($class)) {
-                throw new Exception(__('Invalid block class name: %1', $class));
+                throw new \Exception(__('Invalid block class name: %1', $class));
             }
 
             $helper = $this->createBlock($class);
@@ -756,38 +731,6 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     public function getElementProperty($name, $attribute)
     {
         die(__METHOD__);
-    }
-
-    /**
-     * Whether specified element is a block
-     *
-     * @param string $name
-     * @return bool
-     * @todo DELETE
-     */
-    public function isBlock($name)
-    {
-        $element = $this->getElement($name);
-        if ($element) {
-            return $element->getType() === Block::TYPE;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if element with specified name is container
-     *
-     * @param string $name
-     * @return bool
-     * @todo DELETE
-     */
-    public function isContainer($name)
-    {
-        $element = $this->getElement($name);
-        if ($element) {
-            return $element->getType() === Container::TYPE;
-        }
-        return false;
     }
 
     /**

@@ -8,16 +8,12 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
-use Magento\View\Layout\Handle\Render;
-use Magento\View\Layout\Handle;
-
-use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
-
+use Magento\View\Layout\Handle;
+use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
-
 use Magento\View\Render\Html;
 
 class Container implements Render
@@ -61,13 +57,14 @@ class Container implements Render
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Container
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $name = $layoutElement->getAttribute('name');
-        if (isset($name)) {
-            $element = & $layout->getElement($name);
+        $elementName = $layoutElement->getAttribute('name');
+        if (isset($elementName)) {
+            $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
                     $element[$attributeName] = (string)$attribute;
@@ -75,10 +72,11 @@ class Container implements Render
             }
             $element['type'] = self::TYPE;
 
-            $alias = !empty($element['as']) ? $element['as'] : $name;
-            if (isset($alias) && $parentNode) {
-                $element['parent_name'] = $parentNode['name'];
-                $parentNode['children'][$alias] = & $element;
+            $layout->addElement($elementName, $element);
+
+            if (isset($parentName)) {
+                $alias = !empty($element['as']) ? $element['as'] : $elementName;
+                $layout->setChild($parentName, $elementName, $alias);
             }
 
             // parse children
@@ -88,58 +86,63 @@ class Container implements Render
                     $type = $childXml->getName();
                     /** @var $handle Handle */
                     $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $layout, $element);
+                    $handle->parse($childXml, $layout, $elementName);
                 }
             }
         }
+
+        return $this;
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        if (isset($meta['children'])) {
-            foreach ($meta['children'] as & $child) {
-                if (!isset($child['registered'])) {
-                    $child['registered'] = true;
-                    $child['parent'] = & $meta;
-                    /** @var $handle Render */
-                    $handle = $this->handleFactory->get($child['type']);
-                    $handle->register($child, $layout, $meta);
-                }
+        if (isset($element['name']) && !isset($element['is_registered'])) {
+            $elementName = $element['name'];
+
+            $layout->setElementAttribute($elementName, 'is_registered', true);
+
+            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+                $child = $layout->getElement($childName);
+                /** @var $handle Render */
+                $handle = $this->handleFactory->get($child['type']);
+                $handle->register($child, $layout, $elementName);
             }
         }
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
      * @param $type
      * @return string
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML)
     {
         $result = '';
 
-        $children = isset($meta['children']) ? $meta['children'] : array();
-        foreach ($children as $child) {
-            /** @var $handle Render */
-            $handle = $this->handleFactory->get($child['type']);
-            if ($handle instanceof Render) {
-                $result .= $handle->render($child, $layout, $parentNode, $type);
+        if (isset($element['name'])) {
+            $elementName = $element['name'];
+            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+                $child = $layout->getElement($childName);
+                /** @var $handle Render */
+                $handle = $this->handleFactory->get($child['type']);
+                if ($handle instanceof Render) {
+                    $result .= $handle->render($child, $layout, $type);
+                }
             }
         }
 
         $render = $this->renderFactory->get($type);
 
-        $containerInfo['label'] = !empty($meta['label']) ? $meta['label'] : null;
-        $containerInfo['tag'] = !empty($meta['htmlTag']) ? $meta['htmlTag'] : null;
-        $containerInfo['class'] = !empty($meta['htmlClass']) ? $meta['htmlClass'] : null;
-        $containerInfo['id'] = !empty($meta['htmlId']) ? $meta['htmlId'] : null;
+        $containerInfo['label'] = !empty($element['label']) ? $element['label'] : null;
+        $containerInfo['tag'] = !empty($element['htmlTag']) ? $element['htmlTag'] : null;
+        $containerInfo['class'] = !empty($element['htmlClass']) ? $element['htmlClass'] : null;
+        $containerInfo['id'] = !empty($element['htmlId']) ? $element['htmlId'] : null;
 
         $result = $render->renderContainer($result, $containerInfo);
 

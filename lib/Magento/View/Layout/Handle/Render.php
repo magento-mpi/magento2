@@ -16,11 +16,10 @@ use Magento\View\Render\Html;
 interface Render extends Handle
 {
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
-     * @param $type
-     * @return mixed
+     * @param $type [optional]
+     * @return string
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML);
+    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML);
 }

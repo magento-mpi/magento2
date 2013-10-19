@@ -13,5 +13,5 @@ use Magento\View\Layout\Handle;
 
 interface Command extends Handle
 {
-    // TODO: public function execute(array & $meta, Layout $layout);
+    // TODO:
 }

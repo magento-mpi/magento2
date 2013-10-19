@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\View\Layout\Handle\Data;
+namespace Magento\View;
 
 use Magento\View\Context;
 use Magento\View\Layout;
@@ -17,7 +17,7 @@ use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
 use Magento\Core\Model\BlockFactory;
 
-class Registry
+class BlockPool
 {
     /**
      * @var \Magento\Core\Model\BlockFactory
@@ -27,7 +27,7 @@ class Registry
     /**
      * @var array
      */
-    protected $dataSources = array();
+    protected $blocks = array();
 
     /**
      * @param BlockFactory $blockFactory
@@ -40,22 +40,33 @@ class Registry
     /**
      * @param string $name
      * @param string $class
+     * @param array $arguments [optional]
      * @return \Magento\Core\Block\AbstractBlock
      * @throws \Exception
      */
-    public function get($name, $class)
+    public function add($name, $class, array $arguments = array())
     {
-        if (!isset($this->dataSources[$name])) {
-
-            if (!class_exists($class)) {
-                throw new \Exception(__('Invalid Data Source class name: ' . $class));
-            }
-
-            $data = $this->blockFactory->createBlock($class);
-
-            $this->dataSources[$name] = $data;
+        if (!class_exists($class)) {
+            throw new \Exception(__('Invalid Data Source class name: ' . $class));
         }
 
-        return $this->dataSources[$name];
+        $block = $this->blockFactory->createBlock($class, $arguments);
+
+        $this->blocks[$name] = $block;
+
+        return $block;
+    }
+
+    /**
+     * @param $name
+     * @return \Magento\Core\Block\AbstractBlock | null
+     */
+    public function get($name = null)
+    {
+        if (!isset($name)) {
+            return $this->blocks;
+        }
+
+        return isset($this->blocks[$name]) ? $this->blocks[$name] : null;
     }
 }

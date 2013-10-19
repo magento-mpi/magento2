@@ -23,30 +23,20 @@ class Block extends OriginalBlock
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
-     * @return Handle\Render
+     * @param string $parentName
+     * @return Block
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $name = $layoutElement->getAttribute('name');
-        if (isset($name)) {
-            $originalBlock = & $layout->getElement($name);
-            if (isset($originalBlock)) {
-                foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-                    if ($attribute) {
-                        $originalBlock[$attributeName] = (string)$attribute;
-                    }
-                }
-
-                // parse children
-                if ($layoutElement->hasChildren()) {
-                    foreach ($layoutElement as $childXml) {
-                        /** @var $childXml Element */
-                        $type = $childXml->getName();
-                        /** @var $handle Handle */
-                        $handle = $this->handleFactory->get($type);
-                        $handle->parse($childXml, $layout, $originalBlock);
-                    }
+        $originalParentName = $layoutElement->getAttribute('name');
+        if (isset($originalParentName)) {
+            if ($layoutElement->hasChildren()) {
+                foreach ($layoutElement as $childXml) {
+                    /** @var $childXml Element */
+                    $type = $childXml->getName();
+                    /** @var $handle Handle */
+                    $handle = $this->handleFactory->get($type);
+                    $handle->parse($childXml, $layout, $originalParentName);
                 }
             }
         }

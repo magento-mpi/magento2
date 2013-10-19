@@ -22,50 +22,57 @@ class Move implements Command
      */
     const TYPE = 'move';
 
+    private static $inc = 0;
+
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return $this
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $node = array();
+        $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
             if ($attribute) {
-                $node[$attributeName] = (string)$attribute;
+                $element[$attributeName] = (string)$attribute;
             }
         }
-        $node['type'] = self::TYPE;
-        $node['parent_name'] = $parentNode['name'];
-        $parentNode['children'][] = & $node;
+        $element['type'] = self::TYPE;
+        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . self::$inc++);
+
+        $layout->addElement($elementName, $element);
+        if (isset($parentName)) {
+            $layout->setChild($parentName, $elementName, $elementName);
+        }
+
+        return $this;
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Move
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        $elementName = isset($meta['element']) ? $meta['element'] : null;
-        if (isset($elementName)) {
-            $element = & $layout->getElement($elementName);
-            if (isset($element) && isset($element['parent']['name'])) {
-                $layout->unsetChild($element['parent']['name'], $elementName);
+        $elementName = isset($element['element']) ? $element['element'] : null;
+        if (isset($elementName) && isset($parentName)) {
+            if ($layout->getElement($element['element'])) {
+                $elementParentName = $layout->getParentName($elementName);
+                $layout->unsetChild($elementParentName, $elementName);
 
-                if (isset($meta['destination'])) {
-                    $destination = & $layout->getElement($meta['destination']);
-                    if ($destination) {
-                        $alias = isset($meta['alias']) ? $meta['alias'] : null;
-                        $before = isset($meta['before']) ? $meta['before'] : null;
-                        $after = isset($meta['after']) ? $meta['after'] : null;
-                        $element['alias'] = $alias;
-                        $element['before'] = $before;
-                        $element['after'] = $after;
-                        $destination['children'][$element['name']] = $element;
-                    }
+                if (isset($element['destination'])) {
+                    $alias = isset($element['as']) ? $element['as'] : $elementName;
+                    $layout->setChild($element['destination'], $elementName, $alias);
                 }
             }
         }
+
+        $alias = $layout->getChildAlias($parentName, $element['name']);
+        $layout->unsetChild($parentName, $alias);
+
+        return $this;
     }
 }

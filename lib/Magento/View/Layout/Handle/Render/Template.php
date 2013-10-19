@@ -61,13 +61,14 @@ class Template implements Render
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Template
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $name = $layoutElement->getAttribute('name');
-        if (isset($name)) {
-            $element = & $layout->getElement($name);
+        $elementName = $layoutElement->getAttribute('name');
+        if (isset($elementName)) {
+            $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
                     $element[$attributeName] = (string)$attribute;
@@ -75,10 +76,11 @@ class Template implements Render
             }
             $element['type'] = self::TYPE;
 
-            $alias = isset($element['as']) ? $element['as'] : $name;
-            if (isset($alias) && $parentNode) {
-                $element['parent_name'] = $parentNode['name'];
-                $parentNode['children'][$alias] = & $node;
+            $layout->addElement($elementName, $element);
+
+            if (isset($parentName)) {
+                $alias = isset($element['as']) ? $element['as'] : $elementName;
+                $layout->setChild($parentName, $elementName, $alias);
             }
 
             // parse children
@@ -88,54 +90,49 @@ class Template implements Render
                     $type = $childXml->getName();
                     /** @var $handle Handle */
                     $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $layout, $element);
+                    $handle->parse($childXml, $layout, $elementName);
                 }
             }
         }
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        if (isset($meta['children'])) {
-            foreach ($meta['children'] as & $child) {
-                if (!isset($child['registered'])) {
-                    $child['registered'] = true;
-                    $child['parent'] = & $meta;
-                    /** @var $handle Render */
-                    $handle = $this->handleFactory->get($child['type']);
-                    $handle->register($child, $layout, $meta);
-                }
+        if (isset($element['name']) && !isset($element['is_registered'])) {
+            $elementName = $element['name'];
 
+            $layout->setElementAttribute($elementName, 'is_registered', true);
+
+            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+                $child = $layout->getElement($childName);
+                /** @var $handle Render */
+                $handle = $this->handleFactory->get($child['type']);
+                $handle->register($child, $layout, $elementName);
             }
         }
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
      * @param $type
      * @return string
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML)
     {
         $render = $this->renderFactory->get($type);
 
-        $data = isset($parentNode['_data_']) ? $parentNode['_data_'] : array();
-
-        if (isset($meta['_data_']) && is_array($meta['_data_'])) {
-            $data = array_merge($data, $meta['_data_']);
-        }
+        $data = $layout->getAllDataSources();
 
         // TODO probably prepare limited proxy to avoid violations
         $data['layout'] = $layout;
 
-        $result = $render->renderTemplate($this->getTemplateFile($meta['path'], $layout), $data);
+        $result = $render->renderTemplate($this->getTemplateFile($element['path'], $layout), $data);
 
         return $result;
     }

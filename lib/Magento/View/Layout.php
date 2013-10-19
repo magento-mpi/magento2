@@ -64,13 +64,7 @@ interface Layout
      * @param array $element
      * @return Layout
      */
-    public function addElement($name, array & $element);
-
-    /**
-     * @param string $name
-     * @return array
-     */
-    public function & getElement($name);
+    public function addElement($name, array $element);
 
     /**
      * Check if element exists in layout structure
@@ -101,7 +95,7 @@ interface Layout
      * Get block object by name
      *
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return \Magento\Core\Block\AbstractBlock|null
      */
     public function getBlock($name);
 
@@ -221,7 +215,7 @@ interface Layout
      * @return \Magento\Core\Block\AbstractBlock
      * @todo DELETE (use viewFactory and addElement instead)
      */
-    public function addBlock($block, $name = '', $parent = '', $alias = '');
+    public function addBlock($block, $name, $parent = '', $alias = '');
 
     /**
      * Insert container into layout structure
@@ -332,24 +326,6 @@ interface Layout
      * @todo DELETE
      */
     public function getElementProperty($name, $attribute);
-
-    /**
-     * Whether specified element is a block
-     *
-     * @param string $name
-     * @return bool
-     * @todo DELETE
-     */
-    public function isBlock($name);
-
-    /**
-     * Checks if element with specified name is container
-     *
-     * @param string $name
-     * @return bool
-     * @todo DELETE
-     */
-    public function isContainer($name);
 
     /**
      * Whether the specified element may be manipulated externally

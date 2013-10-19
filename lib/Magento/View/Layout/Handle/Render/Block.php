@@ -8,14 +8,12 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
-use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
-use Magento\View\Render\RenderFactory;
-use Magento\Core\Model\BlockFactory;
+use Magento\View\BlockPool;
 
 use Magento\View\Render\Html;
 
@@ -32,42 +30,33 @@ class Block implements Render
     protected $handleFactory;
 
     /**
-     * @var \Magento\View\Render\RenderFactory
+     * @var \Magento\View\BlockPool
      */
-    protected $renderFactory;
-
-    /**
-     * @var \Magento\Core\Model\BlockFactory
-     */
-    protected $blockFactory;
+    protected $blockPool;
 
     /**
      * @param HandleFactory $handleFactory
-     * @param RenderFactory $renderFactory
-     * @param BlockFactory $blockFactory
+     * @param BlockPool $blockPool
      */
     public function __construct(
         HandleFactory $handleFactory,
-        RenderFactory $renderFactory,
-        BlockFactory $blockFactory
+        BlockPool $blockPool
     ) {
         $this->handleFactory = $handleFactory;
-        $this->renderFactory = $renderFactory;
-        $this->blockFactory = $blockFactory;
+        $this->blockPool = $blockPool;
     }
 
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
-     * @return Render
+     * @param string $parentName
+     * @return Block
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $name = $layoutElement->getAttribute('name');
-        if (isset($name)) {
-            $element = & $layout->getElement($name);
-
+        $elementName = $layoutElement->getAttribute('name');
+        if (isset($elementName)) {
+            $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
                     $element[$attributeName] = (string)$attribute;
@@ -75,11 +64,11 @@ class Block implements Render
             }
             $element['type'] = self::TYPE;
 
-            $alias = !empty($element['as']) ? $element['as'] : $name;
+            $layout->addElement($elementName, $element);
 
-            if (isset($alias) && $parentNode) {
-                $element['parent_name'] = $parentNode['name'];
-                $parentNode['children'][$alias] = & $element;
+            if (isset($parentName)) {
+                $alias = !empty($element['as']) ? $element['as'] : $elementName;
+                $layout->setChild($parentName, $elementName, $alias);
             }
 
             // parse children
@@ -89,7 +78,7 @@ class Block implements Render
                     $type = $childXml->getName();
                     /** @var $handle Handle */
                     $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $layout, $element);
+                    $handle->parse($childXml, $layout, $elementName);
                 }
             }
         }
@@ -98,55 +87,55 @@ class Block implements Render
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      * @throws \Exception
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        if (!class_exists($meta['class'])) {
-            throw new \Exception(__('Invalid block class name: ' . $meta['class']));
-        }
+        if (!empty($element['name']) && !isset($element['is_registered'])) {
+            if (!class_exists($element['class'])) {
+                throw new \Exception(__('Invalid block class name: ' . $element['class']));
+            }
 
-        $arguments = isset($meta['arguments']) ? $meta['arguments'] : array();
+            $elementName = $element['name'];
+            $arguments = isset($element['arguments']) ? $element['arguments'] : array();
 
-        /** @var $block \Magento\Core\Block\Template */
-        $block = $this->blockFactory->createBlock($meta['class'], array('data' => $arguments));
+            /** @var $block \Magento\Core\Block\Template */
+            $block = $this->blockPool->add($elementName, $element['class'], array('data' => $arguments));
 
-        $name = !empty($meta['name']) ? $meta['name'] : null;
-        $block->setNameInLayout($name);
-        $block->setLayout($layout);
+            $block->setNameInLayout($elementName);
+            $block->setLayout($layout);
 
-        if (isset($meta['template'])) {
-            $block->setTemplate($meta['template']);
-        }
+            if (isset($element['template'])) {
+                $block->setTemplate($element['template']);
+            }
 
-        $meta['_wrapped_'] = $block;
+            $layout->setElementAttribute($elementName, 'is_registered', true);
 
-        if (isset($meta['children'])) {
-            foreach ($meta['children'] as & $child) {
-                if (!isset($child['registered'])) {
-                    $child['registered'] = true;
-                    $child['parent'] = & $meta;
-                    /** @var $handle Render */
-                    $handle = $this->handleFactory->get($child['type']);
-                    $handle->register($child, $layout, $meta);
-                }
-
+            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+                $child = $layout->getElement($childName);
+                /** @var $handle Render */
+                $handle = $this->handleFactory->get($child['type']);
+                $handle->register($child, $layout, $elementName);
             }
         }
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
-     * @param $type
+     * @param $type [optional]
      * @return mixed
      */
-    public function render(array & $meta, Layout $layout, array & $parentNode = array(), $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML)
     {
-        return $meta['_wrapped_']->toHtml();
+        $result = '';
+        if ($this->blockPool->get($element['name'])) {
+            $result = $this->blockPool->get($element['name'])->toHtml();
+        }
+        return $result;
     }
+
 }

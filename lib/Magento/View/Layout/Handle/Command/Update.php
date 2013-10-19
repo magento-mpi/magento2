@@ -18,7 +18,6 @@ use Magento\View\Layout\HandleFactory;
 
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\Processor;
-use Magento\View\Layout\Reader;
 
 class Update implements Command
 {
@@ -33,62 +32,58 @@ class Update implements Command
     protected $processorFactory;
 
     /**
-     * @var Reader
-     */
-    protected $layoutReader;
-
-    /**
      * @param ProcessorFactory $processorFactory
      * @param HandleFactory $handleFactory
-     * @param Reader $layoutReader
      */
     public function __construct(
         ProcessorFactory $processorFactory,
-        HandleFactory $handleFactory,
-        Reader $layoutReader
+        HandleFactory $handleFactory
     ) {
         $this->processorFactory = $processorFactory;
         $this->handleFactory = $handleFactory;
-        $this->layoutReader = $layoutReader;
     }
 
     /**
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Update
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = array())
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
-        $node = array();
+        $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
             if ($attribute) {
-                $node[$attributeName] = (string)$attribute;
+                $element[$attributeName] = (string)$attribute;
             }
         }
-        $node['type'] = self::TYPE;
+        $element['type'] = self::TYPE;
 
-        if (isset($parentNode) && isset($node['handle'])) {
+        if (isset($parentName) && isset($element['handle'])) {
             /** @var $layoutProcessor Processor */
             $layoutProcessor = $this->processorFactory->create();
-            $layoutProcessor->load($node['handle']);
+            $layoutProcessor->load($element['handle']);
             $xml = $layoutProcessor->asSimplexml();
 
             foreach ($xml as $childElement) {
                 $type = $childElement->getName();
                 /** @var $handle Handle */
                 $handle = $this->handleFactory->get($type);
-                $handle->parse($childElement, $layout, $parentNode);
+                $handle->parse($childElement, $layout, $parentName);
             }
         }
+
+        return $this;
     }
 
     /**
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Update
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = array())
+    public function register(array $element, Layout $layout, $parentName)
     {
-        // TODO:
+        return $this;
     }
 }

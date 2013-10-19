@@ -37,29 +37,35 @@ class Arguments implements Handle
      *
      * @param Element $layoutElement
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
+     * @return Arguments
      */
-    public function parse(Element $layoutElement, Layout $layout, array & $parentNode = null)
+    public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
+        $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
             if ($attribute) {
-                $meta[$attributeName] = (string)$attribute;
+                $element[$attributeName] = (string)$attribute;
             }
         }
 
-        $arguments = $this->parseArguments($layoutElement);
+        $parsedArguments = $this->parseArguments($layoutElement);
 
-        $parentNode['arguments'] = $this->processArguments($arguments);
+        $arguments = $this->processArguments($parsedArguments);
+
+        $layout->setElementAttribute($parentName, 'arguments', $arguments);
+
+        return $this;
     }
 
     /**
      * @inheritdoc
      *
-     * @param array $meta
+     * @param array $element
      * @param Layout $layout
-     * @param array $parentNode
+     * @param string $parentName
      */
-    public function register(array & $meta, Layout $layout, array & $parentNode = null)
+    public function register(array $element, Layout $layout, $parentName)
     {
         //
     }
