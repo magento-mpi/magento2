@@ -12,7 +12,7 @@
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
-                <frontend>magento_fixed_width</frontend>
+                <frontend>magento_plushe</frontend>
                 <adminhtml>magento_backend</adminhtml>
                 <install>magento_enterprise</install>
             </value>

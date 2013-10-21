@@ -78,5 +78,12 @@ class Stub extends \Magento\Cms\Block\Page
             $head->setKeywords($page->getMetaKeywords());
             $head->setDescription($page->getMetaDescription());
         }
+
+        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+        if ($pageMainTitle) {
+            // Setting empty page title if content heading is absent
+            $cmsTitle = $page->getContentHeading() ? : ' ';
+            $pageMainTitle->setPageTitle($this->escapeHtml($cmsTitle));
+        }
     }
 }

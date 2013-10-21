@@ -63,7 +63,7 @@ framework:
 ################################################################################
 applications:
     ce: &ce
-        fallbackOrderFixture: 'default'
+        fallbackOrderFixture: 'themes/frontend/plushe, default'
         fallbackOrderHelper: 'Core'
         design_theme: Default/Magento Demo
         ftp: &ftp
@@ -96,7 +96,7 @@ applications:
                 login: 'maposov@magento.com'
                 password: 'testPayPal!'
     ee: &ee
-        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderFixture: 'themes/frontend/plushe, enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
