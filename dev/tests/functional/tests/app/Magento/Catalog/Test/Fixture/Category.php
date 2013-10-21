@@ -79,7 +79,6 @@ class Category extends DataFixture
                             'input' => 'select'
                         ),
                     )
-
                 )
             ),
         );
