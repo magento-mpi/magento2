@@ -5,6 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Default Error Handler
+ *
+ * @package Magento\Error
+ */
 namespace Magento\Error;
 
 class Handler implements HandlerInterface

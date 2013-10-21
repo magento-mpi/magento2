@@ -5,6 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Interface of Error Handler
+ *
+ * @package Magento\Error
+ */
 namespace Magento\Error;
 
 interface HandlerInterface
