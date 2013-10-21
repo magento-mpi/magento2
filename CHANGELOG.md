@@ -1,6 +1,7 @@
 * Eliminated dependency in Magento\Data\Form from Magento\Core module
 * Eliminated Magento\Media module
 * Fixed copyright information
+* 'Delete' button is absent on Reward Rate page
 
 2.0.0.0-dev49
 =============
