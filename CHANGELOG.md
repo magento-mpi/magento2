@@ -1,9 +1,17 @@
+* Plushe theme is set as the default theme
 * Various improvements:
-  * Added static legacy test for compilation of di definitions
+  * Added static integrity test for compilation of DI definitions
+  * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)
 * Fixed bugs:
+  * Styles were broken on front-end due to usage of nonexistent stylesheet
   * Fixed plugins configuration inheritance for proxy classes
-  * Fixed Oauth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
+  * Fixed OAuth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
   * Fixed Namespace class references
+  * Shipment for bundle product was not possible
+  * Uninstallation was not possible via console installer
+  * Many features did not work in IE8/9 due to JavaScript error in bootstrap
+  * Unable to place order within PayPal Payments Advanced and Payflow link
+  * Fatal error on placing order with Billing Agreement
 
 2.0.0.0-dev47
 =============

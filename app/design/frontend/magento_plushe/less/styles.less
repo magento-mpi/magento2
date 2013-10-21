@@ -769,54 +769,6 @@ body {
 }
 
 /*
-    Forms
--------------------------------------- */
-.fieldset.giftcard {
-    border: 0;
-    padding: 0;
-    .label {
-        .labelStyle();
-    }
-    > .field {
-        .fieldStyle();
-    }
-}
-
-.fieldset.giftcard.amount {
-    .field.input {
-        width: 50%;
-        padding-right: 20px;
-    }
-    .field.amounts {
-        width: 50%;
-        padding-right: 20px;
-    }
-    .note {
-        margin-right: -20px;
-        font-size: @baseFontSizeMiddle;
-    }
-    .note span {
-        display: block;
-    }
-}
-
-.fieldset.giftcard.amount {
-    margin: 20px 0 10px;
-}
-
-.fieldset.giftcard.send {
-    margin: 20px 0;
-    .formCols();
-    .field.amount,
-    .field.text {
-        width: 100%;
-    }
-    .field.amount {
-        padding-right: 0;
-    }
-}
-
-/*
     Magento_Checkout
     One page
 -------------------------------------- */
@@ -1952,6 +1904,11 @@ body {
         padding: 10px;
     }
 }
+.field.choice.payment {
+    > .label {
+        font-weight: bold;
+    }
+}
 
 .data-table {
     width: 100%;
@@ -1963,65 +1920,6 @@ body {
     }
     td:last-child {
         border: 0;
-    }
-}
-
-.form.giftcard.redeem {
-    .field {
-        margin: 15px 0;
-    }
-    .label {
-        margin-bottom: 10px;
-        display: block;
-    }
-    .primary {
-        display: inline;
-        .action {
-            &:extend(.primary.action all)
-        ;
-        }
-        margin-right: 15px;
-    }
-    .secondary {
-        display: inline;
-        .action {
-            &:extend(.secondary.action all)
-        ;
-        }
-    }
-}
-
-.block.giftcard {
-    .form.add .fieldset {
-        position: relative;
-        z-index: 1;
-        padding-bottom: 20px;
-    }
-    .field {
-        display: table-cell;
-        vertical-align: bottom;
-        width: 99%;
-        div.mage-error {
-            position: absolute;
-        }
-    }
-    .actions {
-        display: table-cell;
-        vertical-align: bottom;
-        width: 1%;
-        white-space: nowrap;
-        padding-left: 10px;
-    }
-    .action.check {
-        .resetAction();
-        .actionLink();
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        margin-bottom: -15px;
-        span {
-            text-transform: none;
-        }
     }
 }
 
@@ -2723,61 +2621,6 @@ body {
     }
     .actions .primary {
         margin-bottom: 15px;
-    }
-}
-
-/*
-    Magento_Tags
--------------------------------------- */
-.tags.product,
-.tags.items.cloud {
-    .item {
-        display: inline-block;
-        margin: 0 0 5px 5px;
-        &:first-child {
-            margin-left: 0;
-        }
-    }
-    margin: 0 0 20px;
-    .amount {
-        margin-left: 3px;
-        &:before {
-            content: '(';
-        }
-        &:after {
-            content: ')';
-        }
-    }
-}
-
-.data.table.tags {
-    .col.photo {
-        width: 1px;
-    }
-    .addto.links {
-        margin-top: 15px;
-    }
-}
-
-.tag.edit {
-    line-height: 16px;
-    strong {
-        font-weight: @baseFontWeight;
-        &:after {
-            content: ': ';
-        }
-    }
-    .tag.text {
-        font-weight: 600;
-        &:before {
-            content: "\201C";
-        }
-        &:after {
-            content: "\201D ";
-        }
-    }
-    .action {
-        vertical-align: middle;
     }
 }
 
@@ -4356,7 +4199,6 @@ img[align="right"] {
 /*
     Registration
 -------------------------------------- */
-.form.reward.settings,
 .form.send.friend,
 .form.address.edit,
 .form.edit.account,
@@ -4367,9 +4209,7 @@ img[align="right"] {
 .form.create.account,
 .form.wishlist.share,
 .form.password.reset,
-.form.add.tag,
-.form.paypal.review,
-.form.add.invitations {
+.form.paypal.review {
     .fieldset {
         .box-sizing();
         .formCols();
@@ -4510,7 +4350,8 @@ img[align="right"] {
 .form.address.edit .field.note.default,
 .form.address.edit .field.choice.set,
 .form.wishlist.share .field.emails,
-.form.wishlist.share .field.text {
+.form.wishlist.share .field.text,
+.form.wishlist.share .field.choice {
     width: 100%;
 }
 
@@ -4541,11 +4382,15 @@ img[align="right"] {
         .field:first-child {
             .control {
                 padding-right: 30px;
+                position: relative;
                 &:after {
                     content: '\2014';
                     display: inline-block;
+                    margin-right: 0;
+                    position: absolute;
+                    right: 6px;
+                    top: 5px;
                     text-align: center;
-                    margin-right: -30px;
                     width: 25px;
                 }
             }
@@ -4569,18 +4414,6 @@ img[align="right"] {
                 }
             }
         }
-    }
-}
-
-.form.add.tag {
-    > .field {
-        .formField();
-        .fieldStyle();
-        > .label {
-            display: block;
-            padding: 0 0 5px;
-        }
-        margin-bottom: 20px;
     }
 }
 
@@ -4656,41 +4489,6 @@ img[align="right"] {
 .action.back {
     span:before {
         content: '\00AB\00A0';
-    }
-}
-
-/*
-    Magento_Poll
-    Account
--------------------------------------- */
-.block.poll {
-    .item {
-        margin: 0 15px;
-    }
-    .poll.answer {
-        display: block;
-    }
-    .fieldset {
-        border: 0;
-        margin: 0;
-        padding: 0;
-    }
-    .field {
-        margin: 10px 0;
-    }
-    .legend {
-        font-weight: 600;
-        float: left;
-        & + br {
-            display: block;
-            clear: both;
-        }
-    }
-    .action.submit {
-        &:extend(.secondary.action all);
-    }
-    .actions {
-        margin-top: 15px;
     }
 }
 
@@ -4887,7 +4685,6 @@ img[align="right"] {
 /*
     My Account -> My Product Reviews
 -------------------------------------- */
-.data.table.tags,
 .data.table.reviews {
     .product.name {
         margin: 0;
@@ -4942,11 +4739,13 @@ img[align="right"] {
     & + .actions {
         .primary {
             margin-bottom: 15px;
-
             .action.share,
             .action.update {
                 &:extend(.primary.action all);
                 padding: 5px 11px;
+            }
+            .action.update {
+                margin-left: 5px;
             }
         }
     }
@@ -5028,15 +4827,29 @@ img[align="right"] {
     Page -> Advanced Search
 -------------------------------------- */
 .form.search.advanced {
-    .field.price {
-        .range.price.fields.group {
-            .field {
-                .box-sizing();
-                .column(6);
-                padding-right: 0;
+    .range.price.fields.group {
+        .field {
+            .box-sizing();
+            .column(6);
+            padding-right: 0;
+        }
+        .field:first-child input {
+            width: 96%;
+        }
+    }
+    .range.dates.fields.group {
+        .field {
+            .box-sizing();
+            .column(6);
+            padding-right: 0;
+            .control {
+                padding-right: 20px;
             }
-            .field:first-child input {
-                width: 96%;
+        }
+        .field:first-child .control {
+            padding-right: 50px;
+            .ui-datepicker-trigger {
+                right: 32px;
             }
         }
     }
@@ -5048,6 +4861,17 @@ img[align="right"] {
                 background: none;
             }
         }
+    }
+}
+
+/*
+    Popular Search Terms
+-------------------------------------- */
+.search.terms {
+    .resetList();
+    .item {
+        display: inline-block;
+        margin-right: 3px;
     }
 }
 
@@ -5301,139 +5125,40 @@ img[align="right"] {
 }
 
 /*
-    My Account -> Gift Registry
+    Overlay popup
 -------------------------------------- */
-.data.table.giftregistry {
-    td,
-    th {
-        padding: 7px 10px;
+.window.overlay {
+    background: @primeBlackOpacity;
+    display: none;
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 990;
+    &.active {
+        display: block;
     }
-    th {
-        white-space: nowrap;
+}
+
+.popup {
+    background: @primary7;
+    left: 50%;
+    top: 40%;
+    position: absolute;
+    margin: -85px 0 0 -250px;
+    width: 500px;
+    z-index: 1000;
+    position: fixed;
+    display: none;
+    &.active {
+        display: block;
     }
-    .col.note {
-        width: 20%;
-    }
-    .col.actions,
-    .col.qty-fulfilled {
-        text-align: center;
-    }
-    .product.options.list {
-        dt {
-            font-weight: @baseFontWeight;
-            display: inline;
-            margin-right: 10px;
-            float: left;
-            clear: left;
-            &:after {
-                content: ': ';
-            }
-        }
-        dd {
-            font-weight: @baseFontWeightLighter;
-            margin: 0 0 10px 10px;
-            padding: 0;
-        }
-    }
-    .actions {
-        > .action {
-            margin-left: 3px;
-            padding-left: 5px;
-            border-left: 1px solid @primary2;
-            &:first-child {
-                border-left: none;
-            }
-        }
-    }
-    .action.delete {
-        .iconAfter(@content: @icon-trash);
+    .close span {
         .iconHideText();
-        display: inline-block;
-        vertical-align: top;
-        border-left: none;
-        color: @primary5;
     }
-}
-
-.form.giftregistry {
-    .fieldset {
-        margin: 0;
-        .actions {
-            margin: 20px 0 0;
-        }
-        .field.type {
-            > .label,
-            > .control {
-                display: inline-block;
-            }
-            > .label {
-                margin: 0 5px 0 0;
-            }
-        }
-        .field.date {
-            > .control {
-                position: relative;
-                padding: 0 34px 0 0;
-                .ui-datepicker-trigger {
-                    position: absolute;
-                    right: 0;
-                    top: 8px;
-                }
-            }
-        }
-        .field.giftregistry {
-            .iconBefore(@content: @icon-wishlist, @margin: 0 10px 0 0);
-            &:before {
-                color: @primaryActionBg;
-            }
-
-            > .control {
-                display: inline-block;
-            }
-        }
-        &.recipients {
-            position: relative;
-            .fieldset {
-                clear: both;
-            }
-            .action.remove {
-                position: absolute;
-                left: -30px;
-                cursor: pointer;
-                .iconAfter(@icon-close-thin, 16px, 0, 'icons');
-                .iconHideText(16px);
-            }
-        }
-        .action.add {
-            &:extend(.secondary.action all);
-        }
-    }
-}
-
-/*
-    My Account -> My Invitations
--------------------------------------- */
-.invitations {
-// Form
-    &.form.add .fieldset .field.text {
-        width: 100%;
-    }
-// Table
-    .col.status {
-        width: 10%;
-    }
-// Actions
-    .actions {
-        .clearfix();
-        margin: 30px 0 0;
-    }
-    .primary {
-        float: right;
-    }
-    .secondary {
-        float: left;
-    }
-    .action.send {
-        &:extend(.primary.action all);
+    .title {
+        font-size: 18px;
+        margin: 0 0 30px;
     }
 }

@@ -130,7 +130,7 @@ class Index
             if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
                 $wishlist = null;
                 throw new \Magento\Core\Exception(
-                    __("The requested wish list doesn\'t exist.")
+                    __("The requested wish list doesn't exist.")
                 );
             }
 

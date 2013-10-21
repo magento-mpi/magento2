@@ -63,7 +63,7 @@ framework:
 ################################################################################
 applications:
     ce: &ce
-        fallbackOrderFixture: 'default'
+        fallbackOrderFixture: 'themes/frontend/plushe, default'
         fallbackOrderHelper: 'Core'
         design_theme: Magento Demo
         ftp: &ftp
@@ -96,7 +96,7 @@ applications:
                 login: 'paypal_developer_login'
                 password: 'paypal_developer_password'
     ee: &ee
-        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderFixture: 'themes/frontend/plushe, enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
         design_theme: Magento Fixed Width
         ftp: *ftp
