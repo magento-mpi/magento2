@@ -16,12 +16,12 @@ use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
- * Class Category
+ * Class CatalogCategoryView
  * Create product page
  *
- * @package Magento\Catalog\Test\Page\Category
+ * @package Magento\Catalog\Test\Page\CatalogCategoryView
  */
-class Category extends Page
+class CatalogCategoryView extends Page
 {
     /**
      * URL for catalog product grid

@@ -40,13 +40,11 @@ class ProductGrid extends Grid
      */
     public function deleteAll()
     {
-        $rootElement = $this->_rootElement;
-        $rootElement
+        $this->_rootElement
             ->find('//*[@id="productGrid_massaction"]//a[text()="Select All"]', Locator::SELECTOR_XPATH)
             ->click();
-
-        $rootElement
-            ->find('productGrid_massaction-select', Locator::SELECTOR_ID, $rootElement::TYPIFIED_ELEMENT_SELECT)
+        $this->_rootElement
+            ->find('productGrid_massaction-select', Locator::SELECTOR_ID, 'select')
             ->setValue('Delete');
         $this->_rootElement
             ->find('productGrid_massaction-form', Locator::SELECTOR_ID)

@@ -13,7 +13,6 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Util\FixtureIterator;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
