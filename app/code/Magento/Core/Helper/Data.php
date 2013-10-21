@@ -412,7 +412,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         // convert string from default database format (UTF-8)
         // to encoding which replacement arrays made with (ISO-8859-1)
-        if ($convertedString = @iconv('UTF-8', 'ISO-8859-1', $string)) {
+        if ($convertedString = @iconv('UTF-8', 'ISO-8859-1//IGNORE', $string)) {
             $string = $convertedString;
         }
         // Replace
