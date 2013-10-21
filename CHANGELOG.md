@@ -1,25 +1,27 @@
 * Plushe theme is set as the default theme
+* Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
+* Unable to create a new widget instance
+* Error on Customers Segments Conditions tab while choose 'Number of Orders' condition
+* Blank page when placing order via Ogone
+* Impossible to create product if multiple attribute assigned to attribute set
+* Removed JavaScript unit test TreeSuggestTest.prototype.testBind as it is obsolete
+* Fixed Themes files are not found by Utility_Files class due to removal of __package__ from directory path
+
+2.0.0.0-dev48
+=============
 * Various improvements:
   * Added static integrity test for compilation of DI definitions
   * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)
-  * Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
 * Fixed bugs:
-  * Styles were broken on front-end due to usage of nonexistent stylesheet
+  * Fixed broken styles on front-end due to usage of nonexistent stylesheet
   * Fixed plugins configuration inheritance for proxy classes
   * Fixed OAuth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
   * Fixed Namespace class references
-  * Shipment for bundle product was not possible
-  * Uninstallation was not possible via console installer
-  * Many features did not work in IE8/9 due to JavaScript error in bootstrap
-  * Unable to place order within PayPal Payments Advanced and Payflow link
-  * Fatal error on placing order with Billing Agreement
-  * Unable to create a new widget instance
-  * Error on Customers Segments Conditions tab while choose 'Number of Orders' condition
-  * Blank page when placing order via Ogone
-  * Impossible to create product if multiple attribute assigned to attribute set
-  * Removed JavaScript unit test TreeSuggestTest.prototype.testBind as it is obsolete
-  * Fixed Themes files are not found by Utility_Files class due to removal of __package__ from directory path
-
+  * Fixed error on creating shipment with bundle products
+  * Fixed uninstallation via console installer
+  * Fixed JavaScript error in bootstrap in IE8/9
+  * Fixed placing order within PayPal Payments Advanced and Payflow Link
+  * Fixed fatal error on placing order with Billing Agreement
 
 2.0.0.0-dev47
 =============
