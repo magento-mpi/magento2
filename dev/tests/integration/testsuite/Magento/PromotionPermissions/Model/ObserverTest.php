@@ -33,7 +33,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Core\Model\ModuleList');
         $objectManager->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\View\LayoutInterface');
     }
 
     /**
