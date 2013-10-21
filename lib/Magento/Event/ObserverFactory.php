@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento\Event;
 
 class ObserverFactory
 {
@@ -29,7 +29,7 @@ class ObserverFactory
      * Get observer model instance
      *
      * @param string $className
-     * @return \Magento\Core\Model\AbstractModel|bool
+     * @return mixed
      */
     public function get($className)
     {
@@ -41,7 +41,7 @@ class ObserverFactory
      *
      * @param string $className
      * @param array $arguments
-     * @return \Magento\Core\Model\AbstractModel|bool
+     * @return mixed
      */
     public function create($className, array $arguments = array())
     {

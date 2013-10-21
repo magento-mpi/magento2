@@ -14,7 +14,7 @@ class InvokerDefault implements \Magento\Event\InvokerInterface
     /**
      * Observer model factory
      *
-     * @var \Magento\Core\Model\ObserverFactory
+     * @var \Magento\Event\ObserverFactory
      */
     protected $_observerFactory;
 
@@ -26,10 +26,10 @@ class InvokerDefault implements \Magento\Event\InvokerInterface
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Model\ObserverFactory $observerFactory
+     * @param \Magento\Event\ObserverFactory $observerFactory
      * @param \Magento\App\State $appState
      */
-    public function __construct(\Magento\Core\Model\ObserverFactory $observerFactory, \Magento\App\State $appState)
+    public function __construct(\Magento\Event\ObserverFactory $observerFactory, \Magento\App\State $appState)
     {
         $this->_observerFactory = $observerFactory;
         $this->_appState = $appState;
