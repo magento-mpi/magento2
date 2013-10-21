@@ -81,7 +81,6 @@ class Category extends DataFixture
                             'value' => '2',
                         )
                     )
-
                 )
             ),
         );
