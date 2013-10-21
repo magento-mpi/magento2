@@ -856,4 +856,8 @@ return array(
     array('getHttpUserAcceptReferer', '\Magento\Core\Helper\Http'),
     array('getHttpUserRemoteAddr', '\Magento\Core\Helper\Http'),
     array('getHttpUserServerAddr', '\Magento\Core\Helper\Http'),
+    array('escapeHtml', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeHtml'),
+    array('escapeUrl', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeUrl'),
+    array('jsQuoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeJsQuote'),
+    array('quoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeQuote'),
 );
