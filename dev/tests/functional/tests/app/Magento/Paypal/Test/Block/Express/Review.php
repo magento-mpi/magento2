@@ -107,8 +107,10 @@ class Review extends Block
     {
         //TODO assert constraints
         $this->getBillingBlock()->verify($fixture->getBillingAddress());
-        $this->getShippingBlock()->verify($fixture->getShippingAddress());
-    }
+        $shippingAddresses = $fixture->getShippingAddress();
+        foreach ($shippingAddresses as $shippingAddress)
+            $this->getShippingBlock()->verify($shippingAddress);
+        }
 
     /**
      * Select shipping method

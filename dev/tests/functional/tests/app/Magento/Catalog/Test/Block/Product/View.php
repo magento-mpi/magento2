@@ -90,4 +90,26 @@ class View extends Block
     {
         $this->_rootElement->find($this->paypalCheckout, Locator::SELECTOR_CSS)->click();
     }
+
+    /**
+     * Get product name displayed on page
+     *
+     * @return array|string
+     */
+    public function getProductName()
+    {
+        return $this->_rootElement->find('//*[@class="page title product"]//span', Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Return product price displayed on page
+     *
+     * @return array|string
+     */
+    public function getProductPrice()
+    {
+        return $this->_rootElement
+            ->find('//*[@class="price-box"]//span[@class="price"]', Locator::SELECTOR_XPATH)
+            ->getText();
+    }
 }
