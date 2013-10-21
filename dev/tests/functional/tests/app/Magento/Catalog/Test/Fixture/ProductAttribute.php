@@ -46,16 +46,16 @@ class ProductAttribute extends DataFixture
                 'data' => array(
                     'fields' => array(
                         'attribute_code' => array(
-                            'value' => 'attribute_%isolation%',
+                            'value' => 'ababa_%isolation%',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                         ),
                         'attribute_label' => array(
-                            'value' => 'Auto Generated Attribute #%isolation%',
+                            'value' => 'Attribute Label %isolation%',
                             'curl'  => 'frontend_label[0]',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN
                         ),
                         'frontend_input' => array(
-                            'value' => 'text',
+                            'value' => 'select',
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                         ),
                         'is_unique' => array(
@@ -95,7 +95,7 @@ class ProductAttribute extends DataFixture
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                         ),
                         'is_configurable' => array(
-                            'value' => 0,
+                            'value' => 1,
                             'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                         ),
                         'is_used_for_promo_rules' => array(
@@ -122,6 +122,12 @@ class ProductAttribute extends DataFixture
                 )
             )
         );
+        $this->_repository['configurable_attribute'] = $this->_repository['text-global-attribute'];
+        $this->_repository['configurable_attribute']['data']['fields']['option[order][option_0]']['value'] = 1;
+        $this->_repository['configurable_attribute']['data']['fields']['option[order][option_1]']['value'] = 1;
+        $this->_repository['configurable_attribute']['data']['fields']['option[value][option_0][0]']['value'] = 'one';
+        $this->_repository['configurable_attribute']['data']['fields']['option[value][option_1][0]']['value'] = 'two';
+
         $this->switchData('text-global-attribute');
     }
 
