@@ -428,16 +428,6 @@ class Files
     }
 
     /**
-     * Returns list of Twig files in Magento app directory.
-     *
-     * @return array
-     */
-    public function getTwigFiles()
-    {
-        return self::_getFiles(array($this->_path . '/app'), '*.twig');
-    }
-
-    /**
      * Returns list of Phtml files in Magento app directory.
      *
      * @return array
