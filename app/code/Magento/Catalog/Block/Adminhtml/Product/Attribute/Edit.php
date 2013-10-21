@@ -49,7 +49,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'attribute_id';
-        $this->_controller = 'catalog_product_attribute';
+        $this->_controller = 'product_attribute';
 
         parent::_construct();
 
