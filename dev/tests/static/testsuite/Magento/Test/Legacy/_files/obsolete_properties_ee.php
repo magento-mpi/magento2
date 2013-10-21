@@ -20,5 +20,5 @@ return array(
     array('_coreUrl', 'Magento\FullPageCache\Model\Observer'),
     array('_coreSession', 'Magento\FullPageCache\Model\Observer'),
     array('_application', 'Magento\FullPageCache\Model\Observer'),
-    array('_app', 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency'),
+    array('_app', 'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content'),
 );
