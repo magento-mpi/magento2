@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Admin tax rule content block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
