@@ -27,7 +27,7 @@ interface NotifiableInterface
      * @param string $newFilePath
      * @return \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy
      */
-    public function setViewFilePathToMap($area, \Magento\View\Design\ThemeInterface $themeModel, $locale, $module, $file,
-        $newFilePath
+    public function setViewFilePathToMap(
+        $area, \Magento\View\Design\ThemeInterface $themeModel, $locale, $module, $file, $newFilePath
     );
 }

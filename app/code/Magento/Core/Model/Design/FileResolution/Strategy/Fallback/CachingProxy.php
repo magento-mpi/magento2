@@ -174,8 +174,9 @@ class CachingProxy implements
      * @param string $file
      * @return null|string
      */
-    protected function _getFromMap($fileType, $area, \Magento\View\Design\ThemeInterface $theme, $locale, $module, $file)
-    {
+    protected function _getFromMap(
+        $fileType, $area, \Magento\View\Design\ThemeInterface $theme, $locale, $module, $file
+    ) {
         $sectionKey = $this->_loadSection($area, $theme, $locale);
         $fileKey = "$fileType|$file|$module";
         if (isset($this->_sections[$sectionKey]['data'][$fileKey])) {
@@ -266,8 +267,8 @@ class CachingProxy implements
      * @param string $newFilePath
      * @return \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy
      */
-    public function setViewFilePathToMap($area, \Magento\View\Design\ThemeInterface $themeModel, $locale, $module, $file,
-        $newFilePath
+    public function setViewFilePathToMap(
+        $area, \Magento\View\Design\ThemeInterface $themeModel, $locale, $module, $file, $newFilePath
     ) {
         $this->_setToMap('view', $area, $themeModel, $locale, $module, $file, $newFilePath);
         return $this;

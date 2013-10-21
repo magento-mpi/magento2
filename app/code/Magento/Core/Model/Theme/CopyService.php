@@ -119,8 +119,10 @@ class CopyService
      * @param \Magento\View\Design\ThemeInterface $source
      * @param \Magento\View\Design\ThemeInterface $target
      */
-    protected function _copyLayoutCustomization(\Magento\View\Design\ThemeInterface $source, \Magento\View\Design\ThemeInterface $target)
-    {
+    protected function _copyLayoutCustomization(
+        \Magento\View\Design\ThemeInterface $source,
+        \Magento\View\Design\ThemeInterface $target
+    ) {
         $update = $this->_updateFactory->create();
         /** @var $targetUpdates \Magento\Core\Model\Resource\Layout\Update\Collection */
         $targetUpdates = $update->getCollection();

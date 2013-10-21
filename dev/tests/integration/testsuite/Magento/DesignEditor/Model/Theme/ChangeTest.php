@@ -38,7 +38,8 @@ class ChangeTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $theme \Magento\View\Design\ThemeInterface */
         /** @var $themeModel \Magento\View\Design\ThemeInterface */
-        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Design\ThemeInterface');
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\View\Design\ThemeInterface');
         $themeModel = $theme->getCollection()->getFirstItem();
 
         return array(

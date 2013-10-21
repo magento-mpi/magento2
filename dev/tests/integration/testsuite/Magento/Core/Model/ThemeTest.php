@@ -21,7 +21,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function testCrud()
     {
         /** @var $themeModel \Magento\View\Design\ThemeInterface */
-        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Design\ThemeInterface');
+        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\View\Design\ThemeInterface');
         $themeModel->setData($this->_getThemeValidData());
 
         $crud = new \Magento\TestFramework\Entity($themeModel, array('theme_version' => '2.0.0.1'));
