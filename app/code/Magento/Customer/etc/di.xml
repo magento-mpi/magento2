@@ -36,4 +36,9 @@
             <instance type="Magento\Customer\Model\Resource\Customer\Proxy" />
         </param>
     </type>
+    <type name="Magento\Customer\Model\Customer">
+        <param name="customerData">
+            <instance type="Magento\Customer\Helper\Data\Proxy" />
+        </param>
+    </type>
 </config>

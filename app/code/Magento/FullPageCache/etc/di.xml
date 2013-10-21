@@ -43,4 +43,15 @@
     <type name="Magento\App\ResponseInterface">
         <plugin name="pageCache" type="\Magento\FullPageCache\Model\Response\Plugin" />
     </type>
+    <type name="Magento\FullPageCache\Model\Observer">
+        <param name="ctlgProdCompare">
+            <instance type="Magento\Catalog\Helper\Product\Compare\Proxy" />
+        </param>
+        <param name="processor">
+            <instance type="Magento\FullPageCache\Model\Processor\Proxy" />
+        </param>
+        <param name="cookie">
+            <instance type="Magento\FullPageCache\Model\Cookie\Proxy" />
+        </param>
+    </type>
 </config>
