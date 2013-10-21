@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\View;
+namespace Magento\View\Layout;
 
-class Registry
+class Structure
 {
     /**
      * Reserved keys for storing structural relations
@@ -38,11 +38,16 @@ class Registry
      */
     private $elements = array();
 
-    public function createElement($elementId, array $data)
+    /**
+     * @param $elementId
+     * @param array $attributes
+     * @return Structure
+     */
+    public function createElement($elementId, array $attributes)
     {
         $this->assertElementExists($elementId);
 
-        foreach ($data as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $this->setAttribute($elementId, $key, $value);
         }
 
@@ -53,21 +58,26 @@ class Registry
      * Update an element information
      *
      * @param $elementId
-     * @param array $data
-     * @return $this
+     * @param array $attributes
+     * @return Structure
      * @throws \Exception if an element doesn't exist
      */
-    public function updateElement($elementId, array $data)
+    public function updateElement($elementId, array $attributes)
     {
         $this->assertElementExists($elementId);
 
-        foreach ($data as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $this->setAttribute($elementId, $key, $value);
         }
 
         return $this;
     }
 
+    /**
+     * Get all elements
+     *
+     * @return array
+     */
     public function getElements()
     {
         return $this->elements;
@@ -136,7 +146,7 @@ class Registry
      * @param string $attribute
      * @param mixed $value
      * @throws \InvalidArgumentException
-     * @return \Magento\Data\Structure
+     * @return Structure
      */
     public function setAttribute($elementId, $attribute, $value)
     {
@@ -151,6 +161,7 @@ class Registry
             default:
                 $this->elements[$internalId][$attribute] = $value;
         }
+
         return $this;
     }
 
@@ -165,10 +176,12 @@ class Registry
     {
         $internalId = $this->assertElementExists($elementId);
 
+        $result = null;
         if (isset($this->elements[$internalId][$attribute])) {
-            return $this->elements[$internalId][$attribute];
+            $result = $this->elements[$internalId][$attribute];
         }
-        return false;
+
+        return $result;
     }
 
     /**
@@ -176,7 +189,7 @@ class Registry
      *
      * @param string $oldId
      * @param string $newId
-     * @return Registry
+     * @return Structure
      * @throws \Exception if trying to overwrite another element
      */
     public function renameElement($oldId, $newId)
@@ -206,6 +219,7 @@ class Registry
      * @param string $parentId
      * @param string $alias
      * @param int|null $position
+     * @return Structure
      * @see insertChild() for position explanation
      * @throws \Exception if attempting to set parent as child to its child (recursively)
      */
@@ -224,8 +238,16 @@ class Registry
         $this->unlinkFromParent($elementId);
 
         $this->insertChild($parentId, $elementId, $alias, $position);
+
+        return $this;
     }
 
+    /**
+     * Unset element as a child of it's current parent
+     *
+     * @param $childId
+     * @return Structure
+     */
     public function unlinkFromParent($childId)
     {
         $childInternalId = $this->assertElementExists($childId);
@@ -234,9 +256,8 @@ class Registry
         if ($parentId) {
             $parentInternalId = $this->assertElementExists($parentId);
             unset($this->elements[$parentInternalId][self::CHILDREN][$childInternalId]);
+            unset($this->elements[$childInternalId][self::PARENT]);
         }
-
-        unset($this->elements[$childInternalId][self::PARENT]);
 
         return $this;
     }
@@ -253,27 +274,17 @@ class Registry
     {
         $parentInternalId = $this->assertElementExists($parentId);
 
-        $childInternalId = $this->getInternalIdByAlias($parentInternalId, $alias);
-        unset($this->elements[$parentInternalId][self::CHILDREN][$childInternalId]);
-
-        unset($this->elements[$childInternalId][self::PARENT]);
-
-        return $this;
-    }
-
-    private function getInternalIdByAlias($parentInternalId, $alias)
-    {
-        $result = false;
         if (isset($this->elements[$parentInternalId][self::CHILDREN])) {
             foreach ($this->elements[$parentInternalId][self::CHILDREN] as $childInternalId => $child) {
                 if ($child[self::ATTRIBUTE_ALIAS] === $alias) {
-                    $result = $childInternalId;
+                    unset($this->elements[$parentInternalId][self::CHILDREN][$childInternalId]);
+                    unset($this->elements[$childInternalId][self::PARENT]);
                     break;
                 }
             }
         }
 
-        return $result;
+        return $this;
     }
 
     /**
@@ -320,17 +331,18 @@ class Registry
      *
      * @param string $parentId
      * @param string $childId
-     * @return string|bool
+     * @return string|null
      */
     public function getChildAlias($parentId, $childId)
     {
         $parentInternalId = $this->assertElementExists($parentId);
         $childInternalId = $this->assertElementExists($childId);
 
-        $result = false;
+        $result = null;
         if (isset($this->elements[$parentInternalId][self::CHILDREN][$childInternalId])) {
             $result = $this->elements[$parentInternalId][self::CHILDREN][$childInternalId][self::ATTRIBUTE_ALIAS];
         }
+
         return $result;
     }
 
@@ -374,12 +386,12 @@ class Registry
      *
      * @param string $parentId
      * @param string $alias
-     * @return string|bool
+     * @return string|null
      */
     public function getChildId($parentId, $alias)
     {
         $parentInternalId = $this->assertElementExists($parentId);
-        $result = false;
+        $result = null;
         if (isset($this->elements[$parentInternalId][self::CHILDREN])) {
             foreach ($this->elements[$parentInternalId][self::CHILDREN] as $child) {
                 if ($child[self::ATTRIBUTE_ALIAS] === $alias) {
@@ -388,6 +400,7 @@ class Registry
                 }
             }
         }
+
         return $result;
     }
 
@@ -423,7 +436,7 @@ class Registry
      */
     public function getParentId($childId)
     {
-        $result = false;
+        $result = null;
         if (isset($this->pairs[$childId])) {
             $childInternalId = $this->pairs[$childId];
             if (isset($this->elements[$childInternalId][self::PARENT])) {
@@ -474,6 +487,7 @@ class Registry
                 $result[] = $this->elements[$childInternalId][self::ATTRIBUTE_ID];
             }
         }
+
         return $result;
     }
 
@@ -494,6 +508,7 @@ class Registry
         if ($newOffset < 0) {
             $newOffset = 0;
         }
+
         return $newOffset;
     }
 
@@ -511,6 +526,7 @@ class Registry
         if (false === $index) {
             throw new \Exception("The '{$childId}' is not a child of '{$parentId}'.");
         }
+
         return $index;
     }
 
@@ -525,12 +541,14 @@ class Registry
     {
         $parentId = $this->getParentId($potentialParentId);
         if (!$parentId) {
-            return false;
+            $result = false;
+        } elseif ($parentId === $childId) {
+            $result = true;
+        } else {
+            $result = $this->isParentRecursively($childId, $parentId);
         }
-        if ($parentId === $childId) {
-            return true;
-        }
-        return $this->isParentRecursively($childId, $parentId);
+
+        return $result;
     }
 
     /**
@@ -602,7 +620,6 @@ class Registry
             $this->pairs[$elementId] = 'EL-' . $this->inc++;
             $this->elements[$this->pairs[$elementId]][self::ATTRIBUTE_INTERNAL_ID] = $this->pairs[$elementId];
             $this->elements[$this->pairs[$elementId]][self::ATTRIBUTE_ID] = $elementId;
-            //var_dump($this->pairs, $this->elements);die();
             //throw new \Exception("No element found with ID '{$elementId}'.");
         }
 

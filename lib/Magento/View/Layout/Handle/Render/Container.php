@@ -64,12 +64,14 @@ class Container implements Render
     {
         $elementName = $layoutElement->getAttribute('name');
         if (isset($elementName)) {
-            $element = array();
+            $arguments = $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
-                    $element[$attributeName] = (string)$attribute;
+                    $arguments[$attributeName] = (string)$attribute;
                 }
             }
+            $element = $arguments;
+            $element['arguments'] = $arguments;
             $element['type'] = self::TYPE;
 
             $layout->addElement($elementName, $element);
@@ -98,13 +100,14 @@ class Container implements Render
      * @param array $element
      * @param Layout $layout
      * @param string $parentName
+     * @return Container
      */
     public function register(array $element, Layout $layout, $parentName)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
 
-            $layout->setElementAttribute($elementName, 'is_registered', true);
+            $layout->updateElement($elementName, array('is_registered' => true));
 
             foreach ($layout->getChildNames($elementName) as $childName => $alias) {
                 $child = $layout->getElement($childName);
@@ -113,15 +116,18 @@ class Container implements Render
                 $handle->register($child, $layout, $elementName);
             }
         }
+
+        return $this;
     }
 
     /**
      * @param array $element
      * @param Layout $layout
-     * @param $type
+     * @param string $parentName
+     * @param string $type [optional]
      * @return string
      */
-    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
 
@@ -132,7 +138,7 @@ class Container implements Render
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
                 if ($handle instanceof Render) {
-                    $result .= $handle->render($child, $layout, $type);
+                    $result .= $handle->render($child, $layout, $parentName, $type);
                 }
             }
         }

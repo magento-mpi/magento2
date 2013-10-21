@@ -68,12 +68,14 @@ class Template implements Render
     {
         $elementName = $layoutElement->getAttribute('name');
         if (isset($elementName)) {
-            $element = array();
+            $arguments = $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
-                    $element[$attributeName] = (string)$attribute;
+                    $arguments[$attributeName] = (string)$attribute;
                 }
             }
+            $element = $arguments;
+            $element['arguments'] = $arguments;
             $element['type'] = self::TYPE;
 
             $layout->addElement($elementName, $element);
@@ -94,19 +96,22 @@ class Template implements Render
                 }
             }
         }
+
+        return $this;
     }
 
     /**
      * @param array $element
      * @param Layout $layout
      * @param string $parentName
+     * @return Template
      */
     public function register(array $element, Layout $layout, $parentName)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
 
-            $layout->setElementAttribute($elementName, 'is_registered', true);
+            $layout->updateElement($elementName, array('is_registered' => true));
 
             foreach ($layout->getChildNames($elementName) as $childName => $alias) {
                 $child = $layout->getElement($childName);
@@ -115,19 +120,25 @@ class Template implements Render
                 $handle->register($child, $layout, $elementName);
             }
         }
+
+        return $this;
     }
 
     /**
      * @param array $element
      * @param Layout $layout
-     * @param $type
+     * @param string $parentName
+     * @param string $type [optional]
      * @return string
      */
-    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $render = $this->renderFactory->get($type);
+        $elementName = $element['name'];
 
-        $data = $layout->getAllDataSources();
+        $inheritedData = $layout->getElementDataSources($parentName);
+        $ownData = $layout->getElementDataSources($elementName);
+        $data = array_merge($inheritedData, $ownData);
 
         // TODO probably prepare limited proxy to avoid violations
         $data['layout'] = $layout;

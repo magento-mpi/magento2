@@ -55,13 +55,15 @@ class Block implements Render
     public function parse(Element $layoutElement, Layout $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
-        if (isset($elementName)) {
-            $element = array();
+        if (!empty($elementName)) {
+            $arguments = $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
-                    $element[$attributeName] = (string)$attribute;
+                    $arguments[$attributeName] = (string)$attribute;
                 }
             }
+            $element = $arguments;
+            $element['arguments'] = $arguments;
             $element['type'] = self::TYPE;
 
             $layout->addElement($elementName, $element);
@@ -90,6 +92,7 @@ class Block implements Render
      * @param array $element
      * @param Layout $layout
      * @param string $parentName
+     * @return Block
      * @throws \Exception
      */
     public function register(array $element, Layout $layout, $parentName)
@@ -112,7 +115,7 @@ class Block implements Render
                 $block->setTemplate($element['template']);
             }
 
-            $layout->setElementAttribute($elementName, 'is_registered', true);
+            $layout->updateElement($elementName, array('is_registered' => true));
 
             foreach ($layout->getChildNames($elementName) as $childName => $alias) {
                 $child = $layout->getElement($childName);
@@ -121,15 +124,18 @@ class Block implements Render
                 $handle->register($child, $layout, $elementName);
             }
         }
+
+        return $this;
     }
 
     /**
      * @param array $element
      * @param Layout $layout
-     * @param $type [optional]
+     * @param string $parentName
+     * @param string $type [optional]
      * @return mixed
      */
-    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
         if ($this->blockPool->get($element['name'])) {

@@ -53,7 +53,7 @@ class Arguments implements Handle
 
         $arguments = $this->processArguments($parsedArguments);
 
-        $layout->setElementAttribute($parentName, 'arguments', $arguments);
+        $layout->updateElement($parentName, array('arguments' => $arguments));
 
         return $this;
     }

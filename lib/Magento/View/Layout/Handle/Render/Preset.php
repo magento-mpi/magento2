@@ -30,20 +30,19 @@ class Preset implements Render
     protected $processorFactory;
 
     /**
-     * @var LayoutFactory
-     */
-    protected $layoutFactory;
-
-    /**
-     * @var \Magento\View\Layout\HandleFactory
+     * @var HandleFactory
      */
     protected $handleFactory;
 
-
     /**
-     * @var \Magento\View\Render\RenderFactory
+     * @var RenderFactory
      */
     protected $renderFactory;
+
+    /**
+     * @var LayoutFactory
+     */
+    protected $layoutFactory;
 
     /**
      * @param ProcessorFactory $processorFactory
@@ -73,23 +72,27 @@ class Preset implements Render
     {
         $elementName = $layoutElement->getAttribute('name');
         if (isset($elementName)) {
-            $element = array();
+            $arguments = $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {
                 if ($attribute) {
-                    $element[$attributeName] = (string)$attribute;
+                    $arguments[$attributeName] = (string)$attribute;
                 }
             }
+            $element = $arguments;
+            $element['arguments'] = $arguments;
             $element['type'] = self::TYPE;
 
-            $layout->addElement($elementName, $element);
-
-            if (isset($parentName)) {
-                $alias = isset($element['as']) ? $element['as'] : $elementName;
-                $layout->setChild($parentName, $elementName, $alias);
-            }
-
-            if (isset($parentName) && isset($element['handle'])) {
+            if (isset($element['handle'])) {
                 $personalLayout = $this->layoutFactory->create();
+
+                $element['layout'] = $personalLayout;
+
+                $layout->addElement($elementName, $element);
+
+                if (isset($parentName)) {
+                    $alias = isset($element['as']) ? $element['as'] : $elementName;
+                    $layout->setChild($parentName, $elementName, $alias);
+                }
 
                 /** @var $layoutProcessor Processor */
                 $layoutProcessor = $this->processorFactory->create();
@@ -97,6 +100,7 @@ class Preset implements Render
                 $xml = $layoutProcessor->asSimplexml();
 
                 foreach ($xml as $childElement) {
+                    /** @var $childElement Element  */
                     $type = $childElement->getName();
                     /** @var $handle Handle */
                     $handle = $this->handleFactory->get($type);
@@ -113,7 +117,6 @@ class Preset implements Render
                         $handle->parse($childXml, $personalLayout, $elementName);
                     }
                 }
-                $node['layout'] = $personalLayout;
             }
         }
 
@@ -124,41 +127,50 @@ class Preset implements Render
      * @param array $element
      * @param Layout $layout
      * @param string $parentName
+     * @return Preset
      */
     public function register(array $element, Layout $layout, $parentName)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
 
-            $layout->setElementAttribute($elementName, 'is_registered', true);
+            $personalLayout = isset($element['layout']) ?: $layout;
 
-            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
-                $child = $layout->getElement($childName);
+            $personalLayout->updateElement($elementName, array('is_registered' => true));
+
+            foreach ($personalLayout->getChildNames($elementName) as $childName => $alias) {
+                $child = $personalLayout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
-                $handle->register($child, $layout, $elementName);
+                $handle->register($child, $personalLayout, $elementName);
             }
         }
+
+        return $this;
     }
 
     /**
-     * @param array $elements
+     * @param array $element
      * @param Layout $layout
-     * @param $type
+     * @param string $parentName
+     * @param string $type [optional]
      * @return mixed
      */
-    public function render(array $elements, Layout $layout, $type = Html::TYPE_HTML)
+    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
 
         if (isset($element['name'])) {
             $elementName = $element['name'];
-            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
-                $child = $layout->getElement($childName);
+
+            $personalLayout = isset($element['layout']) ?: $layout;
+
+            foreach ($personalLayout->getChildNames($elementName) as $childName => $alias) {
+                $child = $personalLayout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
                 if ($handle instanceof Render) {
-                    $result .= $handle->render($child, $layout, $type);
+                    $result .= $handle->render($child, $personalLayout, $elementName, $type);
                 }
             }
         }

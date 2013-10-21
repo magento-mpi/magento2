@@ -30,6 +30,14 @@ class Block extends OriginalBlock
     {
         $originalParentName = $layoutElement->getAttribute('name');
         if (isset($originalParentName)) {
+            $arguments = array();
+            foreach ($layoutElement->attributes() as $attributeName => $attribute) {
+                if ($attribute) {
+                    $arguments[$attributeName] = (string)$attribute;
+                }
+            }
+            $layout->updateElement($originalParentName, $arguments);
+
             if ($layoutElement->hasChildren()) {
                 foreach ($layoutElement as $childXml) {
                     /** @var $childXml Element */

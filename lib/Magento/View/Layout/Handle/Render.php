@@ -18,8 +18,9 @@ interface Render extends Handle
     /**
      * @param array $element
      * @param Layout $layout
-     * @param $type [optional]
+     * @param string $parentName
+     * @param string $type [optional]
      * @return string
      */
-    public function render(array $element, Layout $layout, $type = Html::TYPE_HTML);
+    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML);
 }

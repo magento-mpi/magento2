@@ -49,6 +49,7 @@ class Action implements Command
         $element['arguments'] = $arguments;
 
         $layout->addElement($elementName, $element);
+
         if (isset($parentName)) {
             $layout->setChild($parentName, $elementName, $elementName);
         }

@@ -42,6 +42,7 @@ class Move implements Command
         $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . self::$inc++);
 
         $layout->addElement($elementName, $element);
+
         if (isset($parentName)) {
             $layout->setChild($parentName, $elementName, $elementName);
         }

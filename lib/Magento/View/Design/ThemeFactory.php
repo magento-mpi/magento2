@@ -29,11 +29,11 @@ class ThemeFactory
 
     /**
      * @param $themeId
-     *
+     * @return \Magento\View\Design\Theme
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getTheme($themeId)
     {
-        die(__METHOD__);
+        return null;
     }
 }

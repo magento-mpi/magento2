@@ -8,13 +8,6 @@
 
 namespace Magento\View;
 
-use Magento\View\Context;
-use Magento\View\Layout;
-use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Data;
-use Magento\View\Layout\Handle\Render;
-use Magento\View\Layout\HandleFactory;
 use Magento\Core\Model\BlockFactory;
 
 class DataSourcePool
@@ -29,6 +22,8 @@ class DataSourcePool
      */
     protected $dataSources = array();
 
+    protected $assignments = array();
+
     /**
      * @param BlockFactory $blockFactory
      */
@@ -40,7 +35,7 @@ class DataSourcePool
     /**
      * @param string $name
      * @param string $class
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return object
      * @throws \Exception
      */
     public function add($name, $class)
@@ -59,6 +54,10 @@ class DataSourcePool
         return $this->dataSources[$name];
     }
 
+    /**
+     * @param null $name
+     * @return array|object|null
+     */
     public function get($name = null)
     {
         if (!isset($name)) {
@@ -66,5 +65,27 @@ class DataSourcePool
         }
 
         return isset($this->dataSources[$name]) ? $this->dataSources[$name] : null;
+    }
+
+    /**
+     * @param $dataName
+     * @param $namespace
+     * @param $alias
+     */
+    public function assign($dataName, $namespace, $alias)
+    {
+        $alias = $alias ?: $dataName;
+        $data = $this->get($dataName);
+
+        $this->assignments[$namespace][$alias] = $data;
+    }
+
+    /**
+     * @param $namespace
+     * @return array
+     */
+    public function getNamespaceData($namespace)
+    {
+        return isset($this->assignments[$namespace]) ? $this->assignments[$namespace] : array();
     }
 }
