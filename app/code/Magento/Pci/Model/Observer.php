@@ -25,13 +25,6 @@ class Observer
     protected $_authorization;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
@@ -62,7 +55,11 @@ class Observer
     protected $_userFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Pci\Model\Encryption
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
@@ -70,18 +67,18 @@ class Observer
      * @param \Magento\Adminhtml\Model\Session $session
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
+     * @param \Magento\Pci\Model\Encryption $encryptor
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Pci\Model\Resource\Admin\User $userResource,
         \Magento\Backend\Model\Url $url,
         \Magento\Adminhtml\Model\Session $session,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\User\Model\UserFactory $userFactory
+        \Magento\User\Model\UserFactory $userFactory,
+        \Magento\Pci\Model\Encryption $encryptor
     ) {
-        $this->_coreData = $coreData;
         $this->_authorization = $authorization;
         $this->_storeConfig = $storeConfig;
         $this->_userResource = $userResource;
@@ -89,6 +86,7 @@ class Observer
         $this->_session = $session;
         $this->_authSession = $authSession;
         $this->_userFactory = $userFactory;
+        $this->_encryptor = $encryptor;
     }
 
     /**
@@ -172,7 +170,7 @@ class Observer
         }
 
         // upgrade admin password
-        if (!$this->_coreData->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
+        if (!$this->_encryptor->validateHashByVersion($password, $user->getPassword())) {
             $this->_userFactory->create()->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
@@ -207,7 +205,7 @@ class Observer
     {
         $password = $observer->getEvent()->getPassword();
         $model    = $observer->getEvent()->getModel();
-        if (!$this->_coreData->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
+        if (!$this->_encryptor->validateHashByVersion($password, $model->getPassword())) {
             $model->changePassword($password, false);
         }
     }
@@ -233,7 +231,7 @@ class Observer
         }
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
-            if ($this->_coreData->validateHash($password, $user->getOrigData('password'))) {
+            if ($this->_encryptor->validateHash($password, $user->getOrigData('password'))) {
                 throw new \Magento\Core\Exception(
                     __('Sorry, but this password has already been used. Please create another.')
                 );
@@ -241,7 +239,7 @@ class Observer
 
             // check whether password was used before
             $resource = $this->_userResource;
-            $passwordHash = $this->_coreData->getHash($password, false);
+            $passwordHash = $this->_encryptor->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
                     throw new \Magento\Core\Exception(
@@ -266,7 +264,7 @@ class Observer
             $passwordLifetime = $this->getAdminPasswordLifetime();
             if ($passwordLifetime && $password && !$user->getForceNewPassword()) {
                 $resource = $this->_userResource;
-                $passwordHash = $this->_coreData->getHash($password, false);
+                $passwordHash = $this->_encryptor->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
                 $this->_session->getMessages()->deleteMessageByIdentifier('magento_pci_password_expired');
                 $this->_authSession->unsPciAdminUserIsPasswordExpired();

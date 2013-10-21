@@ -74,22 +74,22 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave($section, $groups, $expected)
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
         /** @var $_configDataObject \Magento\Backend\Model\Config */
-        $_configDataObject = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Config');
+        $_configDataObject = $objectManager->create('Magento\Backend\Model\Config');
         $_configDataObject->setSection($section)
             ->setWebsite('base')
             ->setGroups($groups)
             ->save();
 
         foreach ($expected as $group => $expectedData) {
-            $_configDataObject = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Backend\Model\Config');
+            $_configDataObject = $objectManager->create('Magento\Backend\Model\Config');
             $_configData = $_configDataObject->setSection($group)->setWebsite('base')
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {
                 $_configData['payment/payflow_link/pwd'] =
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+                    $objectManager->get('Magento\Encryption\EncryptionInterface')
                         ->decrypt($_configData['payment/payflow_link/pwd']);
             }
             $this->assertEquals($expectedData, $_configData);

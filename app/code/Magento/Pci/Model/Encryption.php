@@ -33,17 +33,16 @@ class Encryption extends \Magento\Encryption\Model
     protected $_keys = array();
 
     /**
+     * @param \Magento\Math\Random $randomGenerator
      * @param \Magento\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
+        \Magento\Math\Random $randomGenerator,
         \Magento\CryptFactory $cryptFactory,
         $cryptKey
     ) {
-        parent::__construct(
-            $cryptFactory,
-            $cryptKey
-        );
+        parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
         // load all possible keys
         $this->_keys = preg_split('/\s+/s', trim($cryptKey));
         $this->_keyVersion = count($this->_keys) - 1;

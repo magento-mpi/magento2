@@ -51,11 +51,6 @@ class Url extends \Magento\Core\Model\Url
     protected $_backendHelper;
 
     /**
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreHelper;
-
-    /**
      * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
@@ -73,16 +68,21 @@ class Url extends \Magento\Core\Model\Url
     protected $_cache;
 
     /**
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -93,14 +93,15 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Backend\Model\Menu\Config $menuConfig,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         array $data = array()
     ) {
-        parent::__construct($securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $session, $data);
+        $this->_encryptor = $encryptor;
+        parent::__construct($securityInfo, $coreStoreConfig, $app, $storeManager, $session, $data);
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $session;
@@ -222,7 +223,7 @@ class Url extends \Magento\Core\Model\Url
         }
 
         $secret = $routeName . $controller . $action . $salt;
-        return $this->_coreData->getHash($secret);
+        return $this->_encryptor->getHash($secret);
     }
 
     /**

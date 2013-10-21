@@ -55,13 +55,6 @@ class Installer extends \Magento\Object
     protected $_cacheTypeList;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Core\Model\Resource\SetupFactory
      */
     protected $_setupFactory;
@@ -137,7 +130,11 @@ class Installer extends \Magento\Object
     protected $_session;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
@@ -158,7 +155,6 @@ class Installer extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\CacheInterface $cache,
@@ -176,15 +172,16 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
+        $this->_encryptor = $encryptor;
         parent::__construct($data);
         $this->_primaryConfig = $primaryConfig;
         $this->_localConfig = $localConfig;
@@ -430,7 +427,7 @@ class Installer extends \Magento\Object
      */
     public function installEncryptionKey($key)
     {
-        $this->_coreData->validateKey($key);
+        $this->_encryptor->validateKey($key);
         $this->_installerConfig->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
@@ -447,7 +444,7 @@ class Installer extends \Magento\Object
         if (!$key) {
             $key = md5(\Magento\Math\Random::getRandomString(10));
         }
-        $this->_coreData->validateKey($key);
+        $this->_encryptor->validateKey($key);
         return $key;
     }
 

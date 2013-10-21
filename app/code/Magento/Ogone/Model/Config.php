@@ -18,27 +18,25 @@ class Config extends \Magento\Payment\Model\Config
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      */
     public function __construct(
         \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Encryption\EncryptionInterface $encryptor
     ) {
         $this->_urlBuilder = $urlBuilder;
-        $this->_coreData = $coreData;
+        $this->_encryptor = $encryptor;
     }
 
     /**
@@ -64,7 +62,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getShaInCode($storeId=null)
     {
-        return $this->_coreData->decrypt($this->getConfigData('secret_key_in', $storeId));
+        return $this->_encryptor->decrypt($this->getConfigData('secret_key_in', $storeId));
     }
 
     /**
@@ -74,7 +72,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getShaOutCode($storeId=null)
     {
-        return $this->_coreData->decrypt($this->getConfigData('secret_key_out', $storeId));
+        return $this->_encryptor->decrypt($this->getConfigData('secret_key_out', $storeId));
     }
 
     /**

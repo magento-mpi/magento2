@@ -64,6 +64,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     protected $_authSessionMock;
 
+    /**
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
     protected function setUp()
     {
         $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
@@ -104,13 +109,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_authSessionMock = $this->getMock('Magento\Backend\Model\Auth\Session', array(), array(),
             '', false, false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_encryptor = $this->getMock('Magento\Encryption\Model', null, array(), '', false);
         $this->_model = $helper->getObject('Magento\Backend\Model\Url', array(
             'coreStoreConfig' => $this->_storeConfigMock,
             'backendHelper'   => $helperMock,
             'session'         => $this->_coreSessionMock,
             'menuConfig'      => $this->_menuConfigMock,
             'coreData'        => $this->_coreDataMock,
-            'authSession'     => $this->_authSessionMock
+            'authSession'     => $this->_authSessionMock,
+            'encryptor'       => $this->_encryptor
         ));
 
         $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);

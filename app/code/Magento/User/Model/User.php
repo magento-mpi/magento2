@@ -141,8 +141,11 @@ class User
     protected $_emailInfoFactory;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -154,6 +157,7 @@ class User
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -172,14 +176,15 @@ class User
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_encryptor = $encryptor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_eventManager = $eventManager;
         $this->_userData = $userData;
-        $this->_coreData = $coreData;
         $this->_sender = $sender;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_validatorComposite = $validatorCompositeFactory;
@@ -202,7 +207,6 @@ class User
         return array_diff($properties, array(
             '_eventManager',
             '_sender',
-            '_coreData',
             '_userData',
             '_coreStoreConfig',
             '_validatorComposite',
@@ -218,7 +222,6 @@ class User
         $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
         $this->_eventManager    = $objectManager->get('Magento\Core\Model\Event\Manager');
         $this->_sender          = $objectManager->get('Magento\Core\Model\Sender');
-        $this->_coreData        = $objectManager->get('Magento\Core\Helper\Data');
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
         $this->_coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
@@ -538,7 +541,7 @@ class User
 
             if ($sensitive
                 && $this->getId()
-                && $this->_coreData->validateHash($password, $this->getPassword())
+                && $this->_encryptor->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
                     throw new \Magento\Backend\Model\Auth\Exception(
@@ -632,7 +635,7 @@ class User
      */
     protected function _getEncodedPassword($password)
     {
-        return $this->_coreData->getHash($password, 2);
+        return $this->_encryptor->getHash($password, 2);
     }
 
     /**

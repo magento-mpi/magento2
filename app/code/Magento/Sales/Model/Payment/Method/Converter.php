@@ -35,14 +35,17 @@ class Converter
     );
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Encryption\EncryptionInterface
      */
     protected $_encryptor;
 
+    /**
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Encryption\EncryptionInterface $encryptor
     ) {
-        $this->_encryptor = $coreData;
+        $this->_encryptor = $encryptor;
     }
 
     /**
@@ -58,7 +61,6 @@ class Converter
         return isset($this->_encryptFields[$method][$filedName]) &&
             $this->_encryptFields[$method][$filedName];
     }
-
 
     /**
      * Decode data

@@ -16,16 +16,18 @@ class Encryption extends \Magento\Pci\Model\Encryption
     /**
      * Constructor
      *
+     * @param \Magento\Math\Random $randomGenerator
      * @param \Magento\CryptFactory $cryptFactory
      * @param string $cryptKey
      * @param $key
      */
     public function __construct(
+        \Magento\Math\Random $randomGenerator,
         \Magento\CryptFactory $cryptFactory,
         $cryptKey,
         $key
     ) {
-        parent::__construct($cryptFactory, $cryptKey);
+        parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
         $this->_keys = array($key);
         $this->_keyVersion = 0;
     }

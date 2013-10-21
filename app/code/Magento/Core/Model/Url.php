@@ -111,13 +111,6 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     protected $_urlSecurityInfo;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
@@ -145,7 +138,6 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
      *
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Session $session
@@ -154,7 +146,6 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     public function __construct(
         \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Session $session,
@@ -162,7 +153,6 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     ) {
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreData = $coreData;
         $this->_app = $app;
         $this->_storeManager = $storeManager;
         $this->_session = $session;
@@ -808,10 +798,6 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
             $session = $this->_session;
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = $this->_coreData;
-                    if (!$helper) {
-                        return $this;
-                    }
                     self::$_encryptedSessionId = $session->getEncryptedSessionId();
                 }
                 $this->setQueryParam($session->getSessionIdQueryParam(), self::$_encryptedSessionId);
@@ -828,10 +814,6 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     public function addSessionParam()
     {
         if (!self::$_encryptedSessionId) {
-            $helper = $this->_coreData;
-            if (!$helper) {
-                return $this;
-            }
             self::$_encryptedSessionId = $this->_session->getEncryptedSessionId();
         }
         $this->setQueryParam($this->_session->getSessionIdQueryParam(), self::$_encryptedSessionId);

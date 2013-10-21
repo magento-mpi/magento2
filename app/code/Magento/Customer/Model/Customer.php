@@ -118,13 +118,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_config;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Customer data
      *
      * @var \Magento\Customer\Helper\Data
@@ -139,11 +132,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
-     * Core store config
-     *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
@@ -184,9 +172,13 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_attributeFactory;
 
     /**
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Sender $sender
@@ -201,13 +193,13 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Sender $sender,
@@ -222,12 +214,12 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
-        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
@@ -239,6 +231,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_groupFactory = $groupFactory;
         $this->_attributeFactory = $attributeFactory;
+        $this->_encryptor = $encryptor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -480,7 +473,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function hashPassword($password, $salt = null)
     {
-        return $this->_coreData->getHash($password, !is_null($salt) ? $salt : 2);
+        return $this->_encryptor->getHash($password, !is_null($salt) ? $salt : 2);
     }
 
     /**
@@ -506,7 +499,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         if (!$hash) {
             return false;
         }
-        return $this->_coreData->validateHash($password, $hash);
+        return $this->_encryptor->validateHash($password, $hash);
     }
 
 
@@ -518,7 +511,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function encryptPassword($password)
     {
-        return $this->_coreData->encrypt($password);
+        return $this->_encryptor->encrypt($password);
     }
 
     /**
@@ -529,7 +522,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function decryptPassword($password)
     {
-        return $this->_coreData->decrypt($password);
+        return $this->_encryptor->decrypt($password);
     }
 
     /**

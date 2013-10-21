@@ -32,11 +32,6 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_coreData;
-
-    /**
      * @var array
      */
     protected $_testData = array('themeId' => 1, 'mode' => 'test');
@@ -45,7 +40,6 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper = $this->getMock('Magento\DesignEditor\Helper\Data', array('getFrontName'),
             array(), '', false);
-        $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array('getAlias'), array(), '', false);
         $requestMock->expects($this->any())->method('getAlias')->will($this->returnValueMap(array(
              array('editorMode', 'navigation'),
@@ -60,7 +54,6 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->_helper,
             $coreStoreConfig,
-            $this->_coreData,
             $app,
             $storeManager,
             $session,

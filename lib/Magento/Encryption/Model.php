@@ -22,9 +22,9 @@ class Model implements EncryptionInterface
     const PARAM_CRYPT_KEY = 'crypt.key';
 
     /**
-     * @var \Magento\Crypt
+     * @var \Magento\Math\Random
      */
-    protected $_crypt;
+    protected $_randomGenerator;
 
     /**
      * Cryptographic key
@@ -39,13 +39,21 @@ class Model implements EncryptionInterface
     protected $_cryptFactory;
 
     /**
+     * @var \Magento\Crypt
+     */
+    protected $_crypt;
+
+    /**
+     * @param \Magento\Math\Random $randomGenerator
      * @param \Magento\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
+        \Magento\Math\Random $randomGenerator,
         \Magento\CryptFactory $cryptFactory,
         $cryptKey
     ) {
+        $this->_randomGenerator = $randomGenerator;
         $this->_cryptFactory = $cryptFactory;
         $this->_cryptKey = $cryptKey;
     }
@@ -65,7 +73,7 @@ class Model implements EncryptionInterface
     public function getHash($password, $salt = false)
     {
         if (is_integer($salt)) {
-            $salt = $this->_getRandomString($salt);
+            $salt = $this->_randomGenerator->getRandomString($salt);
         }
         return $salt === false ? $this->hash($password) : $this->hash($salt . $password) . ':' . $salt;
     }
@@ -102,25 +110,6 @@ class Model implements EncryptionInterface
     }
 
     /**
-     * Instantiate crypt model
-     *
-     * @param string $key
-     * @return \Magento\Crypt
-     */
-    protected function _getCrypt($key = null)
-    {
-        if ($key === null) {
-            if (!$this->_crypt) {
-                $this->_crypt = $this->_cryptFactory->create(array('key' => $this->_cryptKey));
-            }
-
-            return $this->_crypt;
-        } else {
-            return $this->_cryptFactory->create(array('key' => $key));
-        }
-    }
-
-    /**
      * Encrypt a string
      *
      * @param string $data
@@ -128,6 +117,9 @@ class Model implements EncryptionInterface
      */
     public function encrypt($data)
     {
+        if (empty($this->_cryptKey)) {
+            return $data;
+        }
         return base64_encode($this->_getCrypt()->encrypt((string)$data));
     }
 
@@ -139,6 +131,10 @@ class Model implements EncryptionInterface
      */
     public function decrypt($data)
     {
+        if (empty($this->_cryptKey)) {
+            return $data;
+        }
+
         return trim($this->_getCrypt()->decrypt(base64_decode((string)$data)));
     }
 
@@ -154,24 +150,20 @@ class Model implements EncryptionInterface
     }
 
     /**
-     * Get random string composed of chars given
+     * Instantiate crypt model
      *
-     * TODO: Replace this function with lib/Math/Random invocation when it's ready
-     *
-     * @param int $length
-     * @param null $chars
-     * @return string
+     * @param string $key
+     * @return \Magento\Crypt
      */
-    protected function _getRandomString($length, $chars = null)
+    protected function _getCrypt($key = null)
     {
-        if (is_null($chars)) {
-            $chars = \Magento\Math\Random::CHARS_LOWERS . \Magento\Math\Random::CHARS_UPPERS
-                . \Magento\Math\Random::CHARS_DIGITS;
+        if ($key === null) {
+            if (!$this->_crypt) {
+                $this->_crypt = $this->_cryptFactory->create(array('key' => $this->_cryptKey));
+            }
+            return $this->_crypt;
+        } else {
+            return $this->_cryptFactory->create(array('key' => $key));
         }
-        mt_srand(10000000*(double)microtime());
-        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $length; $i++) {
-            $str .= $chars[mt_rand(0, $lc)];
-        }
-        return $str;
     }
 }

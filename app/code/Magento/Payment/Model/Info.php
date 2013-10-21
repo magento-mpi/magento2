@@ -30,32 +30,30 @@ class Info extends \Magento\Core\Model\AbstractModel
     protected $_paymentData = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Encryption\EncryptionInterface
      */
-    protected $_coreData = null;
+    protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_paymentData = $paymentData;
+        $this->_encryptor = $encryptor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -113,7 +111,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     public function encrypt($data)
     {
         if ($data) {
-            return $this->_coreData->encrypt($data);
+            return $this->_encryptor->encrypt($data);
         }
         return $data;
     }
@@ -127,7 +125,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     public function decrypt($data)
     {
         if ($data) {
-            return $this->_coreData->decrypt($data);
+            return $this->_encryptor->decrypt($data);
         }
         return $data;
     }

@@ -70,26 +70,26 @@ class Payment extends \Magento\Payment\Model\Info
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $paymentData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($paymentData, $context, $registry, $encryptor, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -55,6 +55,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_themeFactory;
 
     /**
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Resource $resource
@@ -64,6 +69,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
      * @param \Magento\Core\Model\Theme\CollectionFactory $themeFactory
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -74,7 +80,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Resource\Resource $resourceResource,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
-        \Magento\Core\Model\Theme\CollectionFactory $themeFactory
+        \Magento\Core\Model\Theme\CollectionFactory $themeFactory,
+        \Magento\Encryption\EncryptionInterface $encryptor
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
@@ -85,10 +92,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_migrationFactory = $migrationFactory;
         $this->_themeResourceFactory = $themeResourceFactory;
         $this->_themeFactory = $themeFactory;
+        $this->_encryptor = $encryptor;
     }
 
     /**
-     * @return \\Magento\Core\Model\Event\Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -96,7 +104,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -104,7 +112,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\ModuleListInterface
+     * @return \Magento\Core\Model\ModuleListInterface
      */
     public function getModuleList()
     {
@@ -112,7 +120,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Config\Modules\Reader
+     * @return \Magento\Core\Model\Config\Modules\Reader
      */
     public function getModulesReader()
     {
@@ -120,7 +128,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Resource
+     * @return \Magento\Core\Model\Resource
      */
     public function getResourceModel()
     {
@@ -128,7 +136,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Resource\Setup\MigrationFactory
+     * @return \Magento\Core\Model\Resource\Setup\MigrationFactory
      */
     public function getMigrationFactory()
     {
@@ -136,7 +144,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Resource\Resource
+     * @return \Magento\Core\Model\Resource\Resource
      */
     public function getResourceResource()
     {
@@ -144,7 +152,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Theme\CollectionFactory
+     * @return \Magento\Core\Model\Theme\CollectionFactory
      */
     public function getThemeFactory()
     {
@@ -152,10 +160,18 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @return \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     public function getThemeResourceFactory()
     {
         return $this->_themeResourceFactory;
+    }
+
+    /**
+     * @return \Magento\Encryption\EncryptionInterface
+     */
+    public function getEncryptor()
+    {
+        return $this->_encryptor;
     }
 }

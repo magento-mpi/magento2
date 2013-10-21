@@ -16,46 +16,32 @@ class Encrypted
     implements \Magento\Core\Model\Config\Data\BackendModelInterface
 {
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Encryption\EncryptionInterface
      */
-    protected $_coreData = null;
+    protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Config $config,
+        \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
+        $this->_encryptor = $encryptor;
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
-    }
-
-    public function __sleep()
-    {
-        $properties = parent::__sleep();
-        return array_diff($properties, array('_coreData'));
-    }
-
-    public function __wakeup()
-    {
-        parent::__wakeup();
-        $this->_coreData = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Helper\Data');
     }
 
     /**
@@ -65,7 +51,7 @@ class Encrypted
     protected function _afterLoad()
     {
         $value = (string)$this->getValue();
-        if (!empty($value) && ($decrypted = $this->_coreData->decrypt($value))) {
+        if (!empty($value) && ($decrypted = $this->_encryptor->decrypt($value))) {
             $this->setValue($decrypted);
         }
     }
@@ -81,8 +67,11 @@ class Encrypted
         if (preg_match('/^\*+$/', $this->getValue())) {
             $value = $this->getOldValue();
         }
-        if (!empty($value) && ($encrypted = $this->_coreData->encrypt($value))) {
-            $this->setValue($encrypted);
+        if (!empty($value)) {
+            $encrypted = $this->_encryptor->encrypt($value);
+            if ($encrypted) {
+                $this->setValue($encrypted);
+            }
         }
     }
 
@@ -94,6 +83,6 @@ class Encrypted
      */
     public function processValue($value)
     {
-        return $this->_coreData->decrypt($value);
+        return $this->_encryptor->decrypt($value);
     }
 }

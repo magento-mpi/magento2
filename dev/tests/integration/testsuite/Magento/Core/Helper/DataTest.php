@@ -41,11 +41,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_dateTime->setTimezone(new \DateTimeZone(self::DATE_TIMEZONE));
     }
 
-    public function testGetEncryptor()
-    {
-        $this->assertInstanceOf('Magento\Encryption\Model', $this->_helper->getEncryptor());
-    }
-
     public function testCurrency()
     {
         $price = 10.00;
@@ -89,29 +84,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $zendDate->toString(self::TIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short')
         );
-    }
-
-    public function testEncryptDecrypt()
-    {
-        $initial = md5(uniqid());
-        $encrypted = $this->_helper->encrypt($initial);
-        $this->assertNotEquals($initial, $encrypted);
-        $this->assertEquals($initial, $this->_helper->decrypt($encrypted));
-    }
-
-    public function testValidateKey()
-    {
-        $validKey = md5(uniqid());
-        $this->assertInstanceOf('Magento\Crypt', $this->_helper->validateKey($validKey));
-    }
-
-    public function testGetValidateHash()
-    {
-        $password = uniqid();
-        $hash = $this->_helper->getHash($password);
-
-        $this->assertTrue(is_string($hash));
-        $this->assertTrue($this->_helper->validateHash($password, $hash));
     }
 
     public function testGetStoreId()

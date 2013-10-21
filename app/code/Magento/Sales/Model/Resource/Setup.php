@@ -26,6 +26,11 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_config;
 
     /**
+     * @var \Magento\Encryption\EncryptionInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
@@ -47,6 +52,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     ) {
         $this->_config = $config;
         $this->_coreData = $coreHelper;
+        $this->_encryptor = $context->getEncryptor();
         parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
 
@@ -261,5 +267,13 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function getConfigModel()
     {
         return $this->_config;
+    }
+
+    /**
+     * @return \Magento\Encryption\EncryptionInterface
+     */
+    public function getEncryptor()
+    {
+        return $this->_encryptor;
     }
 }

@@ -41,9 +41,9 @@ class Random
             $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
         }
         mt_srand(10000000*(double)microtime());
-        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $length; $i++) {
-            $str .= $chars[mt_rand(0, $lc)];
+        for ($i = 0, $string = '', $lc = strlen($chars)-1; $i < $length; $i++) {
+            $string .= $chars[mt_rand(0, $lc)];
         }
-        return $str;
+        return $string;
     }
 }

@@ -25,7 +25,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        self::$_tmpDir = $objectManager->get('Magento\Core\Model\Dir')
             ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'InstallerTest';
         self::$_tmpConfigFile = self::$_tmpDir . DIRECTORY_SEPARATOR . 'local.xml';
         mkdir(self::$_tmpDir);

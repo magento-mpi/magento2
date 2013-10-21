@@ -40,11 +40,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
 
-    /**
-     * @var \Magento\Encryption\EncryptionInterface
-     */
-    protected $_encryptor;
-
     protected $_allowedFormats = array(
         \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
         \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
@@ -128,7 +123,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param bool $dbCompatibleMode
      * @internal param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
@@ -142,7 +136,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App\State $appState,
-        \Magento\Encryption\EncryptionInterface $encryptor,
         $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
@@ -157,16 +150,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_locale = $locale;
         $this->_dateModel = $dateModel;
         $this->_appState = $appState;
-        $this->_encryptor = $encryptor;
         $this->_dbCompatibleMode = $dbCompatibleMode;
-    }
-
-    /**
-     * @return \Magento\Encryption\EncryptionInterface
-     */
-    public function getEncryptor()
-    {
-        return $this->_encryptor;
     }
 
     /**
@@ -295,56 +279,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         return $date->toString($format);
-    }
-
-    /**
-     * Encrypt data using application key
-     *
-     * @param   string $data
-     * @return  string
-     */
-    public function encrypt($data)
-    {
-        if (!$this->_appState->isInstalled()) {
-            return $data;
-        }
-        return $this->getEncryptor()->encrypt($data);
-    }
-
-    /**
-     * Decrypt data using application key
-     *
-     * @param   string $data
-     * @return  string
-     */
-    public function decrypt($data)
-    {
-        if (!$this->_appState->isInstalled()) {
-            return $data;
-        }
-        return $this->getEncryptor()->decrypt($data);
-    }
-
-    public function validateKey($key)
-    {
-        return $this->getEncryptor()->validateKey($key);
-    }
-
-    /**
-     * Generate salted hash from password
-     *
-     * @param string $password
-     * @param string|integer|boolean $salt
-     * @return string
-     */
-    public function getHash($password, $salt = false)
-    {
-        return $this->getEncryptor()->getHash($password, $salt);
-    }
-
-    public function validateHash($password, $hash)
-    {
-        return $this->getEncryptor()->validateHash($password, $hash);
     }
 
     /**
