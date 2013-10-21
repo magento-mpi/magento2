@@ -48,7 +48,7 @@
         </block>
     </referenceBlock>
     <referenceContainer name="js">
-        <block class="Magento\Adminhtml\Block\Template" template="order/create/js.phtml" name="create"/>
+        <block class="Magento\Adminhtml\Block\Template" template="Magento_Sales::order/create/js.phtml" name="create"/>
     </referenceContainer>
     <referenceBlock name="root">
         <block class="Magento\Sales\Block\Adminhtml\Order\Create" name="content">
