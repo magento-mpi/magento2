@@ -8,3 +8,5 @@ dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
 dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/non_public.txt
 dev/tools/Magento/Tools/Translate
+dev/tools/Magento/Tools/Formatter
+dev/tools/PHP-Parser

@@ -73,9 +73,9 @@ class Compared
     ) {
         $this->_catalogStockStatus = $catalogStockStatus;
         $this->_catalogConfig = $catalogConfig;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
-        $this->_adminhtmlSales = $adminhtmlSales;
         $this->_compareListFactory = $compareListFactory;
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
     }
 
     protected function _construct()

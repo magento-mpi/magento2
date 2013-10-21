@@ -16,28 +16,28 @@
 <?php
     $this->setDateInput('d',
         '<span class="dob-day">
-             <input type="text" id="' . $this->getHtmlId('day') . '" value="' . $this->getDay() . '" title="' . __('Day') . '" class="input-text" />
+             <input type="text" id="' . $this->getHtmlId('day') . '" value="' . $this->getDay() . '" title="' . __('Day') . '" class="input-text validate-custom" />
              <label for="' . $this->getHtmlId('day') . '">' . __('Day (DD)') . '</label>
          </span>'
     );
 
     $this->setDateInput('m',
         '<span class="dob-month">
-             <input type="text" id="' . $this->getHtmlId('month') . '" value="' . $this->getMonth()  . '" title="' . __('Month')  . '" class="input-text" />
+             <input type="text" id="' . $this->getHtmlId('month') . '" value="' . $this->getMonth()  . '" title="' . __('Month')  . '" class="input-text validate-custom" />
              <label for="' . $this->getHtmlId('month') . '">' . __('Month (MM)')  . '</label>
          </span>'
     );
 
     $this->setDateInput('y',
         '<span class="dob-year">
-             <input type="text" id="' . $this->getHtmlId('year') . '" value="' . $this->getYear()  . '" title="' . __('Year')  . '" class="input-text" />
+             <input type="text" id="' . $this->getHtmlId('year') . '" value="' . $this->getYear()  . '" title="' . __('Year')  . '" class="input-text validate-custom" />
              <label for="' . $this->getHtmlId('year') . '">' . __('Year (YYYY)')  . '</label>
          </span>'
     );
 ?>
     <?php echo $this->getSortedDateInputs() ?>
     <span class="dob-full" style="display:none;">
-        <input type="hidden" id="<?php echo $this->getHtmlId('full')?>" name="<?php echo $this->getFieldName()?>" data-validate="{'validate-dob': ['.dob-day', '.dob-month', '.dob-year', <?php echo $this->isRequired() ? 'true' : 'false' ?>], 'validate-date-between':['<?php echo $this->getMinDateRange()?>', '<?php echo $this->getMaxDateRange()?>']}"/>
+        <input type="hidden" id="<?php echo $this->getHtmlId('full')?>" name="<?php echo $this->getFieldName()?>" data-validate="{'validate-dob': ['.dob-day', '.dob-month', '.dob-year', <?php echo $this->isRequired() ? 'true' : 'false' ?>]<?php if ($this->getMinDateRange() && $this->getMaxDateRange()):?>, 'validate-date-between':['<?php echo $this->getMinDateRange()?>', '<?php echo $this->getMaxDateRange()?>]'<?php endif;?>}"/>
     </span>
 
     <?php if ($_message = $this->getAdditionalDescription()) : ?>

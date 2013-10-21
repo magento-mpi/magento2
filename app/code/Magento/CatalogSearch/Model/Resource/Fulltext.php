@@ -56,13 +56,6 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_productEmulators         = array();
 
     /**
-     * Store search engine instance
-     *
-     * @var \Magento\CatalogSearch\Model\Resource\EngineInterface
-     */
-    protected $_engine;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_productAttributeCollFactory;
@@ -131,6 +124,11 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_resourceHelper;
 
     /**
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Resource $resource
@@ -164,13 +162,13 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_eavConfig = $eavConfig;
         $this->_catalogProductStatus = $catalogProductStatus;
         $this->_productAttributeCollFactory = $productAttributeCollFactory;
-        $this->_engine = $engineProvider->get();
         $this->_eventManager = $eventManager;
         $this->_coreString = $coreString;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
+        $this->_engineProvider = $engineProvider;
         parent::__construct($resource);
     }
 
@@ -242,7 +240,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
         $statusVals     = $this->_catalogProductStatus->getVisibleStatusIds();
-        $allowedVisibility = $this->_engine->getAllowedVisibility();
+        $allowedVisibility = $this->_engineProvider->get()->getAllowedVisibility();
 
         $lastProductId = 0;
         while (true) {
@@ -426,8 +424,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
-        if ($this->_engine) {
-            $this->_engine->cleanIndex($storeId, $productId);
+        if ($this->_engineProvider->get()) {
+            $this->_engineProvider->get()->cleanIndex($storeId, $productId);
         }
 
         return $this;
@@ -529,7 +527,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $productAttributes = $this->_productAttributeCollFactory->create();
 
-            if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
+            if ($this->_engineProvider->get() && $this->_engineProvider->get()->allowAdvancedIndex()) {
                 $productAttributes->addToIndexFilter(true);
             } else {
                 $productAttributes->addSearchableAttributeFilter();
@@ -537,7 +535,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $attributes = $productAttributes->getItems();
 
             $this->_eventManager->dispatch('catelogsearch_searchable_attributes_load_after', array(
-                'engine' => $this->_engine,
+                'engine' => $this->_engineProvider->get(),
                 'attributes' => $attributes
             ));
 
@@ -762,7 +760,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
         }
 
-        if (!$this->_engine->allowAdvancedIndex()) {
+        if (!$this->_engineProvider->get()->allowAdvancedIndex()) {
             $product = $this->_getProductEmulator($productData['type_id'])
                 ->setId($productData['entity_id'])
                 ->setStoreId($storeId);
@@ -777,8 +775,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $index['in_stock'] = $productData['in_stock'];
         }
 
-        if ($this->_engine) {
-            return $this->_engine->prepareEntityIndex($index, $this->_separator);
+        if ($this->_engineProvider->get()) {
+            return $this->_engineProvider->get()->prepareEntityIndex($index, $this->_separator);
         }
 
         return $this->_catalogSearchData->prepareIndexdata($index, $this->_separator);
@@ -796,7 +794,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $attribute = $this->_getSearchableAttribute($attributeId);
         if (!$attribute->getIsSearchable()) {
-            if ($this->_engine->allowAdvancedIndex()) {
+            if ($this->_engineProvider->get()->allowAdvancedIndex()) {
                 if ($attribute->getAttributeCode() == 'visibility') {
                     return $value;
                 } elseif (!($attribute->getIsVisibleInAdvancedSearch()
@@ -812,7 +810,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if ($attribute->usesSource()) {
-            if ($this->_engine->allowAdvancedIndex()) {
+            if ($this->_engineProvider->get()->allowAdvancedIndex()) {
                 return $value;
             }
 
@@ -851,8 +849,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _saveProductIndex($productId, $storeId, $index)
     {
-        if ($this->_engine) {
-            $this->_engine->saveEntityIndex($productId, $storeId, $index);
+        if ($this->_engineProvider->get()) {
+            $this->_engineProvider->get()->saveEntityIndex($productId, $storeId, $index);
         }
 
         return $this;
@@ -867,8 +865,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _saveProductIndexes($storeId, $productIndexes)
     {
-        if ($this->_engine) {
-            $this->_engine->saveEntityIndexes($storeId, $productIndexes);
+        if ($this->_engineProvider->get()) {
+            $this->_engineProvider->get()->saveEntityIndexes($storeId, $productIndexes);
         }
 
         return $this;
@@ -884,8 +882,12 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getStoreDate($storeId, $date = null)
     {
         if (!isset($this->_dates[$storeId])) {
-            $timezone = $this->_coreStoreConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = $this->_coreStoreConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = $this->_coreStoreConfig->getConfig(
+                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+            );
+            $locale   = $this->_coreStoreConfig->getConfig(
+                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+            );
             $locale   = new \Zend_Locale($locale);
 
             $dateObj = new \Zend_Date(null, null, $locale);

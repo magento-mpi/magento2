@@ -65,7 +65,7 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
     /**
      * Add specific fieldset block to parent block form
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General_Absract
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
      */
     protected function _prepareForm()
     {

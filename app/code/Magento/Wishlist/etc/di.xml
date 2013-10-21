@@ -13,4 +13,9 @@
             <instance type="Magento\Wishlist\Model\Resource\Item" />
         </param>
     </type>
+    <type name="Magento\Wishlist\Helper\Data">
+        <param name="customerSession">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
+        </param>
+    </type>
 </config>

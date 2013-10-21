@@ -11,7 +11,7 @@
  */
 
 require dirname(__DIR__) . '/app/bootstrap.php';
-\Magento\Profiler::start('mage');
+\Magento\Profiler::start('magento');
 umask(0);
 
 try {
@@ -26,4 +26,4 @@ try {
     print $e->getMessage() . "\n\n";
     print $e->getTraceAsString();
 }
-\Magento\Profiler::stop('mage');
+\Magento\Profiler::stop('magento');

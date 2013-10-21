@@ -80,10 +80,10 @@ class Rcompared
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->_reportsEventResource = $reportsEventResource;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_productFactory = $productFactory;
         $this->_compareListFactory = $compareListFactory;
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
     }
 
     /**

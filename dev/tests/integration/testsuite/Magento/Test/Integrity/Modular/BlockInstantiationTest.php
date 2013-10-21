@@ -19,27 +19,32 @@ namespace Magento\Test\Integrity\Modular;
  */
 class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
-    /**
-     * @param string $module
-     * @param string $class
-     * @param string $area
-     * @dataProvider allBlocksDataProvider
-     */
-    public function testBlockInstantiation($module, $class, $area)
+    public function testBlockInstantiation()
     {
-        $this->assertNotEmpty($module);
-        $this->assertTrue(class_exists($class), "Block class: {$class}");
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope($area);
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            /**
+             * @param string $module
+             * @param string $class
+             * @param string $area
+             */
+            function ($module, $class, $area) {
+                $this->assertNotEmpty($module);
+                $this->assertTrue(class_exists($class), "Block class: {$class}");
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Config\ScopeInterface')
+                    ->setCurrentScope($area);
 
-        /** @var \Magento\Core\Model\App $app */
-        $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
-        $app->loadArea($area);
+                /** @var \Magento\Core\Model\App $app */
+                $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
+                $app->loadArea($area);
 
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create($class);
-        $this->assertNotNull($block);
+                $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->create($class);
+                $this->assertNotNull($block);
+            },
+            $this->allBlocksDataProvider()
+        );
     }
 
     /**
@@ -70,7 +75,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
             return $templateBlocks;
         } catch (\Exception $e) {
             trigger_error("Corrupted data provider. Last known block instantiation attempt: '{$blockClass}'."
-                . " \Exception: {$e}", E_USER_ERROR);
+                . " Exception: {$e}", E_USER_ERROR);
         }
     }
 

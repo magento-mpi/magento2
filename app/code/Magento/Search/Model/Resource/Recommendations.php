@@ -52,7 +52,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $queryId
      * @param array $relatedQueries
-     * @return \Magento\Search\Model\Resource\Query
+     * @return \Magento\Search\Model\Resource\Recommendations
      */
     public function saveRelatedQueries($queryId, $relatedQueries = array())
     {

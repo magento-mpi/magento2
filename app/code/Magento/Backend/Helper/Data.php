@@ -38,17 +38,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Core\Model\App\Proxy
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var \Magento\Backend\Model\Url\Proxy
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @var \Magento\Backend\Model\Auth\Proxy
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
@@ -63,8 +63,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Backend\Model\UrlProxy $backendUrl
-     * @param \Magento\Backend\Model\AuthProxy $auth
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
      */
     public function __construct(
@@ -73,8 +73,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\App\RouterList $routerList,
         \Magento\Core\Model\App $app,
-        \Magento\Backend\Model\UrlProxy $backendUrl,
-        \Magento\Backend\Model\AuthProxy $auth,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
     ) {
         parent::__construct($context);

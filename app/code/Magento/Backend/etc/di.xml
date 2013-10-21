@@ -65,6 +65,17 @@
             <value type="argument">Magento\Backend\App\Area\FrontNameResolver::PARAM_BACKEND_FRONT_NAME</value>
         </param>
     </type>
+    <type name="Magento\Backend\Helper\Data">
+        <param name="app">
+            <instance type="Magento\Core\Model\App\Proxy" />
+        </param>
+        <param name="backendUrl">
+            <instance type="Magento\Backend\Model\Url\Proxy" />
+        </param>
+        <param name="auth">
+            <instance type="Magento\Backend\Model\Auth\Proxy" />
+        </param>
+    </type>
     <type name="Magento\App\Router\NoRouteHandlerList">
         <param name="handlerClassesList">
             <value>
@@ -73,6 +84,16 @@
                     <sortOrder>10</sortOrder>
                 </backend>
             </value>
+        </param>
+    </type>
+    <type name="Magento\Backend\Model\Widget\Grid\Row\UrlGenerator">
+        <param name="backendUrl">
+            <instance type="Magento\Backend\Model\Url\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Backend\Model\Url">
+        <param name="authSession">
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
     </type>
 </config>

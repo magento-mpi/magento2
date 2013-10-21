@@ -222,7 +222,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function validate()
     {
@@ -235,7 +235,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -252,7 +252,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -269,7 +269,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -282,7 +282,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function void(\Magento\Object $payment)
     {
@@ -295,7 +295,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Cancel method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function cancel(\Magento\Object $payment)
     {

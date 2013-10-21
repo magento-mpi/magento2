@@ -47,6 +47,7 @@ return array(
     array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App'),
     array('DEFAULT_READ_CONNECTION', 'Magento\Core\Model\Config\Resource'),
     array('DEFAULT_WRITE_CONNECTION', 'Magento\Core\Model\Config\Resource'),
+    array('DEFAULT_ERROR_HANDLER', 'Mage'),
     array('DEFAULT_LOCALE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),

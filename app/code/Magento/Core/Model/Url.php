@@ -123,6 +123,26 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
      * Router list
      *
      * @var \Magento\App\RouterListInterface

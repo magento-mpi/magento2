@@ -105,4 +105,23 @@ return array(
     array('isInvitationMessageAllowed', '\Magento\Invitation\Helper\Data'),
     array('isEnabled', '\Magento\Invitation\Helper\Data'),
     array('checkMessages', '\Magento\FullPageCache\Model\Observer'),
+    array('appendGiftcardAdditionalData', 'Magento\GiftCard\Model\Observer'),
+    array('_getResource', 'Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount'),
+    array('getNode', 'Magento\Logging\Model\Config'),
+    array('isActive', 'Magento\Logging\Model\Config'),
+    array('_getCallbackFunction', 'Magento\Logging\Model\Processor'),
+    array('_getOrderCreateModel', 'Magento\Reward\Block\Adminhtml\Sales\Order\Create\Payment'),
+    array(
+        'getEntityResourceModel',
+        'Magento\SalesArchive\Model\Archive',
+        'Magento_SalesArchive_Model_ArchivalList::getResource'
+    ),
+    array(
+        'detectArchiveEntity',
+        'Magento\SalesArchive\Model\Archive',
+        'Magento_SalesArchive_Model_ArchivalList::getEntityByObject'
+    ),
+    array('applyIndexChanges', 'Magento\Search\Model\Observer'),
+    array('holdCommit', 'Magento\Search\Model\Observer'),
+    array('getDefaultMenuLayoutCode', 'Magento\VersionsCms\Model\Hierarchy\Config'),
 );

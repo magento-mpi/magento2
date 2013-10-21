@@ -139,7 +139,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_dir;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\App\Dir $dir

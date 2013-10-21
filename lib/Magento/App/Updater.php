@@ -64,14 +64,14 @@ class Updater implements \Magento\App\UpdaterInterface
      * @param Updater\SetupFactory $setupFactory
      * @param State $appState
      * @param ModuleListInterface $moduleList
-     * @param \Magento\App\Module\ResourceResolverInterface $resourceResolver
+     * @param Module\ResourceResolverInterface $resourceResolver
      * @param bool $skipModuleUpdate
      */
     public function __construct(
-        Updater\SetupFactory $setupFactory,
-        State $appState,
-        ModuleListInterface $moduleList,
-        Module\ResourceResolverInterface $resourceResolver,
+        \Magento\App\Updater\SetupFactory $setupFactory,
+        \Magento\App\State $appState,
+        \Magento\App\ModuleListInterface $moduleList,
+        \Magento\App\Module\ResourceResolverInterface $resourceResolver,
         $skipModuleUpdate = false
     ) {
         $this->_appState = $appState;

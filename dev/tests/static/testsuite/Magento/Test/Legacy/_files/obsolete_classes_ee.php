@@ -79,4 +79,8 @@ return array(
     array('Magento\MultipleWishlist\Block\Links', 'Magento\MultipleWishlist\Block\Link'),
     array('Magento\Reminder\Model\Resource\Setup', '\Magento\Core\Model\Resource\Setup'),
     array('Magento\FullPageCache\Model\Http\Handler'),
+    array('Magento\CustomerSegment\Model\Resource\Helper\Mysql4', 'Magento\CustomerSegment\Model\Resource\Helper'),
+    array('Magento\SalesArchive\Model\Resource\Helper\Mysql4', 'Magento\SalesArchive\Model\Resource\Helper'),
+    array('Magento\Search\Model\Client\Solr\Factory'),
+    array('Magento\Search\Model\Client\SolrClient\Factory'),
 );

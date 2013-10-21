@@ -20,4 +20,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Tax\Model\Resource\Calculation">
+        <param name="taxData">
+            <instance type="Magento\Tax\Helper\Data\Proxy" />
+        </param>
+    </type>
 </config>

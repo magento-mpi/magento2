@@ -68,7 +68,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Invitation\Block\Link $block */
+        /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
             array(
@@ -106,7 +106,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Invitation\Block\Link $block */
+        /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
             array(
