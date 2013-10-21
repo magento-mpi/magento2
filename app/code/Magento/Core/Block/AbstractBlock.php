@@ -902,9 +902,9 @@ abstract class AbstractBlock extends \Magento\Object
      * @param  bool $addSlashes
      * @return string
      */
-    public function quoteEscape($data, $addSlashes = false)
+    public function escapeQuote($data, $addSlashes = false)
     {
-        return $this->_escaper->quoteEscape($data, $addSlashes);
+        return $this->_escaper->escapeQuote($data, $addSlashes);
     }
 
     /**
@@ -914,9 +914,9 @@ abstract class AbstractBlock extends \Magento\Object
      * @param string $quote
      * @return mixed
      */
-    public function jsQuoteEscape($data, $quote = '\'')
+    public function escapeJsQuote($data, $quote = '\'')
     {
-        return $this->_escaper->jsQuoteEscape($data, $quote);
+        return $this->_escaper->escapeJsQuote($data, $quote);
     }
 
     /**

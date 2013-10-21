@@ -61,12 +61,12 @@ class Escaper
      * @param string $quote
      * @return string|array
      */
-    public function jsQuoteEscape($data, $quote = '\'')
+    public function escapeJsQuote($data, $quote = '\'')
     {
         if (is_array($data)) {
             $result = array();
             foreach ($data as $item) {
-                $result[] = $this->jsQuoteEscape($item, $quote);
+                $result[] = $this->escapeJsQuote($item, $quote);
             }
         } else {
             $result = str_replace($quote, '\\' . $quote, $data);
@@ -82,7 +82,7 @@ class Escaper
      * @param bool $addSlashes
      * @return string
      */
-    public function quoteEscape($data, $addSlashes = false)
+    public function escapeQuote($data, $addSlashes = false)
     {
         if ($addSlashes === true) {
             $data = addslashes($data);

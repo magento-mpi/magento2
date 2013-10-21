@@ -63,7 +63,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         if ($giftWrapping && $giftWrapping->getId()) {
             $confirmMessage = __('Are you sure you want to delete this gift wrapping?');
             $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
         }
 

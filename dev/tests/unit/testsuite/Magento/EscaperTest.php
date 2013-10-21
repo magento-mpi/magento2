@@ -64,27 +64,27 @@ class EscaperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Escaper::jsQuoteEscape
+     * @covers \Magento\Escaper::escapeJsQuote
      */
-    public function testJsQuoteEscape()
+    public function testEscapeJsQuote()
     {
         $data = array("Don't do that.", 'lost_key' => "Can't do that.");
         $expected = array("Don\\'t do that.", "Can\\'t do that.");
-        $this->assertEquals($expected, $this->_escaper->jsQuoteEscape($data));
-        $this->assertEquals($expected[0], $this->_escaper->jsQuoteEscape($data[0]));
+        $this->assertEquals($expected, $this->_escaper->escapeJsQuote($data));
+        $this->assertEquals($expected[0], $this->_escaper->escapeJsQuote($data[0]));
     }
 
     /**
-     * @covers \Magento\Escaper::quoteEscape
+     * @covers \Magento\Escaper::escapeQuote
      */
-    public function testQuoteEscape()
+    public function testEscapeQuote()
     {
         $data = "Text with 'single' and \"double\" quotes";
         $expected = array(
             "Text with &#039;single&#039; and &quot;double&quot; quotes",
             "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes",
         );
-        $this->assertEquals($expected[0], $this->_escaper->quoteEscape($data));
-        $this->assertEquals($expected[1], $this->_escaper->quoteEscape($data, true));
+        $this->assertEquals($expected[0], $this->_escaper->escapeQuote($data));
+        $this->assertEquals($expected[1], $this->_escaper->escapeQuote($data, true));
     }
 }
