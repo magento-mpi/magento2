@@ -860,4 +860,5 @@ return array(
     array('escapeUrl', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeUrl'),
     array('jsQuoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeJsQuote'),
     array('quoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeQuote'),
+    array('removeAccents', '\Magento\Core\Helper\Data', '\Magento\Filter\FilterManager'),
 );

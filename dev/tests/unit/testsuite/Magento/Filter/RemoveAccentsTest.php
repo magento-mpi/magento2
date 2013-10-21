@@ -2,30 +2,13 @@
 /**
  * {license_notice}
  *
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Helper;
+namespace Magento\Filter;
 
-class DataTest extends \PHPUnit_Framework_TestCase
+class RemoveAccentsTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_helper;
-
-    /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
-     */
-    protected $_objectManager;
-
-    protected function setUp()
-    {
-        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_helper = $this->_objectManager->getObject('Magento\Core\Helper\Data');
-    }
-
     /**
      * @param string $string
      * @param bool $german
@@ -35,7 +18,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveAccents($string, $german, $expected)
     {
-        $this->assertEquals($expected, $this->_helper->removeAccents($string, $german));
+        $filter = new \Magento\Filter\RemoveAccents($german);
+        $this->assertEquals($expected, $filter->filter($string));
     }
 
     /**
