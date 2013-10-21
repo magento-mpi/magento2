@@ -12,7 +12,7 @@
  * Adminhtml sales order edit controller
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;

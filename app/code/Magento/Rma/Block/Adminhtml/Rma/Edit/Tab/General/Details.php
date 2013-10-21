@@ -27,7 +27,7 @@ class Details
      */
     public function getOrderLink()
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getOrder()->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $this->getOrder()->getId()));
     }
 
     /**

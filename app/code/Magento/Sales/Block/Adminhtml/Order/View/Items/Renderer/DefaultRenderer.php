@@ -13,7 +13,7 @@
  * Adminhtml sales order item renderer
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Sales
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer;
 

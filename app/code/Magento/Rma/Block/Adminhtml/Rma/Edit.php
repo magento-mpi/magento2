@@ -110,7 +110,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $referer = $this->getRequest()->getServer('HTTP_REFERER');
 
         if (strpos($referer, 'sales_order') !== false) {
-            return $this->getUrl('*/sales_order/view/',
+            return $this->getUrl('sales/order/view/',
                 array(
                     'order_id'  => $this->getRma()->getOrderId(),
                     'active_tab'=> 'order_rma'
