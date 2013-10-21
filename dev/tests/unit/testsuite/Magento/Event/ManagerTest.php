@@ -10,27 +10,27 @@ namespace Magento\Event;
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Event\InvokerInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invoker;
 
     /**
-     * @var \Magento\EventFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventFactory;
 
     /**
-     * @var \Magento\Event|PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_event;
 
     /**
-     * @var \Magento\Event\ObserverFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_observerFactory;
+    protected $_wrapperFactory;
 
     /**
-     * @var \Magento\Event\Observer|PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observer;
 
@@ -40,7 +40,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $_eventConfigMock;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Event\Manager
      */
     protected $_eventManager;
 
@@ -49,13 +49,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_invoker = $this->getMock('Magento\Event\InvokerInterface');
         $this->_eventFactory = $this->getMock('Magento\EventFactory', array('create'), array(), '', false);
         $this->_event = $this->getMock('Magento\Event', array(), array(), '', false);
-        $this->_observerFactory = $this->getMock('Magento\Event\ObserverFactory', array('create'), array(), '',
+        $this->_wrapperFactory = $this->getMock('Magento\Event\WrapperFactory', array(), array(), '',
             false);
         $this->_observer = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventConfigMock = $this->getMock('Magento\Event\ConfigInterface');
 
         $this->_eventManager = new \Magento\Event\Manager(
-            $this->_invoker, $this->_eventConfigMock, $this->_eventFactory, $this->_observerFactory
+            $this->_invoker, $this->_eventConfigMock, $this->_eventFactory, $this->_wrapperFactory
         );
     }
 
@@ -69,7 +69,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->_observer->expects($this->once())->method('setData')
             ->with(array_merge(array('event' => $this->_event), $data))->will($this->returnSelf());
-        $this->_observerFactory->expects($this->once())->method('create')
+        $this->_wrapperFactory->expects($this->once())->method('create')
             ->will($this->returnValue($this->_observer));
         $this->_invoker->expects($this->once())->method('dispatch')->with(array(
             'instance' => 'class',

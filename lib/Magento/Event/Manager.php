@@ -45,24 +45,24 @@ class Manager implements ManagerInterface
      *
      * @var \Magento\Event\ObserverFactory
      */
-    protected $_eventObserverFactory;
+    protected $wrapperFactory;
 
     /**
-     * @param \Magento\Event\InvokerInterface $invoker
-     * @param \Magento\Event\ConfigInterface $eventConfig
+     * @param InvokerInterface $invoker
+     * @param ConfigInterface $eventConfig
      * @param \Magento\EventFactory $eventFactory
-     * @param \Magento\Event\ObserverFactory $eventObserverFactory
+     * @param WrapperFactory $wrapperFactory
      */
     public function __construct(
         \Magento\Event\InvokerInterface $invoker,
         \Magento\Event\ConfigInterface $eventConfig,
         \Magento\EventFactory $eventFactory,
-        \Magento\Event\ObserverFactory $eventObserverFactory
+        \Magento\Event\WrapperFactory $wrapperFactory
     ) {
         $this->_invoker = $invoker;
         $this->_eventConfig = $eventConfig;
         $this->_eventFactory = $eventFactory;
-        $this->_eventObserverFactory = $eventObserverFactory;
+        $this->wrapperFactory = $wrapperFactory;
     }
 
     /**
@@ -82,12 +82,12 @@ class Manager implements ManagerInterface
             $event = $this->_eventFactory->create(array('data' => $data));
             $event->setName($eventName);
 
-            /** @var $observer \Magento\Event\Observer */
-            $observer = $this->_eventObserverFactory->create();
-            $observer->setData(array_merge(array('event' => $event), $data));
+            /** @var $wrapper \Magento\Event\Observer */
+            $wrapper = $this->wrapperFactory->create();
+            $wrapper->setData(array_merge(array('event' => $event), $data));
 
             \Magento\Profiler::start('OBSERVER:' . $observerConfig['name']);
-            $this->_invoker->dispatch($observerConfig, $observer);
+            $this->_invoker->dispatch($observerConfig, $wrapper);
             \Magento\Profiler::stop('OBSERVER:' .  $observerConfig['name']);
         }
         \Magento\Profiler::stop('EVENT:' . $eventName);
