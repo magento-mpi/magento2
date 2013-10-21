@@ -9,6 +9,8 @@
  */
 namespace Magento\GoogleAdwords\Model\Validator;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $conversionId = '123';
 
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $factory = $objectManager->get('Magento\GoogleAdwords\Model\Validator\Factory');
 
         $validator = $factory->createConversionIdValidator($conversionId);
@@ -36,7 +38,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $conversionColor = "FFFFFF";
 
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $factory = $objectManager->get('Magento\GoogleAdwords\Model\Validator\Factory');
 
         $validator = $factory->createColorValidator($conversionColor);

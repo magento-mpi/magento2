@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\GoogleAdwords\Model\Validator;
-
 /**
  * {license_notice}
  *
@@ -9,6 +6,12 @@ namespace Magento\GoogleAdwords\Model\Validator;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\GoogleAdwords\Model\Validator;
+
+use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Validator\Int;
+use Magento\Validator\Regex;
+
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -48,7 +51,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_vbMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento\GoogleAdwords\Model\Validator\Factory', array(
             'validatorBuilderFactory' => $this->_vbFactoryMock,
         ));
@@ -76,8 +79,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                                     'method' => 'setMessages',
                                     'arguments' => array(
                                         array(
-                                            \Magento\Validator\Regex::NOT_MATCH => $message,
-                                            \Magento\Validator\Regex::INVALID => $message,
+                                            Regex::NOT_MATCH => $message,
+                                            Regex::INVALID => $message,
                                         ),
                                     ),
                                 ),
@@ -112,8 +115,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                                     'method' => 'setMessages',
                                     'arguments' => array(
                                         array(
-                                            \Magento\Validator\Int::NOT_INT => $message,
-                                            \Magento\Validator\Int::INVALID => $message,
+                                            Int::NOT_INT => $message,
+                                            Int::INVALID => $message,
                                         ),
                                     ),
                                 ),
