@@ -58,16 +58,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
         ), $this->_helper->strSplit('12345  123    123456789', 5, true, true));
     }
 
-    /**
-     * Bug: $maxWordLength parameter has a misleading name. It limits qty of words in the result.
-     */
-    public function testSplitWords()
-    {
-        $words = '123  123  45 789';
-        $this->assertEquals(array('123', '123', '45'), $this->_helper->splitWords($words, false, 3));
-        $this->assertEquals(array('123', '45'), $this->_helper->splitWords($words, true, 2));
-    }
-
     public function testCleanString()
     {
         $string = '12345';

@@ -235,33 +235,6 @@ class String extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Split words
-     *
-     * @param string $str The source string
-     * @param bool $uniqueOnly Unique words only
-     * @param int $maxWordLength Limit words count
-     * @param string $wordSeparatorRegexp
-     * @return array
-     */
-    function splitWords($str, $uniqueOnly = false, $maxWordLength = 0, $wordSeparatorRegexp = '\s')
-    {
-        $result = array();
-        $split = preg_split('#' . $wordSeparatorRegexp . '#siu', $str, null, PREG_SPLIT_NO_EMPTY);
-        foreach ($split as $word) {
-            if ($uniqueOnly) {
-                $result[$word] = $word;
-            }
-            else {
-                $result[] = $word;
-            }
-        }
-        if ($maxWordLength && count($result) > $maxWordLength) {
-            $result = array_slice($result, 0, $maxWordLength);
-        }
-        return $result;
-    }
-
-    /**
      * Clean non UTF-8 characters
      *
      * @param string $string

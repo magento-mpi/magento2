@@ -28,7 +28,8 @@ class Factory extends FactoryAbstract
         'sprintf'       => 'Magento\Filter\Sprintf',
         'template'      => 'Magento\Filter\Template',
         'arrayFilter'   => 'Magento\Filter\ArrayFilter',
-        'removeAccents' => 'Magento\Filter\RemoveAccents'
+        'removeAccents' => 'Magento\Filter\RemoveAccents',
+        'splitWords'    => 'Magento\Filter\SplitWords',
     );
 
     /**
@@ -39,6 +40,7 @@ class Factory extends FactoryAbstract
     protected $shared = array(
         'Magento\Filter\Sprintf' => false,
         'Magento\Filter\Money' => false,
-        'Magento\Filter\RemoveAccents' => false
+        'Magento\Filter\RemoveAccents' => false,
+        'Magento\Filter\SplitWords' => false,
     );
 }

@@ -91,9 +91,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core string
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Filter\FilterManager
      */
-    protected $_coreString;
+    protected $filter;
 
     /**
      * Core event manager proxy
@@ -138,7 +138,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollFactory
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -152,7 +152,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollFactory,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Filter\FilterManager $filter,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -163,7 +163,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_catalogProductStatus = $catalogProductStatus;
         $this->_productAttributeCollFactory = $productAttributeCollFactory;
         $this->_eventManager = $eventManager;
-        $this->_coreString = $coreString;
+        $this->filter = $filter;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
@@ -451,8 +451,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             ) {
-                $words = $this->_coreString
-                    ->splitWords($queryText, true, $query->getMaxQueryWords());
+                $words = $this->filter->splitWords($queryText, array(true, $query->getMaxQueryWords()));
                 foreach ($words as $word) {
                     $like[] = $this->_resourceHelper->getCILike('s.data_index', $word, array('position' => 'any'));
                 }

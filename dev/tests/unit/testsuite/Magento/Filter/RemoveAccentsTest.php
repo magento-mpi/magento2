@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Filter;
 
 class RemoveAccentsTest extends \PHPUnit_Framework_TestCase
