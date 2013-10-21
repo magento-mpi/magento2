@@ -74,40 +74,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Magento\Webapi\Exception
-     */
-    public function testGetRequestedSoapServicesCollisionException()
-    {
-        $servicesConfig = array(
-            'Magento\Module\Service\Foo\BarV1Interface' => array(
-                'class' => 'Magento\Module\Service\Foo\BarV1Interface',
-                'baseUrl' => '/V1/foobar',
-                'methods' => array(
-                    'someMethod' => array(
-                        'httpMethod' => 'GET',
-                        'method' => 'someMethod',
-                        'route' => ''
-                    )
-                )
-            ),
-            'Magento\Module\Service\FooBarV1Interface' => array(
-                'class' => 'Magento\Module\Service\FooBarV1Interface',
-                'baseUrl' => '/V1/foobar2',
-                'methods' => array(
-                    'someMethod' => array(
-                        'httpMethod' => 'GET',
-                        'method' => 'someMethod',
-                        'route' => ''
-                    )
-                )
-            ),
-        );
-
-        $this->_configMock->expects($this->once())->method('getServices')->will($this->returnValue($servicesConfig));
-        $this->_soapConfig->getRequestedSoapServices(array('someService' => 'V1'));
-    }
-
     public function testGetRequestedSoapServices()
     {
         $servicesConfig = array(
