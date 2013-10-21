@@ -34,35 +34,26 @@ class Page extends DataFixture
 
             'url_create_page'  => 'admin/cms_page/new',
             'url_update_page'  => 'admin/cms_page/edit',
-            'url_grid_page'    => 'admin/cms_page/index'
+            'url_grid_page'    => 'admin/cms_page/index',
+
+            'constraint'       => 'Success'
         );
 
-        $this->_repository = array(
-            'cms_page' => array(
-                'config' => array(
-                    'constraint'       => 'Success'
+        $this->_data = array(
+            'fields' => array(
+                'page_title'     => array(
+                    'value' => 'CMS Page%isolation%',
+                    'group' => 'page_tabs_main_section'
                 ),
-
-                'data' => array(
-                    'fields' => array(
-                        'page_title'     => array(
-                            'value' => 'CMS Page%isolation%',
-                            'group' => 'page_tabs_main_section'
-                        ),
-                        'page_identifier' => array(
-                            'value' => 'identifier%isolation%',
-                            'group' => 'page_tabs_main_section'
-                        ),
-                        'page_content_heading'  => array(
-                            'value' => 'CMS Page Head%isolation%',
-                            'group' => 'page_tabs_content_section'
-                        )
-                    )
+                'page_identifier' => array(
+                    'value' => 'identifier%isolation%',
+                    'group' => 'page_tabs_main_section'
+                ),
+                'page_content_heading'  => array(
+                    'value' => 'CMS Page Head%isolation%',
+                    'group' => 'page_tabs_content_section'
                 )
             )
         );
-
-        //Default data set
-        $this->switchData('cms_page');
     }
 }
