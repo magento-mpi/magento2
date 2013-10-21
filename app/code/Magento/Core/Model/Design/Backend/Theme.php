@@ -15,12 +15,12 @@ class Theme extends \Magento\Core\Model\Config\Value
     /**
      * Design package instance
      *
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -30,7 +30,7 @@ class Theme extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,

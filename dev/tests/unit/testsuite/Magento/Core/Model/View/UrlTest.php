@@ -14,7 +14,7 @@ namespace Magento\Core\Model\View;
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param \Magento\View\Design\Theme $themeModel
+     * @param \Magento\View\Design\ThemeInterface $themeModel
      * @dataProvider getViewFileUrlProductionModeDataProvider
      */
     public function testGetViewFileUrlProductionMode($themeModel)
@@ -109,7 +109,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public static function getViewFileUrlProductionModeDataProvider()
     {
         $usualTheme = \PHPUnit_Framework_MockObject_Generator::getMock(
-            'Magento\View\Design\Theme',
+            'Magento\View\Design\ThemeInterface',
             array(),
             array(),
             '',

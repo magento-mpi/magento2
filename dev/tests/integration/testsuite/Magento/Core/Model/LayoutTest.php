@@ -45,7 +45,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function constructorDataProvider()
     {
         return array(
-            'default area'  => array(array(), \Magento\View\Design::DEFAULT_AREA),
+            'default area'  => array(array(), \Magento\View\DesignInterface::DEFAULT_AREA),
             'frontend area' => array(array('area' => 'frontend'), 'frontend'),
             'backend area'  => array(array('area' => 'adminhtml'), 'adminhtml'),
         );
@@ -74,7 +74,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUpdate()
     {
-        $this->assertInstanceOf('Magento\View\Layout\Processor', $this->_layout->getUpdate());
+        $this->assertInstanceOf('Magento\View\Layout\ProcessorInterface', $this->_layout->getUpdate());
     }
 
     public function testGetSetDirectOutput()

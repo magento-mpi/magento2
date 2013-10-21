@@ -20,18 +20,18 @@ namespace Magento\Page\Block\Html;
 class Welcome extends \Magento\Core\Block\Template
 {
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         array $data = array()

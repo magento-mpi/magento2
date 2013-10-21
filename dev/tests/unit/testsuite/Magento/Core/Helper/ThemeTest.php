@@ -481,8 +481,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getLayoutMergeFactory($layoutStr)
     {
-        /** @var $layoutProcessor \Magento\View\Layout\Processor */
-        $layoutProcessor = $this->getMockBuilder('Magento\View\Layout\Processor')->getMockForAbstractClass();
+        /** @var $layoutProcessor \Magento\View\Layout\ProcessorInterface */
+        $layoutProcessor = $this->getMockBuilder('Magento\View\Layout\ProcessorInterface')->getMockForAbstractClass();
         $xml = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutElement = simplexml_load_string($xml);
         $layoutProcessor->expects($this->any())

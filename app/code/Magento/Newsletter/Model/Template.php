@@ -92,7 +92,7 @@ class Template extends \Magento\Core\Model\Template
     protected $_templateFactory;
 
     /**
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -104,7 +104,7 @@ class Template extends \Magento\Core\Model\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

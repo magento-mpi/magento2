@@ -68,7 +68,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
                 ->getBlock('adminhtml.user.role.edit.gws'),
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws block is not loaded'
         );
@@ -91,7 +91,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
                 ->getBlock('adminhtml.user.role.grid'),
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role block is not loaded'
         );

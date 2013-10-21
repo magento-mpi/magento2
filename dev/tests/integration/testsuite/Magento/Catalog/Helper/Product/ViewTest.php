@@ -28,7 +28,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\View\Design')
+        $objectManager->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product\View');

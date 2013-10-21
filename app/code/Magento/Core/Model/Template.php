@@ -71,7 +71,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     /**
      * Design package instance
      *
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design = null;
 
@@ -86,7 +86,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -94,7 +94,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,

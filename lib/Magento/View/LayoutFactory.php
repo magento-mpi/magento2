@@ -1,10 +1,15 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 namespace Magento\View;
 
-use Magento\ObjectManager;
-
 /**
- * Factory class for \Magento\View\Layout
+ * Factory class for Layout
  */
 class LayoutFactory
 {
@@ -13,35 +18,37 @@ class LayoutFactory
      *
      * @var \Magento\ObjectManager
      */
-    protected $objectManager = null;
+    protected $_objectManager = null;
 
     /**
      * Instance name to create
      *
      * @var string
      */
-    protected $instanceName = null;
+    protected $_instanceName = null;
 
     /**
      * Factory constructor
      *
-     * @param ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(ObjectManager $objectManager, $instanceName = 'Magento\View\Layout')
-    {
-        $this->objectManager = $objectManager;
-        $this->instanceName = $instanceName;
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        $instanceName = 'Magento\View\LayoutInterface'
+    ) {
+        $this->_objectManager = $objectManager;
+        $this->_instanceName = $instanceName;
     }
 
     /**
      * Create class instance with specified parameters
      *
-     * @param array $arguments
-     * @return \Magento\View\Layout
+     * @param array $data
+     * @return LayoutInterface
      */
-    public function create(array $arguments = array())
+    public function create(array $data = array())
     {
-        return $this->objectManager->create($this->instanceName, $arguments);
+        return $this->_objectManager->create($this->_instanceName, $data);
     }
 }

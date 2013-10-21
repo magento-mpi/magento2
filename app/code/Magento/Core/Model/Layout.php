@@ -25,7 +25,7 @@ namespace Magento\Core\Model;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
+class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutInterface
 {
     /**#@+
      * Supported layout directives
@@ -81,14 +81,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
 
     /**
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
     /**
      * Layout Update module
      *
-     * @var \Magento\View\Layout\Processor
+     * @var \Magento\View\Layout\ProcessorInterface
      */
     protected $_update;
 
@@ -234,7 +234,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
      * @param Event\Manager $eventManager
      * @param Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
      * @param Layout\Argument\Processor $argumentProcessor
@@ -250,14 +250,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
         \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        $area = \Magento\View\Design::DEFAULT_AREA
+        $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;
@@ -297,7 +297,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\View\Layout\Processor
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function getUpdate()
     {

@@ -72,10 +72,10 @@ class CopyService
     /**
      * Copy customizations from one theme to another
      *
-     * @param \Magento\View\Design\Theme $source
-     * @param \Magento\View\Design\Theme $target
+     * @param \Magento\View\Design\ThemeInterface $source
+     * @param \Magento\View\Design\ThemeInterface $target
      */
-    public function copy(\Magento\View\Design\Theme $source, \Magento\View\Design\Theme $target)
+    public function copy(\Magento\View\Design\ThemeInterface $source, \Magento\View\Design\ThemeInterface $target)
     {
         $this->_copyDatabaseCustomization($source, $target);
         $this->_copyLayoutCustomization($source, $target);
@@ -85,12 +85,12 @@ class CopyService
     /**
      * Copy customizations stored in a database from one theme to another, overriding existing data
      *
-     * @param \Magento\View\Design\Theme $source
-     * @param \Magento\View\Design\Theme $target
+     * @param \Magento\View\Design\ThemeInterface $source
+     * @param \Magento\View\Design\ThemeInterface $target
      */
     protected function _copyDatabaseCustomization(
-        \Magento\View\Design\Theme $source,
-        \Magento\View\Design\Theme $target
+        \Magento\View\Design\ThemeInterface $source,
+        \Magento\View\Design\ThemeInterface $target
     ) {
         /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($target->getCustomization()->getFiles() as $themeFile) {
@@ -116,11 +116,13 @@ class CopyService
     /**
      * Add layout links to general layout updates for themes
      *
-     * @param \Magento\View\Design\Theme $source
-     * @param \Magento\View\Design\Theme $target
+     * @param \Magento\View\Design\ThemeInterface $source
+     * @param \Magento\View\Design\ThemeInterface $target
      */
-    protected function _copyLayoutCustomization(\Magento\View\Design\Theme $source, \Magento\View\Design\Theme $target)
-    {
+    protected function _copyLayoutCustomization(
+        \Magento\View\Design\ThemeInterface $source,
+        \Magento\View\Design\ThemeInterface $target
+    ) {
         $update = $this->_updateFactory->create();
         /** @var $targetUpdates \Magento\Core\Model\Resource\Layout\Update\Collection */
         $targetUpdates = $update->getCollection();
@@ -149,12 +151,12 @@ class CopyService
     /**
      * Copy customizations stored in a file system from one theme to another, overriding existing data
      *
-     * @param \Magento\View\Design\Theme $source
-     * @param \Magento\View\Design\Theme $target
+     * @param \Magento\View\Design\ThemeInterface $source
+     * @param \Magento\View\Design\ThemeInterface $target
      */
     protected function _copyFilesystemCustomization(
-        \Magento\View\Design\Theme $source,
-        \Magento\View\Design\Theme $target
+        \Magento\View\Design\ThemeInterface $source,
+        \Magento\View\Design\ThemeInterface $target
     ) {
         $sourcePath = $this->_customizationPath->getCustomizationPath($source);
         $targetPath = $this->_customizationPath->getCustomizationPath($target);

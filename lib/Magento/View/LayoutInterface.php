@@ -8,22 +8,19 @@
 
 namespace Magento\View;
 
-use Magento\View\Layout\Processor;
-use Magento\View\Layout\Handle;
-
-interface Layout
+interface LayoutInterface
 {
     /**
      * Retrieve the layout processor
      *
-     * @return Layout\Processor
+     * @return Layout\ProcessorInterface
      */
     public function getUpdate();
 
     /**
      * Layout xml generation
      *
-     * @return Layout
+     * @return LayoutInterface
      */
     public function generateXml();
 
@@ -45,7 +42,7 @@ interface Layout
      * Add an element to output
      *
      * @param string $name
-     * @return Layout
+     * @return LayoutInterface
      */
     public function addOutputElement($name);
 
@@ -68,7 +65,7 @@ interface Layout
      * Remove block from registry
      *
      * @param string $name
-     * @return Layout
+     * @return LayoutInterface
      */
     public function unsetElement($name);
 
@@ -83,7 +80,7 @@ interface Layout
      * Get block object by name
      *
      * @param string $name
-     * @return Element\Block|bool
+     * @return Element\BlockInterface|bool
      */
     public function getBlock($name);
 
@@ -102,7 +99,7 @@ interface Layout
      * @param string $parentName
      * @param string $elementName
      * @param string $alias
-     * @return Layout
+     * @return LayoutInterface
      */
     public function setChild($parentName, $elementName, $alias);
 
@@ -125,7 +122,7 @@ interface Layout
      *
      * @param string $parentName
      * @param string $alias
-     * @return Layout
+     * @return LayoutInterface
      */
     public function unsetChild($parentName, $alias);
 
@@ -188,20 +185,18 @@ interface Layout
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return \Magento\Core\Block\AbstractBlock
-     * @todo DELETE (use viewFactory)
+     * @return Element\BlockInterface
      */
     public function createBlock($type, $name = '', array $attributes = array());
 
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string|Element\BlockInterface $block
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock
-     * @todo DELETE (use viewFactory and addElement instead)
+     * @return Element\BlockInterface
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '');
 
@@ -240,8 +235,7 @@ interface Layout
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\View\Layout
-     * @todo DELETE
+     * @return LayoutInterface
      */
     public function removeOutputElement($name);
 
@@ -257,9 +251,7 @@ interface Layout
      * Get block singleton
      *
      * @param string $type
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Helper\AbstractHelper
-     * @todo DELETE use object manager or view factory
+     * @return Element\BlockInterface
      */
     public function getBlockSingleton($type);
 
@@ -283,8 +275,7 @@ interface Layout
      * Set layout area
      *
      * @param $area
-     * @return Layout
-     * @todo DELETE
+     * @return LayoutInterface
      */
     public function setArea($area);
 
@@ -292,8 +283,7 @@ interface Layout
      * Declaring layout direct output flag
      *
      * @param   bool $flag
-     * @return  Layout
-     * @todo DELETE
+     * @return  LayoutInterface
      */
     public function setDirectOutput($flag);
 
@@ -346,9 +336,8 @@ interface Layout
      * Save block in blocks registry
      *
      * @param string $name
-     * @param \Magento\Core\Block\AbstractBlock $block
-     * @return Layout
-     * @todo DELETE
+     * @param  Element\BlockInterface $block
+     * @return LayoutInterface
      */
     public function setBlock($name, $block);
 }

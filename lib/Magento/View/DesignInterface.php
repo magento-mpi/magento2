@@ -13,7 +13,7 @@ namespace Magento\View;
  *
  * @package Magento\View
  */
-interface Design
+interface DesignInterface
 {
     /**
      * Default design area
@@ -24,7 +24,7 @@ interface Design
      * Set package area
      *
      * @param string $area
-     * @return Design
+     * @return DesignInterface
      */
     public function setArea($area);
 
@@ -38,9 +38,9 @@ interface Design
     /**
      * Set theme path
      *
-     * @param Design\Theme|int|string $theme
+     * @param Design\ThemeInterface|int|string $theme
      * @param string $area
-     * @return Design
+     * @return DesignInterface
      */
     public function setDesignTheme($theme, $area = null);
 
@@ -56,14 +56,14 @@ interface Design
     /**
      * Set default design theme
      *
-     * @return Design
+     * @return DesignInterface
      */
     public function setDefaultDesignTheme();
 
     /**
      * Design theme model getter
      *
-     * @return Design\Theme
+     * @return Design\ThemeInterface
      */
     public function getDesignTheme();
 

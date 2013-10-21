@@ -24,7 +24,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $type = 'Magento\Catalog\Block\Product\Widget\NewWidget';
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
 
@@ -41,7 +41,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
             ->setParam('instance_id', $widgetInstance->getId());
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
         $this->assertArrayHasKey('widget-delete_button', $block->getLayout()->getAllBlocks());
     }

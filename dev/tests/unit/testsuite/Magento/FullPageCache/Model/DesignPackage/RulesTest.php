@@ -51,7 +51,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fpcCacheMock = $this->getMock('Magento\FullPageCache\Model\Cache', array(), array(), '', false);
         $this->_designChangeMock = $this->getMock('Magento\Core\Model\Design', array(), array(), '', false);
-        $this->_designMock = $this->getMock('Magento\View\Design');
+        $this->_designMock = $this->getMock('Magento\View\DesignInterface');
 
         $this->_currentDate = date('Y-m-d');
 

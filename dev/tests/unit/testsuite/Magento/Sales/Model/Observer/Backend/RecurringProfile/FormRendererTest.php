@@ -39,7 +39,7 @@ class FormRendererTest extends \PHPUnit_Framework_TestCase
     public function testRender()
     {
         $blockMock = $this->getMock(
-            'Magento\View\Element\Block',
+            'Magento\View\Element\BlockInterface',
             array(
                 'setNameInLayout', 'setParentElement', 'setProductEntity', 'toHtml', 'addFieldMap',
                 'addFieldDependence', 'addConfigOptions'

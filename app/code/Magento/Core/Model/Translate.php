@@ -123,7 +123,7 @@ class Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_viewDesign;
 
@@ -173,7 +173,7 @@ class Translate
     protected $_app;
 
     /**
-     * @param \Magento\View\Design $viewDesign
+     * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
      * @param \Magento\Cache\FrontendInterface $cache
@@ -189,7 +189,7 @@ class Translate
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Design $viewDesign,
+        \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Locale\Hierarchy\Config $config,
         \Magento\Core\Model\Translate\Factory $translateFactory,
         \Magento\Cache\FrontendInterface $cache,

@@ -64,7 +64,7 @@ class Aggregated implements \Magento\Core\Model\Layout\File\SourceInterface
      *
      * {@inheritdoc}
      */
-    public function getFiles(\Magento\View\Design\Theme $theme)
+    public function getFiles(\Magento\View\Design\ThemeInterface $theme)
     {
         $list = $this->_fileListFactory->create();
         $list->add($this->_baseFiles->getFiles($theme));
@@ -79,10 +79,10 @@ class Aggregated implements \Magento\Core\Model\Layout\File\SourceInterface
     /**
      * Return the full theme inheritance sequence, from the root theme till a specified one
      *
-     * @param \Magento\View\Design\Theme $theme
-     * @return \Magento\View\Design\Theme[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     * @param \Magento\View\Design\ThemeInterface $theme
+     * @return \Magento\View\Design\ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
      */
-    protected function _getInheritedThemes(\Magento\View\Design\Theme $theme)
+    protected function _getInheritedThemes(\Magento\View\Design\ThemeInterface $theme)
     {
         $result = array();
         while ($theme) {

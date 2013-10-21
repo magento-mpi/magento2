@@ -24,7 +24,7 @@ class GraphTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Adminhtml\Block\Dashboard\Graph');
         $this->_block->setDataHelperName('Magento\Adminhtml\Helper\Dashboard\Order');
     }

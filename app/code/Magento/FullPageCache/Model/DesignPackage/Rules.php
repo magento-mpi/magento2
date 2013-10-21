@@ -24,7 +24,7 @@ class Rules
     /**
      * Design model
      *
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -37,12 +37,12 @@ class Rules
 
     /**
      * @param \Magento\Core\Model\Design $designChange
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      */
     public function __construct(
         \Magento\Core\Model\Design $designChange,
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\FullPageCache\Model\Cache $fpcCache
     ) {
         $this->_designChange = $designChange;

@@ -38,10 +38,10 @@ class Path
     /**
      * Returns customization absolute path
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return string|null
      */
-    public function getCustomizationPath(\Magento\View\Design\Theme $theme)
+    public function getCustomizationPath(\Magento\View\Design\ThemeInterface $theme)
     {
         $path = null;
         if ($theme->getId()) {
@@ -55,10 +55,10 @@ class Path
     /**
      * Get directory where themes files are stored
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return string|null
      */
-    public function getThemeFilesPath(\Magento\View\Design\Theme $theme)
+    public function getThemeFilesPath(\Magento\View\Design\ThemeInterface $theme)
     {
         $path = null;
         if ($theme->getFullPath()) {
@@ -71,10 +71,10 @@ class Path
     /**
      * Get path to custom view configuration file
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return string|null
      */
-    public function getCustomViewConfigPath(\Magento\View\Design\Theme $theme)
+    public function getCustomViewConfigPath(\Magento\View\Design\ThemeInterface $theme)
     {
         $path = null;
         if ($theme->getId()) {

@@ -24,7 +24,8 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('catalog/product/view/id/3');
         $this->assertContains(
             'catalog_product_view_type_bundle',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')->getUpdate()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+                ->getUpdate()
                 ->getHandles()
         );
         $responseBody = $this->getResponse()->getBody();

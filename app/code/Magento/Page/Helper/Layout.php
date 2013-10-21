@@ -20,7 +20,7 @@ namespace Magento\Page\Helper;
 class Layout extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -31,12 +31,12 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Page\Model\Config $config
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
         \Magento\Page\Model\Config $config,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Helper\Context $context
     ) {
         parent::__construct($context);

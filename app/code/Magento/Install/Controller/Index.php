@@ -26,7 +26,7 @@ class Index extends \Magento\Install\Controller\Action
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Config\Scope $configScope
-     * @param \Magento\View\Design $viewDesign
+     * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\App\State $appState
@@ -35,7 +35,7 @@ class Index extends \Magento\Install\Controller\Action
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Config\Scope $configScope,
-        \Magento\View\Design $viewDesign,
+        \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\App\State $appState,

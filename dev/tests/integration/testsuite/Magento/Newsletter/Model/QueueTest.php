@@ -25,7 +25,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
 
         $themes = array('frontend' => 'magento_blank');
         /** @var $design \Magento\Core\Model\View\Design */
-        $design = $objectManager->create('Magento\View\Design', array('themes' => $themes));
+        $design = $objectManager->create('Magento\View\DesignInterface', array('themes' => $themes));
         $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
         /** @var $appEmulation \Magento\Core\Model\App\Emulation */
         $appEmulation = $objectManager->create('Magento\Core\Model\App\Emulation', array('viewDesign' => $design));

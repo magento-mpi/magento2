@@ -48,7 +48,7 @@ class ModuleDependency
      *
      * {@inheritdoc}
      */
-    public function getFiles(\Magento\View\Design\Theme $theme)
+    public function getFiles(\Magento\View\Design\ThemeInterface $theme)
     {
         $result = $this->_subject->getFiles($theme);
         usort($result, array($this, 'compareFiles'));

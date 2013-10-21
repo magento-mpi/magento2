@@ -33,7 +33,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -51,7 +51,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -70,7 +70,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         array $data = array()
     ) {
         $this->_usaData = $usaData;

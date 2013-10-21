@@ -29,10 +29,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         ));
         $this->_model = new \Magento\Core\Model\Design\Fallback\Factory($dirs);
 
-        $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\Theme');
+        $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue('parent_theme_path'));
 
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\Theme');
+        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme->expects($this->any())->method('getThemePath')->will($this->returnValue('current_theme_path'));
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 

@@ -33,7 +33,7 @@ class Configuration
     protected $_configuration;
 
     /**
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -79,29 +79,29 @@ class Configuration
     /**
      * View config model
      *
-     * @var \Magento\View\Config
+     * @var \Magento\View\ConfigInterface
      */
     protected $_viewConfigLoader;
 
     /**
      * Initialize dependencies
      *
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Event\Manager $eventDispatcher
-     * @param \Magento\View\Config $viewConfig
+     * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\DesignEditor\Model\Config\Control\AbstractControl|null $configuration
      * @param \Magento\Core\Model\Theme|null $theme
-     * @param \Magento\View\Design\Theme $parentTheme
+     * @param \Magento\View\Design\ThemeInterface $parentTheme
      */
     public function __construct(
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Event\Manager $eventDispatcher,
-        \Magento\View\Config $viewConfig,
+        \Magento\View\ConfigInterface $viewConfig,
         \Magento\DesignEditor\Model\Config\Control\AbstractControl $configuration = null,
-        \Magento\View\Design\Theme $theme = null,
-        \Magento\View\Design\Theme $parentTheme = null
+        \Magento\View\Design\ThemeInterface $theme = null,
+        \Magento\View\Design\ThemeInterface $parentTheme = null
     ) {
         $this->_configuration = $configuration;
         $this->_theme = $theme;
@@ -121,11 +121,11 @@ class Configuration
     protected function _initViewConfigs()
     {
         $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => \Magento\View\Design::DEFAULT_AREA,
+            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
         $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => \Magento\View\Design::DEFAULT_AREA,
+            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_parentTheme
         ));
         return $this;

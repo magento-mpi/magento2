@@ -229,7 +229,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $writersProperty = new \ReflectionProperty($this->_model, '_stagingTheme');
         $writersProperty->setAccessible(true);
-        $themeObject = $this->getMock('Magento\View\Design\Theme', array(), array(), '', false);
+        $themeObject = $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false);
         $writersProperty->setValue($this->_model, $themeObject);
         return $themeObject;
     }
