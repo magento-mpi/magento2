@@ -18,8 +18,8 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHeaderText()
     {
-        /** @var $layout \Magento\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
         /** @var $block \Magento\Adminhtml\Block\System\Store\Delete */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Delete', 'block');
 

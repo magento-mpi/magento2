@@ -42,7 +42,7 @@ class Data extends \Magento\Core\Helper\Url
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

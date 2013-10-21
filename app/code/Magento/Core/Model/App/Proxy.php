@@ -272,7 +272,7 @@ class Proxy implements \Magento\Core\Model\AppInterface
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function getLayout()
     {

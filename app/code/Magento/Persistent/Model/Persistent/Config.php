@@ -35,7 +35,7 @@ class Config
     /**
      * Layout model
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

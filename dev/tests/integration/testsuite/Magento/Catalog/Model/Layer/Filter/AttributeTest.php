@@ -63,7 +63,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $request->setParam('attribute', array());
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
                 ->createBlock('Magento\Core\Block\Text'))
         ;
 
@@ -79,7 +79,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $request->setParam('attribute', $this->_attributeOptionId);
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
                 ->createBlock('Magento\Core\Block\Text')
         );
 

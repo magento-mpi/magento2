@@ -102,7 +102,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     protected $_frontController = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\Factory
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -191,7 +191,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     /**
      * Retrieve current layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function getLayout()
     {

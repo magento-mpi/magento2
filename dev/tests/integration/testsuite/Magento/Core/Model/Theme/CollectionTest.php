@@ -84,8 +84,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasThemeInCollection()
     {
-        /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme');
+        /** @var $themeModel \Magento\View\Design\Theme */
+        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Design\Theme');
         $themeModel->setData(array(
             'area'                 => 'space_area',
             'theme_title'          => 'Space theme',

@@ -25,7 +25,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -77,7 +77,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function getLayout()
     {
@@ -85,7 +85,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\Rule\Model\ConditionFactory
      */
     public function getConditionFactory()
     {

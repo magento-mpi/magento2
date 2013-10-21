@@ -80,7 +80,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Layout
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

@@ -28,7 +28,7 @@ class AbstractHandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Core\Model\Layout\Element $argument
+     * @param \Magento\View\Layout\Element $argument
      * @param array $expectedResult
      * @dataProvider parseDataProvider
      */
@@ -49,7 +49,7 @@ class AbstractHandlerTest extends \PHPUnit_Framework_TestCase
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . 'Handler' . DIRECTORY_SEPARATOR
             . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento\Core\Model\Layout\Element'
+            'Magento\View\Layout\Element'
         );
         $withoutUpdater = $layout->xpath('//argument[@name="testParseWithoutUpdater"]');
         $withUpdater = $layout->xpath('//argument[@name="testParseWithUpdater"]');

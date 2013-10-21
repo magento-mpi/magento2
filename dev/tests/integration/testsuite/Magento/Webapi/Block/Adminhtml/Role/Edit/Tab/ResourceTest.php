@@ -21,7 +21,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -57,7 +57,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_layout = $this->_objectManager->get('Magento\View\Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource',
             array(
@@ -70,7 +70,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\View\Layout');
         unset($this->_objectManager, $this->_layout, $this->_resourceProvider, $this->_blockFactory, $this->_block);
     }
 

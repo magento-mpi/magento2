@@ -37,7 +37,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\Registry')->register('current_variable', $variable);
         $objectManager->get('Magento\Core\Controller\Request\Http')
             ->setParam('variable_id', $variable->getId());
-        $block = $objectManager->get('Magento\Core\Model\Layout')
+        $block = $objectManager->get('Magento\View\Layout')
             ->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
         $this->assertArrayHasKey('variable-delete_button', $block->getLayout()->getAllBlocks());
     }

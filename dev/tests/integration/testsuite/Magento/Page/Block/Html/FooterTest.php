@@ -21,13 +21,13 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+            ->get('Magento\View\Design');
         $this->_theme = $design->setDefaultDesignTheme()->getDesignTheme();
     }
 
     public function testGetCacheKeyInfo()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock('Magento\Page\Block\Html\Footer');
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();

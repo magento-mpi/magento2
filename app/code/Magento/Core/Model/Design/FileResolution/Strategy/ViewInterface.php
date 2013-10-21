@@ -19,11 +19,11 @@ interface ViewInterface
      * Get theme file name (e.g. a javascript file)
      *
      * @param string $area
-     * @param \Magento\Core\Model\Theme $themeModel
+     * @param \Magento\View\Design\Theme $themeModel
      * @param string $locale
      * @param string $file
      * @param string|null $module
      * @return string
      */
-    public function getViewFile($area, \Magento\Core\Model\Theme $themeModel, $locale, $file, $module = null);
+    public function getViewFile($area, \Magento\View\Design\Theme $themeModel, $locale, $file, $module = null);
 }

@@ -60,7 +60,7 @@ class Observer
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

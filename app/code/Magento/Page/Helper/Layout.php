@@ -20,7 +20,7 @@ namespace Magento\Page\Helper;
 class Layout extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

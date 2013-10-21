@@ -24,7 +24,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -37,7 +37,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
         $this->_setFixtureTheme();
 
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
+            ->create('Magento\View\Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -68,7 +68,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     public function testMassactionDefaultValues()
     {
         /** @var $blockEmpty \Magento\Backend\Block\Widget\Grid\Massaction */
-        $blockEmpty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $blockEmpty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
         $this->assertEmpty($blockEmpty->getItems());
         $this->assertEquals(0, $blockEmpty->getCount());

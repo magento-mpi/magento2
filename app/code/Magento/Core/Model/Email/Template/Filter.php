@@ -76,12 +76,12 @@ class Filter extends \Magento\Filter\Template
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Model\LayoutFactory
+     * @var \Magento\View\LayoutFactory
      */
     protected $_layoutFactory;
 
@@ -100,7 +100,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\View\Layout $layout
-     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
+     * @param \Magento\View\LayoutFactory $layoutFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -110,7 +110,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\View\Layout $layout,
-        \Magento\Core\Model\LayoutFactory $layoutFactory
+        \Magento\View\LayoutFactory $layoutFactory
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;

@@ -47,13 +47,13 @@ class Virtual
     protected $_customizationConfig;
 
     /**
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      */
     public function __construct(
-        \Magento\Core\Model\Theme $theme,
+        \Magento\View\Design\Theme $theme,
         \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Core\Model\Theme\CopyService $themeCopyService,
         \Magento\Theme\Model\Config\Customization $customizationConfig
@@ -88,7 +88,7 @@ class Virtual
      */
     public function getPhysicalTheme()
     {
-        /** @var $parentTheme \Magento\Core\Model\Theme */
+        /** @var $parentTheme \Magento\View\Design\Theme */
         $parentTheme = $this->_theme->getParentTheme();
         while ($parentTheme && !$parentTheme->isPhysical()) {
             $parentTheme = $parentTheme->getParentTheme();

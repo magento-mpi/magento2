@@ -19,7 +19,7 @@ class GridTest
      */
     public function testToHtmlHasOnClick()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

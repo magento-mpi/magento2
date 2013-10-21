@@ -39,7 +39,7 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
     protected $_wysiwygConfig;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 

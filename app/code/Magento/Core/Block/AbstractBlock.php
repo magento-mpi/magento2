@@ -21,17 +21,18 @@
  */
 namespace Magento\Core\Block;
 
+use Magento\View\Element\Block;
+
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class AbstractBlock extends \Magento\Object
-    implements \Magento\Core\Block
+abstract class AbstractBlock extends \Magento\Object implements Block
 {
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design;
 
@@ -122,7 +123,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $_viewConfig;
 

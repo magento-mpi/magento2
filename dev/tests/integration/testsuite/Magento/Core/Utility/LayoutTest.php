@@ -29,10 +29,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected function _assertLayoutUpdate($expectedUpdateFile, $actualUpdate)
     {
-        $this->assertInstanceOf('Magento\Core\Model\Layout\Merge', $actualUpdate);
+        $this->assertInstanceOf('Magento\View\Layout\Processor', $actualUpdate);
 
         $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
-        $this->assertInstanceOf('Magento\Core\Model\Layout\Element', $layoutUpdateXml);
+        $this->assertInstanceOf('Magento\View\Layout\Element', $layoutUpdateXml);
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }
 
@@ -55,7 +55,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function testGetLayoutFromFixture($inputFiles, $expectedFile)
     {
         $layout = $this->_utility->getLayoutFromFixture($inputFiles, $this->_utility->getLayoutDependencies());
-        $this->assertInstanceOf('Magento\Core\Model\Layout', $layout);
+        $this->assertInstanceOf('Magento\View\Layout', $layout);
         $this->_assertLayoutUpdate($expectedFile, $layout->getUpdate());
     }
 

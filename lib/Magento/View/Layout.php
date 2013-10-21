@@ -16,7 +16,7 @@ interface Layout
     /**
      * Retrieve the layout processor
      *
-     * @return Processor
+     * @return Layout\Processor
      */
     public function getUpdate();
 
@@ -24,14 +24,11 @@ interface Layout
      * Layout xml generation
      *
      * @return Layout
-     * @todo MERGE with generateElements()
      */
     public function generateXml();
 
     /**
      * Create structure of elements from the loaded XML configuration
-     *
-     * @todo MERGE with generateXml()
      */
     public function generateElements();
 
@@ -48,7 +45,7 @@ interface Layout
      * Add an element to output
      *
      * @param string $name
-     * @return \Magento\View\Layout
+     * @return Layout
      */
     public function addOutputElement($name);
 
@@ -60,18 +57,10 @@ interface Layout
     public function getOutput();
 
     /**
-     * @param $name
-     * @param array $element
-     * @return Layout
-     */
-    public function addElement($name, array $element);
-
-    /**
      * Check if element exists in layout structure
      *
      * @param string $name
      * @return bool
-     * @todo DELETE (only two-three calls from outside)
      */
     public function hasElement($name);
 
@@ -80,7 +69,6 @@ interface Layout
      *
      * @param string $name
      * @return Layout
-     * @todo DELETE (only two-three calls from outside)
      */
     public function unsetElement($name);
 
@@ -95,7 +83,7 @@ interface Layout
      * Get block object by name
      *
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock|null
+     * @return Element\Block|bool
      */
     public function getBlock($name);
 
@@ -215,7 +203,7 @@ interface Layout
      * @return \Magento\Core\Block\AbstractBlock
      * @todo DELETE (use viewFactory and addElement instead)
      */
-    public function addBlock($block, $name, $parent = '', $alias = '');
+    public function addBlock($block, $name = '', $parent = '', $alias = '');
 
     /**
      * Insert container into layout structure
@@ -326,6 +314,24 @@ interface Layout
      * @todo DELETE
      */
     public function getElementProperty($name, $attribute);
+
+    /**
+     * Whether specified element is a block
+     *
+     * @param string $name
+     * @return bool
+     * @todo DELETE
+     */
+    public function isBlock($name);
+
+    /**
+     * Checks if element with specified name is container
+     *
+     * @param string $name
+     * @return bool
+     * @todo DELETE
+     */
+    public function isContainer($name);
 
     /**
      * Whether the specified element may be manipulated externally

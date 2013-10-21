@@ -8,5 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="page_three_columns"/>
+    <update handle="page_two_columns_left"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Catalog Advanced Search</argument>
+        </action>
+    </referenceBlock>
 </layout>
