@@ -122,8 +122,8 @@ class Header
     {
         return '"libiconv"' == ICONV_IMPL ?
             iconv(
-                \Magento\Core\Helper\String::ICONV_CHARSET,
-                \Magento\Core\Helper\String::ICONV_CHARSET . '//IGNORE',
+                \Magento\Stdlib\StringIconv::ICONV_CHARSET,
+                \Magento\Stdlib\StringIconv::ICONV_CHARSET . '//IGNORE',
                 $string
             ) : $string;
     }

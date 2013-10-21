@@ -57,15 +57,4 @@ class StringTest extends \PHPUnit_Framework_TestCase
             '12345', '123', '12345', '6789'
         ), $this->_helper->strSplit('12345  123    123456789', 5, true, true));
     }
-
-    public function testCleanString()
-    {
-        $string = '12345';
-        $this->assertEquals($string, $this->_helper->cleanString($string));
-    }
-
-    public function testStrpos()
-    {
-        $this->assertEquals(1, $this->_helper->strpos('123', 2));
-    }
 }

@@ -122,7 +122,7 @@ class Url extends \Magento\Core\Helper\Url
     {
         $string = strtr($string, $this->getConvertTable());
         return '"libiconv"' == ICONV_IMPL
-            ? iconv(\Magento\Core\Helper\String::ICONV_CHARSET, 'ascii//ignore//translit', $string)
+            ? iconv(\Magento\Stdlib\StringIconv::ICONV_CHARSET, 'ascii//ignore//translit', $string)
             : $string;
     }
 }
