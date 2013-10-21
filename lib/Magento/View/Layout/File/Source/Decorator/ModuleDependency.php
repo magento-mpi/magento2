@@ -13,7 +13,7 @@ namespace Magento\View\Layout\File\Source\Decorator;
 use Magento\View\Layout\File\Source;
 use Magento\View\Layout\File;
 use Magento\Core\Model\ModuleListInterface;
-use Magento\View\Design\Theme;
+use Magento\View\Design\ThemeInterface;
 
 class ModuleDependency implements Source
 {
@@ -51,7 +51,7 @@ class ModuleDependency implements Source
      *
      * {@inheritdoc}
      */
-    public function getFiles(Theme $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
         $result = $this->subject->getFiles($theme, $filePath);
         usort($result, array($this, 'compareFiles'));

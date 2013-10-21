@@ -8,7 +8,6 @@
 
 namespace Magento\View\Layout\Handle;
 
-use Magento\View\Layout;
 use Magento\View\Layout\Handle;
 
 interface Command extends Handle

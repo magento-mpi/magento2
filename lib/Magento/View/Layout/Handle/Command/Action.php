@@ -8,7 +8,7 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Command;
@@ -24,11 +24,11 @@ class Action implements Command
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Action
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -59,11 +59,11 @@ class Action implements Command
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Action
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         $method = isset($element['method']) ? $element['method'] : null;
         if (isset($method) && isset($parentName)) {

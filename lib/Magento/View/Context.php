@@ -13,22 +13,22 @@ namespace Magento\View;
 use Magento\Core\Controller\Request\Http as Request;
 use Magento\Core\Controller\Varien\Front;
 
-use Magento\Core\Model\Event\Manager as EventManager;
-use Magento\Core\Model\Translate;
-use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\Core\Model\Factory\Helper as FactoryHelper;
-use Magento\Core\Model\View\Url as ViewUrl;
-use Magento\Core\Model\View\Config as ViewConfig;
-use Magento\Core\Model\Logger;
-use Magento\Core\Model\App;
-use Magento\Core\Model\App\State as AppState;
+use Magento\Core\Model\Event\Manager as EventManager;       // move to Magento\Event
+use Magento\Core\Model\Translate;                           // move to Magento\Translate
+use Magento\Core\Model\Store\Config as StoreConfig;         // move to Magento\Config (Magento\Config\Scope\Config)
+use Magento\Core\Model\Factory\Helper as FactoryHelper;     // move to ???  ask Tango about abstract
+use Magento\Core\Model\View\Url as ViewUrl;                 // leave as is till Milestone 3
+use Magento\Core\Model\View\Config as ViewConfig;           // switch to Magento\View\Config
+use Magento\Core\Model\Logger;                              // leave as is till Milestone 3
+use Magento\Core\Model\App;                                 // leave as is till Folks epic
+use Magento\Core\Model\App\State as AppState;               // leave as is till Folks epic
 
-use Magento\Core\Model\Session\AbstractSession;
-use Magento\Core\Model\UrlInterface;
-use Magento\Core\Model\CacheInterface as Cache;
-use Magento\Core\Model\Cache\StateInterface as CacheState;
+use Magento\Core\Model\Session\AbstractSession;             // leave as is till Tango epic
+use Magento\Core\Model\UrlInterface;                        // leave as is till Milestone 3
+use Magento\Core\Model\CacheInterface as Cache;             // leave as is till Tango epic
+use Magento\Core\Model\Cache\StateInterface as CacheState;  // leave as is till Tango epic
 
-use Magento\View\Design;
+use Magento\View\DesignInterface;                           // use as is
 
 /**
  * @todo Reduce fields number
@@ -65,7 +65,7 @@ class Context
     protected $cache;
 
     /**
-     * @var \Magento\Core\Model\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $design;
 
@@ -148,7 +148,7 @@ class Context
         UrlInterface $urlBuilder,
         Translate $translator,
         Cache $cache,
-        Design $design,
+        DesignInterface $design,
         AbstractSession $session,
         StoreConfig $storeConfig,
         Front $frontController,
@@ -187,7 +187,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\Design
+     * @return \Magento\View\DesignInterface
      */
     public function getDesignPackage()
     {
@@ -463,7 +463,7 @@ class Context
     /**
      * Retrieve design theme instance
      *
-     * @return Design\Theme
+     * @return Design\ThemeInterface
      */
     public function getDesignTheme()
     {
@@ -478,11 +478,11 @@ class Context
     /**
      * Retrieve parent theme instance
      *
-     * @param Design\Theme $theme
-     * @return Design\Theme
+     * @param Design\ThemeInterface $theme
+     * @return Design\ThemeInterface
      * @throws \Exception
      */
-    protected function getPhysicalTheme(Design\Theme $theme)
+    protected function getPhysicalTheme(Design\ThemeInterface $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {

@@ -8,16 +8,14 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Command;
 use Magento\View\Layout\Handle\Render;
-
 use Magento\View\Layout\HandleFactory;
-
 use Magento\View\Layout\ProcessorFactory;
-use Magento\View\Layout\Processor;
+use Magento\View\Layout\ProcessorInterface;
 
 class Update implements Command
 {
@@ -45,11 +43,11 @@ class Update implements Command
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Update
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -60,7 +58,7 @@ class Update implements Command
         $element['type'] = self::TYPE;
 
         if (isset($parentName) && isset($element['handle'])) {
-            /** @var $layoutProcessor Processor */
+            /** @var $layoutProcessor ProcessorInterface */
             $layoutProcessor = $this->processorFactory->create();
             $layoutProcessor->load($element['handle']);
             $xml = $layoutProcessor->asSimplexml();
@@ -78,11 +76,11 @@ class Update implements Command
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Update
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         return $this;
     }

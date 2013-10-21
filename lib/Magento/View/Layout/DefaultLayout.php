@@ -11,7 +11,7 @@ namespace Magento\View\Layout;
 use Magento\View\DataSourcePool;
 use Magento\View\BlockPool;
 use Magento\View\Context;
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Structure;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\HandleFactory;
@@ -22,9 +22,9 @@ use Magento\ObjectManager;
 use Magento\Simplexml;
 
 use Magento\Core\Block\AbstractBlock;
-use Magento\View\Design;
+use Magento\View\DesignInterface;
 
-class DefaultLayout extends Simplexml\Config implements Layout
+class DefaultLayout extends Simplexml\Config implements LayoutInterface
 {
     static protected $inc = 0;
 
@@ -61,7 +61,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
     protected $processorFactory;
 
     /**
-     * @var Design
+     * @var DesignInterface
      */
     protected $design;
 
@@ -81,7 +81,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
     protected $dataSourcePool;
 
     /**
-     * @var \Magento\View\Layout\Processor
+     * @var \Magento\View\Layout\ProcessorInterface
      */
     protected $processor;
 
@@ -106,7 +106,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
     protected $messages;
 
     public function __construct(
-        Design $design,
+        DesignInterface $design,
         ThemeFactory $themeFactory,
         Context $context,
         HandleFactory $handleFactory,
@@ -128,7 +128,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\View\Layout\Processor
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function getUpdate()
     {
@@ -143,7 +143,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
      * Retrieve instance of a theme currently used in an area
      *
      * @param string $area
-     * @return \Magento\View\Design\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     protected function getThemeInstance($area)
     {
@@ -212,9 +212,9 @@ class DefaultLayout extends Simplexml\Config implements Layout
         return $this;
     }
 
-    public function updateElement($name, array $arguments)
+    public function updateElement($name, array $arguments, $rewrite = false)
     {
-        $this->structure->updateElement($name, $arguments);
+        $this->structure->updateElement($name, $arguments, $rewrite);
 
         return $this;
     }

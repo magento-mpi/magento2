@@ -8,7 +8,7 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Render;
@@ -48,11 +48,11 @@ class Block implements Render
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Block
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
         if (!empty($elementName)) {
@@ -90,12 +90,12 @@ class Block implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Block
      * @throws \Exception
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         if (!empty($element['name']) && !isset($element['is_registered'])) {
             if (!class_exists($element['class'])) {
@@ -130,12 +130,12 @@ class Block implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @param string $type [optional]
      * @return mixed
      */
-    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
         if ($this->blockPool->get($element['name'])) {

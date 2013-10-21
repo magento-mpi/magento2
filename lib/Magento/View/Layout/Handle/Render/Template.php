@@ -11,8 +11,7 @@ namespace Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Render;
 
-use Magento\View\Context;
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 
 use Magento\View\Layout\HandleFactory;
@@ -60,11 +59,11 @@ class Template implements Render
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Template
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
         if (isset($elementName)) {
@@ -102,11 +101,11 @@ class Template implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Template
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
@@ -126,12 +125,12 @@ class Template implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @param string $type [optional]
      * @return string
      */
-    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $render = $this->renderFactory->get($type);
         $elementName = $element['name'];
@@ -155,10 +154,10 @@ class Template implements Render
      * Get absolute path to template
      *
      * @param string $path
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @return string
      */
-    protected function getTemplateFile($path, Layout $layout)
+    protected function getTemplateFile($path, LayoutInterface $layout)
     {
         // TODO: Rid of using area
         $params = array(

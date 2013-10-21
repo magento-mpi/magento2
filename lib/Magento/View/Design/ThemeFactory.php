@@ -29,7 +29,7 @@ class ThemeFactory
 
     /**
      * @param $themeId
-     * @return \Magento\View\Design\Theme
+     * @return \Magento\View\Design\ThemeInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getTheme($themeId)

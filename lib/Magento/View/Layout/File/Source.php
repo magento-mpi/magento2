@@ -10,16 +10,16 @@
 
 namespace Magento\View\Layout\File;
 
-use Magento\View\Design\Theme;
+use Magento\View\Design\ThemeInterface;
 
 interface Source
 {
     /**
      * Retrieve instances of layout files
      *
-     * @param Theme $theme Theme that defines the design context
+     * @param ThemeInterface $theme Theme that defines the design context
      * @param string $filePath [optional]
      * @return \Magento\View\Layout\File[]
      */
-    public function getFiles(Theme $theme, $filePath = '*');
+    public function getFiles(ThemeInterface $theme, $filePath = '*');
 }
