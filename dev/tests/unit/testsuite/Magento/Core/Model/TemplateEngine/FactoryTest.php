@@ -23,9 +23,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_dynamicBehavior = $this->getMock(
-            'Magento\Core\Model\TemplateEngine\DynamicBehavior', array(), array(), '', false
-        );
         $this->_model = new Factory($this->_objectManager, array(
             'test' => 'Fixture\Module\Model\TemplateEngine',
         ));
