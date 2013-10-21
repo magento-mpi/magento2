@@ -57,10 +57,10 @@ class Home extends Page
         $this->searchBlock = Factory::getBlockFactory()->getMagentoCatalogSearch(
             $this->_browser->find('search_mini_form', Locator::SELECTOR_ID));
         $this->topmenuBlock = Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
-            $this->_browser->find('#nav', Locator::SELECTOR_CSS)
+            $this->_browser->find('.navigation', Locator::SELECTOR_CSS)
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoCoreTitle(
-            $this->_browser->find('.page-title', Locator::SELECTOR_CSS)
+            $this->_browser->find('.page-title span', Locator::SELECTOR_CSS)
         );
     }
 

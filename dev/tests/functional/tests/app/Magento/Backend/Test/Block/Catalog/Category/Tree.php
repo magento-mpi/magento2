@@ -58,9 +58,19 @@ class Tree extends Block
 
     /**
      * Select Default category
+     *
+     * @param string $path
      */
-    public function selectDefaultCategory()
+    public function selectCategory($path)
     {
-        $this->_rootElement->clickByPath('0');
+        $this->_rootElement->clickByPath($path);
+    }
+
+    /**
+     * Expand all categories tree
+     */
+    public function expandAllCategories()
+    {
+        $this->_rootElement->find('.tree-actions > a:nth-of-type(2)')->click();
     }
 }

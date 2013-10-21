@@ -31,6 +31,7 @@ class CreateTest extends Functional
         //Data
         /** @var Category $category */
         $category = Factory::getFixtureFactory()->getMagentoCatalogCategory()->switchData('subcategory');
+        $category->persist();
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
@@ -41,7 +42,9 @@ class CreateTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
         $loader->waitLoader();
-        $treeBlock->selectDefaultCategory();
+        $treeBlock->expandAllCategories();
+        $loader->waitLoader();
+        $treeBlock->selectCategory($category->getCategoryPath());
         $loader->waitLoader();
         $treeBlock->addSubcategory();
         $loader->waitLoader();
