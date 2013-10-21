@@ -16,7 +16,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\App\RouterList
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_routerListMock;
 
@@ -27,26 +27,26 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOriginalPathInfoWithTestUri()
     {
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = 'http://test.com/value');
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, 'http://test.com/value');
         $this->assertEquals('/value', $this->_model->getOriginalPathInfo());
     }
 
     public function testGetOriginalPathInfoWithEmptyUri()
     {
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = null);
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, null);
         $this->assertEmpty($this->_model->getOriginalPathInfo());
     }
 
     public function testSetPathInfoWithNullValue()
     {
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = null);
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, null);
         $actual = $this->_model->setPathInfo();
         $this->assertEquals($this->_model, $actual);
     }
 
     public function testSetPathInfoWithValue()
     {
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = null);
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, null);
         $expected = 'testPathInfo';
         $this->_model->setPathInfo($expected);
         $this->assertEquals($expected, $this->_model->getPathInfo());
@@ -54,7 +54,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSetPathInfoWithQueryPart()
     {
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = 'http://test.com/node?queryValue');
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, 'http://test.com/node?queryValue');
         $this->_model->setPathInfo();
         $this->assertEquals('/node', $this->_model->getPathInfo());
     }
@@ -62,7 +62,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testRewritePathInfoWithNewValue()
     {
         $expected = '/other/path';
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = 'http://test.com/one/two');
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, 'http://test.com/one/two');
         $this->_model->rewritePathInfo($expected);
         $this->assertEquals($expected, $this->_model->getPathInfo());
     }
@@ -70,7 +70,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testRewritePathInfoWithSameValue()
     {
         $expected = '/one/two';
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = 'http://test.com' . $expected);
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, 'http://test.com' . $expected);
         $this->_model->rewritePathInfo($expected);
         $this->assertEquals($expected, $this->_model->getPathInfo());
     }
@@ -124,7 +124,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFrontName()
     {
-        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, $uri = 'http://test.com/one/two');
+        $this->_model = new \Magento\App\Request\Http($this->_routerListMock, 'http://test.com/one/two');
         $this->assertEquals('one', $this->_model->getFrontName());
     }
 
