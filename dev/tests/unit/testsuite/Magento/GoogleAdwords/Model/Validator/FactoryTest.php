@@ -68,7 +68,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                         'type' => '',
                         'class' => 'Magento\Validator\Regex',
                         'options' => array(
-                            'arguments' => array('/^[0-9a-f]{6}$/i'),
+                            'arguments' => array(
+                                'pattern' => '/^[0-9a-f]{6}$/i'
+                            ),
                             'methods' => array(
                                 array(
                                     'method' => 'setMessages',

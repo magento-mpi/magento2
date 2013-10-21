@@ -26,4 +26,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $validator = $factory->createConversionIdValidator($conversionId);
         $this->assertNotNull($validator, "Conversion ID Validator");
     }
+
+    /**
+     * Test creation of conversion color validator
+     *
+     * @magentoAppIsolation enabled
+     */
+    public function testGetConversionColorValidator()
+    {
+        $conversionColor = "FFFFFF";
+
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $factory = $objectManager->get('Magento\GoogleAdwords\Model\Validator\Factory');
+
+        $validator = $factory->createColorValidator($conversionColor);
+        $this->assertNotNull($validator);
+    }
 }
