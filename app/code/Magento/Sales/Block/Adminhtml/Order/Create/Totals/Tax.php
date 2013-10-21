@@ -18,5 +18,5 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
 class Tax extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
-    protected $_template = 'sales/order/create/totals/tax.phtml';
+    protected $_template = 'order/create/totals/tax.phtml';
 }

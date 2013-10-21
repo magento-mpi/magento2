@@ -19,7 +19,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 class Shipping
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
-    protected $_template = 'sales/order/create/totals/shipping.phtml';
+    protected $_template = 'order/create/totals/shipping.phtml';
 
     /**
      * @var \Magento\Tax\Model\Config

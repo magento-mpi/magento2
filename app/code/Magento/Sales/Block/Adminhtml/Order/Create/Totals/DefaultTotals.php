@@ -18,7 +18,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
 class DefaultTotals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals
 {
-    protected $_template = 'Magento_Adminhtml::sales/order/create/totals/default.phtml';
+    protected $_template = 'Magento_Sales::order/create/totals/default.phtml';
 
     /**
      * Retrieve quote session object

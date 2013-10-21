@@ -18,7 +18,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
 class Subtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
-    protected $_template = 'sales/order/create/totals/subtotal.phtml';
+    protected $_template = 'order/create/totals/subtotal.phtml';
 
     /**
      * @var \Magento\Tax\Model\Config

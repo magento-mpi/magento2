@@ -136,7 +136,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        $this->_redirect('*/order/view', array('order_id' => $order->getId()));
     }
 
     /**
@@ -158,7 +158,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(__('You have not canceled the item.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
-            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+            $this->_redirect('*/order/view', array('order_id' => $order->getId()));
         }
     }
 
@@ -180,7 +180,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('You have not put the order on hold.'));
             }
-            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+            $this->_redirect('*/order/view', array('order_id' => $order->getId()));
         }
     }
 
@@ -202,7 +202,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('The order was not on hold.'));
             }
-            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+            $this->_redirect('*/order/view', array('order_id' => $order->getId()));
         }
     }
 
@@ -244,7 +244,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(__('We couldn\'t update the payment.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        $this->_redirect('*/order/view', array('order_id' => $order->getId()));
     }
 
     /**

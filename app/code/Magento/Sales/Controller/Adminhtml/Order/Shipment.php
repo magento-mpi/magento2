@@ -175,7 +175,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_redirect('*/sales_order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
+            $this->_redirect('*/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -257,7 +257,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if ($isNeedCreateLabel) {
             $this->getResponse()->setBody($responseAjax->toJson());
         } else {
-            $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));
+            $this->_redirect('*/order/view', array('order_id' => $shipment->getOrderId()));
         }
     }
 

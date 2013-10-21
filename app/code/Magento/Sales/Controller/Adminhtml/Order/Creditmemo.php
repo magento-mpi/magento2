@@ -314,7 +314,7 @@ class Creditmemo
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess(__('You created the credit memo.'));
                 $this->_getSession()->getCommentText(true);
-                $this->_redirect('*/sales_order/view', array('order_id' => $creditmemo->getOrderId()));
+                $this->_redirect('*/order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
             } else {
                 $this->_forward('noRoute');

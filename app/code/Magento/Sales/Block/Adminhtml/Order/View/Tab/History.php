@@ -22,7 +22,7 @@ class History
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
 
-    protected $_template = 'sales/order/view/tab/history.phtml';
+    protected $_template = 'order/view/tab/history.phtml';
 
     /**
      * Core registry

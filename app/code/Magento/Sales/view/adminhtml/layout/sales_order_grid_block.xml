@@ -88,7 +88,7 @@
                     <argument name="id" xsi:type="string">sales_order_grid</argument>
                     <argument name="rowUrl" xsi:type="array">
                         <item name="generatorClass" xsi:type="string">Magento\Sales\Model\Order\Grid\Row\UrlGenerator</item>
-                        <item name="path" xsi:type="string">*/sales_order/view</item>
+                        <item name="path" xsi:type="string">*/order/view</item>
                         <item name="extraParamsTemplate" xsi:type="array">
                             <item name="order_id" xsi:type="string">getId</item>
                         </item>
@@ -193,7 +193,7 @@
                             <item name="view_action" xsi:type="array">
                                 <item name="caption" xsi:type="string" translate="true">View</item>
                                 <item name="url" xsi:type="array">
-                                    <item name="base" xsi:type="string">*/sales_order/view</item>
+                                    <item name="base" xsi:type="string">*/order/view</item>
                                 </item>
                                 <item name="field" xsi:type="string">order_id</item>
                             </item>

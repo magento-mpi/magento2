@@ -20,7 +20,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging;
 class Grid extends \Magento\Adminhtml\Block\Template
 {
 
-    protected $_template = 'sales/order/shipment/packaging/grid.phtml';
+    protected $_template = 'order/shipment/packaging/grid.phtml';
 
     /**
      * Core registry

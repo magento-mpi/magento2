@@ -18,7 +18,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
 class Grandtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
-    protected $_template = 'sales/order/create/totals/grandtotal.phtml';
+    protected $_template = 'order/create/totals/grandtotal.phtml';
 
     /**
      * @var \Magento\Tax\Model\Config

@@ -22,7 +22,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * @var string
      */
-    protected $_blockGroup = 'Magento_Adminhtml';
+    protected $_blockGroup = 'Magento_Sales';
 
     /**
      * Core registry

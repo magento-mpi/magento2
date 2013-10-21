@@ -449,7 +449,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
     {
         if ($orderId = $this->_getSession()->getReordered()) {
             $this->_getSession()->clear();
-            $this->_redirect('*/sales_order/view', array(
+            $this->_redirect('*/order/view', array(
                 'order_id'=>$orderId
             ));
         } else {
@@ -485,7 +485,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->clear();
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
-                $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+                $this->_redirect('*/order/view', array('order_id' => $order->getId()));
             } else {
                 $this->_redirect('*/sales_order/index');
             }

@@ -52,7 +52,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
 
     public function _construct()
     {
-        $this->setTemplate('sales/order/invoice/create/tracking.phtml');
+        $this->setTemplate('order/invoice/create/tracking.phtml');
     }
 
     /**

@@ -20,7 +20,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Address;
 class Form
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
 {
-    protected $_template = 'sales/order/address/form.phtml';
+    protected $_template = 'order/address/form.phtml';
 
     /**
      * Core registry

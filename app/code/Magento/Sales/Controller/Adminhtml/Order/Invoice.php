@@ -193,7 +193,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
+            $this->_redirect('*/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -307,7 +307,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                     }
                 }
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
-                $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
+                $this->_redirect('*/order/view', array('order_id' => $orderId));
             } else {
                 $this->_redirect('*/*/new', array('order_id' => $orderId));
             }

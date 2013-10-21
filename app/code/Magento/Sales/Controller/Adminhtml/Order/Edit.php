@@ -39,10 +39,10 @@ class Edit extends \Magento\Sales\Controller\Adminhtml\Order\Create
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
+            $this->_redirect('*/order/view', array('order_id' => $orderId));
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addException($e, $e->getMessage());
-            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
+            $this->_redirect('*/order/view', array('order_id' => $orderId));
         }
     }
 
