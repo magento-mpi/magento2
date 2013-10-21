@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="head">
+        <remove name="css-styles-css"/>
+        <block class="Magento\Page\Block\Html\Head\Css" name="css-styles-css-ee">
+            <arguments>
+                <argument name="file" xsi:type="string">css/styles-ee.css</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</layout>
