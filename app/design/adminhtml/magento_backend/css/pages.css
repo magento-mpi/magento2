@@ -1768,7 +1768,6 @@
     width: 35px;
 }
 
-[class^=" adminhtml-sales-order-"] .col-status,
 [class^=" adminhtml-sales-order-"] .col-price-original,
 [class^=" adminhtml-sales-order-"] .col-tax-amount,
 [class^=" adminhtml-sales-order-"] .col-tax-percent,
@@ -2643,6 +2642,25 @@ table.items-to-invoice tbody tr:hover td {
 -------------------------------------- */
 .field-skeleton_set .select {
     width: 100%;
+}
+
+/*
+    Cache Management
+-------------------------------------- */
+.additional-cache-management .label {
+    margin-top: 5px;
+}
+
+/*
+    Currency Symbols
+-------------------------------------- */
+.adminhtml-system-currencysymbol-index th.col-symbol .required:after {
+    content: '*';
+    margin-left: 3px;
+}
+
+.adminhtml-system-currencysymbol-index td.col-currency .label {
+    margin-top: 5px;
 }
 
 /*

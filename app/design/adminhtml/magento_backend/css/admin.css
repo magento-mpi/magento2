@@ -77,7 +77,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size:26px;
+    font-size: 26px;
 }
 
 h2 {
@@ -1324,14 +1324,14 @@ fieldset.field [class^='fields-group-'] .field .control {
     box-sizing: border-box;
     float: left;
     width: 20%;
-    padding: 6px 0 0 15px;
-    font-size: 10px;
+    padding: 7px 0 0 15px;
+    color: #999;
+    font-size: 12px;
+    letter-spacing: 0.05em;
 }
 
 .form-inline .field-service[value-scope]:before {
     content: attr(value-scope) !important;
-    font-size: 10px;
-    color: #6F8992;
     white-space: nowrap;
     display: block;
     margin-bottom: 5px;
@@ -4690,9 +4690,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .massaction .entry-edit fieldset select {
     border-radius: 2px;
-    padding: 3px;
     margin: 0;
-    vertical-align: middle;
 }
 
 .massaction .entry-edit fieldset select.validation-failed {
@@ -4887,10 +4885,7 @@ table .col-draggable .draggable-handle {
     float: left;
 }
 
-.grid table .col-id,
-.grid table thead th.col-price,
-.grid table thead th.col-qty,
-.grid table thead th.col-number {
+.grid table .col-id {
     text-align: left;
 }
 
@@ -5143,16 +5138,16 @@ table .col-draggable .draggable-handle {
 .col-color,
 .col-size,
 .col-product,
-.col-comment {
+.col-comment,
+.col-actions,
+.col-status {
     text-align: left;
 }
 
 /* center */
 .col-include,
-.col-price,
 .col-display,
 .col-image,
-.col-price,
 .col-no-records,
 .col-select,
 .col-default,
@@ -5163,7 +5158,6 @@ table .col-draggable .draggable-handle {
 /* right */
 .col-qty,
 .col-weight,
-.col-actions,
 .col-price,
 .col-price > input,
 .col-id,
@@ -5312,6 +5306,11 @@ table .col-draggable .draggable-handle {
     margin-right: 3px;
     position: relative;
     top: 2px;
+}
+
+.tree-store-scope .field .addafter {
+    display: inline-block;
+    padding-top: 6px;
 }
 
 .tree-store-scope .tooltip .help {
