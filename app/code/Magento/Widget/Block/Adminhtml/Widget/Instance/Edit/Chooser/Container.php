@@ -70,7 +70,7 @@ class Container extends \Magento\Core\Block\Html\Select
             $layoutMergeParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
-            /** @var $layoutProcessor \Magento\View\Layout\Processor */
+            /** @var $layoutProcessor \Magento\View\Layout\ProcessorInterface */
             $layoutProcessor = $this->_layoutProcessorFactory->create($layoutMergeParams);
             $layoutProcessor->addPageHandles(array($this->getLayoutHandle()));
             $layoutProcessor->load();

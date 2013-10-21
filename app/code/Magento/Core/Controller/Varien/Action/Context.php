@@ -32,7 +32,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_frontController = null;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -59,7 +59,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Controller\Varien\Front $frontController
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param $isRenderInherited
      */
@@ -69,7 +69,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Controller\Varien\Front $frontController,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
         $isRenderInherited
     ) {
@@ -102,7 +102,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {

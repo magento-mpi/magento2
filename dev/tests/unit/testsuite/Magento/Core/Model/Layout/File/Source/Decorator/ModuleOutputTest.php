@@ -44,7 +44,7 @@ class ModuleOutputTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFiles()
     {
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\Theme');
+        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $fileOne = new \Magento\Core\Model\Layout\File('1.xml', 'Module_OutputEnabled');
         $fileTwo = new \Magento\Core\Model\Layout\File('2.xml', 'Module_OutputDisabled');
         $fileThree = new \Magento\Core\Model\Layout\File('3.xml', 'Module_OutputEnabled', $theme);

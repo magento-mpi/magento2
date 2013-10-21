@@ -13,7 +13,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
 /**
  * Block that renders JS tab
  *
- * @method \Magento\View\Design\Theme getTheme()
+ * @method \Magento\View\Design\ThemeInterface getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

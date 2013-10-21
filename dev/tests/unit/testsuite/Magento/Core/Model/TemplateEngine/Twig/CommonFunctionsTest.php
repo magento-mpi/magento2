@@ -27,7 +27,7 @@ class CommonFunctionsTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\View\Url  */
     protected $_viewUrl;
 
-    /** @var \Magento\View\Config   */
+    /** @var \Magento\View\ConfigInterface   */
     protected $_viewConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -54,7 +54,7 @@ class CommonFunctionsTest extends \PHPUnit_Framework_TestCase
         $this->_viewUrl = $this->getMockBuilder('Magento\Core\Model\View\Url')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_viewConfig = $this->getMockBuilder('Magento\View\Config')
+        $this->_viewConfig = $this->getMockBuilder('Magento\View\ConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_helperImageMock = $this->getMockBuilder('Magento\Catalog\Helper\Image')

@@ -17,7 +17,7 @@ namespace Magento\Core\Model\View;
 class DesignTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\View\Config
+     * @var \Magento\View\ConfigInterface
      */
     protected $_viewConfig;
 
@@ -65,11 +65,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design');
+            ->create('Magento\View\DesignInterface');
         $this->_viewFileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\FileSystem');
         $this->_viewConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Config');
+            ->create('Magento\View\ConfigInterface');
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\Url');
     }
@@ -87,20 +87,20 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             ),
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->setDesignTheme($themePath);
 
         $this->_viewFileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\FileSystem');
         $this->_viewConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Config');
+            ->create('Magento\View\ConfigInterface');
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\Url');
     }
 
     public function testSetGetArea()
     {
-        $this->assertEquals(\Magento\View\Design::DEFAULT_AREA, $this->_model->getArea());
+        $this->assertEquals(\Magento\View\DesignInterface::DEFAULT_AREA, $this->_model->getArea());
         $this->_model->setArea('test');
         $this->assertEquals('test', $this->_model->getArea());
     }
@@ -114,7 +114,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDesignTheme()
     {
-        $this->assertInstanceOf('Magento\View\Design\Theme', $this->_model->getDesignTheme());
+        $this->assertInstanceOf('Magento\View\Design\ThemeInterface', $this->_model->getDesignTheme());
     }
 
     /**
@@ -219,9 +219,9 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigCustomized()
     {
         $this->_emulateFixtureTheme();
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem \Magento\Filesystem */

@@ -42,7 +42,7 @@ class Data extends \Magento\Core\Helper\Url
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -55,7 +55,7 @@ class Data extends \Magento\Core\Helper\Url
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $session
      */
@@ -63,7 +63,7 @@ class Data extends \Magento\Core\Helper\Url
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $session
     ) {

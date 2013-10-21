@@ -13,7 +13,7 @@ namespace Magento\Core\Model;
 /**
  * Theme model class
  *
- * @method \Magento\View\Design\Theme save()
+ * @method \Magento\View\Design\ThemeInterface save()
  * @method string getPackageCode()
  * @method string getParentThemePath()
  * @method string getParentId()
@@ -25,22 +25,22 @@ namespace Magento\Core\Model;
  * @method int getType()
  * @method array getAssignedStores()
  * @method \Magento\Core\Model\Resource\Theme\Collection getCollection()
- * @method \Magento\View\Design\Theme setAssignedStores(array $stores)
- * @method \Magento\View\Design\Theme addData(array $data)
- * @method \Magento\View\Design\Theme setParentId(int $id)
- * @method \Magento\View\Design\Theme setParentTheme($parentTheme)
- * @method \Magento\View\Design\Theme setPackageCode(string $packageCode)
- * @method \Magento\View\Design\Theme setThemeCode(string $themeCode)
- * @method \Magento\View\Design\Theme setThemePath(string $themePath)
- * @method \Magento\View\Design\Theme setThemeVersion(string $themeVersion)
- * @method \Magento\View\Design\Theme setArea(string $area)
- * @method \Magento\View\Design\Theme setThemeTitle(string $themeTitle)
- * @method \Magento\View\Design\Theme setType(int $type)
- * @method \Magento\View\Design\Theme setCode(string $code)
+ * @method \Magento\View\Design\ThemeInterface setAssignedStores(array $stores)
+ * @method \Magento\View\Design\ThemeInterface addData(array $data)
+ * @method \Magento\View\Design\ThemeInterface setParentId(int $id)
+ * @method \Magento\View\Design\ThemeInterface setParentTheme($parentTheme)
+ * @method \Magento\View\Design\ThemeInterface setPackageCode(string $packageCode)
+ * @method \Magento\View\Design\ThemeInterface setThemeCode(string $themeCode)
+ * @method \Magento\View\Design\ThemeInterface setThemePath(string $themePath)
+ * @method \Magento\View\Design\ThemeInterface setThemeVersion(string $themeVersion)
+ * @method \Magento\View\Design\ThemeInterface setArea(string $area)
+ * @method \Magento\View\Design\ThemeInterface setThemeTitle(string $themeTitle)
+ * @method \Magento\View\Design\ThemeInterface setType(int $type)
+ * @method \Magento\View\Design\ThemeInterface setCode(string $code)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\Design\Theme
+class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\Design\ThemeInterface
 {
     /**#@+
      * Theme types group

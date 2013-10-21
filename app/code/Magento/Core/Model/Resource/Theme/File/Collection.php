@@ -51,10 +51,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter out files that do not belong to a theme
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\Core\Model\Resource\Theme\File\Collection
      */
-    public function addThemeFilter(\Magento\View\Design\Theme $theme)
+    public function addThemeFilter(\Magento\View\Design\ThemeInterface $theme)
     {
         $this->addFieldToFilter('theme_id', $theme->getId());
         return $this;

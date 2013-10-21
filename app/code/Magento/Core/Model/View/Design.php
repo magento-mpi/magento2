@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\View;
 
-class Design implements \Magento\View\Design
+class Design implements \Magento\View\DesignInterface
 {
     /**
      * Common node path to theme design configuration

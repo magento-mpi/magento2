@@ -1,3 +1,4 @@
+* Plushe theme is set as the default theme
 * Various improvements:
   * Added static integrity test for compilation of DI definitions
   * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)

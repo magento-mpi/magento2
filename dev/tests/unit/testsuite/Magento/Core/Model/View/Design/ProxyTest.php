@@ -21,14 +21,14 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\DesignInterface
      */
     protected $_viewDesign;
 
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_viewDesign = $this->getMock('Magento\View\Design');
+        $this->_viewDesign = $this->getMock('Magento\View\DesignInterface');
         $this->_objectManager->expects($this->once())
             ->method('get')
             ->with('Magento\Core\Model\View\Design')

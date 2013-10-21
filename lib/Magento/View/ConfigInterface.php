@@ -13,7 +13,7 @@ namespace Magento\View;
  *
  * @package Magento\View
  */
-interface Config
+interface ConfigInterface
 {
     /**
      * Render view config object for current package and theme

@@ -11,7 +11,7 @@
 /**
  * Block that renders JS tab
  *
- * @method \Magento\View\Design\Theme getTheme()
+ * @method \Magento\View\Design\ThemeInterface getTheme()
  * @method setTheme($theme)
  *
  */
@@ -25,7 +25,7 @@ class Factory
     /**
      * Layout model
      *
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -75,9 +75,9 @@ class Factory
     protected $_sharedRenderers = array();
 
     /**
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      */
-    public function __construct(\Magento\View\Layout $layout)
+    public function __construct(\Magento\View\LayoutInterface $layout)
     {
         $this->_layout = $layout;
     }

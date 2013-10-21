@@ -127,7 +127,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory
@@ -145,7 +145,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\ConfigInterface $coreConfig,
         \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory,

@@ -16,17 +16,17 @@ namespace Magento\GiftCard\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\View\Layout $layout
+        \Magento\View\LayoutInterface $layout
     ) {
         $this->_layout = $layout;
         parent::__construct($context);

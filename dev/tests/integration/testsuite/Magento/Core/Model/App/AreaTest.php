@@ -37,10 +37,10 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public function testInitDesign()
     {
         $defaultTheme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')->setDefaultDesignTheme()->getDesignTheme();
+            ->get('Magento\View\DesignInterface')->setDefaultDesignTheme()->getDesignTheme();
         $this->_model->load(\Magento\Core\Model\App\Area::PART_DESIGN);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
 
         $this->assertEquals($defaultTheme->getThemePath(), $design->getDesignTheme()->getThemePath());
@@ -49,10 +49,10 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         // try second time and make sure it won't load second time
         $this->_model->load(\Magento\Core\Model\App\Area::PART_DESIGN);
         $designArea = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->getArea();
         $sameDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->setArea($designArea);
         $this->assertSame($design, $sameDesign);
     }
@@ -68,7 +68,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $this->_model->detectDesign(new \Zend_Controller_Request_Http);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design');
+            ->get('Magento\View\DesignInterface');
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 
@@ -80,7 +80,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->detectDesign();
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design');
+            ->get('Magento\View\DesignInterface');
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 
@@ -100,7 +100,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
         $model->detectDesign(new \Zend_Controller_Request_Http);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design');
+            ->get('Magento\View\DesignInterface');
         $this->assertNotEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 }

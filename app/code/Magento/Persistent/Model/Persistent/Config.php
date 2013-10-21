@@ -35,7 +35,7 @@ class Config
     /**
      * Layout model
      *
-     * @var \Magento\View\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -58,14 +58,14 @@ class Config
      *
      * @param \Magento\Config\DomFactory $domFactory
      * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
-     * @param \Magento\View\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Persistent\Model\Factory $persistentFactory
      */
     public function __construct(
         \Magento\Config\DomFactory $domFactory,
         \Magento\Core\Model\Config\Modules\Reader $moduleReader,
-        \Magento\View\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\App\State $appState,
         \Magento\Persistent\Model\Factory $persistentFactory
     ) {

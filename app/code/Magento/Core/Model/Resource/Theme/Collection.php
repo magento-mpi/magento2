@@ -145,15 +145,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Update all child themes relations
      *
-     * @param \Magento\View\Design\Theme $themeModel
+     * @param \Magento\View\Design\ThemeInterface $themeModel
      * @return $this
      */
-    public function updateChildRelations(\Magento\View\Design\Theme $themeModel)
+    public function updateChildRelations(\Magento\View\Design\ThemeInterface $themeModel)
     {
         $parentThemeId = $themeModel->getParentId();
         $this->addFieldToFilter('parent_id', array('eq' => $themeModel->getId()))->load();
 
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($this->getItems() as $theme) {
             $theme->setParentId($parentThemeId)->save();
         }

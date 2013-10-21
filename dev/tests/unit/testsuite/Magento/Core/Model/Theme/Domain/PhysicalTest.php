@@ -73,7 +73,7 @@ class PhysicalTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
 
         $domainModel = new \Magento\Core\Model\Theme\Domain\Physical(
-            $this->getMock('Magento\View\Design\Theme', array(), array(), '', false, false),
+            $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
             $themeFactory,
             $copyService,
             $themeCollection

@@ -120,10 +120,10 @@ class Design extends \Magento\Core\Model\AbstractModel
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param \Magento\View\Design $packageInto
+     * @param \Magento\View\DesignInterface $packageInto
      * @return \Magento\Core\Model\Design
      */
-    public function changeDesign(\Magento\View\Design $packageInto)
+    public function changeDesign(\Magento\View\DesignInterface $packageInto)
     {
         $design = $this->getDesign();
         if ($design) {

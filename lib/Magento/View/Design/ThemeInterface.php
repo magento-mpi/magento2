@@ -13,7 +13,7 @@ namespace Magento\View\Design;
  *
  * @package Magento\View\Design
  */
-interface Theme
+interface ThemeInterface
 {
     /**
      * Separator between theme_path elements
@@ -49,7 +49,7 @@ interface Theme
     /**
      * Retrieve parent theme instance
      *
-     * @return Theme|null
+     * @return ThemeInterface|null
      */
     public function getParentTheme();
 

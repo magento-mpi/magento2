@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\View;
 
-class Config implements \Magento\View\Config
+class Config implements \Magento\View\ConfigInterface
 {
     /**
      * List of view configuration objects per theme
@@ -75,7 +75,7 @@ class Config implements \Magento\View\Config
     public function getViewConfig(array $params = array())
     {
         $this->_viewService->updateDesignParams($params);
-        /** @var $currentTheme \Magento\View\Design\Theme */
+        /** @var $currentTheme \Magento\View\Design\ThemeInterface */
         $currentTheme = $params['themeModel'];
         $key = $currentTheme->getId();
         if (isset($this->_viewConfigs[$key])) {

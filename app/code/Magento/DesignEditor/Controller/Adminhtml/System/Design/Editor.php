@@ -155,7 +155,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
                 ? $theme
                 : $theme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
 
-            /** @var $themeCustomization \Magento\View\Design\Theme */
+            /** @var $themeCustomization \Magento\View\Design\ThemeInterface */
             $this->_themeConfig->assignToStore($themeCustomization, $this->_getStores());
 
             $successMessage = $hadThemeAssigned
@@ -254,8 +254,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
     public function duplicateAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        /** @var $themeCopy \Magento\View\Design\Theme */
-        $themeCopy = $this->_objectManager->create('Magento\View\Design\Theme');
+        /** @var $themeCopy \Magento\View\Design\ThemeInterface */
+        $themeCopy = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
         /** @var $copyService \Magento\Core\Model\Theme\CopyService */
         $copyService = $this->_objectManager->get('Magento\Core\Model\Theme\CopyService');
         try {
@@ -370,7 +370,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
     /**
      * Pass data to the Tools panel blocks that is needed it for rendering
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param string $mode
      * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
      */
@@ -397,8 +397,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
     /**
      * Pass data to the Toolbar panel blocks that is needed for rendering
      *
-     * @param \Magento\View\Design\Theme $theme
-     * @param \Magento\View\Design\Theme $editableTheme
+     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\View\Design\ThemeInterface $editableTheme
      * @param string $mode
      * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
      */
@@ -428,7 +428,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
     /**
      * Set to iframe block selected mode and theme
      *
-     * @param \Magento\View\Design\Theme $editableTheme
+     * @param \Magento\View\Design\ThemeInterface $editableTheme
      * @param string $mode
      * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
      */
