@@ -16,24 +16,24 @@ class Handler implements HandlerInterface
     /**
      * @var \Magento\Core\Model\Logger
      */
-    protected $_logger;
+    protected $logger;
 
     /**
      * @var \Magento\Core\Model\Dir
      */
-    protected $_dir;
+    protected $dir;
 
     /**
      * @var bool
      */
-    protected $_isDeveloperMode;
+    protected $isDeveloperMode;
 
     /**
      * Error messages
      *
      * @var array
      */
-    protected $_errorPhrases = array(
+    protected $errorPhrases = array(
         E_ERROR             => 'Error',
         E_WARNING           => 'Warning',
         E_PARSE             => 'Parse Error',
@@ -62,9 +62,9 @@ class Handler implements HandlerInterface
         \Magento\Core\Model\Dir $dir,
         $isDeveloperMode = false
     ) {
-        $this->_logger = $logger;
-        $this->_dir = $dir;
-        $this->_isDeveloperMode = $isDeveloperMode;
+        $this->logger = $logger;
+        $this->dir = $dir;
+        $this->isDeveloperMode = $isDeveloperMode;
     }
 
     /**
@@ -75,7 +75,7 @@ class Handler implements HandlerInterface
      */
     public function processException(\Exception $exception, $skinCode = null)
     {
-        if ($this->_isDeveloperMode) {
+        if ($this->isDeveloperMode) {
             print '<pre>';
             print $exception->getMessage() . "\n\n";
             print $exception->getTraceAsString();
@@ -91,7 +91,7 @@ class Handler implements HandlerInterface
                     $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                 }
             }
-            require_once($this->_dir->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once($this->dir->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
     }
 
@@ -104,10 +104,10 @@ class Handler implements HandlerInterface
     {
         $exception = new \Exception($errorMessage);
         $errorMessage .= $exception->getTraceAsString();
-        if ($this->_isDeveloperMode) {
+        if ($this->isDeveloperMode) {
             throw new \Exception($errorMessage);
         } else {
-            $this->_logger->log($errorMessage, \Zend_Log::ERR);
+            $this->logger->log($errorMessage, \Zend_Log::ERR);
         }
     }
 
@@ -142,8 +142,8 @@ class Handler implements HandlerInterface
                 return true;
             }
         }
-        $errorMessage = isset($this->_errorPhrases[$errorNo])
-            ? $this->_errorPhrases[$errorNo]
+        $errorMessage = isset($this->errorPhrases[$errorNo])
+            ? $this->errorPhrases[$errorNo]
             : "Unknown error ($errorNo)";
         $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
         $this->_processError($errorMessage);

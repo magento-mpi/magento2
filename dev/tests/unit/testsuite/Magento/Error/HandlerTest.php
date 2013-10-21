@@ -14,17 +14,17 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_loggerMock;
+    protected $loggerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dirMock;
+    protected $dirMock;
 
     protected function setUp()
     {
-        $this->_loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $this->_dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(BP), '', true);
+        $this->loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(BP), '', true);
     }
 
     /**
@@ -33,7 +33,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessExceptionPrint()
     {
-        $handler = new \Magento\Error\Handler($this->_loggerMock, $this->_dirMock, true);
+        $handler = new \Magento\Error\Handler($this->loggerMock, $this->dirMock, true);
         $exception = new \Exception('TestMessage');
 
         ob_start();
@@ -49,8 +49,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessExceptionReport()
     {
-        $handler = new \Magento\Error\Handler($this->_loggerMock, $this->_dirMock, false);
-        $this->_dirMock->expects($this->atLeastOnce())
+        $handler = new \Magento\Error\Handler($this->loggerMock, $this->dirMock, false);
+        $this->dirMock->expects($this->atLeastOnce())
             ->method('getDir')
             ->with(\Magento\Core\Model\Dir::PUB)
             ->will($this->returnValue(dirname(__DIR__) . DS . '_files'));
@@ -66,8 +66,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testErrorHandlerLogging()
     {
-        $handler = new \Magento\Error\Handler($this->_loggerMock, $this->_dirMock, false);
-        $this->_loggerMock->expects($this->once())
+        $handler = new \Magento\Error\Handler($this->loggerMock, $this->dirMock, false);
+        $this->loggerMock->expects($this->once())
             ->method('log')
             ->with($this->stringContains('testErrorHandlerLogging'), \Zend_Log::ERR);
         set_error_handler(array($handler, 'handler'));
@@ -88,7 +88,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testErrorHandlerPrint()
     {
-        $handler = new \Magento\Error\Handler($this->_loggerMock, $this->_dirMock, true);
+        $handler = new \Magento\Error\Handler($this->loggerMock, $this->dirMock, true);
         set_error_handler(array($handler, 'handler'));
         try {
             trigger_error('testErrorHandlerPrint', E_USER_NOTICE);
