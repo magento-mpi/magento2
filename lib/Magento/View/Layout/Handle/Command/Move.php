@@ -66,6 +66,10 @@ class Move implements Command
                 if (isset($element['destination'])) {
                     $alias = isset($element['as']) ? $element['as'] : $elementName;
                     $layout->setChild($element['destination'], $elementName, $alias);
+
+                    list($siblingName, $isAfter) = $this->beforeAfterToSibling($element);
+
+                    $layout->reorderChild($element['destination'], $elementName, $siblingName, $isAfter);
                 }
             }
         }
@@ -74,5 +78,23 @@ class Move implements Command
         $layout->unsetChild($parentName, $alias);
 
         return $this;
+    }
+
+    /**
+     * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
+     *
+     * @param array $element
+     * @return array
+     */
+    protected function beforeAfterToSibling($element)
+    {
+        $result = array(null, true);
+        if (isset($element['after'])) {
+            $result[0] = (string)$element['after'];
+        } elseif (isset($element['before'])) {
+            $result[0] = (string)$element['before'];
+            $result[1] = false;
+        }
+        return $result;
     }
 }

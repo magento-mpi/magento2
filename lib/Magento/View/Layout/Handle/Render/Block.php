@@ -34,6 +34,8 @@ class Block implements Render
      */
     protected $blockPool;
 
+    protected $inc = 0;
+
     /**
      * @param HandleFactory $handleFactory
      * @param BlockPool $blockPool
@@ -55,6 +57,7 @@ class Block implements Render
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
+        $elementName = $elementName ?: ('Block-' . $this->inc++);
         if (!empty($elementName)) {
             $arguments = $element = array();
             foreach ($layoutElement->attributes() as $attributeName => $attribute) {

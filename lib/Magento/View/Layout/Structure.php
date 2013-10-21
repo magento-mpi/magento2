@@ -330,6 +330,10 @@ class Structure
 
         $this->insertChild($parentId, $childId, $alias, $offset);
 
+        if ('authorization-link' == $childId) {
+            var_dump($this->getElement($parentId));dd();
+        }
+
         return $this->getChildOffset($parentId, $childId) + 1;
     }
 
