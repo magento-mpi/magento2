@@ -1,3 +1,4 @@
+* Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
 * Various improvements:
   * Added static integrity test for compilation of DI definitions
