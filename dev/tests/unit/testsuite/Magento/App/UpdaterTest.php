@@ -5,46 +5,46 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Db;
+namespace Magento\App;
 
 class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appStateMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceResolver;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceSetupMock;
 
     /**
-     * @var \Magento\Core\Model\Db\Updater
+     * @var \Magento\App\Updater
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento\Core\Model\Resource\SetupFactory', array(), array(), '', false);
-        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
-        $this->_resourceResolver = $this->getMock('Magento\Core\Model\Module\ResourceResolverInterface');
-        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
+        $this->_factoryMock = $this->getMock('Magento\App\Updater\SetupFactory', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
+        $this->_resourceResolver = $this->getMock('Magento\App\Module\ResourceResolverInterface');
         $this->_resourceSetupMock = $this->getMock('Magento\Catalog\Model\Resource\Setup', array(), array(), '', false);
 
         $moduleList = array('Test_Module' => array());
@@ -58,21 +58,16 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             ->with('Test_Module')
             ->will($this->returnValue($resourceList));
 
-        $createData = array(
-            'resourceName' => 'catalog_setup',
-            'moduleName' => 'Test_Module',
-        );
         $this->_factoryMock->expects($this->any())
             ->method('create')
-            ->with('Magento\Catalog\Model\Resource\Setup', $createData)
+            ->with('catalog_setup', 'Test_Module')
             ->will($this->returnValue($this->_resourceSetupMock));
 
-        $this->_model = new \Magento\Core\Model\Db\Updater(
+        $this->_model = new \Magento\App\Updater(
             $this->_factoryMock,
             $this->_appStateMock,
             $this->_moduleListMock,
             $this->_resourceResolver,
-            array('catalog_setup' => 'Magento\Catalog\Model\Resource\Setup'),
             true
         );
     }
