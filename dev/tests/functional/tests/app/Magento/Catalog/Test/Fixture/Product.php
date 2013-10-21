@@ -118,11 +118,22 @@ class Product extends DataFixture
     }
 
     /**
+     * Get product id
+     *
+     * @return string
+     */
+    public function getProductId()
+    {
+        return $this->getData('fields/id/value');
+    }
+
+    /**
      * Create product
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateProduct($this);
+        $id = Factory::getApp()->magentoCatalogCreateProduct($this);
+        $this->_data['fields']['id']['value'] = $id;
 
         return $this;
     }
