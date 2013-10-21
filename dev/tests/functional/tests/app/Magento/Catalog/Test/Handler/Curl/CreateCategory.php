@@ -27,36 +27,58 @@ use Mtf\System\Config;
  */
 class CreateCategory extends Curl
 {
+
     /**
-     * Post request for creating category
+     * @var array
+     */
+    protected $_substitution = array(
+        'general[path]' => '2',
+        'general[store]' => '0',
+        'general[is_active]' => array('Yes' => 1, 'No' => 0),
+        'general[include_in_menu]' => array('Yes' => 1, 'No' => 0)
+    );
+
+    /**
+     * Returns transformed data
+     *
+     * @param Fixture $fixture
+     * @return mixed
+     */
+    protected function _prepareData(Fixture $fixture)
+    {
+        $sub = array(
+            'use_config[available_sort_by]' => '1',
+            'use_config[default_sort_by]' => '1'
+        );
+
+        $params = $fixture->getPostParams();
+        foreach ($params as $key => $value) {
+            if (array_key_exists($key, $this->_substitution) && array_key_exists($value, $this->_substitution[$key])) {
+                $params[$key] = $this->_substitution[$key][$value];
+            }
+        }
+        $params['general[path]'] = $this->_substitution['general[path]'];
+        $params['general[store]'] = $this->_substitution['general[store]'];
+        $params = array_merge($params, $sub);
+        return $params;
+    }
+
+    /**
+     * Create attribute
      *
      * @param Fixture $fixture [optional]
      * @return mixed|string
      */
     public function execute(Fixture $fixture = null)
     {
-        $config = $fixture->getDataConfig();
-
-        $requestParams = isset($config['request_params']) ? $config['request_params'] : array();
-        $params = '';
-        foreach ($requestParams as $key => $value) {
-            $params .= $key . '/' . $value . '/';
-        }
-
-        $data = $fixture->getData('fields');
-        $fields = array();
-        foreach ($data as $key => $field) {
-            $fields[$key] = $field['value'];
-        }
-
-        $url = $_ENV['app_backend_url'] . 'admin/catalog_category/save/' . $params;
-
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
+        $url = $_ENV['app_backend_url']
+            . 'admin/catalog_category/save/'
+            . $fixture->getUrlParams('request_params');
+        $params = $this->_prepareData($fixture);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
         $response = $curl->read();
         $curl->close();
-
         return $response;
     }
 }
- 
