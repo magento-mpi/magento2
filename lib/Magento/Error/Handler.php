@@ -8,8 +8,6 @@
 
 /**
  * Default Error Handler
- *
- * @package Magento\Error
  */
 namespace Magento\Error;
 
