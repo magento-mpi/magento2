@@ -44,9 +44,9 @@
                 <argument name="file" xsi:type="string">js/theme.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="js-selectivizr-min-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-selectivizr-js">
             <arguments>
-                <argument name="file" xsi:type="string">js/selectivizr-min.js</argument>
+                <argument name="file" xsi:type="string">js/selectivizr.js</argument>
                 <argument name="properties" xsi:type="array">
                     <item name="attributes" xsi:type="string"/>
                     <item name="ie_condition" xsi:type="string">lt IE 9</item>
