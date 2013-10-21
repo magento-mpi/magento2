@@ -22,9 +22,10 @@ use Magento\ObjectManager;
 use Magento\Simplexml;
 
 use Magento\Core\Block\AbstractBlock;
-use Magento\View\Design;
+use Magento\View\DesignInterface;
+use Magento\View\LayoutInterface;
 
-class DefaultLayout extends Simplexml\Config implements Layout
+class DefaultLayout extends Simplexml\Config implements LayoutInterface
 {
     static protected $inc = 0;
 
@@ -61,7 +62,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
     protected $processorFactory;
 
     /**
-     * @var Design
+     * @var DesignInterface
      */
     protected $design;
 
@@ -105,8 +106,18 @@ class DefaultLayout extends Simplexml\Config implements Layout
      */
     protected $messages;
 
+    /**
+     * @param DesignInterface $design
+     * @param ThemeFactory $themeFactory
+     * @param Context $context
+     * @param HandleFactory $handleFactory
+     * @param ProcessorFactory $processorFactory
+     * @param Structure $structure
+     * @param BlockPool $blockPool
+     * @param DataSourcePool $dataSourcePool
+     */
     public function __construct(
-        Design $design,
+        DesignInterface $design,
         ThemeFactory $themeFactory,
         Context $context,
         HandleFactory $handleFactory,
@@ -143,7 +154,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
      * Retrieve instance of a theme currently used in an area
      *
      * @param string $area
-     * @return \Magento\View\Design\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     protected function getThemeInstance($area)
     {

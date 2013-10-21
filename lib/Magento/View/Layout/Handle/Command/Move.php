@@ -8,7 +8,7 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Context;
+//use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;

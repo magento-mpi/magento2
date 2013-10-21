@@ -11,7 +11,7 @@
 namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\Source;
-use Magento\View\Design\Theme;
+use Magento\View\Design\ThemeInterface;
 use Magento\Core\Model\Dir;
 use Magento\Filesystem;
 use Magento\View\Layout\File\FileList\Factory;
@@ -69,7 +69,7 @@ class Aggregated implements Source
      *
      * {@inheritdoc}
      */
-    public function getFiles(Theme $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
         $list = $this->fileListFactory->create();
         $list->add($this->baseFiles->getFiles($theme, $filePath));

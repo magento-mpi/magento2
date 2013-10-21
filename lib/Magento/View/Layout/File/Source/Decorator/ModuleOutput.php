@@ -13,7 +13,7 @@ namespace Magento\View\Layout\File\Source\Decorator;
 use Magento\View\Layout\File\Source;
 use Magento\View\Layout\File;
 use Magento\Core\Model\ModuleManager;
-use Magento\View\Design\Theme;
+use Magento\View\Design\ThemeInterface;
 
 class ModuleOutput implements Source
 {
@@ -44,7 +44,7 @@ class ModuleOutput implements Source
      *
      * {@inheritdoc}
      */
-    public function getFiles(Theme $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
         $result = array();
         foreach ($this->subject->getFiles($theme, $filePath) as $file) {

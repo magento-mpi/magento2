@@ -28,7 +28,7 @@ use Magento\Core\Model\UrlInterface;
 use Magento\Core\Model\CacheInterface as Cache;
 use Magento\Core\Model\Cache\StateInterface as CacheState;
 
-use Magento\View\Design;
+use Magento\View\DesignInterface;
 
 /**
  * @todo Reduce fields number
@@ -127,7 +127,7 @@ class Context
      * @param UrlInterface $urlBuilder
      * @param Translate $translator
      * @param Cache $cache
-     * @param Design $design
+     * @param DesignInterface $design
      * @param AbstractSession $session
      * @param StoreConfig $storeConfig
      * @param Front $frontController
@@ -148,7 +148,7 @@ class Context
         UrlInterface $urlBuilder,
         Translate $translator,
         Cache $cache,
-        Design $design,
+        DesignInterface $design,
         AbstractSession $session,
         StoreConfig $storeConfig,
         Front $frontController,
@@ -219,7 +219,7 @@ class Context
     }
 
     /**
-     * @return \Magento\View\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {

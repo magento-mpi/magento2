@@ -10,7 +10,7 @@
 
 namespace Magento\View\Layout;
 
-use Magento\View\Design\Theme;
+use Magento\View\Design\ThemeInterface;
 
 class File
 {
@@ -25,16 +25,16 @@ class File
     private $module;
 
     /**
-     * @var Theme
+     * @var ThemeInterface
      */
     private $theme;
 
     /**
      * @param string $filename
      * @param string $module
-     * @param Theme $theme
+     * @param ThemeInterface $theme
      */
-    public function __construct($filename, $module, Theme $theme = null)
+    public function __construct($filename, $module, ThemeInterface $theme = null)
     {
         $this->filename = $filename;
         $this->module = $module;
@@ -74,7 +74,7 @@ class File
     /**
      * Retrieve instance of a theme a file belongs to
      *
-     * @return Theme|null
+     * @return ThemeInterface|null
      */
     public function getTheme()
     {
