@@ -33,7 +33,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
     public function testSetThemeId()
     {
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
         $this->_model->setThemeId($theme->getId());

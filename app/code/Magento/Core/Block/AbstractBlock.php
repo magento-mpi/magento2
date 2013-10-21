@@ -21,7 +21,7 @@
  */
 namespace Magento\Core\Block;
 
-use Magento\View\Element\Block;
+use Magento\View\Element\BlockInterface;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -29,10 +29,10 @@ use Magento\View\Element\Block;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class AbstractBlock extends \Magento\Object implements Block
+abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 {
     /**
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -123,7 +123,7 @@ abstract class AbstractBlock extends \Magento\Object implements Block
     /**
      * View config model
      *
-     * @var \Magento\View\Config
+     * @var \Magento\View\ConfigInterface
      */
     protected $_viewConfig;
 

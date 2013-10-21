@@ -11,7 +11,7 @@
 /**
  * Block that renders JS tab
  *
- * @method \Magento\View\Design\Theme getTheme()
+ * @method \Magento\View\Design\ThemeInterface getTheme()
  * @method setTheme($theme)
  *
  */

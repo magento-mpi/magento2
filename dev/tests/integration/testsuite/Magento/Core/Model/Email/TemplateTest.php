@@ -38,7 +38,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->create('Magento\Filesystem'),
                 $objectManager->create('Magento\Core\Model\View\Url'),
                 $objectManager->create('Magento\Core\Model\View\FileSystem'),
-                $objectManager->get('Magento\View\Design'),
+                $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->create('Magento\Core\Model\Store\Config'),
                 $objectManager->create('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
@@ -114,7 +114,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function _setBlankThemeForFixtureStore()
     {
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\Theme');
+            ->create('Magento\View\Design\ThemeInterface');
         $theme->load('magento_blank', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore('fixturestore')->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $theme->getId());

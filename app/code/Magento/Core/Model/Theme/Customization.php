@@ -43,12 +43,12 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
     /**
      * @param \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory
      * @param \Magento\Core\Model\Theme\Customization\Path $customizationPath
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      */
     public function __construct(
         \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory,
         \Magento\Core\Model\Theme\Customization\Path $customizationPath,
-        \Magento\View\Design\Theme $theme = null
+        \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_customizationPath = $customizationPath;

@@ -15,7 +15,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     public function testCartLayout()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDesignTheme('magento_fixed_width');
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
         $layout->getUpdate()->addHandle('checkout_cart_index');

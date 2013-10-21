@@ -265,7 +265,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return \Magento\View\Design::DEFAULT_AREA;
+            return \Magento\View\DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }

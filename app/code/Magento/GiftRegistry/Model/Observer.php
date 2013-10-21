@@ -51,13 +51,13 @@ class Observer
     /**
      * Design package instance
      *
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -65,7 +65,7 @@ class Observer
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,

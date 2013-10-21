@@ -14,7 +14,7 @@ namespace Magento\View\Element;
 /**
  * @package Magento\View
  */
-interface Block
+interface BlockInterface
 {
     /**
      * Produce and return block's html output

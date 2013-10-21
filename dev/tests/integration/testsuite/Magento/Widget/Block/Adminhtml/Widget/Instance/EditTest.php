@@ -24,7 +24,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $type = 'Magento\Catalog\Block\Product\Widget\NewWidget';
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
 

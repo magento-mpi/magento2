@@ -11,8 +11,8 @@
 /**
  * Design editor theme
  *
- * @method \Magento\DesignEditor\Block\Adminhtml\Theme setTheme(\Magento\View\Design\Theme $theme)
- * @method \Magento\View\Design\Theme getTheme()
+ * @method \Magento\DesignEditor\Block\Adminhtml\Theme setTheme(\Magento\View\Design\ThemeInterface $theme)
+ * @method \Magento\View\Design\ThemeInterface getTheme()
  */
 namespace Magento\DesignEditor\Block\Adminhtml;
 

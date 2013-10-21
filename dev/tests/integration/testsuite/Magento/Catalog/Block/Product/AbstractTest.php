@@ -49,7 +49,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             self::$_isStubClass = true;
         }
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock(self::STUB_CLASS);

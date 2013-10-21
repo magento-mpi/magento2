@@ -123,7 +123,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Construct
      *
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -138,7 +138,7 @@ class Queue extends \Magento\Core\Model\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,

@@ -32,9 +32,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
-             * @param \Magento\View\Design\Theme $theme
+             * @param \Magento\View\Design\ThemeInterface $theme
              */
-            function (\Magento\View\Design\Theme $theme) {
+            function (\Magento\View\Design\ThemeInterface $theme) {
                 $xml = $this->_composeXml($theme);
 
                 /**
@@ -70,10 +70,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     /**
      * Composes full layout xml for designated parameters
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\View\Layout\Element
      */
-    protected function _composeXml(\Magento\View\Design\Theme $theme)
+    protected function _composeXml(\Magento\View\Design\ThemeInterface $theme)
     {
         /** @var \Magento\View\Layout\Processor $layoutUpdate */
         $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -125,8 +125,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $result = array();
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\Theme')->getCollection();
-        /** @var $theme \Magento\View\Design\Theme */
+            ->create('Magento\View\Design\ThemeInterface')->getCollection();
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             $result[] = array($theme);
         }
@@ -138,9 +138,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
-             * @param \Magento\View\Design\Theme $theme
+             * @param \Magento\View\Design\ThemeInterface $theme
              */
-            function (\Magento\View\Design\Theme $theme) {
+            function (\Magento\View\Design\ThemeInterface $theme) {
                 $xml = $this->_composeXml($theme);
 
                 $xpath = '/layouts/*['
@@ -204,7 +204,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $themeCollection->addDefaultPattern('*');
         /** @var $themeLayouts \Magento\Core\Model\Layout\File[] */
         $themeLayouts = array();
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             $themeLayouts = array_merge($themeLayouts, $themeUpdates->getFiles($theme));
             $themeLayouts = array_merge($themeLayouts, $themeUpdatesOverride->getFiles($theme));
@@ -224,7 +224,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
              * Check, that for an overriding file ($themeFile) in a theme ($theme), there is a corresponding base file
              *
              * @param \Magento\Core\Model\Layout\File $themeFile
-             * @param \Magento\View\Design\Theme $theme
+             * @param \Magento\View\Design\ThemeInterface $theme
              */
             function ($themeFile, $theme) {
                 $baseFiles = self::_getCachedFiles(
@@ -250,7 +250,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
              * there is a corresponding file in that ancestor theme
              *
              * @param \Magento\Core\Model\Layout\File $themeFile
-             * @param \Magento\View\Design\Theme $theme
+             * @param \Magento\View\Design\ThemeInterface $theme
              */
             function ($themeFile, $theme) {
                 // Find an ancestor theme, where a file is to be overridden
@@ -288,10 +288,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $cacheKey
      * @param string $sourceClass
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\Core\Model\Layout\File[]
      */
-    protected static function _getCachedFiles($cacheKey, $sourceClass, \Magento\View\Design\Theme $theme)
+    protected static function _getCachedFiles($cacheKey, $sourceClass, \Magento\View\Design\ThemeInterface $theme)
     {
         if (!isset(self::$_cachedFiles[$cacheKey])) {
             /* @var $fileList \Magento\Core\Model\Layout\File[] */
@@ -342,7 +342,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Theme\Collection');
         $themeCollection->addDefaultPattern('*');
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             foreach ($filesRetriever->getFiles($theme) as $file) {
                 $result[] = array($file, $theme);

@@ -23,7 +23,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 

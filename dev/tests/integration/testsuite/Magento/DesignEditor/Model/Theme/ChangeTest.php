@@ -36,9 +36,9 @@ class ChangeTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getChangeValidData()
     {
-        /** @var $theme \Magento\View\Design\Theme */
-        /** @var $themeModel \Magento\View\Design\Theme */
-        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Design\Theme');
+        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $themeModel \Magento\View\Design\ThemeInterface */
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Design\ThemeInterface');
         $themeModel = $theme->getCollection()->getFirstItem();
 
         return array(

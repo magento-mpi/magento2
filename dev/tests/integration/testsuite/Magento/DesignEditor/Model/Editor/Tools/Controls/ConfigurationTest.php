@@ -19,7 +19,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     protected $_configFactory;
 
     /**
-     * @var \Magento\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -29,9 +29,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\Design'
+            'Magento\View\DesignInterface'
         );
-        $this->_design->setDesignTheme('vendor_test_child', \Magento\View\Design::DEFAULT_AREA);
+        $this->_design->setDesignTheme('vendor_test_child', \Magento\View\DesignInterface::DEFAULT_AREA);
         $this->_configFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\DesignEditor\Model\Editor\Tools\Controls\Factory'
         );
@@ -47,7 +47,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
         $designTheme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $designTheme);
         $this->assertEquals($controlData, $configuration->getControlData($controlName));
@@ -120,7 +120,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $type = \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_QUICK_STYLES;
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design')
+            ->get('Magento\View\DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $theme);
         $configuration->saveData($saveData);

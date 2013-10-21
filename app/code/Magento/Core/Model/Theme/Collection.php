@@ -172,11 +172,11 @@ class Collection extends \Magento\Data\Collection
     protected function _updateRelations()
     {
         $themeItems = $this->getItems();
-        /** @var $theme \Magento\Object|\Magento\View\Design\Theme */
+        /** @var $theme \Magento\Object|\Magento\View\Design\ThemeInterface */
         foreach ($themeItems as $theme) {
             $parentThemePath = $theme->getData('parent_theme_path');
             if ($parentThemePath) {
-                $themePath = $theme->getArea() . \Magento\View\Design\Theme::PATH_SEPARATOR . $parentThemePath;
+                $themePath = $theme->getArea() . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $parentThemePath;
                 if (isset($themeItems[$themePath])) {
                     $theme->setParentTheme($themeItems[$themePath]);
                 }
@@ -261,7 +261,7 @@ class Collection extends \Magento\Data\Collection
     protected function _renderFilters()
     {
         $filters = $this->getFilter(array());
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($this->getItems() as $itemKey => $theme) {
             $removeItem = false;
             foreach ($filters as $filter) {
@@ -324,10 +324,10 @@ class Collection extends \Magento\Data\Collection
     /**
      * Checks that a theme present in filesystem collection
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return bool
      */
-    public function hasTheme(\Magento\View\Design\Theme $theme)
+    public function hasTheme(\Magento\View\Design\ThemeInterface $theme)
     {
         $themeItems = $this->getItems();
         return $theme->getThemePath() && isset($themeItems[$theme->getFullPath()]);

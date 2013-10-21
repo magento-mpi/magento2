@@ -105,7 +105,7 @@ class Merge implements  \Magento\View\Layout\Processor
     /**
      * Init merge model
      *
-     * @param \Magento\View\Design $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
@@ -113,10 +113,10 @@ class Merge implements  \Magento\View\Layout\Processor
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\View\Design\Theme $theme Non-injectable theme instance
+     * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
-        \Magento\View\Design $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
@@ -124,7 +124,7 @@ class Merge implements  \Magento\View\Layout\Processor
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
         \Magento\Core\Model\Logger $logger,
-        \Magento\View\Design\Theme $theme = null
+        \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
         $this->_store = $storeManager->getStore();
@@ -654,11 +654,11 @@ class Merge implements  \Magento\View\Layout\Processor
     /**
      * Find the closest physical theme among ancestors and a theme itself
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\Core\Model\Theme
      * @throws \Magento\Exception
      */
-    protected function _getPhysicalTheme(\Magento\View\Design\Theme $theme)
+    protected function _getPhysicalTheme(\Magento\View\Design\ThemeInterface $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {

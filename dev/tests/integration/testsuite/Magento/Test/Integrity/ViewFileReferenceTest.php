@@ -70,10 +70,10 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     /**
      * Return array of locales, supported by the theme
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return array
      */
-    static protected function _getThemeLocales(\Magento\View\Design\Theme $theme)
+    static protected function _getThemeLocales(\Magento\View\Design\ThemeInterface $theme)
     {
         $result = array();
         $patternDir = self::_getLocalePatternDir($theme);
@@ -90,11 +90,11 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     /**
      * Return pattern for theme locale directories, where <locale_placeholder> is placed to mark a locale's location.
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return string
      * @throws \Exception
      */
-    static protected function _getLocalePatternDir(\Magento\View\Design\Theme $theme)
+    static protected function _getLocalePatternDir(\Magento\View\Design\ThemeInterface $theme)
     {
         $localePlaceholder = '<locale_placeholder>';
         $params = array(
@@ -150,11 +150,11 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     /**
      * Resolves file to find its fallback'ed paths
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param string $file
      * @return array
      */
-    protected function _getFileResolutions(\Magento\View\Design\Theme $theme, $file)
+    protected function _getFileResolutions(\Magento\View\Design\ThemeInterface $theme, $file)
     {
         $found = array();
         $fileResolved = self::$_fallback->getFile($theme->getArea(), $theme, $file);

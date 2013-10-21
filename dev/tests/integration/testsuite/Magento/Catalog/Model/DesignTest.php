@@ -34,7 +34,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->applyCustomDesign($theme);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Design');
+            ->get('Magento\View\DesignInterface');
         $this->assertEquals('package', $design->getDesignTheme()->getPackageCode());
         $this->assertEquals('theme', $design->getDesignTheme()->getThemeCode());
     }
@@ -45,7 +45,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function getThemeModel()
     {
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\Theme');
+            ->create('Magento\View\Design\ThemeInterface');
         $theme->setData($this->_getThemeData());
         return array(array($theme));
     }

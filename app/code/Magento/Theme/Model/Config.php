@@ -74,7 +74,7 @@ class Config
     /**
      * Assign theme to the stores
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param array $stores
      * @param string $scope
      * @return $this

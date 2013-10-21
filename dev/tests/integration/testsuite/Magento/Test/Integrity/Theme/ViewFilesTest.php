@@ -118,14 +118,14 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 
         // Find files, declared in views
         $files = array();
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themes as $theme) {
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 
         // Populate data provider in correspondence of themes to view files
         $result = array();
-        /** @var $theme \Magento\View\Design\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themes as $theme) {
             if (!isset($files[$theme->getId()])) {
                 continue;
@@ -140,7 +140,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     /**
      * Collect getViewUrl() from theme templates
      *
-     * @param \Magento\View\Design\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param array &$files
      */
     protected function _collectGetViewUrlInvokes($theme, &$files)
