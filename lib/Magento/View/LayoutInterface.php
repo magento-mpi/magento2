@@ -8,8 +8,6 @@
 
 namespace Magento\View;
 
-use Magento\Backend\Block\Widget\Form\Element;
-
 interface LayoutInterface
 {
     /**
@@ -82,7 +80,7 @@ interface LayoutInterface
      * Get block object by name
      *
      * @param string $name
-     * @return Element\Block|bool
+     * @return Element\BlockInterface|bool
      */
     public function getBlock($name);
 
@@ -187,18 +185,18 @@ interface LayoutInterface
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return Element\Block
+     * @return Element\BlockInterface
      */
     public function createBlock($type, $name = '', array $attributes = array());
 
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|Element\Block $block
+     * @param string|Element\BlockInterface $block
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return Element\Block
+     * @return Element\BlockInterface
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '');
 
@@ -249,7 +247,7 @@ interface LayoutInterface
      * Get block singleton
      *
      * @param string $type
-     * @return Element\Block
+     * @return Element\BlockInterface
      */
     public function getBlockSingleton($type);
 
@@ -327,7 +325,7 @@ interface LayoutInterface
      * Save block in blocks registry
      *
      * @param string $name
-     * @param  Element\Block $block
+     * @param  Element\BlockInterface $block
      * @return LayoutInterface
      */
     public function setBlock($name, $block);
