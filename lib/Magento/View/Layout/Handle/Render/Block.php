@@ -117,7 +117,7 @@ class Block implements Render
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+            foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);

@@ -302,7 +302,7 @@ class Structure
     {
         $parentInternalId = $this->assertElementExists($parentId);
 
-        $alias = $this->getChildAlias($parentId, $childId);var_dump($alias);
+        $alias = $this->getChildAlias($parentId, $childId);
         $currentOffset = $this->getChildOffset($parentId, $childId);
         $offset = $position;
         if ($position > 0) {
@@ -392,6 +392,8 @@ class Structure
     {
         $parentInternalId = $this->assertElementExists($parentId);
         $result = null;
+
+
         if (isset($this->elements[$parentInternalId][self::CHILDREN])) {
             foreach ($this->elements[$parentInternalId][self::CHILDREN] as $child) {
                 if ($child[self::ATTRIBUTE_ALIAS] === $alias) {

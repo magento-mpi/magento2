@@ -113,7 +113,7 @@ class Template implements Render
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+            foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
@@ -136,9 +136,12 @@ class Template implements Render
         $render = $this->renderFactory->get($type);
         $elementName = $element['name'];
 
-        $inheritedData = $layout->getElementDataSources($parentName);
+        $data = array();
+        if (isset($parentName)) {
+            $data = $layout->getElementDataSources($parentName);
+        }
         $ownData = $layout->getElementDataSources($elementName);
-        $data = array_merge($inheritedData, $ownData);
+        $data = array_merge($data, $ownData);
 
         // TODO probably prepare limited proxy to avoid violations
         $data['layout'] = $layout;

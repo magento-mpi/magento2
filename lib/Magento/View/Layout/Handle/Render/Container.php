@@ -109,7 +109,7 @@ class Container implements Render
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+            foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
@@ -133,12 +133,13 @@ class Container implements Render
 
         if (isset($element['name'])) {
             $elementName = $element['name'];
-            foreach ($layout->getChildNames($elementName) as $childName => $alias) {
+
+            foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
                 if ($handle instanceof Render) {
-                    $result .= $handle->render($child, $layout, $parentName, $type);
+                    $result .= $handle->render($child, $layout, $elementName, $type);
                 }
             }
         }

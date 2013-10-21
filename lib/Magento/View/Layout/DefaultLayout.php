@@ -396,7 +396,7 @@ class DefaultLayout extends Simplexml\Config implements Layout
      */
     public function getChildNames($parentName)
     {
-        return $this->structure->getChildren($parentName);
+        return array_keys($this->structure->getChildren($parentName));
     }
 
     /**
@@ -522,8 +522,8 @@ class DefaultLayout extends Simplexml\Config implements Layout
     public function addBlock($block, $name = '', $parent = '', $alias = '')
     {
         $block = $this->createBlock($block, $name);
-        if ($block && !empty($parentName)) {
-            $this->structure->setAsChild($parent, $name, $alias);
+        if ($block && !empty($parent)) {
+            $this->structure->setAsChild($name, $parent, $alias);
         }
 
         return $block;

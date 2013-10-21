@@ -22,7 +22,7 @@ class Remove implements Command
      */
     const TYPE = 'remove';
 
-    private static $inc = 0;
+    private $inc = 0;
 
     /**
      * @param Element $layoutElement
@@ -39,7 +39,7 @@ class Remove implements Command
             }
         }
         $element['type'] = self::TYPE;
-        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . self::$inc++);
+        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
 
         $layout->addElement($elementName, $element);
 

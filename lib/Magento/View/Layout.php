@@ -189,7 +189,6 @@ interface Layout
      * @param  string $name
      * @param  array $attributes
      * @return \Magento\Core\Block\AbstractBlock
-     * @todo DELETE (use viewFactory)
      */
     public function createBlock($type, $name = '', array $attributes = array());
 
@@ -201,7 +200,6 @@ interface Layout
      * @param string $parent
      * @param string $alias
      * @return \Magento\Core\Block\AbstractBlock
-     * @todo DELETE (use viewFactory and addElement instead)
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '');
 
@@ -213,7 +211,6 @@ interface Layout
      * @param array $options
      * @param string $parent
      * @param string $alias
-     * @todo DELETE (use viewFactory and addElement instead)
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '');
 
@@ -223,7 +220,6 @@ interface Layout
      * @param string $oldName
      * @param string $newName
      * @return bool
-     * @todo DELETE (used mostly in setNameInLayout)
      */
     public function renameElement($oldName, $newName);
 
@@ -232,7 +228,6 @@ interface Layout
      *
      * @param string $name
      * @return bool|string
-     * @todo DELETE
      */
     public function getElementAlias($name);
 
@@ -241,7 +236,6 @@ interface Layout
      *
      * @param string $name
      * @return \Magento\View\Layout
-     * @todo DELETE
      */
     public function removeOutputElement($name);
 
@@ -249,7 +243,6 @@ interface Layout
      * Retrieve messages block
      *
      * @return \Magento\Core\Block\Messages
-     * @todo DELETE use whatever instead
      */
     public function getMessagesBlock();
 
@@ -259,7 +252,6 @@ interface Layout
      * @param string $type
      * @throws \Magento\Core\Exception
      * @return \Magento\Core\Helper\AbstractHelper
-     * @todo DELETE use object manager or view factory
      */
     public function getBlockSingleton($type);
 
@@ -267,7 +259,6 @@ interface Layout
      * Retrieve block factory
      *
      * @return \Magento\Core\Model\BlockFactory
-     * @todo DELETE
      */
     public function getBlockFactory();
 
@@ -275,7 +266,6 @@ interface Layout
      * Retrieve layout area
      *
      * @return string
-     * @todo DELETE
      */
     public function getArea();
 
@@ -284,7 +274,6 @@ interface Layout
      *
      * @param $area
      * @return Layout
-     * @todo DELETE
      */
     public function setArea($area);
 
@@ -293,7 +282,6 @@ interface Layout
      *
      * @param   bool $flag
      * @return  Layout
-     * @todo DELETE
      */
     public function setDirectOutput($flag);
 
@@ -301,7 +289,6 @@ interface Layout
      * Retrieve direct output flag
      *
      * @return bool
-     * @todo DELETE
      */
     public function isDirectOutput();
 
@@ -311,7 +298,6 @@ interface Layout
      * @param string $name
      * @param string $attribute
      * @return mixed
-     * @todo DELETE
      */
     public function getElementProperty($name, $attribute);
 
@@ -320,7 +306,6 @@ interface Layout
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isBlock($name);
 
@@ -329,7 +314,6 @@ interface Layout
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isContainer($name);
 
@@ -338,7 +322,6 @@ interface Layout
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isManipulationAllowed($name);
 
@@ -348,7 +331,6 @@ interface Layout
      * @param string $name
      * @param \Magento\Core\Block\AbstractBlock $block
      * @return Layout
-     * @todo DELETE
      */
     public function setBlock($name, $block);
 }

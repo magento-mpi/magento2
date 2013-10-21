@@ -20,7 +20,7 @@ class Action implements Command
      */
     const TYPE = 'action';
 
-    private static $inc = 0;
+    private $inc = 0;
 
     /**
      * @param Element $layoutElement
@@ -37,7 +37,7 @@ class Action implements Command
             }
         }
         $element['type'] = self::TYPE;
-        $elementName = isset($element['name']) ? $element['name'] : ('Command-Action-' . self::$inc++);
+        $elementName = isset($element['name']) ? $element['name'] : ('Command-Action-' . $this->inc++);
 
         $arguments = array();
         foreach ($layoutElement as $argument) {
