@@ -3,18 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Controller\Varien;
+namespace Magento\App;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class FrontTest extends \PHPUnit_Framework_TestCase
+class FrontControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager
@@ -65,8 +64,10 @@ class FrontTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
         $_SERVER['HTTP_HOST'] = 'localhost';
+        $this->_objectManager->get('Magento\Config\Scope')->setCurrentScope('frontend');
+        $request = $this->_objectManager->create('Magento\App\Request\Http');
         /* empty action */
-        $this->_model->getRequest()->setRequestUri('core/index/index');
+        $request->setRequestUri('core/index/index');
         $this->_model->dispatch($request);
         $this->assertEmpty($this->_model->getResponse()->getBody());
     }
