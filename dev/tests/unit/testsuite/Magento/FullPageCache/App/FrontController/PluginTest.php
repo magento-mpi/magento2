@@ -31,12 +31,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestProcessorMock;
+    protected $_requestProcessor;
 
     protected function setUp()
     {
-        $this->_requestProcessorMock = $this->getMock('\Magento\FullPageCache\Model\RequestProcessorInterface');
-        $requestProcessorsArray = array(
+        $this->_requestProcessor = $this->getMock('\Magento\FullPageCache\Model\RequestProcessorInterface');
+        $requestArray = array(
             'sortOrder' => array('class' => 'name')
         );
 
@@ -46,11 +46,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->_requestFactoryMock =
             $this->getMock('\Magento\FullPageCache\Model\RequestProcessorFactory', array(), array(), '', false);
         $this->_requestFactoryMock
-            ->expects($this->once())->method('create')->will($this->returnValue($this->_requestProcessorMock));
+            ->expects($this->once())->method('create')->will($this->returnValue($this->_requestProcessor));
         $this->_model = new \Magento\FullPageCache\App\FrontController\Plugin(
             $this->_responseFactoryMock,
             $this->_requestFactoryMock,
-            $requestProcessorsArray
+            $requestArray
         );
     }
 
@@ -61,7 +61,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $responseMock = $this->getMock('\Magento\App\ResponseInterface', array('appendBody', 'sendResponse'));
         $this->_responseFactoryMock->expects($this->once())->method('create')->will($this->returnValue($responseMock));
         $arguments = array($requestMock);
-        $this->_requestProcessorMock->expects($this->once())
+        $this->_requestProcessor->expects($this->once())
             ->method('extractContent')->with($requestMock, $responseMock, false)->will($this->returnValue(true));
         $responseMock->expects($this->once())->method('sendResponse');
         $this->assertEquals(null, $this->_model->aroundDispatch($arguments, $this->_invocationChainMock));
@@ -75,7 +75,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $responseMock = $this->getMock('\Magento\App\ResponseInterface', array('appendBody', 'sendResponse'));
         $this->_responseFactoryMock->expects($this->once())->method('create')->will($this->returnValue($responseMock));
         $arguments = array($requestMock);
-        $this->_requestProcessorMock->expects($this->once())
+        $this->_requestProcessor->expects($this->once())
             ->method('extractContent')->with($requestMock, $responseMock, false)->will($this->returnValue(false));
         $responseMock->expects($this->never())->method('sendResponse');
         $this->_invocationChainMock->expects($this->once())->method('proceed')->with($arguments);
