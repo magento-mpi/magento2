@@ -20,7 +20,6 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Class Create Customer and Product tax class.
  * Curl handler for creating customer and product tax class.
  *
  * @package Magento\Adminhtml\Test\Handler\Curl

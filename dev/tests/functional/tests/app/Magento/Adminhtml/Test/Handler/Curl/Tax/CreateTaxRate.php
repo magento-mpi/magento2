@@ -20,7 +20,6 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Class Create Tax Rate.
  * Curl handler for creating Tax Rate
  *
  * @package Magento\Adminhtml\Test\Handler\Curl

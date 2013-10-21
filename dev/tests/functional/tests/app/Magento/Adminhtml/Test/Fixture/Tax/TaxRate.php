@@ -33,6 +33,8 @@ class TaxRate extends DataFixture
 
     /**
      * Create tax rate
+     *
+     * @return TaxRate
      */
     public function persist()
     {
@@ -41,33 +43,31 @@ class TaxRate extends DataFixture
         return $this;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
-     * {inheritdoc}
+     * Init data
      */
     protected function _initData()
     {
         $this->_repository = array(
-            'tax_rate'          => array(
+            'tax_rate' => array(
                 'config' => array(
                     'constraint' => 'Success'
                 ),
                 'data' => array(
                     'fields' => array(
-                        'code'   => array(
+                        'code' => array(
                             'value' => 'Tax Rate %isolation%'
                         ),
-                        'rate'    => array(
+                        'rate' => array(
                             'value' => '10'
                         ),
-                        'tax_country_id'  => array(
+                        'tax_country_id' => array(
                             'value' => 'US',
                         ),
                         'tax_postcode' => array(
                             'value' => '*'
                         ),
-                        'tax_region_id'    => array(
+                        'tax_region_id' => array(
                             'value' => '0'
                         )
                     )

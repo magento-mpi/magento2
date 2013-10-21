@@ -20,7 +20,6 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Class Create Tax Rule.
  * Curl handler for creating Tax Rule.
  *
  * @package Magento\Adminhtml\Test\Handler\Curl
@@ -36,6 +35,7 @@ class CreateTaxRule extends Curl
     /**
      * Returns data for curl POST params
      *
+     * @param $fixture
      * @return array
      */
     public function PostParams($fixture)

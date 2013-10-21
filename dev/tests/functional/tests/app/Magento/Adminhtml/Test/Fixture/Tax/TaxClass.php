@@ -33,6 +33,8 @@ class TaxClass extends DataFixture
 
     /**
      * Create tax class
+     *
+     * @return TaxClass
      */
     public function persist()
     {
@@ -40,39 +42,37 @@ class TaxClass extends DataFixture
         return $this;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
-     * {inheritdoc}
+     * Init data
      */
     protected function _initData()
     {
         $this->_repository = array(
-            'customer_tax_class'          => array(
+            'customer_tax_class' => array(
                 'config' => array(
                     'constraint' => 'Success'
                 ),
                 'data' => array(
                     'fields' => array(
-                        'class_name'   => array(
+                        'class_name' => array(
                             'value' => 'Customer Tax Class %isolation%'
                         ),
-                        'class_type'    => array(
+                        'class_type' => array(
                             'value' => 'CUSTOMER'
                         )
                     )
                 )
             ),
-            'product_tax_class'          => array(
+            'product_tax_class' => array(
                 'config' => array(
                     'constraint' => 'Success'
                 ),
                 'data' => array(
                     'fields' => array(
-                        'class_name'   => array(
-                            'value' => 'Customer Tax Class %isolation%'
+                        'class_name' => array(
+                            'value' => 'Product Tax Class %isolation%'
                         ),
-                        'class_type'    => array(
+                        'class_type' => array(
                             'value' => 'PRODUCT'
                         )
                     )

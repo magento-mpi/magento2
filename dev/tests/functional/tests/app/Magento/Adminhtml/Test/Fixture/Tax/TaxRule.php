@@ -33,6 +33,8 @@ class TaxRule extends DataFixture
 
     /**
      * Create tax rule
+     *
+     * @return TaxRule
      */
     public function persist()
     {
@@ -41,28 +43,26 @@ class TaxRule extends DataFixture
         return $this;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
-     * {inheritdoc}
+     * Init data
      */
     protected function _initData()
     {
         $this->_repository = array(
-            'tax_rule'          => array(
+            'tax_rule' => array(
                 'config' => array(
                     'constraint' => 'Success'
                 ),
                 'data' => array(
                     'fields' => array(
-                        'code'   => array(
+                        'code' => array(
                             'value' => 'Tax Rule %isolation%'
                         ),
-                        'tax_rate'    => array(
+                        'tax_rate' => array(
                             'value' => '1',
                             'curl' => 'tax_rate[]'
                         ),
-                        'tax_product_class'  => array(
+                        'tax_product_class' => array(
                             'value' => '2',
                             'curl' => 'tax_product_class[]'
                         ),
@@ -70,7 +70,7 @@ class TaxRule extends DataFixture
                             'value' => '3',
                             'curl' => 'tax_customer_class[]'
                         ),
-                        'priority'    => array(
+                        'priority' => array(
                             'value' => '0'
                         ),
                         'position' => array(
