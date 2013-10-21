@@ -26,8 +26,9 @@ use Magento\Core\Model\App\State as AppState;
 use Magento\Core\Model\Session\AbstractSession;
 use Magento\Core\Model\UrlInterface;
 use Magento\Core\Model\CacheInterface as Cache;
-use Magento\Core\Model\View\DesignInterface;
 use Magento\Core\Model\Cache\StateInterface as CacheState;
+
+use Magento\View\Design;
 
 /**
  * @todo Reduce fields number
@@ -64,7 +65,7 @@ class Context
     protected $cache;
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\Core\Model\View\Design
      */
     protected $design;
 
@@ -126,7 +127,7 @@ class Context
      * @param UrlInterface $urlBuilder
      * @param Translate $translator
      * @param Cache $cache
-     * @param DesignInterface $design
+     * @param Design $design
      * @param AbstractSession $session
      * @param StoreConfig $storeConfig
      * @param Front $frontController
@@ -147,7 +148,7 @@ class Context
         UrlInterface $urlBuilder,
         Translate $translator,
         Cache $cache,
-        DesignInterface $design,
+        Design $design,
         AbstractSession $session,
         StoreConfig $storeConfig,
         Front $frontController,
@@ -186,7 +187,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\Core\Model\View\Design
      */
     public function getDesignPackage()
     {
@@ -462,7 +463,7 @@ class Context
     /**
      * Retrieve design theme instance
      *
-     * @return \Magento\Core\Model\Theme
+     * @return Design\Theme
      */
     public function getDesignTheme()
     {
@@ -477,11 +478,11 @@ class Context
     /**
      * Retrieve parent theme instance
      *
-     * @param \Magento\Core\Model\Theme $theme
-     * @return \Magento\Core\Model\Theme
+     * @param Design\Theme $theme
+     * @return Design\Theme
      * @throws \Exception
      */
-    protected function getPhysicalTheme(\Magento\Core\Model\Theme $theme)
+    protected function getPhysicalTheme(Design\Theme $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {

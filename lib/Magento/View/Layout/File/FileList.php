@@ -10,17 +10,19 @@
 
 namespace Magento\View\Layout\File;
 
+use Magento\View\Layout\File;
+
 class FileList
 {
     /**
-     * @var \Magento\View\Layout\File[]
+     * @var File[]
      */
     private $files = array();
 
     /**
      * Retrieve all layout file instances
      *
-     * @return \Magento\View\Layout\File[]
+     * @return File[]
      */
     public function getAll()
     {
@@ -30,7 +32,7 @@ class FileList
     /**
      * Add layout file instances to the list, preventing identity coincidence
      *
-     * @param \Magento\View\Layout\File[] $files
+     * @param File[] $files
      * @throws \LogicException
      */
     public function add(array $files)
@@ -50,7 +52,7 @@ class FileList
     /**
      * Replace already added layout files with specified ones, checking for identity match
      *
-     * @param \Magento\View\Layout\File[] $files
+     * @param File[] $files
      * @throws \LogicException
      */
     public function replace(array $files)
@@ -69,10 +71,10 @@ class FileList
     /**
      * Calculate unique identifier for a layout file
      *
-     * @param \Magento\View\Layout\File $file
+     * @param File $file
      * @return string
      */
-    protected function getFileIdentifier(\Magento\View\Layout\File $file)
+    protected function getFileIdentifier(File $file)
     {
         $theme = ($file->getTheme() ? 'theme:' . $file->getTheme()->getFullPath() : 'base');
         return $theme . '|module:' . $file->getModule() . '|file:' . $file->getName();

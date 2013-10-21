@@ -19,11 +19,12 @@ use Magento\View\Layout\Handle\Render\Block;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Design\ThemeFactory;
 use Magento\ObjectManager;
+use Magento\Simplexml;
 
 use Magento\Core\Block\AbstractBlock;
-use Magento\Core\Model\View\DesignInterface;
+use Magento\View\Design;
 
-class DefaultLayout extends \Magento\Simplexml\Config implements Layout
+class DefaultLayout extends Simplexml\Config implements Layout
 {
     static protected $inc = 0;
 
@@ -60,7 +61,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     protected $processorFactory;
 
     /**
-     * @var DesignInterface
+     * @var Design
      */
     protected $design;
 
@@ -105,7 +106,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     protected $messages;
 
     public function __construct(
-        DesignInterface $design,
+        Design $design,
         ThemeFactory $themeFactory,
         Context $context,
         HandleFactory $handleFactory,
@@ -262,7 +263,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
         if ($element) {
             /** @var $handle \Magento\View\Layout\Handle\Render */
             $handle = $this->handleFactory->get($element['type']);
-            return $handle->render($element, $this);
+            return $handle->render($element, $this, '');
         }
         return '';
     }
@@ -289,7 +290,7 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     {
         /** @var $handle \Magento\View\Layout\Handle\Render */
         $handle = $this->handleFactory->get($this->root['type']);
-        return $handle->render($this->root, $this);
+        return $handle->render($this->root, $this, '');
     }
 
     /**
@@ -512,17 +513,17 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string $class
-     * @param string $elementName
-     * @param string $parentName
+     * @param AbstractBlock|string $block
+     * @param string $name
+     * @param string $parent
      * @param string $alias
      * @return AbstractBlock
      */
-    public function addBlock($class, $elementName, $parentName = '', $alias = '')
+    public function addBlock($block, $name = '', $parent = '', $alias = '')
     {
-        $block = $this->createBlock($class, $elementName);
+        $block = $this->createBlock($block, $name);
         if ($block && !empty($parentName)) {
-            $this->structure->setAsChild($parentName, $elementName, $alias);
+            $this->structure->setAsChild($parent, $name, $alias);
         }
 
         return $block;
@@ -729,6 +730,34 @@ class DefaultLayout extends \Magento\Simplexml\Config implements Layout
     public function getElementProperty($name, $attribute)
     {
         die(__METHOD__);
+    }
+
+    /**
+     * Whether specified element is a block
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isBlock($name)
+    {
+        if ($this->structure->hasElement($name)) {
+            return Element::TYPE_BLOCK === $this->structure->getAttribute($name, 'type');
+        }
+        return false;
+    }
+
+    /**
+     * Checks if element with specified name is container
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isContainer($name)
+    {
+        if ($this->structure->hasElement($name)) {
+            return Element::TYPE_CONTAINER === $this->structure->getAttribute($name, 'type');
+        }
+        return false;
     }
 
     /**
