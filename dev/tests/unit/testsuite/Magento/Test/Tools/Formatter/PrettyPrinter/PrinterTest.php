@@ -127,6 +127,32 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 class Foo {
     function x() {
+        echo 1+1;
+        echo 1 + (2 - 2) * 3;
+
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function x()
+    {
+        echo 1 + 1;
+        echo 1 + (2 - 2) * 3;
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
         echo 'y';
 
         echo 'z';
@@ -214,9 +240,11 @@ class Foo {
 
         // echo 'b';
 
-        echo 'y';
+        echo 'y' . 'e' . 's';
+        echo 'somehing\\n'.(1+2).'more';
 
         echo 'z';
+        echo "My super string \n Is here".(1).'mixed'.\$v;
         // Comment at end of block
     }
 };
@@ -233,9 +261,11 @@ class Foo
 
         // echo 'b';
 
-        echo 'y';
+        echo 'y' . 'e' . 's';
+        echo 'somehing\\n' . (1 + 2) . 'more';
 
         echo 'z';
+        echo "My super string \n Is here" . 1 . 'mixed' . \$v;
     }
 }
 

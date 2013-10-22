@@ -57,6 +57,10 @@ class StatementFactory
      */
     protected function __construct()
     {
+        $this->register('Expr_Concat', ConcatOperator::getType());
+        $this->register('Expr_Plus', PlusOperator::getType());
+        $this->register('Expr_Mul', MultiplyOperator::getType());
+        $this->register('Expr_Minus', MinusOperator::getType());
         $this->register('Stmt_Namespace', NamespaceStatement::getType());
         $this->register('Stmt_Use', UseStatement::getType());
         $this->register('Stmt_UseUse', UseReference::getType());
