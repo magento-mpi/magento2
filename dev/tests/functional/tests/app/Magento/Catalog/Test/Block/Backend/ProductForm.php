@@ -51,6 +51,7 @@ class ProductForm extends FormTabs
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
 
         parent::fill($fixture);
+
         if ($fixture->getCategoryName()) {
             $this->fillCategory($fixture->getCategoryName());
         }
