@@ -13,40 +13,16 @@ namespace Magento\Integration\Controller\Adminhtml;
 class Integration extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_registry = null;
-
-    /**
-     * @param \Magento\Backend\Controller\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     */
-    public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $registry
-    ) {
-        $this->_registry = $registry;
-        parent::__construct($context);
-    }
-
-    /**
      * Integrations grid.
      */
     public function indexAction()
     {
         $this->loadLayout();
-        /*
         $this->_setActiveMenu('Magento_Integration::system_integrations');
-        $this->_addBreadcrumb(
-            __('Extensions'),
-            __('Extensions')
-        );
         $this->_addBreadcrumb(
             __('Integrations'),
             __('Integrations')
-        );*/
+        );
         $this->_title(__('Integrations'));
         $this->renderLayout();
     }

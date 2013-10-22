@@ -17,16 +17,6 @@ class Integration extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected function _construct()
     {
-        /*
-        $this->addData(array(
-            \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'adminhtml_integration',
-            \Magento\Backend\Block\Widget\Grid\Container::PARAM_BLOCK_GROUP => 'Magento_Integration',
-            \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_NEW => __('Add New Integration'),
-            \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => __('Integrations'),
-        ));
-        parent::_construct();
-        $this->_addNewButton();
-        */
         $this->_controller = 'adminhtml_integration';
         $this->_blockGroup = 'Magento_Integration';
         $this->_headerText = __('Integrations');

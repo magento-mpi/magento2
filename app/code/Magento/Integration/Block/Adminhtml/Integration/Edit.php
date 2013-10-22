@@ -15,7 +15,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -38,8 +37,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         parent::_construct();
 
-//        $this->_updateButton('save', 'label', __('Save Integration'));
-//        $this->_updateButton('delete', 'label', __('Delete Integration'));
+        $this->_updateButton('save', 'label', __('Save Integration'));
+        $this->_updateButton('delete', 'label', __('Delete Integration'));
     }
 
     /**
