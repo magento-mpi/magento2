@@ -44,6 +44,19 @@ class Encrypted
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_encryptor'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_encryptor = \Magento\Core\Model\ObjectManager::getInstance()
+            ->get('Magento\Encryption\EncryptionInterface');
+    }
+
     /**
      * Decrypt value after loading
      *
