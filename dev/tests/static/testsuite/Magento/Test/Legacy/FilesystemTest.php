@@ -14,16 +14,21 @@ namespace Magento\Test\Legacy;
 
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Directories may re-appear again during merging, therefore ensure they were properly relocated
-     *
-     * @param string $path
-     * @dataProvider relocationsDataProvider
-     */
-    public function testRelocations($path)
+    public function testRelocations()
     {
-        $this->assertFileNotExists(
-            \Magento\TestFramework\Utility\Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            /**
+             * Directories may re-appear again during merging, therefore ensure they were properly relocated
+             *
+             * @param string $path
+             */
+            function ($path) {
+                $this->assertFileNotExists(
+                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path
+                );
+            },
+            $this->relocationsDataProvider()
         );
     }
 
