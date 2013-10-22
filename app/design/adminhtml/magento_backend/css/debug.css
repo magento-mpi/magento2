@@ -680,7 +680,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .col-1-layout,
 /* catalog */
 .catalog-product-index .col-1-layout,
-.catalog-event-index .col-1-layout,
+.adminhtml-catalog-event-index .col-1-layout,
 .adminhtml-googleshopping-items-index .col-1-layout,
 .catalog-product-attribute-index .col-1-layout,
 .catalog-product-set-index .col-1-layout,
@@ -781,7 +781,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions,
 /* catalog */
 .catalog-product-index .page-actions,
-.catalog-event-index .page-actions,
+.adminhtml-catalog-event-index .page-actions,
 .catalog-product-attribute-index .page-actions,
 .catalog-product-set-index .page-actions,
 .adminhtml-urlrewrite-index .page-actions,
@@ -839,7 +839,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions.fixed,
 /* catalog */
 .catalog-product-index .page-actions.fixed,
-.catalog-event-index .page-actions.fixed,
+.adminhtml-catalog-event-index .page-actions.fixed,
 .catalog-product-attribute-index .page-actions.fixed,
 .catalog-product-set-index .page-actions.fixed,
 .adminhtml-urlrewrite-index .page-actions.fixed,
@@ -896,7 +896,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions .add,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default,
-.catalog-event-index .page-actions .add,
+.adminhtml-catalog-event-index .page-actions .add,
 .catalog-product-attribute-index .page-actions .add,
 .catalog-product-set-index .page-actions .add,
 .adminhtml-urlrewrite-index .page-actions .add,
@@ -966,7 +966,7 @@ th.required:after {
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add,
 /* catalog */
 .eq-ie8 .catalog-product-index .page-actions .btn-round > .action-default,
-.eq-ie8 .catalog-event-index .page-actions .add,
+.eq-ie8 .adminhtml-catalog-event-index .page-actions .add,
 .eq-ie8 .catalog-product-attribute-index .page-actions .add,
 .eq-ie8 .catalog-product-set-index .page-actions .add,
 .eq-ie8 .adminhtml-urlrewrite-index .page-actions .add,
@@ -1020,7 +1020,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions .add:hover,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default:hover,
-.catalog-event-index .page-actions .add:hover,
+.adminhtml-catalog-event-index .page-actions .add:hover,
 .catalog-product-attribute-index .page-actions .add:hover,
 .catalog-product-set-index .page-actions .add:hover,
 .adminhtml-urlrewrite-index .page-actions .add:hover,
@@ -1082,7 +1082,7 @@ th.required:after {
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add:hover,
 /* catalog */
 .eq-ie8 .catalog-product-index .page-actions .btn-round > .action-default:hover,
-.eq-ie8 .catalog-event-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-catalog-event-index .page-actions .add:hover,
 .eq-ie8 .catalog-product-attribute-index .page-actions .add:hover,
 .eq-ie8 .catalog-product-set-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-urlrewrite-index .page-actions .add:hover,
@@ -1136,7 +1136,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions .add:active,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default:active,
-.catalog-event-index .page-actions .add:active,
+.adminhtml-catalog-event-index .page-actions .add:active,
 .catalog-product-attribute-index .page-actions .add:active,
 .catalog-product-set-index .page-actions .add:active,
 .adminhtml-urlrewrite-index .page-actions .add:active,
@@ -1194,7 +1194,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions .add > span,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default > span,
-.catalog-event-index .page-actions .add > span,
+.adminhtml-catalog-event-index .page-actions .add > span,
 .catalog-product-attribute-index .page-actions .add > span,
 .catalog-product-set-index .page-actions .add > span,
 .adminhtml-urlrewrite-index .page-actions .add > span,
@@ -1251,7 +1251,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .page-actions .add > span:before,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default > span:before,
-.catalog-event-index .page-actions .add > span:before,
+.adminhtml-catalog-event-index .page-actions .add > span:before,
 .catalog-product-attribute-index .page-actions .add > span:before,
 .catalog-product-set-index .page-actions .add > span:before,
 .adminhtml-urlrewrite-index .page-actions .add > span:before,
@@ -1417,7 +1417,7 @@ th.required:after {
 .adminhtml-checkout-agreement-index .grid-actions,
 /* catalog */
 .catalog-product-index .grid-actions,
-.catalog-event-index .grid-actions,
+.adminhtml-catalog-event-index .grid-actions,
 .catalog-product-attribute-index .grid-actions,
 .catalog-product-set-index .grid-actions,
 .adminhtml-urlrewrite-index .grid-actions,
