@@ -430,8 +430,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_start', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+        $date = $this->_locale->utcDate($store, $value, true, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_start', $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -445,8 +445,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_end', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+        $date = $this->_locale->utcDate($store, $value, true, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_end', $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -466,7 +466,7 @@ class Event extends \Magento\Core\Model\AbstractModel
                 return null;
             }
             $date = $this->_locale->storeDate($store, $value, true);
-            return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_start');
@@ -488,7 +488,7 @@ class Event extends \Magento\Core\Model\AbstractModel
                 return null;
             }
             $date = $this->_locale->storeDate($store, $value, true);
-            return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_end');

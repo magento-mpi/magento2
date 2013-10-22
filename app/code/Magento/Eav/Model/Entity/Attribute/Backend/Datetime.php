@@ -93,6 +93,6 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
                 false
             );
         }
-        return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+        return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
     }
 }

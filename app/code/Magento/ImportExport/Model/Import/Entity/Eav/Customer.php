@@ -297,8 +297,8 @@ class Customer
             'store_id'   => empty($rowData[self::COLUMN_STORE])
                 ? 0 : $this->_storeCodeToId[$rowData[self::COLUMN_STORE]],
 
-            'created_at' => $createdAt->format(\Magento\Date::DATETIME_PHP_FORMAT),
-            'updated_at' => $now->format(\Magento\Date::DATETIME_PHP_FORMAT),
+            'created_at' => $createdAt->format(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT),
+            'updated_at' => $now->format(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT),
         );
 
         $emailInLowercase = strtolower($rowData[self::COLUMN_EMAIL]);
@@ -330,7 +330,7 @@ class Customer
                     $value = $attributeParameters['options'][strtolower($value)];
                 } elseif ('datetime' == $attributeParameters['type']) {
                     $value = new \DateTime('@' . strtotime($value));
-                    $value = $value->format(\Magento\Date::DATETIME_PHP_FORMAT);
+                    $value = $value->format(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT);
                 } elseif ($backendModel) {
                     $attribute->getBackend()->beforeSave($this->_customerModel->setData($attributeCode, $value));
                     $value = $this->_customerModel->getData($attributeCode);

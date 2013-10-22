@@ -87,7 +87,7 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
         }
         // last check, if input format was set
         if (null === $format) {
-            $format = \Magento\Date::DATETIME_INTERNAL_FORMAT;
+            $format = \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT;
             if ($this->getInputFormat()) {
                 $format = $this->getInputFormat();
             }

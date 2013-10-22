@@ -95,7 +95,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = \Magento\Date::formatDate($this->_locale->storeTimeStamp($storeId), false);
+            $date = \Magento\Stdlib\DateTime::formatDate($this->_locale->storeTimeStamp($storeId), false);
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);

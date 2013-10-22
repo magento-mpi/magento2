@@ -55,7 +55,7 @@ class Notification extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $data = array(
             'serial_number' => $serialNumber,
-            'started_at'    => \Magento\Date::now(),
+            'started_at'    => \Magento\Stdlib\DateTime::now(),
             'status'        => \Magento\GoogleCheckout\Model\Notification::STATUS_INPROCESS
         );
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
@@ -86,7 +86,7 @@ class Notification extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function updateProcess($serialNumber)
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('started_at' => \Magento\Date::now()),
+            array('started_at' => \Magento\Stdlib\DateTime::now()),
             array('serial_number = ?' => $serialNumber)
         );
 

@@ -91,7 +91,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getFlag()->setFlagData($value);
         }
 
-        $time = \Magento\Date::toTimestamp(true);
+        $time = \Magento\Stdlib\DateTime::toTimestamp(true);
         // touch last_update
         $this->_getFlag()->setLastUpdate($this->formatDate($time));
 
@@ -412,12 +412,12 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
         $tzTransitions = array();
         try {
             if (!empty($from)) {
-                $from = new \Zend_Date($from, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+                $from = new \Zend_Date($from, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
                 $from = $from->getTimestamp();
             }
 
-            $to = new \Zend_Date($to, \Magento\Date::DATETIME_INTERNAL_FORMAT);
-            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+            $to = new \Zend_Date($to, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
             $to = $to->getTimestamp();
 
             $dtz = new \DateTimeZone($timezone);
@@ -432,7 +432,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
 
                 $dateTimeObject->set($tr['time']);
                 $tr['time'] = $this->_getWriteAdapter()
-                    ->formatDate($dateTimeObject->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+                    ->formatDate($dateTimeObject->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
                 $tzTransitions[$tr['offset']][] = array('from' => $tr['time'], 'to' => $nextPeriod);
 
                 if (!empty($from) && $tr['ts'] < $from) {

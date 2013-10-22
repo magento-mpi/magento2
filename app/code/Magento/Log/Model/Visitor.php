@@ -245,7 +245,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getFirstVisitAt()
     {
         if (!$this->hasData('first_visit_at')) {
-            $this->setData('first_visit_at', \Magento\Date::now());
+            $this->setData('first_visit_at', \Magento\Stdlib\DateTime::now());
         }
         return $this->getData('first_visit_at');
     }
@@ -253,7 +253,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getLastVisitAt()
     {
         if (!$this->hasData('last_visit_at')) {
-            $this->setData('last_visit_at', \Magento\Date::now());
+            $this->setData('last_visit_at', \Magento\Stdlib\DateTime::now());
         }
         return $this->getData('last_visit_at');
     }
@@ -276,7 +276,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->initServerData();
 
         if (!$this->getId()) {
-            $this->setFirstVisitAt(\Magento\Date::now());
+            $this->setFirstVisitAt(\Magento\Stdlib\DateTime::now());
             $this->setIsNewVisitor(true);
             $this->save();
             $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
@@ -299,7 +299,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         }
 
         try {
-            $this->setLastVisitAt(\Magento\Date::now());
+            $this->setLastVisitAt(\Magento\Stdlib\DateTime::now());
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
         } catch (\Exception $e) {

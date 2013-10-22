@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Date
+ * @package    \Magento\Stdlib
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,12 +13,12 @@
  * Internal dates
  *
  * @category Magento
- * @package  \Magento\Date
+ * @package  \Magento\Stdlib
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento;
+namespace Magento\Stdlib;
 
-class Date
+class DateTime
 {
     /**#@+
      * Date format, used as default. Compatible with \Zend_Date

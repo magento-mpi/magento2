@@ -609,6 +609,6 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      */
     public function formatDate($date, $includeTime = true)
     {
-        return \Magento\Date::formatDate($date, $includeTime);
+        return \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
     }
 }

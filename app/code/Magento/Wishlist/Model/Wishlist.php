@@ -280,7 +280,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
             $item = $this->_wishlistItemFactory->create();
             $item->setProductId($product->getId())
                 ->setWishlistId($this->getId())
-                ->setAddedAt(\Magento\Date::now())
+                ->setAddedAt(\Magento\Stdlib\DateTime::now())
                 ->setStoreId($storeId)
                 ->setOptions($product->getCustomOptions())
                 ->setProduct($product)

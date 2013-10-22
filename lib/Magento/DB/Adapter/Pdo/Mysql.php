@@ -2589,7 +2589,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function formatDate($date, $includeTime = true)
     {
-        $date = \Magento\Date::formatDate($date, $includeTime);
+        $date = \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
 
         if ($date === null) {
             return new \Zend_Db_Expr('NULL');

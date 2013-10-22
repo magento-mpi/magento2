@@ -249,7 +249,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             'locale'      => $this->locale->getLocaleCode()
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
         ));
 
         $value = $filterInput->filter($value);

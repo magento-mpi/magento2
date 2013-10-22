@@ -87,7 +87,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
         );
         foreach ($dateFields as $key => $label) {
             $form->addField("{$key}_{$idSuffix}", 'date', array(
-                'format'   => \Magento\Date::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
+                'format'   => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
                 'label'    => $label,
                 'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
                 'onchange' => "dateTimeChoose_{$idSuffix}()", // won't work through Event.observe()

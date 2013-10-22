@@ -35,7 +35,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      */
     protected function _prepareDataForSave(\Magento\Core\Model\AbstractModel $object)
     {
-        $currentTime = \Magento\Date::now();
+        $currentTime = \Magento\Stdlib\DateTime::now();
         if ((!$object->getId() || $object->isObjectNew()) && !$object->getCreatedAt()) {
             $object->setCreatedAt($currentTime);
         }

@@ -453,7 +453,7 @@ class Address
                     $value = $attributeParams['options'][strtolower($rowData[$attributeAlias])];
                 } elseif ('datetime' == $attributeParams['type']) {
                     $value = new \DateTime('@' . strtotime($rowData[$attributeAlias]));
-                    $value = $value->format(\Magento\Date::DATETIME_PHP_FORMAT);
+                    $value = $value->format(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT);
                 } else {
                     $value = $rowData[$attributeAlias];
                 }
@@ -475,8 +475,8 @@ class Address
             'entity_id'      => $addressId,
             'entity_type_id' => $this->getEntityTypeId(),
             'parent_id'      => $customerId,
-            'created_at'     => \Magento\Date::now(),
-            'updated_at'     => \Magento\Date::now()
+            'created_at'     => \Magento\Stdlib\DateTime::now(),
+            'updated_at'     => \Magento\Stdlib\DateTime::now()
         );
 
         // attribute values

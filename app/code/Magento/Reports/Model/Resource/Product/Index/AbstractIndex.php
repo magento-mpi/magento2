@@ -75,14 +75,14 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
                  $data  = array(
                      'visitor_id'    => $object->getVisitorId(),
                      'store_id'      => $object->getStoreId(),
-                     'added_at'      => \Magento\Date::now(),
+                     'added_at'      => \Magento\Stdlib\DateTime::now(),
                  );
             } else {
                 $where = array('index_id = ?' => $row['index_id']);
                 $data  = array(
                     'customer_id'   => $object->getCustomerId(),
                     'store_id'      => $object->getStoreId(),
-                    'added_at'      => \Magento\Date::now()
+                    'added_at'      => \Magento\Stdlib\DateTime::now()
                 );
             }
 
@@ -194,13 +194,13 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
             'customer_id'   => $object->getCustomerId(),
             'store_id'      => $object->getStoreId(),
         );
-        $addedAt    = \Magento\Date::toTimestamp(true);
+        $addedAt    = \Magento\Stdlib\DateTime::toTimestamp(true);
         $data = array();
         foreach ($productIds as $productId) {
             $productId = (int) $productId;
             if ($productId) {
                 $row['product_id'] = $productId;
-                $row['added_at']   = \Magento\Date::formatDate($addedAt);
+                $row['added_at']   = \Magento\Stdlib\DateTime::formatDate($addedAt);
                 $data[] = $row;
             }
             $addedAt -= ($addedAt > 0) ? 1 : 0;

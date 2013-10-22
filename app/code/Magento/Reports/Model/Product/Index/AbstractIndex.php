@@ -104,7 +104,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
             $this->setStoreId($this->getStoreId());
         }
         if (!$this->hasAddedAt()) {
-            $this->setAddedAt(\Magento\Date::now());
+            $this->setAddedAt(\Magento\Stdlib\DateTime::now());
         }
 
         return $this;

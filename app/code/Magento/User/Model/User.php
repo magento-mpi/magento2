@@ -244,7 +244,7 @@ class User
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
             'email'     => $this->getEmail(),
-            'modified'  => \Magento\Date::now(),
+            'modified'  => \Magento\Stdlib\DateTime::now(),
             'extra'     => serialize($this->getExtra())
         );
 
@@ -655,7 +655,7 @@ class User
             throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
         }
         $this->setRpToken($newToken);
-        $currentDate = \Magento\Date::now();
+        $currentDate = \Magento\Stdlib\DateTime::now();
         $this->setRpTokenCreatedAt($currentDate);
 
         return $this;
@@ -677,9 +677,9 @@ class User
 
         $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = \Magento\Date::now();
-        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
-        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = \Magento\Stdlib\DateTime::now();
+        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($currentDate);
+        $tokenTimestamp = \Magento\Stdlib\DateTime::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

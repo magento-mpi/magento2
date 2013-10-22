@@ -893,7 +893,7 @@ class International
 
         $nodeBkgDetails = $nodeGetQuote->addChild('BkgDetails');
         $nodeBkgDetails->addChild('PaymentCountryCode', $rawRequest->getOrigCountryId());
-        $nodeBkgDetails->addChild('Date', \Magento\Date::now(true));
+        $nodeBkgDetails->addChild('Date', \Magento\Stdlib\DateTime::now(true));
         $nodeBkgDetails->addChild('ReadyTime', 'PT' . (int)(string)$this->getConfigData('ready_time') . 'H00M');
 
         $nodeBkgDetails->addChild('DimensionUnit', $this->_getDimensionUnit());

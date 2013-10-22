@@ -273,7 +273,7 @@ class Token extends \Magento\Core\Model\AbstractModel
         $this->validate();
 
         if ($this->isObjectNew() && null === $this->getCreatedAt()) {
-            $this->setCreatedAt(\Magento\Date::now());
+            $this->setCreatedAt(\Magento\Stdlib\DateTime::now());
         }
         parent::_beforeSave();
         return $this;

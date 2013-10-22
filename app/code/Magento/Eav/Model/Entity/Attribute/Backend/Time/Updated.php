@@ -27,7 +27,7 @@ class Updated extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
      */
     public function beforeSave($object)
     {
-        $object->setData($this->getAttribute()->getAttributeCode(), \Magento\Date::now());
+        $object->setData($this->getAttribute()->getAttributeCode(), \Magento\Stdlib\DateTime::now());
         return $this;
     }
 }

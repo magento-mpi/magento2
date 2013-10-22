@@ -29,7 +29,7 @@ class Created extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
         if ($object->isObjectNew() && is_null($object->getData($attributeCode))) {
-            $object->setData($attributeCode, \Magento\Date::now());
+            $object->setData($attributeCode, \Magento\Stdlib\DateTime::now());
         }
 
         return $this;

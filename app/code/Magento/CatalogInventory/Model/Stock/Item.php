@@ -811,7 +811,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
                 $this->setLowStockDate($this->_locale->date(null, null, null, false)
-                    ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
+                    ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
                 );
             }
 

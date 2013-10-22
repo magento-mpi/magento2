@@ -39,23 +39,23 @@ class AbstractCollection extends \Magento\Data\Collection
     {
         switch ($periodType) {
             case "24h":
-                $customStart = \Magento\Date::toTimestamp(true) - 86400;
-                $customEnd   = \Magento\Date::toTimestamp(true);
+                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 86400;
+                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
                 break;
 
             case "7d":
-                $customStart = \Magento\Date::toTimestamp(true) - 604800;
-                $customEnd   = \Magento\Date::toTimestamp(true);
+                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 604800;
+                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
                 break;
 
             case "30d":
-                $customStart = \Magento\Date::toTimestamp(true) - 2592000;
-                $customEnd   = \Magento\Date::toTimestamp(true);
+                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 2592000;
+                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
                 break;
 
             case "1y":
-                $customStart = \Magento\Date::toTimestamp(true) - 31536000;
-                $customEnd   = \Magento\Date::toTimestamp(true);
+                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 31536000;
+                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
                 break;
 
             default:

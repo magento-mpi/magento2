@@ -71,7 +71,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     \Magento\PubSub\JobInterface::STATUS_READY_TO_SEND,
                     \Magento\PubSub\JobInterface::STATUS_RETRY
                 )))
-            ->addFieldToFilter('retry_at', array('to' => \Magento\Date::formatDate(true), 'datetime' => true))
+            ->addFieldToFilter('retry_at', array('to' => \Magento\Stdlib\DateTime::formatDate(true), 'datetime' => true))
             ->setOrder('updated_at', \Magento\Data\Collection::SORT_ORDER_ASC)
             ->setPageSize(self::PAGE_SIZE);
         return $this;
@@ -145,7 +145,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             /* if event is in progress state for less than defined delay we do nothing with it */
             $okUpdatedTime = time() - $this->_timeoutIdling;
             $this->addFieldToFilter('status', \Magento\PubSub\JobInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => \Magento\Date::formatDate($okUpdatedTime),
+                ->addFieldToFilter('updated_at', array('to' => \Magento\Stdlib\DateTime::formatDate($okUpdatedTime),
                     'datetime' => true));
 
             if (!count($this->getItems())) {

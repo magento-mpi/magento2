@@ -72,7 +72,7 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $this->getMainTable(),
                 $adapter->quoteInto(
                     'type = "' . \Magento\Oauth\Model\Token::TYPE_REQUEST . '" AND created_at <= ?',
-                    \Magento\Date::formatDate(time() - $minutes * 60)
+                    \Magento\Stdlib\DateTime::formatDate(time() - $minutes * 60)
                 )
             );
         } else {

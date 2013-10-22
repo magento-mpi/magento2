@@ -10,27 +10,27 @@
  */
 
 /**
- * \Magento\Date test case
+ * \Magento\Stdlib\DateTime test case
  */
-namespace Magento;
+namespace Magento\Stdlib;
 
-class DateTest extends \PHPUnit_Framework_TestCase
+class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
     public function testToTimestamp()
     {
         $date = new \Zend_Date();
-        $this->assertEquals($date->getTimestamp(), \Magento\Date::toTimestamp($date));
+        $this->assertEquals($date->getTimestamp(), \Magento\Stdlib\DateTime::toTimestamp($date));
 
-        $this->assertEquals(time(), \Magento\Date::toTimestamp(true));
+        $this->assertEquals(time(), \Magento\Stdlib\DateTime::toTimestamp(true));
 
         $date = '2012-07-19 16:52';
-        $this->assertEquals(strtotime($date), \Magento\Date::toTimestamp($date));
+        $this->assertEquals(strtotime($date), \Magento\Stdlib\DateTime::toTimestamp($date));
     }
 
     public function testNow()
     {
-        $this->assertEquals(date(\Magento\Date::DATE_PHP_FORMAT), \Magento\Date::now(true));
-        $this->assertEquals(date(\Magento\Date::DATETIME_PHP_FORMAT), \Magento\Date::now(false));
+        $this->assertEquals(date(\Magento\Stdlib\DateTime::DATE_PHP_FORMAT), \Magento\Stdlib\DateTime::now(true));
+        $this->assertEquals(date(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT), \Magento\Stdlib\DateTime::now(false));
     }
 
     /**
@@ -41,7 +41,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormatDate($date, $includeTime, $expectedFormat, $expectedResult = null)
     {
-        $actual = \Magento\Date::formatDate($date, $includeTime);
+        $actual = \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
         if ($expectedFormat != '') {
             $expectedResult = date($expectedFormat);
         } else {
@@ -80,7 +80,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmptyDate($date, $expected)
     {
-        $actual = \Magento\Date::isEmptyDate($date);
+        $actual = \Magento\Stdlib\DateTime::isEmptyDate($date);
         $this->assertEquals($actual, $expected);
     }
 

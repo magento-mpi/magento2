@@ -897,9 +897,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_dates[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
 
-        if (!\Magento\Date::isEmptyDate($date)) {
+        if (!\Magento\Stdlib\DateTime::isEmptyDate($date)) {
             list($dateObj, $format) = $this->_dates[$storeId];
-            $dateObj->setDate($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $dateObj->setDate($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
             return $dateObj->toString($format);
         }

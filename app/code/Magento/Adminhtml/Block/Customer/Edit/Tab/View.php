@@ -181,7 +181,7 @@ class View
     {
         $log = $this->getCustomerLog();
         $interval = $this->_modelVisitor->getOnlineMinutesInterval();
-        if ($log->getLogoutAt() || (strtotime(\Magento\Date::now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
+        if ($log->getLogoutAt() || (strtotime(\Magento\Stdlib\DateTime::now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }
         return __('Online');

@@ -222,7 +222,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
 
-        if (\Magento\Date::isEmptyDate($date)) {
+        if (\Magento\Stdlib\DateTime::isEmptyDate($date)) {
             return null;
         }
 

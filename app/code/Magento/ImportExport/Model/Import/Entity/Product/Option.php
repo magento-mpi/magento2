@@ -1253,7 +1253,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             'entity_id'        => $productId,
             'has_options'      => 1,
             'required_options' => 0,
-            'updated_at'       => \Magento\Date::now(),
+            'updated_at'       => \Magento\Stdlib\DateTime::now(),
         );
 
         if (!empty($rowData[self::COLUMN_IS_REQUIRED])) {

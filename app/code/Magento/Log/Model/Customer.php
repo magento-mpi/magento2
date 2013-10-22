@@ -66,7 +66,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         $loginAt = $this->getLoginAt();
         if ($loginAt) {
-            return \Magento\Date::toTimestamp($loginAt);
+            return \Magento\Stdlib\DateTime::toTimestamp($loginAt);
         }
 
         return null;

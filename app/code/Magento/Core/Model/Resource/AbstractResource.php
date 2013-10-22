@@ -125,7 +125,7 @@ abstract class AbstractResource
      */
     public function formatDate($date, $includeTime=true)
     {
-         return \Magento\Date::formatDate($date, $includeTime);
+         return \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class AbstractResource
      */
     public function mktime($str)
     {
-        return \Magento\Date::toTimestamp($str);
+        return \Magento\Stdlib\DateTime::toTimestamp($str);
     }
 
     /**

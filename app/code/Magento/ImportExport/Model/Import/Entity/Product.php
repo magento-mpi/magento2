@@ -1080,7 +1080,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     // 1. Entity phase
                     if (isset($this->_oldSku[$rowSku])) { // existing row
                         $entityRowsUp[] = array(
-                            'updated_at' => \Magento\Date::now(),
+                            'updated_at' => \Magento\Stdlib\DateTime::now(),
                             'entity_id'  => $this->_oldSku[$rowSku]['entity_id']
                         );
                     } else { // new row
@@ -1090,8 +1090,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                 'attribute_set_id' => $this->_newSku[$rowSku]['attr_set_id'],
                                 'type_id'          => $this->_newSku[$rowSku]['type_id'],
                                 'sku'              => $rowSku,
-                                'created_at'       => \Magento\Date::now(),
-                                'updated_at'       => \Magento\Date::now()
+                                'created_at'       => \Magento\Stdlib\DateTime::now(),
+                                'updated_at'       => \Magento\Stdlib\DateTime::now()
                             );
                             $productsQty++;
                         } else {
@@ -1208,7 +1208,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
                     if ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
                         $attrValue = new \DateTime('@' . strtotime($attrValue));
-                        $attrValue = $attrValue->format(\Magento\Date::DATETIME_PHP_FORMAT);
+                        $attrValue = $attrValue->format(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT);
                     } elseif ($backModel) {
                         $attribute->getBackend()->beforeSave($product);
                         $attrValue = $product->getData($attribute->getAttributeCode());
@@ -1568,7 +1568,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     if ($stockItem->verifyNotification()) {
                         $stockItem->setLowStockDate($this->_locale
                             ->date(null, null, null, false)
-                            ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
+                            ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
                         );
                     }
                     $stockItem->setStockStatusChangedAuto((int) !$stockItem->verifyStock());

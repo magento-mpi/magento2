@@ -166,8 +166,8 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         if ($retryCount < count($this->_retryTimeToAdd)) {
             $addedTimeInMinutes = $this->_retryTimeToAdd[$retryCount + 1] * 60 + time();
             $this->setRetryCount($retryCount + 1);
-            $this->setRetryAt(\Magento\Date::formatDate($addedTimeInMinutes));
-            $this->setUpdatedAt(\Magento\Date::formatDate(time(), true));
+            $this->setRetryAt(\Magento\Stdlib\DateTime::formatDate($addedTimeInMinutes));
+            $this->setUpdatedAt(\Magento\Stdlib\DateTime::formatDate(time(), true));
             $this->setStatus(\Magento\PubSub\JobInterface::STATUS_RETRY);
         } else {
             $this->setStatus(\Magento\PubSub\JobInterface::STATUS_FAILED);

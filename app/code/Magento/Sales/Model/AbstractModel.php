@@ -73,7 +73,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     public function getCreatedAtDate()
     {
         return $this->_coreLocale->date(
-            \Magento\Date::toTimestamp($this->getCreatedAt()),
+            \Magento\Stdlib\DateTime::toTimestamp($this->getCreatedAt()),
             null,
             null,
             true
@@ -89,7 +89,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     {
         return $this->_coreLocale->storeDate(
             $this->getStore(),
-            \Magento\Date::toTimestamp($this->getCreatedAt()),
+            \Magento\Stdlib\DateTime::toTimestamp($this->getCreatedAt()),
             true
         );
     }

@@ -135,7 +135,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             /* if event is in progress state for less than hour we do nothing with it*/
             $okUpdatedTime = time() - $this->_timeoutIdling;
             $this->addFieldToFilter('status', \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => \Magento\Date::formatDate($okUpdatedTime),
+                ->addFieldToFilter('updated_at', array('to' => \Magento\Stdlib\DateTime::formatDate($okUpdatedTime),
                     'datetime' => true));
             $idsToRevoke = $this->_getLoadedIds();
             if (count($idsToRevoke)) {

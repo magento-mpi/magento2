@@ -382,8 +382,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _getCurrentDateTime()
     {
-        $date = new \Magento\Date();
-        return $date->now();
+        return \Magento\Stdlib\DateTime::now();
     }
 
     /**

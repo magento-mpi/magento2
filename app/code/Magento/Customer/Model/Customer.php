@@ -1027,7 +1027,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         $date = $this->getCreatedAt();
         if ($date) {
-            return \Magento\Date::toTimestamp($date);
+            return \Magento\Stdlib\DateTime::toTimestamp($date);
         }
         return null;
     }
@@ -1194,9 +1194,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
         $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = \Magento\Date::now();
-        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
-        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = \Magento\Stdlib\DateTime::now();
+        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($currentDate);
+        $tokenTimestamp = \Magento\Stdlib\DateTime::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

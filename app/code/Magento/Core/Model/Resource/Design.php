@@ -52,7 +52,7 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         if (!is_null($object->getDateFrom())
             && !is_null($object->getDateTo())
-            && \Magento\Date::toTimestamp($object->getDateFrom()) > \Magento\Date::toTimestamp($object->getDateTo())) {
+            && \Magento\Stdlib\DateTime::toTimestamp($object->getDateFrom()) > \Magento\Stdlib\DateTime::toTimestamp($object->getDateTo())) {
             throw new \Magento\Core\Exception(__('Start date cannot be greater than end date.'));
         }
 

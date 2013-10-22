@@ -72,7 +72,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                                 'date_format' => $dateFormat
                             ));
                             $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-                                'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+                                'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
                             ));
                             $value = $filterInternal->filter($filterInput->filter($value));
                         } else {
