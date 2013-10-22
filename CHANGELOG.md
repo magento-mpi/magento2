@@ -1,5 +1,9 @@
 * Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
+* Introduced ability to register a template engine to process template files having certain extension
+* Removed support of the Twig template engine along with the corresponding component from the library
+* Removed layout flag that forced template blocks to output rendered content directly to a browser bypassing the response object
+* Moved out responsibility of rendering template debugging hints from the template block to the plugin and decorator for a template engine
 
 2.0.0.0-dev48
 =============
