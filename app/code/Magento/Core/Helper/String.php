@@ -8,13 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Core data helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Helper;
 
+/**
+ * Core data helper
+ */
 class String extends \Magento\Core\Helper\AbstractHelper
 {
     /**
@@ -23,9 +21,11 @@ class String extends \Magento\Core\Helper\AbstractHelper
     protected $_locale;
 
     /**
+     * Magento string lib
+     *
      * @var \Magento\Stdlib\StringIconv
      */
-    protected $_stringIconv;
+    protected $stringIconv;
 
     /**
      * @param \Magento\Core\Helper\Context $context
@@ -39,7 +39,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
     ) {
         parent::__construct($context);
         $this->_locale = $locale;
-        $this->_stringIconv = $stringIconv;
+        $this->stringIconv = $stringIconv;
     }
 
 
@@ -61,27 +61,26 @@ class String extends \Magento\Core\Helper\AbstractHelper
             return '';
         }
 
-        $originalLength = $this->_stringIconv->strlen($string);
+        $originalLength = $this->stringIconv->strlen($string);
         if ($originalLength > $length) {
-            $length -= $this->_stringIconv->strlen($etc);
+            $length -= $this->stringIconv->strlen($etc);
             if ($length <= 0) {
                 return '';
             }
             $preparedString = $string;
-            $preparedlength = $length;
+            $preparedLength = $length;
             if (!$breakWords) {
                 $preparedString = preg_replace(
-                    '/\s+?(\S+)?$/u', '', $this->_stringIconv->substr($string, 0, $length + 1)
+                    '/\s+?(\S+)?$/u', '', $this->stringIconv->substr($string, 0, $length + 1)
                 );
-                $preparedlength = $this->_stringIconv->strlen($preparedString);
+                $preparedLength = $this->stringIconv->strlen($preparedString);
             }
-            $remainder = $this->_stringIconv->substr($string, $preparedlength, $originalLength);
-            return $this->_stringIconv->substr($preparedString, 0, $length) . $etc;
+            $remainder = $this->stringIconv->substr($string, $preparedLength, $originalLength);
+            return $this->stringIconv->substr($preparedString, 0, $length) . $etc;
         }
 
         return $string;
     }
-
 
 
     /**
@@ -98,12 +97,11 @@ class String extends \Magento\Core\Helper\AbstractHelper
         $str = $this->strSplit($str, $length);
         $newStr = '';
         foreach ($str as $part) {
-            if ($this->_stringIconv->strlen($part) >= $length) {
-                $lastDelimetr = $this->_stringIconv->strpos($this->_stringIconv->strrev($part), $needle);
-                $tmpNewStr = '';
-                $tmpNewStr = $this->_stringIconv->substr($this->_stringIconv->strrev($part), 0, $lastDelimetr)
-                    . $insert . $this->_stringIconv->substr($this->_stringIconv->strrev($part), $lastDelimetr);
-                $newStr .= $this->_stringIconv->strrev($tmpNewStr);
+            if ($this->stringIconv->strlen($part) >= $length) {
+                $lastDelimiter = $this->stringIconv->strpos($this->stringIconv->strrev($part), $needle);
+                $tmpNewStr = $this->stringIconv->substr($this->stringIconv->strrev($part), 0, $lastDelimiter)
+                    . $insert . $this->stringIconv->substr($this->stringIconv->strrev($part), $lastDelimiter);
+                $newStr .= $this->stringIconv->strrev($tmpNewStr);
             } else {
                 $newStr .= $part;
             }
@@ -129,8 +127,8 @@ class String extends \Magento\Core\Helper\AbstractHelper
     public function strSplit($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
         $result = array();
-        $strlen = $this->_stringIconv->strlen($str);
-        if ((!$strlen) || (!is_int($length)) || ($length <= 0)) {
+        $strLen = $this->stringIconv->strlen($str);
+        if ((!$strLen) || (!is_int($length)) || ($length <= 0)) {
             return $result;
         }
         // trim
@@ -139,8 +137,8 @@ class String extends \Magento\Core\Helper\AbstractHelper
         }
         // do a usual str_split, but safe for our encoding
         if ((!$keepWords) || ($length < 2)) {
-            for ($offset = 0; $offset < $strlen; $offset += $length) {
-                $result[] = $this->_stringIconv->substr($str, $offset, $length);
+            for ($offset = 0; $offset < $strLen; $offset += $length) {
+                $result[] = $this->stringIconv->substr($str, $offset, $length);
             }
         }
         // split smartly, keeping words
@@ -165,9 +163,9 @@ class String extends \Magento\Core\Helper\AbstractHelper
                     $spaceLen      = 0;
                 }
                 else {
-                    $currentLength = $this->_stringIconv->strlen($result[$i]);
+                    $currentLength = $this->stringIconv->strlen($result[$i]);
                 }
-                $partLength = $this->_stringIconv->strlen($part);
+                $partLength = $this->stringIconv->strlen($part);
                 // add part to current last element
                 if (($currentLength + $spaceLen + $partLength) <= $length) {
                     $result[$i] .= $space . $part;
@@ -187,7 +185,8 @@ class String extends \Magento\Core\Helper\AbstractHelper
             }
         }
         // remove last element, if empty
-        if ($count = count($result)) {
+        $count = count($result);
+        if ($count) {
             if ($result[$count - 1] === '') {
                 unset($result[$count - 1]);
             }

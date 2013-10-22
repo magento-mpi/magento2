@@ -39,8 +39,11 @@ class StringIconv
      */
     public function cleanString($string)
     {
-        return '"libiconv"' == ICONV_IMPL ?
-            iconv(self::ICONV_CHARSET, self::ICONV_CHARSET . '//IGNORE', $string) : $string;
+        if ('"libiconv"' == ICONV_IMPL) {
+            return iconv(self::ICONV_CHARSET, self::ICONV_CHARSET . '//IGNORE', $string);
+        } else {
+            return $string;
+        }
     }
 
     /**
@@ -69,11 +72,11 @@ class StringIconv
     public function strrev($str)
     {
         $result = '';
-        $strlen = $this->strlen($str);
-        if (!$strlen) {
+        $strLen = $this->strlen($str);
+        if (!$strLen) {
             return $result;
         }
-        for ($i = $strlen-1; $i >= 0; $i--) {
+        for ($i = $strLen - 1; $i >= 0; $i--) {
             $result .= $this->substr($str, $i, 1);
         }
         return $result;
@@ -85,7 +88,7 @@ class StringIconv
      * @param string $haystack
      * @param string $needle
      * @param int $offset
-     * @return int|false
+     * @return int|bool
      */
     public function strpos($haystack, $needle, $offset = null)
     {

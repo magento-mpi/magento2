@@ -20,9 +20,11 @@ namespace Magento\GoogleShopping\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Helper\String|null
+     * Magento string lib
+     *
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
      * Store manager
@@ -32,16 +34,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Context $context
     ) {
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
@@ -69,8 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function cleanAtomAttribute($string)
     {
-        return $this->_coreString
-            ->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
+        return $this->stringIconv->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 
     /**

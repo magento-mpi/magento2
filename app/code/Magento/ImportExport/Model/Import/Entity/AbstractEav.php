@@ -86,7 +86,7 @@ abstract class AbstractEav
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -98,7 +98,7 @@ abstract class AbstractEav
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -109,7 +109,7 @@ abstract class AbstractEav
         array $data = array()
     ) {
         parent::__construct(
-            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
+            $coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
         );
 
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;

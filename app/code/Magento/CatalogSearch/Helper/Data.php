@@ -8,16 +8,21 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog search helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CatalogSearch\Helper;
 
+/**
+ * Catalog search helper
+ */
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
+    /**
+     * Query variable
+     */
     const QUERY_VAR_NAME = 'q';
+
+    /**
+     * Max query length
+     */
     const MAX_QUERY_LEN  = 200;
 
     /**
@@ -56,11 +61,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_engine;
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
      * Core store config
@@ -90,7 +95,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      * @param \Magento\Escaper $escaper
@@ -98,13 +103,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filter
     ) {
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
@@ -146,7 +151,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = $this->_coreString->strlen($this->getQueryText());
+        $thisQueryLength = $this->stringIconv->strlen($this->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -162,14 +167,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if ($this->_queryText === null) {
                 $this->_queryText = '';
             } else {
-                /* @var $stringHelper \Magento\Core\Helper\String */
-                $stringHelper = $this->_coreString;
-                $this->_queryText = is_array($this->_queryText) ? ''
-                    : $stringHelper->cleanString(trim($this->_queryText));
+                $this->_queryText = is_array($this->_queryText)
+                    ? ''
+                    : $this->stringIconv->cleanString(trim($this->_queryText));
 
                 $maxQueryLength = $this->getMaxQueryLength();
-                if ($maxQueryLength !== '' && $stringHelper->strlen($this->_queryText) > $maxQueryLength) {
-                    $this->_queryText = $stringHelper->substr($this->_queryText, 0, $maxQueryLength);
+                if ($maxQueryLength !== '' && $this->stringIconv->strlen($this->_queryText) > $maxQueryLength) {
+                    $this->_queryText = $this->stringIconv->substr($this->_queryText, 0, $maxQueryLength);
                     $this->_isMaxLength = true;
                 }
             }

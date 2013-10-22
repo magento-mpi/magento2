@@ -8,23 +8,19 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog product option text type
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
+/**
+ * Catalog product option text type
+ */
 class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
      * @var \Magento\Escaper
@@ -32,23 +28,21 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_escaper = null;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Escaper $escaper,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         array $data = array()
     ) {
         $this->_escaper = $escaper;
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
@@ -74,7 +68,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
-        if ($maxCharacters > 0 && $this->_coreString->strlen($value) > $maxCharacters) {
+        if ($maxCharacters > 0 && $this->stringIconv->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
             throw new \Magento\Core\Exception(__('The text is too long.'));
         }

@@ -8,17 +8,12 @@
  * @license     {license_link}
  */
 
-/**
- * Backend grid item renderer line to wrap
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Wrapline
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+/**
+ * Backend grid item renderer line to wrap
+ */
+class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Default max length of a line at one row
@@ -28,23 +23,23 @@ class Wrapline
     protected $_defaultMaxLineLength = 60;
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
         \Magento\Backend\Block\Context $context,
+        \Magento\Stdlib\StringIconv $stringIconv,
         array $data = array()
     ) {
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         parent::__construct($context, $data);
     }
 
@@ -61,8 +56,8 @@ class Wrapline
         $lineLength = $this->getColumn()->getData('lineLength')
             ? $this->getColumn()->getData('lineLength')
             : $this->_defaultMaxLineLength;
-        for ($i = 0, $n = floor($this->_coreString->strlen($line) / $lineLength); $i <= $n; $i++) {
-            $wrappedLine .= $this->_coreString->substr($line, ($lineLength * $i), $lineLength)
+        for ($i = 0, $n = floor($this->stringIconv->strlen($line) / $lineLength); $i <= $n; $i++) {
+            $wrappedLine .= $this->stringIconv->substr($line, ($lineLength * $i), $lineLength)
                 . "<br />";
         }
         return $wrappedLine;

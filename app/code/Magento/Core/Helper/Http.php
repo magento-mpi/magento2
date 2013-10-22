@@ -8,33 +8,29 @@
  * @license     {license_link}
  */
 
-/**
- * Core Http Helper
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Helper;
 
+/**
+ * Core Http Helper
+ */
 class Http extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Stdlib\StringIconv $stringIconv
     ) {
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         parent::__construct($context);
     }
 
@@ -106,7 +102,7 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     {
         $uri = $this->_getRequest()->getRequestUri();
         if ($clean) {
-            $uri = $this->_coreString->cleanString($uri);
+            $uri = $this->stringIconv->cleanString($uri);
         }
         return $uri;
     }

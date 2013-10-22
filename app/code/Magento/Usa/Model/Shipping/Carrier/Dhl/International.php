@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * DHL International (API v1.4)
- *
- * @category Magento
- * @package  Magento_Usa
- * @author   Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl;
 
+/**
+ * DHL International (API v1.4)
+ */
 class International
     extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
@@ -181,6 +177,13 @@ class International
     protected $_configReader;
 
     /**
+     * Magento string lib
+     *
+     * @var \Magento\Stdlib\StringIconv
+     */
+    protected $stringIconv;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
@@ -205,6 +208,7 @@ class International
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -229,6 +233,7 @@ class International
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Stdlib\StringIconv $stringIconv,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -238,6 +243,7 @@ class International
         $this->_pdfFactory = $pdfFactory;
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
+        $this->stringIconv = $stringIconv;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
             $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
@@ -398,8 +404,7 @@ class International
         $requestObject->setValue(round($request->getPackageValue(), 2))
             ->setValueWithDiscount($request->getPackageValueWithDiscount())
             ->setCustomsValue($request->getPackageCustomsValue())
-            ->setDestStreet(
-                $this->_coreString->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
+            ->setDestStreet($this->stringIconv->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
             ->setDestStreetLine2($request->getDestStreetLine2())
             ->setDestCity($request->getDestCity())
             ->setOrigCompanyName($request->getOrigCompanyName())

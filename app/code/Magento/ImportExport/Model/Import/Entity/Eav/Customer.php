@@ -117,7 +117,7 @@ class Customer
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -132,7 +132,7 @@ class Customer
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -156,7 +156,7 @@ class Customer
             $data['attribute_collection'] = $this->_attributeCollection;
         }
 
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+        parent::__construct($coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
             $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_specialAttributes[] = self::COLUMN_WEBSITE;
@@ -181,8 +181,7 @@ class Customer
             __('Invalid password length')
         );
 
-        $this->_initStores(true)
-            ->_initAttributes();
+        $this->_initStores(true)->_initAttributes();
 
         $this->_customerModel = $customerFactory->create();
         /** @var $customerResource \Magento\Customer\Model\Resource\Customer */
@@ -443,7 +442,7 @@ class Customer
             }
             // check password
             if (isset($rowData['password']) && strlen($rowData['password'])
-                && $this->_stringHelper->strlen($rowData['password']) < self::MIN_PASSWORD_LENGTH
+                && $this->stringIconv->strlen($rowData['password']) < self::MIN_PASSWORD_LENGTH
             ) {
                 $this->addRowError(self::ERROR_PASSWORD_LENGTH, $rowNumber);
             }

@@ -28,7 +28,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Core\Helper\String
      */
-    protected $_coreString = null;
+    protected $_coreString;
 
     /**
      * Product option factory
@@ -38,22 +38,32 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_productOptionFactory;
 
     /**
+     * Magento string lib
+     *
+     * @var \Magento\Stdlib\StringIconv
+     */
+    protected $stringIconv;
+
+    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      */
     public function __construct(
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Context $context,
-        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
+        \Magento\Stdlib\StringIconv $stringIconv
     ) {
         $this->_productOptionFactory = $productOptionFactory;
         $this->_coreString = $coreString;
         $this->_config = $config;
+        $this->stringIconv = $stringIconv;
         parent::__construct($context);
     }
 
@@ -276,7 +286,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
 
         $result = array('value' => $_truncatedValue);
 
-        if ($maxLength && ($this->_coreString->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && ($this->stringIconv->strlen($optionValue) > $maxLength)) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

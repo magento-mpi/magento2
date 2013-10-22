@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Search Catalog Model
- *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Adminhtml\Model\Search;
 
+/**
+ * Search Catalog Model
+ */
 class Catalog extends \Magento\Object
 {
     /**
@@ -27,11 +23,11 @@ class Catalog extends \Magento\Object
     protected $_catalogSearchData = null;
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
      * Adminhtml data
@@ -42,16 +38,16 @@ class Catalog extends \Magento\Object
 
     /**
      * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
         \Magento\Adminhtml\Helper\Data $adminhtmlData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
         $this->_adminhtmlData = $adminhtmlData;
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         $this->_catalogSearchData = $catalogSearchData;
     }
 
@@ -82,7 +78,7 @@ class Catalog extends \Magento\Object
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => __('Product'),
                 'name'          => $product->getName(),
-                'description'   => $this->_coreString->substr($description, 0, 30),
+                'description'   => $this->stringIconv->substr($description, 0, 30),
                 'url' => $this->_adminhtmlData->getUrl('*/catalog_product/edit', array('id' => $product->getId())),
             );
         }

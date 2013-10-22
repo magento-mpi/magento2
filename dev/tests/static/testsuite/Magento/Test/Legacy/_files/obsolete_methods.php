@@ -868,4 +868,9 @@ return array(
     array('quoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeQuote'),
     array('removeAccents', '\Magento\Core\Helper\Data', '\Magento\Filter\FilterManager'),
     array('splitWords', '\Magento\Core\Helper\String', '\Magento\Filter\FilterManager'),
+    array('strlen', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::strlen'),
+    array('substr', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::substr'),
+    array('strrev', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::strrev'),
+    array('cleanString', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::cleanString'),
+    array('strpos', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::strpos'),
 );

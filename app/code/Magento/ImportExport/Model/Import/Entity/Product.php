@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity;
+
 /**
  * Import entity product model
  */
-namespace Magento\ImportExport\Model\Import\Entity;
-
 class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
     const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/import_product_types';
@@ -375,13 +375,13 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -404,18 +404,17 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
-
         \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory,
         \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory $optionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
@@ -452,7 +451,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockItemFactory = $stockItemFactory;
         $this->_locale = $locale;
         parent::__construct(
-            $coreString, $coreData, $importExportData, $importData, $config, $resource, $resourceHelper
+            $coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $stringIconv
         );
         $this->_optionEntity = isset($data['option_entity'])
             ? $data['option_entity']

@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Order item render block
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Sales\Block\Order\Item\Renderer;
 
+/**
+ * Order item render block
+ */
 class DefaultRenderer extends \Magento\Core\Block\Template
 {
     /**
@@ -24,7 +20,14 @@ class DefaultRenderer extends \Magento\Core\Block\Template
      *
      * @var \Magento\Core\Helper\String
      */
-    protected $_coreString = null;
+    protected $_coreString;
+
+    /**
+     * Magento string lib
+     *
+     * @var \Magento\Stdlib\StringIconv
+     */
+    protected $stringIconv;
 
     /**
      * @var \Magento\Catalog\Model\Product\OptionFactory
@@ -35,6 +38,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param array $data
      */
@@ -42,10 +46,12 @@ class DefaultRenderer extends \Magento\Core\Block\Template
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         $this->_productOptionFactory = $productOptionFactory;
         parent::__construct($coreData, $context, $data);
     }
@@ -162,7 +168,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
 
         $result = array('value' => $_truncatedValue);
 
-        if ($this->_coreString->strlen($optionValue) > 55) {
+        if ($this->stringIconv->strlen($optionValue) > 55) {
             $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $result = array_merge($result, array('full_view' => $optionValue));

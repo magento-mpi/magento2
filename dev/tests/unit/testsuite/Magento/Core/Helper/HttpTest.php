@@ -21,9 +21,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_object = new \Magento\Core\Helper\Http(
-            $this->getMock('Magento\Core\Helper\String', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false)
+            new \Magento\Stdlib\StringIconv
         );
     }
 

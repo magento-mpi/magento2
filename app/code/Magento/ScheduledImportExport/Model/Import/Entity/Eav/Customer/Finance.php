@@ -8,18 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
+
 /**
  * Import customer finance entity model
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- * @method      array getData() getData()
+ * @method array getData() getData()
  */
-namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
-
-class Finance
-    extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
+class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
     /**
      * Attribute collection name
@@ -116,7 +112,7 @@ class Finance
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -134,7 +130,7 @@ class Finance
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -153,7 +149,7 @@ class Finance
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+        parent::__construct($coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
             $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_rewardFactory = $rewardFactory;

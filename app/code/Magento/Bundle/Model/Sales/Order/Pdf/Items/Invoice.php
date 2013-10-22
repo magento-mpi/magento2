@@ -67,7 +67,6 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
         $_prevOptionId = '';
         $drawItems = array();
 
-        $stringHelper = $this->_coreString;
         foreach ($items as $_item) {
             $line   = array();
 

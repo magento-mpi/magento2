@@ -8,36 +8,34 @@
  * @license     {license_link}
  */
 
-/**
- * Customer password attribute backend
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
-class Password
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+/**
+ * Customer password attribute backend
+ */
+class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * Min password length
+     */
     const MIN_PASSWORD_LENGTH = 6;
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\StringIconv
      */
-    protected $_coreString = null;
+    protected $stringIconv;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Stdlib\StringIconv $stringIconv
     ) {
-        $this->_coreString = $coreString;
+        $this->stringIconv = $stringIconv;
         parent::__construct($logger);
     }
 
@@ -51,10 +49,8 @@ class Password
     public function beforeSave($object)
     {
         $password = $object->getPassword();
-        /** @var \Magento\Core\Helper\String $stringHelper */
-        $stringHelper = $this->_coreString;
 
-        $length = $stringHelper->strlen($password);
+        $length = $this->stringIconv->strlen($password);
         if ($length > 0) {
             if ($length < self::MIN_PASSWORD_LENGTH) {
                 throw new \Magento\Core\Exception(
@@ -62,8 +58,8 @@ class Password
                 );
             }
 
-            if ($stringHelper->substr($password, 0, 1) == ' ' ||
-                $stringHelper->substr($password, $length - 1, 1) == ' ') {
+            if ($this->stringIconv->substr($password, 0, 1) == ' ' ||
+                $this->stringIconv->substr($password, $length - 1, 1) == ' ') {
                 throw new \Magento\Core\Exception(__('The password can not begin or end with a space.'));
             }
 
@@ -77,13 +73,11 @@ class Password
      */
     public function validate($object)
     {
-        if ($password = $object->getPassword()) {
-            if ($password == $object->getPasswordConfirm()) {
-                return true;
-            }
+        $password = $object->getPassword();
+        if ($password && $password == $object->getPasswordConfirm()) {
+            return true;
         }
 
         return parent::validate($object);
     }
-
 }

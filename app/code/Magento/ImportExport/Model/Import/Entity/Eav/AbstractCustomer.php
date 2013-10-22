@@ -8,17 +8,12 @@
  * @license     {license_link}
  */
 
-/**
- * Import entity abstract customer model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
-abstract class AbstractCustomer
-    extends \Magento\ImportExport\Model\Import\Entity\AbstractEav
+/**
+ * Import entity abstract customer model
+ */
+abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names
@@ -64,7 +59,7 @@ abstract class AbstractCustomer
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -77,7 +72,7 @@ abstract class AbstractCustomer
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -90,7 +85,7 @@ abstract class AbstractCustomer
     ) {
         $this->_storageFactory = $storageFactory;
         parent::__construct(
-            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
+            $coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
             $collectionFactory, $eavConfig, $data
         );
 

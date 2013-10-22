@@ -146,9 +146,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_coreStringMock = $this->getMock(
-            'Magento\Core\Helper\String', array('__construct'), array(), '', false
-        );
+        $this->_coreStringMock = new \Magento\Stdlib\StringIconv;
         $this->_model = $this->_getModelMock();
     }
 
@@ -409,7 +407,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         // mock to imitate data source model
         $dataSourceMock = $this->getMock(
             'Magento\ImportExport\Model\Resource\Import\Data',
-            array('getNextBunch'),
+            array('getNextBunch', '__wakeup'),
             array(),
             '',
             false

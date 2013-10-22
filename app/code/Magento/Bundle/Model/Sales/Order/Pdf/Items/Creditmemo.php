@@ -67,7 +67,6 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
         $leftBound  = 35;
         $rightBound = 565;
 
-        $stringHelper = $this->_coreString;
         foreach ($items as $_item) {
             $x      = $leftBound;
             $line   = array();
