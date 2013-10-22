@@ -36,8 +36,6 @@ class Product extends AbstractRepository
         );
 
         $this->_data['simple_with_category'] = $this->_data['simple'];
-        $this->_data['simple_with_category']['data']['fields']['category_name'] = array(
-            'value' => '%category%'
-        );
+        $this->_data['simple_with_category']['data']['category_name'] = '%category%';
     }
 }
