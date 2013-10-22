@@ -40,7 +40,7 @@ class Cart extends Block
     protected function _init()
     {
         $this->onepageLinkBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageLink(
-            $this->_rootElement->find('[class*="btn-proceed-checkout"]'));
+            $this->_rootElement->find('[class*="primary checkout"]'));
         $this->multishippingLinkBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingLink(
             $this->_rootElement->find('[title="Checkout with Multiple Addresses"]'));
     }
