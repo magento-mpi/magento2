@@ -20,7 +20,7 @@ class HandleFactory
     protected $objectManager;
 
     /**
-     * @var Handle[]
+     * @var HandleInterface[]
      */
     protected $handles = array();
 
@@ -31,7 +31,7 @@ class HandleFactory
 
     /**
      * @param string $type
-     * @return Handle
+     * @return HandleInterface
      */
     public function get($type)
     {

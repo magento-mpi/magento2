@@ -463,7 +463,7 @@ class Context
     /**
      * Retrieve design theme instance
      *
-     * @return Design\Theme
+     * @return Design\ThemeInterface
      */
     public function getDesignTheme()
     {
@@ -478,11 +478,11 @@ class Context
     /**
      * Retrieve parent theme instance
      *
-     * @param Design\Theme $theme
-     * @return Design\Theme
+     * @param Design\ThemeInterface $theme
+     * @return Design\ThemeInterface
      * @throws \Exception
      */
-    protected function getPhysicalTheme(Design\Theme $theme)
+    protected function getPhysicalTheme(Design\ThemeInterface $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {

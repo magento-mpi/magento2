@@ -8,7 +8,7 @@
 
 namespace Magento\View;
 
-interface Render
+interface RenderInterface
 {
     /**
      * @param string $template

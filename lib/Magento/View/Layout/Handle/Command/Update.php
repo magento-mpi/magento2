@@ -10,14 +10,14 @@ namespace Magento\View\Layout\Handle\Command;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Command;
+use Magento\View\Layout\HandleInterface;
+use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\ProcessorInterface;
 
-class Update implements Command
+class Update implements CommandInterface
 {
     /**
      * Container type
@@ -65,7 +65,7 @@ class Update implements Command
 
             foreach ($xml as $childElement) {
                 $type = $childElement->getName();
-                /** @var $handle Handle */
+                /** @var $handle HandleInterface */
                 $handle = $this->handleFactory->get($type);
                 $handle->parse($childElement, $layout, $parentName);
             }

@@ -11,12 +11,12 @@ namespace Magento\View\Layout\Handle\Data;
 use Magento\View\Layout;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Data;
+use Magento\View\Layout\HandleInterface;
+use Magento\View\Layout\Handle\DataInterface;
 use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
 
-class Source implements Data
+class Source implements DataInterface
 {
     /**
      * Container type
@@ -66,7 +66,7 @@ class Source implements Data
             foreach ($layoutElement as $childXml) {
                 /** @var $childXml Element */
                 $type = $childXml->getName();
-                /** @var $handle Handle */
+                /** @var $handle HandleInterface */
                 $handle = $this->handleFactory->get($type);
                 $handle->parse($childXml, $layout, $elementName);
             }

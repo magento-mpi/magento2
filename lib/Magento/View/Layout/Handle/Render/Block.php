@@ -10,14 +10,14 @@ namespace Magento\View\Layout\Handle\Render;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Render;
+use Magento\View\Layout\HandleInterface;
+use Magento\View\Layout\Handle\RenderInterface;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\BlockPool;
 
 use Magento\View\Render\Html;
 
-class Block implements Render
+class Block implements RenderInterface
 {
     /**
      * Container type
@@ -56,6 +56,8 @@ class Block implements Render
      * @param LayoutInterface $layout
      * @param string $parentName
      * @return Block
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -84,7 +86,7 @@ class Block implements Render
                 foreach ($layoutElement as $childXml) {
                     /** @var $childXml Element */
                     $type = $childXml->getName();
-                    /** @var $handle Handle */
+                    /** @var $handle HandleInterface */
                     $handle = $this->handleFactory->get($type);
                     $handle->parse($childXml, $layout, $elementName);
                 }
@@ -125,7 +127,7 @@ class Block implements Render
 
             foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
-                /** @var $handle Render */
+                /** @var $handle RenderInterface */
                 $handle = $this->handleFactory->get($child['type']);
                 $handle->register($child, $layout, $elementName);
             }

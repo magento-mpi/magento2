@@ -8,8 +8,8 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Render;
+use Magento\View\Layout\HandleInterface;
+use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
@@ -20,7 +20,7 @@ use Magento\Core\Model\View\FileSystem;
 
 use Magento\View\Render\Html;
 
-class Template implements Render
+class Template implements RenderInterface
 {
     /**
      * Container type
@@ -89,7 +89,7 @@ class Template implements Render
                 foreach ($layoutElement as $childXml) {
                     /** @var $childXml Element */
                     $type = $childXml->getName();
-                    /** @var $handle Handle */
+                    /** @var $handle HandleInterface */
                     $handle = $this->handleFactory->get($type);
                     $handle->parse($childXml, $layout, $elementName);
                 }
@@ -114,7 +114,7 @@ class Template implements Render
 
             foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
-                /** @var $handle Render */
+                /** @var $handle RenderInterface */
                 $handle = $this->handleFactory->get($child['type']);
                 $handle->register($child, $layout, $elementName);
             }

@@ -8,9 +8,9 @@
 
 namespace Magento\View\Layout\Handle;
 
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 
-interface Command extends Handle
+interface CommandInterface extends HandleInterface
 {
     // TODO:
 }

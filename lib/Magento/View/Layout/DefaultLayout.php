@@ -13,7 +13,7 @@ use Magento\View\BlockPool;
 use Magento\View\Context;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Structure;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Layout\Handle\Render\Block;
 use Magento\View\Layout\ProcessorFactory;
@@ -202,7 +202,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         foreach ($this->_xml as $node) {
             /** @var $node Element  */
             $type = $node->getName();
-            /** @var $handle Handle */
+            /** @var $handle HandleInterface */
             $handle = $this->handleFactory->get($type);
             $handle->parse($node, $this, $this->root['name']);
         }
@@ -277,7 +277,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     {
         $element = $this->structure->getElement($name);
         if ($element) {
-            /** @var $handle \Magento\View\Layout\Handle\Render */
+            /** @var $handle \Magento\View\Layout\Handle\RenderInterface */
             $handle = $this->handleFactory->get($element['type']);
             return $handle->render($element, $this, '');
         }
@@ -304,7 +304,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function getOutput()
     {
-        /** @var $handle \Magento\View\Layout\Handle\Render */
+        /** @var $handle \Magento\View\Layout\Handle\RenderInterface */
         $handle = $this->handleFactory->get($this->root['type']);
         return $handle->render($this->root, $this, '');
     }

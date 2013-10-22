@@ -7,12 +7,11 @@
  */
 
 namespace Magento\View\Layout;
-namespace Magento\View;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 
-interface Handle
+interface HandleInterface
 {
     /**
      * @param Element $layoutElement
@@ -25,7 +24,7 @@ interface Handle
      * @param array $element
      * @param LayoutInterface $layout
      * @param string $parentName
-     * @return Handle
+     * @return HandleInterface
      */
     public function register(array $element, LayoutInterface $layout, $parentName);
 }

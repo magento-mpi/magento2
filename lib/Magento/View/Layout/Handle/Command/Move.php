@@ -11,10 +11,10 @@ namespace Magento\View\Layout\Handle\Command;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Command;
+use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 
-class Move implements Command
+class Move implements CommandInterface
 {
     /**
      * Container type
@@ -30,7 +30,7 @@ class Move implements Command
      * @param Element $layoutElement
      * @param LayoutInterface $layout
      * @param string $parentName
-     * @return $this
+     * @return Move
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {

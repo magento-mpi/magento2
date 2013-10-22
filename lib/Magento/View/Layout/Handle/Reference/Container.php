@@ -11,7 +11,7 @@ namespace Magento\View\Layout\Handle\Reference;
 use Magento\View\Layout\Handle\Render\Container as OriginalContainer;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 
 class Container extends OriginalContainer
 {
@@ -34,7 +34,7 @@ class Container extends OriginalContainer
                 foreach ($layoutElement as $childXml) {
                     /** @var $childXml Element */
                     $type = $childXml->getName();
-                    /** @var $handle Handle */
+                    /** @var $handle HandleInterface */
                     $handle = $this->handleFactory->get($type);
                     $handle->parse($childXml, $layout, $originalParentName);
                 }

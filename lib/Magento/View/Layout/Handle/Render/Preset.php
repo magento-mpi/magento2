@@ -8,11 +8,11 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
-use Magento\View\Layout\Handle\Render;
+use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
 use Magento\View\Layout\ProcessorFactory;
@@ -20,7 +20,7 @@ use Magento\View\Layout\ProcessorInterface;
 use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
 
-class Preset implements Render
+class Preset implements RenderInterface
 {
     const TYPE = 'preset';
 
@@ -104,7 +104,7 @@ class Preset implements Render
                 foreach ($xml as $childElement) {
                     /** @var $childElement Element  */
                     $type = $childElement->getName();
-                    /** @var $handle Handle */
+                    /** @var $handle HandleInterface */
                     $handle = $this->handleFactory->get($type);
                     $handle->parse($childElement, $personalLayout, $elementName);
                 }
@@ -114,7 +114,7 @@ class Preset implements Render
                     foreach ($layoutElement as $childXml) {
                         /** @var $childXml Element */
                         $type = $childXml->getName();
-                        /** @var $handle Handle */
+                        /** @var $handle HandleInterface */
                         $handle = $this->handleFactory->get($type);
                         $handle->parse($childXml, $personalLayout, $elementName);
                     }
@@ -142,7 +142,7 @@ class Preset implements Render
 
             foreach ($personalLayout->getChildNames($elementName) as $childName => $alias) {
                 $child = $personalLayout->getElement($childName);
-                /** @var $handle Render */
+                /** @var $handle RenderInterface */
                 $handle = $this->handleFactory->get($child['type']);
                 $handle->register($child, $personalLayout, $elementName);
             }
@@ -171,9 +171,9 @@ class Preset implements Render
 
             foreach ($personalLayout->getChildNames($elementName) as $childName => $alias) {
                 $child = $personalLayout->getElement($childName);
-                /** @var $handle Render */
+                /** @var $handle RenderInterface */
                 $handle = $this->handleFactory->get($child['type']);
-                if ($handle instanceof Render) {
+                if ($handle instanceof RenderInterface) {
                     $result .= $handle->render($child, $personalLayout, $elementName, $type);
                 }
             }

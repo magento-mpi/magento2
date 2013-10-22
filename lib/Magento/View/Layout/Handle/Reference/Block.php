@@ -11,7 +11,7 @@ namespace Magento\View\Layout\Handle\Reference;
 use Magento\View\Layout\Handle\Render\Block as OriginalBlock;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 
 class Block extends OriginalBlock
 {
@@ -42,7 +42,7 @@ class Block extends OriginalBlock
                 foreach ($layoutElement as $childXml) {
                     /** @var $childXml Element */
                     $type = $childXml->getName();
-                    /** @var $handle Handle */
+                    /** @var $handle HandleInterface */
                     $handle = $this->handleFactory->get($type);
                     $handle->parse($childXml, $layout, $originalParentName);
                 }

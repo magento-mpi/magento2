@@ -9,10 +9,10 @@
 namespace Magento\View\Layout\Handle;
 
 use Magento\View\LayoutInterface;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 use Magento\View\Render\Html;
 
-interface Render extends Handle
+interface RenderInterface extends HandleInterface
 {
     /**
      * @param array $element
