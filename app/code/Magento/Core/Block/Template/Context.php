@@ -57,12 +57,14 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\Config $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $request,
@@ -85,11 +87,13 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
         \Magento\Core\Model\App $app,
-        \Magento\Escaper $escaper
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
-            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app, $escaper
+            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app, $escaper,
+            $filterManager
         );
 
         $this->_dirs = $dirs;
