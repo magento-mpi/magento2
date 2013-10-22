@@ -42,6 +42,7 @@ class Address extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         $this->_controller = 'adminhtml_order';
         $this->_mode       = 'address';
+        $this->_blockGroup = 'Magento_Sales';
         parent::_construct();
         $this->_updateButton('save', 'label', __('Save Order Address'));
         $this->_removeButton('delete');
