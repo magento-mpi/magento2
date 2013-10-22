@@ -1,3 +1,4 @@
+* Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
 * Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
 * Unable to create a new widget instance
