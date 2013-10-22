@@ -29,6 +29,6 @@ class EventFactory
      */
     public function create($arguments = array())
     {
-        return $this->_objectManager->create('\Magento\Event', $arguments);
+        return $this->_objectManager->create('Magento\Event', $arguments);
     }
 }

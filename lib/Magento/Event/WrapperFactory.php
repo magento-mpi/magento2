@@ -33,6 +33,6 @@ class WrapperFactory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('\Magento\Event\Observer', $arguments);
+        return $this->_objectManager->create('Magento\Event\Observer', $arguments);
     }
 }

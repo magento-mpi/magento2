@@ -41,7 +41,7 @@
         </param>
     </type>
     <type name="Magento\App\Response">
-        <plugin name="pageCache" type="\Magento\FullPageCache\Model\Response\Plugin" />
+        <plugin name="pageCache" type="Magento\FullPageCache\Model\Response\Plugin" />
     </type>
     <type name="Magento\FullPageCache\Model\Observer">
         <param name="ctlgProdCompare">

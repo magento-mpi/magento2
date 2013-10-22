@@ -43,7 +43,7 @@
     </type>
     <type name="Magento\Core\App\FrontController\Plugin\Install">
         <param name="cache">
-            <instance type="\Magento\Core\Model\Cache\Type\Config" />
+            <instance type="Magento\Core\Model\Cache\Type\Config" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\ValidationState">
