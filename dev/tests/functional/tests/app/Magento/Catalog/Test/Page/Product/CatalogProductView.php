@@ -38,13 +38,24 @@ class CatalogProductView extends Page
     private $viewBlock;
 
     /**
+     * Product options block
+     *
+     * @var Product\View\Options
+     */
+    private $optionsBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
         $this->viewBlock = Factory::getBlockFactory()->getMagentoCatalogProductView(
-            $this->_browser->find('.column.main', Locator::SELECTOR_CSS));
+            $this->_browser->find('.column.main', Locator::SELECTOR_CSS)
+        );
+        $this->optionsBlock = Factory::getBlockFactory()->getMagentoCatalogProductViewOptions(
+            $this->_browser->find('.product.options.wrapper')
+        );
     }
 
     /**
@@ -65,5 +76,15 @@ class CatalogProductView extends Page
     public function getViewBlock()
     {
         return $this->viewBlock;
+    }
+
+    /**
+     * Get product options block
+     *
+     * @return Product\View\Options
+     */
+    public function getOptionsBlock()
+    {
+        return $this->optionsBlock;
     }
 }

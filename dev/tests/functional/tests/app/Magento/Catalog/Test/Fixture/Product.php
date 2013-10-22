@@ -238,13 +238,13 @@ class Product extends DataFixture
                 'product_website_1' => array(
                     'value' => 'Yes',
                     'group' => static::GROUP_PRODUCT_WEBSITE,
-                    'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
+                    'input' => 'checkbox',
                     'curl'  => 'product[website_ids][]'
                 ),
                 'inventory_manage_stock' => array(
                     'value' => 'No',
                     'group' => static::GROUP_PRODUCT_INVENTORY,
-                    'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
+                    'input' => 'checkbox',
                     'curl'  => 'product[stock_data][manage_stock]'
                 )
             )

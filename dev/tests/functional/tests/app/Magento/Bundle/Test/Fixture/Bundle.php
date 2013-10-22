@@ -50,8 +50,9 @@ class Bundle extends Product
      */
     protected function productProvider()
     {
-        return Factory::getFixtureFactory()->getMagentoCatalogProduct()
-            ->switchData('simple')->persist()->getProductName();
+        $fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $fixture->switchData('simple');
+        return $fixture->persist()->getProductName();
     }
 
     /**
@@ -82,7 +83,26 @@ class Bundle extends Product
      */
     public function getBundleOptions()
     {
-        return $this->getData('checkout/bundle_options');
+        $options = array();
+        $bundleOptions = $this->getData('fields/bundle_selections/value');
+        foreach ($bundleOptions as $option => $optionData) {
+            $optionName =  $optionData['title']['value'];
+            foreach ($optionData['assigned_products'] as $productData) {
+                $options[$optionName] = $productData['search_data']['name'];
+            }
+        }
+        return $options;
+    }
+
+    /**
+     * Get prices for verification
+     *
+     * @return array|string
+     */
+    public function getProductPrice()
+    {
+        $prices = $this->getData('prices');
+        return $prices ? $prices : parent::getProductPrice();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -90,109 +110,117 @@ class Bundle extends Product
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'bundle_fixed' => array(
-                'config' => array(
-                    'constraint' => 'Success',
+        $this->_dataConfig = array(
+            'constraint' => 'Success',
 
-                    'create_url_params' => array(
-                        'type' => 'bundle',
-                        'set' => 4,
-                    )
+            'create_url_params' => array(
+                'type' => 'bundle',
+                'set' => 4,
+            )
+        );
+        $this->_data = array(
+            'fields' => array(
+                'name' => array(
+                    'value' => 'Bundle Fixed Product Required %isolation%',
+                    'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'data' => array(
-                    'fields' => array(
-                        'name' => array(
-                            'value' => 'Bundle Fixed Product Required %isolation%',
-                            'group' => static::GROUP_PRODUCT_DETAILS
-                        ),
-                        'sku' => array(
-                            'value' => 'bundle_sku_fixed_%isolation%',
-                            'group' => static::GROUP_PRODUCT_DETAILS
-                        ),
-                        'sku_type' => array(
-                            'value' => 'Fixed',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select'
-                        ),
-                        'price_type' => array(
-                            'value' => 'Fixed',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select'
-                        ),
-                        'price' => array(
-                            'value' => '100',
-                            'group' => static::GROUP_PRODUCT_DETAILS
-                        ),
-                        'tax_class_id' => array(
-                            'value' => 'Taxable Goods',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select'
-                        ),
-                        'weight_type' => array(
-                            'value' => 'Fixed',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select'
-                        ),
-                        'weight' => array(
-                            'value' => '1',
-                            'group' => static::GROUP_PRODUCT_DETAILS
-                        ),
-                        'shipment_type' => array(
-                            'value' => 'Separately',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select'
-                        ),
-                        'bundle_selections' => array(
-                            'value' => array(
-                                'bundle_item_0' => array(
-                                    'title' => 'Drop-down Option',
-                                    'type' => 'Drop-down',
-                                    'required' => 'Yes',
-                                    'assigned_product_0' => array(
-                                        'search_data' => array(
-                                            'name' => '%item1_product1%',
-                                        ),
-                                        'data' => array(
-                                            'selection_price_value' => array(
-                                                'value' => 10
-                                            ),
-                                            'selection_price_type' => array(
-                                                'value' => 'Fixed',
-                                                'input' => 'select'
-                                            ),
-                                            'selection_qty' => array(
-                                                'value' => 1
-                                            )
-                                        )
-                                    ),
-                                    'assigned_product_1' => array(
-                                        'search_data' => array(
-                                            'name' => '%item1_product2%',
-                                        ),
-                                        'data' => array(
-                                            'selection_price_value' => array(
-                                                'value' => 20
-                                            ),
-                                            'selection_price_type' => array(
-                                                'value' => 'Percent',
-                                                'input' => 'select'
-                                            ),
-                                            'selection_qty' => array(
-                                                'value' => 1
-                                            )
-                                        )
-                                    ),
-                                ),
+                'sku' => array(
+                    'value' => 'bundle_sku_fixed_%isolation%',
+                    'group' => static::GROUP_PRODUCT_DETAILS
+                ),
+                'sku_type' => array(
+                    'value' => 'Fixed',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select'
+                ),
+                'price_type' => array(
+                    'value' => 'Fixed',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select'
+                ),
+                'price' => array(
+                    'value' => '100',
+                    'group' => static::GROUP_PRODUCT_DETAILS
+                ),
+                'tax_class_id' => array(
+                    'value' => 'Taxable Goods',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select'
+                ),
+                'weight_type' => array(
+                    'value' => 'Fixed',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select'
+                ),
+                'weight' => array(
+                    'value' => '1',
+                    'group' => static::GROUP_PRODUCT_DETAILS
+                ),
+                'shipment_type' => array(
+                    'value' => 'Separately',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select'
+                ),
+                'bundle_selections' => array(
+                    'value' => array(
+                        'bundle_item_0' => array(
+                            'title' => array(
+                                'value' =>'Drop-down Option'
                             ),
-                            'group' => static::GROUP_BUNDLE_OPTIONS
+                            'type' => array(
+                                'value' => 'Drop-down',
+                            ),
+                            'required' => array(
+                                'value' => 'Yes',
+                            ),
+                            'assigned_products' => array(
+                                'assigned_product_0' => array(
+                                    'search_data' => array(
+                                        'name' => '%item1_product1%',
+                                    ),
+                                    'data' => array(
+                                        'selection_price_value' => array(
+                                            'value' => 10
+                                        ),
+                                        'selection_price_type' => array(
+                                            'value' => 'Fixed',
+                                            'input' => 'select'
+                                        ),
+                                        'selection_qty' => array(
+                                            'value' => 1
+                                        )
+                                    )
+                                ),
+                                'assigned_product_1' => array(
+                                    'search_data' => array(
+                                        'name' => '%item1_product2%',
+                                    ),
+                                    'data' => array(
+                                        'selection_price_value' => array(
+                                            'value' => 20
+                                        ),
+                                        'selection_price_type' => array(
+                                            'value' => 'Percent',
+                                            'input' => 'select'
+                                        ),
+                                        'selection_qty' => array(
+                                            'value' => 1
+                                        )
+                                    )
+                                )
+                            )
                         )
-                    )
+                    ),
+                    'group' => static::GROUP_BUNDLE_OPTIONS
                 )
+            ),
+            'prices' => array(
+                'price_from' => '110',
+                'price_to' => '120'
             )
         );
 
-        //Default data set
-        $this->switchData('bundle_fixed');
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoBundleBundle($this->_dataConfig, $this->_data);
     }
 }
