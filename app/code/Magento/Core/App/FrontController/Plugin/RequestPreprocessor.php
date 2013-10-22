@@ -20,12 +20,38 @@ class RequestPreprocessor
     protected $_storeConfig;
 
     /**
+     * @var \Magento\App\ResponseFactory
+     */
+    protected $_responseFactory;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
+
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendData;
+
+    /**
      * @param \Magento\Core\App\Request\RewriteService $rewriteService
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\App\ResponseFactory $responseFactory
      */
     public function __construct(
         \Magento\Core\App\Request\RewriteService $rewriteService,
@@ -33,7 +59,8 @@ class RequestPreprocessor
         \Magento\App\State $appState,
         \Magento\Core\Model\Url $url,
         \Magento\Backend\Helper\Data $backendData,
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\App\ResponseFactory $responseFactory
     ) {
         $this->_backendData = $backendData;
         $this->_rewriteService = $rewriteService;
@@ -41,6 +68,7 @@ class RequestPreprocessor
         $this->_appState = $appState;
         $this->_url = $url;
         $this->_storeConfig = $storeConfig;
+        $this->_responseFactory = $responseFactory;
     }
 
     /**
@@ -131,9 +159,9 @@ class RequestPreprocessor
                 $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 
-            $this->_response
-                ->setRedirect($redirectUrl, $redirectCode)
-                ->sendResponse();
+            $response = $this->_responseFactory->create();
+            $response->setRedirect($redirectUrl, $redirectCode);
+            $response->sendResponse();
             exit;
         }
     }

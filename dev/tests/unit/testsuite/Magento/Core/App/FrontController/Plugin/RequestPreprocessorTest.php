@@ -78,7 +78,8 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
             $this->_appStateMock,
             $this->_urlMock,
             $this->_backendDataMock,
-            $this->_storeConfigMock
+            $this->_storeConfigMock,
+            $this->getMock('\Magento\App\ResponseFactory', array(), array(), '', false)
         );
     }
 
