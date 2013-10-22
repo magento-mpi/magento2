@@ -34,15 +34,15 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\ObjectManager
      */
-    protected $_objectManger;
+    protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManger = $this->getMockForAbstractClass('\Magento\ObjectManager', array(), '', true, true,
+        $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager', array(), '', true, true,
             true, array('create'));
 
         $this->_factory = $this->getMockForAbstractClass('Magento\Filter\AbstractFactory', array(
-            'objectManger' => $this->_objectManger
+            'objectManger' => $this->_objectManager
         ));
         $property = new \ReflectionProperty('Magento\Filter\AbstractFactory', 'invokableClasses');
         $property->setAccessible(true);
@@ -108,7 +108,7 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
 
         $filterMock = $this->getMock('FactoryInterface', array('filter'));
-        $this->objectManager->expects($this->atLeastOnce())->method('create')
+        $this->_objectManager->expects($this->atLeastOnce())->method('create')
             ->with($this->equalTo($this->_invokableList[$alias]), $this->equalTo($arguments))
             ->will($this->returnValue($filterMock));
 

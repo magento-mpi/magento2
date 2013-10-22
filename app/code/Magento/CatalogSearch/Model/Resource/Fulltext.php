@@ -451,7 +451,10 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             ) {
-                $words = $this->filter->splitWords($queryText, array(true, $query->getMaxQueryWords()));
+                $words = $this->filter->splitWords($queryText, array(
+                    'uniqueOnly' => true,
+                    'wordsQty' => $query->getMaxQueryWords()
+                ));
                 foreach ($words as $word) {
                     $like[] = $this->_resourceHelper->getCILike('s.data_index', $word, array('position' => 'any'));
                 }

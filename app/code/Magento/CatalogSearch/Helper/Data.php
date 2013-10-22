@@ -344,8 +344,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
         ) {
-            $wordsFull = $this->filter->splitWords($this->getQueryText(), true);
-            $wordsLike = $this->filter->splitWords($this->getQueryText(), array(true, $this->getMaxQueryWords()));
+            $wordsFull = $this->filter->splitWords($this->getQueryText(), array('uniqueOnly' => true));
+            $wordsLike = $this->filter->splitWords(
+                $this->getQueryText(),
+                array('uniqueOnly' => true, 'wordsQty' => $this->getMaxQueryWords())
+            );
             if (count($wordsFull) > count($wordsLike)) {
                 $wordsCut = array_map(array($this->_escaper, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
                 $this->addNoteMessage(
