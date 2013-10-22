@@ -106,7 +106,7 @@ class View extends Block
      *
      * @return array|string
      */
-    public function _getSimplePrice()
+    protected function _getSimplePrice()
     {
         return $this->_rootElement->find('.price-box .price')->getText();
     }
