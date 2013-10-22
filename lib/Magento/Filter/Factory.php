@@ -33,6 +33,8 @@ class Factory extends AbstractFactory
         'removeTags'    => 'Magento\Filter\RemoveTags',
         'stripTags'     => 'Magento\Filter\StripTags',
         'truncate'      => 'Magento\Filter\Truncate',
+        'encrypt'       => 'Magento\Filter\Encrypt',
+        'decrypt'       => 'Magento\Filter\Decrypt',
     );
 
     /**
