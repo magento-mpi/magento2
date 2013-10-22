@@ -104,7 +104,7 @@ class Bundle extends Product
         $prices = $this->getData('prices');
         return $prices ? $prices : parent::getProductPrice();
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Initialize fixture data
      */

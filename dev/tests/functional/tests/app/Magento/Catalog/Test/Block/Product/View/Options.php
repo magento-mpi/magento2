@@ -63,7 +63,7 @@ class Options extends Block
             $field = $bundleOptionsFieldset->find($fieldDivSelector . ':nth-of-type(' . $index++ . ')');
             $productIndex = 1;
             $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
-            while ($productOption->isVisible()){
+            while ($productOption->isVisible()) {
                 $options[$optionName][] = $productOption->getText();
                 $productOption = $field->find('select > option:nth-of-type(' . $productIndex++ . ')');
             }

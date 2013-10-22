@@ -127,7 +127,8 @@ class View extends Block
      *
      * @return array F.e. array('price_from' => '$110', 'price_to' => '$120')
      */
-    protected function _getPriceFromTo() {
+    protected function _getPriceFromTo()
+    {
         $priceFrom = $this->_rootElement->find('.price-from');
         $priceTo = $this->_rootElement->find('.price-to');
         $price = array();
