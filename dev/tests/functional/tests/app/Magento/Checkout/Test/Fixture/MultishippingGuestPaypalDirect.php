@@ -30,13 +30,20 @@ class MultishippingGuestPaypalDirect extends Checkout
     protected function _initData()
     {
         //Configuration
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('flat_rate')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_disabled_all_methods')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_direct')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('default_tax_config')->persist();
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $configFixture->switchData('flat_rate');
+        $configFixture->persist();
+        $configFixture->switchData('paypal_disabled_all_methods');
+        $configFixture->persist();
+        $configFixture->switchData('paypal_direct');
+        $configFixture->persist();
+        $configFixture->switchData('default_tax_config');
+        $configFixture->persist();
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
+        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple1->switchData('simple');
+        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple2->switchData('simple');
         $simple1->persist();
         $simple2->persist();
         $this->products = array(
@@ -45,8 +52,10 @@ class MultishippingGuestPaypalDirect extends Checkout
         );
         //Checkout data
         $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer()->switchData('customer_US_1');
-        $address1 = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
-        $address2 = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_2');
+        $address1 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $address1->switchData('address_US_1');
+        $address2 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $address2->switchData('address_US_2');
         $this->shippingAddresses = array(
             $address1,
             $address2

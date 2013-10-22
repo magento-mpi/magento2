@@ -47,13 +47,20 @@ class GuestPaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('flat_rate')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_disabled_all_methods')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_express')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('default_tax_config')->persist();
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $configFixture->switchData('flat_rate');
+        $configFixture->persist();
+        $configFixture->switchData('paypal_disabled_all_methods');
+        $configFixture->persist();
+        $configFixture->switchData('paypal_express');
+        $configFixture->persist();
+        $configFixture->switchData('default_tax_config');
+        $configFixture->persist();
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
+        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple1->switchData('simple');
+        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple2->switchData('simple');
         $simple1->persist();
         $simple2->persist();
         $this->products = array(
@@ -61,11 +68,16 @@ class GuestPaypalExpress extends Checkout
             $simple2
         );
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
-        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate');
-        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('paypal_express');
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_direct');
-        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer()->switchData('customer_US');
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->billingAddress->switchData('address_US_1');
+        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $this->shippingMethods->switchData('flat_rate');
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_express');
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
         //Verification data
         $this->_data = array(
             'totals' => array(
