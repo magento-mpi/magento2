@@ -19,11 +19,22 @@ class ParserLexer extends PHPParser_Lexer
      * This constant is used to tag the original value in certain string cases.
      */
     const ORIGINAL_VALUE = 'originalValue';
-
     /**
      * This constant is used to tag the heredoc value.
      */
     const HEREDOC_CLOSE_TAG = 'heredocCloseTag';
+    /**
+     * Constant for comment key
+     */
+    const COMMENT_KEY = 'comments';
+    /**
+     * Constant for startLine key
+     */
+    const START_LINE_KEY = 'startLine';
+    /**
+     * Constant for endLine key
+     */
+    const END_LINE_KEY = 'endLine';
 
     /**
      * This method retrieves the next available token. Original values are stored for strings and numbers so that they
@@ -45,8 +56,8 @@ class ParserLexer extends PHPParser_Lexer
             $token = $this->tokens[$this->pos];
 
             if (is_string($token)) {
-                $startAttributes['startLine'] = $this->line;
-                $endAttributes['endLine']     = $this->line;
+                $startAttributes[self::START_LINE_KEY] = $this->line;
+                $endAttributes[self::END_LINE_KEY]     = $this->line;
 
                 // bug in token_get_all
                 if ('b"' === $token) {
@@ -63,23 +74,23 @@ class ParserLexer extends PHPParser_Lexer
                 $this->line += $newlineCount;
 
                 if (T_COMMENT === $token[0]) {
-                    $startAttributes['comments'][] = new \PHPParser_Comment($token[1], $token[2]);
+                    $startAttributes[self::COMMENT_KEY][] = new \PHPParser_Comment($token[1], $token[2]);
                 } elseif (T_DOC_COMMENT === $token[0]) {
-                    $startAttributes['comments'][] = new \PHPParser_Comment_Doc($token[1], $token[2]);
+                    $startAttributes[self::COMMENT_KEY][] = new \PHPParser_Comment_Doc($token[1], $token[2]);
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
-                    $startAttributes['startLine'] = $token[2];
-                    $endAttributes['endLine']     = $this->line;
+                    $startAttributes[self::START_LINE_KEY] = $token[2];
+                    $endAttributes[self::END_LINE_KEY]     = $this->line;
 
                     $tokenId = $this->tokenMap[$token[0]];
                     break;
-                } elseif (array_key_exists('comments', $startAttributes) || $newlineCount > 1) {
+                } elseif (array_key_exists(self::COMMENT_KEY, $startAttributes) || $newlineCount > 1) {
                     $this->handleBlankLines($newlineCount, $token, $startAttributes);
                 }
             }
         }
 
-        $startAttributes['startLine'] = $this->line;
+        $startAttributes[self::START_LINE_KEY] = $this->line;
 
         // if a string or number is encountered, save off the original so that it can be used in the generated code.
         if (PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING === $tokenId ||
@@ -100,10 +111,10 @@ class ParserLexer extends PHPParser_Lexer
         // This line is not a comment or code
         // This line has preceding comments or it is more than one newline in it
         // Thus we check to see if we have comments
-        if (array_key_exists('comments', $startAttributes)) {
+        if (array_key_exists(self::COMMENT_KEY, $startAttributes)) {
             // If we have comments then see if the last one has a newline at the end
-            $attId = sizeof($startAttributes['comments']);
-            if ($attId > 0 && preg_match('/.*\n$/', $startAttributes['comments'][$attId-1])) {
+            $attId = sizeof($startAttributes[self::COMMENT_KEY]);
+            if ($attId > 0 && preg_match('/.*\n$/', $startAttributes[self::COMMENT_KEY][$attId-1])) {
                 // if so then count it as part of this since it could be a blank line after a comment
                 $newlineCount++;
             }
@@ -112,7 +123,7 @@ class ParserLexer extends PHPParser_Lexer
         if ($newlineCount > 1) {
             // We found more than one newline, pretend it's a comment to preserve it.
             for ($i = 1; $i < $newlineCount; $i++) {
-                $startAttributes['comments'][] = new \PHPParser_Comment_Doc("\n", $token[2]);
+                $startAttributes[self::COMMENT_KEY][] = new \PHPParser_Comment_Doc("\n", $token[2]);
             }
         }
     }
