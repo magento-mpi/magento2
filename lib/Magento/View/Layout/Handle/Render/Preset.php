@@ -11,12 +11,13 @@ namespace Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\Handle\Render;
 
 use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
 use Magento\View\Layout\ProcessorFactory;
-use Magento\View\Layout\Processor;
+use Magento\View\Layout\ProcessorInterface;
 use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
 
@@ -64,11 +65,13 @@ class Preset implements Render
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Preset
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
         if (isset($elementName)) {
@@ -94,7 +97,7 @@ class Preset implements Render
                     $layout->setChild($parentName, $elementName, $alias);
                 }
 
-                /** @var $layoutProcessor Processor */
+                /** @var $layoutProcessor ProcessorInterface */
                 $layoutProcessor = $this->processorFactory->create();
                 $layoutProcessor->load($element['handle']);
                 $xml = $layoutProcessor->asSimplexml();
@@ -125,11 +128,11 @@ class Preset implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Preset
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
@@ -151,12 +154,14 @@ class Preset implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @param string $type [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
 

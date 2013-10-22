@@ -65,7 +65,7 @@ interface LayoutInterface
      * Remove block from registry
      *
      * @param string $name
-     * @return Layout
+     * @return LayoutInterface
      */
     public function unsetElement($name);
 
@@ -80,7 +80,7 @@ interface LayoutInterface
      * Get block object by name
      *
      * @param string $name
-     * @return Element\Block|bool
+     * @return Element\BlockInterface|bool
      */
     public function getBlock($name);
 
@@ -99,7 +99,7 @@ interface LayoutInterface
      * @param string $parentName
      * @param string $elementName
      * @param string $alias
-     * @return Layout
+     * @return LayoutInterface
      */
     public function setChild($parentName, $elementName, $alias);
 
@@ -122,7 +122,7 @@ interface LayoutInterface
      *
      * @param string $parentName
      * @param string $alias
-     * @return Layout
+     * @return LayoutInterface
      */
     public function unsetChild($parentName, $alias);
 
@@ -283,7 +283,7 @@ interface LayoutInterface
      * Declaring layout direct output flag
      *
      * @param   bool $flag
-     * @return  Layout
+     * @return  LayoutInterface
      * @todo DELETE
      */
     public function setDirectOutput($flag);

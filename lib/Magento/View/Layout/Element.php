@@ -24,6 +24,9 @@ class Element extends \Magento\Simplexml\Element
     const TYPE_MOVE = 'move';
     /**#@-*/
 
+    /**
+     * @return Element
+     */
     public function prepare()
     {
         switch ($this->getName()) {
@@ -53,6 +56,9 @@ class Element extends \Magento\Simplexml\Element
         return $this;
     }
 
+    /**
+     * @return bool|string
+     */
     public function getBlockName()
     {
         $tagName = (string)$this->getName();

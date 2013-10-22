@@ -7,25 +7,26 @@
  */
 
 namespace Magento\View\Layout;
+namespace Magento\View;
 
-//use Magento\View\Context;
 use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 
 interface Handle
 {
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName);
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName);
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Handle
      */
-    public function register(array $element, Layout $layout, $parentName);
+    public function register(array $element, LayoutInterface $layout, $parentName);
 }

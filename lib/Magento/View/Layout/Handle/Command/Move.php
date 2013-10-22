@@ -8,8 +8,8 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-//use Magento\View\Context;
 use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Command;
@@ -22,15 +22,18 @@ class Move implements Command
      */
     const TYPE = 'move';
 
+    /**
+     * @var int
+     */
     private $inc = 0;
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return $this
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -52,11 +55,11 @@ class Move implements Command
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Move
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         $elementName = isset($element['element']) ? $element['element'] : null;
         if (isset($elementName) && isset($parentName)) {

@@ -9,6 +9,7 @@
 namespace Magento\View\Layout\Handle\Render;
 
 use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Render;
@@ -56,11 +57,11 @@ class Container implements Render
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Container
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
         if (isset($elementName)) {
@@ -98,11 +99,11 @@ class Container implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Container
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
@@ -122,12 +123,14 @@ class Container implements Render
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @param string $type [optional]
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function render(array $element, Layout $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
 

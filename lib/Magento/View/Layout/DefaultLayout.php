@@ -25,15 +25,26 @@ use Magento\Core\Block\AbstractBlock;
 use Magento\View\DesignInterface;
 use Magento\View\LayoutInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class DefaultLayout extends Simplexml\Config implements LayoutInterface
 {
-    static protected $inc = 0;
+    /**
+     * @var int
+     */
+    protected $inc = 0;
 
     /**
      * @var /SimpleXMLElement
      */
     protected $_xml;
 
+    /**
+     * @var array
+     */
     protected $root;
 
     /**
@@ -82,7 +93,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     protected $dataSourcePool;
 
     /**
-     * @var \Magento\View\Layout\Processor
+     * @var \Magento\View\Layout\ProcessorInterface
      */
     protected $processor;
 
@@ -139,7 +150,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\View\Layout\Processor
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function getUpdate()
     {
@@ -214,7 +225,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     /**
      * @param $name
      * @param array $element
-     * @return Layout
+     * @return LayoutInterface
      */
     public function addElement($name, array $element)
     {
@@ -346,6 +357,11 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $this->getBlock($childId);
     }
 
+    /**
+     * @param $parentId
+     * @param $childId
+     * @return null|string
+     */
     public function getChildAlias($parentId, $childId)
     {
         return $this->structure->getChildAlias($parentId, $childId);
@@ -432,6 +448,12 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $result;
     }
 
+    /**
+     * @param $name
+     * @param $attribute
+     * @param $value
+     * @return LayoutInterface
+     */
     public function setElementAttribute($name, $attribute, $value)
     {
         $this->structure->setAttribute($name, $attribute, $value);
@@ -501,7 +523,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     public function createBlock($type, $name = '', array $attributes = array())
     {
         if (empty($name)) {
-            $name = 'Anonymous-' . self::$inc++;
+            $name = 'Anonymous-' . $this->inc++;
         }
 
         $block = $this->blockPool->add($name, $type, $attributes);
@@ -540,6 +562,13 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $block;
     }
 
+    /**
+     * @param string $class
+     * @param string $dataName
+     * @param string $parentName
+     * @param string $alias
+     * @return AbstractBlock
+     */
     public function addDataSource($class, $dataName, $parentName = '', $alias = '')
     {
         $data = $this->dataSourcePool->add($dataName, $class);
@@ -550,11 +579,18 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $data;
     }
 
+    /**
+     * @return array|null|object
+     */
     public function getAllDataSources()
     {
         return $this->dataSourcePool->get();
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
     public function getElementDataSources($name)
     {
         return $this->dataSourcePool->getNamespaceData($name);

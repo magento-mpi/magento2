@@ -8,15 +8,18 @@
 
 namespace Magento\View\Layout\Handle;
 
-//use Magento\View\Context;
 use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 
 use Magento\Core\Model\Layout\Argument\Processor;
+use Magento\View\LayoutInterface;
 
 class Arguments implements Handle
 {
+    /**
+     * Handle type
+     */
     const TYPE = 'arguments';
 
     /**
@@ -36,11 +39,11 @@ class Arguments implements Handle
      * @inheritdoc
      *
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Arguments
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -62,10 +65,10 @@ class Arguments implements Handle
      * @inheritdoc
      *
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         //
     }
