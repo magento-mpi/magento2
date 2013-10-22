@@ -183,7 +183,7 @@ class Bundle extends Product
                     'value' => array(
                         'bundle_item_0' => array(
                             'title' => array(
-                                'value' => 'Drop-down Option',
+                                'value' => 'Drop-down Option'
                             ),
                             'type' => array(
                                 'value' => 'Drop-down',
@@ -235,11 +235,15 @@ class Bundle extends Product
                                             'value' => '%item1_product2::getProductId%'
                                         )
                                     )
-                                ),
-                            ),
-                        ),
+                                )
+                            )
+                        )
                     ),
                     'group' => static::GROUP_BUNDLE_OPTIONS
+                ),
+                'prices' => array(
+                    'price_from' => '110',
+                    'price_to' => '120'
                 )
             )
         );

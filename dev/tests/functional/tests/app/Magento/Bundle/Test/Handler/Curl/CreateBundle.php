@@ -40,7 +40,11 @@ class CreateBundle extends Curl
             if ($key == 'bundle_selections') {
                 $data = array_merge($data, $this->_getBundleData($values['value']));
             } else {
-                $value = isset($values['input_value']) ? $values['input_value'] : $values['value'];
+                $value = $this->getValue($values);
+                //do not add this data if value does not exist
+                if (null === $value) {
+                    continue;
+                }
                 if (isset($values['input_name'])) {
                     $key = $values['input_name'];
                 }
@@ -52,6 +56,20 @@ class CreateBundle extends Curl
             }
         }
         return $data;
+    }
+
+    /**
+     * Retrieve field value or return null if value does not exist
+     *
+     * @param $values
+     * @return null|mixed
+     */
+    protected function getValue($values)
+    {
+        if (!isset($values['value'])) {
+            return null;
+        }
+        return isset($values['input_value']) ? $values['input_value'] : $values['value'];
     }
 
     /**
