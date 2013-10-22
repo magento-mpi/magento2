@@ -48,40 +48,33 @@ class TaxRule extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'tax_rule' => array(
-                'config' => array(
-                    'constraint' => 'Success'
+        $this->_data = array(
+            'fields' => array(
+                'code' => array(
+                    'value' => 'Tax Rule %isolation%'
                 ),
-                'data' => array(
-                    'fields' => array(
-                        'code' => array(
-                            'value' => 'Tax Rule %isolation%'
-                        ),
-                        'tax_rate' => array(
-                            'value' => '1',
-                            'curl' => 'tax_rate[]'
-                        ),
-                        'tax_product_class' => array(
-                            'value' => '2',
-                            'curl' => 'tax_product_class[]'
-                        ),
-                        'tax_customer_class' => array(
-                            'value' => '3',
-                            'curl' => 'tax_customer_class[]'
-                        ),
-                        'priority' => array(
-                            'value' => '0'
-                        ),
-                        'position' => array(
-                            'value' => '0'
-                        )
-                    )
+                'tax_rate' => array(
+                    'value' => '1',
+                    'curl' => 'tax_rate[]'
+                ),
+                'tax_product_class' => array(
+                    'value' => '2',
+                    'curl' => 'tax_product_class[]'
+                ),
+                'tax_customer_class' => array(
+                    'value' => '3',
+                    'curl' => 'tax_customer_class[]'
+                ),
+                'priority' => array(
+                    'value' => '0'
+                ),
+                'position' => array(
+                    'value' => '0'
                 )
-            ),
+            )
         );
 
-        //Default data set
-        $this->switchData('tax_rule');
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoTaxTaxRule($this->_dataConfig, $this->_data);
     }
 }

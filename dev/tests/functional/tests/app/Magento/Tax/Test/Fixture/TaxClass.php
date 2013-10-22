@@ -47,40 +47,20 @@ class TaxClass extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'customer_tax_class' => array(
-                'config' => array(
-                    'constraint' => 'Success'
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'class_name' => array(
-                            'value' => 'Customer Tax Class %isolation%'
-                        ),
-                        'class_type' => array(
-                            'value' => 'CUSTOMER'
-                        )
+        $this->_data = array(
+            'data' => array(
+                'fields' => array(
+                    'class_name' => array(
+                        'value' => 'Customer Tax Class %isolation%'
+                    ),
+                    'class_type' => array(
+                        'value' => 'CUSTOMER'
                     )
                 )
-            ),
-            'product_tax_class' => array(
-                'config' => array(
-                    'constraint' => 'Success'
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'class_name' => array(
-                            'value' => 'Product Tax Class %isolation%'
-                        ),
-                        'class_type' => array(
-                            'value' => 'PRODUCT'
-                        )
-                    )
-                )
-            ),
+            )
         );
 
-        //Default data set
-        $this->switchData('customer_tax_class');
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoTaxTaxClass($this->_dataConfig, $this->_data);
     }
 }

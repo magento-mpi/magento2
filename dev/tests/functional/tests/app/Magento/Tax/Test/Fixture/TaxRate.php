@@ -48,34 +48,27 @@ class TaxRate extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'tax_rate' => array(
-                'config' => array(
-                    'constraint' => 'Success'
+        $this->_data = array(
+            'fields' => array(
+                'code' => array(
+                    'value' => 'Tax Rate %isolation%'
                 ),
-                'data' => array(
-                    'fields' => array(
-                        'code' => array(
-                            'value' => 'Tax Rate %isolation%'
-                        ),
-                        'rate' => array(
-                            'value' => '10'
-                        ),
-                        'tax_country_id' => array(
-                            'value' => 'US',
-                        ),
-                        'tax_postcode' => array(
-                            'value' => '*'
-                        ),
-                        'tax_region_id' => array(
-                            'value' => '0'
-                        )
-                    )
+                'rate' => array(
+                    'value' => '10'
+                ),
+                'tax_country_id' => array(
+                    'value' => 'US',
+                ),
+                'tax_postcode' => array(
+                    'value' => '*'
+                ),
+                'tax_region_id' => array(
+                    'value' => '0'
                 )
-            ),
+            )
         );
 
-        //Default data set
-        $this->switchData('tax_rate');
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoTaxTaxRate($this->_dataConfig, $this->_data);
     }
 }
