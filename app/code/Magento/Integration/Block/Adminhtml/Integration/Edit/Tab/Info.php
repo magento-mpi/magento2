@@ -53,11 +53,9 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
 
         $model = $this->_coreRegistry->registry('current_integration');
 
-        $fieldset = $form->addFieldset('base_fieldset',
-            array('legend' => __('Integration Properties'))
-        );
+        $fieldset = $form->addFieldset('base_fieldset');
 
-        if ($model->getEntityId()) {
+        if ($model->getIntegrationId()) {
             $fieldset->addField('integration_id', 'hidden', array(
                 'name' => 'integration_id',
             ));
@@ -88,26 +86,12 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             ),
         ));
 
-        $fieldset->addField('endpoint', 'select', array(
+        $fieldset->addField('endpoint', 'text', array(
             'label'     => __('Endpoint URL'),
             'name'      => 'endpoint',
             'required'  => true,
             'disabled'  => false
         ));
-
-        $afterFormBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
-            ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
-            ->addFieldMap("{$htmlIdPrefix}types", 'types')
-            ->addFieldDependence('types', 'is_types', '1');
-
-        $this->_eventManager->dispatch('integration_edit_tab_properties_after_prepare_form', array(
-            'model' => $model,
-            'form' => $form,
-            'block' => $this,
-            'after_form_block' => $afterFormBlock,
-        ));
-
-        $this->setChild('form_after', $afterFormBlock);
 
         $form->setValues($model->getData());
         $this->setForm($form);
@@ -122,7 +106,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getTabLabel()
     {
-        return __('Integration Info');
+        return __('Integration Properties');
     }
 
     /**

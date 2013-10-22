@@ -13,6 +13,25 @@ namespace Magento\Integration\Controller\Adminhtml;
 class Integration extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_registry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $registry
+    ) {
+        $this->_registry = $registry;
+        parent::__construct($context);
+    }
+
+    /**
      * Integrations grid.
      */
     public function indexAction()
@@ -57,6 +76,10 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         $model = $this->_objectManager->create('Magento\Integration\Model\Integration');
         if ($integrationId) {
             $model->load($integrationId);
+        }
+
+        if (!$this->_registry->registry('current_integration')) {
+            $this->_registry->register('current_integration', $model);
         }
 
         if (!$model->getId() && $integrationId) {

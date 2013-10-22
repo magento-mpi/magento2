@@ -36,6 +36,34 @@ $table = $installer->getConnection()
         'Integration name is displayed in the admin interface'
     )
     ->addColumn(
+        'email',
+        \Magento\DB\Ddl\Table::TYPE_TEXT,
+        255,
+        array(
+            'nullable' => false,
+        ),
+        'Email address of the contact person'
+    )
+    ->addColumn(
+        'authentication',
+        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        null,
+        array(
+            'unsigned' => true,
+            'nullable' => false
+        ),
+        'Authentication mechanism'
+    )
+    ->addColumn(
+        'endpoint',
+        \Magento\DB\Ddl\Table::TYPE_TEXT,
+        255,
+        array(
+            'nullable' => false,
+        ),
+        'Endpoint for Oauth handshake'
+    )
+    ->addColumn(
         'status',
         \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         null,
@@ -67,15 +95,6 @@ $table = $installer->getConnection()
         ),
         array('name'),
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-    )
-    ->addIndex(
-        $installer->getIdxName(
-            'integration',
-            array('status'),
-            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
-        ),
-        array('status'),
-        array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
     );
 $installer->getConnection()->createTable($table);
 
