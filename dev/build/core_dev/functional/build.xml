@@ -294,7 +294,7 @@
         </replace>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-${instanceIndex}/dev/tools/Magento/Di/compiler.php"/>
+            <arg line="-f ${dir.build_directory}/instance-${instanceIndex}/dev/tools/Magento/Tools/Di/compiler.php"/>
         </exec>
     </target>
 
