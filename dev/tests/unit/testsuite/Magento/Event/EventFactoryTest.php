@@ -36,7 +36,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
         $arguments = array('property' => 'value');
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('\Magento\Event', $arguments)->will($this->returnValue($this->_expectedObject));
+            ->with('Magento\Event', $arguments)->will($this->returnValue($this->_expectedObject));
 
         $this->assertEquals($this->_expectedObject, $this->_model->create($arguments));
     }
