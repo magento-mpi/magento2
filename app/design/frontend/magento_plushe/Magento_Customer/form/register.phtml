@@ -57,13 +57,6 @@
                 <?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?>
             <?php endif ?>
 
-            <?php $customerAttributes = $this->getChildBlock('customer_form_user_attributes');?>
-            <?php if ($customerAttributes): ?>
-                <?php $customerAttributes->setShowContainer(false);?>
-                <?php $this->restoreSessionData($customerAttributes->getForm());?>
-                <?php echo $customerAttributes->toHtml()?>
-            <?php endif;?>
-
         </fieldset>
 
     <?php if($this->getShowAddressFields()): ?>
@@ -180,23 +173,16 @@
                 <?php if ($this->getShowAddressFields()): ?>
                     "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
                 <?php endif ?>
-                <?php if ($customerAttributes->hasUserDefinedAttributes()): ?>
-                    "<?php echo $this->getViewFileUrl('Magento_CustomerCustomAttributes::file-element.js') ?>",
-                <?php endif ?>
-                <?php if ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes()): ?>
+                <?php if ($_dob->isEnabled()): ?>
                     "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
                 <?php endif ?>
                 function() {
                     var dataForm = $('#form-validate'), ignore;
-                    <?php if ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes()): ?>
+                    <?php if ($_dob->isEnabled()): ?>
                         ignore = 'input[id$="full"]';
                     <?php endif ?>
-                    <?php if ($customerAttributes->hasUserDefinedAttributes()): ?>
-                        dataForm = dataForm.fileElement();
-                        ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';
-                    <?php endif ?>
                     dataForm.validation({
-                    <?php if ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes()): ?>
+                    <?php if ($_dob->isEnabled()): ?>
                         errorPlacement: function(error, element) {
                             if (element.prop('id').search('full') !== -1) {
                                 var dobElement = $(element).parents('.customer-dob'),

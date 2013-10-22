@@ -338,6 +338,7 @@ return array(
     array('getDeleteUrl', 'Magento\Adminhtml\Block\Catalog\Product\Edit'),
     array('getDirectOutput', 'Magento\Core\Block\Template'),
     array('getDirectOutput', 'Magento\Core\Model\Layout'),
+    array('getDirectOutput', 'Magento\View\LayoutInterface'),
     array('getDistroServerVars', 'Magento\Core\Model\Config', 'getDistroBaseUrl'),
     array('getElementClass', 'Magento\Core\Model\Layout\Update'),
     array('getEngineFactory', 'Magento\Core\Block\Template\Context', 'getEnginePool'),
@@ -571,6 +572,7 @@ return array(
     array('isAutomaticCleaningAvailable', 'Magento\Cache\Backend\Eaccelerator'),
     array('isCheckoutAvailable', 'Magento\Checkout\Model\Type\Multishipping'),
     array('isDirectOutput', 'Magento\Core\Model\Layout'),
+    array('isDirectOutput', 'Magento\View\LayoutInterface'),
     array('isFulAmountCovered'),
     array('isInstalled', 'Magento\Core\Model\App'),
     array('isLeyeredNavigationAllowed'),
@@ -853,4 +855,5 @@ return array(
     array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
+    array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
 );

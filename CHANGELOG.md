@@ -1,16 +1,21 @@
+* Declared public interfaces for View component into library  
+* Plushe theme is set as the default theme
+
+2.0.0.0-dev48
+=============
 * Various improvements:
   * Added static integrity test for compilation of DI definitions
   * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)
 * Fixed bugs:
-  * Styles were broken on front-end due to usage of nonexistent stylesheet
+  * Fixed broken styles on front-end due to usage of nonexistent stylesheet
   * Fixed plugins configuration inheritance for proxy classes
   * Fixed OAuth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
   * Fixed Namespace class references
-  * Shipment for bundle product was not possible
-  * Uninstallation was not possible via console installer
-  * Many features did not work in IE8/9 due to JavaScript error in bootstrap
-  * Unable to place order within PayPal Payments Advanced and Payflow link
-  * Fatal error on placing order with Billing Agreement
+  * Fixed error on creating shipment with bundle products
+  * Fixed uninstallation via console installer
+  * Fixed JavaScript error in bootstrap in IE8/9
+  * Fixed placing order within PayPal Payments Advanced and Payflow Link
+  * Fixed fatal error on placing order with Billing Agreement
 
 2.0.0.0-dev47
 =============

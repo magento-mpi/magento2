@@ -90,12 +90,6 @@
             </div>
         </div>
 
-        <?php $addressAttributes = $this->getChildBlock('customer_form_shipping_address_user_defined_attributes');?>
-        <?php if ($addressAttributes): ?>
-            <?php $addressAttributes->setEntity($this->getAddress())->setEntityType('customer_address');?>
-            <?php $addressAttributes->setFieldIdFormat('shipping:%1$s')->setFieldNameFormat('shipping[%1$s]');?>
-            <?php echo $addressAttributes->setExcludeFileAttributes(true)->setShowContainer(false)->toHtml()?>
-        <?php endif;?>
         <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
             <div class="field choice save">
                 <input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?php echo __('Save in address book') ?>" id="shipping:save_in_address_book" <?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" />

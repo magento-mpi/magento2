@@ -35,7 +35,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev47';
+    const VERSION = '2.0.0.0-dev48';
 
     /**
      * Custom application dirs
@@ -408,11 +408,11 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {
-        return $this->_objectManager->get('Magento\Core\Model\Layout');
+        return $this->_objectManager->get('Magento\View\LayoutInterface');
     }
 
     /**
@@ -905,7 +905,7 @@ class App implements \Magento\Core\Model\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '47',
+            'number'    => '48',
         );
     }
 }
