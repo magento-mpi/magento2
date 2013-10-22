@@ -52,7 +52,7 @@ class Massaction
         if ($isActive && $this->_authorization->isAllowed('Magento_SalesArchive::add')) {
             $this->addItem('add_order_to_archive', array(
                  'label'=> __('Move to Archive'),
-                 'url'  => $this->getUrl('adminhtml/sales_archive/massAdd'),
+                 'url'  => $this->getUrl('sales/archive/massAdd'),
             ));
         }
         return parent::_beforeToHtml();

@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Catalog;
 
-class Search extends \Magento\Adminhtml\Controller\Action
+class Search extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

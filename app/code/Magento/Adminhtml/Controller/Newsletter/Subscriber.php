@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Newsletter;
 
-class Subscriber extends \Magento\Adminhtml\Controller\Action
+class Subscriber extends \Magento\Backend\Controller\Adminhtml\Action
 {
 
     public function indexAction()

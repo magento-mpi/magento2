@@ -13,7 +13,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
-class Theme extends \Magento\Adminhtml\Controller\Action
+class Theme extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

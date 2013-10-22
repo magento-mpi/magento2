@@ -159,7 +159,7 @@ class Orders
                     'actions'   => array(
                         array(
                             'caption' => __('View'),
-                            'url'     => array('base'=>'*/sales_order/view'),
+                            'url'     => array('base'=>'*/order/view'),
                             'field'   => 'order_id'
                         )
                     ),
@@ -181,7 +181,7 @@ class Orders
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/sales_order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('*/order/view', array('order_id' => $row->getId()));
     }
 
     /**

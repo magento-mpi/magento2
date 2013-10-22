@@ -14,7 +14,7 @@
  */
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
-class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
+class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * @var \Magento\SalesArchive\Model\Resource\Order\Collection
@@ -44,7 +44,7 @@ class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
         $ordersCount = $this->_orderCollection->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
-            $url = $this->getUrl('adminhtml/sales_archive/orders');
+            $url = $this->getUrl('sales/archive/orders');
             $parent->addButton('go_to_archive',  array(
                 'label'     => __('Go to Archive (%1 orders)', $ordersCount),
                 'onclick'   => 'setLocation(\'' . $url . '\')',

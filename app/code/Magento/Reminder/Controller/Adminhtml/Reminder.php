@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Controller\Adminhtml;
 
-class Reminder extends \Magento\Adminhtml\Controller\Action
+class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

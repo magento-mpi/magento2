@@ -19,7 +19,7 @@
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\View;
 
 class Items
-    extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
+    extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
     /**
      * Get order item from parent block

@@ -189,7 +189,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . $this->_adminhtmlData->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . $this->_adminhtmlData->getUrl('catalog/category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );

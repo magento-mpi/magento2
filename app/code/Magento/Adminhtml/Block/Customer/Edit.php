@@ -82,7 +82,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getCreateOrderUrl()
     {
-        return $this->getUrl('adminhtml/sales_order_create/start', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('*/order_create/start', array('customer_id' => $this->getCustomerId()));
     }
 
     public function getCustomerId()
@@ -108,7 +108,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getFormHtml()
     {
         $html = parent::getFormHtml();
-        $html .= $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Composite\Configure')
+        $html .= $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Composite\Configure')
             ->toHtml();
         return $html;
     }

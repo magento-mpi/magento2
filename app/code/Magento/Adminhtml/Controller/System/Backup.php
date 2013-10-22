@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\System;
 
-class Backup extends \Magento\Adminhtml\Controller\Action
+class Backup extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -79,7 +79,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     /**
      * Create backup action
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     public function createAction()
     {
@@ -163,7 +163,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     /**
      * Download backup action
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     public function downloadAction()
     {
@@ -191,7 +191,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     /**
      * Rollback Action
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     public function rollbackAction()
     {
@@ -309,7 +309,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     /**
      * Delete backups mass action
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     public function massDeleteAction()
     {

@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
-class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
+class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Defines if status message of code pool is show

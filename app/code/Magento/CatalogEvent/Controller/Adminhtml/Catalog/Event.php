@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-class Event extends \Magento\Adminhtml\Controller\Action
+class Event extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -246,7 +246,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
                     __('You deleted the event.')
                 );
                 if ($this->getRequest()->getParam('category')) {
-                    $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
+                    $this->_redirect('*/category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
                 } else {
                     $this->_redirect('*/*/');
                 }

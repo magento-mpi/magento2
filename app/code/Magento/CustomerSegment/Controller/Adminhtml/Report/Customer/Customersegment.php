@@ -18,7 +18,7 @@
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
 
 class Customersegment
-    extends \Magento\Adminhtml\Controller\Action
+    extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Admin session

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller;
 
-class Urlrewrite extends \Magento\Adminhtml\Controller\Action
+class Urlrewrite extends \Magento\Backend\Controller\Adminhtml\Action
 {
     const ID_MODE = 'id';
     const PRODUCT_MODE = 'product';

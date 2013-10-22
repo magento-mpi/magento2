@@ -19,7 +19,7 @@
 namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Renderer;
 
 class Action
-    extends \Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action
+    extends \Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action
 {
     /**
      * Render field HRML for column

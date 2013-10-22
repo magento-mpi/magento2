@@ -13,7 +13,7 @@
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Types extends \Magento\Adminhtml\Controller\Action
+class Types extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

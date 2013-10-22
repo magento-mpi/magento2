@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
 
-class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
+class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 {
     /**
      * Disable massaction

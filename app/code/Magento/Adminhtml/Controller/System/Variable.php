@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\System;
 
-class Variable extends \Magento\Adminhtml\Controller\Action
+class Variable extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

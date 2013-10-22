@@ -9,7 +9,7 @@
  */
 namespace Magento\Adminhtml\Controller;
 
-class Customer extends \Magento\Adminhtml\Controller\Action
+class Customer extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Validator

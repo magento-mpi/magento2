@@ -79,7 +79,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Adminhtml sales
      *
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var \Magento\Sales\Helper\Admin
      */
     protected $_adminhtmlSales = null;
 
@@ -137,7 +137,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
@@ -155,7 +155,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function __construct(
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-class Statistics extends \Magento\Adminhtml\Controller\Action
+class Statistics extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Admin session model

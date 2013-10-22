@@ -17,7 +17,7 @@
  */
 namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
 
-class Currency extends \Magento\Adminhtml\Controller\Action
+class Currency extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

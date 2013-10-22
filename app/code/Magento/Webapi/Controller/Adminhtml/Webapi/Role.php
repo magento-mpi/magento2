@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Adminhtml\Webapi;
 
-class Role extends \Magento\Adminhtml\Controller\Action
+class Role extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Core\Model\Validator\Factory

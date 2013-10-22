@@ -15,7 +15,7 @@ namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Editor extends \Magento\Adminhtml\Controller\Action
+class Editor extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Theme\Model\Config

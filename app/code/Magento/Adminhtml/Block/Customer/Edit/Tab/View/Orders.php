@@ -127,7 +127,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
             'filter'    =>  false,
             'sortable'  =>  false,
             'width'     => '100px',
-            'renderer'  =>  'Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action'
+            'renderer'  =>  'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
         ));
 
         return parent::_prepareColumns();
@@ -135,7 +135,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/sales_order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
     }
 
     public function getHeadersVisibility()

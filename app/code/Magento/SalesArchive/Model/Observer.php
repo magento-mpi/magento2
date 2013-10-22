@@ -109,7 +109,7 @@ class Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                $this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
+                $this->_backendData->getUrl('sales/archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(
@@ -197,7 +197,7 @@ class Observer
     public function replaceSalesOrderRedirect(\Magento\Event\Observer $observer)
     {
         /**
-         * @var \Magento\Adminhtml\Controller\Action $controller
+         * @var \Magento\Backend\Controller\Adminhtml\Action $controller
          */
         $controller = $observer->getControllerAction();
         /**
@@ -217,9 +217,9 @@ class Observer
         $createdFromOrders = !empty($ids);
 
         if ($createdFromOrders) {
-            $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+            $response->setRedirect($controller->getUrl('sales/archive/orders'));
         } else {
-            $response->setRedirect($controller->getUrl('*/sales_archive/shipments'));
+            $response->setRedirect($controller->getUrl('sales/archive/shipments'));
         }
     }
 }

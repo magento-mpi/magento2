@@ -10,7 +10,7 @@
 
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
-class Giftregistry extends \Magento\Adminhtml\Controller\Action
+class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

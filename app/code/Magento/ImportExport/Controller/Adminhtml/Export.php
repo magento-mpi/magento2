@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Controller\Adminhtml;
 
-class Export extends \Magento\Adminhtml\Controller\Action
+class Export extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Initialize layout.

@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller\Adminhtml;
 
-class Rma extends \Magento\Adminhtml\Controller\Action
+class Rma extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -1198,7 +1198,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      * @throws \Magento\Core\Exception
      */
     public function printLabelAction()

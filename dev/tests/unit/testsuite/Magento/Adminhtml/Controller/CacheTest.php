@@ -52,7 +52,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
         $cacheFrontendPool = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
 
-        $controller = new \Magento\Adminhtml\Controller\Cache(
+        $controller = new \Magento\Backend\Controller\Adminhtml\Cache(
             $context,
             $cacheTypeListMock,
             $cacheStateMock,

@@ -438,7 +438,7 @@ class Revision
     /**
      * Controller predispatch method
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     public function preDispatch()
     {

@@ -9,7 +9,7 @@
  */
 namespace Magento\Index\Controller\Adminhtml;
 
-class Process extends \Magento\Adminhtml\Controller\Action
+class Process extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Customer;
 
-class Reward extends \Magento\Adminhtml\Controller\Action
+class Reward extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Check if module functionality enabled

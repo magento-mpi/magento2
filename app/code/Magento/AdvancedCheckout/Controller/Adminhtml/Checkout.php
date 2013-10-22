@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
-class Checkout extends \Magento\Adminhtml\Controller\Action
+class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -155,7 +155,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     /**
      * Renderer for page title
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initTitle()
     {
@@ -386,7 +386,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getSession();
+                $session = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
@@ -480,8 +480,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             ->setCurrentCustomerId($customerId);
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -526,8 +526,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -571,8 +571,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -658,8 +658,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

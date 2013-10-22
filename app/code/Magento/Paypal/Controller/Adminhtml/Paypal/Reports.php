@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Controller\Adminhtml\Paypal;
 
-class Reports extends \Magento\Adminhtml\Controller\Action
+class Reports extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

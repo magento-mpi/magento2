@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Controller\Adminhtml;
 
-class Targetrule extends \Magento\Adminhtml\Controller\Action
+class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
 {
 
     /**
