@@ -21,6 +21,8 @@ class Grouped
      */
     protected $_taxCalculation;
 
+    protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
+
     /**
      * Construct
      *
