@@ -48,7 +48,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
         if ($this->_showCodePoolStatusMessage) {
             $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
 
-            $url = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('*/*/generate');
+            $url = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('adminhtml/*/generate');
             $notice = __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url);
             if ($usage->getPercent() == 100) {
                 $this->_getSession()->addError($notice);
@@ -98,7 +98,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
                              $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
             ->_addContent(
                 $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
-                    ->setData('form_action_url', $this->getUrl('*/*/save'))
+                    ->setData('form_action_url', $this->getUrl('adminhtml/*/save'))
             )
             ->_addLeft(
                 $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')

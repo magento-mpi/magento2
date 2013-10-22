@@ -85,7 +85,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
         $this->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
         $this->getLayout()->getBlock('adminhtml.catalog.search.edit')
-            ->setData('action', $this->getUrl('*/catalog_search/save'));
+            ->setData('action', $this->getUrl('adminhtml/catalog_search/save'));
 
         $this
             ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));

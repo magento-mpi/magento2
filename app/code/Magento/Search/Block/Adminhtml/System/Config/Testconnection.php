@@ -56,7 +56,7 @@ class Testconnection
         $this->addData(array(
             'button_label' => __($originalData['button_label']),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => $this->_urlBuilder->getUrl('*/search_system_config_testconnection/ping')
+            'ajax_url' => $this->_urlBuilder->getUrl('adminhtml/search_system_config_testconnection/ping')
         ));
 
         return $this->_toHtml();

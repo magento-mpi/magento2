@@ -57,7 +57,7 @@ class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
     {
         if ($this->_isCreateRmaButtonRequired()) {
             $parentBlock = $this->getParentBlock();
-            $buttonUrl = $this->_urlBuilder->getUrl('*/rma/new', array('order_id' => $parentBlock->getOrderId()));
+            $buttonUrl = $this->_urlBuilder->getUrl('adminhtml/rma/new', array('order_id' => $parentBlock->getOrderId()));
             $parentBlock->addButton('create_rma', array(
                 'label' => __('Create Returns'),
                 'onclick' => 'setLocation(\'' . $buttonUrl . '\')',

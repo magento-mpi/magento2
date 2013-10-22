@@ -141,7 +141,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
                 $switchBlock->setDefaultStoreName(__('Default Values'))
-                    ->setSwitchUrl($this->getUrl('*/*/*', array('_current' => true, 'store' => null)));
+                    ->setSwitchUrl($this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null)));
             }
         }
         $this->renderLayout();

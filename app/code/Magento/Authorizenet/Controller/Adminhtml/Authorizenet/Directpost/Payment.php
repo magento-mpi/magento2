@@ -150,7 +150,7 @@ class Payment
             if ($isError) {
                 $result['success'] = 0;
                 $result['error'] = 1;
-                $result['redirect'] = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('*/sales_order_create/');
+                $result['redirect'] = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('adminhtml/sales_order_create/');
             }
 
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));

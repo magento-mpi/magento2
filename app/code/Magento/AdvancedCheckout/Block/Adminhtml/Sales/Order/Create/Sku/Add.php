@@ -47,7 +47,7 @@ class Add
      */
     public function getFileUploadUrl()
     {
-        return $this->getUrl('*/sales_order_create/processData');
+        return $this->getUrl('adminhtml/sales_order_create/processData');
     }
 
     /**

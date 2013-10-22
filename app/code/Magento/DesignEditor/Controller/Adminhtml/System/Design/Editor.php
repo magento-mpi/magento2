@@ -100,7 +100,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             if ($launchedTheme->isPhysical()) {
                 $launchedTheme = $launchedTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)
                     ->createVirtualTheme($launchedTheme);
-                $this->_redirect($this->getUrl('*/*/*', array('theme_id' => $launchedTheme->getId())));
+                $this->_redirect($this->getUrl('adminhtml/*/*', array('theme_id' => $launchedTheme->getId())));
                 return;
             }
             $editableTheme = $themeContext->getStagingTheme();

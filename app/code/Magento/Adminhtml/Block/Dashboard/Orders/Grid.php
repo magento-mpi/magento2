@@ -130,6 +130,6 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$row->getId()));
+        return $this->getUrl('adminhtml/sales_order/view', array('order_id'=>$row->getId()));
     }
 }

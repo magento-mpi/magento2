@@ -136,12 +136,12 @@ class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/productGrid', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/productGrid', array('_current'=>true));
     }
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
+        return $this->getUrl('adminhtml/*/jsonProductInfo', array('id' => $row->getId()));
     }
 
     protected function _prepareMassaction()

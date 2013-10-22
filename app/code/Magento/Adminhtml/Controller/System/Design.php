@@ -125,7 +125,7 @@ class Design extends \Magento\Adminhtml\Controller\Action
                     ->addException($e, __("Cannot delete the design change."));
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+        $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
     }
 
     protected function _isAllowed()

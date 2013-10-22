@@ -276,7 +276,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
                 ->setSwitchUrl(
-                    $this->getUrl('*/*/*', array(
+                    $this->getUrl('adminhtml/*/*', array(
                         '_current' => true,
                         'active_tab' => null,
                         'tab' => null,

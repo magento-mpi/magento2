@@ -72,7 +72,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('*/*/invoicesgrid', array('_current' => true));
+         return $this->getUrl('adminhtml/*/invoicesgrid', array('_current' => true));
     }
 
     /**

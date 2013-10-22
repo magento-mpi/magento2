@@ -121,7 +121,7 @@ class Agreement
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/sales_billing_agreement/customerGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/sales_billing_agreement/customerGrid', array('_current' => true));
     }
 
     /**

@@ -142,7 +142,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('adminhtml/catalog_product/edit', array('id' => $row->getProductId()));
     }
 
     public function getHeadersVisibility()

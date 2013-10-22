@@ -139,7 +139,7 @@ class Items
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('adminhtml/catalog_product/edit', array('id' => $row->getProductId()));
     }
 
     /**

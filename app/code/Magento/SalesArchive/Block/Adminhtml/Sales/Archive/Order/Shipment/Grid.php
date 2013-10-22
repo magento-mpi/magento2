@@ -71,7 +71,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('*/*/shipmentsgrid', array('_current' => true));
+         return $this->getUrl('adminhtml/*/shipmentsgrid', array('_current' => true));
     }
 
     /**
@@ -102,7 +102,7 @@ class Grid
         parent::_prepareMassaction();
 
         $this->getMassactionBlock()->getItem('print_shipping_label')
-            ->setUrl($this->getUrl('*/sales_archive/massPrintShippingLabel'));
+            ->setUrl($this->getUrl('adminhtml/sales_archive/massPrintShippingLabel'));
 
         return $this;
     }

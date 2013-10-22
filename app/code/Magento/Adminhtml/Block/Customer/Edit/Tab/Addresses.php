@@ -62,7 +62,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 
     public function getRegionsUrl()
     {
-        return $this->getUrl('*/json/countryRegion');
+        return $this->getUrl('adminhtml/json/countryRegion');
     }
 
     protected function _prepareLayout()

@@ -79,7 +79,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                 ->setData(
                     array(
                         'label'   => __('Back'),
-                        'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
+                        'onclick' => "window.location.href = '" . $this->getUrl('adminhtml/*') . "'",
                         'class'   => 'back'
                     )
                 )
@@ -300,7 +300,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current' => true));
+        return $this->getUrl('adminhtml/*/save', array('_current' => true));
     }
 
     /**
@@ -310,7 +310,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getPreviewUrl()
     {
-        return $this->getUrl('*/*/preview');
+        return $this->getUrl('adminhtml/*/preview');
     }
 
     public function isTextType()
@@ -325,7 +325,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('_current' => true));
+        return $this->getUrl('adminhtml/*/delete', array('_current' => true));
     }
 
     /**
@@ -345,7 +345,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getLoadUrl()
     {
-        return $this->getUrl('*/*/defaultTemplate');
+        return $this->getUrl('adminhtml/*/defaultTemplate');
     }
 
     /**

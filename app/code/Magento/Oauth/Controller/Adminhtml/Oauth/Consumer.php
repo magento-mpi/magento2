@@ -263,7 +263,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
             //$this->_redirect('<Add-On Website URL>', array(
                     //'oauth_consumer_key' => $consumerData[self::DATA_KEY],
                     //'oauth_verifier' => $verifier[self::DATA_VERIFIER],
-                    //'callback_url' => $this->getUrl('*/*/index')
+                    //'callback_url' => $this->getUrl('adminhtml/*/index')
                 //));
             $this->_redirect('*/*/index');
         } else {

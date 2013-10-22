@@ -23,15 +23,15 @@
                     <argument name="options" xsi:type="array">
                         <item name="enable" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Enable</item>
-                            <item name="url" xsi:type="string">*/*/massEnable</item>
+                            <item name="url" xsi:type="string">adminhtml/*/massEnable</item>
                         </item>
                         <item name="disable" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Disable</item>
-                            <item name="url" xsi:type="string">*/*/massDisable</item>
+                            <item name="url" xsi:type="string">adminhtml/*/massDisable</item>
                         </item>
                         <item name="refresh" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Refresh</item>
-                            <item name="url" xsi:type="string">*/*/massRefresh</item>
+                            <item name="url" xsi:type="string">adminhtml/*/massRefresh</item>
                             <item name="selected" xsi:type="string">1</item>
                         </item>
                     </argument>

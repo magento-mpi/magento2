@@ -442,7 +442,7 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
             $gaData = urlencode(base64_encode(json_encode($params)));
             $gaHash = $this->_dashboardData->getChartDataHash($gaData);
             $params = array('ga' => $gaData, 'h' => $gaHash);
-            return $this->getUrl('*/*/tunnel', array('_query' => $params));
+            return $this->getUrl('adminhtml/*/tunnel', array('_query' => $params));
         }
     }
 

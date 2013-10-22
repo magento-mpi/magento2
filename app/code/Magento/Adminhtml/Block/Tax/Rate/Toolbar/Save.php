@@ -26,7 +26,7 @@ class Save extends \Magento\Adminhtml\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->assign('createUrl', $this->getUrl('*/tax_rate/save'));
+        $this->assign('createUrl', $this->getUrl('adminhtml/tax_rate/save'));
 
     }
 
@@ -34,7 +34,7 @@ class Save extends \Magento\Adminhtml\Block\Template
     {
         $this->addChild('backButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'window.location.href=\''.$this->getUrl('*/*/').'\'',
+            'onclick'   => 'window.location.href=\''.$this->getUrl('adminhtml/*/').'\'',
             'class' => 'back'
         ));
 
@@ -50,7 +50,7 @@ class Save extends \Magento\Adminhtml\Block\Template
 
         $this->addChild('deleteButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Rate'),
-            'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array('rate' => $this->getRequest()->getParam('rate'))) . '\')',
+            'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . $this->getUrl('adminhtml/*/delete', array('rate' => $this->getRequest()->getParam('rate'))) . '\')',
             'class' => 'delete'
         ));
         return parent::_prepareLayout();

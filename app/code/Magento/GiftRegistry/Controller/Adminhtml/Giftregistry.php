@@ -96,7 +96,7 @@ class Giftregistry extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('New Gift Registry Type'));
 
         $block = $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));
+            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->_addBreadcrumb(__('New Type'), __('New Type'))
             ->_addContent($block)
@@ -123,7 +123,7 @@ class Giftregistry extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('%1', $model->getLabel()));
 
         $block = $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));
+            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->_addBreadcrumb(__('Edit Type'), __('Edit Type'))
             ->_addContent($block)

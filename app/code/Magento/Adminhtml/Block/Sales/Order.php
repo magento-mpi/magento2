@@ -37,6 +37,6 @@ class Order extends \Magento\Adminhtml\Block\Widget\Grid\Container
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('*/sales_order_create/start');
+        return $this->getUrl('adminhtml/sales_order_create/start');
     }
 }

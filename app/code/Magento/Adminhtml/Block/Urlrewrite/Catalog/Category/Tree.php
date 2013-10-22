@@ -169,6 +169,6 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
      */
     public function getLoadTreeUrl()
     {
-        return $this->_adminhtmlData->getUrl('*/*/categoriesJson');
+        return $this->_adminhtmlData->getUrl('adminhtml/*/categoriesJson');
     }
 }

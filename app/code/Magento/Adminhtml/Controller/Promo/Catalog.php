@@ -108,7 +108,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
         $this->_coreRegistry->register('current_promo_catalog_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_catalog_edit')
-             ->setData('action', $this->getUrl('*/promo_catalog/save'));
+             ->setData('action', $this->getUrl('adminhtml/promo_catalog/save'));
 
         $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
         $this->_addBreadcrumb($breadcrumb, $breadcrumb)->renderLayout();

@@ -356,7 +356,7 @@ class Category extends \Magento\Adminhtml\Controller\Action
                 'category' => $category->toArray(),
             ));
         } else {
-            $url = $this->getUrl('*/*/edit', array('_current' => true, 'id' => $category->getId()));
+            $url = $this->getUrl('adminhtml/*/edit', array('_current' => true, 'id' => $category->getId()));
             $body = '<script type="text/javascript">parent.updateContent("'
                 . $url . '", {}, ' . $refreshTree . ');</script>';
         }
@@ -431,15 +431,15 @@ class Category extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addSuccess(__('You deleted the category.'));
             } catch (\Magento\Core\Exception $e){
                 $this->_getSession()->addError($e->getMessage());
-                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/edit', array('_current' => true)));
                 return;
             } catch (\Exception $e){
                 $this->_getSession()->addError(__('Something went wrong while trying to delete the category.'));
-                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/edit', array('_current' => true)));
                 return;
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/*/', array('_current' => true, 'id' => null)));
+        $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/', array('_current' => true, 'id' => null)));
     }
 
     /**

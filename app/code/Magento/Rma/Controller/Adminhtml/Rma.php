@@ -985,9 +985,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $urlParams['id']    = $model->getId();
         $items              = $model->getShippingMethods(true);
 
-        $createLabelUrl = $this->getUrl('*/*/saveShipping', $urlParams);
-        $itemsGridUrl   = $this->getUrl('*/*/getShippingItemsGrid', $urlParams);
-        $thisPage       = $this->getUrl('*/*/edit', $urlParams);
+        $createLabelUrl = $this->getUrl('adminhtml/*/saveShipping', $urlParams);
+        $itemsGridUrl   = $this->getUrl('adminhtml/*/getShippingItemsGrid', $urlParams);
+        $thisPage       = $this->getUrl('adminhtml/*/edit', $urlParams);
 
         $code    = $this->getRequest()->getParam('method');
         $carrier = $this->_objectManager->get('Magento\Rma\Helper\Data')->getCarrier($code, $model->getStoreId());

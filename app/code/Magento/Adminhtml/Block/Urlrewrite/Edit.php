@@ -99,7 +99,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
         }
 
         $this->_updateBackButtonLink(
-            $this->_adminhtmlData->getUrl('*/*/edit') . $this->_getSelectorBlock()->getDefaultMode()
+            $this->_adminhtmlData->getUrl('adminhtml/*/edit') . $this->_getSelectorBlock()->getDefaultMode()
         );
         $this->_addUrlRewriteSelectorBlock();
         $this->_addEditFormBlock();
@@ -140,7 +140,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
     {
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => 'setLocation(\'' . $this->_adminhtmlData->getUrl('*/*/') . '\')',
+            'onclick' => 'setLocation(\'' . $this->_adminhtmlData->getUrl('adminhtml/*/') . '\')',
             'class'   => 'back',
             'level'   => -1
         ));
@@ -166,7 +166,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
             'onclick' => 'deleteConfirm(\''
                 . addslashes(__('Are you sure you want to do this?'))
                 . '\', \''
-                . $this->_adminhtmlData->getUrl('*/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
+                . $this->_adminhtmlData->getUrl('adminhtml/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
             'class'   => 'scalable delete',
             'level'   => -1
         ));

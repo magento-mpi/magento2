@@ -99,7 +99,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $this->_coreRegistry->register('current_promo_quote_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_quote_edit')
-             ->setData('action', $this->getUrl('*/*/save'));
+             ->setData('action', $this->getUrl('adminhtml/*/save'));
 
         $this
             ->_addBreadcrumb(

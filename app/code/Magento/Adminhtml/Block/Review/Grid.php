@@ -337,7 +337,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_product_review/edit', array(
+        return $this->getUrl('adminhtml/catalog_product_review/edit', array(
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),

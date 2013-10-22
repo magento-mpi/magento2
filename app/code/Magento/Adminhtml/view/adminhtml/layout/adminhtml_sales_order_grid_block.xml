@@ -36,35 +36,35 @@
                         <updater>Magento\Sales\Model\Order\Grid\Massaction\ItemsUpdater</updater>
                         <item name="cancel_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Cancel</item>
-                            <item name="url" xsi:type="string">*/sales_order/massCancel</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/massCancel</item>
                         </item>
                         <item name="hold_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Hold</item>
-                            <item name="url" xsi:type="string">*/sales_order/massHold</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/massHold</item>
                         </item>
                         <item name="unhold_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Unhold</item>
-                            <item name="url" xsi:type="string">*/sales_order/massUnhold</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/massUnhold</item>
                         </item>
                         <item name="pdfinvoices_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Print Invoices</item>
-                            <item name="url" xsi:type="string">*/sales_order/pdfinvoices</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/pdfinvoices</item>
                         </item>
                         <item name="pdfshipments_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Print Packing Slips</item>
-                            <item name="url" xsi:type="string">*/sales_order/pdfshipments</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/pdfshipments</item>
                         </item>
                         <item name="pdfcreditmemos_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Print Credit Memos</item>
-                            <item name="url" xsi:type="string">*/sales_order/pdfcreditmemos</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/pdfcreditmemos</item>
                         </item>
                         <item name="pdfdocs_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Print All</item>
-                            <item name="url" xsi:type="string">*/sales_order/pdfdocs</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order/pdfdocs</item>
                         </item>
                         <item name="print_shipping_label" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Print Shipping Labels</item>
-                            <item name="url" xsi:type="string">*/sales_order_shipment/massPrintShippingLabel</item>
+                            <item name="url" xsi:type="string">adminhtml/sales_order_shipment/massPrintShippingLabel</item>
                         </item>
                     </argument>
                 </arguments>
@@ -73,11 +73,11 @@
                 <arguments>
                     <argument name="exportTypes" xsi:type="array">
                         <item name="csv" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                            <item name="urlPath" xsi:type="string">adminhtml/*/exportCsv</item>
                             <item name="label" xsi:type="string" translate="true">CSV</item>
                         </item>
                         <item name="excel" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">*/*/exportExcel</item>
+                            <item name="urlPath" xsi:type="string">adminhtml/*/exportExcel</item>
                             <item name="label" xsi:type="string" translate="true">Excel XML</item>
                         </item>
                     </argument>
@@ -88,7 +88,7 @@
                     <argument name="id" xsi:type="string">sales_order_grid</argument>
                     <argument name="rowUrl" xsi:type="array">
                         <item name="generatorClass" xsi:type="string">Magento\Sales\Model\Order\Grid\Row\UrlGenerator</item>
-                        <item name="path" xsi:type="string">*/sales_order/view</item>
+                        <item name="path" xsi:type="string">adminhtml/sales_order/view</item>
                         <item name="extraParamsTemplate" xsi:type="array">
                             <item name="order_id" xsi:type="string">getId</item>
                         </item>
@@ -193,7 +193,7 @@
                             <item name="view_action" xsi:type="array">
                                 <item name="caption" xsi:type="string" translate="true">View</item>
                                 <item name="url" xsi:type="array">
-                                    <item name="base" xsi:type="string">*/sales_order/view</item>
+                                    <item name="base" xsi:type="string">adminhtml/sales_order/view</item>
                                 </item>
                                 <item name="field" xsi:type="string">order_id</item>
                             </item>

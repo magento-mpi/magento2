@@ -209,7 +209,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
         $this->_addBreadcrumb(
             __('Newsletter Queue'),
             __('Newsletter Queue'),
-            $this->getUrl('*/newsletter_queue')
+            $this->getUrl('adminhtml/newsletter_queue')
         );
         $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
 

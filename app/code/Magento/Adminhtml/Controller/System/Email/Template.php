@@ -77,7 +77,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $template = $this->_initTemplate('id');
         $this->_setActiveMenu('Magento_Adminhtml::system_email_template');
-        $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), $this->getUrl('*/*'));
+        $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), $this->getUrl('adminhtml/*'));
 
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(__('Edit Template'), __('Edit System Template'));

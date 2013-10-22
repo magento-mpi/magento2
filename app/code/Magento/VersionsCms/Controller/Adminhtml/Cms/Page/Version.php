@@ -337,7 +337,7 @@ class Version
                     $this->_adminhtmlSession->setFormData($data);
                 }
                 // redirect to edit form
-                $this->_redirectReferer($this->getUrl('*/cms_page/edit',
+                $this->_redirectReferer($this->getUrl('adminhtml/cms_page/edit',
                     array('page_id' => $this->getRequest()->getParam('page_id'))));
                 return;
             }

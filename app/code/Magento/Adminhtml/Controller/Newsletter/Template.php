@@ -161,7 +161,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
     {
         $request = $this->getRequest();
         if (!$request->isPost()) {
-            $this->getResponse()->setRedirect($this->getUrl('*/newsletter_template'));
+            $this->getResponse()->setRedirect($this->getUrl('adminhtml/newsletter_template'));
         }
         $template = $this->_objectManager->create('Magento\Newsletter\Model\Template');
 

@@ -167,7 +167,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             return false;
         }
 
-        return $this->getUrl('*/sales_shipment/view',
+        return $this->getUrl('adminhtml/sales_shipment/view',
             array(
                 'shipment_id' => $row->getId(),
             )
@@ -187,12 +187,12 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
             'label' => __('PDF Packing Slips'),
-            'url' => $this->getUrl('*/sales_shipment/pdfshipments'),
+            'url' => $this->getUrl('adminhtml/sales_shipment/pdfshipments'),
         ));
 
         $this->getMassactionBlock()->addItem('print_shipping_label', array(
             'label' => __('Print Shipping Labels'),
-            'url' => $this->getUrl('*/sales_order_shipment/massPrintShippingLabel'),
+            'url' => $this->getUrl('adminhtml/sales_order_shipment/massPrintShippingLabel'),
         ));
 
         return $this;
@@ -205,7 +205,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/*', array('_current' => true));
+        return $this->getUrl('adminhtml/*/*', array('_current' => true));
     }
 
 }

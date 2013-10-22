@@ -84,7 +84,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     public function createAction()
     {
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->getUrl('adminhtml/*/index');
         }
 
         $response = new \Magento\Object();
@@ -137,7 +137,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
 
             $this->_getSession()->addSuccess($successMessage);
 
-            $response->setRedirectUrl($this->getUrl('*/*/index'));
+            $response->setRedirectUrl($this->getUrl('adminhtml/*/index'));
         } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
         } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
@@ -200,7 +200,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
         }
 
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->getUrl('adminhtml/*/index');
         }
 
         $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');

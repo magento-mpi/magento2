@@ -154,7 +154,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
             $nextId = (int) $this->getRequest()->getParam('next_item');
             $url = $this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/');
             if ($nextId) {
-                $url = $this->getUrl('*/*/edit', array('id' => $nextId));
+                $url = $this->getUrl('adminhtml/*/edit', array('id' => $nextId));
             }
             return $this->getResponse()->setRedirect($url);
         }
@@ -173,9 +173,9 @@ class Review extends \Magento\Adminhtml\Controller\Action
 
             $session->addSuccess(__('The review has been deleted.'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/pending'));
             } else {
-                $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
             }
             return;
         } catch (\Magento\Core\Exception $e) {
@@ -344,9 +344,9 @@ class Review extends \Magento\Adminhtml\Controller\Action
 
                 $session->addSuccess(__('You saved the review.'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
+                    $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/pending'));
                 } else {
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+                    $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
                 }
 
                 return;
@@ -356,7 +356,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
                 $session->addException($e, __('An error occurred while saving review.'));
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+        $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
         return;
     }
 

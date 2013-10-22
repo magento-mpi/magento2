@@ -115,7 +115,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
         $this->_initAction();
 
         $block =  $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));
+            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)

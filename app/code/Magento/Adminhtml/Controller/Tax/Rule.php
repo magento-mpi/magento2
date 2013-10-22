@@ -112,7 +112,7 @@ class Rule extends \Magento\Adminhtml\Controller\Action
             $this->_redirectReferer();
             return;
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/tax_rule'));
+        $this->getResponse()->setRedirect($this->getUrl('adminhtml/tax_rule'));
     }
 
     public function deleteAction()

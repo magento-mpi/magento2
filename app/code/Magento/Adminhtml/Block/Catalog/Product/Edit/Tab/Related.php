@@ -300,7 +300,7 @@ class Related extends \Magento\Adminhtml\Block\Widget\Grid
     {
         return $this->getData('grid_url')
             ? $this->getData('grid_url')
-            : $this->getUrl('*/*/relatedGrid', array('_current' => true));
+            : $this->getUrl('adminhtml/*/relatedGrid', array('_current' => true));
     }
 
     /**

@@ -88,7 +88,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             ->_addContent(
                 $this->getLayout()
                     ->createBlock('Magento\Adminhtml\Block\Checkout\Agreement\Edit')
-                    ->setData('action', $this->getUrl('*/*/save'))
+                    ->setData('action', $this->getUrl('adminhtml/*/save'))
             )
             ->renderLayout();
     }

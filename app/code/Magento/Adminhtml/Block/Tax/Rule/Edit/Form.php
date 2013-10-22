@@ -173,7 +173,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         $form->addValues($model->getData());
-        $form->setAction($this->getUrl('*/tax_rule/save'));
+        $form->setAction($this->getUrl('adminhtml/tax_rule/save'));
         $form->setUseContainer($this->getUseContainer());
         $this->setForm($form);
 

@@ -181,7 +181,7 @@ class Orders
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('adminhtml/sales_order/view', array('order_id' => $row->getId()));
     }
 
     /**
@@ -202,7 +202,7 @@ class Orders
     public function getTabUrl()
     {
         $recurringProfile = $this->_coreRegistry->registry('current_recurring_profile');
-        return $this->getUrl('*/*/orders', array('profile' => $recurringProfile->getId()));
+        return $this->getUrl('adminhtml/*/orders', array('profile' => $recurringProfile->getId()));
     }
 
     /**

@@ -53,7 +53,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
+            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('adminhtml/tax_rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
@@ -100,7 +100,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
             $this->_redirectReferer();
             return;
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/tax_rate'));
+        $this->getResponse()->setRedirect($this->getUrl('adminhtml/tax_rate'));
     }
 
     /**
@@ -179,7 +179,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         $this->_title(sprintf("%s", $rateModel->getCode()));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
+            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('adminhtml/tax_rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
@@ -227,7 +227,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
             } else {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('Something went wrong deleting this rate because of an incorrect rate ID.'));
-                $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
             }
         }
     }

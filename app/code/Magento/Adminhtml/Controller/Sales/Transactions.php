@@ -56,7 +56,7 @@ class Transactions extends \Magento\Adminhtml\Controller\Action
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
             $txn->setOrderUrl(
-                $this->getUrl('*/sales_order/view', array('order_id' => $orderId))
+                $this->getUrl('adminhtml/sales_order/view', array('order_id' => $orderId))
             );
         }
 

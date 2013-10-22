@@ -139,7 +139,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
         $this->_initAction();
 
         $this->getLayout()->getBlock('adminhtml_reminder_edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));
+            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)

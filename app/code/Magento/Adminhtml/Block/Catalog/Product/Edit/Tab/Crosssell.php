@@ -302,7 +302,7 @@ class Crosssell extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->_getData('grid_url') ? $this->_getData('grid_url') : $this->getUrl('*/*/crosssellGrid', array('_current'=>true));
+        return $this->_getData('grid_url') ? $this->_getData('grid_url') : $this->getUrl('adminhtml/*/crosssellGrid', array('_current'=>true));
     }
 
     /**
