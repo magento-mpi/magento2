@@ -26,11 +26,13 @@ class LineBreakTest extends TestBase
      *
      * @dataProvider dataClassImplements
      */
-    public function testClassImplements(array $tokens, $level, $result) {
+    public function testClassImplements(array $tokens, $level, $result)
+    {
         $this->runTokenTest($tokens, $level, $result, 'Class line was not split as expected.');
     }
 
-    public function dataClassImplements() {
+    public function dataClassImplements()
+    {
         /*
         class alpha extends beta implementsxi1,xi2,xi3
         {
@@ -45,8 +47,6 @@ class LineBreakTest extends TestBase
         2	blank	\n
         3	blank	\n
          */
-        $tests = array();
-
         $lineBreak = new ClassInterfaceLineBreak();
         $classAlpha = array(
             'class ',
@@ -120,11 +120,13 @@ class LineBreakTest extends TestBase
      *
      * @dataProvider dataConditionalBreaks
      */
-    public function testConditionalBreaks(array $tokens, $level, $result) {
+    public function testConditionalBreaks(array $tokens, $level, $result)
+    {
         $this->runTokenTest($tokens, $level, $result, 'Conditional line was not split as expected.');
     }
 
-    public function dataConditionalBreaks() {
+    public function dataConditionalBreaks()
+    {
         $lineBreak = new SimpleListLineBreak();
         $constAlpha = array(
             'const ',
@@ -195,13 +197,13 @@ class LineBreakTest extends TestBase
      *
      * @dataProvider dataMethodParameters
      */
-    public function testMethodParameters(array $tokens, $level, $result) {
+    public function testMethodParameters(array $tokens, $level, $result)
+    {
         $this->runTokenTest($tokens, $level, $result, 'Function line was not split as expected.');
     }
 
-    public function dataMethodParameters() {
-        $tests = array();
-
+    public function dataMethodParameters()
+    {
         $lineBreak = new ParameterLineBreak();
         $functionAlpha = array(
             'public ',
@@ -281,36 +283,12 @@ class LineBreakTest extends TestBase
                 2,
                 "public function alpha(\nTestClass \$a,\nTestClass \$b,\nTestClass \$c,\nTestClass \$d\n) {\n"
             ),
-            array(
-                $functionBeta,
-                0,
-                "private function beta(TestClass \$a)\n{\n"
-            ),
-            array(
-                $functionBeta,
-                1,
-                "private function beta(\nTestClass \$a\n) {\n"
-            ),
-            array(
-                $functionBeta,
-                2,
-                "private function beta(\nTestClass \$a\n) {\n"
-            ),
-            array(
-                $functionGamma,
-                0,
-                "protected function gamma()\n{\n"
-            ),
-            array(
-                $functionGamma,
-                1,
-                "protected function gamma()\n{\n"
-            ),
-            array(
-                $functionGamma,
-                2,
-                "protected function gamma()\n{\n"
-            ),
+            array($functionBeta, 0, "private function beta(TestClass \$a)\n{\n"),
+            array($functionBeta, 1, "private function beta(\nTestClass \$a\n) {\n"),
+            array($functionBeta, 2, "private function beta(\nTestClass \$a\n) {\n"),
+            array($functionGamma, 0, "protected function gamma()\n{\n"),
+            array($functionGamma, 1, "protected function gamma()\n{\n"),
+            array($functionGamma, 2, "protected function gamma()\n{\n")
         );
     }
 
@@ -319,7 +297,8 @@ class LineBreakTest extends TestBase
      * @param array $tokens Array of tokens to be turned into a line.
      * @return Line
      */
-    private function getLine(array $tokens) {
+    private function getLine(array $tokens)
+    {
         $line = new Line();
         foreach ($tokens as $token) {
             $line->add($token);
@@ -334,7 +313,8 @@ class LineBreakTest extends TestBase
      * @param $expected
      * @param $message
      */
-    private function runTokenTest(array $tokens, $level, $expected, $message) {
+    private function runTokenTest(array $tokens, $level, $expected, $message)
+    {
         $line = $this->getLine($tokens);
         $this->assertNotNull($line);
         $actualResult = '';

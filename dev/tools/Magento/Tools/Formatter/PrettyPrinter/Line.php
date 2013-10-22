@@ -142,7 +142,8 @@ class Line
         return $currentLines;
     }
 
-    private function getLineBreakId(LineBreak $token) {
+    private function getLineBreakId(LineBreak $token)
+    {
         return get_class($token);
     }
 }

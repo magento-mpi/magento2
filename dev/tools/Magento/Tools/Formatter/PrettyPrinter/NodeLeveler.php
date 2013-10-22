@@ -37,13 +37,15 @@ class NodeLeveler extends LevelNodeVisitor
      * @param int $level
      * @param TreeNode $treeNode
      */
-    protected function processLine($line, $level, TreeNode $treeNode) {
+    protected function processLine($line, $level, TreeNode $treeNode)
+    {
         // split the lines at the current level to check for length
         $currentLines = $line->splitLine($level);
         // determine if all is good
         $valid = true;
         foreach ($currentLines as $currentLine) {
-            if (self::MAX_LINE_LENGTH < strlen($currentLine[Line::ATTRIBUTE_LINE]) + $this->level * strlen(self::PREFIX)) {
+            $lineText = $currentLine[Line::ATTRIBUTE_LINE];
+            if (self::MAX_LINE_LENGTH < strlen($lineText) + $this->level * strlen(self::PREFIX)) {
                 $valid = false;
                 break;
             }
@@ -68,7 +70,8 @@ class NodeLeveler extends LevelNodeVisitor
      * @param array $currentLines
      * @param TreeNode $treeNode
      */
-    protected function splitNode(Line $line, array $currentLines, TreeNode $treeNode) {
+    protected function splitNode(Line $line, array $currentLines, TreeNode $treeNode)
+    {
         // save off any child nodes of the current node
         $originalChildren = $treeNode->getChildren();
         // split the lines based on resolved lines

@@ -43,7 +43,8 @@ class ParameterLineBreak extends ConditionalLineBreak
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
      */
-    public function getValue($level, $index, $total) {
+    public function getValue($level, $index, $total)
+    {
         // if there are more than 2 markers, that means there are actually parameters
         if ($total > 2) {
             switch ($level) {

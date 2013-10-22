@@ -120,7 +120,8 @@ class TreeNode implements Node
      * This method removes the specified child from the child list.
      * @param TreeNode $existingChild Node representing an existing child.
      */
-    public function removeChild(TreeNode $existingChild) {
+    public function removeChild(TreeNode $existingChild)
+    {
         $index = array_search($existingChild, $this->children);
         if (false !== $index) {
             unset($this->children[$index]);

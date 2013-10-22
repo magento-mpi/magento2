@@ -26,7 +26,8 @@ class HardLineBreak extends LineBreak
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
      */
-    public function getValue($level, $index, $total) {
+    public function getValue($level, $index, $total)
+    {
         // always return the same value since this always represents a LF
         return self::EOL;
     }
