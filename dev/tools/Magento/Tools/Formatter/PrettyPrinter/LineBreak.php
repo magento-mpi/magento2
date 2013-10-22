@@ -18,6 +18,16 @@ abstract class LineBreak
     abstract public function getValue($level, $index, $total);
 
     /**
+     * This method returns if this class of line breaks are grouped by class. If not grouped by
+     * class, it is assumed to be grouped by instance.
+     * @return bool
+     */
+    public function isGroupedByClass()
+    {
+        return true;
+    }
+
+    /**
      * This method returns if the next line should be indented.
      */
     abstract public function isNextLineIndented();

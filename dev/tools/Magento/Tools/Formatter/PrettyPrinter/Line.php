@@ -142,8 +142,18 @@ class Line
         return $currentLines;
     }
 
-    private function getLineBreakId(LineBreak $token)
+    /**
+     * This method returns the id for the specified line break.
+     * @param LineBreak $lineBreak
+     * @return string
+     */
+    private function getLineBreakId(LineBreak $lineBreak)
     {
-        return get_class($token);
+        if ($lineBreak->isGroupedByClass()) {
+            $id = get_class($lineBreak);
+        } else {
+            $id = spl_object_hash($lineBreak);
+        }
+        return $id;
     }
 }

@@ -77,6 +77,8 @@ class StatementFactory
         $this->register('Stmt_Echo', EchoStatement::getType());
         $this->register('Param', ParameterReference::getType());
         $this->register('Name_FullyQualified', ClassReference::getType());
+        $this->register('Expr_Array', ArrayReference::getType());
+        $this->register('Expr_ArrayItem', ArrayItemReference::getType());
     }
 
     /**

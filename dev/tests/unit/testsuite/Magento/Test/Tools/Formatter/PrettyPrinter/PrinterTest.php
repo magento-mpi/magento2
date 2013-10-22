@@ -12,6 +12,49 @@ use Magento\Tools\Formatter\PrettyPrinter\Printer;
 class PrinterTest extends TestBase
 {
     /**
+     * This method tests arrays in the pretty printer.
+     *
+     * @dataProvider dataArrays
+     */
+    public function testArrays($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    /**
+     * Provide data to test method
+     *
+     * @return array
+     */
+    public function dataArrays()
+    {
+        return array(
+            array(
+                "<?php class A1 {public \$a = array();}",
+                "<?php\nclass A1\n{\n    public \$a = array();\n}\n"
+            ),
+            array(
+                "<?php class A2 {public \$a2 = array(1,2,3,4,5);}",
+                "<?php\nclass A2\n{\n    public \$a2 = array(1, 2, 3, 4, 5);\n}\n"
+            ),
+            array(
+                "<?php class A3 {public \$a3 = array(1=>'alpha',2=>'beta',3=>'gamma');}",
+                "<?php\nclass A3\n{\n    public \$a3 = array(1 => 'alpha', 2 => 'beta', 3 => 'gamma');\n}\n"
+            ),
+            array(
+                "<?php class A3 {public \$a3 = array(1=>'alpha1234567890',2=>'beta1234567890',3=>'gamma1234567890');}",
+                "<?php\nclass A3\n{\n    public \$a3 = array(\n        1 => 'alpha1234567890',\n" .
+                "        2 => 'beta1234567890',\n        3 => 'gamma1234567890'\n    );\n}\n"
+            ),
+            array(
+                "<?php class A1 {public \$a = array(array(1.1,1.2),array(2.1,2.2));}",
+                "<?php\nclass A1\n{\n    public \$a = array(array(1.1, 1.2), array(2.1, 2.2));\n}\n"
+            ),
+        );
+    }
+
+    /**
      * This method tests some of the basics of the pretty printer.
      *
      * @dataProvider dataProviderBasics

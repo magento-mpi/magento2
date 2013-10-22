@@ -7,6 +7,7 @@
  */
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
+use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
@@ -21,6 +22,54 @@ use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
  */
 class LineBreakTest extends TestBase
 {
+    /**
+     * This method tests the array breaking.
+     *
+     * @dataProvider dataArrays
+     */
+    public function testArrays(array $tokens, $level, $result)
+    {
+        $this->runTokenTest($tokens, $level, $result, 'Array line was not split as expected.');
+    }
+
+    public function dataArrays()
+    {
+        /*
+         * array(x1,x2,x3x)
+         * array(x
+         * 1,x
+         * 2,x
+         * 3x
+         * )
+         *
+         * 1 blank	HardIndent
+         * 2 space	HardIndent
+         * 3 space	HardIndent
+         * 4 blank  Hard
+         */
+        $lineBreak = new CallLineBreak();
+        $arrayAlpha = array(
+            'array(',
+            $lineBreak,
+            '1',
+            ',',
+            $lineBreak,
+            '2',
+            ',',
+            $lineBreak,
+            '3',
+            $lineBreak,
+            ')',
+            new HardLineBreak()
+        );
+
+        return array(
+            array($arrayAlpha, 0, "array(1, 2, 3)\n"),
+            array($arrayAlpha, 1, "array(\n1,\n2,\n3\n)\n"),
+            array($arrayAlpha, 2, "array(\n1,\n2,\n3\n)\n"),
+        );
+    }
+
     /**
      * This method tests the class implements breaking.
      *
