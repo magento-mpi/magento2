@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Layout\File\Source\Override;
+namespace Magento\View\Layout\File\Source\Override;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\File\Source\Override\Theme
+     * @var \Magento\View\Layout\File\Source\Override\Theme
      */
     private $_model;
 
@@ -35,8 +35,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $this->_dirs->expects($this->any())->method('getDir')->will($this->returnArgument(0));
-        $this->_fileFactory = $this->getMock('Magento\Core\Model\Layout\File\Factory', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Layout\File\Source\Override\Theme(
+        $this->_fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
+        $this->_model = new \Magento\View\Layout\File\Source\Override\Theme(
             $this->_filesystem, $this->_dirs, $this->_fileFactory
         );
     }
@@ -54,17 +54,17 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $filePathOne = 'design/area/theme_path/Module_One/layout/override/parent_theme/1.xml';
-        $filePathTwo = 'design/area/theme_path/Module_Two/layout/override/grand_parent_theme/2.xml';
+        $filePathOne = 'design/area/theme_path/Module_One/layout/override/theme/parent_theme/1.xml';
+        $filePathTwo = 'design/area/theme_path/Module_Two/layout/override/theme/grand_parent_theme/2.xml';
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme_path/*_*/layout/override/*/*.xml')
+            ->with('design', 'area/theme_path/*_*/layout/override/theme/*/*.xml')
             ->will($this->returnValue(array($filePathOne, $filePathTwo)))
         ;
 
-        $fileOne = new \Magento\Core\Model\Layout\File('1.xml', 'Module_One', $parentTheme);
-        $fileTwo = new \Magento\Core\Model\Layout\File('2.xml', 'Module_Two', $grandparentTheme);
+        $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_One', $parentTheme);
+        $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_Two', $grandparentTheme);
         $this->_fileFactory
             ->expects($this->exactly(2))
             ->method('create')
@@ -79,7 +79,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFilesWrongAncestor()
     {
-        $filePath = 'design/area/theme_path/Module_One/layout/override/parent_theme/1.xml';
+        $filePath = 'design/area/theme_path/Module_One/layout/override/theme/parent_theme/1.xml';
         $this->setExpectedException(
             'Magento\Core\Exception',
             "Trying to override layout file '$filePath' for theme 'parent_theme'"
@@ -94,7 +94,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme_path/*_*/layout/override/*/*.xml')
+            ->with('design', 'area/theme_path/*_*/layout/override/theme/*/*.xml')
             ->will($this->returnValue(array($filePath)))
         ;
         $this->_model->getFiles($theme);

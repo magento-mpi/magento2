@@ -73,7 +73,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     protected $_subst = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_fileSource;
 
@@ -107,7 +107,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Layout\File\Source $fileSource,
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
@@ -118,7 +118,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     public function __construct(
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\Layout\File\Source $fileSource,
+        \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\Core\Model\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,

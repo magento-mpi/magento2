@@ -11,7 +11,7 @@
  */
 namespace Magento\Core\Model\Layout\File\Source;
 
-class Aggregated implements \Magento\Core\Model\Layout\File\SourceInterface
+class Aggregated implements \Magento\View\Layout\File\SourceInterface
 {
     /**
      * @var \Magento\Core\Model\Layout\File\FileList\Factory
@@ -19,38 +19,38 @@ class Aggregated implements \Magento\Core\Model\Layout\File\SourceInterface
     private $_fileListFactory;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_baseFiles;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_themeFiles;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_overridingBaseFiles;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_overridingThemeFiles;
 
     /**
      * @param \Magento\Core\Model\Layout\File\FileList\Factory $fileListFactory
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $baseFiles
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $themeFiles
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $overridingBaseFiles
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $overridingThemeFiles
+     * @param \Magento\View\Layout\File\SourceInterface $baseFiles
+     * @param \Magento\View\Layout\File\SourceInterface $themeFiles
+     * @param \Magento\View\Layout\File\SourceInterface $overridingBaseFiles
+     * @param \Magento\View\Layout\File\SourceInterface $overridingThemeFiles
      */
     public function __construct(
         \Magento\Core\Model\Layout\File\FileList\Factory $fileListFactory,
-        \Magento\Core\Model\Layout\File\SourceInterface $baseFiles,
-        \Magento\Core\Model\Layout\File\SourceInterface $themeFiles,
-        \Magento\Core\Model\Layout\File\SourceInterface $overridingBaseFiles,
-        \Magento\Core\Model\Layout\File\SourceInterface $overridingThemeFiles
+        \Magento\View\Layout\File\SourceInterface $baseFiles,
+        \Magento\View\Layout\File\SourceInterface $themeFiles,
+        \Magento\View\Layout\File\SourceInterface $overridingBaseFiles,
+        \Magento\View\Layout\File\SourceInterface $overridingThemeFiles
     ) {
         $this->_fileListFactory = $fileListFactory;
         $this->_baseFiles = $baseFiles;

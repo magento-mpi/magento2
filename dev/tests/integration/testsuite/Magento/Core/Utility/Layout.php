@@ -41,7 +41,7 @@ class Layout
         foreach ((array)$layoutUpdatesFile as $filename) {
             $files[] = $fileFactory->create($filename, 'Magento_Core');
         }
-        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
+        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $fileSource->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(\PHPUnit_Framework_TestCase::returnValue($files));

@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Layout\File\Source\Override;
+namespace Magento\View\Layout\File\Source\Override;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\File\Source\Override\Base
+     * @var \Magento\View\Layout\File\Source\Override\Base
      */
     private $_model;
 
@@ -35,8 +35,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $this->_dirs->expects($this->any())->method('getDir')->will($this->returnArgument(0));
-        $this->_fileFactory = $this->getMock('Magento\Core\Model\Layout\File\Factory', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Layout\File\Source\Override\Base(
+        $this->_fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
+        $this->_model = new \Magento\View\Layout\File\Source\Override\Base(
             $this->_filesystem, $this->_dirs, $this->_fileFactory
         );
     }
@@ -49,24 +49,24 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme/path/*_*/layout/override/*.xml')
+            ->with('design', 'area/theme/path/*_*/layout/override/base/*.xml')
             ->will($this->returnValue(array(
-                'design/area/theme/path/Module_One/layout/override/1.xml',
-                'design/area/theme/path/Module_One/layout/override/2.xml',
-                'design/area/theme/path/Module_Two/layout/override/3.xml',
+                'design/area/theme/path/Module_One/layout/override/base/1.xml',
+                'design/area/theme/path/Module_One/layout/override/base/2.xml',
+                'design/area/theme/path/Module_Two/layout/override/base/3.xml',
             )))
         ;
 
-        $fileOne = new \Magento\Core\Model\Layout\File('1.xml', 'Module_One');
-        $fileTwo = new \Magento\Core\Model\Layout\File('2.xml', 'Module_One');
-        $fileThree = new \Magento\Core\Model\Layout\File('3.xml', 'Module_Two');
+        $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_One');
+        $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_One');
+        $fileThree = new \Magento\View\Layout\File('3.xml', 'Module_Two');
         $this->_fileFactory
             ->expects($this->exactly(3))
             ->method('create')
             ->will($this->returnValueMap(array(
-                array('design/area/theme/path/Module_One/layout/override/1.xml', 'Module_One', null, $fileOne),
-                array('design/area/theme/path/Module_One/layout/override/2.xml', 'Module_One', null, $fileTwo),
-                array('design/area/theme/path/Module_Two/layout/override/3.xml', 'Module_Two', null, $fileThree),
+                array('design/area/theme/path/Module_One/layout/override/base/1.xml', 'Module_One', null, $fileOne),
+                array('design/area/theme/path/Module_One/layout/override/base/2.xml', 'Module_One', null, $fileTwo),
+                array('design/area/theme/path/Module_Two/layout/override/base/3.xml', 'Module_Two', null, $fileThree),
             )))
         ;
 

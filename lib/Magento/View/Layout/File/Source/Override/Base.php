@@ -10,13 +10,13 @@
 
 namespace Magento\View\Layout\File\Source\Override;
 
-use Magento\View\Layout\File\Source;
+use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\Core\Model\Dir;
 use Magento\Filesystem;
 use Magento\View\Layout\File\Factory;
 
-class Base implements Source
+class Base implements SourceInterface
 {
     /**
      * @var Filesystem

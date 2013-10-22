@@ -332,10 +332,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      * Scan all the themes in the system, for each theme retrieve list of files via $filesRetriever,
      * and return them as array of pairs [file, theme].
      *
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $filesRetriever
+     * @param \Magento\View\Layout\File\SourceInterface $filesRetriever
      * @return array
      */
-    protected function _retrieveFilesForEveryTheme(\Magento\Core\Model\Layout\File\SourceInterface $filesRetriever)
+    protected function _retrieveFilesForEveryTheme(\Magento\View\Layout\File\SourceInterface $filesRetriever)
     {
         $result = array();
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */

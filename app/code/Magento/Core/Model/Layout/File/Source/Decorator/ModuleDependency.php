@@ -12,10 +12,10 @@
 namespace Magento\Core\Model\Layout\File\Source\Decorator;
 
 class ModuleDependency
-    implements \Magento\Core\Model\Layout\File\SourceInterface
+    implements \Magento\View\Layout\File\SourceInterface
 {
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_subject;
 
@@ -32,11 +32,11 @@ class ModuleDependency
     private $_orderedModules = null;
 
     /**
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $subject
+     * @param \Magento\View\Layout\File\SourceInterface $subject
      * @param \Magento\Core\Model\ModuleListInterface $listInterface
      */
     public function __construct(
-        \Magento\Core\Model\Layout\File\SourceInterface $subject,
+        \Magento\View\Layout\File\SourceInterface $subject,
         \Magento\Core\Model\ModuleListInterface $listInterface
     ) {
         $this->_subject = $subject;

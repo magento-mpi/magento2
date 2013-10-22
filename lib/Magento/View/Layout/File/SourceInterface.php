@@ -12,7 +12,7 @@ namespace Magento\View\Layout\File;
 
 use Magento\View\Design\ThemeInterface;
 
-interface Source
+interface SourceInterface
 {
     /**
      * Retrieve instances of layout files

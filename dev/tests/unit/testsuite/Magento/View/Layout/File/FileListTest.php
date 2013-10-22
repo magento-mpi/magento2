@@ -6,22 +6,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Layout\File;
+namespace Magento\View\Layout\File;
 
-class ListTest extends \PHPUnit_Framework_TestCase
+class FileListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\File\ListFile
+     * @var \Magento\View\Layout\File\FileList
      */
     private $_model;
 
     /**
-     * @var \Magento\Core\Model\Layout\File
+     * @var \Magento\View\Layout\File
      */
     private $_baseFile;
 
     /**
-     * @var \Magento\Core\Model\Layout\File
+     * @var \Magento\View\Layout\File
      */
     private $_themeFile;
 
@@ -29,7 +29,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
     {
         $this->_baseFile = $this->_createLayoutFile('fixture.xml', 'Fixture_TestModule');
         $this->_themeFile = $this->_createLayoutFile('fixture.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->_model = new \Magento\Core\Model\Layout\File\ListFile();
+        $this->_model = new \Magento\View\Layout\File\FileList();
         $this->_model->add(array($this->_baseFile, $this->_themeFile));
     }
 
@@ -48,7 +48,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
             $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
-        return new \Magento\Core\Model\Layout\File($filename, $module, $theme);
+        return new \Magento\View\Layout\File($filename, $module, $theme);
     }
 
     public function testGetAll()

@@ -11,7 +11,7 @@
  */
 namespace Magento\Core\Model\Layout\File\Source\Override;
 
-class Theme implements \Magento\Core\Model\Layout\File\SourceInterface
+class Theme implements \Magento\View\Layout\File\SourceInterface
 {
     /**
      * @var \Magento\Filesystem

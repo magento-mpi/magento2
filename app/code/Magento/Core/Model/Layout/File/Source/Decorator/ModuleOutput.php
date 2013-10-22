@@ -11,10 +11,10 @@
  */
 namespace Magento\Core\Model\Layout\File\Source\Decorator;
 
-class ModuleOutput implements \Magento\Core\Model\Layout\File\SourceInterface
+class ModuleOutput implements \Magento\View\Layout\File\SourceInterface
 {
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_subject;
 
@@ -24,11 +24,11 @@ class ModuleOutput implements \Magento\Core\Model\Layout\File\SourceInterface
     private $_moduleManager;
 
     /**
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $subject
+     * @param \Magento\View\Layout\File\SourceInterface $subject
      * @param \Magento\Core\Model\ModuleManager $moduleManager
      */
     public function __construct(
-        \Magento\Core\Model\Layout\File\SourceInterface $subject,
+        \Magento\View\Layout\File\SourceInterface $subject,
         \Magento\Core\Model\ModuleManager $moduleManager
     ) {
         $this->_subject = $subject;
