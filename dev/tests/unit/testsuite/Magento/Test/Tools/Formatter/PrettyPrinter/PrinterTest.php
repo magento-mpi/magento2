@@ -218,6 +218,10 @@ FORMATTEDCODESNIPPET
             array("<?php class NoChildren {}", "<?php\nclass NoChildren\n{\n}\n"),
             array("<?php class JustParent extends Parent {}", "<?php\nclass JustParent extends Parent\n{\n}\n"),
             array(
+                "<?php class JustParent extends Fully\\Qualified\\Parent {}",
+                "<?php\nclass JustParent extends Fully\\Qualified\\Parent\n{\n}\n"
+            ),
+            array(
                 "<?php class JustInterface implements Interface1 {}",
                 "<?php\nclass JustInterface implements Interface1\n{\n}\n"
             ),
