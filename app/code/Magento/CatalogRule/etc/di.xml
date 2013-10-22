@@ -15,7 +15,7 @@
     </type>
     <type name="Magento\CatalogRule\Model\Resource\Rule">
         <param name="eventManager">
-            <instance type="Magento\Event\ManagerInterface\Proxy" />
+            <instance type="Magento\Event\Manager\Proxy" />
         </param>
     </type>
     <type name="Magento\CatalogRule\Model\Resource\Rule\Collection" shared="false" />
