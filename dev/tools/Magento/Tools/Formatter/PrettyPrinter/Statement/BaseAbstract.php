@@ -69,7 +69,7 @@ abstract class BaseAbstract
             $line->add($lineBreak);
             // process the argument itself
             $this->resolveNode($argument, $treeNode);
-            // in not the last on, separate with a comma
+            // if not the last one, separate with a comma
             if ($index < sizeof($arguments) - 1) {
                 $line->add(',');
             }
@@ -83,6 +83,7 @@ abstract class BaseAbstract
      */
     protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
     {
+        /** @var BaseAbstract $statement */
         $statement = StatementFactory::getInstance()->getStatement($node);
         $statement->resolve($treeNode);
     }

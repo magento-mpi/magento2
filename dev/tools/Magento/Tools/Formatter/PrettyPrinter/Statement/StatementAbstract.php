@@ -54,7 +54,7 @@ abstract class StatementAbstract extends BaseAbstract
     }
 
     /**
-     * This method adds modifiers to the the line based on the bit map passed in.
+     * This method adds modifiers to the line based on the bit map passed in.
      * @param mixed $modifiers Bit map containing the markers for the various modifiers.
      * @param Line $line Instance of line to add modifier.
      */
@@ -102,7 +102,7 @@ abstract class StatementAbstract extends BaseAbstract
     /**
      * This method parses the given nodes and places them in the tree by calling processNode. This
      * allows the derived class a chance to insert the new node into the appropriate location.
-     * @param mixed $node Array or single nocde
+     * @param mixed $nodes Array or single node
      * @param TreeNode $originatingNode Node where new nodes are originating from
      */
     protected function processNodes($nodes, TreeNode $originatingNode)
