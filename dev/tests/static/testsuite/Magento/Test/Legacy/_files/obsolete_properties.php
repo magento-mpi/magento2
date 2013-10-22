@@ -24,7 +24,7 @@ return array(
     array('_childGroups', 'Magento\Core\Block\AbstractBlock'),
     array('_combineHistory'),
     array('_config', 'Magento\Core\Model\Design\Package'),
-    array('_config', 'Magento\Core\Model\Logger', '_dirs'),
+    array('_config', 'Magento\Logger', '_dirs'),
     array('_config', 'Magento\Core\Model\Resource\Setup'),
     array('_configModel', 'Magento\Backend\Model\Menu\AbstractDirector'),
     array('_configuration', 'Magento\Index\Model\Lock\Storage', '_dirs'),

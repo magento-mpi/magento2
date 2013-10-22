@@ -187,7 +187,7 @@ class Giftregistry extends \Magento\Adminhtml\Controller\Action
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't save this gift registry type."));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -208,7 +208,7 @@ class Giftregistry extends \Magento\Adminhtml\Controller\Action
             return;
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't delete this gift registry type."));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

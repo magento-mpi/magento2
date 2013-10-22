@@ -48,7 +48,7 @@ class Http extends \Zend_Controller_Response_Http
     public function sendHeaders()
     {
         if (!$this->canSendHeaders()) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')
+            $this->_objectManager->get('Magento\Logger')
                 ->log('HEADERS ALREADY SENT: '.mageDebugBacktrace(true, true, true));
             return $this;
         }

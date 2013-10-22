@@ -35,7 +35,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\View\Config $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\App $app
      * @param array $data
      *
@@ -57,7 +57,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\App $app,
         array $data = array()
     ) {

@@ -44,7 +44,7 @@ abstract class AbstractHelper
     private $_moduleManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 

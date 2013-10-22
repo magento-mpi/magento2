@@ -49,12 +49,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_isRenderInherited;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
@@ -64,7 +64,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param boolean $isRenderInherited
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
@@ -142,7 +142,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

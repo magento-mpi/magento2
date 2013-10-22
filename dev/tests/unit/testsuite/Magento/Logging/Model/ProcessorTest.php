@@ -42,7 +42,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var  \Magento\Core\Model\Logger|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
     /** @var  \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject */
@@ -92,7 +92,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 

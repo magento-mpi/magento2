@@ -21,7 +21,7 @@ class EnvironmentFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject \Magento\Filesystem */
     private $_filesystem;
     
-    /** @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\Logger */
+    /** @var \PHPUnit_Framework_MockObject_MockObject \Magento\Logger */
     private $_loggerMock;
     
     /**
@@ -92,7 +92,7 @@ class EnvironmentFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         
-        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
             ->disableOriginalConstructor()
             ->getMock();
     }

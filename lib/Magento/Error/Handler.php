@@ -14,7 +14,7 @@ namespace Magento\Error;
 class Handler implements HandlerInterface
 {
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $logger;
 
@@ -52,13 +52,15 @@ class Handler implements HandlerInterface
     );
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @todo remove dependency on a Dir after Folks team made sprint commitment
+     *
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Dir $dir
      * @param bool $isDeveloperMode
      * @return \Magento\Error\Handler
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Dir $dir,
         $isDeveloperMode = false
     ) {

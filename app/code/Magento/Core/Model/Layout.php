@@ -213,7 +213,7 @@ class Layout extends \Magento\Simplexml\Config
     protected $_coreStoreConfig;
     
     /**
-     * @var \Magento\Core\Model\Logger $logger
+     * @var \Magento\Logger $logger
      */
     protected $_logger;
 
@@ -230,7 +230,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * @param \Magento\Core\Model\Layout\MergeFactory $mergeFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
@@ -246,7 +246,7 @@ class Layout extends \Magento\Simplexml\Config
     public function __construct(
         \Magento\Core\Model\Layout\MergeFactory $mergeFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,

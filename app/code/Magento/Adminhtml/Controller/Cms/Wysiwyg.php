@@ -37,7 +37,7 @@ class Wysiwyg extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $image->open($this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')->getSkinImagePlaceholderUrl());
             $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 }

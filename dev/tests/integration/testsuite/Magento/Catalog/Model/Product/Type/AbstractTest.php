@@ -30,7 +30,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento\Catalog\Model\Product\Type\AbstractType',
             array($productFactory, $catalogProductOption, $eavConfig, $catalogProductType, $eventManager, $coreData,
                 $fileStorageDb, $filesystem, $registry, $logger)

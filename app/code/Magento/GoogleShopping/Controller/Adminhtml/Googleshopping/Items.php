@@ -140,7 +140,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 __('An error has occurred while adding products to google shopping account.'),
                 $e->getMessage()
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return;
         }
 
@@ -180,7 +180,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return;
         }
 
@@ -220,7 +220,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return;
         }
 
@@ -253,7 +253,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                     ->parseGdataExceptionMessage($e->getMessage())
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__('Something went wrong during Captcha confirmation.'));
         }
 

@@ -44,13 +44,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     private $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     private $_loggerMock;
 
     protected function setUp()
     {
-        $this->_loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_selectMock = $this->_makeMock('Zend_Db_Select');
         $this->_selectMock->expects($this->any())
             ->method('from')

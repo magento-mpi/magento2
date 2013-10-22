@@ -43,7 +43,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
     /** @var \Magento\Oauth\Helper\Service */
     protected $_oauthHelper;
 
-    /** @var \Magento\Core\Model\Logger */
+    /** @var \Magento\Logger */
     protected $_logger;
 
     /**
@@ -53,7 +53,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
      * @param \Magento\Oauth\Helper\Service $oauthHelper
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Backend\Controller\Context $context
      * @param string $areaCode
      */
@@ -62,7 +62,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
         \Magento\Oauth\Helper\Service $oauthHelper,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Backend\Controller\Context $context,
         $areaCode = null
     ) {

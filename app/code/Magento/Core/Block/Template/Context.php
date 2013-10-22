@@ -21,7 +21,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Logger instance
      *
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -59,7 +59,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Dir $dirs
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
@@ -80,7 +80,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Dir $dirs,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
@@ -120,7 +120,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get logger instance
      *
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

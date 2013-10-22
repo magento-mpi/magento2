@@ -31,11 +31,11 @@ class Password
 
     /**
      * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_coreString = $coreString;
         parent::__construct($logger);

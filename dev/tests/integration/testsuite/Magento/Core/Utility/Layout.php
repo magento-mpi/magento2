@@ -80,7 +80,7 @@ class Layout
         return array(
             'mergeFactory'       => $objectManager->get('Magento\Core\Model\Layout\MergeFactory'),
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-            'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
+            'logger'             => $objectManager->get('Magento\Logger'),
             'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),

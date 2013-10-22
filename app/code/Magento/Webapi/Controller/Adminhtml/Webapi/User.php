@@ -142,7 +142,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
                     ->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());

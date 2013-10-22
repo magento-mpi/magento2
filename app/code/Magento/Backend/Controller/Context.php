@@ -53,7 +53,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
@@ -72,7 +72,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,

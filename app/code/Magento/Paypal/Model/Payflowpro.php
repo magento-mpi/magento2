@@ -115,7 +115,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     protected $_configFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -131,7 +131,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,

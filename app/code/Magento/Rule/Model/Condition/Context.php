@@ -35,7 +35,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -44,14 +44,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Layout $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_viewUrl = $viewUrl;
         $this->_locale = $locale;
@@ -93,7 +93,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

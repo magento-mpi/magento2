@@ -50,7 +50,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
      * If not authenticated, will try to do it using credentials from HTTP-request
      *
      * @param string $aclResource
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @return bool
      */
     public function authenticateAndAuthorizeAdmin($aclResource, $logger)

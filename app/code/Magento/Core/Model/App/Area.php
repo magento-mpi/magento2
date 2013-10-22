@@ -86,12 +86,12 @@ class Area
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * Core design
      *
      * @var \Magento\Core\Model\Design
@@ -104,7 +104,7 @@ class Area
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Config $config
@@ -116,7 +116,7 @@ class Area
      * @param string $areaCode
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\Config $config,

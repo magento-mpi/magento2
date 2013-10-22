@@ -23,7 +23,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(BP), '', true);
     }
 

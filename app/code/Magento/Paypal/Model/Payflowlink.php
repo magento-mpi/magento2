@@ -124,7 +124,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     protected $_websiteFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -145,7 +145,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,

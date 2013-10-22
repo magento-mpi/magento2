@@ -63,7 +63,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\Helper $coreResourceHelper
@@ -76,7 +76,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\Helper $coreResourceHelper,

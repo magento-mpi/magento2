@@ -47,7 +47,7 @@ class CommonFunctions
     private $_helperImage;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     private $_logger;
 
@@ -64,7 +64,7 @@ class CommonFunctions
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\Catalog\Helper\Image $helperImage,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_urlBuilder = $urlBuilder;

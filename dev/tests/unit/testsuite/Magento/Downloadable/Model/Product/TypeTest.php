@@ -29,7 +29,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $sampleResFactory = $this->getMock(
             'Magento\Downloadable\Model\Resource\SampleFactory', array(), array(), '', false);

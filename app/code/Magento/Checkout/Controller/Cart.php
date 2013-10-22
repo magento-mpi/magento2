@@ -233,7 +233,7 @@ class Cart
             }
         } catch (\Exception $e) {
             $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_goBack();
         }
     }
@@ -259,7 +259,7 @@ class Cart
                     }
                 } catch (\Exception $e) {
                     $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
-                    $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Logger')->logException($e);
                     $this->_goBack();
                 }
             }
@@ -299,7 +299,7 @@ class Cart
             );
         } catch (\Exception $e) {
             $this->_checkoutSession->addError(__('We cannot configure the product.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_goBack();
             return;
         }
@@ -375,7 +375,7 @@ class Cart
             }
         } catch (\Exception $e) {
             $this->_checkoutSession->addException($e, __('We cannot update the item.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_goBack();
         }
         $this->_redirect('*/*');
@@ -432,7 +432,7 @@ class Cart
             $this->_checkoutSession->addError($this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($e->getMessage()));
         } catch (\Exception $e) {
             $this->_checkoutSession->addException($e, __('We cannot update the shopping cart.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 
@@ -463,7 +463,7 @@ class Cart
                   ->save();
             } catch (\Exception $e) {
                 $this->_checkoutSession->addError(__('We cannot remove the item.'));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
         $this->_redirectReferer($this->_objectManager->create('Magento\Core\Model\UrlInterface')->getUrl('*/*'));
@@ -551,7 +551,7 @@ class Cart
             $this->_checkoutSession->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_checkoutSession->addError(__('We cannot apply the coupon code.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         $this->_goBack();

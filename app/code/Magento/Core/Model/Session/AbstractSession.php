@@ -49,7 +49,7 @@ class AbstractSession extends \Magento\Object
     protected $_skipSessionIdFlag   = false;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 

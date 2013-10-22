@@ -29,7 +29,7 @@ class AbstractBlock extends \Magento\Core\Block\AbstractBlock
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
