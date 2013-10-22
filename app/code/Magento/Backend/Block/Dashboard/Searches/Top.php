@@ -109,6 +109,6 @@ class Top extends \Magento\Backend\Block\Dashboard\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/search/edit', array('id'=>$row->getId()));
+        return $this->getUrl('catalog/search/edit', array('id'=>$row->getId()));
     }
 }
