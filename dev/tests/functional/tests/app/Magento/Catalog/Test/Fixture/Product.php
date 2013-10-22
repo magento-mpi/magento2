@@ -139,6 +139,8 @@ class Product extends DataFixture
 
     /**
      * Create product
+     *
+     * @return Product
      */
     public function persist()
     {

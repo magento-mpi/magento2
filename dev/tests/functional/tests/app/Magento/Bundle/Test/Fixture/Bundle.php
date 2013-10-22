@@ -74,12 +74,12 @@ class Bundle extends Product
      */
     protected function _getProduct($key)
     {
-        if (!isset($this->_simpleProducts[$key])) {
+        if (!isset($this->_products[$key])) {
             $product = Factory::getFixtureFactory()->getMagentoCatalogProduct()
                 ->switchData('simple')->persist();
-            $this->_simpleProducts[$key] = $product;
+            $this->_products[$key] = $product;
         }
-        return $this->_simpleProducts[$key];
+        return $this->_products[$key];
     }
 
     /**

@@ -20,7 +20,6 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Class CreateBundle.
  * Curl handler for creating bundle product.
  *
  * @package Magento\Bundle\Test\Handler\Curl
@@ -28,6 +27,13 @@ use Mtf\System\Config;
 class CreateBundle extends Curl
 {
 
+    /**
+     * Prepare POST data for creating bundle product request
+     *
+     * @param array $params
+     * @param string|null $prefix
+     * @return array
+     */
     protected function _prepareData($params, $prefix = null)
     {
         $data = array();
@@ -46,6 +52,12 @@ class CreateBundle extends Curl
         return $data;
     }
 
+    /**
+     * Prepare bundle specific data
+     *
+     * @param array $params
+     * @return array
+     */
     protected function getBundleData($params)
     {
         $data = array();
@@ -59,21 +71,18 @@ class CreateBundle extends Curl
         return $data;
     }
 
+    /**
+     * Prepare product selections data
+     *
+     * @param array $products
+     * @return array
+     */
     protected function getSelections($products)
     {
         $data = array();
         foreach ($products as $product) {
             $product = isset($product['data']) ? $product['data'] : array();
             $data[] = $this->_prepareData($product);
-        }
-        return $data;
-    }
-
-    protected function getOptions($options)
-    {
-        $data = array();
-        foreach ($options as $option) {
-            $data[] = $this->_prepareData($option);
         }
         return $data;
     }
@@ -93,11 +102,10 @@ class CreateBundle extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
+        $url = $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params;
 
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->_prepareData($fixture->getData('fields'), $prefix);
-
-        $url = $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params;
 
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
