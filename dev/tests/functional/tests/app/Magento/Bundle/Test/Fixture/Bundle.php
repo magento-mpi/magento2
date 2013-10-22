@@ -73,7 +73,6 @@ class Bundle extends Product
     {
         if (!isset($this->_products[$key])) {
             $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-            $product->switchData('simple');
             $product->persist();
             $this->_products[$key] = $product;
         }
@@ -126,11 +125,11 @@ class Bundle extends Product
     {
         $this->_dataConfig = array(
             'constraint' => 'Success',
-
             'create_url_params' => array(
                 'type' => 'bundle',
                 'set' => 4,
-            )
+            ),
+            'input_prefix' => 'product'
         );
         $this->_data = array(
             'fields' => array(
@@ -144,11 +143,13 @@ class Bundle extends Product
                 ),
                 'sku_type' => array(
                     'value' => 'Fixed',
+                    'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
                 ),
                 'price_type' => array(
                     'value' => 'Fixed',
+                    'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
                 ),
@@ -158,11 +159,13 @@ class Bundle extends Product
                 ),
                 'tax_class_id' => array(
                     'value' => 'Taxable Goods',
+                    'input_value' => '2',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
                 ),
                 'weight_type' => array(
                     'value' => 'Fixed',
+                    'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
                 ),
@@ -172,6 +175,7 @@ class Bundle extends Product
                 ),
                 'shipment_type' => array(
                     'value' => 'Separately',
+                    'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
                 ),
@@ -179,13 +183,15 @@ class Bundle extends Product
                     'value' => array(
                         'bundle_item_0' => array(
                             'title' => array(
-                                'value' =>'Drop-down Option'
+                                'value' => 'Drop-down Option',
                             ),
                             'type' => array(
                                 'value' => 'Drop-down',
+                                'input_value' => 'select'
                             ),
                             'required' => array(
                                 'value' => 'Yes',
+                                'input_value' => '1'
                             ),
                             'assigned_products' => array(
                                 'assigned_product_0' => array(
@@ -198,14 +204,15 @@ class Bundle extends Product
                                         ),
                                         'selection_price_type' => array(
                                             'value' => 'Fixed',
-                                            'input' => 'select'
+                                            'input' => 'select',
+                                            'input_value' => 0
                                         ),
                                         'selection_qty' => array(
                                             'value' => 1
+                                        ),
+                                        'product_id' => array(
+                                            'value' => '%item1_product1::getProductId%'
                                         )
-                                    ),
-                                    'product_id' => array(
-                                        'value' => '%item1_product1::getProductId%'
                                     )
                                 ),
                                 'assigned_product_1' => array(
@@ -218,7 +225,8 @@ class Bundle extends Product
                                         ),
                                         'selection_price_type' => array(
                                             'value' => 'Percent',
-                                            'input' => 'select'
+                                            'input' => 'select',
+                                            'input_value' => 1
                                         ),
                                         'selection_qty' => array(
                                             'value' => 1
@@ -227,19 +235,14 @@ class Bundle extends Product
                                             'value' => '%item1_product2::getProductId%'
                                         )
                                     )
-                                )
-                            )
-                        )
+                                ),
+                            ),
+                        ),
                     ),
                     'group' => static::GROUP_BUNDLE_OPTIONS
                 )
-            ),
-            'prices' => array(
-                'price_from' => '110',
-                'price_to' => '120'
             )
         );
-
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoBundleBundle($this->_dataConfig, $this->_data);
     }

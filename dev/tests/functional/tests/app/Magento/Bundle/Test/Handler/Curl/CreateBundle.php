@@ -86,7 +86,7 @@ class CreateBundle extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params;
+        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params . '/popup/1/';
     }
 
     /**
@@ -120,10 +120,12 @@ class CreateBundle extends Curl
 
         $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
-        return $response;
+        preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
     }
 }

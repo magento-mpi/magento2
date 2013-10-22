@@ -200,7 +200,12 @@ class Product extends DataFixture
 
             'url_create_page'   => 'admin/catalog_product/new',
             'url_update_page'   => 'admin/catalog_product/edit',
-            'url_grid_page'     => 'admin/catalog_product/index'
+            'url_grid_page'     => 'admin/catalog_product/index',
+
+            'create_url_params' => array(
+                'type' => 'simple',
+                'set'  => 4,
+            )
         );
 
         $this->_data = array(
