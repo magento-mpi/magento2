@@ -32,7 +32,8 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     protected function initMocks()
     {
         $factoryName = 'Magento\Filter\Factory';
-        $this->_factoryMock = $this->getMock($factoryName, array('canCreateFilter', 'createFilter'), array(), '', false);
+        $this->_factoryMock = $this->getMock($factoryName, array('canCreateFilter', 'createFilter'),
+            array(), '', false);
         $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager', array(), '', true, true,
             true, array('create'));
         $this->_objectManager->expects($this->atLeastOnce())->method('create')
