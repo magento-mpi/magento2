@@ -54,7 +54,8 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
     {
         $value = 'someValue';
         $result = 'some value from parent class';
-        $this->_encryptorMock->expects($this->once())->method('decrypt')->with($value)->will($this->returnValue($result));
+        $this->_encryptorMock->expects($this->once())->method('decrypt')->with($value)
+            ->will($this->returnValue($result));
         $this->assertEquals($result, $this->_model->processValue($value));
     }
 

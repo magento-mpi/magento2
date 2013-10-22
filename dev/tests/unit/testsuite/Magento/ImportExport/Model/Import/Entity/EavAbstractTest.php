@@ -36,7 +36,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Core\Helper\String|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $stringIconv;
+    protected $_stringIconv;
 
     /**
      * @var \Magento\ImportExport\Model\ImportFactory
@@ -71,7 +71,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->stringIconv = new \Magento\Stdlib\StringIconv;
+        $this->_stringIconv = new \Magento\Stdlib\StringIconv;
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
         $this->_importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
@@ -88,7 +88,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEav', array(
             $this->_coreDataMock,
-            $this->stringIconv,
+            $this->_stringIconv,
             $coreStoreConfig,
             $this->_importFactory,
             $this->_resourceHelper,

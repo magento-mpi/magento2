@@ -12,11 +12,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Filter\FilterManager\Config
      */
-    protected $config;
+    protected $_config;
 
     protected function setUp()
     {
-        $this->config = new \Magento\Filter\FilterManager\Config(array('test' => 'test'));
+        $this->_config = new \Magento\Filter\FilterManager\Config(array('test' => 'test'));
     }
 
     public function testGetFactories()
@@ -26,6 +26,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\Filter\Factory',
             'Magento\Filter\ZendFactory',
         );
-        $this->assertEquals($expectedConfig, $this->config->getFactories());
+        $this->assertEquals($expectedConfig, $this->_config->getFactories());
     }
 }
