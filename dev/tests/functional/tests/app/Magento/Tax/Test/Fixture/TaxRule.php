@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Test\Fixture;
+namespace Magento\Tax\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
@@ -17,7 +17,7 @@ use Mtf\Fixture\DataFixture;
 /**
  * Class TaxRule
  *
- * @package Magento\Adminhtml\Test\Fixture
+ * @package Magento\Tax\Test\Fixture
  */
 class TaxRule extends DataFixture
 {
@@ -38,7 +38,7 @@ class TaxRule extends DataFixture
      */
     public function persist()
     {
-        Factory::getApp()->magentoAdminhtmlCreateTaxRule($this);
+        Factory::getApp()->magentoTaxCreateTaxRule($this);
 
         return $this;
     }

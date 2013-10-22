@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Test\Handler\Curl;
+namespace Magento\Tax\Test\Handler\Curl;
 
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
@@ -22,7 +22,7 @@ use Mtf\System\Config;
 /**
  * Curl handler for creating Tax Rule.
  *
- * @package Magento\Adminhtml\Test\Handler\Curl
+ * @package Magento\Tax\Test\Handler\Curl
  */
 class CreateTaxRule extends Curl
 {
