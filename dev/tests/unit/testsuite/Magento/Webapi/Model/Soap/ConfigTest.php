@@ -32,7 +32,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $fileSystemMock = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $dirMock = $this->getMockBuilder('Magento\Core\Model\Dir')->disableOriginalConstructor()->getMock();
-        $this->_configMock = $this->getMockBuilder('Magento\Webapi\Model\Config')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento\Webapi\Model\Config')
+            ->disableOriginalConstructor()->getMock();
         $this->_soapConfig = new \Magento\Webapi\Model\Soap\Config(
             $objectManagerMock,
             $fileSystemMock,
@@ -71,6 +72,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 array('VendorCustomer', 'Address', 'V1')
             ),
             array('Magento\Catalog\Service\ProductV2Interface', true, array('CatalogProduct', 'V2'))
+        );
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @dataProvider dataProviderForTestGetServiceNamePartsInvalidName
+     */
+    public function testGetServiceNamePartsInvalidName($interfaceClassName)
+    {
+        $this->_soapConfig->getServiceNameParts($interfaceClassName);
+    }
+
+    public function dataProviderForTestGetServiceNamePartsInvalidName()
+    {
+        return array(
+            array('BarV1Interface'), // Missed vendor, module, 'Service'
+            array('Service\\V1Interface'), // Missed vendor and module
+            array('Magento\\Foo\\Service\\BarVxInterface'), // Version number should be a number
+            array('Magento\\Foo\\Service\\BarInterface'), // Version missed
+            array('Magento\\Foo\\Service\\BarV1'), // 'Interface' missed
+            array('Foo\\Service\\BarV1Interface'), // Module missed
+            array('Foo\\BarV1Interface'), // Module and 'Service' missed
         );
     }
 

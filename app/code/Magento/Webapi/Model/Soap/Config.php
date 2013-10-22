@@ -163,14 +163,10 @@ class Config
     /**
      * Retrieve the list of services corresponding to specified services and their versions.
      *
-     * @param array $requestedServices <pre>
-     * array(
-     *     'catalogProduct' => 'V1'
-     *     'customer' => 'V2
-     * )<pre/>
+     * @param array $requestedServices array('FooBarV1', 'OtherBazV2', ...)
      * @return array Filtered list of services
      */
-    public function getRequestedSoapServices($requestedServices)
+    public function getRequestedSoapServices(array $requestedServices)
     {
         $services = array();
         foreach ($requestedServices as $serviceName) {
