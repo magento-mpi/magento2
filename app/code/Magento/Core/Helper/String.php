@@ -179,19 +179,6 @@ class String extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Capitalize first letters and convert separators if needed
-     *
-     * @param string $str
-     * @param string $sourceSeparator
-     * @param string $destinationSeparator
-     * @return string
-     */
-    public static function upperCaseWords($str, $sourceSeparator = '_', $destinationSeparator = '_')
-    {
-        return str_replace(' ', $destinationSeparator, ucwords(str_replace($sourceSeparator, ' ', $str)));
-    }
-
-    /**
      * Builds namespace + classname out of the parts array
      *
      * Split every part into pieces by _ and \ and uppercase every piece
@@ -206,7 +193,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
 
         $string = join($separator, $parts);
         $string = str_replace('_', $separator, $string);
-        $className = \Magento\Core\Helper\String::upperCaseWords($string, $separator, $separator);
+        $className = \Magento\Stdlib\String::upperCaseWords($string, $separator, $separator);
 
         return $className;
     }

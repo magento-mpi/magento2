@@ -110,7 +110,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $datetime = new \DateTime();
         $storeInterval = new \DateInterval('P' . self::TEST_DAYS_BEFORE . 'D');
         $datetime->sub($storeInterval);
-        $expectedDate = \Magento\Date::formatDate($datetime->getTimestamp());
+        $expectedDate = \Magento\Stdlib\DateTime::formatDate($datetime->getTimestamp());
         $this->_expectedConditions['data'][1][1]['lt'] = $expectedDate;
 
         $collection->addUpdatedDaysBeforeFilter(self::TEST_DAYS_BEFORE);

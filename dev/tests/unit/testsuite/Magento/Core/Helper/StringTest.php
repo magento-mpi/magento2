@@ -34,7 +34,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpperCaseWords($string, $expected)
     {
-        $actual = \Magento\Core\Helper\String::upperCaseWords($string);
+        $actual = \Magento\Stdlib\String::upperCaseWords($string);
         $this->assertEquals($expected, $actual);
     }
 
@@ -69,7 +69,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpperCaseWordsWithSeparators($string, $sourceSeparator, $destinationSeparator, $expected)
     {
-        $actual = \Magento\Core\Helper\String::upperCaseWords($string, $sourceSeparator, $destinationSeparator);
+        $actual = \Magento\Stdlib\String::upperCaseWords($string, $sourceSeparator, $destinationSeparator);
         $this->assertEquals($expected, $actual);
     }
 

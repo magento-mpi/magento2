@@ -38,7 +38,7 @@ class Dir
     {
         $result = $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::MODULES)
             . DIRECTORY_SEPARATOR
-            . \Magento\Core\Helper\String::upperCaseWords($moduleName, '_', DIRECTORY_SEPARATOR);
+            . \Magento\Stdlib\String::upperCaseWords($moduleName, '_', DIRECTORY_SEPARATOR);
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
                 throw new \InvalidArgumentException("Directory type '$type' is not recognized.");

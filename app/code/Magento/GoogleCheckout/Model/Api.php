@@ -59,7 +59,7 @@ class Api extends \Magento\Object
     protected function _getApi($area)
     {
         $api = $this->objectManager->create(
-            'Magento\GoogleCheckout\Model\Api\Xml\\' . \Magento\Core\Helper\String::upperCaseWords($area)
+            'Magento\GoogleCheckout\Model\Api\Xml\\' . \Magento\Stdlib\String::upperCaseWords($area)
         )->setStoreId($this->getStoreId());
         $api->setApi($this);
         return $api;

@@ -524,7 +524,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
             foreach ($this->_config->getCallbacks($callbackGroup) as $className => $callback) {
-                $className = \Magento\Core\Helper\String::upperCaseWords($className);
+                $className = \Magento\Stdlib\String::upperCaseWords($className);
 
                 /*
                  * Second parameter passed as FALSE to prevent usage of __autoload function

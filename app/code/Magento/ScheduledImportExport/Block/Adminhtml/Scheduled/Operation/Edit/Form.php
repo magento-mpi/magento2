@@ -166,7 +166,7 @@ abstract class Form
 
         $entities = $this->_optionArrayPool->get(
             'Magento\ImportExport\Model\Source\\'
-                . \Magento\Core\Helper\String::upperCaseWords($operation->getOperationType()) . '\Entity'
+                . \Magento\Stdlib\String::upperCaseWords($operation->getOperationType()) . '\Entity'
         )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(

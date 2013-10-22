@@ -121,7 +121,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             $notification->startProcess();
         }
 
-        $method = '_response' . \Magento\Core\Helper\String::upperCaseWords($root, '-', '');
+        $method = '_response' . \Magento\Stdlib\String::upperCaseWords($root, '-', '');
         if (method_exists($this, $method)) {
             ob_start();
 
@@ -1031,13 +1031,13 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             ->save();
 
         $method = '_orderStateChangeFinancial'
-            . \Magento\Core\Helper\String::upperCaseWords(strtolower($newFinancial), '_', '');
+            . \Magento\Stdlib\String::upperCaseWords(strtolower($newFinancial), '_', '');
         if (method_exists($this, $method)) {
             $this->$method();
         }
 
         $method = '_orderStateChangeFulfillment'
-            . \Magento\Core\Helper\String::upperCaseWords(strtolower($newFulfillment), '_', '');
+            . \Magento\Stdlib\String::upperCaseWords(strtolower($newFulfillment), '_', '');
         if (method_exists($this, $method)) {
             $this->$method();
         }

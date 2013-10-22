@@ -70,7 +70,7 @@ class AttributeDataFactory
             if (empty($this->_dataModels[$attribute->getFrontendInput()])) {
                 $dataModelClass = sprintf(
                     'Magento\Eav\Model\Attribute\Data\%s',
-                    \Magento\Core\Helper\String::upperCaseWords($attribute->getFrontendInput())
+                    \Magento\Stdlib\String::upperCaseWords($attribute->getFrontendInput())
                 );
                 $dataModel = $this->_objectManager->create($dataModelClass);
                 $this->_dataModels[$attribute->getFrontendInput()] = $dataModel;
