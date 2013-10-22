@@ -993,4 +993,7 @@ return array(
     array('Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Shipment\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Parent'),
+    array('Magento\Core\Model\ThemeInterface', 'Magento\View\Design\ThemeInterface'),
+    array('Magento\Core\Model\View\DesignInterface', 'Magento\View\DesignInterface'),
+    array('Magento\Core\Model\Layout\Element', 'Magento\View\Layout\Element'),
 );

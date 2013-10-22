@@ -36,7 +36,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('magento_rma_edit_tab_items');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setArea('adminhtml');
         $this->assertContains('<div id="magento_rma_item_edit_grid">', $layout->getOutput());
     }

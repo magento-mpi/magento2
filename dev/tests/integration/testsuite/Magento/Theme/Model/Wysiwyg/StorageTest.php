@@ -46,8 +46,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
         $this->_filesystem->setIsAllowCreateDirectories(true);
 
-        /** @var $theme \Magento\Core\Model\Theme */
-        $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->getCollection()->getFirstItem();
+        /** @var $theme \Magento\View\Design\ThemeInterface */
+        $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->getCollection()->getFirstItem();
 
         /** @var $request \Magento\Core\Controller\Request\Http */
         $request = $this->_objectManager->get('Magento\Core\Controller\Request\Http');

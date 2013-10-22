@@ -21,7 +21,7 @@ class InstanceTest extends \Magento\Backend\Utility\Controller
         parent::setUp();
 
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface')
+            ->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
         $type = 'Magento\Cms\Block\Widget\Page\Link';
