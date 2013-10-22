@@ -9,22 +9,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Design\Source;
+namespace Magento\Core\Model\Theme\Source;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
- * Design Test
+ * Theme Test
  *
  * @package Magento\View
  */
-class DesignTest extends \PHPUnit_Framework_TestCase
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAllOptions()
     {
-        /** @var $model \Magento\View\Design\Source\Design */
-        $model = Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\Source\Design');
+        /** @var $model \Magento\Core\Model\Theme\Source\Theme */
+        $model = Bootstrap::getObjectManager()->create('\Magento\Core\Model\Theme\Source\Theme');
 
         /** @var $expectedCollection \Magento\Core\Model\Theme\Collection */
         $expectedCollection = Bootstrap::getObjectManager()
