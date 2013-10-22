@@ -286,6 +286,13 @@ FORMATTEDCODESNIPPET
                 "<?php\nclass BigParentPluses extends Parent implements\n    Interface1,\n    Interface2,\n" .
                 "    Interface3,\n    Interface4\n{\n}\n"
             ),
+            array("<?php interface NoChildren {}", "<?php\ninterface NoChildren\n{\n}\n"),
+            array("<?php interface JustParent extends Parent {}", "<?php\ninterface JustParent extends Parent\n{\n}\n"),
+            array(
+                "<?php interface BigParent extends Interface1,Interface2,Interface3,Interface4,Interface5 {}",
+                "<?php\ninterface BigParent extends\n    Interface1,\n    Interface2,\n    Interface3,\n" .
+                "    Interface4,\n    Interface5\n{\n}\n"
+            ),
         );
     }
 

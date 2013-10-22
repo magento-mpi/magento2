@@ -61,6 +61,7 @@ class StatementFactory
         $this->register('Stmt_Use', UseStatement::getType());
         $this->register('Stmt_UseUse', UseReference::getType());
         $this->register('Stmt_Class', ClassStatement::getType());
+        $this->register('Stmt_Interface', InterfaceStatement::getType());
         $this->register('Stmt_ClassConst', ConstantStatement::getType());
         $this->register('Const', ConstantReference::getType());
         $this->register('Stmt_Property', PropertyStatement::getType());
