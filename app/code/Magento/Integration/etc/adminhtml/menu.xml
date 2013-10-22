@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Configuration of Integration module menu in Magento admin panel.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Integration::system_integrations" title="Integrations" module="Magento_Integration" sortOrder="10" parent="Magento_Webapi::system_webapi" action="adminhtml/integration" resource="Magento_Integration::integrations"/>
+    </menu>
+</config>
