@@ -38,7 +38,6 @@ class Minsaleqty
                 array('data' => array('is_render_to_js_template' => true))
             );
             $this->_groupRenderer->setClass('customer_group_select');
-            $this->_groupRenderer->setExtraParams('style="width:120px"');
         }
         return $this->_groupRenderer;
     }
@@ -54,7 +53,6 @@ class Minsaleqty
         ));
         $this->addColumn('min_sale_qty', array(
             'label' => __('Minimum Qty'),
-            'style' => 'width:100px',
         ));
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add Minimum Qty');
