@@ -213,6 +213,7 @@ class User
             '_roleFactory',
             '_emailInfoFactory',
             '_mailer',
+            '_encryptor'
         ));
     }
 
@@ -229,6 +230,7 @@ class User
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_emailInfoFactory = $objectManager->get('Magento\Core\Model\Email\InfoFactory');
         $this->_mailer = $objectManager->get('Magento\Core\Model\Email\Template\MailerFactory');
+        $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptionInterface');
     }
 
     /**
