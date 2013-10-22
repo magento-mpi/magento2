@@ -31,7 +31,8 @@ class Factory extends AbstractFactory
         'removeAccents' => 'Magento\Filter\RemoveAccents',
         'splitWords'    => 'Magento\Filter\SplitWords',
         'removeTags'    => 'Magento\Filter\RemoveTags',
-        'stripTags'     => 'Magento\Filter\StripTags'
+        'stripTags'     => 'Magento\Filter\StripTags',
+        'truncate'      => 'Magento\Filter\Truncate',
     );
 
     /**
@@ -44,6 +45,7 @@ class Factory extends AbstractFactory
         'Magento\Filter\Money' => false,
         'Magento\Filter\RemoveAccents' => false,
         'Magento\Filter\SplitWords' => false,
-        'Magento\Filter\StripTags' => false
+        'Magento\Filter\StripTags' => false,
+        'Magento\Filter\Truncate' => false,
     );
 }

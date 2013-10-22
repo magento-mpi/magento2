@@ -873,4 +873,5 @@ return array(
     array('strrev', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::strrev'),
     array('cleanString', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::cleanString'),
     array('strpos', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::strpos'),
+    array('truncate', '\Magento\Core\Helper\String', '\Magento\Filter\Truncate'),
 );

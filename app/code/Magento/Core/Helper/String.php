@@ -42,47 +42,6 @@ class String extends \Magento\Core\Helper\AbstractHelper
         $this->stringIconv = $stringIconv;
     }
 
-
-    /**
-     * Truncate a string to a certain length if necessary, appending the $etc string.
-     * $remainder will contain the string that has been replaced with $etc.
-     *
-     * @param string $string
-     * @param int $length
-     * @param string $etc
-     * @param string &$remainder
-     * @param bool $breakWords
-     * @return string
-     */
-    public function truncate($string, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
-    {
-        $remainder = '';
-        if (0 == $length) {
-            return '';
-        }
-
-        $originalLength = $this->stringIconv->strlen($string);
-        if ($originalLength > $length) {
-            $length -= $this->stringIconv->strlen($etc);
-            if ($length <= 0) {
-                return '';
-            }
-            $preparedString = $string;
-            $preparedLength = $length;
-            if (!$breakWords) {
-                $preparedString = preg_replace(
-                    '/\s+?(\S+)?$/u', '', $this->stringIconv->substr($string, 0, $length + 1)
-                );
-                $preparedLength = $this->stringIconv->strlen($preparedString);
-            }
-            $remainder = $this->stringIconv->substr($string, $preparedLength, $originalLength);
-            return $this->stringIconv->substr($preparedString, 0, $length) . $etc;
-        }
-
-        return $string;
-    }
-
-
     /**
      * Split string and appending $insert string after $needle
      *

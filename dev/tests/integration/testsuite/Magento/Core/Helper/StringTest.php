@@ -24,21 +24,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Helper\String::truncate
-     * @covers \Magento\Core\Helper\String::strlen
-     * @covers \Magento\Core\Helper\String::substr
-     */
-    public function testTruncate()
-    {
-        $string = '1234567890';
-        $this->assertEquals('12...', $this->_helper->truncate($string, 5));
-
-        $words = '123 456 789';
-        $remainder = '';
-        $this->assertEquals('123...', $this->_helper->truncate($words, 8, '...', $remainder, false));
-    }
-
-    /**
      * @covers \Magento\Core\Helper\String::splitInjection
      * @covers \Magento\Core\Helper\String::strrev
      */

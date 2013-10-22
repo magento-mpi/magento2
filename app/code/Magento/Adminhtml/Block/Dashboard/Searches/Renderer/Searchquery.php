@@ -23,35 +23,42 @@ class Searchquery extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\A
     protected $stringIconv;
 
     /**
-     * Core string
+     * Filter manager
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Filter\FilterManager
      */
-    protected $_coreString;
+    protected $filter;
+
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Filter\FilterManager $filter,
         \Magento\Backend\Block\Context $context,
         \Magento\Stdlib\StringIconv $stringIconv,
         array $data = array()
     ) {
-        $this->_coreString = $coreString;
+        $this->filter = $filter;
         $this->stringIconv = $stringIconv;
         parent::__construct($context, $data);
     }
 
+    /**
+     * Renders grid column
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if ($this->stringIconv->strlen($value) > 30) {
             $value = '<span title="' . $this->escapeHtml($value) . '">'
-                . $this->escapeHtml($this->_coreString->truncate($value, 30)) . '</span>';
+                . $this->escapeHtml($this->filter->truncate($value, array('length' => 30))) . '</span>';
         } else {
             $value = $this->escapeHtml($value);
         }
