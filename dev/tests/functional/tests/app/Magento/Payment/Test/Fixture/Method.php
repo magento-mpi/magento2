@@ -36,35 +36,8 @@ class Method extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'authorizenet' => array(
-                'config' => array(
-                    'payment_form_class' => '\\Magento\\Paygate\\Test\\Block\\Authorizenet\\Form\\Cc',
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'payment_code' => 'authorizenet'
-                    ),
-                )
-            ),
-            'paypal_express' => array(
-                'data' => array(
-                    'fields' => array(
-                        'payment_code' => 'paypal_express'
-                    ),
-                )
-            ),
-            'paypal_direct' => array(
-                'config' => array(
-                    'payment_form_class' => '\\Magento\\Payment\\Test\\Block\\Form\\Cc',
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'payment_code' => 'paypal_direct'
-                    ),
-                )
-            )
-        );
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoPaymentMethod($this->_dataConfig, $this->_data);
 
         //Default data set
         $this->switchData('authorizenet');

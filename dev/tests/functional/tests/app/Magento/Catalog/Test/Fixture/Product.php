@@ -52,14 +52,27 @@ class Product extends DataFixture
     }
 
     /**
+     * Get data from repository and reassign it
+     */
+    public function reset()
+    {
+        $default = $this->_repository->get('default');
+
+        $this->_dataConfig = $default['config'];
+        $this->_data = $default['data'];
+    }
+
+    /**
      * Create new category
      *
      * @return string
      */
     protected function categoryProvider()
     {
-        return Factory::getFixtureFactory()->getMagentoCatalogCategory()
-            ->switchData('subcategory')->persist()->getCategoryName();
+        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+        $category->switchData('subcategory');
+        $category->persist();
+        return $category->getCategoryName();
     }
 
     /**
@@ -118,112 +131,28 @@ class Product extends DataFixture
     }
 
     /**
+     * Get product id
+     *
+     * @return string
+     */
+    public function getProductId()
+    {
+        return $this->getData('fields/id/value');
+    }
+
+    /**
      * Create product
+     *
+     * @return Product
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateProduct($this);
+        $id = Factory::getApp()->magentoCatalogCreateProduct($this);
+        $this->_data['fields']['id']['value'] = $id;
 
         return $this;
     }
 
-    /**
-     * {inheritdoc}
-     */
-    protected function _initData()
-    {
-        $this->_defaultConfig = array(
-            'block_form_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductForm',
-            'block_grid_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductGrid',
-
-            'grid_filter'       => array('name'),
-
-            'url_create_page'   => 'admin/catalog_product/new',
-            'url_update_page'   => 'admin/catalog_product/edit',
-            'url_grid_page'     => 'admin/catalog_product/index'
-        );
-
-        $this->_repository = array(
-            'simple'          => array(
-                'config' => array(
-                    'test_case' => array('Smart\\Crud', 'Smart\\E2e', 'CheckoutSuite\\Onepage'),
-                    'constraint'        => 'Success',
-
-                    'create_url_params' => array(
-                        'type' => 'simple',
-                        'set'  => 4,
-                    )
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'name'   => array(
-                            'value' => 'Simple Product %isolation%',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'curl'  => 'product[name]'
-                        ),
-                        'sku'    => array(
-                            'value' => 'simple_sku_%isolation%',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'curl'  => 'product[sku]'
-                        ),
-                        'price'  => array(
-                            'value' => 10,
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'curl'  => 'product[price]'
-                        ),
-                        'tax_class_id' => array(
-                            'value' => 'Taxable Goods',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'input' => 'select',
-                            'curl'  => 'product[tax_class_id]'
-                        ),
-                        'qty'    => array(
-                            'value' => 1000,
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'curl'  => 'product[quantity_and_stock_status][qty]'
-                        ),
-                        'weight' => array(
-                            'value' => '1',
-                            'group' => static::GROUP_PRODUCT_DETAILS,
-                            'curl'  => 'product[weight]'
-                        ),
-                        'meta_title' => array(
-                            'value' => 'Meta Title',
-                            'group' => static::GROUP_ADVANCED_SEO,
-                            'curl'  => 'product[meta_title]'
-                        ),
-                        'meta_keyword' => array(
-                            'value' => 'Meta Keyword',
-                            'group' => static::GROUP_ADVANCED_SEO,
-                            'curl'  => 'product[meta_keyword]'
-                        ),
-                        'meta_description' => array(
-                            'value' => 'Meta Description',
-                            'group' => static::GROUP_ADVANCED_SEO,
-                            'curl'  => 'product[meta_description]'
-                        ),
-                        'product_website_1' => array(
-                            'value' => 'Yes',
-                            'group' => static::GROUP_PRODUCT_WEBSITE,
-                            'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
-                            'curl'  => 'product[website_ids][]'
-                        ),
-                        'inventory_manage_stock' => array(
-                            'value' => 'No',
-                            'group' => static::GROUP_PRODUCT_INVENTORY,
-                            'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
-                            'curl'  => 'product[stock_data][manage_stock]'
-                        ),
-                    )
-                )
-            )
-        );
-        $this->_repository['simple_with_category'] = $this->_repository['simple'];
-        $this->_repository['simple_with_category']['data']['category_name'] = '%category%';
-
-        //Default data set
-        $this->switchData('simple');
-    }
 
     /**
      * Get Url params
@@ -256,5 +185,88 @@ class Product extends DataFixture
             $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
         }
         return $params;
+    }
+
+    /**
+     * {inheritdoc}
+     */
+    protected function _initData()
+    {
+        $this->_dataConfig = array(
+            'block_form_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductForm',
+            'block_grid_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductGrid',
+
+            'grid_filter'       => array('name'),
+
+            'url_create_page'   => 'admin/catalog_product/new',
+            'url_update_page'   => 'admin/catalog_product/edit',
+            'url_grid_page'     => 'admin/catalog_product/index'
+        );
+
+        $this->_data = array(
+            'fields' => array(
+                'name'   => array(
+                    'value' => 'Simple Product %isolation%',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'curl'  => 'product[name]'
+                ),
+                'sku'    => array(
+                    'value' => 'simple_sku_%isolation%',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'curl'  => 'product[sku]'
+                ),
+                'price'  => array(
+                    'value' => 10,
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'curl'  => 'product[price]'
+                ),
+                'tax_class_id' => array(
+                    'value' => 'Taxable Goods',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select',
+                    'curl'  => 'product[tax_class_id]'
+                ),
+                'qty'    => array(
+                    'value' => 1000,
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'curl'  => 'product[quantity_and_stock_status][qty]'
+                ),
+                'weight' => array(
+                    'value' => '1',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'curl'  => 'product[weight]'
+                ),
+                'meta_title' => array(
+                    'value' => 'Meta Title',
+                    'group' => static::GROUP_ADVANCED_SEO,
+                    'curl'  => 'product[meta_title]'
+                ),
+                'meta_keyword' => array(
+                    'value' => 'Meta Keyword',
+                    'group' => static::GROUP_ADVANCED_SEO,
+                    'curl'  => 'product[meta_keyword]'
+                ),
+                'meta_description' => array(
+                    'value' => 'Meta Description',
+                    'group' => static::GROUP_ADVANCED_SEO,
+                    'curl'  => 'product[meta_description]'
+                ),
+                'product_website_1' => array(
+                    'value' => 'Yes',
+                    'group' => static::GROUP_PRODUCT_WEBSITE,
+                    'input' => 'checkbox',
+                    'curl'  => 'product[website_ids][]'
+                ),
+                'inventory_manage_stock' => array(
+                    'value' => 'No',
+                    'group' => static::GROUP_PRODUCT_INVENTORY,
+                    'input' => 'checkbox',
+                    'curl'  => 'product[stock_data][manage_stock]'
+                )
+            )
+        );
+
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCatalogProduct($this->_dataConfig, $this->_data);
     }
 }
