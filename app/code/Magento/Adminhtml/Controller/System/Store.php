@@ -24,17 +24,25 @@ class Store extends \Magento\Adminhtml\Controller\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $_filterManager;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_filterManager = $filterManager;
         parent::__construct($context);
     }
 
@@ -171,7 +179,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
             try {
                 switch ($postData['store_type']) {
                     case 'website':
-                        $postData['website']['name'] = $this->_getHelper()->removeTags($postData['website']['name']);
+                        $postData['website']['name'] = $this->_filterManager->removeTags($postData['website']['name']);
                         $websiteModel = $this->_objectManager->create('Magento\Core\Model\Website');
                         if ($postData['website']['website_id']) {
                             $websiteModel->load($postData['website']['website_id']);
@@ -186,7 +194,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
                         break;
 
                     case 'group':
-                        $postData['group']['name'] = $this->_getHelper()->removeTags($postData['group']['name']);
+                        $postData['group']['name'] = $this->_filterManager->removeTags($postData['group']['name']);
                         $groupModel = $this->_objectManager->create('Magento\Core\Model\Store\Group');
                         if ($postData['group']['group_id']) {
                             $groupModel->load($postData['group']['group_id']);
@@ -206,7 +214,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
                     case 'store':
                         $eventName = 'store_edit';
                         $storeModel = $this->_objectManager->create('Magento\Core\Model\Store');
-                        $postData['store']['name'] = $this->_getHelper()->removeTags($postData['store']['name']);
+                        $postData['store']['name'] = $this->_filterManager->removeTags($postData['store']['name']);
                         if ($postData['store']['store_id']) {
                             $storeModel->load($postData['store']['store_id']);
                         }

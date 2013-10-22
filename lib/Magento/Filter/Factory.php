@@ -30,6 +30,7 @@ class Factory extends AbstractFactory
         'arrayFilter'   => 'Magento\Filter\ArrayFilter',
         'removeAccents' => 'Magento\Filter\RemoveAccents',
         'splitWords'    => 'Magento\Filter\SplitWords',
+        'removeTags'    => 'Magento\Filter\RemoveTags'
     );
 
     /**
