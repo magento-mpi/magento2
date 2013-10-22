@@ -42,6 +42,9 @@ class CreateBundle extends Curl
                 $data = array_merge($data, $this->getBundleData($values['value']));
             } else {
                 $value = isset($values['input_value']) ? $values['input_value'] : $values['value'];
+                if (isset($values['input_name'])) {
+                    $key = $values['input_name'];
+                }
                 if ($prefix) {
                     $data[$prefix][$key] = $value;
                 } else {
@@ -72,6 +75,22 @@ class CreateBundle extends Curl
     }
 
     /**
+     * Retrieve URL for request with all necessary parameters
+     *
+     * @param array $config
+     * @return string
+     */
+    protected function _getUrl(array $config)
+    {
+        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
+        $params = '';
+        foreach ($requestParams as $key => $value) {
+            $params .= $key . '/' . $value . '/';
+        }
+        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params;
+    }
+
+    /**
      * Prepare product selections data
      *
      * @param array $products
@@ -97,16 +116,10 @@ class CreateBundle extends Curl
     {
         $config = $fixture->getDataConfig();
 
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
-        $params = '';
-        foreach ($requestParams as $key => $value) {
-            $params .= $key . '/' . $value . '/';
-        }
-        $url = $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params;
-
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->_prepareData($fixture->getData('fields'), $prefix);
 
+        $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
