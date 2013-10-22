@@ -1011,4 +1011,22 @@ return array(
         'Magento\Core\Model\Design\FileResolution\StrategyPool',
         'Magento\View\Design\FileResolution\StrategyPool'
     ),
+    array('Magento\Core\Model\Layout\File','Magento\View\Layout\File'),
+    array('Magento\Core\Model\Layout\File\Factory','Magento\View\Layout\File\Factory'),
+    array('Magento\Core\Model\Layout\File\FileList\Factory','Magento\View\Layout\File\FileList\Factory'),
+    array('Magento\Core\Model\Layout\File\ListFile','Magento\View\Layout\File\FileList'),
+    array('Magento\Core\Model\Layout\File\Source\Aggregated','Magento\View\Layout\File\Source\Aggregated'),
+    array('Magento\Core\Model\Layout\File\Source\Base','Magento\View\Layout\File\Source\Base'),
+    array(
+        'Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency',
+        'Magento\View\Layout\File\Source\Decorator\ModuleDependency'
+    ),
+    array(
+        'Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput',
+        'Magento\View\Layout\File\Source\Decorator\ModuleOutput'
+    ),
+    array('Magento\Core\Model\Layout\File\Source\Override\Base','Magento\View\Layout\File\Override\Base'),
+    array('Magento\Core\Model\Layout\File\Source\Override\Theme','Magento\View\Layout\File\Override\Theme'),
+    array('Magento\Core\Model\Layout\File\Source\Theme','Magento\View\Layout\File\Source\Theme'),
+    array('Magento\Core\Model\Layout\File\SourceInterface','Magento\View\Layout\File\SourceInterface'),
 );

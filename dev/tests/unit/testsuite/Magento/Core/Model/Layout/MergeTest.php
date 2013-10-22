@@ -49,7 +49,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     {
         $files = array();
         foreach (glob(__DIR__ . '/_files/layout/*.xml') as $filename) {
-            $files[] = new \Magento\Core\Model\Layout\File($filename, 'Magento_Core');
+            $files[] = new \Magento\View\Layout\File($filename, 'Magento_Core');
         }
         $fileSource = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue($files));
