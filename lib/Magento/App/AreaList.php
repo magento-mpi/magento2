@@ -14,7 +14,7 @@ class AreaList
      *
      * @var array
      */
-    protected $_areaList;
+    protected $_areas;
 
     /**
      * @var string

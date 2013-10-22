@@ -67,6 +67,8 @@ class Scope implements \Magento\Config\ScopeInterface
      */
     public function getAllScopes()
     {
-        return array($this->_defaultScope) + $this->_areaList->getCodes();
+        $codes = $this->_areaList->getCodes();
+        array_unshift($codes, $this->_defaultScope);
+        return $codes;
     }
 }
