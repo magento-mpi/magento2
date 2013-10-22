@@ -8,8 +8,8 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 
@@ -62,13 +62,11 @@ abstract class BaseAbstract
         array $arguments,
         TreeNode $treeNode,
         Line $line,
-        $initalBreakRequired = true
-    )
-    {
+        LineBreak $lineBreak
+    ) {
         foreach ($arguments as $index => $argument) {
-            if ($index == 0 && $initalBreakRequired || $index > 0) {
-                $line->add(new ConditionalLineBreak(' '));
-            }
+            // add the line break prior to the argument
+            $line->add($lineBreak);
             // process the argument itself
             $this->resolveNode($argument, $treeNode);
             // in not the last on, separate with a comma

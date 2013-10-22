@@ -40,7 +40,7 @@ class DecimalNumberReference extends ReferenceAbstract
 
         // ensure that number is really printed as float
         return ctype_digit($stringValue) ? $stringValue . '.0' : $stringValue;
-       */
+         */
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {

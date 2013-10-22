@@ -15,6 +15,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  */
 class Line
 {
+    const ATTRIBUTE_LINE = 'line';
+    const ATTRIBUTE_TERMINATOR = 'terminator';
     /**
      * This member holds the actual tokens in the line
      * @var array
@@ -67,6 +69,14 @@ class Line
     }
 
     /**
+     * This method returns the tokens that make up the line.
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
+    }
+
+    /**
      * This member sets the tokens for this line to the passed in values.
      */
     public function setTokens(array $tokens)
@@ -75,28 +85,64 @@ class Line
     }
 
     /**
-     * This member returns a tree
-     * @param $prefix
-     * @param $level
+     * This method returns the representation of the line for
+     * @param int $level Indicator for the level you want the lines split at
+     * @return array
      */
-    public function splitLines($level = 0)
+    public function splitLine($level)
     {
+        $lineBreakTokens = array();
+        // first, count the number of line break instances in the line
+        foreach ($this->tokens as $token) {
+            if ($token instanceof LineBreak) {
+                $id = $this->getLineBreakId($token);
+                if (!array_key_exists($id, $lineBreakTokens)) {
+                    $lineBreakTokens[$id] = array();
+                }
+
+                if (array_key_exists('total', $lineBreakTokens[$id])) {
+                    $lineBreakTokens[$id]['total']++;
+                } else {
+                    $lineBreakTokens[$id]['total'] = 1;
+                    $lineBreakTokens[$id]['index'] = 0;
+                }
+            }
+        }
         // stores the array of arrays
         $currentLines = array();
         $index = 0;
-        // loop through the elements to determine ending lines
+        // build up the string by compiling the tokens
         foreach ($this->tokens as $token) {
             // if no current line, create one and put it in the array
             if ($index >= sizeof($currentLines)) {
                 $currentLines[$index] = array();
+                $currentLines[$index][self::ATTRIBUTE_LINE] = '';
             }
-            // add the current token to the end of the current line
-            array_push($currentLines[$index], $token);
-            // if this is a terminating token, flag that a new line needs to be generated
-            if ($token instanceof LineBreak && $level >= $token->getLevel()) {
-                $index++;
+            if (is_string($token)) {
+                // add the current token to the end of the current line
+                $currentLines[$index][self::ATTRIBUTE_LINE] .= $token;
+            } elseif ($token instanceof LineBreak) {
+                $id = $this->getLineBreakId($token);
+                $resolvedToken = $token->getValue(
+                    $level,
+                    $lineBreakTokens[$id]['index']++,
+                    $lineBreakTokens[$id]['total']
+                );
+                if ($token instanceof HardLineBreak) {
+                    $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $token;
+                    $index++;
+                } else if ($resolvedToken instanceof HardLineBreak) {
+                    $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $resolvedToken;
+                    $index++;
+                } else {
+                    $currentLines[$index][self::ATTRIBUTE_LINE] .= (string)$resolvedToken;
+                }
             }
         }
         return $currentLines;
+    }
+
+    private function getLineBreakId(LineBreak $token) {
+        return get_class($token);
     }
 }

@@ -64,8 +64,7 @@ class Foo extends Bar implements Zulu
     /** beta method */
     public function beta()
     {
-        return \$this
-            ->alpha()
+        return \$this->alpha()
             ->alpha()
             ->alpha()
             ->alpha()
@@ -304,6 +303,44 @@ FORMATTEDCODESNIPPET
                 "<?php class Local3 {public static \$a;protected \$b;private \$c;public \$d,\$e,\$f;}",
                 "<?php\nclass Local3\n{\n    public static \$a;\n\n    protected \$b;\n\n    private \$c;\n\n" .
                 "    public \$d, \$e, \$f;\n}\n"
+            ),
+        );
+    }
+
+    /**
+     * This method tests the printing around method declarations.
+     *
+     * @dataProvider dataMethodDeclarations
+     */
+    public function testMethodDeclarations($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    public function dataMethodDeclarations()
+    {
+        return array(
+            array(
+                "<?php class MD {public function alpha() {}}",
+                "<?php\nclass MD\n{\n    public function alpha()\n    {\n    }\n}\n"
+            ),
+            array(
+                "<?php class MD2 {public function alpha(\$a) {}}",
+                "<?php\nclass MD2\n{\n    public function alpha(\$a)\n    {\n    }\n}\n"
+            ),
+            array(
+                "<?php class MD3 {public function alpha(TestClass \$a) {}}",
+                "<?php\nclass MD3\n{\n    public function alpha(TestClass \$a)\n    {\n    }\n}\n"
+            ),
+            array(
+                "<?php class MD4 {public function alpha(TestClass \$a,TestClass \$b) {}}",
+                "<?php\nclass MD4\n{\n    public function alpha(TestClass \$a, TestClass \$b)\n    {\n    }\n}\n"
+            ),
+            array(
+                "<?php class MD5 {public function alpha(TestClass \$a,TestClass \$b,TestClass \$c,TestClass \$d) {}}",
+                "<?php\nclass MD5\n{\n    public function alpha(\n        TestClass \$a,\n        TestClass \$b,\n" .
+                "        TestClass \$c,\n        TestClass \$d\n    ) {\n    }\n}\n"
             ),
         );
     }

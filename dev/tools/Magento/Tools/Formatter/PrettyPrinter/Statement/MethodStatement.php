@@ -10,6 +10,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_ClassMethod;
 
@@ -62,10 +63,12 @@ class MethodStatement extends StatementAbstract
         if ($this->node->byRef) {
             $line->add('&');
         }
+        // add in the parameters
+        $lineBreak = new ParameterLineBreak();
         $line->add($this->node->name)->add('(');
-        // . $parameters .
-        $line->add(')')->add(new HardLineBreak());
-        $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
+        $this->processArgumentList($this->node->params, $treeNode, $line, $lineBreak);
+        $line->add($lineBreak);
+        $line->add(')')->add($lineBreak)->add('{')->add(new HardLineBreak());
         // process content of the methods
         $this->processNodes($this->node->stmts, $treeNode);
         // add closing block

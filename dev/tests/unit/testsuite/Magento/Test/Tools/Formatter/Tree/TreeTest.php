@@ -107,7 +107,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     /**
      * This method test manipulating a tree just using the nodes.
      */
-    public function testNodeManipulation() {
+    public function testNodeManipulation()
+    {
         $tree = new Tree();
         // add some nodes to our tree
         $nodeA = $tree->addRoot($this->getNode('A'));

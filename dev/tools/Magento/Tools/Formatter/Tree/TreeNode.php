@@ -117,6 +117,17 @@ class TreeNode implements Node
     }
 
     /**
+     * This method removes the specified child from the child list.
+     * @param TreeNode $existingChild Node representing an existing child.
+     */
+    public function removeChild(TreeNode $existingChild) {
+        $index = array_search($existingChild, $this->children);
+        if (false !== $index) {
+            unset($this->children[$index]);
+        }
+    }
+
+    /**
      * This method sets the data associated with the node.
      * @param mixed $data User defined data for the node
      */
@@ -131,6 +142,11 @@ class TreeNode implements Node
      */
     public function setParent(Node $parent)
     {
+        // if moving parents, make sure the old parent no longer has a reference
+        if (null !== $this->parent) {
+            $this->parent->removeChild($this);
+        }
+        // reset the parent
         $this->parent = $parent;
     }
 

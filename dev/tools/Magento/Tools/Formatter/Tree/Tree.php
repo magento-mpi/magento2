@@ -117,8 +117,13 @@ class Tree implements Node
         $visitor->nodeEntry($treeNode);
         // recursively call this method for all the children
         if ($treeNode->hasChildren()) {
-            foreach ($treeNode->getChildren() as $child) {
+            // loop through the children by index since the traversal may cause additional nodes to
+            // be added or removed
+            $index = 0;
+            while ($index < sizeof($treeNode->getChildren())) {
+                $child = $treeNode->getChildren()[$index];
                 $this->traverseNode($child, $visitor);
+                $index++;
             }
         }
         // call the visitor for the current node

@@ -8,6 +8,7 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -47,7 +48,7 @@ class ClassStatement extends StatementAbstract
         // add in the implement declarations
         if (!empty($this->node->implements)) {
             $line->add(' implements');
-            $this->processArgumentList($this->node->implements, $treeNode, $line);
+            $this->processArgumentList($this->node->implements, $treeNode, $line, new ClassInterfaceLineBreak());
         }
         $line->add(new HardLineBreak());
         // add the opening brace on a new line

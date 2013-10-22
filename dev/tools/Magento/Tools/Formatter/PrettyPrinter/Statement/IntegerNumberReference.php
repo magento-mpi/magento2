@@ -37,7 +37,7 @@ class IntegerNumberReference extends ReferenceAbstract
         return $result;
 
         return (string) $node->value;
-       */
+         */
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {

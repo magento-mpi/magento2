@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Name;
 
@@ -27,8 +28,9 @@ class ClassReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
-        // add the name to the end of the current line
+        /** @var Line $line */
         $line = $treeNode->getData();
+        // add the name to the end of the current line
         $line->add((string)$this->node);
     }
 }

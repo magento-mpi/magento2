@@ -21,13 +21,14 @@ class HardLineBreak extends LineBreak
     }
 
     /**
-     * This member returns the level which the line break represents. It is up to the break itself to return an
-     * appropriate value with respect to other breaks in the line.
-     * @return int
+     * This method returns the value for the break based on the passed in information.
+     * @param int $level Indicator for the level for which the break is being resolved.
+     * @param int $index Zero based index of this break occurrence in the line.
+     * @param int $total Total number of this break occurrences in the line.
      */
-    public function getLevel()
-    {
-        return 0;
+    public function getValue($level, $index, $total) {
+        // always return the same value since this always represents a LF
+        return self::EOL;
     }
 
     /**

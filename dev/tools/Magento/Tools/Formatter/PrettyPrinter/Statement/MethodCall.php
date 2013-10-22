@@ -11,6 +11,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 
 use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
@@ -41,7 +43,7 @@ class MethodCall extends ReferenceAbstract
         $line = $treeNode->getData();
         // add the expression to the end of the current line
         $this->resolveNode($this->node->var, $treeNode);
-        $line->add(new ConditionalLineBreak(''))->add('->');
+        $line->add(new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');
         // if the name is an expression, then use the framework to resolve
         if ($this->node->name instanceof PHPParser_Node_Expr) {
             $this->resolveNode($this->node->name, $treeNode);
@@ -51,7 +53,11 @@ class MethodCall extends ReferenceAbstract
         }
         // add in the argument call
         $line->add('(');
-        $this->processArgumentList($this->node->args, $treeNode, $line);
+        $this->processArgumentList(
+            $this->node->args,
+            $treeNode, $line,
+            new ConditionalLineBreak(array(array(' '), array(new HardIndentLineBreak())))
+        );
         $line->add(')');
     }
 }

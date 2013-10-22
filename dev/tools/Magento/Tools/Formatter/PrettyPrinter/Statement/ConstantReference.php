@@ -28,8 +28,8 @@ class ConstantReference extends ReferenceAbstract
     public function resolve(TreeNode $treeNode)
     {
         /* Reference
-       return $node->name . ' = ' . $this->p($node->value);
-       */
+        return $node->name . ' = ' . $this->p($node->value);
+         */
         // add the name to the end of the current line
         $line = $treeNode->getData();
         $line->add($this->node->name)->add(' = ');

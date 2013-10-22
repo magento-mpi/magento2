@@ -9,6 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Echo;
 
@@ -40,8 +41,8 @@ class EchoStatement extends StatementAbstract
         // replace the statement with the line since it is resolved or at least in the process of being resolved
         $treeNode->setData($line);
         // add the arguments
-        $this->processArgumentList($this->node->exprs, $treeNode, $line, false);
+        $this->processArgumentList($this->node->exprs, $treeNode, $line, new SimpleListLineBreak());
         // add in the terminator
         $line->add(';')->add(new HardLineBreak());
-   }
+    }
 }

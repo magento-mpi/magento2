@@ -10,29 +10,15 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 abstract class LineBreak
 {
     /**
-     * This member holds a flag indicating if the alternate break value should be displayed.
-     * @var boolean
+     * This method returns the value for the break based on the passed in information.
+     * @param int $level Indicator for the level for which the break is being resolved.
+     * @param int $index Zero based index of this break occurrence in the line.
+     * @param int $total Total number of this break occurrences in the line.
      */
-    protected $alternate = true;
-
-    /**
-     * This member returns the level which the line break represents. It is up to the break itself to return an
-     * appropriate value with respect to other breaks in the line.
-     * @return int
-     */
-    abstract public function getLevel();
+    abstract public function getValue($level, $index, $total);
 
     /**
      * This method returns if the next line should be indented.
      */
     abstract public function isNextLineIndented();
-
-    /**
-     * This method sets the display of the alternate value.
-     * @param boolean $alternate
-     */
-    public function setAlternate($alternate)
-    {
-        $this->alternate = $alternate;
-    }
 }

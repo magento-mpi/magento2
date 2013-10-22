@@ -33,40 +33,67 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method processes the current line data for the passed in break level.
-     * @param mixed $lineData
+     * @param Line $line
      * @param int $level
      * @param TreeNode $treeNode
      */
-    protected function processLine($lineData, $level, TreeNode $treeNode)
-    {
-        if (null !== $lineData) {
-            // split the line info in case is spans multiple lines
-            $lines = $lineData->splitLines($level);
-            // if the line represents more than one line, then split it up
-            if (sizeof($lines) > 1) {
-                $lastLineBreak = null;
-                foreach ($lines as $index => $line) {
-                    $lineBreak = $line[sizeof($line) - 1];
-                    if ($index == 0) {
-                        $lineData->setTokens($line);
-                    } else {
-                        // determine the indentation based on the type of terminator on the previous line
-                        if ($lastLineBreak->isNextLineIndented()) {
-                            $treeNode->addChild(new TreeNode(new Line($line)));
-                        } else {
-                            $treeNode->addSibling(new TreeNode(new Line($line)));
-                        }
-                    }
-                    $lineBreak->setAlternate(false);
-                    $lastLineBreak = $lineBreak;
-                }
+    protected function processLine($line, $level, TreeNode $treeNode) {
+        // split the lines at the current level to check for length
+        $currentLines = $line->splitLine($level);
+        // determine if all is good
+        $valid = true;
+        foreach ($currentLines as $currentLine) {
+            if (self::MAX_LINE_LENGTH < strlen($currentLine[Line::ATTRIBUTE_LINE]) + $this->level * strlen(self::PREFIX)) {
+                $valid = false;
+                break;
+            }
+        }
+        // if valid, then add any extra lines
+        if ($valid) {
+            // only need to change things if resolved line spans multiple lines
+            if (count($currentLines) > 1) {
+                $this->splitNode($line, $currentLines, $treeNode);
             } else {
-                $line = $lines[0];
-                $result = implode('', $line);
-                if (self::MAX_LINE_LENGTH < strlen($result) + $this->level * strlen(self::PREFIX)) {
-                    // split the line info in case is spans multiple lines
-                    $this->processLine($lineData, $level + 1, $treeNode); // TODO protect against infinite loop
+                $line->setTokens($currentLines[0]);
+            }
+        } else {
+            // try a higher level split
+            $this->processLine($line, $level + 1, $treeNode); // TODO protect against infinite loop
+        }
+    }
+
+    /**
+     * This method takes the current lines and splits them around the current node.
+     * @param Line $line
+     * @param array $currentLines
+     * @param TreeNode $treeNode
+     */
+    protected function splitNode(Line $line, array $currentLines, TreeNode $treeNode) {
+        // save off any child nodes of the current node
+        $originalChildren = $treeNode->getChildren();
+        // split the lines based on resolved lines
+        $lastLineBreak = null;
+        $lastNode = $treeNode;
+        foreach ($currentLines as $index => $currentLine) {
+            $lineBreak = $currentLine[Line::ATTRIBUTE_TERMINATOR];
+            // replace the existing data if on the first index
+            if ($index == 0) {
+                $line->setTokens($currentLine);
+            } else {
+                // determine the indentation based on the type of terminator on the previous line
+                if ($lastLineBreak->isNextLineIndented()) {
+                    $treeNode->addChild(new TreeNode(new Line($currentLine)));
+                } else {
+                    $lastNode = $treeNode->addSibling(new TreeNode(new Line($currentLine)));
                 }
+            }
+            // save off the current line break
+            $lastLineBreak = $lineBreak;
+        }
+        // copy the original children if there is a new last node based on the line split
+        if (null !== $originalChildren && $lastNode !== $treeNode) {
+            foreach ($originalChildren as $originalChild) {
+                $lastNode->addChild($originalChild);
             }
         }
     }

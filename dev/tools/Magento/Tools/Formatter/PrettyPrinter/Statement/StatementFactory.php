@@ -11,6 +11,8 @@ use PHPParser_Node;
 
 /**
  * This class controls the mapping of the parser nodes to printer nodes.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class StatementFactory
 {
@@ -52,8 +54,6 @@ class StatementFactory
 
     /**
      * This method constructs the new factory. By default, it registers the known statement types.
-     *
-     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
      */
     protected function __construct()
     {
@@ -75,6 +75,7 @@ class StatementFactory
         $this->register('Expr_Variable', ExpressionReference::getType());
         $this->register('Expr_MethodCall', MethodCall::getType());
         $this->register('Stmt_Echo', EchoStatement::getType());
+        $this->register('Param', ParameterReference::getType());
     }
 
     /**

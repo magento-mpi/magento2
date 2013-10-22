@@ -73,7 +73,7 @@ class ParserLexer extends PHPParser_Lexer
 
                     $tokenId = $this->tokenMap[$token[0]];
                     break;
-                } elseif (array_key_exists('comments',$startAttributes) || $newlineCount > 1) {
+                } elseif (array_key_exists('comments', $startAttributes) || $newlineCount > 1) {
                     $this->handleBlankLines($newlineCount, $token, $startAttributes);
                 }
             }
@@ -95,14 +95,15 @@ class ParserLexer extends PHPParser_Lexer
         return $tokenId;
     }
 
-    private function handleBlankLines($newlineCount, $token, &$startAttributes) {
+    private function handleBlankLines($newlineCount, $token, &$startAttributes)
+    {
         // This line is not a comment or code
         // This line has preceding comments or it is more than one newline in it
         // Thus we check to see if we have comments
-        if (array_key_exists('comments',$startAttributes)) {
+        if (array_key_exists('comments', $startAttributes)) {
             // If we have comments then see if the last one has a newline at the end
             $attId = sizeof($startAttributes['comments']);
-            if ($attId > 0 && preg_match('/.*\n$/',$startAttributes['comments'][$attId-1])) {
+            if ($attId > 0 && preg_match('/.*\n$/', $startAttributes['comments'][$attId-1])) {
                 // if so then count it as part of this since it could be a blank line after a comment
                 $newlineCount++;
             }

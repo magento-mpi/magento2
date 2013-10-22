@@ -9,6 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Property;
 
@@ -39,7 +40,7 @@ class PropertyStatement extends StatementAbstract
         // replace the statement with the line since it is resolved or at least in the process of being resolved
         $treeNode->setData($line);
         // add in the list of actual constants
-        $this->processArgumentList($this->node->props, $treeNode, $line, false);
+        $this->processArgumentList($this->node->props, $treeNode, $line, new SimpleListLineBreak());
         // terminate the line
         $line->add(';')->add(new HardLineBreak());
     }
