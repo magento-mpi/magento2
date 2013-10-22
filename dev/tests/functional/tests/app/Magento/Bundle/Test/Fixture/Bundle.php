@@ -34,7 +34,6 @@ class Bundle extends Product
      */
     protected $_products = array();
 
-
     /**
      * Custom constructor to create bundle product with assigned simple products
      *
@@ -50,8 +49,6 @@ class Bundle extends Product
         $this->_placeholders['item1_product1::getProductId'] = array($this, '_productProvider');
         $this->_placeholders['item1_product2::getProductId'] = array($this, '_productProvider');
     }
-
-
 
     /**
      * Retrieve specify data from product.
@@ -75,8 +72,9 @@ class Bundle extends Product
     protected function _getProduct($key)
     {
         if (!isset($this->_products[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogProduct()
-                ->switchData('simple')->persist();
+            $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+            $product->switchData('simple');
+            $product->persist();
             $this->_products[$key] = $product;
         }
         return $this->_products[$key];
@@ -228,8 +226,5 @@ class Bundle extends Product
                 )
             )
         );
-
-        //Default data set
-        $this->switchData('bundle_fixed');
     }
 }

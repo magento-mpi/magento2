@@ -26,7 +26,6 @@ use Mtf\System\Config;
  */
 class CreateBundle extends Curl
 {
-
     /**
      * Prepare POST data for creating bundle product request
      *
@@ -39,7 +38,7 @@ class CreateBundle extends Curl
         $data = array();
         foreach ($params as $key => $values) {
             if ($key == 'bundle_selections') {
-                $data = array_merge($data, $this->getBundleData($values['value']));
+                $data = array_merge($data, $this->_getBundleData($values['value']));
             } else {
                 $value = isset($values['input_value']) ? $values['input_value'] : $values['value'];
                 if (isset($values['input_name'])) {
@@ -61,12 +60,12 @@ class CreateBundle extends Curl
      * @param array $params
      * @return array
      */
-    protected function getBundleData($params)
+    protected function _getBundleData($params)
     {
         $data = array();
         foreach ($params as $options) {
             if (isset($options['assigned_products'])) {
-                $data['bundle_selections'][] = $this->getSelections($options['assigned_products']);
+                $data['bundle_selections'][] = $this->_getSelections($options['assigned_products']);
                 unset($options['assigned_products']);
             }
             $data['bundle_options'][] = $this->_prepareData($options);
@@ -96,7 +95,7 @@ class CreateBundle extends Curl
      * @param array $products
      * @return array
      */
-    protected function getSelections($products)
+    protected function _getSelections($products)
     {
         $data = array();
         foreach ($products as $product) {
