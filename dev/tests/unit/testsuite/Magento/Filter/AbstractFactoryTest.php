@@ -7,10 +7,10 @@
  */
 namespace Magento\Filter;
 
-class FactoryAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Filter\FactoryAbstract
+     * @var \Magento\Filter\AbstractFactory
      */
     protected $factory;
 
@@ -41,14 +41,14 @@ class FactoryAbstractTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager', array(), '', true, true,
             true, array('create'));
 
-        $this->factory = $this->getMockForAbstractClass('Magento\Filter\FactoryAbstract', array(
+        $this->factory = $this->getMockForAbstractClass('Magento\Filter\AbstractFactory', array(
             'objectManger' => $this->objectManager
         ));
-        $property = new \ReflectionProperty('Magento\Filter\FactoryAbstract', 'invokableClasses');
+        $property = new \ReflectionProperty('Magento\Filter\AbstractFactory', 'invokableClasses');
         $property->setAccessible(true);
         $property->setValue($this->factory, $this->invokableList);
 
-        $property = new \ReflectionProperty('Magento\Filter\FactoryAbstract', 'shared');
+        $property = new \ReflectionProperty('Magento\Filter\AbstractFactory', 'shared');
         $property->setAccessible(true);
         $property->setValue($this->factory, $this->sharedList);
     }
@@ -104,7 +104,7 @@ class FactoryAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateFilter($alias, $arguments, $isShared)
     {
-        $property = new \ReflectionProperty('Magento\Filter\FactoryAbstract', 'sharedInstances');
+        $property = new \ReflectionProperty('Magento\Filter\AbstractFactory', 'sharedInstances');
         $property->setAccessible(true);
 
         $filterMock = $this->getMock('FactoryInterface', array('filter'));

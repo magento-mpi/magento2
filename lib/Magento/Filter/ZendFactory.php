@@ -13,7 +13,7 @@ namespace Magento\Filter;
 /**
  * Zend filter factory
  */
-class ZendFactory extends FactoryAbstract
+class ZendFactory extends AbstractFactory
 {
     /**
      * Set of filters
