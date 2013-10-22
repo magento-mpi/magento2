@@ -6,6 +6,7 @@
   * Added static integrity test for compilation of DI definitions
   * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)
 * Fixed bugs:
+  * Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
   * Fixed broken styles on front-end due to usage of nonexistent stylesheet
   * Fixed plugins configuration inheritance for proxy classes
   * Fixed OAuth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
