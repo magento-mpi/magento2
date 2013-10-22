@@ -104,7 +104,7 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_frontController = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\Factory
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -193,7 +193,7 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * Retrieve current layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {

@@ -58,9 +58,9 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param bool $isRenderInherited
+     * @param $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\AuthorizationInterface $authorization
@@ -68,7 +68,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -77,7 +77,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
         \Magento\App\FrontController $frontController,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         $isRenderInherited,
         \Magento\Backend\Model\Session $session,

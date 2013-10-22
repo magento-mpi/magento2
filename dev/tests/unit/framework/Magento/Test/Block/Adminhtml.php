@@ -77,7 +77,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // These mocks are accessed via context
-        $this->_designMock         = $this->_makeMock('Magento\Core\Model\View\DesignInterface');
+        $this->_designMock         = $this->_makeMock('Magento\View\DesignInterface');
         $this->_sessionMock         = $this->_makeMock('Magento\Core\Model\Session');
         $this->_translatorMock      = $this->_makeMock('Magento\Core\Model\Translate');
         $this->_layoutMock          = $this->_makeMock('Magento\Core\Model\Layout');
@@ -94,7 +94,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock    = $this->_makeMock('Magento\Core\Model\StoreManager');
         $this->_helperFactoryMock   = $this->_makeMock('Magento\Core\Model\Factory\Helper');
         $viewUrlMock                = $this->_makeMock('Magento\Core\Model\View\Url');
-        $viewConfigMock             = $this->_makeMock('Magento\Core\Model\View\Config');
+        $viewConfigMock             = $this->_makeMock('Magento\View\ConfigInterface');
         $viewFileSystemMock         = $this->_makeMock('Magento\Core\Model\View\FileSystem');
         $templateFactoryMock        = $this->_makeMock('Magento\Core\Model\TemplateEngine\Factory');
         $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');

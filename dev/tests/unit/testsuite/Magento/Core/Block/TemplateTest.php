@@ -47,7 +47,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Magento\Core\Model\Layout', array('isDirectOutput'), array(), '', false);
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-        $design = $this->getMock('Magento\Core\Model\View\DesignInterface', array(), array(), '', false);
+        $design = $this->getMock('Magento\View\DesignInterface', array(), array(), '', false);
         $translator = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
         $objectManagerMock = $this->getMock('Magento\ObjectManager', array('get', 'create', 'configure'));

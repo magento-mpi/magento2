@@ -71,7 +71,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block \Magento\Backend\Block\System\Config\FormStub */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Backend\Block\System\Config\FormStub');
         $block->setScope(\Magento\Backend\Block\System\Config\Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
@@ -125,7 +125,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block \Magento\Backend\Block\System\Config\FormStub */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Backend\Block\System\Config\FormStub');
         $block->setScope(\Magento\Backend\Block\System\Config\Form::SCOPE_DEFAULT);
         $block->setStubConfigData($configData);
@@ -209,7 +209,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\RequestInterface')
             ->setParam('section', 'general');
         /** @var $block \Magento\Backend\Block\System\Config\Form */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Backend\Block\System\Config\Form');
         $block->initForm();
         $expectedIds = array(

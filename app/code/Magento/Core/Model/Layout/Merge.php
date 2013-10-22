@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge
+class Merge implements  \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
      * Available item type names
@@ -40,7 +40,7 @@ class Merge
     /**
      * In-memory cache for loaded layout updates
      *
-     * @var \Magento\Core\Model\Layout\Element
+     * @var \Magento\View\Layout\Element
      */
     protected $_layoutUpdatesCache;
 
@@ -105,7 +105,7 @@ class Merge
     /**
      * Init merge model
      *
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
@@ -113,10 +113,10 @@ class Merge
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
+     * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
@@ -124,7 +124,7 @@ class Merge
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Theme $theme = null
+        \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
         $this->_store = $storeManager->getStore();
@@ -275,7 +275,7 @@ class Merge
      * Get handle xml node by handle name
      *
      * @param string $handleName
-     * @return \Magento\Core\Model\Layout\Element|null
+     * @return \Magento\View\Layout\Element|null
      */
     protected function _getPageHandleNode($handleName)
     {
@@ -350,7 +350,7 @@ class Merge
         }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
-        /** @var $node \Magento\Core\Model\Layout\Element */
+        /** @var $node \Magento\View\Layout\Element */
         foreach ($nodes as $node) {
             $name = $node->getAttribute('id');
             $info = array(
@@ -427,7 +427,7 @@ class Merge
     }
 
     /**
-     * Get layout updates as \Magento\Core\Model\Layout\Element object
+     * Get layout updates as \Magento\View\Layout\Element object
      *
      * @return \SimpleXMLElement
      */
@@ -447,7 +447,7 @@ class Merge
      */
     protected function _loadXmlString($xmlString)
     {
-        return simplexml_load_string($xmlString, 'Magento\Core\Model\Layout\Element');
+        return simplexml_load_string($xmlString, 'Magento\View\Layout\Element');
     }
 
     /**
@@ -566,7 +566,7 @@ class Merge
     /**
      * Retrieve already merged layout updates from files for specified area/theme/package/store
      *
-     * @return \Magento\Core\Model\Layout\Element
+     * @return \Magento\View\Layout\Element
      */
     public function getFileLayoutUpdatesXml()
     {
@@ -623,7 +623,7 @@ class Merge
      * Collect and merge layout updates from files
      *
      * @throws \Magento\Exception
-     * @return \Magento\Core\Model\Layout\Element
+     * @return \Magento\View\Layout\Element
      */
     protected function _loadFileLayoutUpdatesXml()
     {
@@ -633,7 +633,7 @@ class Merge
         foreach ($updateFiles as $file) {
             $fileStr = file_get_contents($file->getFilename());
             $fileStr = $this->_substitutePlaceholders($fileStr);
-            /** @var $fileXml \Magento\Core\Model\Layout\Element */
+            /** @var $fileXml \Magento\View\Layout\Element */
             $fileXml = $this->_loadXmlString($fileStr);
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
                 throw new \Magento\Exception(sprintf(
@@ -654,11 +654,11 @@ class Merge
     /**
      * Find the closest physical theme among ancestors and a theme itself
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\Core\Model\Theme
      * @throws \Magento\Exception
      */
-    protected function _getPhysicalTheme(\Magento\Core\Model\Theme $theme)
+    protected function _getPhysicalTheme(\Magento\View\Design\ThemeInterface $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {
@@ -700,7 +700,7 @@ class Merge
     {
         $result = array();
         $containerNodes = $this->asSimplexml()->xpath('//container');
-        /** @var $oneContainerNode \Magento\Core\Model\Layout\Element */
+        /** @var $oneContainerNode \Magento\View\Layout\Element */
         foreach ($containerNodes as $oneContainerNode) {
             $label = $oneContainerNode->getAttribute('label');
             if ($label) {

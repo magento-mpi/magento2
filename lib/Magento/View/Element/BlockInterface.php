@@ -7,9 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core;
+namespace Magento\View\Element;
 
-interface Block
+/**
+ * @package Magento\View
+ */
+interface BlockInterface
 {
     /**
      * Produce and return block's html output

@@ -26,7 +26,7 @@ class Service
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     private $_design;
 
@@ -41,17 +41,14 @@ class Service
     protected $_dir;
 
     /**
-     * View files system model
-     *
-     *
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
      * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\App\State $appState,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
         \Magento\App\Dir $dir
     ) {

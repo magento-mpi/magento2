@@ -55,7 +55,7 @@ class Observer
     /**
      * Layout model
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -130,8 +130,6 @@ class Observer
     protected $_websiteCollectionFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Core\Helper\Data $coreData
@@ -141,13 +139,13 @@ class Observer
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     * @param SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
+     * @param Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\App\RequestInterface $requestHttp
-     * @param \Magento\Core\Model\Layout $layout
-     *
+     * @param \Magento\View\LayoutInterface $layout
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -165,7 +163,7 @@ class Observer
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\App\RequestInterface $requestHttp,
-        \Magento\Core\Model\Layout $layout
+        \Magento\View\LayoutInterface $layout
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;

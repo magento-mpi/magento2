@@ -90,7 +90,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $request->setParam('cat', 4);
         $this->_model->getFilter()->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
                 ->createBlock('Magento\Core\Block\Text')
         );
 

@@ -103,7 +103,7 @@ interface AppInterface extends \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout();
 

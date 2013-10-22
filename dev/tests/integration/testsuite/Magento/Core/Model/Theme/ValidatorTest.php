@@ -54,7 +54,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function _getThemeModel()
     {
         return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme');
+            ->create('Magento\View\Design\ThemeInterface');
     }
 
     /**

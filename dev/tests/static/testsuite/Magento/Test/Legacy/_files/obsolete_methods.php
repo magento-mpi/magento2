@@ -855,4 +855,5 @@ return array(
     array('setModuleDir', 'Magento\Core\Model\Config\Modules\Reader'),
     array('setModuleDir', 'Magento\Core\Model\Config'),
     array('getAreaConfig', 'Magento\Core\Model\Config'),
+    array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
 );

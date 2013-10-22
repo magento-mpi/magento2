@@ -351,14 +351,14 @@ class Revision
             $this->_locale->emulate($selectedStoreId);
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
-            $theme = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+            $theme = $this->_objectManager->get('Magento\View\DesignInterface')
                 ->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
-            $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')->setDesignTheme($theme, 'frontend');
+            $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = $this->_design->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+                $this->_objectManager->get('Magento\View\DesignInterface')
                     ->setDesignTheme($designChange->getDesign());
             }
 

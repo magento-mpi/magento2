@@ -37,7 +37,7 @@ class CommonFunctions
     private $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\ConfigInterface
      */
     private $_viewConfig;
 
@@ -62,7 +62,7 @@ class CommonFunctions
         \Magento\Core\Helper\Data $dataHelper,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\View\ConfigInterface $viewConfig,
         \Magento\Catalog\Helper\Image $helperImage,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\LocaleInterface $locale
