@@ -404,15 +404,14 @@ body {
     }
     .bugs {
         margin-top: 25px;
-        font-size: 12px;
-        span {
-            &:after {
-                content: '\00a0\2014\00a0';
-                display: inline-block;
-            }
-        }
+        font-size: 11px;
         a {
             font-weight: bold;
+            &:before {
+                content: ' - ';
+                display: inline-block;
+            }
+
         }
     }
 }
@@ -1292,7 +1291,7 @@ body {
     }
     .items.data {
         td.col.address {
-            padding-top: 20px;
+            padding-top: 10px;
         }
         td.col.delete,
         td.col.product {
@@ -1603,7 +1602,6 @@ body {
         text-align: center;
         .review & {
             padding-top: @baseFontSizeBigger;
-            vertical-align: middle;
         }
     }
     th.col.qty {
@@ -2542,10 +2540,9 @@ body {
     }
     .actions {
         margin: 15px 0 0;
-        text-align: left;
         .primary,
         .secondary {
-            margin: 0 10px 10px 0;
+            margin-right: 5px;
             display: inline-block;
             vertical-align: middle;
         }
