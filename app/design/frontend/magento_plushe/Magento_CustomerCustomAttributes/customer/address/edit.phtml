@@ -96,6 +96,10 @@
             </div>
         </div>
 
+        <?php $userDefinedAttributes = $this->getLayout()->getBlock('customer_form_user_attributes'); ?>
+        <?php if ($userDefinedAttributes):?>
+            <?php echo $userDefinedAttributes->setEntity($this->getAddress())->setShowContainer(false)->toHtml(); ?>
+        <?php endif;?>
         <?php if($this->isDefaultBilling()): ?>
             <div class="field note default"><?php echo __('Default Billing Address') ?></div>
         <?php elseif($this->canSetAsDefaultBilling()): ?>

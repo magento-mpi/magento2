@@ -32,25 +32,9 @@
                 <container name="form.login.additional.info" label="invisible" as="form_additional_info"/>
             </block>
             <block class="Magento\Checkout\Block\Onepage\Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml">
-                <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
-                    <action method="setFormCode">
-                        <argument name="code" xsi:type="string">checkout_register</argument>
-                    </action>
-                </block>
-                <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
-                    <action method="setFormCode">
-                        <argument name="code" xsi:type="string">customer_register_address</argument>
-                    </action>
-                </block>
                 <container name="form.billing.additional.info" label="invisible" as="form_additional_info"/>
             </block>
-            <block class="Magento\Checkout\Block\Onepage\Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml">
-                <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
-                    <action method="setFormCode">
-                        <argument name="code" xsi:type="string">customer_register_address</argument>
-                    </action>
-                </block>
-            </block>
+            <block class="Magento\Checkout\Block\Onepage\Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml" />
             <block class="Magento\Checkout\Block\Onepage\Shipping\Method" name="checkout.onepage.shipping_method" as="shipping_method" template="onepage/shipping_method.phtml">
                 <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="checkout.onepage.shipping_method.available" as="available" template="onepage/shipping_method/available.phtml"/>
                 <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Additional" name="checkout.onepage.shipping_method.additional" as="additional" template="onepage/shipping_method/additional.phtml"/>

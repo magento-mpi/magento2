@@ -130,7 +130,7 @@ class ProductAttribute extends DataFixture
      *
      * @return array
      */
-    public function getCurlPostParams()
+    public function getPostParams()
     {
         $fields = $this->getData('fields');
         $params = array();
