@@ -52,40 +52,37 @@ class Category extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'subcategory' => array(
-                'config' => array(
-                    'constraint' => 'Success',
-                    'request_params' => array(
-                        'store' => '0',
-                        'parent' => '2'
-                    )
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'name' => array(
-                            'value' => 'Subcategory %isolation%',
-                            'group' => static::GROUP_GENERAL_INFORMATION
-                        ),
-                        'is_active' => array(
-                            'value' => 'Yes',
-                            'group' => static::GROUP_GENERAL_INFORMATION,
-                            'input' => 'select'
-                        ),
-                        'include_in_menu' => array(
-                            'value' => 'Yes',
-                            'group' => static::GROUP_GENERAL_INFORMATION,
-                            'input' => 'select'
-                        ),
-                        'parent_id' => array(
-                            'value' => '2',
-                        )
-                    )
-                )
-            ),
+        $this->_dataConfig = array(
+            'constraint' => 'Success',
+            'request_params' => array(
+                'store' => '0',
+                'parent' => '2'
+            )
         );
 
-        //Default data set
-        $this->switchData('subcategory');
+        $this->_data = array(
+            'fields' => array(
+                'name' => array(
+                    'value' => 'Subcategory %isolation%',
+                    'group' => static::GROUP_GENERAL_INFORMATION
+                ),
+                'is_active' => array(
+                    'value' => 'Yes',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'include_in_menu' => array(
+                    'value' => 'Yes',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'parent_id' => array(
+                    'value' => '2',
+                )
+            )
+        );
+
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCatalogCategory($this->_dataConfig, $this->_data);
     }
 }

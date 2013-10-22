@@ -12,6 +12,7 @@
 namespace Magento\Shipping\Test\Fixture;
 
 use Mtf\Fixture\DataFixture;
+use Mtf\Factory\Factory;
 
 /**
  * Class Method
@@ -26,25 +27,8 @@ class Method extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'free_shipping' => array(
-                'data' => array(
-                    'fields' => array(
-                        'shipping_service' => 'Free Shipping',
-                        'shipping_method' => 'Free'
-                    )
-                ),
-            ),
-
-            'flat_rate' => array(
-                'data' => array(
-                    'fields' => array(
-                        'shipping_service' => 'Flat Rate',
-                        'shipping_method' => 'Fixed'
-                    )
-                ),
-            ),
-        );
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoShippingMethod($this->_dataConfig, $this->_data);
 
         //Default data set
         $this->switchData('flat_rate');

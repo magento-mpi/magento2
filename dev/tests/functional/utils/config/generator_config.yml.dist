@@ -6,12 +6,11 @@ specified_modules: dev\tests\mtf\utils\config\ee_modules.yml.dist
 tests_fallback:
     1:
         path: tests/design
-        namespace: Magento\Plush
+        namespace: Magento\Plushe
     2:
         path: tests/app
 
 # Handler priority configuration
 handler_fallback:
-    1: Direct
-    2: Curl
-    3: Ui
+    1: Curl
+    2: Ui

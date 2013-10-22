@@ -85,62 +85,13 @@ class Customer extends DataFixture
 
             'url_create_page' => 'admin/customer/new',
             'url_update_page' => 'admin/customer/edit',
-            'url_grid_page' => 'admin/customer/index'
+            'url_grid_page' => 'admin/customer/index',
+
+            'constraint' => 'Success'
         );
 
-        $this->_repository = array(
-            'customer_US_1' => array(
-                'config' => array(
-                    'constraint' => 'Success'
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'firstname' => array(
-                            'value' => 'John',
-                            'group' => 'customer_info_tabs_account'
-                        ),
-                        'lastname' => array(
-                            'value' => 'Doe',
-                            'group' => 'customer_info_tabs_account'
-                        ),
-                        'email' => array(
-                            'value' => 'John.Doe%isolation%@example.com',
-                            'group' => 'customer_info_tabs_account'
-                        ),
-                        'password' => array(
-                            'value' => '123123q'
-                        ),
-                        'confirmation' => array(
-                            'value' => '123123q'
-                        )
-                    ),
-                    'addresses' => array(
-                        'default_billing' => $this->getDefaultAddress()->getData(),
-                    )
-                )
-            ),
-            'backend_customer' => array(
-                'config' => array(
-                    'constraint' => 'Success'
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'firstname' => array(
-                            'value' => 'John',
-                            'group' => 'customer_info_tabs_account'
-                        ),
-                        'lastname' => array(
-                            'value' => 'Doe',
-                            'group' => 'customer_info_tabs_account'
-                        ),
-                        'email' => array(
-                            'value' => 'John.Doe%isolation%@example.com',
-                            'group' => 'customer_info_tabs_account'
-                        )
-                    )
-                )
-            )
-        );
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCustomerCustomer($this->_dataConfig, $this->_data);
 
         //Default data set
         $this->switchData('customer_US_1');
