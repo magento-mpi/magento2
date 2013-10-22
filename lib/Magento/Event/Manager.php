@@ -43,7 +43,7 @@ class Manager implements ManagerInterface
     /**
      * Magento event observer factory
      *
-     * @var \Magento\Event\ObserverFactory
+     * @var \Magento\Event\WrapperFactory
      */
     protected $wrapperFactory;
 

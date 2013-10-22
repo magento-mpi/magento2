@@ -9,8 +9,6 @@
  */
 namespace Magento\App;
 
-use Zend\Stdlib\Exception\LogicException;
-
 class FrontController implements FrontControllerInterface
 {
     /**
