@@ -59,14 +59,13 @@ class CurlTransport implements CurlInterface
      */
     protected function _applyConfig()
     {
-        if (empty($this->_config)) {
-            return $this;
-        }
         // apply additional options to cURL
         foreach ($this->_options as $option => $value) {
             curl_setopt($this->_getResource(), $option, $value);
         }
-
+        if (empty($this->_config)) {
+            return $this;
+        }
         $verifyPeer = isset($this->_config['verifypeer']) ? : 0;
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYPEER, $verifyPeer);
 

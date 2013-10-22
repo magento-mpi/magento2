@@ -64,6 +64,7 @@ class ProductForm extends FormTabs
      */
     protected function fillCategory($name)
     {
+        $this->openTab(\Magento\Catalog\Test\Fixture\Product::GROUP_PRODUCT_DETAILS);
         $this->_rootElement->find('category_ids-suggest', Locator::SELECTOR_ID)->setValue($name);
         $parentLocation = '//*[@id="attribute-category_ids-container"]';
         $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]';

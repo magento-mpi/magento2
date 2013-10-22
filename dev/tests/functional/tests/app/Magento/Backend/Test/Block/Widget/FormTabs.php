@@ -101,4 +101,15 @@ class FormTabs extends Form
 
         return $tabElement;
     }
+
+    /**
+     * Open tab
+     *
+     * @param string $tabName
+     */
+    public function openTab($tabName)
+    {
+        $tabElement = $this->getTabElement($tabName);
+        $tabElement->open($this->_rootElement);
+    }
 }
