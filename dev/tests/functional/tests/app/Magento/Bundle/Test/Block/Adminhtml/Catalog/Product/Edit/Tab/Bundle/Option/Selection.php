@@ -51,9 +51,11 @@ class Selection extends Block
     public function fillProductRow(array $fields)
     {
         foreach ($fields as $key => $field) {
-            $typifiedElement = isset($field['input']) ? $field['input'] : null;
-            $this->_rootElement->find($this->_mapping[$key], Locator::SELECTOR_CSS, $typifiedElement)
-                ->setValue($field['value']);
+            if (isset($this->_mapping[$key])) {
+                $typifiedElement = isset($field['input']) ? $field['input'] : null;
+                $this->_rootElement->find($this->_mapping[$key], Locator::SELECTOR_CSS, $typifiedElement)
+                    ->setValue($field['value']);
+            }
         }
     }
 }
