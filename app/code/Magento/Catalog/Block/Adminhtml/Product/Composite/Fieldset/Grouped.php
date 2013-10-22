@@ -79,7 +79,7 @@ class Grouped
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
             $product->getTypeInstance()->setStoreFilter(
-                $this->_storeManger->getStore($product->getStoreId()),
+                $this->_storeManager->getStore($product->getStoreId()),
                 $product
             );
         }
