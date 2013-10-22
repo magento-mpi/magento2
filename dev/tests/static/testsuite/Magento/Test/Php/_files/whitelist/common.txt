@@ -76,7 +76,6 @@ app/code/Magento/Core/Model/Resource/Theme.php
 app/code/Magento/Core/Model/Sender.php
 app/code/Magento/Core/Model/Session/Validator.php
 app/code/Magento/Core/Model/AbstractShell.php
-app/code/Magento/Core/Model/TemplateEngine
 app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/Url/SecurityInfo.php

@@ -53,9 +53,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $objectManagerMock = $this->getMock('Magento\ObjectManager', array('get', 'create', 'configure'));
         $objectManagerMock->expects($this->any())
             ->method('get')
-            ->with('Magento\Core\Model\TemplateEngine\Php')
-            ->will($this->returnValue(new \Magento\Core\Model\TemplateEngine\Php()));
-        $engineFactory = new \Magento\Core\Model\TemplateEngine\Factory($objectManagerMock);
+            ->with('Magento\View\TemplateEngine\Php')
+            ->will($this->returnValue(new \Magento\View\TemplateEngine\Php()));
+        $engineFactory = new \Magento\View\TemplateEngineFactory($objectManagerMock);
 
         $arguments = array(
             'design'        => $design,

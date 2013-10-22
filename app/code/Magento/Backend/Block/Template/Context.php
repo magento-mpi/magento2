@@ -49,7 +49,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
+     * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Backend\Model\Session $backendSession
@@ -77,7 +77,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
+        \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
         \Magento\Backend\Model\Session $backendSession,

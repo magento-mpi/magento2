@@ -11,7 +11,6 @@
 namespace Magento\View;
 
 use Magento\ObjectManager;
-use Magento\View\TemplateEngine;
 
 class TemplateEngineFactory
 {
@@ -37,7 +36,7 @@ class TemplateEngineFactory
      * Gets the singleton instance of the appropriate template engine
      *
      * @param string $name
-     * @return TemplateEngine
+     * @return \Magento\View\TemplateEngineInterface
      * @throws \InvalidArgumentException if template engine doesn't exist
      */
     public function get($name)

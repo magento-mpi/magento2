@@ -6,15 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\TemplateEngine;
+namespace Magento\View;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var  \Magento\Core\Model\TemplateEngine\Factory */
+    /** @var  \Magento\View\TemplateEngineFactory */
     protected $_factory;
 
     /**
@@ -23,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_factory = new \Magento\Core\Model\TemplateEngine\Factory($this->_objectManagerMock);
+        $this->_factory = new TemplateEngineFactory($this->_objectManagerMock);
     }
 
     /**
@@ -31,28 +30,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPhtmlEngine()
     {
-        $phtmlEngineMock = $this->getMock('Magento\Core\Model\TemplateEngine\Php');
+        $phtmlEngineMock = $this->getMock('Magento\View\TemplateEngine\Php');
         $this->_objectManagerMock->expects($this->once())
             ->method('get')
-            ->with($this->equalTo('Magento\Core\Model\TemplateEngine\Php'))
+            ->with($this->equalTo('Magento\View\TemplateEngine\Php'))
             ->will($this->returnValue($phtmlEngineMock));
-        $actual = $this->_factory->get(\Magento\Core\Model\TemplateEngine\Factory::ENGINE_PHTML);
+        $actual = $this->_factory->get(TemplateEngineFactory::ENGINE_PHTML);
         $this->assertSame($phtmlEngineMock, $actual, 'phtml engine not returned');
-    }
-
-    /**
-     * Test getting a Twig engine
-     */
-    public function testGetTwigEngine()
-    {
-        $twigEngineMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig')
-            ->disableOriginalConstructor()->getMock();
-        $this->_objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('Magento\Core\Model\TemplateEngine\Twig'))
-            ->will($this->returnValue($twigEngineMock));
-        $actual = $this->_factory->get(\Magento\Core\Model\TemplateEngine\Factory::ENGINE_TWIG);
-        $this->assertSame($twigEngineMock, $actual, 'phtml engine not returned');
     }
 
     /**

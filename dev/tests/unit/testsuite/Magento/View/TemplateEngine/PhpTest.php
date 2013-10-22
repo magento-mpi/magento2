@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\TemplateEngine;
+namespace Magento\View\TemplateEngine;
 
 class PhpTest extends \PHPUnit_Framework_TestCase
 {
     const TEST_PROP_VALUE = 'TEST_PROP_VALUE';
 
-    /** @var  \Magento\Core\Model\TemplateEngine\Php */
+    /** @var  \Magento\View\TemplateEngine\Php */
     protected $_phpEngine;
 
     /**
@@ -20,7 +20,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_phpEngine = new \Magento\Core\Model\TemplateEngine\Php();
+        $this->_phpEngine = new \Magento\View\TemplateEngine\Php();
     }
 
     /**
