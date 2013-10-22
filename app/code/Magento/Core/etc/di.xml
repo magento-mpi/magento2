@@ -31,9 +31,6 @@
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Core\App\FrontController\Plugin\Install" sortOrder="40"/>
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
-        <param name="backendData">
-            <instance type="Magento\Backend\Helper\Data\Proxy" />
-        </param>
     </type>
     <type name="Magento\App\AreaList">
         <param name="areas">
