@@ -322,7 +322,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -377,7 +377,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Cancel payment
      *
      * @param   \Magento\Object $payment
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -390,7 +390,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -431,7 +431,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -477,7 +477,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Void payment
      *
      * @param   \Magento\Object $payment
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)

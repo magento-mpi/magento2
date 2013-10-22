@@ -70,24 +70,6 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
         $request->setRequestUri('core/index/index');
         $this->_model->dispatch($request);
         $this->assertEmpty($this->_model->getResponse()->getBody());
-    }
-
-    /**
-     * Data provider for testApplyRewrites
-     *
-     * @return array
-     */
-    public function applyRewritesDataProvider()
-    {
-        return array(
-            'url rewrite' => array(
-                '$sourcePath' => '/test_rewrite_path',      // data from fixture
-                '$resultPath' => 'cms/page/view/page_id/1', // data from fixture
-            ),
-            'configuration rewrite' => array(
-                '$sourcePath' => '/test/url/',
-                '$resultPath' => '/new_test/url/subdirectory/',
-            ),
-        );
+        $this->assertEquals($request, $this->_model->getRequest());
     }
 }
