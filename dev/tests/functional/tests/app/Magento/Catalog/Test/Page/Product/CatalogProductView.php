@@ -44,7 +44,7 @@ class CatalogProductView extends Page
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
         $this->viewBlock = Factory::getBlockFactory()->getMagentoCatalogProductView(
-            $this->_browser->find('.product-view', Locator::SELECTOR_CSS));
+            $this->_browser->find('.column.main', Locator::SELECTOR_CSS));
     }
 
     /**

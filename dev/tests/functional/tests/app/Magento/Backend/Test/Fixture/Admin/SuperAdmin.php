@@ -26,22 +26,15 @@ class SuperAdmin extends DataFixture
     protected function _initData()
     {
         $config = $this->_configuration->getConfigParam('application/backend_user_credentials');
-        $this->_repository = array(
-            'default_admin' => array(
-                'data' => array(
-                    'fields' => array(
-                        'username' => array(
-                            'value' => $config['login']
-                        ),
-                        'login' => array(
-                            'value' => $config['password']
-                        )
-                    )
+        $this->_data = array(
+            'fields' => array(
+                'username' => array(
+                    'value' => $config['login']
+                ),
+                'login' => array(
+                    'value' => $config['password']
                 )
             )
         );
-
-        //Default data set
-        $this->switchData('default_admin');
     }
 }

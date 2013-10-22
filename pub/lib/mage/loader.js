@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true */
-(function($, console) {
+/*global console:true*/
+(function($) {
     $.widget("mage.loader", {
         loaderStarted: 0,
         spinner: $(undefined),
@@ -174,4 +175,4 @@
         }
 
     });
-})(jQuery, console);
+})(jQuery);

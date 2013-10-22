@@ -191,11 +191,10 @@ class Option extends Block
      */
     private function fillOptionData(array $fields)
     {
-        $rootElement = $this->_rootElement;
-        $rootElement->find($this->title)->setValue($fields['title']);
-        $rootElement->find($this->type, Locator::SELECTOR_CSS, $rootElement::TYPIFIED_ELEMENT_SELECT)
+        $this->_rootElement->find($this->title)->setValue($fields['title']);
+        $this->_rootElement->find($this->type, Locator::SELECTOR_CSS, 'select')
             ->setValue($fields['type']);
-        $rootElement->find($this->required, Locator::SELECTOR_CSS, $rootElement::TYPIFIED_ELEMENT_CHECKBOX)
+        $this->_rootElement->find($this->required, Locator::SELECTOR_CSS, 'checkbox')
             ->setValue($fields['required']);
     }
 }

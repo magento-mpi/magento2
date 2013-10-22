@@ -13,6 +13,7 @@
 namespace Magento\Backend\Test\Block\Catalog\Category\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Form
@@ -38,5 +39,11 @@ class Form extends FormTabs
     {
         //Elements
         $this->saveButton = '[data-ui-id=category-edit-form-save-button]';
+    }
+
+    public function getCategoryId()
+    {
+        $idField = $this->_rootElement->find('group_4id', Locator::SELECTOR_ID);
+        return $idField->getValue();
     }
 }

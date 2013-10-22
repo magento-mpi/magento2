@@ -11,6 +11,7 @@
 
 namespace Magento\Customer\Test\Fixture;
 
+use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
 /**
@@ -58,106 +59,8 @@ class Address extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'address_US_1' => array(
-                'data' => array(
-                    'fields' => array(
-                        'firstname' => array(
-                            'value' => 'John'
-                        ),
-                        'lastname' => array(
-                            'value' => 'Doe'
-                        ),
-                        'email' => array(
-                            'value' => 'John.Doe%isolation%@example.com'
-                        ),
-                        'street_1' => array(
-                            'value' => '6161 West Centinela Avenue'
-                        ),
-                        'city' => array(
-                            'value' => 'Culver City'
-                        ),
-                        'region' => array(
-                            'value' => 'California',
-                            'input' => 'select'
-                        ),
-                        'postcode' => array(
-                            'value' => '90230'
-                        ),
-                        'country' => array(
-                            'value' => 'United States',
-                            'input' => 'select'
-                        ),
-                        'telephone' => array(
-                            'value' => '555-55-555-55'
-                        )
-                    )
-                )
-            ),
-
-            'address_data_US_1' => array(
-                'data' => array(
-                    'fields' => array(
-                        'street_1' => array(
-                            'value' => '6161 West Centinela Avenue'
-                        ),
-                        'city' => array(
-                            'value' => 'Culver City'
-                        ),
-                        'region' => array(
-                            'value' => 'California',
-                            'input' => 'select'
-                        ),
-                        'postcode' => array(
-                            'value' => '90230'
-                        ),
-                        'country' => array(
-                            'value' => 'United States',
-                            'input' => 'select'
-                        ),
-                        'telephone' => array(
-                            'value' => '555-55-555-55'
-                        )
-                    )
-                )
-            ),
-
-            'address_US_2' => array(
-                'data' => array(
-                    'fields' => array(
-                        'firstname' => array(
-                            'value' => 'Billy'
-                        ),
-                        'lastname' => array(
-                            'value' => 'Holiday'
-                        ),
-                        'email' => array(
-                            'value' => 'b.holliday@example.net'
-                        ),
-                        'street_1' => array(
-                            'value' => '727 5th Ave'
-                        ),
-                        'city' => array(
-                            'value' => 'New York'
-                        ),
-                        'region' => array(
-                            'value' => 'New York',
-                            'input' => 'select'
-                        ),
-                        'postcode' => array(
-                            'value' => '10022'
-                        ),
-                        'country' => array(
-                            'value' => 'United States',
-                            'input' => 'select'
-                        ),
-                        'telephone' => array(
-                            'value' => '777-77-77-77'
-                        )
-                    )
-                )
-            )
-        );
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCustomerAddress($this->_dataConfig, $this->_data);
 
         //Default data set
         $this->switchData('address_US_1');

@@ -63,7 +63,7 @@ framework:
 ################################################################################
 applications:
     ce: &ce
-        fallbackOrderFixture: 'default'
+        fallbackOrderFixture: 'themes/frontend/plushe, default'
         fallbackOrderHelper: 'Core'
         design_theme: Magento Demo
         ftp: &ftp
