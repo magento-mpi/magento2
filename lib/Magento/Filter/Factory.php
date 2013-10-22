@@ -30,7 +30,8 @@ class Factory extends AbstractFactory
         'arrayFilter'   => 'Magento\Filter\ArrayFilter',
         'removeAccents' => 'Magento\Filter\RemoveAccents',
         'splitWords'    => 'Magento\Filter\SplitWords',
-        'removeTags'    => 'Magento\Filter\RemoveTags'
+        'removeTags'    => 'Magento\Filter\RemoveTags',
+        'stripTags'     => 'Magento\Filter\StripTags'
     );
 
     /**
@@ -43,5 +44,6 @@ class Factory extends AbstractFactory
         'Magento\Filter\Money' => false,
         'Magento\Filter\RemoveAccents' => false,
         'Magento\Filter\SplitWords' => false,
+        'Magento\Filter\StripTags' => false
     );
 }

@@ -100,6 +100,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_escaper;
 
     /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $_filterManager;
+
+    /**
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -117,6 +122,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
@@ -137,6 +143,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -156,6 +163,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_logger          = $logger;
         $this->_app             = $app;
         $this->_escaper         = $escaper;
+        $this->_filterManager   = $filterManager;
     }
 
     /**
@@ -292,5 +300,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getEscaper()
     {
         return $this->_escaper;
+    }
+
+    /**
+     * @return \Magento\Filter\FilterManager
+     */
+    public function getFilterManager()
+    {
+        return $this->_filterManager;
     }
 }

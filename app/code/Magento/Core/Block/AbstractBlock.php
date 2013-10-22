@@ -147,6 +147,11 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_escaper;
 
     /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filterManager;
+
+    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -169,6 +174,7 @@ abstract class AbstractBlock extends \Magento\Object
         $this->_logger          = $context->getLogger();
         $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
+        $this->filterManager    = $context->getFilterManager();
         parent::__construct($data);
         $this->_construct();
     }
@@ -880,7 +886,10 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->helper('Magento\Core\Helper\Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
+        return $this->filterManager->stripTags($data, array(
+            'allowableTags' => $allowableTags,
+            'escape'        => $allowHtmlEntities
+        ));
     }
 
     /**

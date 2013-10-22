@@ -48,7 +48,9 @@ class Currencysymbol extends \Magento\Adminhtml\Controller\Action
         $symbolsDataArray = $this->getRequest()->getParam('custom_currency_symbol', null);
         if (is_array($symbolsDataArray)) {
             foreach ($symbolsDataArray as &$symbolsData) {
-                $symbolsData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')->stripTags($symbolsData);
+                /** @var $filterManager \Magento\Filter\FilterManager */
+                $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+                $symbolsData = $filterManager->stripTags($symbolsData);
             }
         }
 

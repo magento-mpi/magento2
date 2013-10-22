@@ -39,12 +39,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_helper->isModuleOutputEnabled());
     }
 
-
-    public function testStripTags()
-    {
-        $this->assertEquals('three', $this->_helper->stripTags('<two>three</two>'));
-    }
-
     public function testUrlEncodeDecode()
     {
         $data = uniqid();

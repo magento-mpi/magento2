@@ -198,22 +198,6 @@ abstract class AbstractHelper
     }
 
     /**
-     * Wrapper for standard strip_tags() function with extra functionality for html entities
-     *
-     * @param string $data
-     * @param string $allowableTags
-     * @param bool $escape
-     * @return string
-     */
-    public function stripTags($data, $allowableTags = null, $escape = false)
-    {
-        $result = strip_tags($data, $allowableTags);
-        /** @var \Magento\Escaper $escaper */
-        $escaper = \Magento\Core\Model\ObjectManager::getInstance()->get('\Magento\Escaper');
-        return $escape ? $escaper->escapeHtml($result, $allowableTags) : $result;
-    }
-
-    /**
      * Retrieve url
      *
      * @param   string $route

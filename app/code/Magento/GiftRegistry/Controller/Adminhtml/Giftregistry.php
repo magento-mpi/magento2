@@ -141,18 +141,19 @@ class Giftregistry extends \Magento\Adminhtml\Controller\Action
      */
     protected function _filterPostData($data)
     {
-        $helper = $this->_getHelper();
+        /* @var $filterManager \Magento\Filter\FilterManager */
+        $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
         if (!empty($data['type']['label'])) {
-            $data['type']['label'] = $helper->stripTags($data['type']['label']);
+            $data['type']['label'] = $filterManager->stripTags($data['type']['label']);
         }
         if (!empty($data['attributes']['registry'])) {
             foreach ($data['attributes']['registry'] as &$regItem) {
                 if (!empty($regItem['label'])) {
-                    $regItem['label'] = $helper->stripTags($regItem['label']);
+                    $regItem['label'] = $filterManager->stripTags($regItem['label']);
                 }
                 if (!empty($regItem['options'])) {
                     foreach ($regItem['options'] as &$option) {
-                        $option['label'] = $helper->stripTags($option['label']);
+                        $option['label'] = $filterManager->stripTags($option['label']);
                     }
                 }
             }
