@@ -30,8 +30,10 @@ class CreateTest extends Functional
     {
         //Data
         /** @var Category $category */
-        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory()->switchData('subcategory');
-        $category->persist();
+        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+        //$category->switchData('men');
+        //$category->persist();
+        $category->switchData('shoes');
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
@@ -41,7 +43,6 @@ class CreateTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
-        $loader->waitLoader();
         $treeBlock->expandAllCategories();
         $loader->waitLoader();
         $treeBlock->selectCategory($category->getCategoryPath());
@@ -56,6 +57,7 @@ class CreateTest extends Functional
         //Open created category on frontend
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
+        $loader->waitLoader();
         $navigationMenu = $frontendHomePage->getTopmenu();
         $navigationMenu->selectCategoryByName($category->getCategoryName());
         $pageTitleBlock = $frontendHomePage->getTitleBlock();

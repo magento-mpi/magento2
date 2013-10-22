@@ -13,6 +13,7 @@ namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
+use Mtf\System\Config;
 
 /**
  * Class Category
@@ -27,6 +28,45 @@ class Category extends DataFixture
     const GROUP_GENERAL_INFORMATION = 'category_info_tabs_group_4';
 
     /**
+     * Contains categories that are needed to create next category
+     *
+     * @var array
+     */
+    protected $_categories;
+
+    /**
+     * Update to switch data for always applying these placeholders when switching to any data set
+     *
+     * @param $name
+     * @return bool
+     */
+    public function switchData($name)
+    {
+        $this->_placeholders['men::getCategoryName'] = array($this, '_categoryProvider');
+        $this->_placeholders['men::getCategoryId'] = array($this, '_categoryProvider');
+
+        return parent::switchData($name);
+    }
+
+    /**
+     * Create category needed for placeholders in data and call method for placeholder
+     *
+     * @param string $placeholder
+     * @return string
+     */
+    protected function _categoryProvider($placeholder)
+    {
+        list($key, $method) = explode('::', $placeholder);
+        if (!isset($this->_categories[$key])) {
+            $this->_categories[$key] = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+            $this->_categories[$key]->switchData($key);
+            $this->_categories[$key]->persist();
+        }
+
+        return is_callable(array($this->_categories[$key], $method)) ? $this->_categories[$key]->$method() : '';
+    }
+
+    /**
      * Get product name
      *
      * @return string
@@ -36,6 +76,17 @@ class Category extends DataFixture
         return $this->getData('fields/name/value');
     }
 
+
+    /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getCategoryId()
+    {
+        return $this->getData('category_path/input_value');
+    }
+
     /**
      * Create category
      *
@@ -43,7 +94,8 @@ class Category extends DataFixture
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateCategory($this);
+        $id = Factory::getApp()->magentoCatalogCreateCategory($this);
+        $this->_data['category_path']['input_value'] = $id;
         return $this;
     }
 
@@ -55,32 +107,9 @@ class Category extends DataFixture
         $this->_dataConfig = array(
             'constraint' => 'Success',
             'request_params' => array(
-                'store' => '0',
-                'parent' => '2'
-            )
-        );
-
-        $this->_data = array(
-            'fields' => array(
-                'name' => array(
-                    'value' => 'Subcategory %isolation%',
-                    'group' => static::GROUP_GENERAL_INFORMATION,
-                    'curl'  => 'general[name]'
-                ),
-                'is_active' => array(
-                    'value' => 'Yes',
-                    'group' => static::GROUP_GENERAL_INFORMATION,
-                    'input' => 'select',
-                    'curl'  => 'general[is_active]'
-                ),
-                'include_in_menu' => array(
-                    'value' => 'Yes',
-                    'group' => static::GROUP_GENERAL_INFORMATION,
-                    'input' => 'select',
-                    'curl'  => 'general[include_in_menu]'
-                )
+                'store' => '0'
             ),
-            'category_path' => 'Default Category (0)/some1 (0)/Subcategory 122997687 (0)'
+            'input_prefix' => 'general'
         );
 
         $this->_repository = Factory::getRepositoryFactory()
@@ -102,6 +131,7 @@ class Category extends DataFixture
                 $params[] = $key .'/' .$value;
             }
         }
+        $params[] = 'parent/' . $this->getData('fields/path')['input_value'];
         return implode('/', $params);
     }
 
@@ -112,6 +142,6 @@ class Category extends DataFixture
      */
     public function getCategoryPath()
     {
-        return $this->getData('category_path');
+        return $this->getData('category_path/value');
     }
 }
