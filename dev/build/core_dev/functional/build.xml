@@ -292,6 +292,10 @@
             <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
             <replacefilter token="{{selenium_testsuite}}" value="${env.selenium_testsuite}"/>
         </replace>
+
+        <exec executable="php">
+            <arg line="-f ${dir.build_directory}/instance-${instanceIndex}/dev/tools/Magento/Di/compiler.php"/>
+        </exec>
     </target>
 
 </project>
