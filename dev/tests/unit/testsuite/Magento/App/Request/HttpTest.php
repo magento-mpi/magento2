@@ -107,7 +107,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $router = $this->getMock('\Magento\App\Router\AbstractRouter', array(), array(), '', false);
         $this->_routerListMock->expects($this->any())->method('getRouterByRoute')->will($this->returnValue($router));
-        $router->expects($this->any())->method('getFrontNameByRoute')->will($this->returnValue('string'));
+        $router->expects($this->once())->method('getFrontNameByRoute')->will($this->returnValue('string'));
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
         $this->_model->setRouteName('RouterName');
         $this->assertEquals('RouterName', $this->_model->getRouteName());
@@ -228,12 +228,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testIsStraightWithTrueValue()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $this->assertTrue((bool)$this->_model->isStraight('true'));
+        $this->assertTrue($this->_model->isStraight(true));
     }
 
     public function testIsStraightWithDefaultValue()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $this->assertFalse((bool)$this->_model->isStraight());
+        $test = $this->_model->isStraight();
+        $this->assertFalse($this->_model->isStraight());
     }
 }

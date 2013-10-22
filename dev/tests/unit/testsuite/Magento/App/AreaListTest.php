@@ -25,7 +25,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
             ->getMock('\Magento\App\Area\FrontNameResolverFactory', array(), array(), '', false);
     }
 
-    public function testGetCodeByFrontNameWhenAreaDoesNotContentFrontName()
+    public function testGetCodeByFrontNameWhenAreaDoesNotContainFrontName()
     {
         $expected = 'expectedFrontName';
         $this->_model = new \Magento\App\AreaList($this->_resolverFactory,
@@ -36,7 +36,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
             ->with('testValue')->will($this->returnValue($resolverMock));
 
         $actual = $this->_model->getCodeByFrontName('testFrontName');
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testGetCodeByFrontNameReturnsAreaCode()
@@ -46,7 +46,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
             array('testArea'=>array('frontName' => 'testFrontName')), $expected);
 
         $actual = $this->_model->getCodeByFrontName('testFrontName');
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testGetFrontNameWhenAreaCodeAndFrontNameAreSet()
@@ -56,7 +56,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
             array('testAreaCode' => array('frontName' => 'testFrontName')), $expected);
 
         $actual = $this->_model->getFrontName('testAreaCode');
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testGetFrontNameWhenAreaCodeAndFrontNameArentSet()
@@ -67,7 +67,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($actual);
     }
 
-    public function getFrontName()
+    public function testGetFrontName()
     {
         $this->_model = new \Magento\App\AreaList($this->_resolverFactory, array(), '');
 
@@ -82,6 +82,6 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(0 => 'area1', 1 => 'area2');
         $actual = $this->_model->getCodes();
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 }
