@@ -12,6 +12,7 @@
 namespace Magento\View\Design\FileResolution\Strategy\Fallback;
 
 use Magento\Filesystem;
+use Magento\Filesystem\Adapter\Local;
 use Magento\Io\File;
 use Magento\TestFramework\Helper\ProxyTesting;
 
@@ -219,6 +220,6 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function createFilesystem()
     {
-        return new Filesystem(new Filesystem\Adapter\Local());
+        return new Filesystem(new Local());
     }
 }
