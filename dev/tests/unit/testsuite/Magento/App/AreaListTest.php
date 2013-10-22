@@ -67,14 +67,6 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($actual);
     }
 
-    public function testGetFrontName()
-    {
-        $this->_model = new \Magento\App\AreaList($this->_resolverFactory, array(), '');
-
-        $actual = $this->_model->getFrontName('testAreaCode');
-        $this->assertNull($actual);
-    }
-
     public function testGetCodes()
     {
         $this->_model = new \Magento\App\AreaList($this->_resolverFactory,

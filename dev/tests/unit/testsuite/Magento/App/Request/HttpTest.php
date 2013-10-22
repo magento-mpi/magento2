@@ -234,7 +234,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testIsStraightWithDefaultValue()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $test = $this->_model->isStraight();
         $this->assertFalse($this->_model->isStraight());
     }
 }
