@@ -46,7 +46,7 @@ class Base implements \Magento\Core\Model\Layout\File\SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function getFiles(\Magento\Core\Model\ThemeInterface $theme)
+    public function getFiles(\Magento\View\Design\ThemeInterface $theme)
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();

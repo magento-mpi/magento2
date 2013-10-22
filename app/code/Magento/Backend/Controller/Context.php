@@ -58,7 +58,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Controller\Varien\Front $frontController
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
@@ -77,7 +77,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Controller\Varien\Front $frontController,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
         $isRenderInherited,
         \Magento\Backend\Model\Session $session,

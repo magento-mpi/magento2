@@ -117,7 +117,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                 if (
                     $this->_locale->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
                 ) {
-                    $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+                    $this->_objectManager->get('Magento\View\DesignInterface')
                         ->setDesignTheme($page->getCustomTheme());
                 }
             }

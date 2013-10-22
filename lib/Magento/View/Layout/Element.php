@@ -2,42 +2,53 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-namespace Magento\Core\Model\Layout;
+namespace Magento\View\Layout;
 
 class Element extends \Magento\Simplexml\Element
 {
-    public function prepare($args)
+    /**#@+
+     * Supported layout directives
+     */
+    const TYPE_BLOCK = 'block';
+    const TYPE_CONTAINER = 'container';
+    const TYPE_ACTION = 'action';
+    const TYPE_ARGUMENTS = 'arguments';
+    const TYPE_ARGUMENT = 'argument';
+    const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+    const TYPE_REFERENCE_CONTAINER = 'referenceContainer';
+    const TYPE_REMOVE = 'remove';
+    const TYPE_MOVE = 'move';
+    /**#@-*/
+
+    public function prepare()
     {
         switch ($this->getName()) {
-            case \Magento\Core\Model\Layout::TYPE_BLOCK:
-                $this->prepareBlock($args);
+            case self::TYPE_BLOCK:
+                $this->prepareBlock();
                 break;
 
-            case \Magento\Core\Model\Layout::TYPE_REFERENCE_BLOCK:
-            case \Magento\Core\Model\Layout::TYPE_REFERENCE_CONTAINER:
-                $this->prepareReference($args);
+            case self::TYPE_REFERENCE_BLOCK:
+            case self::TYPE_REFERENCE_CONTAINER:
+                $this->prepareReference();
                 break;
 
-            case \Magento\Core\Model\Layout::TYPE_ACTION:
-                $this->prepareAction($args);
+            case self::TYPE_ACTION:
+                $this->prepareAction();
                 break;
 
-            case \Magento\Core\Model\Layout::TYPE_ARGUMENT:
-                $this->prepareActionArgument($args);
+            case self::TYPE_ARGUMENT:
+                $this->prepareActionArgument();
                 break;
 
             default:
                 break;
         }
         foreach ($this as $child) {
-            $child->prepare($args);
+            $child->prepare();
         }
         return $this;
     }
@@ -46,8 +57,8 @@ class Element extends \Magento\Simplexml\Element
     {
         $tagName = (string)$this->getName();
         if (empty($this['name']) || !in_array($tagName, array(
-                \Magento\Core\Model\Layout::TYPE_BLOCK,
-                \Magento\Core\Model\Layout::TYPE_REFERENCE_BLOCK,
+                self::TYPE_BLOCK,
+                self::TYPE_REFERENCE_BLOCK,
         ))) {
             return false;
         }
@@ -65,10 +76,10 @@ class Element extends \Magento\Simplexml\Element
     {
         $tagName = $this->getName();
         if (!in_array($tagName, array(
-            \Magento\Core\Model\Layout::TYPE_BLOCK,
-            \Magento\Core\Model\Layout::TYPE_REFERENCE_BLOCK,
-            \Magento\Core\Model\Layout::TYPE_CONTAINER,
-            \Magento\Core\Model\Layout::TYPE_REFERENCE_CONTAINER
+            self::TYPE_BLOCK,
+            self::TYPE_REFERENCE_BLOCK,
+            self::TYPE_CONTAINER,
+            self::TYPE_REFERENCE_CONTAINER
         ))) {
             return false;
         }
@@ -92,7 +103,12 @@ class Element extends \Magento\Simplexml\Element
         return $sibling;
     }
 
-    public function prepareBlock($args)
+    /**
+     * Add parent element name to parent attribute
+     *
+     * @return Element
+     */
+    public function prepareBlock()
     {
         $parent = $this->getParent();
         if (isset($parent['name']) && !isset($this['parent'])) {
@@ -102,12 +118,20 @@ class Element extends \Magento\Simplexml\Element
         return $this;
     }
 
-    public function prepareReference($args)
+    /**
+     * @return Element
+     */
+    public function prepareReference()
     {
         return $this;
     }
 
-    public function prepareAction($args)
+    /**
+     * Add parent element name to block attribute
+     *
+     * @return Element
+     */
+    public function prepareAction()
     {
         $parent = $this->getParent();
         $this->addAttribute('block', (string)$parent['name']);
@@ -115,7 +139,10 @@ class Element extends \Magento\Simplexml\Element
         return $this;
     }
 
-    public function prepareActionArgument($args)
+    /**
+     * @return Element
+     */
+    public function prepareActionArgument()
     {
         return $this;
     }

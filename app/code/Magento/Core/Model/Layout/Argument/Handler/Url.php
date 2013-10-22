@@ -68,7 +68,7 @@ class Url extends \Magento\Core\Model\Layout\Argument\AbstractHandler
      * @param $argument
      * @return array
      */
-    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
+    protected function _getArgumentValue(\Magento\View\Layout\Element $argument)
     {
         $result = array(
             'path' => (string)$argument['path'],

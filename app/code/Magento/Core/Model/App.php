@@ -408,11 +408,11 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {
-        return $this->_objectManager->get('Magento\Core\Model\Layout');
+        return $this->_objectManager->get('Magento\View\LayoutInterface');
     }
 
     /**
