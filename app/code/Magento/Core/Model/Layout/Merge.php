@@ -217,47 +217,17 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      */
     public function addPageHandles(array $handlesToTry)
     {
+        $handlesAdded = false;
         foreach ($handlesToTry as $handleName) {
             if (!$this->pageHandleExists($handleName)) {
                 continue;
             }
-            $handles = $this->getPageHandleParents($handleName);
             $handles[] = $handleName;
-
-            /* replace existing page handles with the new ones */
-            foreach ($this->_pageHandles as $pageHandleName) {
-                $this->removeHandle($pageHandleName);
-            }
             $this->_pageHandles = $handles;
             $this->addHandle($handles);
-            return true;
+            $handlesAdded = true;
         }
-        return false;
-    }
-
-    /**
-     * Retrieve the all parent handles ordered from parent to child. The $isPageTypeOnly parameters controls,
-     * whether only page type parent relation is processed.
-     *
-     * @param string $handleName
-     * @param bool $isPageTypeOnly
-     * @return array
-     */
-    public function getPageHandleParents($handleName, $isPageTypeOnly = true)
-    {
-        $result = array();
-        $node = $this->_getPageHandleNode($handleName);
-        while ($node) {
-            $parentItem = $node->getAttribute('parent');
-            if (!$parentItem && !$isPageTypeOnly) {
-                $parentItem = $node->getAttribute('owner');
-            }
-            $node = $this->_getPageHandleNode($parentItem);
-            if ($node) {
-                $result[] = $parentItem;
-            }
-        }
-        return array_reverse($result);
+        return $handlesAdded;
     }
 
     /**

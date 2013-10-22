@@ -133,38 +133,6 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_merge($nonPageHandles, $expectedPageHandles), $this->_model->getHandles());
     }
 
-    /**
-     * @param string $inputPageHandle
-     * @param bool $isPageTypeOnly
-     * @param array $expectedResult
-     * @dataProvider getPageHandleParentsDataProvider
-     */
-    public function testGetPageHandleParents($inputPageHandle, $isPageTypeOnly, $expectedResult)
-    {
-        $this->assertSame($expectedResult, $this->_model->getPageHandleParents($inputPageHandle, $isPageTypeOnly));
-    }
-
-    public function getPageHandleParentsDataProvider()
-    {
-        return array(
-            'non-existing handle'      => array('non_existing_handle', false, array()),
-            'non page type handle'     => array('not_a_page_type', false, array()),
-            'page type with no parent' => array('default', false, array()),
-            'page type with parent'    => array(
-                'catalog_category_default', false, array('default')
-            ),
-            'deeply nested page type'  => array(
-                'catalog_category_layered', false, array('default', 'catalog_category_default')
-            ),
-            'page fragment is not processed' => array(
-                'checkout_onepage_progress', true, array()
-            ),
-            'page fragment is processed' => array(
-                'checkout_onepage_progress', false, array('default', 'checkout_onepage_index')
-            )
-        );
-    }
-
     public function testGetPageHandlesHierarchy()
     {
         $expected = require(__DIR__ . '/_files/pages_hierarchy.php');

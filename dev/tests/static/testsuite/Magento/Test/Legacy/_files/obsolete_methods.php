@@ -415,7 +415,6 @@ return array(
     array('getPackage', 'Magento\Widget\Model\Widget\Instance'),
     array('getPackageTheme', 'Magento\Widget\Model\Widget\Instance', 'getThemeId'),
     array('getPageHandleLabel', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
-    array('getPageHandleParents', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('getPageHandles', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('getPageHandlesHierarchy', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('getPageHandleType', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
