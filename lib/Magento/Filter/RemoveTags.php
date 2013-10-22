@@ -9,7 +9,7 @@
 namespace Magento\Filter;
 
 /**
- * Remove accents from string
+ * Remove tags from string
  */
 class RemoveTags implements \Zend_Filter_Interface
 {
