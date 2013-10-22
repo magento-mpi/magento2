@@ -52,77 +52,37 @@ class Category extends DataFixture
      */
     protected function _initData()
     {
-        $this->_repository = array(
-            'subcategory' => array(
-                'config' => array(
-                    'constraint' => 'Success',
-                    'request_params' => array(
-                        'store' => '0',
-                        'parent' => '2'
-                    )
-                ),
-                'data' => array(
-                    'fields' => array(
-                        'name' => array(
-                            'value' => 'Subcategory %isolation%',
-                            'group' => static::GROUP_GENERAL_INFORMATION,
-                            'curl'  => 'general[name]'
-                        ),
-                        'is_active' => array(
-                            'value' => 'Yes',
-                            'group' => static::GROUP_GENERAL_INFORMATION,
-                            'input' => 'select',
-                            'curl'  => 'general[is_active]'
-                        ),
-                        'include_in_menu' => array(
-                            'value' => 'Yes',
-                            'group' => static::GROUP_GENERAL_INFORMATION,
-                            'input' => 'select',
-                            'curl'  => 'general[include_in_menu]'
-                        ),
-                        'parent_id' => array(
-                            'value' => '2',
-                        )
-                    )
-
-                )
-            ),
+        $this->_dataConfig = array(
+            'constraint' => 'Success',
+            'request_params' => array(
+                'store' => '0',
+                'parent' => '2'
+            )
         );
 
-        //Default data set
-        $this->switchData('subcategory');
-    }
+        $this->_data = array(
+            'fields' => array(
+                'name' => array(
+                    'value' => 'Subcategory %isolation%',
+                    'group' => static::GROUP_GENERAL_INFORMATION
+                ),
+                'is_active' => array(
+                    'value' => 'Yes',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'include_in_menu' => array(
+                    'value' => 'Yes',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'parent_id' => array(
+                    'value' => '2',
+                )
+            )
+        );
 
-    /**
-     * Returns data for curl POST params
-     *
-     * @return array
-     */
-    public function getPostParams()
-    {
-        $fields = $this->getData('fields');
-        $params = array();
-        foreach ($fields as $fieldId => $fieldData) {
-            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
-        }
-        return $params;
-    }
-
-    /**
-     * Get Url params
-     *
-     * @param string $urlKey
-     * @return string
-     */
-    public function getUrlParams($urlKey)
-    {
-        $params = array();
-        $config = $this->getDataConfig();
-        if (!empty($config[$urlKey]) && is_array($config[$urlKey])) {
-            foreach ($config[$urlKey] as $key => $value) {
-                $params[] = $key .'/' .$value;
-            }
-        }
-        return implode('/', $params);
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCatalogCategory($this->_dataConfig, $this->_data);
     }
 }

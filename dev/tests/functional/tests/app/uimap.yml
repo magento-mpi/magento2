@@ -1,5 +1,0 @@
-Magento\Backend\Test\Page\Login:
-    loginFormBlock:
-        locator: id:login-form
-    headerPanelBlock:
-        locator: css:.header-panel

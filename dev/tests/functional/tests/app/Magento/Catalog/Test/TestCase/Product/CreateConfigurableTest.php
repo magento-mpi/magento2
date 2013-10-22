@@ -39,10 +39,11 @@ class CreateConfigurableTest extends Functional
      */
     public function testCreateConfigurableProduct()
     {
-        $fixtureAttribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute()
-            ->switchData('configurable_attribute')->persist();
-        $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct()
-            ->switchData('configurable_default_category');
+        $fixtureAttribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
+        $fixtureAttribute->switchData('configurable_attribute');
+        $fixtureAttribute->persist();
+        $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $product ->switchData('configurable_default_category');
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $productBlockForm = $createProductPage->getProductBlockForm();
