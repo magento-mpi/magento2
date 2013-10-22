@@ -146,7 +146,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
     }
 
     public function getGridUrl()

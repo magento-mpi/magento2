@@ -128,7 +128,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
                 'onclick',
                 'setLocation(\''
                     . $this->getUrl(
-                        '*/product/edit',
+                        'catalog/product/edit',
                         array('id' => $this->getRequest()->getParam('productId', false))
                     )
                     .'\')'

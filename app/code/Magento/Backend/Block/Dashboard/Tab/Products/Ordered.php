@@ -132,6 +132,6 @@ class Ordered extends \Magento\Backend\Block\Dashboard\Grid
         if ($this->getRequest()->getParam('store')) {
             $params['store'] = $this->getRequest()->getParam('store');
         }
-        return $this->getUrl('*/product/edit', $params);
+        return $this->getUrl('catalog/product/edit', $params);
     }
 }
