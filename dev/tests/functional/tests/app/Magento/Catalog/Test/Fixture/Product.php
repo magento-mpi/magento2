@@ -51,12 +51,15 @@ class Product extends DataFixture
         $this->_placeholders['category'] = array($this, 'categoryProvider');
     }
 
+    /**
+     * Get data from repository and reassign it
+     */
     public function reset()
     {
         $default = $this->_repository->get('default');
 
-        $this->_dataConfig =$default['config'];
-        $this->_data =$default['data'];
+        $this->_dataConfig = $default['config'];
+        $this->_data = $default['data'];
     }
 
     /**
@@ -128,11 +131,24 @@ class Product extends DataFixture
     }
 
     /**
+     * Get product id
+     *
+     * @return string
+     */
+    public function getProductId()
+    {
+        return $this->getData('fields/id/value');
+    }
+
+    /**
      * Create product
+     *
+     * @return Product
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateProduct($this);
+        $id = Factory::getApp()->magentoCatalogCreateProduct($this);
+        $this->_data['fields']['id']['value'] = $id;
 
         return $this;
     }
@@ -177,6 +193,8 @@ class Product extends DataFixture
     protected function _initData()
     {
         $this->_dataConfig = array(
+            'constraint' => 'Success',
+
             'block_form_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductForm',
             'block_grid_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductGrid',
 
@@ -184,7 +202,12 @@ class Product extends DataFixture
 
             'url_create_page'   => 'admin/catalog_product/new',
             'url_update_page'   => 'admin/catalog_product/edit',
-            'url_grid_page'     => 'admin/catalog_product/index'
+            'url_grid_page'     => 'admin/catalog_product/index',
+
+            'create_url_params' => array(
+                'type' => 'simple',
+                'set'  => 4,
+            )
         );
 
         $this->_data = array(
@@ -200,7 +223,7 @@ class Product extends DataFixture
                     'curl'  => 'product[sku]'
                 ),
                 'price'  => array(
-                    'value' => 10,
+                    'value' => '10',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'curl'  => 'product[price]'
                 ),
@@ -238,13 +261,13 @@ class Product extends DataFixture
                 'product_website_1' => array(
                     'value' => 'Yes',
                     'group' => static::GROUP_PRODUCT_WEBSITE,
-                    'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
+                    'input' => 'checkbox',
                     'curl'  => 'product[website_ids][]'
                 ),
                 'inventory_manage_stock' => array(
                     'value' => 'No',
                     'group' => static::GROUP_PRODUCT_INVENTORY,
-                    'input' => Browser::TYPIFIED_ELEMENT_CHECKBOX,
+                    'input' => 'checkbox',
                     'curl'  => 'product[stock_data][manage_stock]'
                 )
             )

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Repository;
+namespace Magento\Bundle\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
 
@@ -18,7 +18,7 @@ use Mtf\Repository\AbstractRepository;
  *
  * @package Magento\Catalog\Test\Repository
  */
-class Product extends AbstractRepository
+class Bundle extends AbstractRepository
 {
     /**
      * {inheritdoc}
@@ -30,12 +30,7 @@ class Product extends AbstractRepository
             'data' => $defaultData
         );
 
-        $this->_data['simple'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
-
-        $this->_data['simple_with_category'] = $this->_data['simple'];
-        $this->_data['simple_with_category']['data']['category_name'] = '%category%';
+        $this->_data['bundle_fixed_with_category'] = $this->_data['default'];
+        $this->_data['bundle_fixed_with_category']['data']['category_name'] = '%category%';
     }
 }

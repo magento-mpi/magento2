@@ -94,7 +94,7 @@ class BackendDecorator implements CurlInterface
         if ($this->_formKey) {
             $params['form_key'] = $this->_formKey;
         }
-        $this->_transport->write($method, $url, $http_ver, $headers, $params);
+        $this->_transport->write($method, $url, $http_ver, $headers, http_build_query($params));
     }
 
     /**
