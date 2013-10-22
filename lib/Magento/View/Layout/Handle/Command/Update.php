@@ -8,15 +8,12 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Layout;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Command;
 use Magento\View\Layout\Handle\Render;
-
 use Magento\View\Layout\HandleFactory;
-
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\ProcessorInterface;
 

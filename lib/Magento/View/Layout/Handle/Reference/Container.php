@@ -9,7 +9,6 @@
 namespace Magento\View\Layout\Handle\Reference;
 
 use Magento\View\Layout\Handle\Render\Container as OriginalContainer;
-use Magento\View\Layout;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;

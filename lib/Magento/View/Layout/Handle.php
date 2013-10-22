@@ -9,7 +9,6 @@
 namespace Magento\View\Layout;
 namespace Magento\View;
 
-use Magento\View\Layout;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 

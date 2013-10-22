@@ -10,7 +10,6 @@ namespace Magento\View\Layout\Handle\Reference;
 
 use Magento\View\Layout\Handle\Render\Block as OriginalBlock;
 use Magento\View\LayoutInterface;
-use Magento\View\Layout;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 

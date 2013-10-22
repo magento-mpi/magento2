@@ -8,9 +8,8 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Layout;
-use Magento\View\Layout\Element;
 use Magento\View\LayoutInterface;
+use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Command;
 
@@ -29,7 +28,7 @@ class Action implements Command
     /**
      * @param Element $layoutElement
      * @param LayoutInterface $layout
-     * @param $parentName
+     * @param string $parentName
      * @return Action
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)

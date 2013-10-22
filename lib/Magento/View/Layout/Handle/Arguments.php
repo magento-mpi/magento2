@@ -8,12 +8,11 @@
 
 namespace Magento\View\Layout\Handle;
 
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 
 use Magento\Core\Model\Layout\Argument\Processor;
-use Magento\View\LayoutInterface;
 
 class Arguments implements Handle
 {

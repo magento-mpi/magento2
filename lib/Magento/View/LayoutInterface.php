@@ -208,7 +208,6 @@ interface LayoutInterface
      * @param array $options
      * @param string $parent
      * @param string $alias
-     * @todo DELETE (use viewFactory and addElement instead)
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '');
 
@@ -218,7 +217,6 @@ interface LayoutInterface
      * @param string $oldName
      * @param string $newName
      * @return bool
-     * @todo DELETE (used mostly in setNameInLayout)
      */
     public function renameElement($oldName, $newName);
 
@@ -227,7 +225,6 @@ interface LayoutInterface
      *
      * @param string $name
      * @return bool|string
-     * @todo DELETE
      */
     public function getElementAlias($name);
 
@@ -243,7 +240,6 @@ interface LayoutInterface
      * Retrieve messages block
      *
      * @return \Magento\Core\Block\Messages
-     * @todo DELETE use whatever instead
      */
     public function getMessagesBlock();
 
@@ -259,7 +255,6 @@ interface LayoutInterface
      * Retrieve block factory
      *
      * @return \Magento\Core\Model\BlockFactory
-     * @todo DELETE
      */
     public function getBlockFactory();
 
@@ -267,7 +262,6 @@ interface LayoutInterface
      * Retrieve layout area
      *
      * @return string
-     * @todo DELETE
      */
     public function getArea();
 
@@ -284,7 +278,6 @@ interface LayoutInterface
      *
      * @param   bool $flag
      * @return  LayoutInterface
-     * @todo DELETE
      */
     public function setDirectOutput($flag);
 
@@ -292,7 +285,6 @@ interface LayoutInterface
      * Retrieve direct output flag
      *
      * @return bool
-     * @todo DELETE
      */
     public function isDirectOutput();
 
@@ -302,7 +294,6 @@ interface LayoutInterface
      * @param string $name
      * @param string $attribute
      * @return mixed
-     * @todo DELETE
      */
     public function getElementProperty($name, $attribute);
 
@@ -311,7 +302,6 @@ interface LayoutInterface
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isBlock($name);
 
@@ -320,7 +310,6 @@ interface LayoutInterface
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isContainer($name);
 
@@ -329,7 +318,6 @@ interface LayoutInterface
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      */
     public function isManipulationAllowed($name);
 

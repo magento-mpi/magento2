@@ -59,15 +59,16 @@ class Structure
      *
      * @param $elementId
      * @param array $attributes
+     * @param bool $rewrite [optional]
      * @return Structure
      * @throws \Exception if an element doesn't exist
      */
-    public function updateElement($elementId, array $attributes)
+    public function updateElement($elementId, array $attributes, $rewrite = false)
     {
         $this->assertElementExists($elementId);
 
         foreach ($attributes as $key => $value) {
-            $this->setAttribute($elementId, $key, $value);
+            $this->setAttribute($elementId, $key, $value, $rewrite);
         }
 
         return $this;
@@ -145,10 +146,11 @@ class Structure
      * @param string $elementId
      * @param string $attribute
      * @param mixed $value
+     * @param bool $rewrite [optional]
      * @throws \InvalidArgumentException
      * @return Structure
      */
-    public function setAttribute($elementId, $attribute, $value)
+    public function setAttribute($elementId, $attribute, $value, $rewrite = false)
     {
         $internalId = $this->assertElementExists($elementId);
 
@@ -159,6 +161,11 @@ class Structure
             case self::ATTRIBUTE_INTERNAL_ID:
                 throw new \InvalidArgumentException("Attribute '{$attribute}' is reserved and cannot be set.");
             default:
+                if (is_array($this->elements[$internalId][$attribute]) && is_array($value)) {
+                    if (!$rewrite) {
+                        $value = array_merge($this->elements[$internalId][$attribute], $value);
+                    }
+                }
                 $this->elements[$internalId][$attribute] = $value;
         }
 
@@ -322,6 +329,10 @@ class Structure
         $this->unlinkFromParent($childId);
 
         $this->insertChild($parentId, $childId, $alias, $offset);
+
+        if ('authorization-link' == $childId) {
+            var_dump($this->getElement($parentId));dd();
+        }
 
         return $this->getChildOffset($parentId, $childId) + 1;
     }

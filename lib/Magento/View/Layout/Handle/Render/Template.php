@@ -11,7 +11,6 @@ namespace Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Render;
 
-use Magento\View\Layout;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 

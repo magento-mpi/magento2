@@ -11,7 +11,7 @@ namespace Magento\View\Layout;
 use Magento\View\DataSourcePool;
 use Magento\View\BlockPool;
 use Magento\View\Context;
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Structure;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\HandleFactory;
@@ -23,7 +23,6 @@ use Magento\Simplexml;
 
 use Magento\Core\Block\AbstractBlock;
 use Magento\View\DesignInterface;
-use Magento\View\LayoutInterface;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -46,11 +45,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @var array
      */
     protected $root;
-
-    /**
-     * @var array
-     */
-    protected $elements = array();
 
     /**
      * @var Structure
@@ -225,7 +219,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     /**
      * @param $name
      * @param array $element
-     * @return LayoutInterface
+     * @return DefaultLayout
      */
     public function addElement($name, array $element)
     {
@@ -234,9 +228,9 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $this;
     }
 
-    public function updateElement($name, array $arguments)
+    public function updateElement($name, array $arguments, $rewrite = false)
     {
-        $this->structure->updateElement($name, $arguments);
+        $this->structure->updateElement($name, $arguments, $rewrite);
 
         return $this;
     }
@@ -358,8 +352,8 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     }
 
     /**
-     * @param $parentId
-     * @param $childId
+     * @param string $parentId
+     * @param string $childId
      * @return null|string
      */
     public function getChildAlias($parentId, $childId)
@@ -398,7 +392,23 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true)
     {
-        $this->structure->reorderChild($parentName, $childName, $offsetOrSibling);
+        //$this->structure->reorderChild($parentName, $childName, $offsetOrSibling);
+
+        if (is_numeric($offsetOrSibling)) {
+            $offset = (int)abs($offsetOrSibling) * ($after ? 1 : -1);
+            $this->structure->reorderChild($parentName, $childName, $offset);
+        } elseif (null === $offsetOrSibling) {
+            $this->structure->reorderChild($parentName, $childName, null);
+        } else {
+            $children = $this->getChildNames($parentName);
+            $sibling = $this->filterSearchMinus($offsetOrSibling, $children, $after);
+            if ($childName !== $sibling) {
+                $siblingParentName = $this->structure->getParentId($sibling);
+                if ($parentName === $siblingParentName) {
+                    $this->structure->reorderToSibling($parentName, $childName, $sibling, $after ? 1 : -1);
+                }
+            }
+        }
     }
 
     /**
@@ -446,19 +456,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         }
 
         return $result;
-    }
-
-    /**
-     * @param $name
-     * @param $attribute
-     * @param $value
-     * @return LayoutInterface
-     */
-    public function setElementAttribute($name, $attribute, $value)
-    {
-        $this->structure->setAttribute($name, $attribute, $value);
-
-        return $this;
     }
 
     /**
@@ -604,8 +601,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param array $options
      * @param string $parentName
      * @param string $alias
-     * @return Layout
-     * @todo DELETE (use viewFactory and addElement instead)
+     * @return DefaultLayout
      */
     public function addContainer($name, $label, array $options = array(), $parentName = '', $alias = '')
     {
@@ -626,7 +622,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param string $oldName
      * @param string $newName
      * @return bool
-     * @todo DELETE (used mostly in setNameInLayout)
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -640,7 +635,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      *
      * @param string $name
      * @return bool|string
-     * @todo DELETE
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -653,8 +647,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\View\Layout
-     * @todo DELETE
+     * @return DefaultLayout
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -667,7 +660,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Retrieve messages block
      *
      * @return \Magento\Core\Block\Messages
-     * @todo DELETE use whatever instead
      */
     public function getMessagesBlock()
     {
@@ -683,7 +675,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param string $class
      * @throws \Exception
      * @return \Magento\Core\Helper\AbstractHelper
-     * @todo DELETE use object manager or view factory
      */
     public function getBlockSingleton($class)
     {
@@ -707,7 +698,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Retrieve block factory
      *
      * @return \Magento\Core\Model\BlockFactory
-     * @todo DELETE
      */
     public function getBlockFactory()
     {
@@ -718,7 +708,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Retrieve layout area
      *
      * @return string
-     * @todo DELETE
      */
     public function getArea()
     {
@@ -732,8 +721,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Set layout area
      *
      * @param $area
-     * @return Layout
-     * @todo DELETE
+     * @return DefaultLayout
      */
     public function setArea($area)
     {
@@ -745,8 +733,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Declaring layout direct output flag
      *
      * @param   bool $flag
-     * @return  Layout
-     * @todo DELETE
+     * @return  DefaultLayout
      */
     public function setDirectOutput($flag)
     {
@@ -757,7 +744,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * Retrieve direct output flag
      *
      * @return bool
-     * @todo DELETE
      */
     public function isDirectOutput()
     {
@@ -770,13 +756,10 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param string $name
      * @param string $attribute
      * @return mixed
-     * @todo DELETE
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getElementProperty($name, $attribute)
     {
-        die(__METHOD__);
+        return $this->structure->getAttribute($name, $attribute);
     }
 
     /**
@@ -812,7 +795,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      *
      * @param string $name
      * @return bool
-     * @todo DELETE
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -826,13 +808,33 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      *
      * @param string $name
      * @param AbstractBlock $block
-     * @return Layout
-     * @todo DELETE
+     * @return DefaultLayout
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setBlock($name, $block)
     {
         die(__METHOD__);
+    }
+
+    /**
+     * Search for an array element using needle, but needle may be '-', which means "first" or "last" element
+     *
+     * Returns first or last element in the haystack, or the $needle argument
+     *
+     * @param string $needle
+     * @param array $haystack
+     * @param bool $isLast
+     * @return string
+     */
+    private function filterSearchMinus($needle, array $haystack, $isLast)
+    {
+        if ('-' === $needle) {
+            if ($isLast) {
+                return array_pop($haystack);
+            }
+            return array_shift($haystack);
+        }
+        return $needle;
     }
 }

@@ -8,7 +8,6 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
-use Magento\View\Layout;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
@@ -55,11 +54,11 @@ class Remove implements Command
 
     /**
      * @param array $element
-     * @param LayoutInterface $layout
+     * @param Layout $layout
      * @param string $parentName
      * @return Remove
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, Layout $layout, $parentName)
     {
         $elementName = isset($element['element']) ? $element['element'] : null;
         if (isset($elementName)) {
