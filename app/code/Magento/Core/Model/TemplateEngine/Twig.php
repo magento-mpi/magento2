@@ -9,7 +9,9 @@
  */
 namespace Magento\Core\Model\TemplateEngine;
 
-class Twig implements \Magento\Core\Model\TemplateEngine\EngineInterface,
+use Magento\View\TemplateEngineInterface;
+
+class Twig implements TemplateEngineInterface,
     \Magento\Core\Model\TemplateEngine\BlockTrackerInterface
 {
     /**

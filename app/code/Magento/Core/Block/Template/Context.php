@@ -9,6 +9,8 @@
  */
 namespace Magento\Core\Block\Template;
 
+use Magento\Core\Model\TemplateEngine\Factory;
+
 class Context extends \Magento\Core\Block\Context
 {
     /**
@@ -38,7 +40,7 @@ class Context extends \Magento\Core\Block\Context
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Factory
+     * @var \Magento\View\TemplateEngineFactory
      */
     protected $_engineFactory;
 

@@ -41,44 +41,56 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetFiles()
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testGetFiles($files, $filePath)
     {
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
 
+        $handlePath = 'design/area/theme/path/%s/layout/%s.xml';
+        $returnKeys = array();
+        foreach ($files as $file) {
+            $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
+        }
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme/path/*_*/layout/*.xml')
-            ->will($this->returnValue(array(
-                'design/area/theme/path/Module_One/layout/1.xml',
-                'design/area/theme/path/Module_One/layout/2.xml',
-                'design/area/theme/path/Module_Two/layout/3.xml',
-            )))
+            ->with('design', "area/theme/path/*_*/layout/{$filePath}.xml")
+            ->will($this->returnValue($returnKeys))
         ;
 
-        $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_One', $theme);
-        $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_One', $theme);
-        $fileThree = new \Magento\View\Layout\File('3.xml', 'Module_Two', $theme);
-        $this->_fileFactory
-            ->expects($this->at(0))
-            ->method('create')
-            ->with('design/area/theme/path/Module_One/layout/1.xml', 'Module_One', $theme)
-            ->will($this->returnValue($fileOne))
-        ;
-        $this->_fileFactory
-            ->expects($this->at(1))
-            ->method('create')
-            ->with('design/area/theme/path/Module_One/layout/2.xml', 'Module_One', $theme)
-            ->will($this->returnValue($fileTwo))
-        ;
-        $this->_fileFactory
-            ->expects($this->at(2))
-            ->method('create')
-            ->with('design/area/theme/path/Module_Two/layout/3.xml', 'Module_Two', $theme)
-            ->will($this->returnValue($fileThree))
-        ;
+        $checkResult = array();
+        foreach ($files as $key => $file) {
+            $checkResult[$key] = new \Magento\View\Layout\File($file['handle'] . '.xml', $file['module'], $theme);
+            $this->_fileFactory
+                ->expects($this->at($key))
+                ->method('create')
+                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'], $theme)
+                ->will($this->returnValue($checkResult[$key]))
+            ;
+        }
+        $this->assertSame($checkResult, $this->_model->getFiles($theme, $filePath));
+    }
 
-        $this->assertSame(array($fileOne, $fileTwo, $fileThree), $this->_model->getFiles($theme));
+    public function dataProvider()
+    {
+        return array(
+            array(
+                array(
+                    array('handle' => '1', 'module' => 'Module_One'),
+                    array('handle' => '2', 'module' => 'Module_One'),
+                    array('handle' => '3', 'module' => 'Module_Two'),
+                ),
+                '*',
+            ),
+            array(
+                array(
+                    array('handle' => 'preset/4', 'module' => 'Module_Fourth'),
+                ),
+                'preset/4',
+            ),
+        );
     }
 }

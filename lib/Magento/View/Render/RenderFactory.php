@@ -27,7 +27,7 @@ class RenderFactory
     }
 
     /**
-     * @param $type
+     * @param string $type
      * @return mixed
      * @throws \InvalidArgumentException
      */
