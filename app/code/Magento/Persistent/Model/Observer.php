@@ -48,7 +48,7 @@ class Observer
     /**
      * Layout model
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -143,7 +143,7 @@ class Observer
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\Core\Controller\Request\Http $requestHttp
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -162,7 +162,7 @@ class Observer
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\Core\Controller\Request\Http $requestHttp,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Escaper $escaper
     ) {
         $this->_eventManager = $eventManager;

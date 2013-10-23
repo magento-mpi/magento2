@@ -70,7 +70,7 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
     /**
      * Set current theme
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return $this
      */
     public function setTheme($theme)

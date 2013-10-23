@@ -21,17 +21,18 @@
  */
 namespace Magento\Core\Block;
 
+use Magento\View\Element\BlockInterface;
+
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class AbstractBlock extends \Magento\Object
-    implements \Magento\Core\Block
+abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 {
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -59,7 +60,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Parent layout of the block
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -122,7 +123,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\ConfigInterface
      */
     protected $_viewConfig;
 
@@ -221,10 +222,10 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Set layout object
      *
-     * @param   \Magento\Core\Model\Layout $layout
+     * @param   \Magento\View\LayoutInterface $layout
      * @return  \Magento\Core\Block\AbstractBlock
      */
-    public function setLayout(\Magento\Core\Model\Layout $layout)
+    public function setLayout(\Magento\View\LayoutInterface $layout)
     {
         $this->_layout = $layout;
         $this->_eventManager->dispatch('core_block_abstract_prepare_layout_before', array('block' => $this));
@@ -248,7 +249,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {

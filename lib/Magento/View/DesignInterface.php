@@ -2,14 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
+/**
+ * Design Interface
+ *
+ * @package Magento\View
+ */
 interface DesignInterface
 {
     /**
@@ -21,7 +24,7 @@ interface DesignInterface
      * Set package area
      *
      * @param string $area
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return DesignInterface
      */
     public function setArea($area);
 
@@ -35,9 +38,9 @@ interface DesignInterface
     /**
      * Set theme path
      *
-     * @param \Magento\Core\Model\Theme|int|string $theme
+     * @param Design\ThemeInterface|int|string $theme
      * @param string $area
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return DesignInterface
      */
     public function setDesignTheme($theme, $area = null);
 
@@ -53,14 +56,14 @@ interface DesignInterface
     /**
      * Set default design theme
      *
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return DesignInterface
      */
     public function setDefaultDesignTheme();
 
     /**
      * Design theme model getter
      *
-     * @return \Magento\Core\Model\Theme
+     * @return Design\ThemeInterface
      */
     public function getDesignTheme();
 

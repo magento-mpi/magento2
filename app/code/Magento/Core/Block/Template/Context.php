@@ -44,18 +44,18 @@ class Context extends \Magento\Core\Block\Context
 
     /**
      * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Controller\Varien\Front $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Logger $logger
@@ -68,18 +68,18 @@ class Context extends \Magento\Core\Block\Context
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Controller\Varien\Front $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\View\ConfigInterface $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Dir $dirs,
         \Magento\Logger $logger,

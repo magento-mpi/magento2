@@ -47,7 +47,7 @@ class Message extends \Magento\Core\Helper\Data
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\LayoutFactory
+     * @var \Magento\View\LayoutFactory
      */
     protected $_layoutFactory;
 
@@ -73,7 +73,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
+     * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
      * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode
@@ -90,7 +90,7 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Core\Model\App\State $appState,
         \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\LayoutFactory $layoutFactory,
+        \Magento\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
         \Magento\Escaper $escaper,
         $dbCompatibleMode = true

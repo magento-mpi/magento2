@@ -63,7 +63,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $this->_fallbackFactory
             ->expects($this->any())->method('createViewFileRule')->will($this->returnValue($this->_fallbackViewFile));
 
-        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $this->_theme = $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false);
     }
 
     protected function tearDown()

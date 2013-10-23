@@ -30,11 +30,22 @@ class Config extends \Magento\Payment\Model\Config
     /**
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
         \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\Encryption\EncryptionInterface $encryptor
+        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Config\DataInterface $dataStorage
     ) {
+        parent::__construct($coreStoreConfig, $coreConfig, $paymentMethodFactory, $locale, $dataStorage);
         $this->_urlBuilder = $urlBuilder;
         $this->_encryptor = $encryptor;
     }
