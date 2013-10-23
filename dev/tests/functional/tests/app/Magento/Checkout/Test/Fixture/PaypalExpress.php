@@ -99,9 +99,9 @@ class PaypalExpress extends Checkout
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
 
-        $this->telephoneNumber = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->telephoneNumber->switchData('address_US_1');
-        $this->telephoneNumber->getTelephone();
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_US_1');
+        $this->telephoneNumber = $customerAddress->getTelephone();
 
         //Verification data
         $this->_data = array(
