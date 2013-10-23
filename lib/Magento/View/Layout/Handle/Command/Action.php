@@ -25,6 +25,18 @@ class Action implements CommandInterface
     private $inc = 0;
 
     /**
+     * Core store config
+     *
+     * @deprecated
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $coreStoreConfig;
+
+    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    {
+        $this->coreStoreConfig = $coreStoreConfig;
+    }
+    /**
      * @param Element $layoutElement
      * @param LayoutInterface $layout
      * @param string $parentName
@@ -38,6 +50,12 @@ class Action implements CommandInterface
                 $element[$attributeName] = (string)$attribute;
             }
         }
+
+        $ifConfig = isset($element['ifconfig']) ? $element['ifconfig'] : null;
+        if (!empty($ifConfig) && !$this->coreStoreConfig->getConfigFlag($ifConfig)) {
+            return $this;
+        }
+
         $element['type'] = self::TYPE;
         $elementName = isset($element['name']) ? $element['name'] : ('Command-Action-' . $this->inc++);
 
@@ -68,6 +86,7 @@ class Action implements CommandInterface
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
         $method = isset($element['method']) ? $element['method'] : null;
+
         if (isset($method) && isset($parentName)) {
             $arguments = isset($element['arguments']) ? $element['arguments'] : array();
             $block = $layout->getBlock($parentName);

@@ -39,14 +39,14 @@ class Block extends OriginalBlock
             $layout->updateElement($originalParentName, $arguments);
 
             if ($layoutElement->hasChildren()) {
-                $originalParent = $layout->getElement($originalParentName);
-                $personalLayout = isset($originalParent['layout']) ? $originalParent['layout'] : $layout;
-                foreach ($layoutElement as $childXml) {
-                    /** @var $childXml Element */
-                    $type = $childXml->getName();
-                    /** @var $handle HandleInterface */
-                    $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $personalLayout, $originalParentName);
+                if ($layout->hasElement($originalParentName)) {
+                    foreach ($layoutElement as $childXml) {
+                        /** @var $childXml Element */
+                        $type = $childXml->getName();
+                        /** @var $handle HandleInterface */
+                        $handle = $this->handleFactory->get($type);
+                        $handle->parse($childXml, $layout, $originalParentName);
+                    }
                 }
             }
         }

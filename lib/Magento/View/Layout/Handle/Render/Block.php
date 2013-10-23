@@ -30,25 +30,17 @@ class Block implements RenderInterface
     protected $handleFactory;
 
     /**
-     * @var \Magento\View\BlockPool
-     */
-    protected $blockPool;
-
-    /**
      * @var int
      */
     protected $inc = 0;
 
     /**
      * @param HandleFactory $handleFactory
-     * @param BlockPool $blockPool
      */
     public function __construct(
-        HandleFactory $handleFactory,
-        BlockPool $blockPool
+        HandleFactory $handleFactory
     ) {
         $this->handleFactory = $handleFactory;
-        $this->blockPool = $blockPool;
     }
 
     /**
@@ -79,6 +71,8 @@ class Block implements RenderInterface
             if (isset($parentName)) {
                 $alias = !empty($element['as']) ? $element['as'] : $elementName;
                 $layout->setChild($parentName, $elementName, $alias);
+                list($siblingName, $isAfter) = $this->beforeAfterToSibling($element);
+                $layout->reorderChild($parentName, $elementName, $siblingName, $isAfter);
             }
 
             // parse children
@@ -113,8 +107,13 @@ class Block implements RenderInterface
             $elementName = $element['name'];
             $arguments = isset($element['arguments']) ? $element['arguments'] : array();
 
+            $layout->updateElement($elementName, array('is_registered' => true));
+
             /** @var $block \Magento\Core\Block\Template */
-            $block = $this->blockPool->add($elementName, $element['class'], array('data' => $arguments));
+            $block = $layout->createBlock($element['class'], $elementName,
+                array(
+                    'data' => $arguments
+                ));
 
             $block->setNameInLayout($elementName);
             $block->setLayout($layout);
@@ -122,8 +121,6 @@ class Block implements RenderInterface
             if (isset($element['template'])) {
                 $block->setTemplate($element['template']);
             }
-
-            $layout->updateElement($elementName, array('is_registered' => true));
 
             foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
@@ -146,8 +143,27 @@ class Block implements RenderInterface
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
-        if ($this->blockPool->get($element['name'])) {
-            $result = $this->blockPool->get($element['name'])->toHtml();
+        if ($block = $layout->getBlock($element['name'])) {
+            $result = $block->toHtml();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
+     *
+     * @param array $element
+     * @return array
+     */
+    protected function beforeAfterToSibling($element)
+    {
+        $result = array(null, true);
+        if (isset($element['after'])) {
+            $result[0] = (string)$element['after'];
+        } elseif (isset($element['before'])) {
+            $result[0] = (string)$element['before'];
+            $result[1] = false;
         }
         return $result;
     }

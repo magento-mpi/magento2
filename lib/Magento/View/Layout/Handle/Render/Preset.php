@@ -137,7 +137,7 @@ class Preset implements RenderInterface
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            $personalLayout = isset($element['layout']) ? $element['layout'] : $layout;
+            $personalLayout = $element['layout'];
 
             foreach ($personalLayout->getChildNames($elementName) as $childName) {
                 $child = $personalLayout->getElement($childName);
@@ -145,7 +145,6 @@ class Preset implements RenderInterface
                 $handle = $this->handleFactory->get($child['type']);
                 $handle->register($child, $personalLayout, $elementName);
             }
-
         }
 
         return $this;
@@ -167,7 +166,7 @@ class Preset implements RenderInterface
         if (isset($element['name'])) {
             $elementName = $element['name'];
 
-            $personalLayout = isset($element['layout']) ? $element['layout'] : $layout;
+            $personalLayout = $element['layout'];
 
             foreach ($personalLayout->getChildNames($elementName) as $childName) {
                 $child = $personalLayout->getElement($childName);

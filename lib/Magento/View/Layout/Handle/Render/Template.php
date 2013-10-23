@@ -112,6 +112,7 @@ class Template implements RenderInterface
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
+            $personalLayout = isset($element['layout']) ? $element['layout'] : $layout;
             foreach ($layout->getChildNames($elementName) as $childName) {
                 $child = $layout->getElement($childName);
                 /** @var $handle RenderInterface */

@@ -10,6 +10,7 @@ namespace Magento\View;
 
 use Magento\View\Layout;
 use Magento\Core\Model\BlockFactory;
+use Magento\ObjectManager;
 
 class BlockPool
 {
@@ -24,10 +25,12 @@ class BlockPool
     protected $blocks = array();
 
     /**
+     * @param ObjectManager $objectManager
      * @param BlockFactory $blockFactory
      */
-    public function __construct(BlockFactory $blockFactory)
+    public function __construct(ObjectManager $objectManager, BlockFactory $blockFactory)
     {
+        $this->objectManager = $objectManager;
         $this->blockFactory = $blockFactory;
     }
 
@@ -41,7 +44,7 @@ class BlockPool
     public function add($name, $class, array $arguments = array())
     {
         if (!class_exists($class)) {
-            throw new \Exception(__('Invalid Data Source class name: ' . $class));
+            throw new \Exception(__('Invalid Block class name: ' . $class));
         }
 
         $block = $this->blockFactory->createBlock($class, $arguments);
@@ -52,7 +55,7 @@ class BlockPool
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return \Magento\Core\Block\AbstractBlock | null
      */
     public function get($name = null)

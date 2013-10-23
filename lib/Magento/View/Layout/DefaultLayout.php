@@ -251,6 +251,11 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $this->structure->getElement($name);
     }
 
+    public function getElements()
+    {
+        return $this->structure->getElements();
+    }
+
     /**
      * Remove block from registry
      *
@@ -523,6 +528,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
             $name = 'Anonymous-' . $this->inc++;
         }
 
+        $attributes['layout'] = $this;
         $block = $this->blockPool->add($name, $type, $attributes);
 
         //$block->setType($type);

@@ -132,7 +132,6 @@ class Container implements RenderInterface
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
-
         if (isset($element['name'])) {
             $elementName = $element['name'];
 

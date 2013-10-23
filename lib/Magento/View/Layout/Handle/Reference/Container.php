@@ -31,15 +31,14 @@ class Container extends OriginalContainer
         $originalParentName = $layoutElement->getAttribute('name');
         if (isset($originalParentName)) {
             if ($layoutElement->hasChildren()) {
-                $originalParent = $layout->getElement($originalParentName);
-                $personalLayout = isset($originalParent['layout']) ? $originalParent['layout'] : $layout;
-
-                foreach ($layoutElement as $childXml) {
-                    /** @var $childXml Element */
-                    $type = $childXml->getName();
-                    /** @var $handle HandleInterface */
-                    $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $personalLayout, $originalParentName);
+                if ($layout->hasElement($originalParentName)) {
+                    foreach ($layoutElement as $childXml) {
+                        /** @var $childXml Element */
+                        $type = $childXml->getName();
+                        /** @var $handle HandleInterface */
+                        $handle = $this->handleFactory->get($type);
+                        $handle->parse($childXml, $layout, $originalParentName);
+                    }
                 }
             }
         }
