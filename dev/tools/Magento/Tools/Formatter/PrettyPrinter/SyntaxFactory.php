@@ -52,6 +52,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ElseStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ExpressionReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ForEachStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ForStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\FunctionCall;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\FunctionStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IfStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IncludeStatement;
@@ -187,6 +188,7 @@ class SyntaxFactory
         $this->register('Expr_ClassConstFetch', ClassConstantReference::getType());
         $this->register('Expr_StaticCall', StaticCallReference::getType());
         $this->register('Expr_PropertyFetch', PropertyCall::getType());
+        $this->register('Expr_FuncCall', FunctionCall::getType());
     }
 
     /**
