@@ -30,6 +30,13 @@ use PHPParser_Node_Stmt_Property;
 use PHPParser_Node_Stmt_Use;
 use PHPParser_PrettyPrinter_Default;
 
+/**
+ * Class PrettyPrinter
+ * @package Magento\Tools\Formatter
+ *
+ * In all likelihood, this class is going away, so don't really care about coupling.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 {
     const EOL = "\n";

@@ -12,11 +12,11 @@ use Magento\Tools\Formatter\PrettyPrinter\Printer;
 class PrinterControlsTest extends TestBase
 {
     /**
-     * This method tests for the for loops.
+     * This method tests for loops.
      *
-     * @dataProvider dataFor
+     * @dataProvider dataLoops
      */
-    public function testFor($originalCode, $formattedCode)
+    public function testLoops($originalCode, $formattedCode)
     {
         $printer = new Printer($originalCode);
         $this->assertEquals($formattedCode, $printer->getFormattedCode());
@@ -27,7 +27,7 @@ class PrinterControlsTest extends TestBase
      *
      * @return array
      */
-    public function dataFor()
+    public function dataLoops()
     {
         return array(
             array(
@@ -39,6 +39,16 @@ class PrinterControlsTest extends TestBase
                 "<?php class F2 {public function b(){for(\$a;\$a;\$a){echo 'hi';}}}",
                 "<?php\nclass F2\n{\n    public function b()\n    {\n        for (\$a; \$a; \$a) {\n" .
                 "            echo 'hi';\n        }\n    }\n}\n"
+            ),
+            array(
+                "<?php class L1 {public function a(){while(\$a){echo 'hi';}}}",
+                "<?php\nclass L1\n{\n    public function a()\n    {\n        while (\$a) {\n" .
+                "            echo 'hi';\n        }\n    }\n}\n"
+            ),
+            array(
+                "<?php class L2 {public function a(){do{echo 'hi';}while(\$a);}}",
+                "<?php\nclass L2\n{\n    public function a()\n    {\n        do {\n" .
+                "            echo 'hi';\n        } while (\$a);\n    }\n}\n"
             ),
         );
     }

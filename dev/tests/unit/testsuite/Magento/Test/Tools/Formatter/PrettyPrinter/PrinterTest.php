@@ -30,142 +30,43 @@ class PrinterTest extends TestBase
     public function dataInfixOperators()
     {
         return array(
-            array(
-                "<?php\n\$d=1+1;",
-                "<?php\n\$d = 1 + 1;\n"
-            ),
-            array(
-                "<?php\n\$d=1*1;",
-                "<?php\n\$d = 1 * 1;\n"
-            ),
-            array(
-                "<?php\n\$d=1/1;",
-                "<?php\n\$d = 1 / 1;\n"
-            ),
-            array(
-                "<?php\n\$d=1-1;",
-                "<?php\n\$d = 1 - 1;\n"
-            ),
-            array(
-                "<?php\n\$d=1/1*2+1;",
-                "<?php\n\$d = 1 / 1 * 2 + 1;\n"
-            ),
-            array(
-                "<?php\n\$d=1/1*(2+1);",
-                "<?php\n\$d = 1 / 1 * (2 + 1);\n"
-            ),
-            array(
-                "<?php\n\$d=&\$refable;",
-                "<?php\n\$d =& \$refable;\n"
-            ),
-            array(
-                "<?php\n\$d+=2-3-4*(4+6);",
-                "<?php\n\$d += 2 - 3 - 4 * (4 + 6);\n"
-            ),
-            array(
-                "<?php\n\$d-=2-3-4*(4+6);",
-                "<?php\n\$d -= 2 - 3 - 4 * (4 + 6);\n"
-            ),
-            array(
-                "<?php\n\$d*=2-3-4*(4+6);",
-                "<?php\n\$d *= 2 - 3 - 4 * (4 + 6);\n"
-            ),
-            array(
-                "<?php\n\$d/=2-3-4*(4+6);",
-                "<?php\n\$d /= 2 - 3 - 4 * (4 + 6);\n"
-            ),
-            array(
-                "<?php\n\$d.='tiger';",
-                "<?php\n\$d .= 'tiger';\n"
-            ),
-            array(
-                "<?php\n\$d.='tiger\\n';",
-                "<?php\n\$d .= 'tiger\\n';\n"
-            ),
-            array(
-                "<?php\n\$d.=\"tiger\\n\";",
-                "<?php\n\$d .= \"tiger\\n\";\n"
-            ),
-            array(
-                "<?php\n\$d%=2-3-4*(4+6);",
-                "<?php\n\$d %= 2 - 3 - 4 * (4 + 6);\n"
-            ),
-            array(
-                "<?php\n\$d&=\$bit;",
-                "<?php\n\$d &= \$bit;\n"
-            ),
-            array(
-                "<?php\n\$d|=\$bit;",
-                "<?php\n\$d |= \$bit;\n"
-            ),
-            array(
-                "<?php\n\$d^=\$bit;",
-                "<?php\n\$d ^= \$bit;\n"
-            ),
-            array(
-                "<?php\n\$d<<=\$bit;",
-                "<?php\n\$d <<= \$bit;\n"
-            ),
-            array(
-                "<?php\n\$d>>=\$bit;",
-                "<?php\n\$d >>= \$bit;\n"
-            ),
-            array(
-                "<?php\n\$d =\$ham and \$eggs;",
-                "<?php\n\$d = \$ham and \$eggs;\n"
-            ),
-            array(
-                "<?php\n\$d =\$ham xor \$eggs;",
-                "<?php\n\$d = \$ham xor \$eggs;\n"
-            ),
-            array(
-                "<?php\n\$d =\$ham or \$eggs;",
-                "<?php\n\$d = \$ham or \$eggs;\n"
-            ),
-            array(
-                "<?php\n\$d =\$ham or (\$eggs and \$a) xor \$b;",
-                "<?php\n\$d = \$ham or \$eggs and \$a xor \$b;\n"
-            ),
+            array("<?php\n\$d=1+1;", "<?php\n\$d = 1 + 1;\n"),
+            array("<?php\n\$d=1*1;", "<?php\n\$d = 1 * 1;\n"),
+            array("<?php\n\$d=1/1;", "<?php\n\$d = 1 / 1;\n"),
+            array("<?php\n\$d=1-1;", "<?php\n\$d = 1 - 1;\n"),
+            array("<?php\n\$d=1/1*2+1;", "<?php\n\$d = 1 / 1 * 2 + 1;\n"),
+            array("<?php\n\$d=1/1*(2+1);", "<?php\n\$d = 1 / 1 * (2 + 1);\n"),
+            array("<?php\n\$d=&\$refable;", "<?php\n\$d =& \$refable;\n"),
+            array("<?php\n\$d+=2-3-4*(4+6);", "<?php\n\$d += 2 - 3 - 4 * (4 + 6);\n"),
+            array("<?php\n\$d-=2-3-4*(4+6);", "<?php\n\$d -= 2 - 3 - 4 * (4 + 6);\n"),
+            array("<?php\n\$d*=2-3-4*(4+6);", "<?php\n\$d *= 2 - 3 - 4 * (4 + 6);\n"),
+            array("<?php\n\$d/=2-3-4*(4+6);", "<?php\n\$d /= 2 - 3 - 4 * (4 + 6);\n"),
+            array("<?php\n\$d.='tiger';", "<?php\n\$d .= 'tiger';\n"),
+            array("<?php\n\$d.='tiger\\n';", "<?php\n\$d .= 'tiger\\n';\n"),
+            array("<?php\n\$d.=\"tiger\\n\";", "<?php\n\$d .= \"tiger\\n\";\n"),
+            array("<?php\n\$d%=2-3-4*(4+6);", "<?php\n\$d %= 2 - 3 - 4 * (4 + 6);\n"),
+            array("<?php\n\$d&=\$bit;", "<?php\n\$d &= \$bit;\n"),
+            array("<?php\n\$d|=\$bit;", "<?php\n\$d |= \$bit;\n"),
+            array("<?php\n\$d^=\$bit;", "<?php\n\$d ^= \$bit;\n"),
+            array("<?php\n\$d<<=\$bit;", "<?php\n\$d <<= \$bit;\n"),
+            array("<?php\n\$d>>=\$bit;", "<?php\n\$d >>= \$bit;\n"),
+            array("<?php\n\$d =\$ham and \$eggs;", "<?php\n\$d = \$ham and \$eggs;\n"),
+            array("<?php\n\$d =\$ham xor \$eggs;", "<?php\n\$d = \$ham xor \$eggs;\n"),
+            array("<?php\n\$d =\$ham or \$eggs;", "<?php\n\$d = \$ham or \$eggs;\n"),
+            array("<?php\n\$d =\$ham or (\$eggs and \$a) xor \$b;", "<?php\n\$d = \$ham or \$eggs and \$a xor \$b;\n"),
             array(
                 "<?php\n\$d =(\$ham or \$eggs) and \$a xor \$b;",
                 "<?php\n\$d = (\$ham or \$eggs) and \$a xor \$b;\n"
             ),
-            array(
-                "<?php\n\$d=~\$a;",
-                "<?php\n\$d = ~\$a;\n"
-            ),
-            array(
-                "<?php\n\$d=++\$a;",
-                "<?php\n\$d = ++\$a;\n"
-            ),
-            array(
-                "<?php\n\$d=22+ ++\$a;",
-                "<?php\n\$d = 22 + ++\$a;\n"
-            ),
-            array(
-                "<?php\n\$d=--\$a;",
-                "<?php\n\$d = --\$a;\n"
-            ),
-            array(
-                "<?php\n\$d=22+ --\$a;",
-                "<?php\n\$d = 22 + --\$a;\n"
-            ),
-            array(
-                "<?php\n\$d=\$a++;",
-                "<?php\n\$d = \$a++;\n"
-            ),
-            array(
-                "<?php\n\$d=22+ \$a++;",
-                "<?php\n\$d = 22 + \$a++;\n"
-            ),
-            array(
-                "<?php\n\$d=\$a--;",
-                "<?php\n\$d = \$a--;\n"
-            ),
-            array(
-                "<?php\n\$d=22+ \$a--;",
-                "<?php\n\$d = 22 + \$a--;\n"
-            ),
+            array("<?php\n\$d=~\$a;", "<?php\n\$d = ~\$a;\n"),
+            array("<?php\n\$d=++\$a;", "<?php\n\$d = ++\$a;\n"),
+            array("<?php\n\$d=22+ ++\$a;", "<?php\n\$d = 22 + ++\$a;\n"),
+            array("<?php\n\$d=--\$a;", "<?php\n\$d = --\$a;\n"),
+            array("<?php\n\$d=22+ --\$a;", "<?php\n\$d = 22 + --\$a;\n"),
+            array("<?php\n\$d=\$a++;", "<?php\n\$d = \$a++;\n"),
+            array("<?php\n\$d=22+ \$a++;", "<?php\n\$d = 22 + \$a++;\n"),
+            array("<?php\n\$d=\$a--;", "<?php\n\$d = \$a--;\n"),
+            array("<?php\n\$d=22+ \$a--;", "<?php\n\$d = 22 + \$a--;\n"),
         );
     }
     /**

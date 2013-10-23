@@ -7,19 +7,17 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_ClassConst;
+use PHPParser_Node_Stmt_While;
 
-class ConstantStatement extends ClassMemberAbstract
+class WhileStatement extends AbstractLoopStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Stmt_ClassConst $node
+     * This method constructs a new statement based on the specified for statement.
+     * @param PHPParser_Node_Stmt_While $node
      */
-    public function __construct(PHPParser_Node_Stmt_ClassConst $node)
+    public function __construct(PHPParser_Node_Stmt_While $node)
     {
         parent::__construct($node);
     }
@@ -32,15 +30,16 @@ class ConstantStatement extends ClassMemberAbstract
     {
         parent::resolve($treeNode);
         /* Reference
-        return 'const ' . $this->pCommaSeparated($node->consts) . ';';
+        return 'while (' . $this->p($node->cond) . ') {'
+             . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
-        // add the const line
-        $line = new Line('const ');
+        // add the namespace line
+        $line = new Line('while (');
         // replace the statement with the line since it is resolved or at least in the process of being resolved
         $treeNode->setData($line);
-        // add in the list of actual constants
-        $this->processArgumentList($this->node->consts, $treeNode, $line, new SimpleListLineBreak());
-        // terminate the line
-        $line->add(';')->add(new HardLineBreak());
+        // add in the condition
+        $this->resolveNode($this->node->cond, $treeNode);
+        // add in the rest
+        $this->addBody($treeNode);
     }
 }

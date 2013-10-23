@@ -113,7 +113,7 @@ class Line
     }
 
     private function getCurrentLines($level, &$lineBreakTokens)
-        {
+    {
         $currentLines = array();
         $index = 0;
         // build up the string by compiling the tokens

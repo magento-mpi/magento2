@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Foreach;
 
-class ForEachStatement extends StatementAbstract
+class ForEachStatement extends AbstractLoopStatement
 {
     /**
      * This method constructs a new statement based on the specified foreach statement.
@@ -52,10 +52,7 @@ class ForEachStatement extends StatementAbstract
             $line->add('&');
         }
         $this->resolveNode($this->node->valueVar, $treeNode);
-        $line->add(') {')->add(new HardLineBreak());
-        // add in the children nodes
-        $this->processNodes($this->node->stmts, $treeNode);
-        // add the closing brace on a new line
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        // add in the rest
+        $this->addBody($treeNode);
     }
 }

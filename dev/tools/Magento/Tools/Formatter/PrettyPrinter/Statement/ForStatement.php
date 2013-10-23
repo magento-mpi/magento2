@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_For;
 
-class ForStatement extends StatementAbstract
+class ForStatement extends AbstractLoopStatement
 {
     /**
      * This method constructs a new statement based on the specified for statement.
@@ -55,10 +55,7 @@ class ForStatement extends StatementAbstract
             $line->add(' ');
             $this->processArgumentList($this->node->loop, $treeNode, $line, $lineBreak);
         }
-        $line->add(') {')->add(new HardLineBreak());
-        // add in the children nodes
-        $this->processNodes($this->node->stmts, $treeNode);
-        // add the closing brace on a new line
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        // add in the rest
+        $this->addBody($treeNode);
     }
 }

@@ -16,7 +16,7 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 /**
  * This class represents a class statement.
  */
-class ClassStatement extends StatementAbstract
+class ClassStatement extends ClassTypeAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -51,32 +51,6 @@ class ClassStatement extends StatementAbstract
             $this->processArgumentList($this->node->implements, $treeNode, $line, new ClassInterfaceLineBreak());
         }
         $line->add(new HardLineBreak());
-        // add the opening brace on a new line
-        $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
-        // processing the child nodes
-        $this->processNodes($this->node->stmts, $treeNode);
-        // add the closing brace on a new line
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
-    }
-
-    /**
-     * This method processes the newly added node.
-     * @param TreeNode $originatingNode Node where new nodes are originating from
-     * @param TreeNode $newNode Newly added node containing the statement
-     * @param int $index 0 based index of the new node
-     * @param int $total total number of nodes to be added
-     * @param mixed $data Data that is passed to derived class when processing the node.
-     * @return TreeNode Returns the originating node since just children are being added.
-     */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total, $data = null)
-    {
-        // this is called to add the member nodes to the class
-        $originatingNode->addChild($newNode);
-        // add a separator between all nodes
-        if ($index < $total - 1) {
-            $originatingNode->addChild(new TreeNode(new Line(new HardLineBreak())));
-        }
-        // always return the originating node
-        return $originatingNode;
+        $this->addBody($treeNode);
     }
 }

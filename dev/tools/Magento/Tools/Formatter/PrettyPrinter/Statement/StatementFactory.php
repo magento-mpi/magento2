@@ -108,6 +108,8 @@ class StatementFactory
         $this->register('Expr_ArrayItem', ArrayItemReference::getType());
         $this->register('Stmt_Foreach', ForEachStatement::getType());
         $this->register('Stmt_For', ForStatement::getType());
+        $this->register('Stmt_While', WhileStatement::getType());
+        $this->register('Stmt_Do', DoStatement::getType());
         $this->register('Stmt_If', IfStatement::getType());
         $this->register('Stmt_ElseIf', ElseIfStatement::getType());
         $this->register('Stmt_Else', ElseStatement::getType());

@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Property;
 
-class PropertyStatement extends StatementAbstract
+class PropertyStatement extends ClassMemberAbstract
 {
     /**
      * This method constructs a new statement based on the specify property node
