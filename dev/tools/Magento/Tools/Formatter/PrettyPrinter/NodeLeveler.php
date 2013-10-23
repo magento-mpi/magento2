@@ -58,9 +58,16 @@ class NodeLeveler extends LevelNodeVisitor
             } else {
                 $line->setTokens($currentLines[0]);
             }
-        } else {
+        } elseif ($level < 1) {
+            // TODO the level was not checked before and this led to a situtation
+            // where this recursion exceeded the nesting limit of 1000.  Now we
+            // check that the level is < 1, however, it seems like that is TOO
+            //limiting.
+
             // try a higher level split
-            $this->processLine($line, $level + 1, $treeNode); // TODO protect against infinite loop
+            $this->processLine($line, $level + 1, $treeNode);
+        } elseif ($level > 0) {
+            echo "Line too long: " . $lineText . "\n";
         }
     }
 
