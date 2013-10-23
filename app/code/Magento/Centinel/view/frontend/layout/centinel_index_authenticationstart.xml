@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Centinel Authentication Start" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Centinel Authentication Start" type="fragment">
     <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
         <block class="Magento\Centinel\Block\Authentication\Start" template="authentication/start.phtml"/>
     </block>
