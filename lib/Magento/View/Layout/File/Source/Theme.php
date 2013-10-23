@@ -60,7 +60,9 @@ class Theme implements SourceInterface
             "{$themePath}/{$namespace}_{$module}/layout/{$filePath}.xml"
         );
         $result = array();
-        $pattern = "#{$themePath}/(?<moduleName>[^/]+)/layout/" . rtrim($filePath, '*') . "[^/]*\.xml$#i";
+        $pattern = "#" . preg_quote($themePath) . "/(?<moduleName>[^/]+)/layout/"
+            . preg_quote(rtrim($filePath, '*'))
+            . "[^/]*\.xml$#i";
         foreach ($files as $filename) {
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
