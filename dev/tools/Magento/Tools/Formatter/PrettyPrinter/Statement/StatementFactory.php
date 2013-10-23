@@ -7,6 +7,8 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\Reference\ArgumentReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassConstantReference;
 use PHPParser_Node;
 
 /**
@@ -116,6 +118,8 @@ class StatementFactory
         $this->register('Stmt_ElseIf', ElseIfStatement::getType());
         $this->register('Stmt_Else', ElseStatement::getType());
         $this->register('Stmt_Function', FunctionStatement::getType());
+        $this->register('Arg', ArgumentReference::getType());
+        $this->register('Expr_ClassConstFetch', ClassConstantReference::getType());
     }
 
     /**
