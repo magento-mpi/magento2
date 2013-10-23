@@ -877,7 +877,7 @@ return array(
     array('uc_words'),
     array('is_empty_date'),
     array('now'),
-    array('uniqHash', '\Magento\Core\Helper\Data'),
+    array('uniqHash', '\Magento\Core\Helper\Data', '\Magento\Math\Random::getUniqueHash'),
     array('getMerchantCountryCode', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantCountryCode'),
     array('getMerchantVatNumber', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantVatNumber'),
     array('isCountryInEU', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::isCountryInEU'),
