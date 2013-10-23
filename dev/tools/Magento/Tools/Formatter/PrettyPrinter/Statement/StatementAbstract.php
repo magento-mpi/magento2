@@ -10,6 +10,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\SyntaxFactory;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Class;
 
@@ -115,7 +116,7 @@ abstract class StatementAbstract extends AbstractSyntax
         if (is_array($nodes)) {
             $total = count($nodes);
             foreach ($nodes as $index => $node) {
-                $statement = StatementFactory::getInstance()->getStatement($node);
+                $statement = SyntaxFactory::getInstance()->getStatement($node);
                 $originatingNode = $this->processNode(
                     $originatingNode,
                     new TreeNode($statement),
@@ -125,7 +126,7 @@ abstract class StatementAbstract extends AbstractSyntax
                 );
             }
         } else {
-            $statement = StatementFactory::getInstance()->getStatement($nodes);
+            $statement = SyntaxFactory::getInstance()->getStatement($nodes);
             $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), 0, 1, $data);
         }
         // return the last node that was added (or whatever was returned from the last node processing)

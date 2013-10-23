@@ -10,7 +10,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 use PHPParser_Node;
 use PHPParser_Parser;
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementFactory;
 use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
@@ -62,7 +61,7 @@ class Printer
      */
     protected function addRootForNode(PHPParser_Node $node, TreeNode $treeNode)
     {
-        $statement = StatementFactory::getInstance()->getStatement($node);
+        $statement = SyntaxFactory::getInstance()->getStatement($node);
         return $treeNode->addSibling(new TreeNode($statement));
     }
 

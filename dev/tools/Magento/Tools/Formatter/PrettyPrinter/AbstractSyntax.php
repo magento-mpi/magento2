@@ -10,7 +10,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementFactory;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 
@@ -85,7 +84,7 @@ abstract class AbstractSyntax
     protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
     {
         /** @var AbstractSyntax $statement */
-        $statement = StatementFactory::getInstance()->getStatement($node);
+        $statement = SyntaxFactory::getInstance()->getStatement($node);
         $statement->resolve($treeNode);
     }
 }
