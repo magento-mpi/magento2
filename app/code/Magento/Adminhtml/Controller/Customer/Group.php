@@ -145,7 +145,7 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
             $customerGroup = $this->_objectManager->create('Magento\Customer\Model\Group')->load($id);
             if (!$customerGroup->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('The customer group no longer exists.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
             try {
@@ -160,7 +160,7 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/customer_group');
+        $this->_redirect('adminhtml/customer_group');
     }
 
     protected function _isAllowed()

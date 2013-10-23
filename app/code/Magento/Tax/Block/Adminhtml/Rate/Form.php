@@ -207,7 +207,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'class'    => 'validate-not-negative-number'
         ));
 
-        $form->setAction($this->getUrl('*/rate/save'));
+        $form->setAction($this->getUrl('tax/rate/save'));
         $form->setUseContainer(true);
         $form->setId(self::FORM_ELEMENT_ID);
         $form->setMethod('post');

@@ -164,7 +164,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 
     public function getUpdateUrl()
     {
-        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return $this->getUrl('sales/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
     }
 
     /**

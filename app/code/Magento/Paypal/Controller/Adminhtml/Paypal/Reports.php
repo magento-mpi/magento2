@@ -81,7 +81,7 @@ class Reports extends \Magento\Backend\Controller\Adminhtml\Action
         $rowId = $this->getRequest()->getParam('id');
         $row = $this->_rowFactory->create()->load($rowId);
         if (!$row->getId()) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $this->_coreRegistry->register('current_transaction', $row);
@@ -127,7 +127,7 @@ class Reports extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**

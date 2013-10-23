@@ -246,7 +246,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(
                 __('This product no longer exists.')
             );
-            $this->_redirect('*/*/');
+            $this->_redirect('catalog/*/');
             return;
         }
 
@@ -276,7 +276,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
             $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
                 ->setSwitchUrl(
-                    $this->getUrl('adminhtml/*/*', array(
+                    $this->getUrl('catalog/*/*', array(
                         '_current' => true,
                         'active_tab' => null,
                         'tab' => null,
@@ -896,13 +896,13 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         if ($redirectBack === 'new') {
-            $this->_redirect('*/*/new', array(
+            $this->_redirect('catalog/*/new', array(
                 'set'  => $product->getAttributeSetId(),
                 'type' => $product->getTypeId()
             ));
         } elseif ($redirectBack === 'duplicate' && isset($newProduct)) {
             $this->_redirect(
-                '*/*/edit',
+                'catalog/*/edit',
                 array(
                     'id' => $newProduct->getId(),
                     'back' => null,
@@ -910,18 +910,18 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
                 )
             );
         } elseif ($redirectBack) {
-            $this->_redirect('*/*/edit', array(
+            $this->_redirect('catalog/*/edit', array(
                 'id'       => $productId,
                 '_current' => true
             ));
         } elseif ($this->getRequest()->getParam('popup')) {
-            $this->_redirect('*/*/created', array(
+            $this->_redirect('catalog/*/created', array(
                 '_current' => true,
                 'id'       => $productId,
                 'edit'     => $isEdit
             ));
         } else {
-            $this->_redirect('*/*/', array('store'=>$storeId));
+            $this->_redirect('catalog/*/', array('store'=>$storeId));
         }
     }
 
@@ -934,11 +934,11 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
         try {
             $newProduct = $product->duplicate();
             $this->_getSession()->addSuccess(__('You duplicated the product.'));
-            $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
+            $this->_redirect('catalog/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('_current'=>true));
+            $this->_redirect('catalog/*/edit', array('_current'=>true));
         }
     }
 
@@ -999,7 +999,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
                 }
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('catalog/*/index');
     }
 
     /**
@@ -1029,7 +1029,7 @@ class Product extends \Magento\Backend\Controller\Adminhtml\Action
                 ->addException($e, __('Something went wrong while updating the product(s) status.'));
         }
 
-        $this->_redirect('*/*/', array('store'=> $storeId));
+        $this->_redirect('catalog/*/', array('store'=> $storeId));
     }
 
     /**

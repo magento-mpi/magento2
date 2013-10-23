@@ -98,12 +98,12 @@ class Design extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage())
                     ->setDesignData($data);
-                $this->_redirect('*/*/edit', array('id'=>$design->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id'=>$design->getId()));
                 return;
             }
         }
 
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     public function deleteAction()

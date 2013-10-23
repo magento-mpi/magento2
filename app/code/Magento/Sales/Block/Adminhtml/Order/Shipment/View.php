@@ -98,7 +98,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getBackUrl()
     {
         return $this->getUrl(
-            '*/order/view',
+            'sales/order/view',
             array(
                 'order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null,
                 'active_tab' => 'order_shipments'
@@ -107,12 +107,12 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getEmailUrl()
     {
-        return $this->getUrl('*/order_shipment/email', array('shipment_id'  => $this->getShipment()->getId()));
+        return $this->getUrl('sales/order_shipment/email', array('shipment_id'  => $this->getShipment()->getId()));
     }
 
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/print', array(
+        return $this->getUrl('sales/*/print', array(
             'invoice_id' => $this->getShipment()->getId()
         ));
     }
@@ -123,7 +123,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
             if ($this->getShipment()->getBackUrl()) {
                 return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getShipment()->getBackUrl() . '\')');
             }
-            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/shipment/') . '\')');
+            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('sales/shipment/') . '\')');
         }
         return $this;
     }

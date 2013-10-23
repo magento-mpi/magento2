@@ -82,7 +82,7 @@ class AbstractInvoice
                     $historyItem->save();
                 }
                 $this->_getSession()->addSuccess(__('We sent the message.'));
-                $this->_redirect('*/sales_invoice/view', array(
+                $this->_redirect('sales/invoice/view', array(
                     'order_id'  => $invoice->getOrder()->getId(),
                     'invoice_id'=> $invoiceId,
                 ));
@@ -123,7 +123,7 @@ class AbstractInvoice
 
             return $this->_prepareDownloadResponse('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     protected function _isAllowed()

@@ -82,7 +82,7 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!$model->getId() && $id) {
             $this->_getSession()->addError(__('This gift card account has been deleted.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -121,7 +121,7 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
             $model = $this->_initGca('giftcardaccount_id');
             if (!$model->getId() && $id) {
                 $this->_getSession()->addError(__('This gift card account has been deleted.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
 
@@ -173,11 +173,11 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                     return;
                 }
                 // go to grid
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
 
             } catch (\Exception $e) {
@@ -186,11 +186,11 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
                 // save data in session
                 $this->_getSession()->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -209,21 +209,21 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
                 // display success message
                 $this->_getSession()->addSuccess(__('This gift card account has been deleted.'));
                 // go to grid
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
 
             } catch (\Exception $e) {
                 // display error message
                 $this->_getSession()->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('*/*/edit', array('id' => $id));
+                $this->_redirect('adminhtml/*/edit', array('id' => $id));
                 return;
             }
         }
         // display error message
         $this->_getSession()->addError(__("We couldn't find a gift card account to delete."));
         // go to grid
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -345,7 +345,7 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**

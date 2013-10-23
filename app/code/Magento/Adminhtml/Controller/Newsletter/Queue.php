@@ -106,7 +106,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
             if (!in_array($queue->getQueueStatus(),
                           array(\Magento\Newsletter\Model\Queue::STATUS_NEVER,
                                  \Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
-                   $this->_redirect('*/*');
+                   $this->_redirect('adminhtml/*');
                 return;
             }
 
@@ -115,7 +115,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
                 ->save();
         }
 
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     public function pauseAction()
@@ -125,14 +125,14 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!in_array($queue->getQueueStatus(),
                       array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
-               $this->_redirect('*/*');
+               $this->_redirect('adminhtml/*');
             return;
         }
 
         $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_PAUSE);
         $queue->save();
 
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     public function resumeAction()
@@ -142,14 +142,14 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!in_array($queue->getQueueStatus(),
                       array(\Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
-               $this->_redirect('*/*');
+               $this->_redirect('adminhtml/*');
             return;
         }
 
         $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING);
         $queue->save();
 
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     public function cancelAction()
@@ -159,14 +159,14 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!in_array($queue->getQueueStatus(),
                       array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
-               $this->_redirect('*/*');
+               $this->_redirect('adminhtml/*');
             return;
         }
 
         $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_CANCEL);
         $queue->save();
 
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     public function sendingAction()
@@ -241,7 +241,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
                    array(\Magento\Newsletter\Model\Queue::STATUS_NEVER,
                          \Magento\Newsletter\Model\Queue::STATUS_PAUSE))
             ) {
-                $this->_redirect('*/*');
+                $this->_redirect('adminhtml/*');
                 return;
             }
 
@@ -266,12 +266,12 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addSuccess(__('The newsletter queue has been saved.'));
             $this->_getSession()->setFormData(false);
 
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {
-                $this->_redirect('*/*/edit', array('id' => $id));
+                $this->_redirect('adminhtml/*/edit', array('id' => $id));
             } else {
                 $this->_redirectReferer();
             }

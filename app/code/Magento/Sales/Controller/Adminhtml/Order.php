@@ -71,7 +71,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!$order->getId()) {
             $this->_getSession()->addError(__('This order no longer exists.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
@@ -136,7 +136,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/order/view', array('order_id' => $order->getId()));
+        $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
     }
 
     /**
@@ -158,7 +158,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(__('You have not canceled the item.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
-            $this->_redirect('*/order/view', array('order_id' => $order->getId()));
+            $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
         }
     }
 
@@ -180,7 +180,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('You have not put the order on hold.'));
             }
-            $this->_redirect('*/order/view', array('order_id' => $order->getId()));
+            $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
         }
     }
 
@@ -202,7 +202,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('The order was not on hold.'));
             }
-            $this->_redirect('*/order/view', array('order_id' => $order->getId()));
+            $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
         }
     }
 
@@ -244,7 +244,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(__('We couldn\'t update the payment.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/order/view', array('order_id' => $order->getId()));
+        $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
     }
 
     /**
@@ -368,7 +368,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
         if ($countCancelOrder) {
             $this->_getSession()->addSuccess(__('We canceled %1 order(s).', $countCancelOrder));
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -401,7 +401,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addSuccess(__('You have put %1 order(s) on hold.', $countHoldOrder));
         }
 
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -437,7 +437,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 __('%1 order(s) have been released from on hold status.', $countUnHoldOrder)
             );
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -489,10 +489,10 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('There are no printable documents related to selected orders.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('sales/*/');
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -527,10 +527,10 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('There are no printable documents related to selected orders.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('sales/*/');
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -565,10 +565,10 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('There are no printable documents related to selected orders.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('sales/*/');
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -629,10 +629,10 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('There are no printable documents related to selected orders.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('sales/*/');
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -655,7 +655,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(__('We couldn\'t void the payment.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/view', array('order_id' => $order->getId()));
+        $this->_redirect('sales/*/view', array('order_id' => $order->getId()));
     }
 
     /**
@@ -755,7 +755,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
 
             $this->renderLayout();
         } else {
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
         }
     }
 
@@ -772,7 +772,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
             try {
                 $address->save();
                 $this->_getSession()->addSuccess(__('You updated the order address.'));
-                $this->_redirect('*/*/view', array('order_id' => $address->getParentId()));
+                $this->_redirect('sales/*/view', array('order_id' => $address->getParentId()));
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -782,9 +782,9 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
                     __('Something went wrong updating the order address.')
                 );
             }
-            $this->_redirect('*/*/address', array('address_id' => $address->getId()));
+            $this->_redirect('sales/*/address', array('address_id' => $address->getId()));
         } else {
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
         }
     }
 }

@@ -88,7 +88,7 @@ class Subscriber extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     public function massDeleteAction()
@@ -111,7 +111,7 @@ class Subscriber extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     protected function _isAllowed()

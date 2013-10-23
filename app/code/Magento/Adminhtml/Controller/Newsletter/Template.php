@@ -196,7 +196,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addSuccess(__('The newsletter template has been saved.'));
             $this->_getSession()->setFormData(false);
 
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError(nl2br($e->getMessage()));
@@ -233,7 +233,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
                 );
             }
         }
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**

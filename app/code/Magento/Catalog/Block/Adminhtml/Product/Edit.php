@@ -81,7 +81,7 @@ class Edit extends \Magento\Backend\Block\Widget
                 'label' => __('Back'),
                 'title' => __('Back'),
                 'onclick' => 'setLocation(\''
-                    . $this->getUrl('adminhtml/*/', array('store' => $this->getRequest()->getParam('store', 0))) . '\')',
+                    . $this->getUrl('catalog/*/', array('store' => $this->getRequest()->getParam('store', 0))) . '\')',
                 'class' => 'action-back'
             ));
         } else {
@@ -95,7 +95,7 @@ class Edit extends \Magento\Backend\Block\Widget
         if (!$this->getProduct()->isReadonly()) {
             $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Reset'),
-                'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*/*', array('_current' => true)) . '\')'
+                'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', array('_current' => true)) . '\')'
             ));
         }
 
@@ -154,17 +154,17 @@ class Edit extends \Magento\Backend\Block\Widget
 
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
+        return $this->getUrl('catalog/*/validate', array('_current'=>true));
     }
 
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('_current'=>true, 'back'=>null));
+        return $this->getUrl('catalog/*/save', array('_current'=>true, 'back'=>null));
     }
 
     public function getSaveAndContinueUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array(
+        return $this->getUrl('catalog/*/save', array(
             '_current'   => true,
             'back'       => 'edit',
             'tab'        => '{{tab_id}}',
@@ -193,7 +193,7 @@ class Edit extends \Magento\Backend\Block\Widget
 
     public function getDuplicateUrl()
     {
-        return $this->getUrl('adminhtml/*/duplicate', array('_current'=>true));
+        return $this->getUrl('catalog/*/duplicate', array('_current'=>true));
     }
 
     public function getHeader()

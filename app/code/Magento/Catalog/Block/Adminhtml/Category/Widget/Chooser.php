@@ -65,7 +65,7 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->_coreData->uniqHash($element->getId());
-        $sourceUrl = $this->getUrl('*/category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
+        $sourceUrl = $this->getUrl('catalog/category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
@@ -156,7 +156,7 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
      */
     public function getLoadTreeUrl($expanded=null)
     {
-        return $this->getUrl('*/category_widget/categoriesJson', array(
+        return $this->getUrl('catalog/category_widget/categoriesJson', array(
             '_current'=>true,
             'uniq_id' => $this->getId(),
             'use_massaction' => $this->getUseMassaction()

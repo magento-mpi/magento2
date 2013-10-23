@@ -140,7 +140,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/order/view', array(
+        return $this->getUrl('sales/order/view', array(
             'order_id'  => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null,
             'active_tab'=> 'order_creditmemos'
         ));
@@ -153,7 +153,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getCaptureUrl()
     {
-        return $this->getUrl('*/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     /**
@@ -163,7 +163,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getVoidUrl()
     {
-        return $this->getUrl('*/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     /**
@@ -173,7 +173,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     /**
@@ -183,7 +183,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getEmailUrl()
     {
-        return $this->getUrl('*/*/email', array(
+        return $this->getUrl('sales/*/email', array(
             'creditmemo_id' => $this->getCreditmemo()->getId(),
             'order_id'      => $this->getCreditmemo()->getOrderId()
         ));
@@ -196,7 +196,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/print', array(
+        return $this->getUrl('sales/*/print', array(
             'creditmemo_id' => $this->getCreditmemo()->getId()
         ));
     }
@@ -220,7 +220,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
             return $this->_updateButton(
                 'back',
                 'onclick',
-                'setLocation(\'' . $this->getUrl('*/creditmemo/') . '\')'
+                'setLocation(\'' . $this->getUrl('sales/creditmemo/') . '\')'
             );
         }
         return $this;

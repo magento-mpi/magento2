@@ -57,7 +57,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getLoadBlockUrl()
     {
-        return $this->getUrl('*/*/loadBlock');
+        return $this->getUrl('sales/*/loadBlock');
     }
 
     /**
@@ -66,7 +66,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save');
+        return $this->getUrl('sales/*/save');
     }
 
     public function getCustomerSelectorDisplay()

@@ -123,7 +123,7 @@ class Statistics extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } else {
             $this->_redirectReferer('*/*');
         }
@@ -154,7 +154,7 @@ class Statistics extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } else {
             $this->_redirectReferer('*/*');
         }

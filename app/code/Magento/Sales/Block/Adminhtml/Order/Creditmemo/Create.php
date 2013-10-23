@@ -75,7 +75,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getBackUrl()
     {
         return $this->getUrl(
-            '*/order/view',
+            'sales/order/view',
             array('order_id' => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null)
         );
     }

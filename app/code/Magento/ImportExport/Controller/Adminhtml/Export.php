@@ -70,7 +70,7 @@ class Export extends \Magento\Backend\Controller\Adminhtml\Action
         } else {
             $this->_getSession()->addError(__('Please correct the data sent.'));
         }
-        return $this->_redirect('*/*/index');
+        return $this->_redirect('adminhtml/*/index');
     }
 
     /**
@@ -118,6 +118,6 @@ class Export extends \Magento\Backend\Controller\Adminhtml\Action
         } else {
             $this->_getSession()->addError(__('Please correct the data sent.'));
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 }

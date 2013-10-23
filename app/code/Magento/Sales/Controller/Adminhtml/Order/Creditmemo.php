@@ -208,7 +208,7 @@ class Creditmemo
         /**
          * Clear old values for creditmemo qty's
          */
-        $this->_redirect('*/*/new', array('_current'=>true));
+        $this->_redirect('sales/*/new', array('_current'=>true));
     }
 
     /**
@@ -314,7 +314,7 @@ class Creditmemo
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess(__('You created the credit memo.'));
                 $this->_getSession()->getCommentText(true);
-                $this->_redirect('*/order/view', array('order_id' => $creditmemo->getOrderId()));
+                $this->_redirect('sales/order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
             } else {
                 $this->_forward('noRoute');
@@ -327,7 +327,7 @@ class Creditmemo
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__('Cannot save the credit memo.'));
         }
-        $this->_redirect('*/*/new', array('_current' => true));
+        $this->_redirect('sales/*/new', array('_current' => true));
     }
 
     /**
@@ -346,7 +346,7 @@ class Creditmemo
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('You canceled the credit memo.'));
             }
-            $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
+            $this->_redirect('sales/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         } else {
             $this->_forward('noRoute');
         }
@@ -368,7 +368,7 @@ class Creditmemo
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We can\'t void the credit memo.'));
             }
-            $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
+            $this->_redirect('sales/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         } else {
             $this->_forward('noRoute');
         }

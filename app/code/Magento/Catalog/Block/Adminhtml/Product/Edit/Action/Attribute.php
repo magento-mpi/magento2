@@ -48,13 +48,13 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
     {
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('*/product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+            'onclick'   => 'setLocation(\''.$this->getUrl('catalog/product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
             'class' => 'back'
         ));
 
         $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('adminhtml/*/*', array('_current'=>true)).'\')'
+            'onclick'   => 'setLocation(\''.$this->getUrl('catalog/*/*', array('_current'=>true)).'\')'
         ));
 
         $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
@@ -141,6 +141,6 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
+        return $this->getUrl('catalog/*/validate', array('_current'=>true));
     }
 }

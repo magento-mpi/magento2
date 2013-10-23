@@ -63,14 +63,14 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         if (!in_array($categoryId, $this->getRootIds()) && $category->isDeleteable()) {
             $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Delete Category'),
-                'onclick'   => "categoryDelete('" . $this->getUrl('*/*/delete', array('_current' => true)) . "', true, {$categoryId})",
+                'onclick'   => "categoryDelete('" . $this->getUrl('catalog/*/delete', array('_current' => true)) . "', true, {$categoryId})",
                 'class' => 'delete'
             ));
         }
 
         // Reset button
         if (!$category->isReadonly()) {
-            $resetPath = $categoryId ? '*/*/edit' : '*/*/add';
+            $resetPath = $categoryId ? 'catalog/*/edit' : 'catalog/*/add';
             $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Reset'),
                 'onclick'   => "categoryReset('".$this->getUrl($resetPath, array('_current'=>true))."',true)"
@@ -90,7 +90,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             $params['website'] = $store->getWebsite()->getCode();
             $params['store']   = $store->getCode();
         }
-        return $this->getUrl('*/system_store', $params);
+        return $this->getUrl('catalog/system_store', $params);
     }
 
     public function getDeleteButtonHtml()
@@ -188,7 +188,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     {
         $params = array('_current'=>true);
         $params = array_merge($params, $args);
-        return $this->getUrl('*/*/delete', $params);
+        return $this->getUrl('catalog/*/delete', $params);
     }
 
     /**
@@ -201,7 +201,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     {
         $params = array('_current'=>true);
         $params = array_merge($params, $args);
-        return $this->getUrl('*/*/refreshPath', $params);
+        return $this->getUrl('catalog/*/refreshPath', $params);
     }
 
     public function getProductsJson()

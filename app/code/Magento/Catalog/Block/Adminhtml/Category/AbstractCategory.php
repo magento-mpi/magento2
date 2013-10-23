@@ -188,7 +188,7 @@ class AbstractCategory extends \Magento\Backend\Block\Template
     {
         $params = array('_current'=>true);
         $params = array_merge($params, $args);
-        return $this->getUrl('*/*/save', $params);
+        return $this->getUrl('catalog/*/save', $params);
     }
 
     public function getEditUrl()

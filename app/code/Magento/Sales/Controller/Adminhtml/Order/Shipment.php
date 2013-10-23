@@ -154,7 +154,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         /**
          * Clear old values for shipment qty's
          */
-        $this->_redirect('*/*/new', array('order_id'=>$this->getRequest()->getParam('order_id')));
+        $this->_redirect('sales/*/new', array('order_id'=>$this->getRequest()->getParam('order_id')));
     }
 
     /**
@@ -175,7 +175,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_redirect('*/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
+            $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -240,7 +240,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $responseAjax->setMessage($e->getMessage());
             } else {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+                $this->_redirect('sales/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
@@ -250,14 +250,14 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                     __('An error occurred while creating shipping label.'));
             } else {
                 $this->_getSession()->addError(__('Cannot save shipment.'));
-                $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+                $this->_redirect('sales/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
 
         }
         if ($isNeedCreateLabel) {
             $this->getResponse()->setBody($responseAjax->toJson());
         } else {
-            $this->_redirect('*/order/view', array('order_id' => $shipment->getOrderId()));
+            $this->_redirect('sales/order/view', array('order_id' => $shipment->getOrderId()));
         }
     }
 
@@ -285,7 +285,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('Cannot send shipment information.'));
         }
-        $this->_redirect('*/*/view', array(
+        $this->_redirect('sales/*/view', array(
             'shipment_id' => $this->getRequest()->getParam('shipment_id')
         ));
     }
@@ -569,7 +569,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $this->_getSession()
                 ->addError(__('An error occurred while creating shipping label.'));
        }
-       $this->_redirect('*/sales_order_shipment/view', array(
+       $this->_redirect('sales/order_shipment/view', array(
            'shipment_id' => $this->getRequest()->getParam('shipment_id')
        ));
     }
@@ -645,11 +645,11 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if ($createdFromOrders) {
             $this->_getSession()
                 ->addError(__('There are no shipping labels related to selected orders.'));
-            $this->_redirect('*/sales_order/index');
+            $this->_redirect('sales/order/index');
         } else {
             $this->_getSession()
                 ->addError(__('There are no shipping labels related to selected shipments.'));
-            $this->_redirect('*/sales_order_shipment/index');
+            $this->_redirect('sales/order_shipment/index');
         }
     }
 

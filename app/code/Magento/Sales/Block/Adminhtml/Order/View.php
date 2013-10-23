@@ -239,52 +239,52 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
     public function getEditUrl()
     {
-        return $this->getUrl('*/order_edit/start');
+        return $this->getUrl('sales/order_edit/start');
     }
 
     public function getEmailUrl()
     {
-        return $this->getUrl('*/*/email');
+        return $this->getUrl('sales/*/email');
     }
 
     public function getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel');
+        return $this->getUrl('sales/*/cancel');
     }
 
     public function getInvoiceUrl()
     {
-        return $this->getUrl('*/order_invoice/start');
+        return $this->getUrl('sales/order_invoice/start');
     }
 
     public function getCreditmemoUrl()
     {
-        return $this->getUrl('*/order_creditmemo/start');
+        return $this->getUrl('sales/order_creditmemo/start');
     }
 
     public function getHoldUrl()
     {
-        return $this->getUrl('*/*/hold');
+        return $this->getUrl('sales/*/hold');
     }
 
     public function getUnholdUrl()
     {
-        return $this->getUrl('*/*/unhold');
+        return $this->getUrl('sales/*/unhold');
     }
 
     public function getShipUrl()
     {
-        return $this->getUrl('*/order_shipment/start');
+        return $this->getUrl('sales/order_shipment/start');
     }
 
     public function getCommentUrl()
     {
-        return $this->getUrl('*/*/comment');
+        return $this->getUrl('sales/*/comment');
     }
 
     public function getReorderUrl()
     {
-        return $this->getUrl('*/order_create/reorder');
+        return $this->getUrl('sales/order_create/reorder');
     }
 
     /**
@@ -292,7 +292,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getVoidPaymentUrl()
     {
-        return $this->getUrl('*/*/voidPayment');
+        return $this->getUrl('sales/*/voidPayment');
     }
 
     protected function _isAllowedAction($resourceId)
@@ -311,11 +311,11 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             return $this->getOrder()->getBackUrl();
         }
 
-        return $this->getUrl('*/*/');
+        return $this->getUrl('sales/*/');
     }
 
     public function getReviewPaymentUrl($action)
     {
-        return $this->getUrl('*/*/reviewPayment', array('action' => $action));
+        return $this->getUrl('sales/*/reviewPayment', array('action' => $action));
     }
 }

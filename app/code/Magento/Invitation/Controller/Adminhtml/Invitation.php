@@ -104,7 +104,7 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -125,7 +125,7 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
         try {
             // parse POST data
             if (!$this->getRequest()->isPost()) {
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
             $this->_getSession()->setInvitationFormData($this->getRequest()->getPost());
@@ -185,12 +185,12 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addNotice(__('%1 invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExistsCount));
             }
             $this->_getSession()->unsInvitationFormData();
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_redirect('*/*/new');
+        $this->_redirect('adminhtml/*/new');
     }
 
     /**
@@ -213,7 +213,7 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
                     foreach ($result as $message) {
                         $this->_getSession()->addError($message);
                     }
-                    $this->_redirect('*/*/view', array('_current' => true));
+                    $this->_redirect('adminhtml/*/view', array('_current' => true));
                     return $this;
                 }
 
@@ -225,7 +225,7 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_redirect('*/*/view', array('_current' => true));
+        $this->_redirect('adminhtml/*/view', array('_current' => true));
     }
 
     /**
@@ -283,7 +283,7 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -327,7 +327,7 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

@@ -332,7 +332,7 @@ class Formtype
                 }
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**

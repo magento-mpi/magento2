@@ -74,7 +74,7 @@ class Address extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         $address = $this->_coreRegistry->registry('order_address');
         return $this->getUrl(
-            '*/*/view',
+            'sales/*/view',
             array('order_id' => $address ? $address->getOrder()->getId() : null)
         );
     }

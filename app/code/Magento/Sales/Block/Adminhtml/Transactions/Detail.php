@@ -62,7 +62,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
             return;
         }
 
-        $backUrl = ($this->_txn->getOrderUrl()) ? $this->_txn->getOrderUrl() : $this->getUrl('*/*/');
+        $backUrl = ($this->_txn->getOrderUrl()) ? $this->_txn->getOrderUrl() : $this->getUrl('sales/*/');
         $this->_addButton('back', array(
             'label'   => __('Back'),
             'onclick' => "setLocation('{$backUrl}')",
@@ -71,7 +71,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
 
         if ($this->_authorization->isAllowed('Magento_Sales::transactions_fetch')
             && $this->_txn->getOrderPaymentObject()->getMethodInstance()->canFetchTransactionInfo()) {
-            $fetchUrl = $this->getUrl('*/*/fetch' , array('_current' => true));
+            $fetchUrl = $this->getUrl('sales/*/fetch' , array('_current' => true));
             $this->_addButton('fetch', array(
                 'label'   => __('Fetch'),
                 'onclick' => "setLocation('{$fetchUrl}')",
@@ -95,7 +95,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
         $this->setTxnIdHtml($this->escapeHtml($this->_txn->getTxnId()));
 
         $this->setParentTxnIdUrlHtml(
-            $this->escapeHtml($this->getUrl('*/transactions/view', array('txn_id' => $this->_txn->getParentId())))
+            $this->escapeHtml($this->getUrl('sales/transactions/view', array('txn_id' => $this->_txn->getParentId())))
         );
 
         $this->setParentTxnIdHtml(
@@ -107,7 +107,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
         $this->setTxnTypeHtml($this->escapeHtml($this->_txn->getTxnType()));
 
         $this->setOrderIdUrlHtml(
-            $this->escapeHtml($this->getUrl('*/order/view', array('order_id' => $this->_txn->getOrderId())))
+            $this->escapeHtml($this->getUrl('sales/order/view', array('order_id' => $this->_txn->getOrderId())))
         );
 
         $this->setIsClosedHtml(

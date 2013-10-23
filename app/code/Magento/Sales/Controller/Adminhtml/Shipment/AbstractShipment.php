@@ -72,7 +72,7 @@ class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
             return $this->_prepareDownloadResponse('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     public function printAction()

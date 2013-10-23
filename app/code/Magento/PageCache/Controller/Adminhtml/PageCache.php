@@ -44,7 +44,7 @@ class PageCache extends \Magento\Backend\Controller\Adminhtml\Action
                 __('Something went wrong while clearing the external full page cache.')
             );
         }
-        $this->_redirect('*/cache/index');
+        $this->_redirect('adminhtml/cache/index');
     }
 
     /**

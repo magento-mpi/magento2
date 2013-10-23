@@ -57,7 +57,7 @@ class Locks extends \Magento\Backend\Controller\Adminhtml\Action
         catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

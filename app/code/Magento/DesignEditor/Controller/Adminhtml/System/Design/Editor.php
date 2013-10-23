@@ -125,12 +125,12 @@ class Editor extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Sorry, there was an unknown error.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
     }

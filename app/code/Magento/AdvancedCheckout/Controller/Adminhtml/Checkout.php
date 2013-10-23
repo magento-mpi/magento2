@@ -82,7 +82,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('Shopping cart management disabled for this customer.')
                 );
-                $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
+                $this->_redirect('adminhtml/customer/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
                 return $this;
             } else {
@@ -113,7 +113,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                         )
                     );
                 } else {
-                    $this->_redirect('*/*/index', array('store' => $storeId, 'customer' => $customerId));
+                    $this->_redirect('adminhtml/*/index', array('store' => $storeId, 'customer' => $customerId));
                 }
                 $this->_redirectFlag = true;
                 return $this;
@@ -200,7 +200,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error has occurred. See error log for details.')
             );
         }
-        $this->_redirect('*/*/error');
+        $this->_redirect('adminhtml/*/error');
     }
 
 
@@ -392,7 +392,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                    ->setCustomerId($quote->getCustomerId());
 
             }
-            $this->_redirect('*/sales_order_create', array(
+            $this->_redirect('adminhtml/sales_order_create', array(
                 'customer_id' => $this->_registry->registry('checkout_current_customer')->getId(),
                 'store_id' => $this->_registry->registry('checkout_current_store')->getId(),
             ));
@@ -405,7 +405,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error has occurred. See error log for details.')
             );
         }
-        $this->_redirect('*/*/error');
+        $this->_redirect('adminhtml/*/error');
     }
 
     /**
@@ -724,7 +724,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
         $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
-            $this->_redirect('*/*/showUpdateResult');
+            $this->_redirect('adminhtml/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
         }
@@ -990,7 +990,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_initData();
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/customer');
+            $this->_redirect('adminhtml/customer');
             $this->_redirectFlag = true;
         }
         if ($this->_redirectFlag) {

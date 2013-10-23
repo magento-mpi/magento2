@@ -173,7 +173,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         $form->addValues($model->getData());
-        $form->setAction($this->getUrl('*/rule/save'));
+        $form->setAction($this->getUrl('tax/rule/save'));
         $form->setUseContainer($this->getUseContainer());
         $this->setForm($form);
 
@@ -201,9 +201,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getTaxClassSelectConfig($classType)
     {
         $config = array(
-            'new_url' => $this->getUrl('*/tax/ajaxSave/'),
-            'save_url' => $this->getUrl('*/tax/ajaxSave/'),
-            'delete_url' => $this->getUrl('*/tax/ajaxDelete/'),
+            'new_url' => $this->getUrl('tax/tax/ajaxSave/'),
+            'save_url' => $this->getUrl('tax/tax/ajaxSave/'),
+            'delete_url' => $this->getUrl('tax/tax/ajaxDelete/'),
             'delete_confirm_message' => __('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
             'add_button_caption' => __('Add New Tax Class'),

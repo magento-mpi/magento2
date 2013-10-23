@@ -25,7 +25,7 @@ class Grouped extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs
 
         $this->addTab('super', array(
             'label'     => __('Associated Products'),
-            'url'       => $this->getUrl('*/*/superGroup', array('_current'=>true)),
+            'url'       => $this->getUrl('catalog/*/superGroup', array('_current'=>true)),
             'class'     => 'ajax',
         ));
     }

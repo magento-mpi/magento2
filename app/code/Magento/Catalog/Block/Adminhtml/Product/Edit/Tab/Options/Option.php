@@ -367,7 +367,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
      */
     public function getProductGridUrl()
     {
-        return $this->getUrl('*/*/optionsImportGrid');
+        return $this->getUrl('catalog/*/optionsImportGrid');
     }
 
     /**
@@ -377,6 +377,6 @@ class Option extends \Magento\Adminhtml\Block\Widget
      */
     public function getCustomOptionsUrl()
     {
-        return $this->getUrl('*/*/customOptions');
+        return $this->getUrl('catalog/*/customOptions');
     }
 }

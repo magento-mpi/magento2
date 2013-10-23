@@ -82,7 +82,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
+        return $this->getUrl('sales/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
     }
 
     /**
@@ -102,7 +102,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('*/*/removeTrack/', array(
+        return $this->getUrl('sales/*/removeTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));
@@ -115,7 +115,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getTrackInfoUrl($track)
     {
-        return $this->getUrl('*/*/viewTrack/', array(
+        return $this->getUrl('sales/*/viewTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));

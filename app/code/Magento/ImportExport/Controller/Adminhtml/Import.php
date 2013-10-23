@@ -81,7 +81,7 @@ class Import extends \Magento\Backend\Controller\Adminhtml\Action
                 ->addSuccess(__('Import successfully done'));
             $this->renderLayout();
         } else {
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
         }
     }
 
@@ -144,7 +144,7 @@ class Import extends \Magento\Backend\Controller\Adminhtml\Action
             $this->renderLayout();
         } else {
             $this->_getSession()->addError(__('Data is invalid or file is not uploaded'));
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
         }
     }
 

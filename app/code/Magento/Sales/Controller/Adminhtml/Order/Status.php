@@ -96,7 +96,7 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(
                 __('We can\'t find this order status.')
             );
-            $this->_redirect('*/');
+            $this->_redirect('sales/');
         }
     }
 
@@ -130,7 +130,7 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
                     __('We found another order status with the same order status code.')
                 );
                 $this->_getSession()->setFormData($data);
-                $this->_redirect('*/*/new');
+                $this->_redirect('sales/*/new');
                 return;
             }
 
@@ -139,7 +139,7 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(__('You have saved the order status.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('sales/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -151,13 +151,13 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
             }
             $this->_getSession()->setFormData($data);
             if ($isNew) {
-                $this->_redirect('*/*/new');
+                $this->_redirect('sales/*/new');
             } else {
-                $this->_redirect('*/*/edit', array('status' => $this->getRequest()->getParam('status')));
+                $this->_redirect('sales/*/edit', array('status' => $this->getRequest()->getParam('status')));
             }
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**
@@ -185,7 +185,7 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
                 try {
                     $status->assignState($state, $isDefault);
                     $this->_getSession()->addSuccess(__('You have assigned the order status.'));
-                    $this->_redirect('*/*/');
+                    $this->_redirect('sales/*/');
                     return;
                 } catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
@@ -198,10 +198,10 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
             } else {
                 $this->_getSession()->addError(__('We can\'t find this order status.'));
             }
-            $this->_redirect('*/*/assign');
+            $this->_redirect('sales/*/assign');
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     public function unassignAction()
@@ -223,7 +223,7 @@ class Status extends \Magento\Backend\Controller\Adminhtml\Action
         } else {
             $this->_getSession()->addError(__('We can\'t find this order status.'));
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**

@@ -91,7 +91,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
             if (! $model->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This sitemap no longer exists.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
         }
@@ -145,7 +145,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                     // save data in session
                     $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
                     // redirect to edit form
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
                     return;
                 }
@@ -183,7 +183,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('sitemap_id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('sitemap_id' => $model->getId()));
                     return;
                 }
                 // go to grid or forward to generate action
@@ -192,7 +192,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                     $this->_forward('generate');
                     return;
                 }
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
 
             } catch (\Exception $e) {
@@ -201,12 +201,12 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                 // save data in session
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array(
+                $this->_redirect('adminhtml/*/edit', array(
                     'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
 
     }
 
@@ -237,14 +237,14 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The sitemap has been deleted.'));
                 // go to grid
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
 
             } catch (\Exception $e) {
                 // display error message
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('*/*/edit', array('sitemap_id' => $id));
+                $this->_redirect('adminhtml/*/edit', array('sitemap_id' => $id));
                 return;
             }
         }
@@ -252,7 +252,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find a sitemap to delete.'));
         // go to grid
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -284,7 +284,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
         }
 
         // go to grid
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

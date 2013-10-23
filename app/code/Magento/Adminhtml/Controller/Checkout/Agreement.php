@@ -66,7 +66,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This condition no longer exists.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
         }
@@ -104,7 +104,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->save();
 
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been saved.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
 
                 return;
             } catch (\Magento\Core\Exception $e) {
@@ -125,14 +125,14 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
             ->load($id);
         if (!$model->getId()) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This condition no longer exists.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
         try {
             $model->delete();
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been deleted.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());

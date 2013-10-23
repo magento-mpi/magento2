@@ -143,12 +143,12 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
-                    $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
@@ -156,7 +156,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -177,7 +177,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
@@ -217,7 +217,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addException($e, __('Something went wrong while updating the wrapping(s) status.'));
         }
 
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**
@@ -245,7 +245,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**
@@ -262,10 +262,10 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addSuccess(__('You deleted the gift wrapping.'));
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('_current'=>true));
+                $this->_redirect('adminhtml/*/edit', array('_current'=>true));
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

@@ -98,7 +98,7 @@ class Currency extends \Magento\Backend\Controller\Adminhtml\Action
         catch (\Exception $e){
             $backendSession->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     public function saveRatesAction()
@@ -130,7 +130,7 @@ class Currency extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     protected function _isAllowed()

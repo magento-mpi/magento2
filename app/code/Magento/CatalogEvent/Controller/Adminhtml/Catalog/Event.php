@@ -169,7 +169,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(
                 __('Something went wrong while saving this event.')
             );
-            $this->_redirect('*/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', array('_current' => true));
             return;
         }
 
@@ -198,7 +198,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($errorMessage);
             }
             $this->_getSession()->setEventData($event->getData());
-            $this->_redirect('*/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', array('_current' => true));
             return;
         }
 
@@ -220,14 +220,14 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
                 __('You saved the event.')
             );
             if ($this->getRequest()->getParam('back') == 'edit') {
-                $this->_redirect('*/*/edit', array('_current' => true, 'id' => $event->getId()));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true, 'id' => $event->getId()));
             } else {
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
             }
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setEventData($event->getData());
-            $this->_redirect('*/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', array('_current' => true));
         }
     }
 
@@ -246,13 +246,13 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
                     __('You deleted the event.')
                 );
                 if ($this->getRequest()->getParam('category')) {
-                    $this->_redirect('*/category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
+                    $this->_redirect('adminhtml/category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
                 } else {
-                    $this->_redirect('*/*/');
+                    $this->_redirect('adminhtml/*/');
                 }
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
             }
         }
     }
