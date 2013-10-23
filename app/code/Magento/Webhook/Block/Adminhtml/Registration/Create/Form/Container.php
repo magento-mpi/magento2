@@ -46,7 +46,7 @@ class Container extends \Magento\Backend\Block\Template
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/register', array('id' => $this->_subscriptionData[self::DATA_SUBSCRIPTION_ID]));
+        return $this->getUrl('adminhtml/*/register', array('id' => $this->_subscriptionData[self::DATA_SUBSCRIPTION_ID]));
     }
 
     /**

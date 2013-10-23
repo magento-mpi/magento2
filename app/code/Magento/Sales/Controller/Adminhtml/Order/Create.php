@@ -340,10 +340,10 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->setUseOldShippingMethod(true);
             $this->_getOrderCreateModel()->initFromOrder($order);
 
-            $this->_redirect('*/*');
+            $this->_redirect('sales/*');
         }
         else {
-            $this->_redirect('*/sales_order/');
+            $this->_redirect('sales/order/');
         }
     }
 
@@ -398,7 +398,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
         $result = $this->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
-            $this->_redirect('*/*/showUpdateResult');
+            $this->_redirect('sales/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
         }
@@ -430,7 +430,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
-        $this->_redirect('*/product/showUpdateResult');
+        $this->_redirect('sales/product/showUpdateResult');
     }
 
     /**
@@ -439,7 +439,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
     public function startAction()
     {
         $this->_getSession()->clear();
-        $this->_redirect('*/*', array('customer_id' => $this->getRequest()->getParam('customer_id')));
+        $this->_redirect('sales/*', array('customer_id' => $this->getRequest()->getParam('customer_id')));
     }
 
     /**
@@ -449,12 +449,12 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
     {
         if ($orderId = $this->_getSession()->getReordered()) {
             $this->_getSession()->clear();
-            $this->_redirect('*/order/view', array(
+            $this->_redirect('sales/order/view', array(
                 'order_id'=>$orderId
             ));
         } else {
             $this->_getSession()->clear();
-            $this->_redirect('*/*');
+            $this->_redirect('sales/*');
         }
 
     }
@@ -485,9 +485,9 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->clear();
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
-                $this->_redirect('*/order/view', array('order_id' => $order->getId()));
+                $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
             } else {
-                $this->_redirect('*/sales_order/index');
+                $this->_redirect('sales/order/index');
             }
         } catch (\Magento\Payment\Model\Info\Exception $e) {
             $this->_getOrderCreateModel()->saveQuote();
@@ -495,17 +495,17 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
             if( !empty($message) ) {
                 $this->_getSession()->addError($message);
             }
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
         } catch (\Magento\Core\Exception $e){
             $message = $e->getMessage();
             if( !empty($message) ) {
                 $this->_getSession()->addError($message);
             }
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
         }
         catch (\Exception $e){
             $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
         }
     }
 

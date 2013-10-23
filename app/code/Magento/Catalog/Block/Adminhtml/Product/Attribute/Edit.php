@@ -123,7 +123,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('catalog/*/validate', array('_current'=>true));
     }
 
     /**
@@ -133,7 +133,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/' . $this->_controller . '/save', array(
+        return $this->getUrl('catalog/' . $this->_controller . '/save', array(
             '_current' => true,
             'back' => null,
             'product_tab' => $this->getRequest()->getParam('product_tab')

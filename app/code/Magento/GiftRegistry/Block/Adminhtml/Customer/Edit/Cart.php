@@ -148,7 +148,7 @@ class Cart
         $this->getMassactionBlock()->setFormFieldName('products');
         $this->getMassactionBlock()->addItem('add', array(
             'label'    => __('Add to Gift Registry'),
-            'url'      => $this->getUrl('*/*/add', array('id' => $this->getEntity()->getId())),
+            'url'      => $this->getUrl('adminhtml/*/add', array('id' => $this->getEntity()->getId())),
             'confirm'  => __('Are you sure you want to add these products?')
         ));
 

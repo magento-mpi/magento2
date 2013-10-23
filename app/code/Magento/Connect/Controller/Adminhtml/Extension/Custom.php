@@ -50,7 +50,7 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
     public function resetAction()
     {
         $this->_objectManager->get('Magento\Connect\Model\Session')->unsCustomExtensionPackageFormData();
-        $this->_redirect('*/*/edit');
+        $this->_redirect('adminhtml/*/edit');
     }
 
     /**
@@ -76,7 +76,7 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
                 $session->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/edit');
+        $this->_redirect('adminhtml/*/edit');
     }
 
     /**
@@ -106,19 +106,19 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
                 $session->addSuccess(__('The package data has been saved.'));
             } else {
                 $session->addError(__('Something went wrong saving the package data.'));
-                $this->_redirect('*/*/edit');
+                $this->_redirect('adminhtml/*/edit');
             }
             if (empty($create)) {
-                $this->_redirect('*/*/edit');
+                $this->_redirect('adminhtml/*/edit');
             } else {
                 $this->_forward('create');
             }
         } catch (\Magento\Core\Exception $e){
             $session->addError($e->getMessage());
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } catch (\Exception $e){
             $session->addException($e, __('Something went wrong saving the package.'));
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         }
     }
 
@@ -143,13 +143,13 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
                     $ext->createPackageV1x();
                 }
             }
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } catch(\Magento\Core\Exception $e){
             $session->addError($e->getMessage());
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } catch(\Exception $e){
             $session->addException($e, __('Something went wrong creating the package.'));
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         }
     }
 

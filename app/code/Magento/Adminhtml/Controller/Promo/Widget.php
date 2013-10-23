@@ -125,7 +125,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
                 $rootId = $this->_objectManager->get('Magento\Core\Model\StoreManager')
                     ->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
-                    $this->_redirect('*/*/', array('_current' => true, 'id' => null));
+                    $this->_redirect('adminhtml/*/', array('_current' => true, 'id' => null));
                     return false;
                 }
             }

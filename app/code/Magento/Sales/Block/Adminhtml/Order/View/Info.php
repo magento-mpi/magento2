@@ -118,12 +118,12 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         if ($this->getOrder()->getCustomerIsGuest() || !$this->getOrder()->getCustomerId()) {
             return false;
         }
-        return $this->getUrl('*/customer/edit', array('id' => $this->getOrder()->getCustomerId()));
+        return $this->getUrl('adminhtml/customer/edit', array('id' => $this->getOrder()->getCustomerId()));
     }
 
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('*/order/view', array('order_id'=>$orderId));
+        return $this->getUrl('sales/order/view', array('order_id'=>$orderId));
     }
 
     /**
@@ -192,7 +192,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         if (empty($label)) {
             $label = __('Edit');
         }
-        $url = $this->getUrl('*/order/address', array('address_id'=>$address->getId()));
+        $url = $this->getUrl('sales/order/address', array('address_id'=>$address->getId()));
         return '<a href="'.$url.'">' . $label . '</a>';
     }
 

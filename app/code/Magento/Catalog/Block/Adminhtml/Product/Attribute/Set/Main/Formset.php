@@ -82,7 +82,7 @@ class Formset
         $form->setMethod('post');
         $form->setUseContainer(true);
         $form->setId('set-prop-form');
-        $form->setAction($this->getUrl('*/*/save'));
+        $form->setAction($this->getUrl('catalog/*/save'));
         $form->setOnsubmit('return false;');
         $this->setForm($form);
     }

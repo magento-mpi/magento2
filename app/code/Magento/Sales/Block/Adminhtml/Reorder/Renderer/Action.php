@@ -54,7 +54,7 @@ class Action
         $this->_actions = array();
         if ($this->_salesReorder->canReorder($row)) {
             $reorderAction = array(
-                '@' => array('href' => $this->getUrl('*/order_create/reorder', array('order_id'=>$row->getId()))),
+                '@' => array('href' => $this->getUrl('sales/order_create/reorder', array('order_id'=>$row->getId()))),
                 '#' =>  __('Reorder')
             );
             $this->addToActions($reorderAction);

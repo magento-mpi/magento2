@@ -64,7 +64,7 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
             $model->load($id);
             if (! $model->getId()) {
                 $backendSession->addError(__('This search no longer exists.'));
-                $this->_redirect('*/*');
+                $this->_redirect('adminhtml/*');
                 return;
             }
         }

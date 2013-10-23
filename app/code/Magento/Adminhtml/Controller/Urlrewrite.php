@@ -203,7 +203,7 @@ class Urlrewrite extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_onUrlRewriteSaveAfter($model);
 
                 $session->addSuccess(__('The URL Rewrite has been saved.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $session->addError($e->getMessage())
@@ -395,11 +395,11 @@ class Urlrewrite extends \Magento\Backend\Controller\Adminhtml\Action
                     __('An error occurred while deleting URL Rewrite.');
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addException($e, $errorMessage);
-                $this->_redirect('*/*/edit/', array('id' => $this->_getUrlRewrite()->getId()));
+                $this->_redirect('adminhtml/*/edit/', array('id' => $this->_getUrlRewrite()->getId()));
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

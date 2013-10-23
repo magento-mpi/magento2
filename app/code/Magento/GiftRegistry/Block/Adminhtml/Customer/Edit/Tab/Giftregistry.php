@@ -126,6 +126,6 @@ class Giftregistry
      */
     public function getTabUrl()
     {
-        return $this->getUrl('*/giftregistry_customer/grid', array('_current' => true));
+        return $this->getUrl('adminhtml/giftregistry_customer/grid', array('_current' => true));
     }
 }

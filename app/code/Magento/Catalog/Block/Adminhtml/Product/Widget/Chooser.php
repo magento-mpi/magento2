@@ -89,7 +89,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->_coreData->uniqHash($element->getId());
-        $sourceUrl = $this->getUrl('*/product_widget/chooser', array(
+        $sourceUrl = $this->getUrl('catalog/product_widget/chooser', array(
             'uniq_id' => $uniqId,
             'use_massaction' => false,
         ));
@@ -298,7 +298,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/product_widget/chooser', array(
+        return $this->getUrl('catalog/product_widget/chooser', array(
             'products_grid' => true,
             '_current' => true,
             'uniq_id' => $this->getId(),

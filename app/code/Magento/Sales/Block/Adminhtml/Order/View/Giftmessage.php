@@ -253,7 +253,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
 
     public function getSaveUrl()
     {
-        return $this->getUrl('*/order_view_giftmessage/save',
+        return $this->getUrl('sales/order_view_giftmessage/save',
             array(
                 'entity'=>$this->getEntity()->getId(),
                 'type'  =>'order',

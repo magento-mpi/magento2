@@ -368,7 +368,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> __('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete'),
+             'url'  => $this->getUrl('catalog/*/massDelete'),
              'confirm' => __('Are you sure?')
         ));
 
@@ -377,7 +377,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> __('Change status'),
-             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
+             'url'  => $this->getUrl('catalog/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
@@ -392,7 +392,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->_authorization->isAllowed('Magento_Catalog::update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
                 'label' => __('Update Attributes'),
-                'url'   => $this->getUrl('*/product_action_attribute/edit', array('_current'=>true))
+                'url'   => $this->getUrl('catalog/product_action_attribute/edit', array('_current'=>true))
             ));
         }
 
@@ -402,12 +402,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('catalog/*/grid', array('_current'=>true));
     }
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array(
+        return $this->getUrl('catalog/*/edit', array(
             'store'=>$this->getRequest()->getParam('store'),
             'id'=>$row->getId())
         );

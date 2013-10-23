@@ -103,7 +103,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
      */
     protected function _getProductCreateUrl($type)
     {
-        return $this->getUrl('*/*/new', array(
+        return $this->getUrl('catalog/*/new', array(
             'set'   => $this->_productFactory->create()->getDefaultAttributeSetId(),
             'type'  => $type
         ));

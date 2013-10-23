@@ -338,7 +338,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/banner_widget/chooser', array(
+        return $this->getUrl('adminhtml/banner_widget/chooser', array(
             'banners_grid' => true,
             '_current' => true,
             'uniq_id' => $this->getId(),

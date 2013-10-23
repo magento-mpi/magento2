@@ -65,7 +65,7 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
             $model->load($id);
             if (! $model->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This search no longer exists.'));
-                $this->_redirect('*/*');
+                $this->_redirect('catalog/*');
                 return;
             }
         }
@@ -85,7 +85,7 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
         $this->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
         $this->getLayout()->getBlock('adminhtml.catalog.search.edit')
-            ->setData('action', $this->getUrl('*/search/save'));
+            ->setData('action', $this->getUrl('catalog/search/save'));
 
         $this
             ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
@@ -142,9 +142,9 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
 
         if ($hasError) {
             $this->_getSession()->setPageData($data);
-            $this->_redirect('*/*/edit', array('id' => $queryId));
+            $this->_redirect('catalog/*/edit', array('id' => $queryId));
         } else {
-            $this->_redirect('*/*');
+            $this->_redirect('catalog/*');
         }
     }
 
@@ -157,16 +157,16 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->setId($id);
                 $model->delete();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the search.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('catalog/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a search term to delete.'));
-        $this->_redirect('*/*/');
+        $this->_redirect('catalog/*/');
     }
 
     public function massDeleteAction()
@@ -188,7 +188,7 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/index');
+        $this->_redirect('catalog/*/index');
     }
 
     protected function _isAllowed()

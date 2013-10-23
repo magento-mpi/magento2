@@ -32,17 +32,17 @@ class Edit extends \Magento\Sales\Controller\Adminhtml\Order\Create
             if ($order->getId()) {
                 $this->_getSession()->setUseOldShippingMethod(true);
                 $this->_getOrderCreateModel()->initFromOrder($order);
-                $this->_redirect('*/*');
+                $this->_redirect('sales/*');
             }
             else {
-                $this->_redirect('*/sales_order/');
+                $this->_redirect('sales/order/');
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-            $this->_redirect('*/order/view', array('order_id' => $orderId));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addException($e, $e->getMessage());
-            $this->_redirect('*/order/view', array('order_id' => $orderId));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         }
     }
 

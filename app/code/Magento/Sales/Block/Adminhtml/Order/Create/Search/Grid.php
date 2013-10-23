@@ -207,7 +207,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/loadBlock', array('block'=>'search_grid', '_current' => true, 'collapse' => null));
+        return $this->getUrl('sales/*/loadBlock', array('block'=>'search_grid', '_current' => true, 'collapse' => null));
     }
 
     protected function _getSelectedProducts()

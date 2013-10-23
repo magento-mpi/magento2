@@ -80,7 +80,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_getSession()->addSuccess(
             __("You flushed the cache storage.")
         );
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**
@@ -96,7 +96,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_getSession()->addSuccess(
             __("The Magento cache storage has been flushed.")
         );
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**
@@ -129,7 +129,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error occurred while enabling cache.')
             );
         }
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**
@@ -163,7 +163,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error occurred while disabling cache.')
             );
         }
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**
@@ -194,7 +194,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error occurred while refreshing cache.')
             );
         }
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**
@@ -236,7 +236,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error occurred while clearing the JavaScript/CSS cache.')
             );
         }
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**
@@ -260,7 +260,7 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error occurred while clearing the image cache.')
             );
         }
-        $this->_redirect('*/*');
+        $this->_redirect('adminhtml/*');
     }
 
     /**

@@ -168,7 +168,7 @@ class Creditmemos
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/creditmemos', array('_current' => true));
+        return $this->getUrl('sales/*/creditmemos', array('_current' => true));
     }
 
     /**

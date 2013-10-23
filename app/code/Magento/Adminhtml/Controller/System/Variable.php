@@ -143,18 +143,18 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
                     __('You saved the custom variable.')
                 );
                 if ($back) {
-                    $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
                 } else {
-                    $this->_redirect('*/*/', array());
+                    $this->_redirect('adminhtml/*/', array());
                 }
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('_current' => true, ));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true, ));
                 return;
             }
         }
-        $this->_redirect('*/*/', array());
+        $this->_redirect('adminhtml/*/', array());
         return;
     }
 
@@ -172,11 +172,11 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
                 );
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('_current' => true, ));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true, ));
                 return;
             }
         }
-        $this->_redirect('*/*/', array());
+        $this->_redirect('adminhtml/*/', array());
         return;
     }
 

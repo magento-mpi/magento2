@@ -51,7 +51,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
                 ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
-            $this->_redirect('*/scheduled_operation/index');
+            $this->_redirect('adminhtml/scheduled_operation/index');
         }
 
         return $this;
@@ -133,7 +133,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
                 || !is_array($data['start_time'])
             ) {
                 $backendSession->addError(__("We couldn't save the scheduled operation."));
-                $this->_redirect('*/*/*', array('_current' => true));
+                $this->_redirect('adminhtml/*/*', array('_current' => true));
 
                 return;
             }
@@ -165,7 +165,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
                 );
             }
         }
-        $this->_redirect('*/scheduled_operation/index');
+        $this->_redirect('adminhtml/scheduled_operation/index');
     }
 
     /**
@@ -196,7 +196,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
                 $backendSession->addError(__('Something sent wrong deleting the scheduled operation.'));
             }
         }
-        $this->_redirect('*/scheduled_operation/index');
+        $this->_redirect('adminhtml/scheduled_operation/index');
     }
 
     /**
@@ -239,7 +239,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
                 $backendSession->addError(__('We cannot delete all items.'));
             }
         }
-        $this->_redirect('*/scheduled_operation/index');
+        $this->_redirect('adminhtml/scheduled_operation/index');
     }
 
     /**
@@ -275,7 +275,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
                 $backendSession->addError(__('We cannot change status for all items.'));
             }
         }
-        $this->_redirect('*/scheduled_operation/index');
+        $this->_redirect('adminhtml/scheduled_operation/index');
     }
 
     /**
@@ -310,7 +310,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
         } else {
             $this->_getSession()->addError(__('No valid data sent'));
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**
@@ -358,7 +358,7 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError(__('Unable to run operation'));
         }
 
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**
@@ -380,6 +380,6 @@ class Operation extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()
                 ->addError(__('Something went wrong deleting the history files.'));
         }
-        $this->_redirect('*/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
+        $this->_redirect('adminhtml/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
     }
 }

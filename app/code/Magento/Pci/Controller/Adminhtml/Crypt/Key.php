@@ -94,7 +94,7 @@ class Key extends \Magento\Backend\Controller\Adminhtml\Action
             }
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(array('crypt_key' => $key));
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

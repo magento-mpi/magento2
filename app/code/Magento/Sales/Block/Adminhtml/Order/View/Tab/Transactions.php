@@ -29,7 +29,7 @@ class Transactions
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/order/transactions', array('_current' => true));
+        return $this->getUrl('sales/order/transactions', array('_current' => true));
     }
 
     /**
@@ -39,7 +39,7 @@ class Transactions
      */
     public function getRowUrl($item)
     {
-        return $this->getUrl('*/transactions/view', array('_current' => true, 'txn_id' => $item->getId()));
+        return $this->getUrl('sales/transactions/view', array('_current' => true, 'txn_id' => $item->getId()));
     }
 
     /**

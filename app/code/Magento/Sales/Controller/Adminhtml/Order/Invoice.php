@@ -172,7 +172,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
          * Clear old values for invoice qty's
          */
         $this->_getSession()->getInvoiceItemQtys(true);
-        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+        $this->_redirect('sales/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
 
     /**
@@ -193,7 +193,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_redirect('*/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
+            $this->_redirect('sales/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -307,9 +307,9 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                     }
                 }
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
-                $this->_redirect('*/order/view', array('order_id' => $orderId));
+                $this->_redirect('sales/order/view', array('order_id' => $orderId));
             } else {
-                $this->_redirect('*/*/new', array('order_id' => $orderId));
+                $this->_redirect('sales/*/new', array('order_id' => $orderId));
             }
             return;
         } catch (\Magento\Core\Exception $e) {
@@ -318,7 +318,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $this->_getSession()->addError(__('We can\'t save the invoice.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/new', array('order_id' => $orderId));
+        $this->_redirect('sales/*/new', array('order_id' => $orderId));
     }
 
 
@@ -338,7 +338,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('Invoice capturing error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+            $this->_redirect('sales/*/view', array('invoice_id'=>$invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }
@@ -360,7 +360,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('Invoice canceling error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id' => $invoice->getId()));
+            $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }
@@ -382,7 +382,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('Invoice voiding error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id' => $invoice->getId()));
+            $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }

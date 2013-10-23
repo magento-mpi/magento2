@@ -126,7 +126,7 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $widgetInstance = $this->_initWidgetInstance();
         if (!$widgetInstance) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -175,7 +175,7 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $widgetInstance = $this->_initWidgetInstance();
         if (!$widgetInstance) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $widgetInstance->setTitle($this->getRequest()->getPost('title'))
@@ -189,21 +189,21 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
                 __('The widget instance has been saved.')
             );
             if ($this->getRequest()->getParam('back', false)) {
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'instance_id' => $widgetInstance->getId(),
                         '_current' => true
                     ));
             } else {
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
             }
             return;
         } catch (\Exception $exception) {
             $this->_getSession()->addError($exception->getMessage());
             $this->_logger->logException($exception);
-            $this->_redirect('*/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', array('_current' => true));
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
         return;
     }
 
@@ -224,7 +224,7 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
         return;
     }
 

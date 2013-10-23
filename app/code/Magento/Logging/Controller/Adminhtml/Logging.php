@@ -86,7 +86,7 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
         $model = $this->_eventFactory->create()
             ->load($eventId);
         if (!$model->getId()) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $this->_title(__("Log Entry #%1", $eventId));

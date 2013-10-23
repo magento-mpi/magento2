@@ -56,7 +56,7 @@ class Errors
             'customer'   => $customer->getId(),
             'store'    => $store->getId()
         );
-        return $this->getUrl('*/checkout/configureProductToAdd', $params);
+        return $this->getUrl('adminhtml/checkout/configureProductToAdd', $params);
     }
 
     /**

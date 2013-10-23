@@ -84,7 +84,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
     public function createAction()
     {
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->getUrl('adminhtml/*/index');
         }
 
         $response = new \Magento\Object();
@@ -137,7 +137,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
 
             $this->_getSession()->addSuccess($successMessage);
 
-            $response->setRedirectUrl($this->getUrl('*/*/index'));
+            $response->setRedirectUrl($this->getUrl('adminhtml/*/index'));
         } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
         } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
@@ -174,7 +174,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
         );
 
         if (!$backup->getTime() || !$backup->exists()) {
-            return $this->_redirect('*/*');
+            return $this->_redirect('adminhtml/*');
         }
 
         $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
@@ -200,7 +200,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->getUrl('adminhtml/*/index');
         }
 
         $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
@@ -214,7 +214,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
             );
 
             if (!$backup->getTime() || !$backup->exists()) {
-                return $this->_redirect('*/*');
+                return $this->_redirect('adminhtml/*');
             }
 
             if (!$backup->getTime()) {
@@ -316,7 +316,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
         $backupIds = $this->getRequest()->getParam('ids', array());
 
         if (!is_array($backupIds) || !count($backupIds)) {
-            return $this->_redirect('*/*/index');
+            return $this->_redirect('adminhtml/*/index');
         }
 
         /** @var $backupModel \Magento\Backup\Model\Backup */
@@ -362,7 +362,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError($deleteFailMessage);
         }
 
-        return $this->_redirect('*/*/index');
+        return $this->_redirect('adminhtml/*/index');
     }
 
     /**

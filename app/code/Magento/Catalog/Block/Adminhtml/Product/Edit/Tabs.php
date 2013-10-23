@@ -171,7 +171,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             if (!$product->isGrouped()) {
                 $this->addTab('customer_options', array(
                     'label' => __('Custom Options'),
-                    'url'   => $this->getUrl('*/*/options', array('_current' => true)),
+                    'url'   => $this->getUrl('catalog/*/options', array('_current' => true)),
                     'class' => 'ajax',
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
                 ));
@@ -179,21 +179,21 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
             $this->addTab('related', array(
                 'label'     => __('Related Products'),
-                'url'       => $this->getUrl('*/*/related', array('_current' => true)),
+                'url'       => $this->getUrl('catalog/*/related', array('_current' => true)),
                 'class'     => 'ajax',
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
             ));
 
             $this->addTab('upsell', array(
                 'label'     => __('Up-sells'),
-                'url'       => $this->getUrl('*/*/upsell', array('_current' => true)),
+                'url'       => $this->getUrl('catalog/*/upsell', array('_current' => true)),
                 'class'     => 'ajax',
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
             ));
 
             $this->addTab('crosssell', array(
                 'label'     => __('Cross-sells'),
-                'url'       => $this->getUrl('*/*/crosssell', array('_current' => true)),
+                'url'       => $this->getUrl('catalog/*/crosssell', array('_current' => true)),
                 'class'     => 'ajax',
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
             ));
@@ -221,7 +221,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                     if ($this->_authorization->isAllowed('Magento_Review::reviews_all')){
                         $this->addTab('product-reviews', array(
                             'label' => __('Product Reviews'),
-                            'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),
+                            'url'   => $this->getUrl('catalog/*/reviews', array('_current' => true)),
                             'class' => 'ajax',
                             'group_code' => self::ADVANCED_TAB_GROUP_CODE,
                         ));

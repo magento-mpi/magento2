@@ -144,7 +144,7 @@ class Rviewed
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/viewRecentlyViewed', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/viewRecentlyViewed', array('_current'=>true));
     }
 
 }

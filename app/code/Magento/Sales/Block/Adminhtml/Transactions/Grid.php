@@ -201,7 +201,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current' => true));
+        return $this->getUrl('sales/*/grid', array('_current' => true));
     }
 
     /**
@@ -212,6 +212,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getRowUrl($item)
     {
-        return $this->getUrl('*/*/view', array('txn_id' => $item->getId()));
+        return $this->getUrl('sales/*/view', array('txn_id' => $item->getId()));
     }
 }

@@ -57,19 +57,19 @@ class Grids extends \Magento\Adminhtml\Block\Widget\Tabs
         // load other tabs with ajax
         $this->addTab('reviewed_products', array(
             'label'     => __('Most Viewed Products'),
-            'url'       => $this->getUrl('*/*/productsViewed', array('_current'=>true)),
+            'url'       => $this->getUrl('adminhtml/*/productsViewed', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 
         $this->addTab('new_customers', array(
             'label'     => __('New Customers'),
-            'url'       => $this->getUrl('*/*/customersNewest', array('_current'=>true)),
+            'url'       => $this->getUrl('adminhtml/*/customersNewest', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 
         $this->addTab('customers', array(
             'label'     => __('Customers'),
-            'url'       => $this->getUrl('*/*/customersMost', array('_current'=>true)),
+            'url'       => $this->getUrl('adminhtml/*/customersMost', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 

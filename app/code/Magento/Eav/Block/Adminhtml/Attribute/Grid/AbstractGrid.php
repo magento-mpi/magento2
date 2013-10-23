@@ -89,7 +89,7 @@ abstract class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('attribute_id' => $row->getAttributeId()));
+        return $this->getUrl('adminhtml/*/edit', array('attribute_id' => $row->getAttributeId()));
     }
 
 }

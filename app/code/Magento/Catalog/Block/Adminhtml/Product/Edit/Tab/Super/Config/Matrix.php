@@ -171,7 +171,7 @@ class Matrix
      */
     public function getEditProductUrl($id)
     {
-        return $this->getUrl('*/*/edit', array('id' => $id));
+        return $this->getUrl('catalog/*/edit', array('id' => $id));
     }
 
 
@@ -278,6 +278,6 @@ class Matrix
      */
     public function getImageUploadUrl()
     {
-        return $this->getUrl('*/product_gallery/upload');
+        return $this->getUrl('catalog/product_gallery/upload');
     }
 }

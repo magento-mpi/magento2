@@ -64,6 +64,6 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 
     public function getOrderUrl()
     {
-        return $this->getUrl('*/order/view', array('order_id' => $this->getCreditmemo()->getOrderId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $this->getCreditmemo()->getOrderId()));
     }
 }

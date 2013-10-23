@@ -140,7 +140,7 @@ class Shipments
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/shipments', array('_current' => true));
+        return $this->getUrl('sales/*/shipments', array('_current' => true));
     }
 
     /**

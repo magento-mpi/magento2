@@ -134,7 +134,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
         if ($storeId) {
             $storeId = $this->_storeManager->getStore($storeId)->getId();
         }
-        return $this->getUrl('*/product/alertsPriceGrid', array(
+        return $this->getUrl('catalog/product/alertsPriceGrid', array(
             'id'    => $productId,
             'store' => $storeId
         ));

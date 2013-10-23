@@ -130,11 +130,11 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getCancelUrl()
     {
         if ($this->_sessionQuote->getOrder()->getId()) {
-            $url = $this->getUrl('*/order/view', array(
+            $url = $this->getUrl('sales/order/view', array(
                 'order_id' => $this->_sessionQuote->getOrder()->getId()
             ));
         } else {
-            $url = $this->getUrl('*/*/cancel');
+            $url = $this->getUrl('sales/*/cancel');
         }
 
         return $url;
@@ -147,6 +147,6 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/' . $this->_controller . '/');
+        return $this->getUrl('sales/' . $this->_controller . '/');
     }
 }

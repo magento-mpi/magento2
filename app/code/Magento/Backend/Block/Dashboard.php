@@ -52,6 +52,6 @@ class Dashboard extends \Magento\Adminhtml\Block\Template
         if ($url = $this->getData('switch_url')) {
             return $url;
         }
-        return $this->getUrl('*/*/*', array('_current'=>true, 'period'=>null));
+        return $this->getUrl('adminhtml/*/*', array('_current'=>true, 'period'=>null));
     }
 }

@@ -134,7 +134,7 @@ class Formtype
     public function createAction()
     {
         $skeleton = $this->_initFormType();
-        $redirectUrl = $this->getUrl('*/*/*');
+        $redirectUrl = $this->getUrl('adminhtml/*/*');
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
@@ -160,9 +160,9 @@ class Formtype
             }
             if ($hasError) {
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
-                $redirectUrl = $this->getUrl('*/*/new');
+                $redirectUrl = $this->getUrl('adminhtml/*/new');
             } else {
-                $redirectUrl = $this->getUrl('*/*/edit/', array('type_id' => $formType->getId()));
+                $redirectUrl = $this->getUrl('adminhtml/*/edit/', array('type_id' => $formType->getId()));
             }
         }
 
@@ -276,7 +276,7 @@ class Formtype
     public function saveAction()
     {
         $formType = $this->_initFormType();
-        $redirectUrl = $this->getUrl('*/*/index');
+        $redirectUrl = $this->getUrl('adminhtml/*/index');
         if ($this->getRequest()->isPost() && $formType->getId()) {
             $request = $this->getRequest();
             try {
@@ -302,7 +302,7 @@ class Formtype
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
             }
             if ($hasError || $request->getPost('continue_edit')) {
-                $redirectUrl = $this->getUrl('*/*/edit', array('type_id' => $formType->getId()));
+                $redirectUrl = $this->getUrl('adminhtml/*/edit', array('type_id' => $formType->getId()));
             }
         }
         $this->_redirectUrl($redirectUrl);
@@ -332,7 +332,7 @@ class Formtype
                 }
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
     /**

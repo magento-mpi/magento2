@@ -151,6 +151,6 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/orders', array('_current' => true));
+        return $this->getUrl('adminhtml/*/orders', array('_current' => true));
     }
 }

@@ -75,7 +75,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('*/*/creditmemosgrid', array('_current' => true));
+         return $this->getUrl('adminhtml/*/creditmemosgrid', array('_current' => true));
     }
 
     /**

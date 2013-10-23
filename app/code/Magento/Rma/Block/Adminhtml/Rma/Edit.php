@@ -117,7 +117,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
                 )
             );
         } elseif (strpos($referer, 'customer') !== false) {
-            return $this->getUrl('*/customer/edit/',
+            return $this->getUrl('adminhtml/customer/edit/',
                 array(
                     'id'  => $this->getRma()->getCustomerId(),
                     'active_tab'=> 'customer_edit_tab_rma'
@@ -162,7 +162,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('*/*/save', array(
+        return $this->getUrl('adminhtml/*/save', array(
             'rma_id' => $this->getRma()->getId()
         ));
     }
@@ -174,7 +174,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/print', array(
+        return $this->getUrl('adminhtml/*/print', array(
             'rma_id' => $this->getRma()->getId()
         ));
     }
@@ -186,7 +186,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getCloseUrl()
     {
-        return $this->getUrl('*/*/close', array(
+        return $this->getUrl('adminhtml/*/close', array(
             'entity_id' => $this->getRma()->getId()
         ));
     }

@@ -161,7 +161,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/order_view_giftmessage/save', array(
+        return $this->getUrl('sales/order_view_giftmessage/save', array(
             'entity'    => $this->getItem()->getId(),
             'type'      => 'order_item',
             'reload'    => true

@@ -72,7 +72,7 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
                 }
 
                 $this->_getSession()->addSuccess(__('We sent the message.'));
-                $this->_redirect('*/sales_order_creditmemo/view', array(
+                $this->_redirect('sales/order_creditmemo/view', array(
                     'creditmemo_id' => $creditmemoId
                 ));
             }
@@ -97,7 +97,7 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
 
             return $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('sales/*/');
     }
 
     public function printAction()

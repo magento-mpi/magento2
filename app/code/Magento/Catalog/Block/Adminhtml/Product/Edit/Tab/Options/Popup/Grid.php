@@ -66,6 +66,6 @@ class Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/optionsimportgrid');
+        return $this->getUrl('catalog/*/optionsimportgrid');
     }
 }

@@ -73,7 +73,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/productGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/productGrid', array('_current' => true));
     }
 
     /**
@@ -84,6 +84,6 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('product' => $row->getId())) . 'category';
+        return $this->getUrl('adminhtml/*/edit', array('product' => $row->getId())) . 'category';
     }
 }

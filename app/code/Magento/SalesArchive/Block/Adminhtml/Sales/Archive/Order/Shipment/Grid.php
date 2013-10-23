@@ -71,7 +71,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('*/*/shipmentsgrid', array('_current' => true));
+         return $this->getUrl('adminhtml/*/shipmentsgrid', array('_current' => true));
     }
 
     /**

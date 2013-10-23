@@ -171,7 +171,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getBackUrl()
     {
         return $this->getUrl(
-            '*/order/view',
+            'sales/order/view',
             array(
                 'order_id'  => $this->getInvoice() ? $this->getInvoice()->getOrderId() : null,
                 'active_tab'=> 'order_invoices'
@@ -180,22 +180,22 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getCaptureUrl()
     {
-        return $this->getUrl('*/*/capture', array('invoice_id'=>$this->getInvoice()->getId()));
+        return $this->getUrl('sales/*/capture', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 
     public function getVoidUrl()
     {
-        return $this->getUrl('*/*/void', array('invoice_id'=>$this->getInvoice()->getId()));
+        return $this->getUrl('sales/*/void', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 
     public function getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel', array('invoice_id'=>$this->getInvoice()->getId()));
+        return $this->getUrl('sales/*/cancel', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 
     public function getEmailUrl()
     {
-        return $this->getUrl('*/*/email', array(
+        return $this->getUrl('sales/*/email', array(
             'order_id'  => $this->getInvoice()->getOrder()->getId(),
             'invoice_id'=> $this->getInvoice()->getId(),
         ));
@@ -203,7 +203,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getCreditMemoUrl()
     {
-        return $this->getUrl('*/order_creditmemo/start', array(
+        return $this->getUrl('sales/order_creditmemo/start', array(
             'order_id'  => $this->getInvoice()->getOrder()->getId(),
             'invoice_id'=> $this->getInvoice()->getId(),
         ));
@@ -211,7 +211,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/print', array(
+        return $this->getUrl('sales/*/print', array(
             'invoice_id' => $this->getInvoice()->getId()
         ));
     }
@@ -222,7 +222,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
             if ($this->getInvoice()->getBackUrl()) {
                 return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getInvoice()->getBackUrl() . '\')');
             }
-            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/invoice/') . '\')');
+            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('sales/invoice/') . '\')');
         }
         return $this;
     }

@@ -113,7 +113,7 @@ class Main extends \Magento\Backend\Block\Template
 
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
+            'onclick'   => 'setLocation(\''.$this->getUrl('catalog/*/').'\')',
             'class'     => 'back'
         ));
 
@@ -130,7 +130,7 @@ class Main extends \Magento\Backend\Block\Template
 
         $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Attribute Set'),
-            'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(__('You are about to delete all products in this set. Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
+            'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(__('You are about to delete all products in this set. Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('catalog/*/delete', array('id' => $setId)) . '\')',
             'class'     => 'delete'
         ));
 
@@ -179,7 +179,7 @@ class Main extends \Magento\Backend\Block\Template
      */
     public function getMoveUrl()
     {
-        return $this->getUrl('*/product_set/save', array('id' => $this->_getSetId()));
+        return $this->getUrl('catalog/product_set/save', array('id' => $this->_getSetId()));
     }
 
     /**
@@ -189,7 +189,7 @@ class Main extends \Magento\Backend\Block\Template
      */
     public function getGroupUrl()
     {
-        return $this->getUrl('*/product_group/save', array('id' => $this->_getSetId()));
+        return $this->getUrl('catalog/product_group/save', array('id' => $this->_getSetId()));
     }
 
     /**

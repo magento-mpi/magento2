@@ -98,7 +98,7 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
             $model = $this->_initSegment();
         } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -115,7 +115,7 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_initAction();
 
         $block =  $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));
+            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
@@ -142,16 +142,16 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         } catch (\Exception $e) {
             $this->_getSession()->addException($e,
                 __('Segment Customers matching error')
             );
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
-        $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab' => 'customers_tab'));
+        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'customers_tab'));
     }
 
     /**
@@ -224,7 +224,7 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                     return;
                 }
 
@@ -244,7 +244,7 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_session->setPageData(false);
 
                 if ($redirectBack) {
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'id'       => $model->getId(),
                         '_current' => true,
                     ));
@@ -254,14 +254,14 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
                 $this->_session->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
+                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (\Exception $e) {
                 $this->_session->addError(__("We're unable to save the segment."));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -275,13 +275,13 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_session->addSuccess(__('You deleted the segment.'));
         } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+            $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (\Exception $e) {
             $this->_session->addError(__("We're unable to delete the segement."));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

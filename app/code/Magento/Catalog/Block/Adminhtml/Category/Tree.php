@@ -99,7 +99,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher')
-                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
+                ->setSwitchUrl($this->getUrl('catalog/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
                 ->setTemplate('Magento_Adminhtml::store/switcher/enhanced.phtml')
         );
         return parent::_prepareLayout();
@@ -215,12 +215,12 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             || $expanded == true) {
             $params['expand_all'] = true;
         }
-        return $this->getUrl('*/*/categoriesJson', $params);
+        return $this->getUrl('catalog/*/categoriesJson', $params);
     }
 
     public function getNodesUrl()
     {
-        return $this->getUrl('*/category/jsonTree');
+        return $this->getUrl('catalog/category/jsonTree');
     }
 
     public function getSwitchTreeUrl()
@@ -238,7 +238,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     public function getMoveUrl()
     {
-        return $this->getUrl('*/category/move', array('store'=>$this->getRequest()->getParam('store')));
+        return $this->getUrl('catalog/category/move', array('store'=>$this->getRequest()->getParam('store')));
     }
 
     public function getTree($parenNodeCategory=null)

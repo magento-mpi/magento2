@@ -165,7 +165,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('catalog/*/grid', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()

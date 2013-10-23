@@ -49,14 +49,14 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!$txn->getId()) {
             $this->_getSession()->addError(__('Please correct the transaction ID and try again.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('sales/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
             $txn->setOrderUrl(
-                $this->getUrl('*/order/view', array('order_id' => $orderId))
+                $this->getUrl('sales/order/view', array('order_id' => $orderId))
             );
         }
 
@@ -124,7 +124,7 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
             );
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/sales_transactions/view', array('_current' => true));
+        $this->_redirect('sales/transactions/view', array('_current' => true));
     }
 
     /**

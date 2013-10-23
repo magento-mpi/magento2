@@ -154,11 +154,11 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
             $nextId = (int) $this->getRequest()->getParam('next_item');
             $url = $this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/');
             if ($nextId) {
-                $url = $this->getUrl('*/*/edit', array('id' => $nextId));
+                $url = $this->getUrl('adminhtml/*/edit', array('id' => $nextId));
             }
             return $this->getResponse()->setRedirect($url);
         }
-        $this->_redirect('*/*/');
+        $this->_getUrl('sales/*/');
     }
 
     public function deleteAction()
@@ -173,9 +173,9 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
 
             $session->addSuccess(__('The review has been deleted.'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/pending'));
             } else {
-                $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
             }
             return;
         } catch (\Magento\Core\Exception $e) {
@@ -184,7 +184,7 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
             $session->addException($e, __('Something went wrong  deleting this review.'));
         }
 
-        $this->_redirect('*/*/edit/',array('id'=>$reviewId));
+        $this->_getUrl('sales/*/edit/',array('id'=>$reviewId));
     }
 
     public function massDeleteAction()
@@ -210,7 +210,7 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/' . $this->getRequest()->getParam('ret', 'index'));
+        $this->_getUrl('sales/*/' . $this->getRequest()->getParam('ret', 'index'));
     }
 
     public function massUpdateStatusAction()
@@ -240,7 +240,7 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/' . $this->getRequest()->getParam('ret', 'index'));
+        $this->_getUrl('sales/*/' . $this->getRequest()->getParam('ret', 'index'));
     }
 
     public function massVisibleInAction()
@@ -270,7 +270,7 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('*/*/pending');
+        $this->_getUrl('sales/*/pending');
     }
 
     public function productGridAction()
@@ -344,9 +344,9 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
 
                 $session->addSuccess(__('You saved the review.'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
+                    $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/pending'));
                 } else {
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+                    $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
                 }
 
                 return;
@@ -356,7 +356,7 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
                 $session->addException($e, __('An error occurred while saving review.'));
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+        $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
         return;
     }
 
