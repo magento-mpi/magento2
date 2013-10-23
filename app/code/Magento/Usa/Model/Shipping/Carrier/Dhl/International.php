@@ -138,9 +138,9 @@ class International
     /**
      * Core string
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
      * Usa data
@@ -238,7 +238,7 @@ class International
     ) {
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
-        $this->_coreString = $coreString;
+        $this->string = $coreString;
         $this->_coreDate = $coreDate;
         $this->_pdfFactory = $pdfFactory;
         $this->_storeManager = $storeManager;
@@ -1363,7 +1363,7 @@ class International
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        $address = $this->_coreString->strSplit($address, 35, false, true);
+        $address = $this->string->split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeConsignee->addChild('AddressLine', $addressLine);
@@ -1422,7 +1422,7 @@ class International
         $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        $address = $this->_coreString->strSplit($address, 35, false, true);
+        $address = $this->string->split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeShipper->addChild('AddressLine', $addressLine);
