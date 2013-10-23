@@ -47,7 +47,7 @@ class StringIconv
     }
 
     /**
-     * Passthrough to iconv_substr()
+     * Pass through to iconv_substr()
      *
      * @param string $string
      * @param int $offset
