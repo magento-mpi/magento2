@@ -1,5 +1,5 @@
-* Eliminated dependency in Magento_Data_Form from Core module
-* Eliminated Media module
+* Eliminated dependency in Magento\Data\Form from Core module
+* Eliminated Magento\Media module
 * Fixed copyright information
 * Declared public interfaces for View component into library
 * Plushe theme is set as the default theme
