@@ -226,7 +226,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     public function getSwitchTreeUrl()
     {
         return $this->getUrl(
-            "*/category/tree",
+            'catalog/category/tree',
             array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null)
         );
     }

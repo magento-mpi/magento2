@@ -193,7 +193,16 @@ class AbstractCategory extends \Magento\Backend\Block\Template
 
     public function getEditUrl()
     {
-        return $this->getUrl("*/category/edit", array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null));
+        return $this->getUrl(
+            'catalog/category/edit',
+            array(
+                '_current' => true,
+                'store' => null,
+                '_query' => false,
+                'id' => null,
+                'parent' => null
+            )
+        );
     }
 
     /**
