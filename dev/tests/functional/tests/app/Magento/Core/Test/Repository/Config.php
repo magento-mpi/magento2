@@ -34,6 +34,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
+        $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
@@ -408,5 +409,34 @@ class Config extends AbstractRepository
     protected function _getUsTax()
     {
         return $this->_getDefaultTax();
+    }
+
+    /**
+     * Disable authorizenet payment
+     *
+     * @return array
+     */
+    protected function _getAuthorizeNetDisable()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'authorizenet' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'active' => array( //Enabled
+                                        'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 }
