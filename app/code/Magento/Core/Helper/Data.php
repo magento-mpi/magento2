@@ -21,13 +21,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
 
-    /**
-     * Config pathes to merchant country code and merchant VAT number
-     */
-    const XML_PATH_MERCHANT_COUNTRY_CODE = 'general/store_information/country_id';
-    const XML_PATH_MERCHANT_VAT_NUMBER = 'general/store_information/merchant_vat_number';
-    const XML_PATH_EU_COUNTRIES_LIST = 'general/country/eu_countries';
-
     const XML_PATH_SINGLE_STORE_MODE_ENABLED = 'general/single_store_mode/enabled';
 
     /**
@@ -665,41 +658,6 @@ XML;
     public function useDbCompatibleMode()
     {
         return $this->_dbCompatibleMode;
-    }
-
-    /**
-     * Retrieve merchant country code
-     *
-     * @param \Magento\Core\Model\Store|string|int|null $store
-     * @return string
-     */
-    public function getMerchantCountryCode($store = null)
-    {
-        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
-    }
-
-    /**
-     * Retrieve merchant VAT number
-     *
-     * @param \Magento\Core\Model\Store|string|int|null $store
-     * @return string
-     */
-    public function getMerchantVatNumber($store = null)
-    {
-        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
-    }
-
-    /**
-     * Check whether specified country is in EU countries list
-     *
-     * @param string $countryCode
-     * @param null|int $storeId
-     * @return bool
-     */
-    public function isCountryInEU($countryCode, $storeId = null)
-    {
-        $euCountries = explode(',', $this->_coreStoreConfig->getConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
-        return in_array($countryCode, $euCountries);
     }
 
     /**

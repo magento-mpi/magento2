@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Helper;
 
 /**
  * Customer Data Helper
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Helper;
-
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
@@ -65,6 +60,21 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'customer/password/reset_link_expiration_period';
 
     /**
+     * Configuration path to merchant country id
+     */
+    const XML_PATH_MERCHANT_COUNTRY_CODE = 'general/store_information/country_id';
+
+    /**
+     * Config path to merchant VAT number
+     */
+    const XML_PATH_MERCHANT_VAT_NUMBER = 'general/store_information/merchant_vat_number';
+
+    /**
+     * Config path to UE country list
+     */
+    const XML_PATH_EU_COUNTRIES_LIST = 'general/country/eu_countries';
+
+    /**
      * VAT class constants
      */
     const VAT_CLASS_DOMESTIC    = 'domestic';
@@ -84,7 +94,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Customer address
@@ -116,7 +126,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
-    
+
     /**
      * @var \Magento\Customer\Model\GroupFactory
      */
@@ -166,6 +176,41 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
         parent::__construct($context);
+    }
+
+    /**
+     * Retrieve merchant country code
+     *
+     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @return string
+     */
+    public function getMerchantCountryCode($store = null)
+    {
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
+    }
+
+    /**
+     * Retrieve merchant VAT number
+     *
+     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @return string
+     */
+    public function getMerchantVatNumber($store = null)
+    {
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
+    }
+
+    /**
+     * Check whether specified country is in EU countries list
+     *
+     * @param string $countryCode
+     * @param null|int $storeId
+     * @return bool
+     */
+    public function isCountryInEU($countryCode, $storeId = null)
+    {
+        $euCountries = explode(',', $this->_coreStoreConfig->getConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
+        return in_array($countryCode, $euCountries);
     }
 
     /**
@@ -405,6 +450,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Retrieve name prefix dropdown options
      *
+     * @param null $store
      * @return array|bool
      */
     public function getNamePrefixOptions($store = null)
@@ -417,6 +463,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Retrieve name suffix dropdown options
      *
+     * @param null $store
      * @return array|bool
      */
     public function getNameSuffixOptions($store = null)
@@ -576,19 +623,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function canCheckVatNumber($countryCode, $vatNumber, $requesterCountryCode, $requesterVatNumber)
     {
         $result = true;
-        /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = $this->_coreData;
-
         if (!is_string($countryCode)
             || !is_string($vatNumber)
             || !is_string($requesterCountryCode)
             || !is_string($requesterVatNumber)
             || empty($countryCode)
-            || !$coreHelper->isCountryInEU($countryCode)
+            || !$this->isCountryInEU($countryCode)
             || empty($vatNumber)
             || (empty($requesterCountryCode) && !empty($requesterVatNumber))
             || (!empty($requesterCountryCode) && empty($requesterVatNumber))
-            || (!empty($requesterCountryCode) && !$coreHelper->isCountryInEU($requesterCountryCode))
+            || (!empty($requesterCountryCode) && !$this->isCountryInEU($requesterCountryCode))
         ) {
             $result = false;
         }
@@ -612,7 +656,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === $this->_coreData->getMerchantCountryCode($store)
+            && $customerCountryCode === $this->getMerchantCountryCode($store)
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;

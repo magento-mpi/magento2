@@ -235,4 +235,10 @@ return array(
     array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_DIGITS'),
     array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_SPECIALS'),
     array('XML_NODE_REMOTE_ADDR_HEADERS', '\Magento\Core\Helper\Http'),
+    array('XML_PATH_EU_COUNTRIES_LIST', '\Magento\Core\Helper\Data',
+        'Magento\Customer\Helper\Data::XML_PATH_EU_COUNTRIES_LIST'),
+    array('XML_PATH_MERCHANT_COUNTRY_CODE', '\Magento\Core\Helper\Data',
+        'Magento\Customer\Helper\Data::XML_PATH_MERCHANT_COUNTRY_CODE'),
+    array('XML_PATH_MERCHANT_VAT_NUMBER', '\Magento\Core\Helper\Data',
+        'Magento\Customer\Helper\Data::XML_PATH_MERCHANT_VAT_NUMBER'),
 );
