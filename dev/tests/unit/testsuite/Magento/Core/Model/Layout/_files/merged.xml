@@ -20,6 +20,7 @@
     </handle>
     <handle id="catalog_product_view_type_grouped" label="Catalog Product View (Grouped)" type="page"/>
     <handle id="catalog_product_view_type_simple" label="Catalog Product View (Simple)" type="page"/>
+    <handle id="catalogsearch_ajax_suggest" label="Catalog Quick Search Form Suggestions" type="page"/>
     <handle id="checkout_onepage_index" label="One Page Checkout" type="page"/>
     <handle id="default" label="All Pages" type="page">
         <container name="content" as="content" label="Main Content Area"/>
