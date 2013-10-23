@@ -60,7 +60,7 @@ class Home extends Page
             $this->_browser->find('.navigation', Locator::SELECTOR_CSS)
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoCoreTitle(
-            $this->_browser->find('.page-title span', Locator::SELECTOR_CSS)
+            $this->_browser->find('h1.title span', Locator::SELECTOR_CSS)
         );
     }
 

@@ -26,6 +26,7 @@ class Category extends DataFixture
      * Attribute set for mapping data into ui tabs
      */
     const GROUP_GENERAL_INFORMATION = 'category_info_tabs_group_4';
+    const GROUP_DISPLAY_SETTINGS = 'category_info_tabs_group_5';
 
     /**
      * Contains categories that are needed to create next category
@@ -35,17 +36,17 @@ class Category extends DataFixture
     protected $_categories;
 
     /**
-     * Update to switch data for always applying these placeholders when switching to any data set
+     * Custom constructor to create category with custom parent category
      *
-     * @param $name
-     * @return bool
+     * @param Config $configuration
+     * @param array $placeholders
      */
-    public function switchData($name)
+    public function __construct(Config $configuration, $placeholders =  array())
     {
+        parent::__construct($configuration, $placeholders);
+
         $this->_placeholders['men::getCategoryName'] = array($this, '_categoryProvider');
         $this->_placeholders['men::getCategoryId'] = array($this, '_categoryProvider');
-
-        return parent::switchData($name);
     }
 
     /**
@@ -84,7 +85,7 @@ class Category extends DataFixture
      */
     public function getCategoryId()
     {
-        return $this->getData('category_path/input_value');
+        return $this->getData('fields/category_id/value');
     }
 
     /**
@@ -95,7 +96,7 @@ class Category extends DataFixture
     public function persist()
     {
         $id = Factory::getApp()->magentoCatalogCreateCategory($this);
-        $this->_data['category_path']['input_value'] = $id;
+        $this->_data['fields']['category_id']['value'] = $id;
         return $this;
     }
 
@@ -112,27 +113,50 @@ class Category extends DataFixture
             'input_prefix' => 'general'
         );
 
+        $this->_data = array(
+            'fields' => array(
+                'name' => array(
+                    'value' => 'Subcategory %isolation%',
+                    'group' => static::GROUP_GENERAL_INFORMATION
+                ),
+                'is_active' => array(
+                    'value' => 'Yes',
+                    'input_value' => '1',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'include_in_menu' => array(
+                    'value' => 'Yes',
+                    'input_value' => '1',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'use_config_group_5available_sort_by' => array(
+                    'value' => '',
+                    'input_name' => 'use_config[0]',
+                    'input_value' => 'available_sort_by',
+                    'group' => static::GROUP_DISPLAY_SETTINGS,
+                    'input' => 'checkbox'
+                ),
+                'use_config_group_5default_sort_by' => array(
+                    'value' => '',
+                    'input_name' => 'use_config[1]',
+                    'input_value' => 'default_sort_by',
+                    'group' => static::GROUP_DISPLAY_SETTINGS,
+                    'input' => 'checkbox'
+                ),
+                'path' => array(
+                    'input_value' => 2
+                )
+            ),
+            'category_path' =>  array(
+                'value' => 'Default Category (0)',
+                'input_value' => '2'
+            )
+        );
+
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogCategory($this->_dataConfig, $this->_data);
-    }
-
-    /**
-     * Get Url params
-     *
-     * @param string $urlKey
-     * @return string
-     */
-    public function getUrlParams($urlKey)
-    {
-        $params = array();
-        $config = $this->getDataConfig();
-        if (!empty($config[$urlKey]) && is_array($config[$urlKey])) {
-            foreach ($config[$urlKey] as $key => $value) {
-                $params[] = $key .'/' .$value;
-            }
-        }
-        $params[] = 'parent/' . $this->getData('fields/path')['input_value'];
-        return implode('/', $params);
     }
 
     /**

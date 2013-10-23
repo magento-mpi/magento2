@@ -31,9 +31,6 @@ class CreateTest extends Functional
         //Data
         /** @var Category $category */
         $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-        //$category->switchData('men');
-        //$category->persist();
-        $category->switchData('shoes');
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
@@ -59,6 +56,7 @@ class CreateTest extends Functional
         $frontendHomePage->open();
         $loader->waitLoader();
         $navigationMenu = $frontendHomePage->getTopmenu();
+        //TODO: this method does not work if parent has more than one parent in tree
         $navigationMenu->selectCategoryByName($category->getCategoryName());
         $pageTitleBlock = $frontendHomePage->getTitleBlock();
         $categoryTitle = $pageTitleBlock->getTitle();
