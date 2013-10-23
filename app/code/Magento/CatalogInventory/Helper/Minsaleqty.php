@@ -16,13 +16,6 @@ namespace Magento\CatalogInventory\Helper;
 class Minsaleqty
 {
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -30,14 +23,11 @@ class Minsaleqty
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
-        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -128,7 +118,7 @@ class Minsaleqty
     {
         $result = array();
         foreach ($value as $groupId => $qty) {
-            $_id = $this->_coreData->uniqHash('_');
+            $_id = \Magento\Math\Random::getUniqueHash('_');
             $result[$_id] = array(
                 'customer_group_id' => $groupId,
                 'min_sale_qty' => $this->_fixQty($qty),

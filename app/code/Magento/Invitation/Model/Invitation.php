@@ -59,13 +59,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'invitation';
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Invitation data
      *
      * @var \Magento\Invitation\Helper\Data
@@ -109,21 +102,19 @@ class Invitation extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Resource\Invitation $resource,
@@ -137,7 +128,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_invitationData = $invitationData;
-        $this->_coreData = $coreData;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_historyFactory = $historyFactory;
@@ -198,7 +188,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => $this->_coreData->uniqHash(),
+                'protection_code' => \Magento\Math\Random::getUniqueHash(),
                 'status'          => self::STATUS_NEW,
                 'invitation_date' => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),

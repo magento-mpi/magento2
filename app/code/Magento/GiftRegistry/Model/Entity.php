@@ -133,13 +133,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_giftRegistryData = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $quoteFactory;
@@ -195,7 +188,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -223,7 +215,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -250,7 +241,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_giftRegistryData = $giftRegistryData;
         $this->_app = $application;
         $this->_store = $storeManager->getStore();
@@ -980,7 +970,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function getGenerateKeyId()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**

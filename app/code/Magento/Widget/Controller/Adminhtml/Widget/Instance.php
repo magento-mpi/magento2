@@ -239,7 +239,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $chooser = $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
             ->setUseMassaction(true)
-            ->setId($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('categories'))
+            ->setId(\Magento\Math\Random::getUniqueHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -255,7 +255,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
-            ->setName($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
+            ->setName(\Magento\Math\Random::getUniqueHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));

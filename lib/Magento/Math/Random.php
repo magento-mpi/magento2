@@ -46,4 +46,15 @@ class Random
         }
         return $string;
     }
+
+    /**
+     * Generate a hash from unique ID
+     *
+     * @param string $prefix
+     * @return string
+     */
+    public static function getUniqueHash($prefix = '')
+    {
+        return $prefix . md5(uniqid(microtime() . mt_rand(), true));
+    }
 }

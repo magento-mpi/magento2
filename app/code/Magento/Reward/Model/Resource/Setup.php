@@ -36,7 +36,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param string $resourceName
@@ -47,7 +46,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Core\Model\Config $config,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName,
@@ -56,7 +54,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     ) {
         $this->_pageFactory = $pageFactory;
         parent::__construct(
-            $context, $cache, $attrGrCollFactory, $coreHelper, $config, $resourceName, $moduleName, $connectionName
+            $context, $cache, $attrGrCollFactory, $config, $resourceName, $moduleName, $connectionName
         );
     }
 

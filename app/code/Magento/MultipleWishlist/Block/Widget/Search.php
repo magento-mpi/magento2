@@ -144,7 +144,7 @@ class Search extends \Magento\Core\Block\Template
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', $this->_coreData->uniqHash());
+            $this->setData('id', \Magento\Math\Random::getUniqueHash());
         }
         return $this->getData('id');
     }
