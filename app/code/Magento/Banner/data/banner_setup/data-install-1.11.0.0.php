@@ -60,7 +60,7 @@ foreach ($banners as $sortOrder => $bannerData) {
             'types'        => array(''),
             'rotate'       => '',
             'banner_ids'   => $banner->getId(),
-            'unique_id'    => $install->getCoreData()->uniqHash()
+            'unique_id'    => \Magento\Math\Random::getUniqueHash()
         ))
         ->addData(array(
             'instance_type' => 'Magento\Banner\Block\Widget\Banner',

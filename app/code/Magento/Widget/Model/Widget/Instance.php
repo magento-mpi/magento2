@@ -86,7 +86,6 @@ class Instance extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
@@ -99,10 +98,10 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
+     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Escaper $escaper,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
@@ -117,7 +116,6 @@ class Instance extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_escaper = $escaper;
-        $this->_coreData = $coreData;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
@@ -467,7 +465,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = $this->_coreData->uniqHash();
+        $hash = \Magento\Math\Random::getUniqueHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {

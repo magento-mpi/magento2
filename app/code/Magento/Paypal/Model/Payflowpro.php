@@ -96,14 +96,6 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         'centinel_eci'          => 'ECI',
         'centinel_xid'          => 'XID',
     );
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
@@ -139,12 +131,10 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_storeManager = $storeManager;
         $this->_configFactory = $configFactory;
         parent::__construct(
@@ -535,7 +525,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
      */
     protected function _generateRequestId()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**

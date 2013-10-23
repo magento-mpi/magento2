@@ -254,15 +254,6 @@ XML;
         $this->assertEquals($data, $this->_helper->jsonDecode($jsonData));
     }
 
-    public function testUniqHash()
-    {
-        $hashOne = $this->_helper->uniqHash();
-        $hashTwo = $this->_helper->uniqHash();
-        $this->assertTrue(is_string($hashOne));
-        $this->assertTrue(is_string($hashTwo));
-        $this->assertNotEquals($hashOne, $hashTwo);
-    }
-
     public function testGetDefaultCountry()
     {
         $this->assertEquals('US', $this->_helper->getDefaultCountry());

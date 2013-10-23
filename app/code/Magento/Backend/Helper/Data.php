@@ -52,13 +52,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_routerList;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Core\Model\AppInterface
      */
     protected $_app;
@@ -82,7 +75,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $applicationConfig
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\RouterList $routerList
@@ -93,10 +85,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param string $backendFrontName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $applicationConfig,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\RouterList $routerList,
@@ -107,7 +99,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $backendFrontName
     ) {
         parent::__construct($context);
-        $this->_coreData = $coreData;
         $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
         $this->_defaultAreaFrontName = $defaultAreaFrontName;
@@ -206,7 +197,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**

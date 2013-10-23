@@ -177,7 +177,7 @@ class Shortcut extends \Magento\Core\Block\Template
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('Magento\Core\Helper\Data')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId(\Magento\Math\Random::getUniqueHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 

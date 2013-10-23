@@ -48,6 +48,15 @@ class RandomTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetUniqueHash()
+    {
+        $hashOne = \Magento\Math\Random::getUniqueHash();
+        $hashTwo = \Magento\Math\Random::getUniqueHash();
+        $this->assertTrue(is_string($hashOne));
+        $this->assertTrue(is_string($hashTwo));
+        $this->assertNotEquals($hashOne, $hashTwo);
+    }
+
     /**
      * @param string $string
      * @param string $chars

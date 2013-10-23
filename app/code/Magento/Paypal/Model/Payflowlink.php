@@ -557,7 +557,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _generateSecureTokenId()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**

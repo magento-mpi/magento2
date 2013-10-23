@@ -877,4 +877,5 @@ return array(
     array('uc_words'),
     array('is_empty_date'),
     array('now'),
+    array('uniqHash', '\Magento\Core\Helper\Data'),
 );

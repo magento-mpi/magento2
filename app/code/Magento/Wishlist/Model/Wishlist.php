@@ -64,13 +64,6 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $_wishlistData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Catalog product
      *
      * @var \Magento\Catalog\Helper\Product
@@ -112,7 +105,6 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -124,11 +116,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
+     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -143,7 +135,6 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
-        $this->_coreData = $coreData;
         $this->_wishlistData = $wishlistData;
         $this->_storeManager = $storeManager;
         $this->_date = $date;
@@ -226,7 +217,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSharingRandomCode()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**

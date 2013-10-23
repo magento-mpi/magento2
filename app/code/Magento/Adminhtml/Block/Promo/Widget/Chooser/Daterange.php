@@ -38,31 +38,22 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_rangeDelimiter  = '...';
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     /**
      * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Context $context
      * @param array $data
+     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        $this->_coreData = $coreData;
         parent::__construct($context, $data);
     }
 
@@ -78,7 +69,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
             return '';
         }
 
-        $idSuffix = $this->_coreData->uniqHash();
+        $idSuffix = \Magento\Math\Random::getUniqueHash();
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $dateFields = array(

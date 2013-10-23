@@ -34,7 +34,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\Config $config
      * @param string $resourceName
      * @param string $moduleName
@@ -44,14 +43,12 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Core\Model\Config $config,
         $resourceName,
         $moduleName = 'Magento_Sales',
         $connectionName = ''
     ) {
         $this->_config = $config;
-        $this->_coreData = $coreHelper;
         $this->_encryptor = $context->getEncryptor();
         parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }

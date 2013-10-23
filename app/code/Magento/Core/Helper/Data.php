@@ -611,17 +611,6 @@ XML;
     }
 
     /**
-     * Generate a hash from unique ID
-     *
-     * @param string $prefix
-     * @return string
-     */
-    public function uniqHash($prefix = '')
-    {
-        return $prefix . md5(uniqid(microtime() . mt_rand(), true));
-    }
-
-    /**
      * Return default country code
      *
      * @param \Magento\Core\Model\Store|string|int $store
