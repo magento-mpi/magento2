@@ -80,4 +80,16 @@ class Success extends Block
             return end($orderId);
         }
     }
+
+    /**
+     * Get Id of placed order for gust checkout
+     *
+     * @return string
+     */
+    public function getGuestOrderId()
+    {
+        $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
+        preg_match('/[\d]+/', $orderString, $orderId);
+        return end($orderId);
+    }
 }
