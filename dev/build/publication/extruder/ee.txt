@@ -7,7 +7,6 @@ app/design/adminhtml/magento_enterprise
 app/design/frontend/magento_fixed_width
 app/design/frontend/magento_iphone_html5
 app/design/frontend/magento_plushe/Magento_AdvancedCheckout
-app/design/frontend/magento_plushe/Magento_Banner
 app/design/frontend/magento_plushe/Magento_CatalogEvent
 app/design/frontend/magento_plushe/Magento_CustomerBalance
 app/design/frontend/magento_plushe/Magento_CustomerCustomAttributes
@@ -24,6 +23,13 @@ app/design/frontend/magento_plushe/Magento_TargetRule
 app/design/frontend/magento_plushe/Magento_WebsiteRestriction
 app/design/frontend/magento_plushe/less/styles-ee.less
 app/design/frontend/magento_plushe/css/styles-ee.css
+app/design/frontend/magento_backup/Magento_Banner
+app/design/frontend/magento_backup/Magento_Enterprise
+app/design/frontend/magento_backup/Magento_GiftRegistry
+app/design/frontend/magento_backup/Magento_Reward
+app/design/frontend/magento_backup/Magento_Rma
+app/design/frontend/magento_backup/Magento_VersionsCms
+app/design/frontend/magento_backup/Magento_WebsiteRestriction
 app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/RenderersTest.php
