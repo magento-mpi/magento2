@@ -197,7 +197,7 @@ EXPECTED_MESSAGE;
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth access_token';
         $this->_oauthServiceMock->expects($this->once())
             ->method('validateAccessToken')
-            ->will($this->returnValue(array('isValid' => true)));
+            ->will($this->returnValue(true));
 
         $this->_soapController->dispatch();
         unset($_SERVER['HTTP_AUTHORIZATION']);

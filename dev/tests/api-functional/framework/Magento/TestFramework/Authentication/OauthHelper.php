@@ -29,8 +29,8 @@ class OauthHelper
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $oauthService \Magento\Oauth\Oauth */
-        $oauthService = $objectManager->get('Magento\Oauth\Oauth');
+        /** @var $consumerHelper \Magento\Oauth\Helper\Consumer */
+        $consumerHelper = $objectManager->get('Magento\Oauth\Helper\Consumer');
         /** @var $oauthHelper \Magento\Oauth\Helper\Oauth */
         $oauthHelper = $objectManager->get('Magento\Oauth\Helper\Oauth');
 
@@ -52,8 +52,8 @@ class OauthHelper
         }
 
         /** @var array $consumerData */
-        $consumerData = $oauthService->createConsumer($data);
-        /** @var  $token \Magento\Oauth\Model\Token */
+        $consumerData = $consumerHelper->createConsumer($data);
+        /** @var  $consumer \Magento\Oauth\Model\Consumer */
         $consumer = $objectManager->get('Magento\Oauth\Model\Consumer')
             ->load($consumerData['key'], 'key');
         $token = $objectManager->create('Magento\Oauth\Model\Token');

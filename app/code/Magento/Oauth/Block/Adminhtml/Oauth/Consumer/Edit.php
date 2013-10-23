@@ -39,7 +39,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($coreData, $context, $data);
         $this->_consumerData = $registry->registry(self::REGISTRY_KEY_CURRENT_CONSUMER);
         if (!$this->_consumerData
-            || !$this->_consumerData[self::DATA_ENTITY_ID]
+            || !array_key_exists(self::DATA_ENTITY_ID, $this->_consumerData)
             || !$this->_authorization->isAllowed('Magento_Oauth::consumer_delete')
         ) {
             $this->_removeButton('delete');

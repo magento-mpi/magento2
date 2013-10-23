@@ -6,30 +6,10 @@
  * @license    {license_link}
  */
 
-/**
- * OAuth Service Helper
- */
 namespace Magento\Oauth\Helper;
 
-class Oauth extends \Magento\Core\Helper\AbstractHelper
+class Oauth
 {
-    /**#@+
-     * Cleanup xpath config settings
-     */
-    const XML_PATH_CLEANUP_PROBABILITY = 'oauth/cleanup/cleanup_probability';
-    const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
-    /**#@-*/
-
-    /**
-     * Cleanup expiration period in minutes
-     */
-    const CLEANUP_EXPIRATION_PERIOD_DEFAULT = 120;
-
-    /**
-     * Query parameter as a sign that user rejects
-     */
-    const QUERY_PARAM_REJECTED = 'rejected';
-
     /**
      * Value of callback URL when it is established or if the client is unable to receive callbacks
      *
@@ -44,19 +24,12 @@ class Oauth extends \Magento\Core\Helper\AbstractHelper
      */
     protected $_coreData = null;
 
-    /** @var \Magento\Core\Model\Store\Config */
-    protected $_storeConfig;
-
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Store\Config $storeConfig
-    ) {
+    public function __construct(\Magento\Core\Helper\Data $coreData)
+    {
         $this->_coreData = $coreData;
-        $this->_storeConfig = $storeConfig;
     }
 
     /**
@@ -141,28 +114,5 @@ class Oauth extends \Magento\Core\Helper\AbstractHelper
     public function generateNonce()
     {
         return $this->_generateRandomString(\Magento\Oauth\Model\Nonce::NONCE_LENGTH);
-    }
-
-    /**
-     * Calculate cleanup possibility for data with lifetime property
-     *
-     * @return bool
-     */
-    public function isCleanupProbability()
-    {
-        // Safe get cleanup probability value from system configuration
-        $configValue = (int) $this->_storeConfig->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
-        return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
-    }
-
-    /**
-     * Get cleanup expiration period value from system configuration in minutes
-     *
-     * @return int
-     */
-    public function getCleanupExpirationPeriod()
-    {
-        $minutes = (int) $this->_storeConfig->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
-        return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 }

@@ -109,6 +109,7 @@ class KeyLength extends \Zend_Validate_StringLength
      *
      * @param  string $value
      * @return boolean
+     * @throws \Exception
      */
     public function isValid($value)
     {

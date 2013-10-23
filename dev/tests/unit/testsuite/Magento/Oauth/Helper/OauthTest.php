@@ -12,51 +12,30 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Helper\Data */
     protected $_coreHelper;
 
-    /** @var \Magento\Core\Helper\Context */
-    protected $_coreContextMock;
-
-    /** @var \Magento\Core\Model\Store\Config */
-    protected $_storeConfigMock;
-
     /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
 
     protected function setUp()
     {
-        $this->_coreContextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_encryptorMock = $this->getMockBuilder('Magento\Core\Model\Encryption')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_coreHelper = new \Magento\Core\Helper\Data(
-            $this->_coreContextMock,
+            $this->getMockBuilder('Magento\Core\Helper\Context')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\Event\Manager')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Helper\Http')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()->getMock(),
-            $this->_storeConfigMock,
+            $this->getMockBuilder('Magento\Core\Model\Store\Config')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\StoreManager')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\Locale')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\Date')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\App\State')->disableOriginalConstructor()->getMock(),
-            $this->_encryptorMock
+            $this->getMockBuilder('Magento\Core\Model\Encryption')->disableOriginalConstructor()->getMock()
         );
 
-        $this->_oauthHelper = new \Magento\Oauth\Helper\Oauth(
-            $this->_coreHelper,
-            $this->_storeConfigMock
-        );
+        $this->_oauthHelper = new \Magento\Oauth\Helper\Oauth($this->_coreHelper);
     }
 
     protected function tearDown()
     {
         unset($this->_coreHelper);
-        unset($this->_coreContextMock);
-        unset($this->_storeConfigMock);
         unset($this->_oauthHelper);
     }
 
@@ -94,36 +73,5 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     {
         $nonce = $this->_oauthHelper->generateNonce();
         $this->assertTrue(is_string($nonce) && strlen($nonce) === \Magento\Oauth\Model\Nonce::NONCE_LENGTH);
-    }
-
-    public function testIsCleanupProbabilityZero()
-    {
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')
-            ->will($this->returnValue(0));
-        $this->assertFalse($this->_oauthHelper->isCleanupProbability());
-    }
-
-    public function testIsCleanupProbabilityRandomOne()
-    {
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')
-            ->will($this->returnValue(1));
-        $this->assertTrue($this->_oauthHelper->isCleanupProbability());
-    }
-
-    public function testGetCleanupExpirationPeriodZero()
-    {
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')
-            ->will($this->returnValue(0));
-        $this->assertEquals(
-            \Magento\Oauth\Helper\Oauth::CLEANUP_EXPIRATION_PERIOD_DEFAULT,
-            $this->_oauthHelper->getCleanupExpirationPeriod()
-        );
-    }
-
-    public function testGetCleanupExpirationPeriodNonZero()
-    {
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')
-            ->will($this->returnValue(10));
-        $this->assertEquals(10, $this->_oauthHelper->getCleanupExpirationPeriod());
     }
 }

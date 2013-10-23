@@ -34,7 +34,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getUrl('*/*/save',
-                    $consumerData[self::DATA_ENTITY_ID]
+                    array_key_exists(self::DATA_ENTITY_ID, $consumerData)
                         ? array('id' => $consumerData[self::DATA_ENTITY_ID]) : array()),
                 'method' => 'post'
             ))
@@ -44,7 +44,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'legend' => __('Add-On Information'), 'class' => 'fieldset-wide'
         ));
 
-        if ($consumerData[self::DATA_ENTITY_ID]) {
+        if (array_key_exists(self::DATA_ENTITY_ID, $consumerData)) {
             $fieldset->addField(
                 'id', 'hidden', array('name' => 'id', 'value' => $consumerData[self::DATA_ENTITY_ID]));
         }

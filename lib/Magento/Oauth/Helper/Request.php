@@ -75,19 +75,12 @@ class Request
      * Process HTTP request object and prepare for token validation
      *
      * @param \Zend_Controller_Request_Http $httpRequest
+     * @param string $requestUrl The request Url
      * @param array $bodyParams array of key value body parameters
      * @return array
      */
-    public function prepareRequest($httpRequest, $bodyParams = array())
+    public function prepareRequest($httpRequest, $requestUrl, $bodyParams = array())
     {
-        // TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered.
-        $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
-            $httpRequest->getRequestUri();
-
-        $request = array();
-        $request['request_url'] = $requestUrl;
-        $request['http_method'] = $httpRequest->getMethod();
-
         $oauthParams = $this->_processRequest($httpRequest->getHeader('Authorization'),
             $httpRequest->getHeader(\Zend_Http_Client::CONTENT_TYPE),
             $httpRequest->getRawBody(),
@@ -95,7 +88,20 @@ class Request
         // Use body parameters only for POST and PUT
         $bodyParams = is_array($bodyParams) && ($httpRequest->getMethod() == 'POST' ||
             $httpRequest->getMethod() == 'PUT') ? $bodyParams : array();
-        return array_merge($request, $oauthParams, $bodyParams);
+        return array_merge($oauthParams, $bodyParams);
+    }
+
+    /**
+     * Compute the request Url from the Http request
+     *
+     * @param \Zend_Controller_Request_Http $httpRequest
+     * @return string
+     */
+    public function getRequestUrl($httpRequest)
+    {
+        // TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered.
+        return $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
+            $httpRequest->getRequestUri();
     }
 
     /**
@@ -114,9 +120,7 @@ class Request
      *         'oauth_nonce' => 'rI7PSWxTZRHWU3R',
      *         'oauth_timestamp' => '1377183099',
      *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
-     *         'request_url' => 'http://magento.ll/oauth/token/access',
-     *         'http_method' => 'POST'
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'
      * )
      * </pre>
      */

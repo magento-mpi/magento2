@@ -99,12 +99,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by ID
      *
-     * @param array|int $id
+     * @param array|int $tokenId
      * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
-    public function addFilterById($id)
+    public function addFilterById($tokenId)
     {
-        $this->addFilter('main_table.entity_id', array('in' => $id), 'public');
+        $this->addFilter('main_table.entity_id', array('in' => $tokenId), 'public');
         return $this;
     }
 

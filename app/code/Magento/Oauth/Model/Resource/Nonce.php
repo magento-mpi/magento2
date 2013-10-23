@@ -53,7 +53,7 @@ class Nonce extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $nonce - The nonce string
      * @param int $consumerId - The consumer id
-     * @return array
+     * @return array|bool - Array of data or false if no row
      */
     public function selectByCompositeKey($nonce, $consumerId)
     {

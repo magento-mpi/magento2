@@ -108,7 +108,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
-                $this->_oauthService->validateAccessToken(array('token' => $this->_getAccessToken()));
+                $this->_oauthService->validateAccessToken($this->_getAccessToken());
                 $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }

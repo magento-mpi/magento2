@@ -44,12 +44,12 @@ class Consumer extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Core\Model\Url\Validator
      */
-    protected $urlValidator;
+    protected $_urlValidator;
 
     /**
      * @var Consumer\Validator\KeyLengthFactory
      */
-    protected $keyLengthFactory;
+    protected $_keyLengthFactory;
 
     /**
      * @param \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory
@@ -69,8 +69,8 @@ class Consumer extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->keyLengthFactory = $keyLengthFactory;
-        $this->urlValidator = $urlValidator;
+        $this->_keyLengthFactory = $keyLengthFactory;
+        $this->_urlValidator = $urlValidator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -104,7 +104,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel
      * Validate data
      *
      * @return array|bool
-     * @throw \Magento\Core\Exception|Exception   Throw exception on fail validation
+     * @throws \Magento\Core\Exception|\Exception   Throw exception on fail validation
      */
     public function validate()
     {
@@ -112,16 +112,16 @@ class Consumer extends \Magento\Core\Model\AbstractModel
             $this->setCallbackUrl(trim($this->getCallbackUrl()));
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
-            if ($this->getCallbackUrl() && !$this->urlValidator->isValid($this->getCallbackUrl())) {
+            if ($this->getCallbackUrl() && !$this->_urlValidator->isValid($this->getCallbackUrl())) {
                 throw new \Magento\Core\Exception(__('Invalid Callback URL'));
             }
-            if ($this->getRejectedCallbackUrl() && !$this->urlValidator->isValid($this->getRejectedCallbackUrl())) {
+            if ($this->getRejectedCallbackUrl() && !$this->_urlValidator->isValid($this->getRejectedCallbackUrl())) {
                 throw new \Magento\Core\Exception(__('Invalid Rejected Callback URL'));
             }
         }
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
-        $validatorLength = $this->keyLengthFactory->create(
+        $validatorLength = $this->_keyLengthFactory->create(
             array('options' => array('length' => self::KEY_LENGTH))
         );
 

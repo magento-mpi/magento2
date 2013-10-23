@@ -15,21 +15,6 @@ class Oauth implements \Magento\Oauth\OauthInterface
      */
     const TIME_DEVIATION = 600;
 
-    /**
-     * Consumer xpath settings
-     */
-    const XML_PATH_CONSUMER_EXPIRATION_PERIOD = 'oauth/consumer/expiration_period';
-
-    /**
-     * Consumer HTTP POST maxredirects xpath
-     */
-    const XML_PATH_CONSUMER_POST_MAXREDIRECTS = 'oauth/consumer/post_maxredirects';
-
-    /**
-     * Consumer HTTP TIMEOUT xpath
-     */
-    const XML_PATH_CONSUMER_POST_TIMEOUT = 'oauth/consumer/post_timeout';
-
     /** @var  \Magento\Oauth\Model\Consumer\Factory */
     private $_consumerFactory;
 
@@ -42,11 +27,8 @@ class Oauth implements \Magento\Oauth\OauthInterface
     /** @var  \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
 
-    /** @var  \Magento\Core\Model\StoreManagerInterface */
-    protected $_storeManager;
-
-    /** @var  \Magento\HTTP\ZendClient */
-    protected $_httpClient;
+    /** @var  \Magento\Oauth\Helper\Data */
+    protected $_dataHelper;
 
     /** @var  \Zend_Oauth_Http_Utility */
     protected $_httpUtility;
@@ -59,8 +41,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
      * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
      * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
      * @param \Magento\Oauth\Helper\Oauth $oauthHelper
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\HTTP\ZendClient $httpClient
+     * @param \Magento\Oauth\Helper\Data $dataHelper
      * @param \Zend_Oauth_Http_Utility $httpUtility
      * @param \Magento\Core\Model\Date $date
      */
@@ -69,17 +50,15 @@ class Oauth implements \Magento\Oauth\OauthInterface
         \Magento\Oauth\Model\Nonce\Factory $nonceFactory,
         \Magento\Oauth\Model\Token\Factory $tokenFactory,
         \Magento\Oauth\Helper\Oauth $oauthHelper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\HTTP\ZendClient $httpClient,
+        \Magento\Oauth\Helper\Data $dataHelper,
         \Zend_Oauth_Http_Utility $httpUtility,
         \Magento\Core\Model\Date $date
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
-        $this->_storeManager = $storeManager;
         $this->_oauthHelper = $oauthHelper;
-        $this->_httpClient = $httpClient;
+        $this->_dataHelper = $dataHelper;
         $this->_httpUtility = $httpUtility;
         $this->_date = $date;
     }
@@ -97,72 +76,26 @@ class Oauth implements \Magento\Oauth\OauthInterface
     /**
      * {@inheritdoc}
      */
-    public function createConsumer($consumerData)
+    public function getRequestToken($params, $requestUrl, $httpMethod = 'POST')
     {
-        try {
-            $consumer = $this->_consumerFactory->create($consumerData);
-            $consumer->save();
-            return $consumer->getData();
-        } catch (\Magento\Core\Exception $exception) {
-            throw $exception;
-        } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to create OAuth Consumer account.'));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function postToConsumer($request)
-    {
-        try {
-            $consumerData = $this->_getConsumer($request['consumer_id'])->getData();
-            $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
-            $verifier = $this->_tokenFactory->create()->createVerifierToken($request['consumer_id']);
-            $this->_httpClient->setUri($consumerData['http_post_url']);
-            $this->_httpClient->setParameterPost(
-                array(
-                    'oauth_consumer_key' => $consumerData['key'],
-                    'oauth_consumer_secret' => $consumerData['secret'],
-                    'store_base_url' => $storeBaseUrl,
-                    'oauth_verifier' => $verifier->getVerifier()
-                )
-            );
-            $maxredirects = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_POST_MAXREDIRECTS);
-            $timeout = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_POST_TIMEOUT);
-            $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
-            $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
-            return array('oauth_verifier' => $verifier->getVerifier());
-        } catch (\Magento\Core\Exception $exception) {
-            throw $exception;
-        } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to post data to consumer.'));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequestToken($signedRequest)
-    {
-        $this->_validateVersionParam($signedRequest['oauth_version']);
-        $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
+        $this->_validateVersionParam($params['oauth_version']);
+        $consumer = $this->_getConsumerByKey($params['oauth_consumer_key']);
         // must use consumer within expiration period
         $consumerTS = strtotime($consumer->getCreatedAt());
-        $expiry = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
+        $expiry = $this->_dataHelper->getConsumerExpirationPeriod();
         if ($this->_date->timestamp() - $consumerTS > $expiry) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
-        $this->_validateNonce($signedRequest['oauth_nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
+        $this->_validateNonce($params['oauth_nonce'], $consumer->getId(), $params['oauth_timestamp']);
         $token = $this->_getTokenByConsumer($consumer->getId());
         if ($token->getType() != \Magento\Oauth\Model\Token::TYPE_VERIFIER) {
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_REJECTED);
         }
         $this->_validateSignature(
-            $signedRequest,
+            $params,
             $consumer->getSecret(),
-            $signedRequest['http_method'],
-            $signedRequest['request_url']
+            $httpMethod,
+            $requestUrl
         );
         $requestToken = $token->createRequestToken($token->getId(), $consumer->getCallBackUrl());
         return array('oauth_token' => $requestToken->getToken(), 'oauth_token_secret' => $requestToken->getSecret());
@@ -173,7 +106,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
      *
      * {@inheritdoc}
      */
-    public function getAccessToken($request)
+    public function getAccessToken($params, $requestUrl, $httpMethod = 'POST')
     {
         $required = array(
             'oauth_consumer_key',
@@ -182,18 +115,14 @@ class Oauth implements \Magento\Oauth\OauthInterface
             'oauth_nonce',
             'oauth_timestamp',
             'oauth_token',
-            'oauth_verifier',
-            'request_url',
-            'http_method',
+            'oauth_verifier'
         );
 
         // Make generic validation of request parameters
-        $this->_validateProtocolParams($request, $required);
+        $this->_validateProtocolParams($params, $required);
 
-        $oauthToken = $request['oauth_token'];
-        $requestUrl = $request['request_url'];
-        $httpMethod = $request['http_method'];
-        $consumerKeyParam = $request['oauth_consumer_key'];
+        $oauthToken = $params['oauth_token'];
+        $consumerKeyParam = $params['oauth_consumer_key'];
 
         $consumer = $this->_getConsumerByKey($consumerKeyParam);
         $token = $this->_getToken($oauthToken);
@@ -208,10 +137,10 @@ class Oauth implements \Magento\Oauth\OauthInterface
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_USED);
         }
 
-        $this->_validateVerifierParam($request['oauth_verifier'], $token->getVerifier());
+        $this->_validateVerifierParam($params['oauth_verifier'], $token->getVerifier());
 
         $this->_validateSignature(
-            $request,
+            $params,
             $consumer->getSecret(),
             $httpMethod,
             $requestUrl,
@@ -225,7 +154,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
     /**
      * {@inheritdoc}
      */
-    public function validateAccessTokenRequest($request)
+    public function validateAccessTokenRequest($params, $requestUrl, $httpMethod = 'POST')
     {
         $required = array(
             'oauth_consumer_key',
@@ -233,18 +162,14 @@ class Oauth implements \Magento\Oauth\OauthInterface
             'oauth_signature_method',
             'oauth_nonce',
             'oauth_timestamp',
-            'oauth_token',
-            'http_method',
-            'request_url',
+            'oauth_token'
         );
 
         // make generic validation of request parameters
-        $this->_validateProtocolParams($request, $required);
+        $this->_validateProtocolParams($params, $required);
 
-        $oauthToken = $request['oauth_token'];
-        $requestUrl = $request['request_url'];
-        $httpMethod = $request['http_method'];
-        $consumerKey = $request['oauth_consumer_key'];
+        $oauthToken = $params['oauth_token'];
+        $consumerKey = $params['oauth_consumer_key'];
 
         $consumer = $this->_getConsumerByKey($consumerKey);
         $token = $this->_getToken($oauthToken);
@@ -252,7 +177,6 @@ class Oauth implements \Magento\Oauth\OauthInterface
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_REJECTED);
         }
-
         if (\Magento\Oauth\Model\Token::TYPE_ACCESS != $token->getType()) {
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_REJECTED);
         }
@@ -261,7 +185,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
         }
 
         $this->_validateSignature(
-            $request,
+            $params,
             $consumer->getSecret(),
             $httpMethod,
             $requestUrl,
@@ -269,15 +193,15 @@ class Oauth implements \Magento\Oauth\OauthInterface
         );
 
         // If no exceptions were raised return as a valid token
-        return array('isValid' => true);
+        return true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function validateAccessToken($request)
+    public function validateAccessToken($accessToken)
     {
-        $token = $this->_getToken($request['token']);
+        $token = $this->_getToken($accessToken);
 
         // Make sure a consumer is associated with the token
         $this->_getConsumer($token->getConsumerId());
@@ -289,43 +213,39 @@ class Oauth implements \Magento\Oauth\OauthInterface
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_REVOKED);
         }
 
-        return array('isValid' => true);
+        return true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildAuthorizationHeader($request)
-    {
+    public function buildAuthorizationHeader(
+        $params, $requestUrl, $signatureMethod = self::SIGNATURE_SHA1, $httpMethod = 'POST'
+    ) {
         $required = array(
             "oauth_consumer_key",
             "oauth_consumer_secret",
             "oauth_token",
-            "oauth_token_secret",
-            "request_url"
+            "oauth_token_secret"
         );
-        $this->_checkRequiredParams($request, $required);
+        $this->_checkRequiredParams($params, $required);
         $headerParameters = array(
             'oauth_nonce' => $this->_oauthHelper->generateNonce(),
             'oauth_timestamp' => $this->_date->timestamp(),
             'oauth_version' => '1.0',
         );
-        $headerParameters = array_merge($headerParameters, $request);
-        //unset unused signature parameters
-        unset($request['http_method']);
-        unset($request['request_url']);
+        $headerParameters = array_merge($headerParameters, $params);
         $headerParameters['oauth_signature'] = $this->_httpUtility->sign(
-            $request,
-            isset($headerParameters['oauth_signature_method']) ? $headerParameters['oauth_signature_method']
-                : self::SIGNATURE_SHA1,
+            $params,
+            $signatureMethod,
             $headerParameters['oauth_consumer_secret'],
             $headerParameters['oauth_token_secret'],
-            isset($headerParameters['http_method']) ? $headerParameters['http_method'] : 'POST',
-            $headerParameters['request_url']
+            $httpMethod,
+            $requestUrl
         );
         $authorizationHeader = $this->_httpUtility->toAuthorizationHeader($headerParameters);
-        //toAuthorizationHeader adds an optional realm="" which is not required for now.
-        //http://tools.ietf.org/html/rfc2617#section-1.2
+        // toAuthorizationHeader adds an optional realm="" which is not required for now.
+        // http://tools.ietf.org/html/rfc2617#section-1.2
         return str_replace('realm="",', '', $authorizationHeader);
     }
 
@@ -471,9 +391,8 @@ class Oauth implements \Magento\Oauth\OauthInterface
         }
         $this->_checkRequiredParams($protocolParams, $requiredParams);
 
-        if (isset($protocolParams['oauth_token']) && strlen(
-                $protocolParams['oauth_token']
-            ) != \Magento\Oauth\Model\Token::LENGTH_TOKEN
+        if (isset($protocolParams['oauth_token']) &&
+            strlen($protocolParams['oauth_token']) != \Magento\Oauth\Model\Token::LENGTH_TOKEN
         ) {
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_REJECTED);
         }

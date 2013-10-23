@@ -32,16 +32,19 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
     const SESSION_KEY_CONSUMER_DATA = 'consumer_data';
 
     /** @var \Magento\Core\Model\Registry  */
-    private $_registry;
+    protected $_registry;
 
     /** @var \Magento\Oauth\Model\Consumer\Factory */
-    private $_consumerFactory;
+    protected $_consumerFactory;
 
-    /** @var \Magento\Oauth\OauthInterface */
-    private $_oauthService;
+    /** @var \Magento\Oauth\Helper\Consumer */
+    protected $_consumerHelper;
 
     /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
+
+    /** @var \Magento\Core\Helper\Data */
+    protected $_coreHelper;
 
     /** @var \Magento\Core\Model\Logger */
     protected $_logger;
@@ -50,27 +53,30 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
      * Class constructor
      *
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Oauth\Helper\Oauth $oauthHelper
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
-     * @param \Magento\Oauth\OauthInterface $oauthService
+     * @param \Magento\Oauth\Helper\Consumer $consumerHelper
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Backend\Controller\Context $context
      * @param string $areaCode
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Oauth\Helper\Oauth $oauthHelper,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
-        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Oauth\Helper\Consumer $consumerHelper,
         \Magento\Core\Model\Logger $logger,
         \Magento\Backend\Controller\Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
         $this->_registry = $registry;
+        $this->_consumerHelper = $consumerHelper;
         $this->_oauthHelper = $oauthHelper;
+        $this->_coreHelper = $coreHelper;
         $this->_consumerFactory = $consumerFactory;
-        $this->_oauthService = $oauthService;
         $this->_logger = $logger;
     }
 
@@ -239,16 +245,16 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
             }
         }
 
-        $verifier = array();
+        $verifier = null;
         try {
-            $consumerData = $this->_oauthService->createConsumer($data);
+            $consumerData = $this->_consumerHelper->createConsumer($data);
             $consumerId = $consumerData[self::DATA_ENTITY_ID];
-            $verifier = $this->_oauthService->postToConsumer(array(self::DATA_CONSUMER_ID => $consumerId));
+            $verifier = $this->_consumerHelper->postToConsumer($consumerId);
             $this->_getSession()->addSuccess(__('The add-on has been saved.'));
             $this->_setFormData(null);
         } catch (\Magento\Core\Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError($this->_oauthHelper->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError($this->_coreHelper->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
         } catch (\Exception $e) {
             $this->_setFormData(null);
@@ -258,7 +264,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
 
         if ($this->getRequest()->getParam('back')) {
             $this->_redirectToEditOrNew($consumerId);
-        } else if ($verifier[self::DATA_VERIFIER]) {
+        } else if (isset($verifier)) {
             /** TODO: Complete when we have the Add-On website URL */
             //$this->_redirect('<Add-On Website URL>', array(
                     //'oauth_consumer_key' => $consumerData[self::DATA_KEY],

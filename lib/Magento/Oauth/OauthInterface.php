@@ -38,44 +38,12 @@ interface OauthInterface
      */
     const SIGNATURE_SHA1 = 'HMAC-SHA1';
     const SIGNATURE_SHA256 = 'HMAC-SHA256';
-
     /**#@-*/
-
-    /**
-     * Create a new consumer account when an Add-On is installed.
-     *
-     * @param array $consumerData - Information provided by an Add-On when the Add-On is installed.
-     * <pre>
-     * array(
-     *  'name' => 'Add-On Name',
-     *  'key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *  'secret' => 'b7bb92dd4f76f3a71b598a4a3556f829',
-     *  'http_post_url' => 'http://www.my-add-on.com'
-     * )
-     * </pre>
-     * @return array - The Add-On (consumer) data.
-     * @throws \Magento\Core\Exception
-     * @throws \Magento\Oauth\Exception
-     */
-    public function createConsumer($consumerData);
-
-    /**
-     * Execute post to Add-On (consumer) HTTP Post URL. Generate and return oauth_verifier.
-     *
-     * @param array $request - The request data that includes the consumer Id.
-     * <pre>
-     * array('consumer_id' => 1)
-     * </pre>
-     * @return array - The oauth_verifier.
-     * @throws \Magento\Core\Exception
-     * @throws \Magento\Oauth\Exception
-     */
-    public function postToConsumer($request);
 
     /**
      * Issue a pre-authorization request token to the caller
      *
-     * @param array $request array containing parameters necessary for requesting Request Token
+     * @param array $params - Array containing parameters necessary for requesting Request Token
      * <pre>
      * array (
      *         'oauth_version' => '1.0',
@@ -83,11 +51,11 @@ interface OauthInterface
      *         'oauth_nonce' => 'rI7PSWxTZRHWU3R',
      *         'oauth_timestamp' => '1377183099',
      *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
-     *         'request_url' => 'http://magento.ll/oauth/token/access',
-     *         'http_method' => 'POST'
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'
      * )
      * </pre>
+     * @param string $requestUrl - The request Url
+     * @param string $httpMethod - (default: 'POST')
      * @return array - The request token/secret pair.
      * <pre>
      * array (
@@ -97,12 +65,12 @@ interface OauthInterface
      * </pre>
      * @throws \Magento\Oauth\Exception
      */
-    public function getRequestToken($request);
+    public function getRequestToken($params, $requestUrl, $httpMethod = 'POST');
 
     /**
      * Get access token for a pre-authorized request token
      *
-     * @param array $request array containing parameters necessary for requesting Access Token
+     * @param array $params - Array containing parameters necessary for requesting Access Token
      * <pre>
      * array (
      *         'oauth_version' => '1.0',
@@ -112,11 +80,11 @@ interface OauthInterface
      *         'oauth_timestamp' => '1377183099',
      *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
      *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D',
-     *         'oauth_verifier' => 'a6aa81cc3e65e2960a487939244vvvvv',
-     *         'request_url' => 'http://magento.ll/oauth/token/access',
-     *         'http_method' => 'POST'
+     *         'oauth_verifier' => 'a6aa81cc3e65e2960a487939244vvvvv'
      * )
      * </pre>
+     * @param string $requestUrl - The request Url
+     * @param string $httpMethod - (default: 'POST')
      * @return array - The access token/secret pair.
      * <pre>
      * array (
@@ -126,12 +94,12 @@ interface OauthInterface
      * </pre>
      * @throws \Magento\Oauth\Exception
      */
-    public function getAccessToken($request);
+    public function getAccessToken($params, $requestUrl, $httpMethod = 'POST');
 
     /**
      * Validate an access token request
      *
-     * @param array $request containing parameters necessary for validating Access Token
+     * @param array $params - Array containing parameters necessary for validating Access Token
      * <pre>
      * array (
      *         'oauth_version' => '1.0',
@@ -140,54 +108,42 @@ interface OauthInterface
      *         'oauth_nonce' => 'rI7PSWxTZRHWU3R',
      *         'oauth_timestamp' => '1377183099',
      *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
-     *         'request_url' => 'http://magento.ll/oauth/token/access',
-     *         'http_method' => 'POST'
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'
      * )
      * </pre>
-     * @return array contains isValid key with a boolean value true if the access token request is valid
-     * <pre>
-     * array ('isValid' => true)
-     * </pre>
+     * @param string $requestUrl - The request Url
+     * @param string $httpMethod - (default: 'POST')
+     * @return boolean true if the access token request is valid
      * @throws \Magento\Oauth\Exception
      */
-    public function validateAccessTokenRequest($request);
+    public function validateAccessTokenRequest($params, $requestUrl, $httpMethod = 'POST');
 
     /**
      * Validate an access token string.
      *
-     * @param array $request containing valid access token
-     * <pre>
-     *  array (
-     *       'token' => 'a6aa81cc3e65e2960a4879392445e718'
-     * )
-     * </pre>
-     * @return array contains isValid key with a boolean value true
-     *               if requested access token exists, is associated with a consumer and is valid
-     * <pre>
-     * array ('isValid' => true)
-     * </pre>
+     * @param string $accessToken - The access token
+     * @return boolean true if requested access token exists, is associated with a consumer and is valid
      * @throws \Magento\Oauth\Exception
      */
-    public function validateAccessToken($request);
+    public function validateAccessToken($accessToken);
 
     /**
      * Build the Oauth authorization header for an authenticated API request
      *
-     * @param array $request containing parameters to build the Oauth HTTP Authorization header
+     * @param array $params - Array containing parameters to build the Oauth HTTP Authorization header
      * <pre>
      *  array (
      *      'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
      *      'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
      *      'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
      *      'oauth_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
-     *      'request_url' => 'http://www.example.com/endpoint'
-     *      'http_method' => 'POST' [OPTIONAL - defaulted to POST]
-     *      'oauth_signature_method' => 'HMAC-SHA1', [OPTIONAL - defaulted to HMAC-SHA1]
      *      'custom_param1' => 'foo',
      *      'custom_param2' => 'bar'
      *   );
      * </pre>
+     * @param string $requestUrl e.g 'http://www.example.com/endpoint'
+     * @param string $signatureMethod (default: 'HMAC-SHA1')
+     * @param string $httpMethod (default: 'POST')
      * @return string
      * <pre>
      * OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1", oauth_nonce="5X1aWR2qzf2uFm1",
@@ -196,5 +152,7 @@ interface OauthInterface
      * <pre>
      * @throws \Magento\Oauth\Exception
      */
-    public function buildAuthorizationHeader($request);
+    public function buildAuthorizationHeader(
+        $params, $requestUrl, $signatureMethod = self::SIGNATURE_SHA1, $httpMethod = 'POST'
+    );
 }

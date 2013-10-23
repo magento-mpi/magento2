@@ -40,11 +40,12 @@ class Token extends \Magento\Core\Controller\Front\Action
     public function requestAction()
     {
         try {
-            $request = $this->_helper->prepareRequest($this->getRequest());
+            $requestUrl = $this->_helper->getRequestUrl($this->getRequest());
+            $request = $this->_helper->prepareRequest($this->getRequest(), $requestUrl);
 
-            //Request request token
-            $response = $this->_oauthService->getRequestToken($request);
-
+            // Request request token
+            $response = $this->_oauthService->getRequestToken(
+                $request, $requestUrl, $this->getRequest()->getMethod());
         } catch (\Exception $exception) {
             $response = $this->_helper->prepareErrorResponse(
                 $exception,
@@ -60,11 +61,12 @@ class Token extends \Magento\Core\Controller\Front\Action
     public function accessAction()
     {
         try {
-            $request = $this->_helper->prepareRequest($this->getRequest());
+            $requestUrl = $this->_helper->getRequestUrl($this->getRequest());
+            $request = $this->_helper->prepareRequest($this->getRequest(), $requestUrl);
 
-            //Request access token in exchange of a pre-authorized token
-            $response = $this->_oauthService->getAccessToken($request);
-
+            // Request access token in exchange of a pre-authorized token
+            $response = $this->_oauthService->getAccessToken(
+                $request, $requestUrl, $this->getRequest()->getMethod());
         } catch (\Exception $exception) {
             $response = $this->_helper->prepareErrorResponse(
                 $exception,

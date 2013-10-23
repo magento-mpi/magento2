@@ -16,7 +16,7 @@ namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /** @var \Magento\Oauth\Model\Consumer\Factory  */
-    private $_consumerFactory;
+    protected $_consumerFactory;
 
     /**
      * Allow edit status

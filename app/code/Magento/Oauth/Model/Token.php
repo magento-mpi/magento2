@@ -65,48 +65,51 @@ class Token extends \Magento\Core\Model\AbstractModel
     const USER_TYPE_CUSTOMER = 'customer';
 
     /** @var \Magento\Oauth\Helper\Oauth */
+    protected $_oauthHelper;
+
+    /** @var \Magento\Oauth\Helper\Data */
     protected $_oauthData;
 
     /** @var \Magento\Oauth\Model\Consumer\Factory */
     protected $_consumerFactory;
 
-    /**
-     * @var \Magento\Core\Model\Url\Validator
-     */
-    protected $urlValidator;
+    /** @var \Magento\Core\Model\Url\Validator */
+    protected $_urlValidator;
 
-    /**
-     * @var Consumer\Validator\KeyLengthFactory
-     */
-    protected $keyLengthFactory;
+    /** @var Consumer\Validator\KeyLengthFactory */
+    protected $_keyLengthFactory;
 
     /**
      * @param \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Core\Model\Url\Validator $urlValidator
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
-     * @param \Magento\Oauth\Helper\Oauth $oauthData
+     * @param \Magento\Oauth\Helper\Data $oauthData
+     * @param \Magento\Oauth\Helper\Oauth $oauthHelper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Core\Model\Url\Validator $urlValidator,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
-        \Magento\Oauth\Helper\Oauth $oauthData,
+        \Magento\Oauth\Helper\Data $oauthData,
+        \Magento\Oauth\Helper\Oauth $oauthHelper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->keyLengthFactory = $keyLengthFactory;
-        $this->urlValidator = $urlValidator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_keyLengthFactory = $keyLengthFactory;
+        $this->_urlValidator = $urlValidator;
         $this->_consumerFactory = $consumerFactory;
         $this->_oauthData = $oauthData;
+        $this->_oauthHelper = $oauthHelper;
     }
 
     /**
@@ -128,7 +131,7 @@ class Token extends \Magento\Core\Model\AbstractModel
     {
         parent::_afterSave();
 
-        //Cleanup old entries
+        // Cleanup old entries
         if ($this->_oauthData->isCleanupProbability()) {
             $this->_getResource()->deleteOldEntries($this->_oauthData->getCleanupExpirationPeriod());
         }
@@ -150,9 +153,9 @@ class Token extends \Magento\Core\Model\AbstractModel
             $this->setData(array(
                 'consumer_id' => $consumerId,
                 'type' => \Magento\Oauth\Model\Token::TYPE_VERIFIER,
-                'token' => $this->_oauthData->generateToken(),
-                'secret' => $this->_oauthData->generateTokenSecret(),
-                'verifier' => $this->_oauthData->generateVerifier(),
+                'token' => $this->_oauthHelper->generateToken(),
+                'secret' => $this->_oauthHelper->generateTokenSecret(),
+                'verifier' => $this->_oauthHelper->generateVerifier(),
                 'callback_url' => \Magento\Oauth\Helper\Oauth::CALLBACK_ESTABLISHED
             ));
             $this->save();
@@ -184,7 +187,7 @@ class Token extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Oauth\Exception('User type is unknown');
         }
 
-        $this->setVerifier($this->_oauthData->generateVerifier());
+        $this->setVerifier($this->_oauthHelper->generateVerifier());
         $this->setAuthorized(1);
         $this->save();
 
@@ -206,8 +209,8 @@ class Token extends \Magento\Core\Model\AbstractModel
         }
 
         $this->setType(self::TYPE_ACCESS);
-        $this->setToken($this->_oauthData->generateToken());
-        $this->setSecret($this->_oauthData->generateTokenSecret());
+        $this->setToken($this->_oauthHelper->generateToken());
+        $this->setSecret($this->_oauthHelper->generateTokenSecret());
         $this->save();
 
         return $this;
@@ -225,8 +228,8 @@ class Token extends \Magento\Core\Model\AbstractModel
         $this->setData(array(
                'entity_id' => $entityId,
                'type' => self::TYPE_REQUEST,
-               'token' => $this->_oauthData->generateToken(),
-               'secret' => $this->_oauthData->generateTokenSecret(),
+               'token' => $this->_oauthHelper->generateToken(),
+               'secret' => $this->_oauthHelper->generateTokenSecret(),
                'callback_url' => $callbackUrl
            ));
         $this->save();
@@ -288,14 +291,14 @@ class Token extends \Magento\Core\Model\AbstractModel
     public function validate()
     {
         if (\Magento\Oauth\Helper\Oauth::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
-            && !$this->urlValidator->isValid($this->getCallbackUrl())
+            && !$this->_urlValidator->isValid($this->getCallbackUrl())
         ) {
-            $messages = $this->urlValidator->getMessages();
+            $messages = $this->_urlValidator->getMessages();
             throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
-        $validatorLength = $this->keyLengthFactory->create();
+        $validatorLength = $this->_keyLengthFactory->create();
         $validatorLength->setLength(self::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
