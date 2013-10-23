@@ -109,7 +109,7 @@ class InlineParser
     );
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -138,13 +138,13 @@ class InlineParser
      *
      * @param \Magento\Core\Model\Resource\Translate\String $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Helper\Data $helper
      * @param \Zend_Filter_Interface $inputFilter
      */
     public function __construct(
         \Magento\Core\Model\Resource\Translate\String $resource,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Helper\Data $helper,
         \Magento\Core\Model\StoreManager $storeManager,
         \Zend_Filter_Interface $inputFilter
@@ -157,7 +157,7 @@ class InlineParser
     }
 
     /**
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\View\DesignInterface
      */
     public function getDesignPackage()
     {
