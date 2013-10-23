@@ -330,10 +330,6 @@ class Structure
 
         $this->insertChild($parentId, $childId, $alias, $offset);
 
-        if ('authorization-link' == $childId) {
-            var_dump($this->getElement($parentId));dd();
-        }
-
         return $this->getChildOffset($parentId, $childId) + 1;
     }
 
@@ -637,45 +633,5 @@ class Structure
         }
 
         return $this->pairs[$elementId];
-    }
-
-    public function test()
-    {
-        $this->createElement('root', array(
-            'name' => 'root',
-            'class' => 'Root'
-        ));
-        $this->createElement('head', array(
-            'name' => 'head',
-            'class' => 'Head'
-        ));
-        $this->createElement('header', array(
-            'name' => 'header',
-            'class' => 'Header'
-        ));
-        $this->createElement('toplinks', array(
-            'name' => 'toplinks',
-            'class' => 'Toplinks'
-        ));
-
-        $this->setAsChild('head', 'root', 'head');
-        $this->setAsChild('header', 'root', 'header');
-        $this->setAsChild('toplinks', 'header', 'toplinks');
-
-
-        $this->addToParentGroup('head', 'topSection');
-        $this->renameElement('head', 'newHead');
-        $this->renameElement('root', 'rroott');
-
-        $this->reorderChild('rroott', 'header', 0);
-        $this->reorderChild('rroott', 'newHead', 0);
-
-        //$this->setAsChild('header', 'toplinks', 'header');
-        //$this->unsetElement('header');
-        //$this->unsetElement('header', false);
-
-        var_dump($this->getGroupChildNames('rroott', 'topSection'));
-
-        echo '<xmp>'; var_export($this->getElements()); echo '</xmp>';
     }
 }

@@ -10,13 +10,11 @@
 
 namespace Magento\View\Layout\File\Source;
 
-use Magento\View\Layout\File\Source;
+use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Core\Model\Dir;
-use Magento\Filesystem;
 use Magento\View\Layout\File\FileList\Factory;
 
-class Aggregated implements Source
+class Aggregated implements SourceInterface
 {
     /**
      * @var Factory
@@ -24,38 +22,38 @@ class Aggregated implements Source
     private $fileListFactory;
 
     /**
-     * @var Source
+     * @var SourceInterface
      */
     private $baseFiles;
 
     /**
-     * @var Source
+     * @var SourceInterface
      */
     private $themeFiles;
 
     /**
-     * @var Source
+     * @var SourceInterface
      */
     private $overrideBaseFiles;
 
     /**
-     * @var Source
+     * @var SourceInterface
      */
     private $overrideThemeFiles;
 
     /**
      * @param Factory $fileListFactory
-     * @param Source $baseFiles
-     * @param Source $themeFiles
-     * @param Source $overrideBaseFiles
-     * @param Source $overrideThemeFiles
+     * @param SourceInterface $baseFiles
+     * @param SourceInterface $themeFiles
+     * @param SourceInterface $overrideBaseFiles
+     * @param SourceInterface $overrideThemeFiles
      */
     public function __construct(
         Factory $fileListFactory,
-        Source $baseFiles,
-        Source $themeFiles,
-        Source $overrideBaseFiles,
-        Source $overrideThemeFiles
+        SourceInterface $baseFiles,
+        SourceInterface $themeFiles,
+        SourceInterface $overrideBaseFiles,
+        SourceInterface $overrideThemeFiles
     ) {
         $this->fileListFactory = $fileListFactory;
         $this->baseFiles = $baseFiles;

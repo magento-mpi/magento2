@@ -73,7 +73,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_template;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Factory
+     * @var \Magento\View\TemplateEngineFactory
      */
     protected $_tmplEngineFactory;
 

@@ -13,7 +13,7 @@ use Magento\View\BlockPool;
 use Magento\View\Context;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Structure;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Layout\Handle\Render\Block;
 use Magento\View\Layout\ProcessorFactory;
@@ -24,15 +24,26 @@ use Magento\Simplexml;
 use Magento\Core\Block\AbstractBlock;
 use Magento\View\DesignInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class DefaultLayout extends Simplexml\Config implements LayoutInterface
 {
-    static protected $inc = 0;
+    /**
+     * @var int
+     */
+    protected $inc = 0;
 
     /**
      * @var /SimpleXMLElement
      */
     protected $_xml;
 
+    /**
+     * @var array
+     */
     protected $root;
 
     /**
@@ -100,6 +111,16 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     protected $messages;
 
+    /**
+     * @param DesignInterface $design
+     * @param ThemeFactory $themeFactory
+     * @param Context $context
+     * @param HandleFactory $handleFactory
+     * @param ProcessorFactory $processorFactory
+     * @param Structure $structure
+     * @param BlockPool $blockPool
+     * @param DataSourcePool $dataSourcePool
+     */
     public function __construct(
         DesignInterface $design,
         ThemeFactory $themeFactory,
@@ -181,7 +202,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         foreach ($this->_xml as $node) {
             /** @var $node Element  */
             $type = $node->getName();
-            /** @var $handle Handle */
+            /** @var $handle HandleInterface */
             $handle = $this->handleFactory->get($type);
             $handle->parse($node, $this, $this->root['name']);
         }
@@ -256,7 +277,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     {
         $element = $this->structure->getElement($name);
         if ($element) {
-            /** @var $handle \Magento\View\Layout\Handle\Render */
+            /** @var $handle \Magento\View\Layout\Handle\RenderInterface */
             $handle = $this->handleFactory->get($element['type']);
             return $handle->render($element, $this, '');
         }
@@ -283,7 +304,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function getOutput()
     {
-        /** @var $handle \Magento\View\Layout\Handle\Render */
+        /** @var $handle \Magento\View\Layout\Handle\RenderInterface */
         $handle = $this->handleFactory->get($this->root['type']);
         return $handle->render($this->root, $this, '');
     }
@@ -330,6 +351,11 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $this->getBlock($childId);
     }
 
+    /**
+     * @param string $parentId
+     * @param string $childId
+     * @return null|string
+     */
     public function getChildAlias($parentId, $childId)
     {
         return $this->structure->getChildAlias($parentId, $childId);
@@ -494,7 +520,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     public function createBlock($type, $name = '', array $attributes = array())
     {
         if (empty($name)) {
-            $name = 'Anonymous-' . self::$inc++;
+            $name = 'Anonymous-' . $this->inc++;
         }
 
         $block = $this->blockPool->add($name, $type, $attributes);
@@ -533,6 +559,13 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $block;
     }
 
+    /**
+     * @param string $class
+     * @param string $dataName
+     * @param string $parentName
+     * @param string $alias
+     * @return AbstractBlock
+     */
     public function addDataSource($class, $dataName, $parentName = '', $alias = '')
     {
         $data = $this->dataSourcePool->add($dataName, $class);
@@ -543,11 +576,18 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $data;
     }
 
+    /**
+     * @return array|null|object
+     */
     public function getAllDataSources()
     {
         return $this->dataSourcePool->get();
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
     public function getElementDataSources($name)
     {
         return $this->dataSourcePool->getNamespaceData($name);

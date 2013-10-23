@@ -62,7 +62,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
+     * @param \Magento\View\TemplateEngineFactory $engineFactory
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $request,
@@ -83,7 +83,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
+        \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\Core\Model\App $app
     ) {
         parent::__construct(
@@ -140,7 +140,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get the template engine factory instance
      *
-     * @return \Magento\Core\Model\TemplateEngine\Factory
+     * @return \Magento\View\TemplateEngineFactory
      */
     public function getEngineFactory()
     {

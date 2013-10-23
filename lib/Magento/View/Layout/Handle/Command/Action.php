@@ -10,16 +10,18 @@ namespace Magento\View\Layout\Handle\Command;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Command;
+use Magento\View\Layout\Handle\CommandInterface;
 
-class Action implements Command
+class Action implements CommandInterface
 {
     /**
      * Container type
      */
     const TYPE = 'action';
 
+    /**
+     * @var int
+     */
     private $inc = 0;
 
     /**

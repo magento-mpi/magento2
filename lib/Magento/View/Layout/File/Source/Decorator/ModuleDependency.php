@@ -10,15 +10,15 @@
 
 namespace Magento\View\Layout\File\Source\Decorator;
 
-use Magento\View\Layout\File\Source;
+use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Layout\File;
 use Magento\Core\Model\ModuleListInterface;
 use Magento\View\Design\ThemeInterface;
 
-class ModuleDependency implements Source
+class ModuleDependency implements SourceInterface
 {
     /**
-     * @var Source
+     * @var SourceInterface
      */
     private $subject;
 
@@ -35,11 +35,11 @@ class ModuleDependency implements Source
     private $orderedModules;
 
     /**
-     * @param Source $subject
+     * @param SourceInterface $subject
      * @param ModuleListInterface $listInterface
      */
     public function __construct(
-        Source $subject,
+        SourceInterface $subject,
         ModuleListInterface $listInterface
     ) {
         $this->subject = $subject;

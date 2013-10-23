@@ -11,23 +11,26 @@ namespace Magento\View\Layout\Handle\Command;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Command;
+use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 
-class Remove implements Command
+class Remove implements CommandInterface
 {
     /**
      * Container type
      */
     const TYPE = 'remove';
 
+    /**
+     * @var int
+     */
     private $inc = 0;
 
     /**
      * @param Element $layoutElement
      * @param LayoutInterface $layout
      * @param string $parentName
-     * @return $this
+     * @return Remove
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {

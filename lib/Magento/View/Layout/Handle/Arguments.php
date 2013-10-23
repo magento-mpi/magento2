@@ -10,12 +10,15 @@ namespace Magento\View\Layout\Handle;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
+use Magento\View\Layout\HandleInterface;
 
 use Magento\Core\Model\Layout\Argument\Processor;
 
-class Arguments implements Handle
+class Arguments implements HandleInterface
 {
+    /**
+     * Handle type
+     */
     const TYPE = 'arguments';
 
     /**

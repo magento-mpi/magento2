@@ -96,7 +96,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $viewUrlMock                = $this->_makeMock('Magento\Core\Model\View\Url');
         $viewConfigMock             = $this->_makeMock('Magento\View\ConfigInterface');
         $viewFileSystemMock         = $this->_makeMock('Magento\Core\Model\View\FileSystem');
-        $templateFactoryMock        = $this->_makeMock('Magento\Core\Model\TemplateEngine\Factory');
+        $templateFactoryMock        = $this->_makeMock('Magento\View\TemplateEngineFactory');
         $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Core\Model\Cache\StateInterface');
         $appMock                    = $this->_makeMock('Magento\Core\Model\App');

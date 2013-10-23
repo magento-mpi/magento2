@@ -8,13 +8,7 @@
 
 namespace Magento\View;
 
-//use Magento\View\Context;
 use Magento\View\Layout;
-use Magento\View\Layout\Element;
-use Magento\View\Layout\Handle;
-use Magento\View\Layout\Handle\Data;
-use Magento\View\Layout\Handle\Render;
-//use Magento\View\Layout\HandleFactory;
 use Magento\Core\Model\BlockFactory;
 
 class BlockPool

@@ -8,10 +8,10 @@
 
 namespace Magento\View\Render;
 
-use Magento\View\Render;
+use Magento\View\RenderInterface;
 use Magento\View\TemplateEngineFactory;
 
-class Html implements Render
+class Html implements RenderInterface
 {
     /**
      * Render type

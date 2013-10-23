@@ -22,6 +22,9 @@ class DataSourcePool
      */
     protected $dataSources = array();
 
+    /**
+     * @var array
+     */
     protected $assignments = array();
 
     /**
