@@ -201,7 +201,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'Magento\Service\ResourceNotFoundException' => array(
-                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null,
+                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null, 'resourceNotFound',
                     array('datail1' => 'value1'), 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 'Resource not found',
@@ -209,7 +209,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento_Service_ResourceNotFoundException (Empty message)' => array(
-                new \Magento\Service\ResourceNotFoundException('', 2345, null,
+                new \Magento\Service\ResourceNotFoundException('', 2345, null, 'resourceNotFound',
                     array('datail1' => 'value1'), 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 "Resource with ID 'resource10' not found.",
@@ -222,6 +222,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                     345,
                     null,
                     array(),
+                    'authorization',
                     3,
                     4
                 ),
@@ -231,7 +232,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 array('user_id' => 3, 'resource_id' => 4)
             ),
             'Magento\Service\AuthorizationException (Empty message)' => array(
-                new \Magento\Service\AuthorizationException('', 345, null, array(), 3, 4),
+                new \Magento\Service\AuthorizationException('', 345, null, array(), 'authorization', 3, 4),
                 \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 "User with ID '3' is not authorized to access resource with ID '4'.",
                 345,

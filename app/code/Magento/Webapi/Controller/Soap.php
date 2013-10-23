@@ -150,7 +150,6 @@ class Soap implements \Magento\Core\Controller\FrontInterface
     protected function _prepareErrorResponse($exception)
     {
         $maskedException = $this->_errorProcessor->maskException($exception);
-        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $maskedException);
         if ($this->_isWsdlRequest()) {
             $httpCode = $maskedException->getHttpCode();
             $contentType = self::CONTENT_TYPE_WSDL_REQUEST;
@@ -160,6 +159,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
         }
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
+        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $this->_soapServer, $maskedException);
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
     }

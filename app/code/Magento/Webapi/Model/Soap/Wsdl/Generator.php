@@ -32,9 +32,6 @@ class Generator
      */
     protected $_apiConfig;
 
-    /** @var \Magento\DomDocument\Factory */
-    protected $_domDocumentFactory;
-
     /**
      * The list of registered complex types.
      *
@@ -48,18 +45,15 @@ class Generator
      * @param \Magento\Webapi\Model\Soap\Config $apiConfig
      * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
      * @param \Magento\Webapi\Model\Cache\Type $cache
-     * @param \Magento\DomDocument\Factory $domDocumentFactory
      */
     public function __construct(
         \Magento\Webapi\Model\Soap\Config $apiConfig,
         \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
-        \Magento\Webapi\Model\Cache\Type $cache,
-        \Magento\DomDocument\Factory $domDocumentFactory
+        \Magento\Webapi\Model\Cache\Type $cache
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_cache = $cache;
-        $this->_domDocumentFactory = $domDocumentFactory;
     }
 
     /**
@@ -516,7 +510,7 @@ class Generator
                     );
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
-                    $inputComplexTypes[] = $this->_generateEmptyComplexType($inputParameterName);
+                    $inputComplexTypes[] = $this->_generateEmptyComplexType($inputParameterName, $payloadSchemaDom);
                 }
             }
             $methodInterface['inputComplexTypes'] = $inputComplexTypes;
@@ -539,7 +533,7 @@ class Generator
 
             /** Process fault complex types */
             foreach ($this->getXsdFaultTypeNames($serviceMethod, $payloadSchemaDom) as $faultComplexType) {
-                $faultComplexTypes = $this->getComplexTypeNodes(
+                $faultComplexTypes = $this->_getFaultComplexTypeNodes(
                     $serviceName,
                     $faultComplexType['complexTypeName'],
                     $payloadSchemaDom
@@ -554,14 +548,59 @@ class Generator
     }
 
     /**
+     * Generate all necessary complex types for the fault of specified type.
+     *
+     * @param string $serviceName
+     * @param string $typeName
+     * @param \DOMDocument $domDocument
+     * @return \DOMNode[]
+     */
+    protected function _getFaultComplexTypeNodes($serviceName, $typeName, $domDocument)
+    {
+        $complexTypesNodes = $this->getComplexTypeNodes($serviceName, $typeName, $domDocument);
+        $faultTypeName = $serviceName . $typeName;
+        $paramsTypeName = $faultTypeName . 'Params';
+        if (isset($complexTypesNodes[$faultTypeName])) {
+            /** Rename fault complex type to fault param complex type */
+            $faultComplexType = $complexTypesNodes[$faultTypeName];
+            $faultComplexType->setAttribute('name', $paramsTypeName);
+            $complexTypesNodes[$paramsTypeName] = $complexTypesNodes[$faultTypeName];
+
+            /** Create new fault complex type, which will contain reference to fault param complex type */
+            $newFaultComplexType = $this->_generateEmptyComplexType($faultTypeName, $domDocument);
+            /** Create 'Parameters' element and use fault param complex type as its type */
+            $parametersElement = $domDocument->createElement('xsd:element');
+            $parametersElement->setAttribute('name', \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_PARAMETERS);
+            $parametersElement->setAttribute('type', \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $paramsTypeName);
+            $newFaultComplexType->firstChild->appendChild($parametersElement);
+
+            /** Create 'Code' element */
+            $codeElement = $domDocument->createElement('xsd:element');
+            $codeElement->setAttribute('name', \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_CODE);
+            $codeElement->setAttribute('type', 'xsd:int');
+            $newFaultComplexType->firstChild->appendChild($codeElement);
+
+            /** Create 'Trace' element */
+            $codeElement = $domDocument->createElement('xsd:element');
+            $codeElement->setAttribute('name', \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE);
+            $codeElement->setAttribute('type', 'xsd:string');
+            $codeElement->setAttribute('minOccurs', '0');
+            $newFaultComplexType->firstChild->appendChild($codeElement);
+
+            $complexTypesNodes[$faultTypeName] = $newFaultComplexType;
+        }
+        return $complexTypesNodes;
+    }
+
+    /**
      * Generate empty complex type with the specified name.
      *
      * @param string $complexTypeName
+     * @param \DOMDocument $domDocument
      * @return \DOMElement
      */
-    protected function _generateEmptyComplexType($complexTypeName)
+    protected function _generateEmptyComplexType($complexTypeName, $domDocument)
     {
-        $domDocument = $this->_domDocumentFactory->createDomDocument();
         $complexTypeNode = $domDocument->createElement('xsd:complexType');
         $complexTypeNode->setAttribute('name', $complexTypeName);
         $xsdNamespace = 'http://www.w3.org/2001/XMLSchema';
