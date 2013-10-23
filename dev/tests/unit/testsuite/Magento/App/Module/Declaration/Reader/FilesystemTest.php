@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Module\Declaration\Reader;
+namespace Magento\App\Module\Declaration\Reader;
 
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {

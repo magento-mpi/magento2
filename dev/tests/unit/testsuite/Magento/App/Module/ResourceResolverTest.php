@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Module;
+namespace Magento\App\Module;
 
 class ResourceResolverTest extends \PHPUnit_Framework_TestCase
 {

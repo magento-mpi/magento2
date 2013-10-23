@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Module\Dir;
+namespace Magento\App\Module\Dir;
 
 class ReverseResolverTest extends \PHPUnit_Framework_TestCase
 {

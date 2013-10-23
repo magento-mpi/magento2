@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Module\Declaration;
+namespace Magento\App\Module\Declaration;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
