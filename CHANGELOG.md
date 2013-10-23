@@ -1,3 +1,7 @@
+* Unified Area configuration
+* Moved EventManager to Magento\Event lib component
+* Moved FrontController, Routers, Base Actions to Magento\App
+* Created Magento\App component in library
 * Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
 * Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
