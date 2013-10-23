@@ -196,56 +196,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($decoratedVo, $this->_helper->decorateArray($sample, ''));
     }
 
-    public function testAssocToXml()
-    {
-        $data = array(
-            'one' => 1,
-            'two' => array(
-                'three' => 3,
-                'four' => '4',
-            ),
-        );
-        $result = $this->_helper->assocToXml($data);
-        $expectedResult = <<<XML
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<_><one>1</one><two><three>3</three><four>4</four></two></_>
-
-XML;
-        $this->assertInstanceOf('SimpleXMLElement', $result);
-        $this->assertEquals($expectedResult, $result->asXML());
-    }
-
-    /**
-     * @param array $array
-     * @param string $rootName
-     * @expectedException \Magento\Exception
-     * @dataProvider assocToXmlExceptionDataProvider
-     */
-    public function testAssocToXmlException($array, $rootName = '_')
-    {
-        $this->_helper->assocToXml($array, $rootName);
-    }
-
-    public function assocToXmlExceptionDataProvider()
-    {
-        return array(
-            array(array(), ''),
-            array(array(), 0),
-            array(array(1, 2, 3)),
-            array(array('root' => 1), 'root'),
-        );
-    }
-
-    public function testXmlToAssoc()
-    {
-        $xmlstr = <<<XML
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<_><one>1</one><two><three>3</three><four>4</four></two></_>
-XML;
-        $result = $this->_helper->xmlToAssoc(new \SimpleXMLElement($xmlstr));
-        $this->assertEquals(array('one' => '1', 'two' => array('three' => '3', 'four'  => '4')), $result);
-    }
-
     public function testJsonEncodeDecode()
     {
         $data = array('one' => 1, 'two' => 'two');

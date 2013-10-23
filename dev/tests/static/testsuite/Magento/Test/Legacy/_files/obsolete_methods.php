@@ -878,7 +878,9 @@ return array(
     array('is_empty_date'),
     array('now'),
     array('uniqHash', '\Magento\Core\Helper\Data'),
-    array('getMerchantCountryCode', '\Magento\Core\Helper\Data', 'Magento\Customer\Helper\Data::getMerchantCountryCode'),
-    array('getMerchantVatNumber', '\Magento\Core\Helper\Data', 'Magento\Customer\Helper\Data::getMerchantVatNumber'),
-    array('isCountryInEU', '\Magento\Core\Helper\Data', 'Magento\Customer\Helper\Data::isCountryInEU'),
+    array('getMerchantCountryCode', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantCountryCode'),
+    array('getMerchantVatNumber', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantVatNumber'),
+    array('isCountryInEU', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::isCountryInEU'),
+    array('assocToXml', '\Magento\Core\Helper\Data', '\Magento\Convert\ConvertArray::assocToXml'),
+    array('xmlToAssoc', '\Magento\Core\Helper\Data', '\Magento\Convert\Xml::xmlToAssoc'),
 );
