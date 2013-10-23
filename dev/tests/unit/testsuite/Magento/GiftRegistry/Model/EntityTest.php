@@ -86,7 +86,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
         $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
             array(), '', false, false);
         $giftRegistryData->expects($this->any())
@@ -116,7 +115,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
+            $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
             $type, $attributeConfig, $item, $inventoryStockItem, $session,
             $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
             $dateFactory, $loggingEventFactory, $request, $escaper, $resource, null, array()
