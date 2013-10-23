@@ -8,16 +8,14 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
+use Magento\View\Layout\Handle\AbstractHandle;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\RenderInterface;
-use Magento\View\Layout\HandleFactory;
-use Magento\View\BlockPool;
 
 use Magento\View\Render\Html;
 
-class Block implements RenderInterface
+class Block extends AbstractHandle implements RenderInterface
 {
     /**
      * Container type
@@ -25,66 +23,30 @@ class Block implements RenderInterface
     const TYPE = 'block';
 
     /**
-     * @var \Magento\View\Layout\HandleFactory
-     */
-    protected $handleFactory;
-
-    /**
-     * @var int
-     */
-    protected $inc = 0;
-
-    /**
-     * @param HandleFactory $handleFactory
-     */
-    public function __construct(
-        HandleFactory $handleFactory
-    ) {
-        $this->handleFactory = $handleFactory;
-    }
-
-    /**
      * @param Element $layoutElement
      * @param LayoutInterface $layout
      * @param string $parentName
      * @return Block
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
-        $elementName = $elementName ?: ('Block-' . $this->inc++);
+        $elementName = $elementName ?: ('Block-' . $this->nameIncrement++);
+
         if (!empty($elementName)) {
-            $arguments = $element = array();
-            foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-                if ($attribute) {
-                    $arguments[$attributeName] = (string)$attribute;
-                }
-            }
-            $element = $arguments;
+            $arguments = $element = $this->parseAttributes($layoutElement);
+
             $element['arguments'] = $arguments;
             $element['type'] = self::TYPE;
+            $element['name'] = $elementName;
 
             $layout->addElement($elementName, $element);
 
-            if (isset($parentName)) {
-                $alias = !empty($element['as']) ? $element['as'] : $elementName;
-                $layout->setChild($parentName, $elementName, $alias);
-                list($siblingName, $isAfter) = $this->beforeAfterToSibling($element);
-                $layout->reorderChild($parentName, $elementName, $siblingName, $isAfter);
-            }
+            // assign to parent element
+            $this->assignToParentElement($element, $layout, $parentName);
 
             // parse children
-            if ($layoutElement->hasChildren()) {
-                foreach ($layoutElement as $childXml) {
-                    /** @var $childXml Element */
-                    $type = $childXml->getName();
-                    /** @var $handle HandleInterface */
-                    $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $layout, $elementName);
-                }
-            }
+            $this->parseChildren($layoutElement, $layout, $elementName);
         }
 
         return $this;
@@ -95,13 +57,13 @@ class Block implements RenderInterface
      * @param LayoutInterface $layout
      * @param string $parentName
      * @return Block
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
         if (!empty($element['name']) && !isset($element['is_registered'])) {
             if (!class_exists($element['class'])) {
-                throw new \Exception(__('Invalid block class name: ' . $element['class']));
+                throw new \InvalidArgumentException(__('Invalid block class name: ' . $element['class']));
             }
 
             $elementName = $element['name'];
@@ -122,12 +84,8 @@ class Block implements RenderInterface
                 $block->setTemplate($element['template']);
             }
 
-            foreach ($layout->getChildNames($elementName) as $childName) {
-                $child = $layout->getElement($childName);
-                /** @var $handle RenderInterface */
-                $handle = $this->handleFactory->get($child['type']);
-                $handle->register($child, $layout, $elementName);
-            }
+            // register children
+            $this->registerChildren($elementName, $layout);
         }
 
         return $this;

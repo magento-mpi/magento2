@@ -161,7 +161,9 @@ class Structure
             case self::ATTRIBUTE_INTERNAL_ID:
                 throw new \InvalidArgumentException("Attribute '{$attribute}' is reserved and cannot be set.");
             default:
-                if (is_array($this->elements[$internalId][$attribute]) && is_array($value)) {
+                if (isset($this->elements[$internalId][$attribute])
+                    && is_array($this->elements[$internalId][$attribute])
+                    && is_array($value)) {
                     if (!$rewrite) {
                         $value = array_merge($this->elements[$internalId][$attribute], $value);
                     }

@@ -14,7 +14,7 @@ use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 
-class Move implements CommandInterface
+class Move extends Handle\AbstractHandle implements CommandInterface
 {
     /**
      * Container type
@@ -34,15 +34,11 @@ class Move implements CommandInterface
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
-        $element = array();
-        foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-            if ($attribute) {
-                $element[$attributeName] = (string)$attribute;
-            }
-        }
-        $element['type'] = self::TYPE;
-        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
+        $element = $this->parseAttributes($layoutElement);
 
+        $element['type'] = self::TYPE;
+
+        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
         $layout->addElement($elementName, $element);
 
         if (isset($parentName)) {
@@ -67,12 +63,11 @@ class Move implements CommandInterface
                 $layout->unsetChild($elementParentName, $elementName);
 
                 if (isset($element['destination'])) {
-                    $alias = isset($element['as']) ? $element['as'] : $elementName;
-                    $layout->setChild($element['destination'], $elementName, $alias);
+                    $toMove = $element;
+                    $toMove['name'] = $elementName;
 
-                    list($siblingName, $isAfter) = $this->beforeAfterToSibling($element);
-
-                    $layout->reorderChild($element['destination'], $elementName, $siblingName, $isAfter);
+                    // assign to parent element
+                    $this->assignToParentElement($toMove, $layout, $element['destination']);
                 }
             }
         }
@@ -81,23 +76,5 @@ class Move implements CommandInterface
         $layout->unsetChild($parentName, $alias);
 
         return $this;
-    }
-
-    /**
-     * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
-     *
-     * @param array $element
-     * @return array
-     */
-    protected function beforeAfterToSibling($element)
-    {
-        $result = array(null, true);
-        if (isset($element['after'])) {
-            $result[0] = (string)$element['after'];
-        } elseif (isset($element['before'])) {
-            $result[0] = (string)$element['before'];
-            $result[1] = false;
-        }
-        return $result;
     }
 }

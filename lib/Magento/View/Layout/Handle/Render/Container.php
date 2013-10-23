@@ -8,51 +8,18 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
+use Magento\View\Layout\Handle\AbstractHandle;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\RenderInterface;
-use Magento\View\Layout\HandleFactory;
-use Magento\View\Render\RenderFactory;
 use Magento\View\Render\Html;
 
-class Container implements RenderInterface
+class Container extends AbstractHandle implements RenderInterface
 {
     /**
      * Container type
      */
     const TYPE = 'container';
-
-    /**#@+
-     * Names of container options in layout
-     */
-    const CONTAINER_OPT_HTML_TAG = 'htmlTag';
-    const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
-    const CONTAINER_OPT_HTML_ID = 'htmlId';
-    const CONTAINER_OPT_LABEL = 'label';
-    /**#@-*/
-
-    /**
-     * @var \Magento\View\Layout\HandleFactory
-     */
-    protected $handleFactory;
-
-    /**
-     * @var \Magento\View\Render\RenderFactory
-     */
-    protected $renderFactory;
-
-    /**
-     * @param HandleFactory $handleFactory
-     * @param RenderFactory $renderFactory
-     */
-    public function __construct(
-        HandleFactory $handleFactory,
-        RenderFactory $renderFactory
-    ) {
-        $this->handleFactory = $handleFactory;
-        $this->renderFactory = $renderFactory;
-    }
 
     /**
      * @param Element $layoutElement
@@ -63,34 +30,22 @@ class Container implements RenderInterface
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
+        $elementName = $elementName ?: ('Container-' . $this->nameIncrement++);
+
         if (isset($elementName)) {
-            $arguments = $element = array();
-            foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-                if ($attribute) {
-                    $arguments[$attributeName] = (string)$attribute;
-                }
-            }
-            $element = $arguments;
+            $arguments = $element = $this->parseAttributes($layoutElement);
+
             $element['arguments'] = $arguments;
             $element['type'] = self::TYPE;
+            $element['name'] = $elementName;
 
             $layout->addElement($elementName, $element);
 
-            if (isset($parentName)) {
-                $alias = !empty($element['as']) ? $element['as'] : $elementName;
-                $layout->setChild($parentName, $elementName, $alias);
-            }
+            // assign to parent element
+            $this->assignToParentElement($element, $layout, $parentName);
 
             // parse children
-            if ($layoutElement->hasChildren()) {
-                foreach ($layoutElement as $childXml) {
-                    /** @var $childXml Element */
-                    $type = $childXml->getName();
-                    /** @var $handle HandleInterface */
-                    $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $layout, $elementName);
-                }
-            }
+            $this->parseChildren($layoutElement, $layout, $elementName);
         }
 
         return $this;
@@ -109,12 +64,8 @@ class Container implements RenderInterface
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            foreach ($layout->getChildNames($elementName) as $childName) {
-                $child = $layout->getElement($childName);
-                /** @var $handle RenderInterface */
-                $handle = $this->handleFactory->get($child['type']);
-                $handle->register($child, $layout, $elementName);
-            }
+            // register children
+            $this->registerChildren($elementName, $layout);
         }
 
         return $this;
@@ -126,8 +77,6 @@ class Container implements RenderInterface
      * @param string $parentName
      * @param string $type [optional]
      * @return string
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
@@ -135,22 +84,12 @@ class Container implements RenderInterface
         if (isset($element['name'])) {
             $elementName = $element['name'];
 
-            foreach ($layout->getChildNames($elementName) as $childName) {
-                $child = $layout->getElement($childName);
-                /** @var $handle RenderInterface */
-                $handle = $this->handleFactory->get($child['type']);
-                if ($handle instanceof RenderInterface) {
-                    $result .= $handle->render($child, $layout, $elementName, $type);
-                }
-            }
+            $result = $this->renderChildren($elementName, $layout, $type);
         }
 
         $render = $this->renderFactory->get($type);
 
-        $containerInfo['label'] = !empty($element['label']) ? $element['label'] : null;
-        $containerInfo['tag'] = !empty($element['htmlTag']) ? $element['htmlTag'] : null;
-        $containerInfo['class'] = !empty($element['htmlClass']) ? $element['htmlClass'] : null;
-        $containerInfo['id'] = !empty($element['htmlId']) ? $element['htmlId'] : null;
+        $containerInfo = $this->getContainerInfo($element);
 
         $result = $render->renderContainer($result, $containerInfo);
 

@@ -8,32 +8,18 @@
 
 namespace Magento\View\Layout\Handle\Data;
 
+use Magento\View\Layout\Handle\AbstractHandle;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\DataInterface;
 use Magento\View\Layout\Handle\Render;
-use Magento\View\Layout\HandleFactory;
 
-class Source implements DataInterface
+class Source extends AbstractHandle implements DataInterface
 {
     /**
      * Container type
      */
     const TYPE = 'data';
-
-    /**
-     * @var HandleFactory
-     */
-    protected $handleFactory;
-
-    /**
-     * @param HandleFactory $handleFactory
-     */
-    public function __construct(HandleFactory $handleFactory)
-    {
-        $this->handleFactory = $handleFactory;
-    }
 
     /**
      * @param Element $layoutElement
@@ -43,32 +29,19 @@ class Source implements DataInterface
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
-        $element = array();
-        foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-            if ($attribute) {
-                $element[$attributeName] = (string)$attribute;
-            }
-        }
+        $elementName = $layoutElement->getAttribute('name');
 
-        $element['type'] = self::TYPE;
-        $elementName = $element['name'];
+        if (isset($elementName)) {
+            $element = $this->parseAttributes($layoutElement);
 
-        $layout->addElement($elementName, $element);
+            $element['type'] = self::TYPE;
+            $layout->addElement($elementName, $element);
 
-        $alias = isset($node['as']) ? $node['as'] : $elementName;
-        if (isset($alias) && $parentName) {
-            $layout->setChild($parentName, $elementName, $alias);
-        }
+            // assign to parent element
+            $this->assignToParentElement($element, $layout, $parentName);
 
-        // parse children
-        if ($layoutElement->hasChildren()) {
-            foreach ($layoutElement as $childXml) {
-                /** @var $childXml Element */
-                $type = $childXml->getName();
-                /** @var $handle HandleInterface */
-                $handle = $this->handleFactory->get($type);
-                $handle->parse($childXml, $layout, $elementName);
-            }
+            // parse children
+            $this->parseChildren($layoutElement, $layout, $elementName);
         }
 
         return $this;

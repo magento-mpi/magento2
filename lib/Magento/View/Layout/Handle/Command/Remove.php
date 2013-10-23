@@ -14,7 +14,7 @@ use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 
-class Remove implements CommandInterface
+class Remove extends Handle\AbstractHandle implements CommandInterface
 {
     /**
      * Container type
@@ -34,15 +34,11 @@ class Remove implements CommandInterface
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
-        $element = array();
-        foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-            if ($attribute) {
-                $element[$attributeName] = (string)$attribute;
-            }
-        }
-        $element['type'] = self::TYPE;
-        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
+        $element = $this->parseAttributes($layoutElement);
 
+        $element['type'] = self::TYPE;
+
+        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
         $layout->addElement($elementName, $element);
 
         if (isset($parentName)) {

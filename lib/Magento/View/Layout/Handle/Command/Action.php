@@ -8,11 +8,15 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
+use Magento\View\Layout\Handle\AbstractHandle;
+use Magento\View\Layout\HandleFactory;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle\CommandInterface;
+use Magento\Core\Model\Store\Config;
+use Magento\View\Render\RenderFactory;
 
-class Action implements CommandInterface
+class Action extends AbstractHandle implements CommandInterface
 {
     /**
      * Container type
@@ -28,12 +32,17 @@ class Action implements CommandInterface
      * Core store config
      *
      * @deprecated
-     * @var \Magento\Core\Model\Store\Config
+     * @var Config
      */
     protected $coreStoreConfig;
 
-    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    public function __construct(
+        HandleFactory $handleFactory,
+        RenderFactory $renderFactory,
+        Config $coreStoreConfig)
     {
+        parent::__construct($handleFactory, $renderFactory);
+
         $this->coreStoreConfig = $coreStoreConfig;
     }
     /**
@@ -44,12 +53,7 @@ class Action implements CommandInterface
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
-        $element = array();
-        foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-            if ($attribute) {
-                $element[$attributeName] = (string)$attribute;
-            }
-        }
+        $element = $this->parseAttributes($layoutElement);
 
         $ifConfig = isset($element['ifconfig']) ? $element['ifconfig'] : null;
         if (!empty($ifConfig) && !$this->coreStoreConfig->getConfigFlag($ifConfig)) {
@@ -57,17 +61,9 @@ class Action implements CommandInterface
         }
 
         $element['type'] = self::TYPE;
+        $element['arguments'] = $this->parseArguments($layoutElement);
+
         $elementName = isset($element['name']) ? $element['name'] : ('Command-Action-' . $this->inc++);
-
-        $arguments = array();
-        foreach ($layoutElement as $argument) {
-            /** @var $argument Element */
-            $name = $argument->getAttribute('name');
-            $value = (string) $argument;
-            $arguments[$name] = $value;
-        }
-        $element['arguments'] = $arguments;
-
         $layout->addElement($elementName, $element);
 
         if (isset($parentName)) {

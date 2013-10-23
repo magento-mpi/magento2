@@ -8,6 +8,7 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
+use Magento\View\Layout\Handle\AbstractHandle;
 use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\LayoutInterface;
@@ -20,24 +21,9 @@ use Magento\View\Layout\ProcessorInterface;
 use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
 
-class Preset implements RenderInterface
+class Preset extends AbstractHandle implements RenderInterface
 {
     const TYPE = 'preset';
-
-    /**
-     * @var ProcessorFactory
-     */
-    protected $processorFactory;
-
-    /**
-     * @var HandleFactory
-     */
-    protected $handleFactory;
-
-    /**
-     * @var RenderFactory
-     */
-    protected $renderFactory;
 
     /**
      * @var LayoutFactory
@@ -45,21 +31,37 @@ class Preset implements RenderInterface
     protected $layoutFactory;
 
     /**
-     * @param ProcessorFactory $processorFactory
+     * @var ProcessorFactory
+     */
+    protected $processorFactory;
+
+    /**
+     * @var LayoutInterface[]
+     */
+    protected $layouts = array();
+
+    /**
+     * @var int
+     */
+    protected $inc = 0;
+
+    /**
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
      * @param LayoutFactory $layoutFactory
+     * @param ProcessorFactory $processorFactory
      */
     public function __construct(
-        ProcessorFactory $processorFactory,
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
-        LayoutFactory $layoutFactory
-    ) {
-        $this->processorFactory = $processorFactory;
-        $this->handleFactory = $handleFactory;
-        $this->renderFactory = $renderFactory;
+        LayoutFactory $layoutFactory,
+        ProcessorFactory $processorFactory
+    )
+    {
+        parent::__construct($handleFactory, $renderFactory);
+
         $this->layoutFactory = $layoutFactory;
+        $this->processorFactory = $processorFactory;
     }
 
     /**
@@ -67,58 +69,36 @@ class Preset implements RenderInterface
      * @param LayoutInterface $layout
      * @param string $parentName
      * @return Preset
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
-        if (isset($elementName)) {
-            $arguments = $element = array();
-            foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-                if ($attribute) {
-                    $arguments[$attributeName] = (string)$attribute;
-                }
-            }
-            $element = $arguments;
-            $element['arguments'] = $arguments;
-            $element['type'] = self::TYPE;
+        if (!isset($elementName)) {
+            return $this;
+        }
 
-            if (isset($element['handle'])) {
-                $personalLayout = $this->layoutFactory->create();
-                $element['layout'] = $personalLayout;
+        $element = $this->parseAttributes($layoutElement);
+        $element['type'] = self::TYPE;
 
-                $layout->addElement($elementName, $element);
+        if (isset($element['handle'])) {
+            $layoutInstanceId = $this->createLayoutInstance();
+            $personalLayout = $this->getLayoutInstance($layoutInstanceId);
 
-                if (isset($parentName)) {
-                    $alias = isset($element['as']) ? $element['as'] : $elementName;
-                    $layout->setChild($parentName, $elementName, $alias);
-                }
+            $element['__layout'] = $layoutInstanceId;
 
-                /** @var $layoutProcessor ProcessorInterface */
-                $layoutProcessor = $this->processorFactory->create();
-                $layoutProcessor->load($element['handle']);
-                $xml = $layoutProcessor->asSimplexml();
+            $layout->addElement($elementName, $element);
 
-                foreach ($xml as $childElement) {
-                    /** @var $childElement Element  */
-                    $type = $childElement->getName();
-                    /** @var $handle HandleInterface */
-                    $handle = $this->handleFactory->get($type);
-                    $handle->parse($childElement, $personalLayout, $elementName);
-                }
+            // assign to parent element
+            $this->assignToParentElement($element, $layout, $parentName);
 
-                // parse children
-                if ($layoutElement->hasChildren()) {
-                    foreach ($layoutElement as $childXml) {
-                        /** @var $childXml Element */
-                        $type = $childXml->getName();
-                        /** @var $handle HandleInterface */
-                        $handle = $this->handleFactory->get($type);
-                        $handle->parse($childXml, $personalLayout, $elementName);
-                    }
-                }
-            }
+            // load layout handle
+            $xml = $this->loadLayoutHandle($element['handle']);
+
+            // parse layout elements as children elements
+            $this->parseChildren($xml, $personalLayout, $elementName);
+
+            // parse regular children elements
+            $this->parseChildren($layoutElement, $personalLayout, $elementName);
         }
 
         return $this;
@@ -137,14 +117,10 @@ class Preset implements RenderInterface
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            $personalLayout = $element['layout'];
+            $personalLayout = $this->getLayoutInstance($element['__layout']);
 
-            foreach ($personalLayout->getChildNames($elementName) as $childName) {
-                $child = $personalLayout->getElement($childName);
-                /** @var $handle RenderInterface */
-                $handle = $this->handleFactory->get($child['type']);
-                $handle->register($child, $personalLayout, $elementName);
-            }
+            // register children
+            $this->registerChildren($elementName, $personalLayout);
         }
 
         return $this;
@@ -156,8 +132,6 @@ class Preset implements RenderInterface
      * @param string $parentName
      * @param string $type [optional]
      * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
@@ -166,27 +140,51 @@ class Preset implements RenderInterface
         if (isset($element['name'])) {
             $elementName = $element['name'];
 
-            $personalLayout = $element['layout'];
+            $personalLayout = $this->getLayoutInstance($element['__layout']);
 
-            foreach ($personalLayout->getChildNames($elementName) as $childName) {
-                $child = $personalLayout->getElement($childName);
-                /** @var $handle RenderInterface */
-                $handle = $this->handleFactory->get($child['type']);
-                if ($handle instanceof RenderInterface) {
-                    $result .= $handle->render($child, $personalLayout, $elementName, $type);
-                }
-            }
+            $result = $this->renderChildren($elementName, $personalLayout, $type);
         }
 
         $render = $this->renderFactory->get($type);
 
-        $containerInfo['label'] = isset($meta['label']) ? $meta['label'] : null;
-        $containerInfo['tag'] = isset($meta['htmlTag']) ? $meta['htmlTag'] : null;
-        $containerInfo['class'] = isset($meta['htmlClass']) ? $meta['htmlClass'] : null;
-        $containerInfo['id'] = isset($meta['htmlId']) ? $meta['htmlId'] : null;
+        $containerInfo = $this->getContainerInfo($element);
 
         $result = $render->renderContainer($result, $containerInfo);
 
         return $result;
+    }
+
+    /**
+     * @return int
+     */
+    protected function createLayoutInstance()
+    {
+        $layout = $this->layoutFactory->create();
+        $this->inc++;
+        $this->layouts[$this->inc] = $layout;
+        return $this->inc;
+    }
+
+    /**
+     * @param $id
+     * @return LayoutInterface|null
+     */
+    protected function getLayoutInstance($id)
+    {
+        return isset($this->layouts[$id]) ? $this->layouts[$id] : null;
+    }
+
+    /**
+     * @param $handle
+     * @return Element
+     */
+    protected function loadLayoutHandle($handle)
+    {
+        /** @var $layoutProcessor ProcessorInterface */
+        $layoutProcessor = $this->processorFactory->create();
+        $layoutProcessor->load($handle);
+        $xml = $layoutProcessor->asSimplexml();
+
+        return $xml;
     }
 }

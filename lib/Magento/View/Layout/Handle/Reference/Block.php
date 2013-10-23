@@ -28,28 +28,7 @@ class Block extends OriginalBlock
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
-        $originalParentName = $layoutElement->getAttribute('name');
-        if (isset($originalParentName)) {
-            $arguments = array();
-            foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-                if ($attribute) {
-                    $arguments[$attributeName] = (string)$attribute;
-                }
-            }
-            $layout->updateElement($originalParentName, $arguments);
-
-            if ($layoutElement->hasChildren()) {
-                if ($layout->hasElement($originalParentName)) {
-                    foreach ($layoutElement as $childXml) {
-                        /** @var $childXml Element */
-                        $type = $childXml->getName();
-                        /** @var $handle HandleInterface */
-                        $handle = $this->handleFactory->get($type);
-                        $handle->parse($childXml, $layout, $originalParentName);
-                    }
-                }
-            }
-        }
+        $this->parseReference($layoutElement, $layout, $parentName);
 
         return $this;
     }

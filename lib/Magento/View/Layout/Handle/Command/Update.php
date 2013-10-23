@@ -8,16 +8,17 @@
 
 namespace Magento\View\Layout\Handle\Command;
 
+use Magento\View\Layout\Handle\AbstractHandle;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\ProcessorInterface;
+use Magento\View\Render\RenderFactory;
 
-class Update implements CommandInterface
+class Update extends AbstractHandle implements CommandInterface
 {
     /**
      * Container type
@@ -30,15 +31,19 @@ class Update implements CommandInterface
     protected $processorFactory;
 
     /**
-     * @param ProcessorFactory $processorFactory
      * @param HandleFactory $handleFactory
+     * @param RenderFactory $renderFactory
+     * @param ProcessorFactory $processorFactory
      */
     public function __construct(
-        ProcessorFactory $processorFactory,
-        HandleFactory $handleFactory
-    ) {
+        HandleFactory $handleFactory,
+        RenderFactory $renderFactory,
+        ProcessorFactory $processorFactory
+    )
+    {
+        parent::__construct($handleFactory, $renderFactory);
+
         $this->processorFactory = $processorFactory;
-        $this->handleFactory = $handleFactory;
     }
 
     /**
@@ -49,39 +54,32 @@ class Update implements CommandInterface
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
-        $element = array();
-        foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-            if ($attribute) {
-                $element[$attributeName] = (string)$attribute;
-            }
-        }
+        $element = $this->parseAttributes($layoutElement);
+
         $element['type'] = self::TYPE;
 
         if (isset($parentName) && isset($element['handle'])) {
-            /** @var $layoutProcessor ProcessorInterface */
-            $layoutProcessor = $this->processorFactory->create();
-            $layoutProcessor->load($element['handle']);
-            $xml = $layoutProcessor->asSimplexml();
+            // load layout handle
+            $xml = $this->loadLayoutHandle($element['handle']);
 
-            foreach ($xml as $childElement) {
-                $type = $childElement->getName();
-                /** @var $handle HandleInterface */
-                $handle = $this->handleFactory->get($type);
-                $handle->parse($childElement, $layout, $parentName);
-            }
+            // parse layout elements as parent's elements
+            $this->parseChildren($xml, $layout, $parentName);
         }
 
         return $this;
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Update
+     * @param $handle
+     * @return Element
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    protected function loadLayoutHandle($handle)
     {
-        return $this;
+        /** @var $layoutProcessor ProcessorInterface */
+        $layoutProcessor = $this->processorFactory->create();
+        $layoutProcessor->load($handle);
+        $xml = $layoutProcessor->asSimplexml();
+
+        return $xml;
     }
 }

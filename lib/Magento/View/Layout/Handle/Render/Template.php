@@ -8,6 +8,7 @@
 
 namespace Magento\View\Layout\Handle\Render;
 
+use Magento\View\Layout\Handle\AbstractHandle;
 use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\RenderInterface;
 
@@ -20,22 +21,12 @@ use Magento\Core\Model\View\FileSystem;
 
 use Magento\View\Render\Html;
 
-class Template implements RenderInterface
+class Template extends AbstractHandle implements RenderInterface
 {
     /**
      * Container type
      */
     const TYPE = 'template';
-
-    /**
-     * @var HandleFactory
-     */
-    protected $handleFactory;
-
-    /**
-     * @var RenderFactory
-     */
-    protected $renderFactory;
 
     /**
      * @var FileSystem
@@ -51,9 +42,10 @@ class Template implements RenderInterface
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
         FileSystem $filesystem
-    ) {
-        $this->handleFactory = $handleFactory;
-        $this->renderFactory = $renderFactory;
+    )
+    {
+        parent::__construct($handleFactory, $renderFactory);
+
         $this->filesystem = $filesystem;
     }
 
@@ -66,34 +58,21 @@ class Template implements RenderInterface
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $elementName = $layoutElement->getAttribute('name');
+        $elementName = $elementName ?: ('Template-' . $this->nameIncrement++);
+
         if (isset($elementName)) {
-            $arguments = $element = array();
-            foreach ($layoutElement->attributes() as $attributeName => $attribute) {
-                if ($attribute) {
-                    $arguments[$attributeName] = (string)$attribute;
-                }
-            }
-            $element = $arguments;
-            $element['arguments'] = $arguments;
+            $element = $this->parseAttributes($layoutElement);
+
             $element['type'] = self::TYPE;
+            $element['name'] = $elementName;
 
             $layout->addElement($elementName, $element);
 
-            if (isset($parentName)) {
-                $alias = isset($element['as']) ? $element['as'] : $elementName;
-                $layout->setChild($parentName, $elementName, $alias);
-            }
+            // assign to parent element
+            $this->assignToParentElement($element, $layout, $parentName);
 
             // parse children
-            if ($layoutElement->hasChildren()) {
-                foreach ($layoutElement as $childXml) {
-                    /** @var $childXml Element */
-                    $type = $childXml->getName();
-                    /** @var $handle HandleInterface */
-                    $handle = $this->handleFactory->get($type);
-                    $handle->parse($childXml, $layout, $elementName);
-                }
-            }
+            $this->parseChildren($layoutElement, $layout, $elementName);
         }
 
         return $this;
@@ -112,13 +91,8 @@ class Template implements RenderInterface
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            $personalLayout = isset($element['layout']) ? $element['layout'] : $layout;
-            foreach ($layout->getChildNames($elementName) as $childName) {
-                $child = $layout->getElement($childName);
-                /** @var $handle RenderInterface */
-                $handle = $this->handleFactory->get($child['type']);
-                $handle->register($child, $layout, $elementName);
-            }
+            // register children
+            $this->registerChildren($elementName, $layout);
         }
 
         return $this;

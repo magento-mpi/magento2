@@ -8,13 +8,14 @@
 
 namespace Magento\View\Layout\Handle;
 
+use Magento\View\Layout\HandleFactory;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\HandleInterface;
-
 use Magento\Core\Model\Layout\Argument\Processor;
+use Magento\View\Render\RenderFactory;
 
-class Arguments implements HandleInterface
+class Arguments extends AbstractHandle implements HandleInterface
 {
     /**
      * Handle type
@@ -27,10 +28,17 @@ class Arguments implements HandleInterface
     protected $argumentProcessor;
 
     /**
+     * @param HandleFactory $handleFactory
+     * @param RenderFactory $renderFactory
      * @param Processor $argumentProcessor
      */
-    public function __construct(Processor $argumentProcessor)
+    public function __construct(
+        HandleFactory $handleFactory,
+        RenderFactory $renderFactory,
+        Processor $argumentProcessor)
     {
+        parent::__construct($handleFactory, $renderFactory);
+
         $this->argumentProcessor = $argumentProcessor;
     }
 
