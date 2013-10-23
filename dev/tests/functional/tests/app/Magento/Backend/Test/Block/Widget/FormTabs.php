@@ -74,6 +74,9 @@ class FormTabs extends Form
         $fields = isset($dataSet['fields']) ? $dataSet['fields'] : array();
 
         foreach ($fields as $field => $attributes) {
+            if (!isset($attributes['group'])) {
+                continue;
+            }
             $tabs[$attributes['group']][$field] = $attributes;
         }
         return $tabs;
