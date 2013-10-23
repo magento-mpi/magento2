@@ -27,11 +27,44 @@ class ProductAttribute extends DataFixture
     const GROUP_PRODUCT_ATTRIBUTE_FRONT = 'product_attribute_tabs_front';
 
     /**
+     * Get attribute name
+     *
+     * @return string
+     */
+    public function getAttributeLabel()
+    {
+        return $this->getData('fields/attribute_label/value');
+    }
+
+    /**
+     * Get attribute option ids
+     *
+     * @return array
+     */
+    public function getAttributeOptionIds()
+    {
+        return $this->getData('fields/option_ids');
+    }
+
+    /**
+     * Get attribute id
+     *
+     * @return string
+     */
+    public function getAttributeId()
+    {
+        return $this->getData('fields/attribute_id/value');
+    }
+
+    /**
      * Save Attribute into Magento
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateProductAttribute($this);
+        $attributeIds = Factory::getApp()->magentoCatalogCreateProductAttribute($this);
+        $this->_data['fields']['attribute_id']['value'] = $attributeIds['attributeId'];
+        $this->_data['fields']['option_ids'] = $attributeIds['optionIds'];
+
         return $this;
     }
 
@@ -67,17 +100,9 @@ class ProductAttribute extends DataFixture
                     'value' => 0,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
-                'default_value_text' => array(
-                    'value' => 'Attribute Default Value %isolation%',
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
                 'frontend_class' => array(
                     'value' => '',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
-                'frontend_label[1]' => array(
-                    'value' => 'Label for Auto Generated Attribute #%isolation%',
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_LABELS,
                 ),
                 'is_searchable' => array(
                     'value' => 1,
