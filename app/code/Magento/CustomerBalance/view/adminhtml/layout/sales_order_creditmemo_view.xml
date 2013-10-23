@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="creditmemo_totals">
         <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/view.phtml" after="-"/>
-        <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
+        <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance_refunded" template="Magento_Sales::order/totals/item.phtml">
             <action method="setSourceField">
                 <argument name="value" xsi:type="string">customer_bal_total_refunded</argument>
             </action>

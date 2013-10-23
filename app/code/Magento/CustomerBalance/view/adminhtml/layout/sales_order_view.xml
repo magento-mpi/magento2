@@ -17,7 +17,7 @@
                 <argument name="value" xsi:type="string">Store Credit</argument>
             </action>
         </block>
-        <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
+        <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance_refunded" template="Magento_Sales::order/totals/item.phtml">
             <action method="setSourceField">
                 <argument name="value" xsi:type="string">customer_bal_total_refunded</argument>
             </action>
