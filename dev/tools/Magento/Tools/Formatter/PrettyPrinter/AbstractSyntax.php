@@ -6,19 +6,20 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementFactory;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
  * Class BaseAbstract
- * @package Magento\Tools\Formatter\PrettyPrinter\Statement
+ * @package Magento\Tools\Formatter\PrettyPrinter
  */
-abstract class BaseAbstract
+abstract class AbstractSyntax
 {
     /**
      * This member holds the current node.
@@ -56,7 +57,7 @@ abstract class BaseAbstract
      * @param array $arguments
      * @param TreeNode $treeNode
      * @param Line $line
-     * @param bool $initialBreakRequired Optional flag indicating to include the first break.
+     * @param LineBreak $lineBreak
      */
     protected function processArgumentList(
         array $arguments,
@@ -83,7 +84,7 @@ abstract class BaseAbstract
      */
     protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
     {
-        /** @var BaseAbstract $statement */
+        /** @var AbstractSyntax $statement */
         $statement = StatementFactory::getInstance()->getStatement($node);
         $statement->resolve($treeNode);
     }

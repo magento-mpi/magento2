@@ -78,6 +78,7 @@ class StatementFactory
         $this->register('Expr_PreDec', PreDecrementOperator::getType());
         $this->register('Expr_PostInc', PostIncrementOperator::getType());
         $this->register('Expr_PostDec', PostDecrementOperator::getType());
+        $this->register('Expr_UnaryPlus', UnaryPlusOperator::getType());
         $this->register('Expr_Div', DivideOperator::getType());
         $this->register('Expr_Concat', ConcatOperator::getType());
         $this->register('Expr_Plus', PlusOperator::getType());
@@ -114,6 +115,7 @@ class StatementFactory
         $this->register('Stmt_If', IfStatement::getType());
         $this->register('Stmt_ElseIf', ElseIfStatement::getType());
         $this->register('Stmt_Else', ElseStatement::getType());
+        $this->register('Stmt_Function', FunctionStatement::getType());
     }
 
     /**

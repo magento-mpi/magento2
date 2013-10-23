@@ -14,9 +14,9 @@ class PrinterTest extends TestBase
     /**
      * This method tests arrays in the pretty printer.
      *
-     * @dataProvider dataInfixOperators
+     * @dataProvider dataOperators
      */
-    public function testInfixOperators($originalCode, $formattedCode)
+    public function testOperators($originalCode, $formattedCode)
     {
         $printer = new Printer($originalCode);
         $this->assertEquals($formattedCode, $printer->getFormattedCode());
@@ -27,7 +27,7 @@ class PrinterTest extends TestBase
      * @return array
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function dataInfixOperators()
+    public function dataOperators()
     {
         return array(
             array("<?php\n\$d=1+1;", "<?php\n\$d = 1 + 1;\n"),
@@ -53,7 +53,10 @@ class PrinterTest extends TestBase
             array("<?php\n\$d =\$ham and \$eggs;", "<?php\n\$d = \$ham and \$eggs;\n"),
             array("<?php\n\$d =\$ham xor \$eggs;", "<?php\n\$d = \$ham xor \$eggs;\n"),
             array("<?php\n\$d =\$ham or \$eggs;", "<?php\n\$d = \$ham or \$eggs;\n"),
-            array("<?php\n\$d =\$ham or (\$eggs and \$a) xor \$b;", "<?php\n\$d = \$ham or \$eggs and \$a xor \$b;\n"),
+            array(
+                "<?php\n\$d =\$ham or (\$eggs and \$a) xor \$b;",
+                "<?php\n\$d = \$ham or \$eggs and \$a xor \$b;\n"
+            ),
             array(
                 "<?php\n\$d =(\$ham or \$eggs) and \$a xor \$b;",
                 "<?php\n\$d = (\$ham or \$eggs) and \$a xor \$b;\n"
@@ -67,6 +70,8 @@ class PrinterTest extends TestBase
             array("<?php\n\$d=22+ \$a++;", "<?php\n\$d = 22 + \$a++;\n"),
             array("<?php\n\$d=\$a--;", "<?php\n\$d = \$a--;\n"),
             array("<?php\n\$d=22+ \$a--;", "<?php\n\$d = 22 + \$a--;\n"),
+            array("<?php\n\$d=+22;", "<?php\n\$d = +22;\n"),
+            array("<?php\n\$d=+\$plus;", "<?php\n\$d = +\$plus;\n"),
         );
     }
     /**
@@ -549,6 +554,44 @@ FORMATTEDCODESNIPPET
                 "<?php class MD5 {public function alpha(TestClass \$a,TestClass \$b,TestClass \$c,TestClass \$d) {}}",
                 "<?php\nclass MD5\n{\n    public function alpha(\n        TestClass \$a,\n        TestClass \$b,\n" .
                 "        TestClass \$c,\n        TestClass \$d\n    ) {\n    }\n}\n"
+            ),
+        );
+    }
+
+    /**
+     * This method tests the printing around function declarations.
+     *
+     * @dataProvider dataFunctionDeclarations
+     */
+    public function testFunctionDeclarations($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    public function dataFunctionDeclarations()
+    {
+        return array(
+            array(
+                "<?php function alpha() {}",
+                "<?php\nfunction alpha()\n{\n}\n"
+            ),
+            array(
+                "<?php function alpha(\$a) {}",
+                "<?php\nfunction alpha(\$a)\n{\n}\n"
+            ),
+            array(
+                "<?php function alpha(TestClass \$a) {}",
+                "<?php\nfunction alpha(TestClass \$a)\n{\n}\n"
+            ),
+            array(
+                "<?php function alpha(TestClass \$a,TestClass \$b) {}",
+                "<?php\nfunction alpha(TestClass \$a, TestClass \$b)\n{\n}\n"
+            ),
+            array(
+                "<?php function alpha(TestClass12345 \$a,TestClass12345 \$b,TestClass12345 \$c,TestClass12345 \$d) {}",
+                "<?php\nfunction alpha(\n    TestClass12345 \$a,\n    TestClass12345 \$b,\n" .
+                "    TestClass12345 \$c,\n    TestClass12345 \$d\n) {\n}\n"
             ),
         );
     }

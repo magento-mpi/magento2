@@ -7,14 +7,13 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
-use PHPParser_Node_Expr;
 
-abstract class OperatorAbstract extends BaseAbstract
+abstract class OperatorAbstract extends AbstractSyntax
 {
     protected $terminate = false;
     abstract public function operator();
@@ -49,7 +48,7 @@ abstract class OperatorAbstract extends BaseAbstract
     */
     protected function resolvePrecedence(PHPParser_Node $node, TreeNode $treeNode, $childPosition)
     {
-        /** @var BaseAbstract $statement */
+        /** @var AbstractSyntax $statement */
         $child = StatementFactory::getInstance()->getStatement($node);
         if ($child instanceof OperatorAbstract) {
             $childPrecedence = $child->precedence();

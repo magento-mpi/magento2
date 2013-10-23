@@ -7,16 +7,16 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node;
 use PHPParser_Node_Stmt_Class;
 
 /**
  * This class is the base class for all printer statements.
  */
-abstract class StatementAbstract extends BaseAbstract
+abstract class StatementAbstract extends AbstractSyntax
 {
     const ATTRIBUTE_COMMENTS = 'comments';
 
@@ -92,6 +92,8 @@ abstract class StatementAbstract extends BaseAbstract
      * @param int $index 0 based index of the new node
      * @param int $total total number of nodes to be added
      * @param mixed $data Data that is passed to derived class when processing the node.
+     * @return \Magento\Tools\Formatter\Tree\TreeNode
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total, $data = null)
     {
