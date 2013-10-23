@@ -84,7 +84,6 @@ class Preset implements Render
 
             if (isset($element['handle'])) {
                 $personalLayout = $this->layoutFactory->create();
-
                 $element['layout'] = $personalLayout;
 
                 $layout->addElement($elementName, $element);
@@ -134,16 +133,17 @@ class Preset implements Render
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
 
-            $personalLayout = isset($element['layout']) ?: $layout;
+            $layout->updateElement($elementName, array('is_registered' => true));
 
-            $personalLayout->updateElement($elementName, array('is_registered' => true));
+            $personalLayout = isset($element['layout']) ? $element['layout'] : $layout;
 
-            foreach ($personalLayout->getChildNames($elementName) as $childName => $alias) {
+            foreach ($personalLayout->getChildNames($elementName) as $childName) {
                 $child = $personalLayout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);
                 $handle->register($child, $personalLayout, $elementName);
             }
+
         }
 
         return $this;
@@ -163,9 +163,9 @@ class Preset implements Render
         if (isset($element['name'])) {
             $elementName = $element['name'];
 
-            $personalLayout = isset($element['layout']) ?: $layout;
+            $personalLayout = isset($element['layout']) ? $element['layout'] : $layout;
 
-            foreach ($personalLayout->getChildNames($elementName) as $childName => $alias) {
+            foreach ($personalLayout->getChildNames($elementName) as $childName) {
                 $child = $personalLayout->getElement($childName);
                 /** @var $handle Render */
                 $handle = $this->handleFactory->get($child['type']);

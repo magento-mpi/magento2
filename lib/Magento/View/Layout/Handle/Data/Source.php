@@ -8,7 +8,7 @@
 
 namespace Magento\View\Layout\Handle\Data;
 
-use Magento\View\Layout;
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\Data;
@@ -36,11 +36,11 @@ class Source implements Data
 
     /**
      * @param Element $layoutElement
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @return Source
      */
-    public function parse(Element $layoutElement, Layout $layout, $parentName)
+    public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $element = array();
         foreach ($layoutElement->attributes() as $attributeName => $attribute) {
@@ -75,12 +75,12 @@ class Source implements Data
 
     /**
      * @param array $element
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      * @param string $parentName
      * @throws \Exception
      * @return Source
      */
-    public function register(array $element, Layout $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout, $parentName)
     {
         if (isset($element['class'])) {
             if (!class_exists($element['class'])) {
