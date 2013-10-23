@@ -114,7 +114,13 @@ abstract class StatementAbstract extends BaseAbstract
             $total = count($nodes);
             foreach ($nodes as $index => $node) {
                 $statement = StatementFactory::getInstance()->getStatement($node);
-                $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), $index, $total, $data);
+                $originatingNode = $this->processNode(
+                    $originatingNode,
+                    new TreeNode($statement),
+                    $index,
+                    $total,
+                    $data
+                );
             }
         } else {
             $statement = StatementFactory::getInstance()->getStatement($nodes);

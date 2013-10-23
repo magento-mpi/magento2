@@ -57,6 +57,28 @@ class StatementFactory
      */
     protected function __construct()
     {
+        $this->register('Expr_Assign', AssignmentOperator::getType());
+        $this->register('Expr_AssignRef', AssignRefOperator::getType());
+        $this->register('Expr_AssignPlus', AssignPlusOperator::getType());
+        $this->register('Expr_AssignMinus', AssignMinusOperator::getType());
+        $this->register('Expr_AssignMul', AssignMultiplyOperator::getType());
+        $this->register('Expr_AssignDiv', AssignDivideOperator::getType());
+        $this->register('Expr_AssignConcat', AssignConcatOperator::getType());
+        $this->register('Expr_AssignMod', AssignModulusOperator::getType());
+        $this->register('Expr_AssignBitwiseAnd', AssignBitwiseAndOperator::getType());
+        $this->register('Expr_AssignBitwiseOr', AssignBitwiseOrOperator::getType());
+        $this->register('Expr_AssignBitwiseXor', AssignBitwiseXorOperator::getType());
+        $this->register('Expr_AssignShiftLeft', AssignShiftLeftOperator::getType());
+        $this->register('Expr_AssignShiftRight', AssignShiftRightOperator::getType());
+        $this->register('Expr_LogicalAnd', LogicalAndOperator::getType());
+        $this->register('Expr_LogicalXor', LogicalXorOperator::getType());
+        $this->register('Expr_LogicalOr', LogicalOrOperator::getType());
+        $this->register('Expr_BitwiseNot', BitwiseNotOperator::getType());
+        $this->register('Expr_PreInc', PreIncrementOperator::getType());
+        $this->register('Expr_PreDec', PreDecrementOperator::getType());
+        $this->register('Expr_PostInc', PostIncrementOperator::getType());
+        $this->register('Expr_PostDec', PostDecrementOperator::getType());
+        $this->register('Expr_Div', DivideOperator::getType());
         $this->register('Expr_Concat', ConcatOperator::getType());
         $this->register('Expr_Plus', PlusOperator::getType());
         $this->register('Expr_Mul', MultiplyOperator::getType());

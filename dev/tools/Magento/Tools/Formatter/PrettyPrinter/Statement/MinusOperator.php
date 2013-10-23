@@ -1,19 +1,18 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: jgedeon
- * Date: 10/22/13
- * Time: 12:26 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Minus;
 
-class MinusOperator extends InfixOperatorAbstract {
-    public function __construct(PHPParser_Node_Expr_Minus $node) {
+class MinusOperator extends InfixOperatorAbstract
+{
+    public function __construct(PHPParser_Node_Expr_Minus $node)
+    {
         parent::__construct($node);
     }
     public function operator()

@@ -8,6 +8,7 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
+use Magento\Tools\Formatter\PrettyPrinter\Statement\OperatorAbstract;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementAbstract;
 use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -31,7 +32,7 @@ class LineResolver extends NodeVisitorAbstract
         // get the data from the node
         $nodeData = $treeNode->getData();
         // if the data represents a node, try to resolve the node
-        if ($nodeData instanceof StatementAbstract) {
+        if ($nodeData instanceof StatementAbstract || $nodeData instanceof OperatorAbstract) {
             $this->statementCount++;
             // let the statement try to resolve to a line
             $nodeData->resolve($treeNode);

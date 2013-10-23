@@ -7,25 +7,25 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use PHPParser_Node_Expr_Plus;
+use PHPParser_Node_Expr_Div;
 
-class PlusOperator extends InfixOperatorAbstract
+class DivideOperator extends InfixOperatorAbstract
 {
-    public function __construct(PHPParser_Node_Expr_Plus $node)
+    public function __construct(PHPParser_Node_Expr_Div $node)
     {
         parent::__construct($node);
     }
     public function operator()
     {
-        return ' + ';
+        return ' / ';
     }
-    /* 'Expr_Plus'             => array( 5, -1), */
+    /* 'Expr_Div'              => array( 4, -1), */
     public function associativity()
     {
         return -1;
     }
     public function precedence()
     {
-        return 5;
+        return 4;
     }
 }

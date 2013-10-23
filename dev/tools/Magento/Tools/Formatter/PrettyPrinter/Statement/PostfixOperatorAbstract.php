@@ -10,25 +10,21 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
-abstract class InfixOperatorAbstract extends OperatorAbstract
+abstract class PostfixOperatorAbstract extends OperatorAbstract
 {
     /*
-    protected function pInfixOp($type, PHPParser_Node $leftNode, $operatorString, PHPParser_Node $rightNode) {
+    protected function pPrefixOp($type, $operatorString, PHPParser_Node $node) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
-
-        return $this->pPrec($leftNode, $precedence, $associativity, -1)
-        . $operatorString
-        . $this->pPrec($rightNode, $precedence, $associativity, 1);
+        return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
     */
-    protected function resolveInfixOperator(TreeNode $treeNode)
+    protected function resolvePostfixOperator(TreeNode $treeNode)
     {
         /** @var Line $line */
         $line = $treeNode->getData();
         // Resolve the children according to precedence.
-        $this->resolvePrecedence($this->left(), $treeNode, -1);
+        $this->resolvePrecedence($this->expr(), $treeNode, -1);
         $line->add($this->operator());
-        $this->resolvePrecedence($this->right(), $treeNode, 1);
     }
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
@@ -37,14 +33,10 @@ abstract class InfixOperatorAbstract extends OperatorAbstract
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        $this->resolveInfixOperator($treeNode);
+        $this->resolvePostfixOperator($treeNode);
     }
-    public function left()
+    public function expr()
     {
-        return $this->node->left;
-    }
-    public function right()
-    {
-        return $this->node->right;
+        return $this->node->var;
     }
 }

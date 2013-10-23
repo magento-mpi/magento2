@@ -108,7 +108,12 @@ class Line
                 }
             }
         }
-        // stores the array of arrays
+        // get the array of arrays containing the compiled tokens
+        return $this->getCurrentLines($level, $lineBreakTokens);
+    }
+
+    private function getCurrentLines($level, &$lineBreakTokens)
+        {
         $currentLines = array();
         $index = 0;
         // build up the string by compiling the tokens
@@ -122,11 +127,11 @@ class Line
                 // add the current token to the end of the current line
                 $currentLines[$index][self::ATTRIBUTE_LINE] .= $token;
             } elseif ($token instanceof LineBreak) {
-                $id = $this->getLineBreakId($token);
+                $lid = $this->getLineBreakId($token);
                 $resolvedToken = $token->getValue(
                     $level,
-                    $lineBreakTokens[$id]['index']++,
-                    $lineBreakTokens[$id]['total']
+                    $lineBreakTokens[$lid]['index']++,
+                    $lineBreakTokens[$lid]['total']
                 );
                 if ($token instanceof HardLineBreak) {
                     $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $token;
@@ -150,10 +155,10 @@ class Line
     private function getLineBreakId(LineBreak $lineBreak)
     {
         if ($lineBreak->isGroupedByClass()) {
-            $id = get_class($lineBreak);
+            $lid = get_class($lineBreak);
         } else {
-            $id = spl_object_hash($lineBreak);
+            $lid = spl_object_hash($lineBreak);
         }
-        return $id;
+        return $lid;
     }
 }

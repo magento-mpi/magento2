@@ -7,25 +7,25 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use PHPParser_Node_Expr_Plus;
+use PHPParser_Node_Expr_BitwiseNot;
 
-class PlusOperator extends InfixOperatorAbstract
+class BitwiseNotOperator extends PrefixOperatorAbstract
 {
-    public function __construct(PHPParser_Node_Expr_Plus $node)
+    public function __construct(PHPParser_Node_Expr_BitwiseNot $node)
     {
         parent::__construct($node);
     }
     public function operator()
     {
-        return ' + ';
+        return '~';
     }
-    /* 'Expr_Plus'             => array( 5, -1), */
+    /* 'Expr_BitwiseNot'       => array( 1,  1), */
     public function associativity()
     {
-        return -1;
+        return 1;
     }
     public function precedence()
     {
-        return 5;
+        return 1;
     }
 }

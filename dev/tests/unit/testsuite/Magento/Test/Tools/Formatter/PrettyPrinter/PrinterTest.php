@@ -14,6 +14,163 @@ class PrinterTest extends TestBase
     /**
      * This method tests arrays in the pretty printer.
      *
+     * @dataProvider dataInfixOperators
+     */
+    public function testInfixOperators($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+    /**
+     * Provide data to test method
+     *
+     * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function dataInfixOperators()
+    {
+        return array(
+            array(
+                "<?php\n\$d=1+1;",
+                "<?php\n\$d = 1 + 1;\n"
+            ),
+            array(
+                "<?php\n\$d=1*1;",
+                "<?php\n\$d = 1 * 1;\n"
+            ),
+            array(
+                "<?php\n\$d=1/1;",
+                "<?php\n\$d = 1 / 1;\n"
+            ),
+            array(
+                "<?php\n\$d=1-1;",
+                "<?php\n\$d = 1 - 1;\n"
+            ),
+            array(
+                "<?php\n\$d=1/1*2+1;",
+                "<?php\n\$d = 1 / 1 * 2 + 1;\n"
+            ),
+            array(
+                "<?php\n\$d=1/1*(2+1);",
+                "<?php\n\$d = 1 / 1 * (2 + 1);\n"
+            ),
+            array(
+                "<?php\n\$d=&\$refable;",
+                "<?php\n\$d =& \$refable;\n"
+            ),
+            array(
+                "<?php\n\$d+=2-3-4*(4+6);",
+                "<?php\n\$d += 2 - 3 - 4 * (4 + 6);\n"
+            ),
+            array(
+                "<?php\n\$d-=2-3-4*(4+6);",
+                "<?php\n\$d -= 2 - 3 - 4 * (4 + 6);\n"
+            ),
+            array(
+                "<?php\n\$d*=2-3-4*(4+6);",
+                "<?php\n\$d *= 2 - 3 - 4 * (4 + 6);\n"
+            ),
+            array(
+                "<?php\n\$d/=2-3-4*(4+6);",
+                "<?php\n\$d /= 2 - 3 - 4 * (4 + 6);\n"
+            ),
+            array(
+                "<?php\n\$d.='tiger';",
+                "<?php\n\$d .= 'tiger';\n"
+            ),
+            array(
+                "<?php\n\$d.='tiger\\n';",
+                "<?php\n\$d .= 'tiger\\n';\n"
+            ),
+            array(
+                "<?php\n\$d.=\"tiger\\n\";",
+                "<?php\n\$d .= \"tiger\\n\";\n"
+            ),
+            array(
+                "<?php\n\$d%=2-3-4*(4+6);",
+                "<?php\n\$d %= 2 - 3 - 4 * (4 + 6);\n"
+            ),
+            array(
+                "<?php\n\$d&=\$bit;",
+                "<?php\n\$d &= \$bit;\n"
+            ),
+            array(
+                "<?php\n\$d|=\$bit;",
+                "<?php\n\$d |= \$bit;\n"
+            ),
+            array(
+                "<?php\n\$d^=\$bit;",
+                "<?php\n\$d ^= \$bit;\n"
+            ),
+            array(
+                "<?php\n\$d<<=\$bit;",
+                "<?php\n\$d <<= \$bit;\n"
+            ),
+            array(
+                "<?php\n\$d>>=\$bit;",
+                "<?php\n\$d >>= \$bit;\n"
+            ),
+            array(
+                "<?php\n\$d =\$ham and \$eggs;",
+                "<?php\n\$d = \$ham and \$eggs;\n"
+            ),
+            array(
+                "<?php\n\$d =\$ham xor \$eggs;",
+                "<?php\n\$d = \$ham xor \$eggs;\n"
+            ),
+            array(
+                "<?php\n\$d =\$ham or \$eggs;",
+                "<?php\n\$d = \$ham or \$eggs;\n"
+            ),
+            array(
+                "<?php\n\$d =\$ham or (\$eggs and \$a) xor \$b;",
+                "<?php\n\$d = \$ham or \$eggs and \$a xor \$b;\n"
+            ),
+            array(
+                "<?php\n\$d =(\$ham or \$eggs) and \$a xor \$b;",
+                "<?php\n\$d = (\$ham or \$eggs) and \$a xor \$b;\n"
+            ),
+            array(
+                "<?php\n\$d=~\$a;",
+                "<?php\n\$d = ~\$a;\n"
+            ),
+            array(
+                "<?php\n\$d=++\$a;",
+                "<?php\n\$d = ++\$a;\n"
+            ),
+            array(
+                "<?php\n\$d=22+ ++\$a;",
+                "<?php\n\$d = 22 + ++\$a;\n"
+            ),
+            array(
+                "<?php\n\$d=--\$a;",
+                "<?php\n\$d = --\$a;\n"
+            ),
+            array(
+                "<?php\n\$d=22+ --\$a;",
+                "<?php\n\$d = 22 + --\$a;\n"
+            ),
+            array(
+                "<?php\n\$d=\$a++;",
+                "<?php\n\$d = \$a++;\n"
+            ),
+            array(
+                "<?php\n\$d=22+ \$a++;",
+                "<?php\n\$d = 22 + \$a++;\n"
+            ),
+            array(
+                "<?php\n\$d=\$a--;",
+                "<?php\n\$d = \$a--;\n"
+            ),
+            array(
+                "<?php\n\$d=22+ \$a--;",
+                "<?php\n\$d = 22 + \$a--;\n"
+            ),
+        );
+    }
+    /**
+     * This method tests arrays in the pretty printer.
+     *
      * @dataProvider dataArrays
      */
     public function testArrays($originalCode, $formattedCode)
@@ -127,7 +284,31 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 class Foo {
     function x() {
-        echo 1+1;
+        \$d = 1+1;
+
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function x()
+    {
+        \$d = 1 + 1;
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
+        \$d=1+1;
         echo 1 + (2 - 2) * 3;
 
     }
@@ -141,7 +322,7 @@ class Foo
 {
     public function x()
     {
-        echo 1 + 1;
+        \$d = 1 + 1;
         echo 1 + (2 - 2) * 3;
     }
 }
@@ -244,7 +425,7 @@ class Foo {
         echo 'somehing\\n'.(1+2).'more';
 
         echo 'z';
-        echo "My super string \n Is here".(1).'mixed'.\$v;
+        echo "My super string \\n Is here".(1).'mixed'.\$v;
         // Comment at end of block
     }
 };
@@ -265,7 +446,7 @@ class Foo
         echo 'somehing\\n' . (1 + 2) . 'more';
 
         echo 'z';
-        echo "My super string \n Is here" . 1 . 'mixed' . \$v;
+        echo "My super string \\n Is here" . 1 . 'mixed' . \$v;
     }
 }
 

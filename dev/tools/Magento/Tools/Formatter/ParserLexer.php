@@ -103,7 +103,8 @@ class ParserLexer extends PHPParser_Lexer
      * @param $value
      * @param $endAttributes
      */
-    private function handleStrings($tokenId, $value, &$endAttributes) {
+    private function handleStrings($tokenId, $value, &$endAttributes)
+    {
         // if a string or number is encountered, save off the original so that it can be used in the generated code.
         if (PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING === $tokenId ||
             PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE === $tokenId ||

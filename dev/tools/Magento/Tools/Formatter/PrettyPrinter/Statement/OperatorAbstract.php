@@ -1,23 +1,25 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: jgedeon
- * Date: 10/21/13
- * Time: 4:36 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 use PHPParser_Node_Expr;
 
-abstract class OperatorAbstract extends BaseAbstract {
-    public abstract function operator();
-    public abstract function associativity();
-    public abstract function precedence();
+abstract class OperatorAbstract extends BaseAbstract
+{
+    protected $terminate = false;
+    abstract public function operator();
+    abstract public function associativity();
+    abstract public function precedence();
     /**
      * Prints an expression node with the least amount of parentheses necessary to preserve the meaning.
      *
@@ -45,12 +47,12 @@ abstract class OperatorAbstract extends BaseAbstract {
         return $this->{'p' . $type}($node);
     }
     */
-    protected function resolvePrecedence(PHPParser_Node $node, TreeNode $treeNode, $childPosition) {
+    protected function resolvePrecedence(PHPParser_Node $node, TreeNode $treeNode, $childPosition)
+    {
         /** @var BaseAbstract $statement */
         $child = StatementFactory::getInstance()->getStatement($node);
         if ($child instanceof OperatorAbstract) {
             $childPrecedence = $child->precedence();
-            $childAssociativity = $child->associativity();
             $parentPrecedence = $this->precedence();
             $parentAssociativity = $this->associativity();
             if ($childPrecedence > $parentPrecedence
@@ -59,13 +61,21 @@ abstract class OperatorAbstract extends BaseAbstract {
                 $treeNode->getData()->add('(');
                 $child->resolve($treeNode);
                 $treeNode->getData()->add(')');
-            }
-            else {
+            } else {
                 $child->resolve($treeNode);
             }
-        }
-        else {
+        } else {
             $child->resolve($treeNode);
+        }
+        if ($childPosition === 1 && $this->terminate) {
+            $treeNode->getData()->add(';')->add(new HardLineBreak());
+        }
+    }
+    public function resolve(TreeNode $treeNode)
+    {
+        if ($treeNode->getData() instanceof OperatorAbstract && $treeNode->getData() === $this) {
+            $treeNode->setData(new Line());
+            $this->terminate = true;
         }
     }
 }

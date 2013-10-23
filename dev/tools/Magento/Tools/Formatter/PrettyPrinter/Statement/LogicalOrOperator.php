@@ -7,25 +7,25 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use PHPParser_Node_Expr_Plus;
+use PHPParser_Node_Expr_LogicalOr;
 
-class PlusOperator extends InfixOperatorAbstract
+class LogicalOrOperator extends InfixOperatorAbstract
 {
-    public function __construct(PHPParser_Node_Expr_Plus $node)
+    public function __construct(PHPParser_Node_Expr_LogicalOr $node)
     {
         parent::__construct($node);
     }
     public function operator()
     {
-        return ' + ';
+        return ' or ';
     }
-    /* 'Expr_Plus'             => array( 5, -1), */
+    /* 'Expr_LogicalOr'        => array(18, -1), */
     public function associativity()
     {
         return -1;
     }
     public function precedence()
     {
-        return 5;
+        return 18;
     }
 }
