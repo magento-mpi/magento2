@@ -22,13 +22,4 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Log\Model\Resource\Log">
-        <param name="ignores">
-            <value>
-                <install>install</install>
-                <adminhtml>adminhtml</adminhtml>
-                <admin>admin</admin>
-            </value>
-        </param>
-    </type>
 </config>

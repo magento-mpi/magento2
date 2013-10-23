@@ -399,11 +399,6 @@
             <instance type="Magento\Core\Model\File\Storage\File\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Session\AbstractSession">
-        <param name="url">
-            <instance type="Magento\Core\Model\Url\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Service">
         <param name="design">
             <instance type="Magento\Core\Model\View\Design\Proxy" />

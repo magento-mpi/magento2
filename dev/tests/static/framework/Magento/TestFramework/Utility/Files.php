@@ -532,7 +532,7 @@ class Files
      */
     public function getDiConfigs()
     {
-        $primaryConfigs = glob($this->_path . '/app/etc/di/*.xml');
+        $primaryConfigs = glob($this->_path . '/app/etc/{di.xml,*/di.xml}', GLOB_BRACE);
         $moduleConfigs = glob($this->_path . '/app/code/*/*/etc/{di,*/di}.xml', GLOB_BRACE);
         $configs = array_merge($primaryConfigs, $moduleConfigs);
         return $configs;

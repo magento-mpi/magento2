@@ -13,11 +13,6 @@
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
-    <type name="Magento\Catalog\Model\Product\Attribute\Backend\Price">
-        <param name="coreString">
-            <instance type="Magento\Core\Helper\String\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Catalog\Helper\Product\View">
         <param name="messageModels">
             <value>
@@ -70,14 +65,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Attribute\Config\Data">
-        <param name="cacheId">
-            <value>catalog_attributes</value>
-        </param>
-        <param name="scope">
-            <value type="const">Magento\Core\Model\App\Area::AREA_GLOBAL</value>
-        </param>
-    </type>
     <type name="Magento\Catalog\Helper\Product\Flat">
         <param name="addFilterableAttrs">
             <value type="int">0</value>
@@ -102,7 +89,7 @@
         </param>
     </type>
     <type name="Magento\Catalog\Block\Layer\View">
-        <param name="layer">
+        <param name="catalogLayer">
             <instance type="Magento\Catalog\Model\Layer\Proxy" />
         </param>
     </type>

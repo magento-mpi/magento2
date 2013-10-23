@@ -63,7 +63,7 @@
             <value type="argument">Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Module\Declaration\Reader\Filesystem">
+    <type name="Magento\App\Module\Declaration\Reader\Filesystem">
         <param name="allowedModules">
             <value type="argument">Magento\Core\Model\App::PARAM_ALLOWED_MODULES</value>
         </param>
@@ -84,14 +84,6 @@
         </param>
         <param name="scopeType">
             <value type="argument">Magento\Core\Model\App::PARAM_RUN_TYPE</value>
-        </param>
-    </type>
-    <type name="Magento\Core\Model\Cache">
-        <param name="cacheTypes">
-            <instance type="Magento\Core\Model\Cache\Types\Proxy" />
-        </param>
-        <param name="config">
-            <instance type="Magento\Core\Model\Config\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config">
@@ -133,31 +125,15 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Helper\Url">
-        <param name="translate">
-            <instance type="Magento\Core\Model\Translate\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="storeManager">
             <instance type="Magento\Core\Model\StoreManager\Proxy" />
         </param>
     </type>
     <type name="Magento\Acl" shared="false" />
-    <type name="Magento\Core\Model\ModuleManager">
-        <param name="config">
-            <instance type="Magento\Core\Model\Config\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\ObjectManager\ConfigLoader">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Config"/>
-        </param>
-        <param name="modulesReader">
-            <instance type="Magento\Core\Model\Config\Modules\Reader\Proxy" />
-        </param>
-        <param name="mode">
-            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento\Core\Model\ObjectManager\ConfigCache">
@@ -185,11 +161,6 @@
         <param name="cacheId">
             <value>interception</value>
         </param>
-        <param name="scopePriorityScheme">
-            <value>
-                <first>global</first>
-            </value>
-        </param>
     </type>
     <type name="Magento\Interception\PluginList\PluginList">
         <param name="cache">
@@ -216,7 +187,7 @@
         </param>
     </type>
     <type name="Magento\Config\Scope">
-        <param name="default">
+        <param name="defaultScope">
             <value>global</value>
         </param>
         <param name="areaList">

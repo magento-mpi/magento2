@@ -15,11 +15,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Reward\Model\Observer">
-        <param name="authorization">
-            <instance type="Magento\Authorization" />
-        </param>
-    </type>
     <type name="Magento\App\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>

@@ -9,8 +9,8 @@
 -->
 <config>
     <type name="Magento\TargetRule\Model\Index">
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\SessionProxy" />
+        <param name="session">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
     </type>
     <type name="Magento\App\Updater\SetupFactory">
