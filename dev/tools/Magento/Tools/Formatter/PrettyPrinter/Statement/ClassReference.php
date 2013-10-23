@@ -30,6 +30,10 @@ class ClassReference extends ReferenceAbstract
     {
         /** @var Line $line */
         $line = $treeNode->getData();
+        // Add the preceeding \ if this is a fully qualified name
+        if ($this->node->isFullyQualified()) {
+            $line->add('\\');
+        }
         // add the name to the end of the current line
         $line->add((string)$this->node);
     }

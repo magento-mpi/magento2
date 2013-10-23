@@ -424,6 +424,20 @@ FORMATTEDCODESNIPPET
                 "<?php\nclass JustParent extends Fully\\Qualified\\Parent\n{\n}\n"
             ),
             array(
+                "<?php class JustParent extends \\Fully\\Qualified\\Parent {}",
+                "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent\n{\n}\n"
+            ),
+            array(
+                "<?php class JustParent extends \\Fully\\Qualified\\Parent implements ".
+                "\\Fully\\Qualified\\HelperInterface {}",
+                "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent implements\n".
+                "    \\Fully\\Qualified\\HelperInterface\n{\n}\n"
+            ),
+            array(
+                "<?php class JustParent implements \\Fully\\Qualified\\HelperInterface {}",
+                "<?php\nclass JustParent implements \\Fully\\Qualified\\HelperInterface\n{\n}\n"
+            ),
+            array(
                 "<?php class JustInterface implements Interface1 {}",
                 "<?php\nclass JustInterface implements Interface1\n{\n}\n"
             ),
