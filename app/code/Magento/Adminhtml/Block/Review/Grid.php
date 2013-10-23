@@ -269,7 +269,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                     array(
                         'caption' => __('Edit'),
                         'url'     => array(
-                            'base'=>'*/product_review/edit',
+                            'base'=>'catalog/product_review/edit',
                             'params'=> array(
                                 'productId' => $this->getProductId(),
                                 'customerId' => $this->getCustomerId(),

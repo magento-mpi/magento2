@@ -124,6 +124,6 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/customer/edit', array('id'=>$row->getCustomerId()));
+        return $this->getUrl('adminhtml/customer/edit', array('id'=>$row->getCustomerId()));
     }
 }
