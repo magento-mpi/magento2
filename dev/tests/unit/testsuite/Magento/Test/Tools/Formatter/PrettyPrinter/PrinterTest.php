@@ -72,6 +72,11 @@ class PrinterTest extends TestBase
             array("<?php\n\$d=22+ \$a--;", "<?php\n\$d = 22 + \$a--;\n"),
             array("<?php\n\$d=+22;", "<?php\n\$d = +22;\n"),
             array("<?php\n\$d=+\$plus;", "<?php\n\$d = +\$plus;\n"),
+            array("<?php\n\$d= \$a==\$b;", "<?php\n\$d = \$a == \$b;\n"),
+            array("<?php\n\$d= \$a!=\$b;", "<?php\n\$d = \$a != \$b;\n"),
+            array("<?php\n\$d= \$a===\$b;", "<?php\n\$d = \$a === \$b;\n"),
+            array("<?php\n\$d= \$a!==\$b;", "<?php\n\$d = \$a !== \$b;\n"),
+            array("<?php\nif (!\$d) {\$a!==\$b;}", "<?php\nif (!\$d) {\n    \$a !== \$b;\n}\n"),
         );
     }
     /**
