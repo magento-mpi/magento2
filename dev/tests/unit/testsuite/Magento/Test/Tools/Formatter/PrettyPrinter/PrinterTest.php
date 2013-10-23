@@ -399,6 +399,32 @@ class Foo
 }
 
 FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    protected function _construct() {
+        \$this->_controller = 'adminhtml_banner';
+        \$this->_blockGroup = 'Magento_Banner';
+        \$this->_headerText = __('Banners');
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    protected function _construct()
+    {
+        \$this->_controller = 'adminhtml_banner';
+        \$this->_blockGroup = 'Magento_Banner';
+    }
+}
+
+FORMATTEDCODESNIPPET
             )
         );
     }

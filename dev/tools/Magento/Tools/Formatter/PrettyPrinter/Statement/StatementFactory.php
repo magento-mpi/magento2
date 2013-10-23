@@ -120,6 +120,8 @@ class StatementFactory
         $this->register('Stmt_Function', FunctionStatement::getType());
         $this->register('Arg', ArgumentReference::getType());
         $this->register('Expr_ClassConstFetch', ClassConstantReference::getType());
+        $this->register('Expr_StaticCall', StaticCallReference::getType());
+        $this->register('Expr_PropertyFetch', PropertyCall::getType());
     }
 
     /**

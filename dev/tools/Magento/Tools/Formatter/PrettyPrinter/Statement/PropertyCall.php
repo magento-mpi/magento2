@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+
+
+namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+
+
+use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node_Expr;
+use PHPParser_Node_Expr_PropertyFetch;
+
+class PropertyCall extends ReferenceAbstract
+{
+    /**
+     * This method constructs a new statement based on the specify class node
+     * @param PHPParser_Node_Expr_PropertyFetch $node
+     */
+    public function __construct(PHPParser_Node_Expr_PropertyFetch $node)
+    {
+        parent::__construct($node);
+    }
+
+    /**
+     * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     * @param TreeNode $treeNode Node containing the current statement.
+     */
+    public function resolve(TreeNode $treeNode)
+    {
+        /* Reference
+        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name);
+        */
+        /** @var Line $line */
+        $line = $treeNode->getData();
+        // add the expression to the end of the current line
+        $this->resolveNode($this->node->var, $treeNode);
+        $line->add(new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');
+        // if the name is an expression, then use the framework to resolve
+        if ($this->node->name instanceof PHPParser_Node_Expr) {
+            $this->resolveNode($this->node->name, $treeNode);
+        } else {
+            // otherwise, just use the name
+            $line->add($this->node->name);
+        }
+    }
+}
