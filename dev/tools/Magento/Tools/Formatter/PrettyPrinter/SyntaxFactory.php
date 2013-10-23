@@ -44,6 +44,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ConstantStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\DecimalNumberReference;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\DoStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\EchoStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ElseIfStatement;
@@ -53,6 +54,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ForEachStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ForStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\FunctionStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IfStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\IncludeStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\InlineHtmlStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IntegerNumberReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\InterfaceStatement;
@@ -120,6 +122,8 @@ class SyntaxFactory
      */
     protected function __construct()
     {
+        $this->register('Expr_Include', IncludeStatement::getType());
+        $this->register('Scalar_DirConst', DirConstReference::getType());
         $this->register('Expr_Assign', AssignmentOperator::getType());
         $this->register('Expr_AssignRef', AssignRefOperator::getType());
         $this->register('Expr_AssignPlus', AssignPlusOperator::getType());

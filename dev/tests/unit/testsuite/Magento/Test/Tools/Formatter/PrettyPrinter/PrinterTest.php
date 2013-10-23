@@ -211,6 +211,57 @@ FORMATTEDCODESNIPPET
             ),
             array(<<<ORIGINALCODESNIPPET
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Errors
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+require_once __DIR__.'processor.php';
+require __DIR__.'processor.php';
+require_once 'processor.php';
+require('processor.php');
+require_once('processor.php');
+require 'processor.php';
+require_once 'processor'.'.php';
+require('processor'.'.php');
+require_once('processor'.'.php');
+require 'processor'.'.php';
+
+\$processor = 1+2;
+
+
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Errors
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+require_once __DIR__ . 'processor.php';
+require __DIR__ . 'processor.php';
+require_once 'processor.php';
+require 'processor.php';
+require_once 'processor.php';
+require 'processor.php';
+require_once 'processor' . '.php';
+require 'processor' . '.php';
+require_once 'processor' . '.php';
+require 'processor' . '.php';
+\$processor = 1 + 2;
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
   namespace Magento\\Test;
 class Foo {
     function x() {
