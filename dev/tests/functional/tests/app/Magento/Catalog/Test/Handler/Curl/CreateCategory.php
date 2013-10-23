@@ -38,7 +38,7 @@ class CreateCategory extends Curl
     {
         $data = array();
         foreach ($fields as $key => $values) {
-            $value = $this->getValue($values);
+            $value = $this->_getValue($values);
             //do not add this data if value does not exist
             if (null === $value) {
                 continue;
@@ -57,10 +57,10 @@ class CreateCategory extends Curl
     /**
      * Retrieve field value or return null if value does not exist
      *
-     * @param $values
+     * @param array $values
      * @return null|mixed
      */
-    protected function getValue($values)
+    protected function _getValue($values)
     {
         if (!isset($values['value'])) {
             return null;
