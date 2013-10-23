@@ -8,15 +8,15 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Const;
+use PHPParser_Node_Expr_ConstFetch;
 
 class ConstantReference extends ReferenceAbstract
 {
     /**
      * This method constructs a new reference based on the specified constant.
-     * @param PHPParser_Node_Const $node
+     * @param PHPParser_Node_Expr_ConstFetch $node
      */
-    public function __construct(PHPParser_Node_Const $node)
+    public function __construct(PHPParser_Node_Expr_ConstFetch $node)
     {
         parent::__construct($node);
     }
@@ -27,13 +27,25 @@ class ConstantReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
-        /* Reference
-        return $node->name . ' = ' . $this->p($node->value);
-         */
-        // add the name to the end of the current line
-        $line = $treeNode->getData();
-        $line->add($this->node->name)->add(' = ');
-        // add in the value as a node
-        $this->resolveNode($this->node->value, $treeNode);
+        /* Pretty Printer Reference
+        $result = $this->p($node->name);
+        if (strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 ||
+            strcasecmp('NULL', $result) === 0) {
+            $result = strtolower($result);
+        }
+        return $result;
+        */
+        // get the node by name
+        $this->resolveNode($this->node->name, $treeNode);
+        // retrieve the tokens array
+        $tokens = $treeNode->getData()->getTokens();
+        // get the last item in the array
+        $result = $tokens[sizeof($tokens) - 1];
+        if (strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 ||
+            strcasecmp('NULL', $result) === 0) {
+            $tokens[sizeof($tokens) - 1] = strtolower($result);
+            // reset the last item in the array due to php's "copy-on-write" rule for arrays
+            $treeNode->getData()->setTokens($tokens);
+        }
     }
 }

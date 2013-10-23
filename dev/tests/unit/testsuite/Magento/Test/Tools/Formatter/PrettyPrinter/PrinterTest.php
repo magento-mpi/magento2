@@ -352,6 +352,48 @@ class Foo
 }
 
 FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    protected \$_constA = NULL;
+    protected \$_constB = TRUE;
+    protected \$_constC = FALSE;
+    protected \$_constD = null;
+    protected \$_constE = true;
+    protected \$_constF = false;
+    protected \$_constG = Null;
+    protected \$_constH = True;
+    protected \$_constI = False;
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    protected \$_constA = null;
+
+    protected \$_constB = true;
+
+    protected \$_constC = false;
+
+    protected \$_constD = null;
+
+    protected \$_constE = true;
+
+    protected \$_constF = false;
+
+    protected \$_constG = null;
+
+    protected \$_constH = true;
+
+    protected \$_constI = false;
+}
+
+FORMATTEDCODESNIPPET
             )
         );
     }
