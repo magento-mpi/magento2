@@ -247,7 +247,7 @@
             var resOtherRow = this.options.reasonOtherRow,
                 resOtherInput = this._esc(this.options.reasonOtherInput);
             if (value === 'other') {
-                $(resOtherRow + index).css('display','inline-block');
+                $(resOtherRow + index).show();
                 $(resOtherInput + index).attr('disabled', false);
             } else {
                 $(resOtherRow + index).hide();
@@ -281,8 +281,8 @@
          * @return {*}
          */
         _setUpTemplate: function(index, templateId, containerId) {
-            var li = $('<div></div>');
-            li.addClass('fields additional').attr('id', 'row' + index);
+            var li = $('<li></li>');
+            li.addClass('fields').attr('id', 'row' + index);
             $(templateId).tmpl([{_index_: index}]).appendTo(li);
             $(containerId).append(li);
             // skipping first row
