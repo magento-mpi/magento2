@@ -80,11 +80,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_catalogCategory = null;
 
     /**
-     * Core string
-     *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
      * @var string
@@ -146,7 +144,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Helper\Context $context
@@ -162,7 +160,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Helper\Context $context,
@@ -178,7 +176,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         $this->_templateFilterFactory = $templateFilterFactory;
-        $this->_coreString = $coreString;
+        $this->string = $string;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -312,7 +310,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function splitSku($sku, $length = 30)
     {
-        return $this->_coreString->strSplit($sku, $length, true, false, '[\-\s]');
+        return $this->string->split($sku, $length, true, false, '[\-\s]');
     }
 
     /**

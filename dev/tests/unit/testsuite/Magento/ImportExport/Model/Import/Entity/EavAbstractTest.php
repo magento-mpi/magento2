@@ -113,6 +113,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected function _getModelDependencies()
     {
         $localeMock = $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false);
+        $stringIconv = new \Magento\Stdlib\StringIconv;
         $data = array(
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
@@ -120,7 +121,8 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
             'string_helper'                => new \Magento\Core\Helper\String(
                 $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
                 $localeMock,
-                new \Magento\Stdlib\StringIconv
+                $stringIconv,
+                new \Magento\Stdlib\String($stringIconv)
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
