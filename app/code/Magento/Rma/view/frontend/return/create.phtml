@@ -63,47 +63,44 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </select>
-        </div>
-
         <?php if(!empty($html)): ?>
         <?php foreach($html as $bundleID=>$node): ?>
-            <div class="field required">
-                <div class="control">
-                    <div id="radio:item${_index_}_<?php echo $bundleID?>">
-                        <table class="data table" id="return-items-table-<?php echo $bundleID?>">
-                            <thead>
-                                <th colspan="2" class="col subitems"><?php echo __('Sub-items:') ?></th>
-                                <th class="col remaining qty"><?php echo __('Remaining Qty:') ?></th>
-                                <th class="col qty"><?php echo __('Qty:') ?></th>
-                            </thead>
-                            <tbody>
-                                <?php foreach($node as $item): ?>
-                            <tr>
-                                <td>
-                                    <?php if ($item[3]): ?>
-                                        <input type="checkbox" disabled />
-                                    <?php else: ?>
-                                        <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" style="float: none !important;padding:0;margin:0;width:0;<?php echo ($item[3]) ? 'color:#999999;' : ''?>display:inline;"><?php echo $item[1]?>khrfkdhgkfdghkfjdg</label>
-                                </td>
-                                <td class="col remaining qty"><?php echo $item[2] ?></td>
-                                <td class="col qty">
-                                    <?php if (!$item[3]): ?>
-                                        <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" style="display:none" disabled="disabled"/>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="nested">
+                <div id="radio:item${_index_}_<?php echo $bundleID?>">
+                    <table class="data table" id="return-items-table-<?php echo $bundleID?>">
+                        <thead>
+                            <th colspan="2" class="col subitems"><?php echo __('Sub-items') ?></th>
+                            <th class="col remaining qty"><?php echo __('Remaining Qty') ?></th>
+                            <th class="col qty"><?php echo __('Qty') ?></th>
+                        </thead>
+                        <tbody>
+                        <?php foreach($node as $item): ?>
+                        <tr>
+                            <td class="col">
+                                <?php if ($item[3]): ?>
+                                    <input type="checkbox" disabled>
+                                <?php else: ?>
+                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
+                                <?php endif; ?>
+                            </td>
+                            <td class="col product">
+                                <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo ($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
+                            </td>
+                            <td class="col remaining qty"><?php echo $item[2] ?></td>
+                            <td class="col qty">
+                                <?php if (!$item[3]): ?>
+                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="text" style="display:none" disabled class="input-text">
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <?php endforeach; ?>
         <?php endif; ?>
+        </div>
     </div>
     <div class="field qty required" id="qty_requested_block_${_index_}">
         <label for="items:qty_requested${_index_}" class="label"><span><?php echo __('Quantity To Return') ?></span></label>

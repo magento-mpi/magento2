@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,10 +20,10 @@
     <div class="block returns requested">
         <div class="title"><strong><?php echo __('Request Information') ?></strong></div>
         <div class="content">
-            <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br />
-            <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br />
-            <?php echo __('Date Requested') ?>: <?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
-            <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
+            <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br>
+            <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br>
+            <?php echo __('Date Requested') ?>: <?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_rma->getDateRequested()) ?><br>
+            <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br>
             <?php echo __('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
         </div>
     </div>
@@ -130,8 +129,8 @@
                     $_qna = NULL;
                     if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
                         $_qna = '
-                            <div class="col-1">1111111<li>' .$this->getAttributeLabel($item->getId(), $code) . '</li></div>
-                            <div class="col-2">2222222<li>' . $this->getAttributeValue($item->getId(), $code) . '</li></div>
+                            <tr><td class="col questions">' .$this->getAttributeLabel($item->getId(), $code) . '</td>
+                            <td class="col answers">' . $this->getAttributeValue($item->getId(), $code) . '</td></tr>
                         ';
                     }
                 } ?>
@@ -162,24 +161,26 @@
             <?php if ($_qna) : ?>
                 <tr id="shf_<?php echo $key ?>" class="hidden">
                     <td colspan="8">
-                        <div class="col2-set">
-                            <div class="col-1"><?php echo __('Questions') ?></div>
-                            <div class="col-2"><?php echo __('Answers') ?></div>
-                            <div class="clear"></div>
-                            <?php echo $_qna; ?>!!!
-                        </div>
+                        <table class="data table">
+                            <thead>
+                                <tr>
+                                    <th class="col questions"><?php echo __('Questions') ?></th>
+                                    <th class="col answers"><?php echo __('Answers') ?></th>
+                                </tr>
+                            </thead>
+                            <?php echo $_qna; ?>
+                        </table>
                     </td>
                 </tr>
             <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
-
     <div class="block returns comments">
         <div class="title"><span><?php echo __('Leave Comment') ?></span></div>
         <div class="content">
             <form method="post" id="rma_comment" action="<?php echo $this->getSubmitUrl() ?>" class="form">
-                <div class="field">
+                <div class="field comment">
                     <label class="label"><span><?php echo __('Comment Text') ?></span></label>
                     <div class="control">
                         <textarea id="rma_comment_text" cols="5" rows="3" name="comment" data-validate="{required:true}"></textarea>
@@ -189,7 +190,6 @@
                     <button type="submit" class="action submit" id="submit.save"><span><?php echo __('Submit Comment')?></span></button>
                 </div>
             </form>
-
             <dl class="returns comments">
                 <?php $_comments = $this->getComments(); ?>
                 <?php if (!empty($_comments)): ?>

@@ -1,8 +1,8 @@
 /**
  * {license_notice}
  *
- * @category    Varien
- * @package     js
+ * @category    Weee
+ * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

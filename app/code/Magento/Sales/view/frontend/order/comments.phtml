@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,12 +14,12 @@
  */
 ?>
 <?php if ($this->hasComments()):?>
-    <div class="order-additional order-comments">
-        <h2 class="sub-title"><?php echo $this->getTitle() ?></h2>
-        <dl class="order-about">
+    <div class="order additional details comments">
+        <h3 class="subtitle"><?php echo $this->getTitle() ?></h3>
+        <dl class="order comments">
             <?php foreach ($this->getComments() as $_commentItem): ?>
-                <dt><?php echo $this->formatDate($_commentItem->getCreatedAtStoreDate(), 'medium', true) ?></dt>
-                <dd><?php echo $this->escapeHtml($_commentItem->getComment()) ?></dd>
+                <dt class="comment date"><?php echo $this->formatDate($_commentItem->getCreatedAtStoreDate(), 'medium', true) ?></dt>
+                <dd class="comment text"><?php echo $this->escapeHtml($_commentItem->getComment()) ?></dd>
             <?php endforeach; ?>
         </dl>
     </div>
