@@ -47,7 +47,7 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
     public function viewAction()
     {
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            $this->_forward('view', 'sales_order_creditmemo', null, array('come_from' => 'sales_creditmemo'));
+            $this->_forward('view', 'order_creditmemo', null, array('come_from' => 'sales_creditmemo'));
         } else {
             $this->_forward('noRoute');
         }
