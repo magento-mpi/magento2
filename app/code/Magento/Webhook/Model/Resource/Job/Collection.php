@@ -71,7 +71,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     \Magento\PubSub\JobInterface::STATUS_READY_TO_SEND,
                     \Magento\PubSub\JobInterface::STATUS_RETRY
                 )))
-            ->addFieldToFilter('retry_at', array('to' => \Magento\Stdlib\DateTime::formatDate(true), 'datetime' => true))
+            ->addFieldToFilter(
+                'retry_at',
+                array('to' => \Magento\Stdlib\DateTime::formatDate(true), 'datetime' => true)
+            )
             ->setOrder('updated_at', \Magento\Data\Collection::SORT_ORDER_ASC)
             ->setPageSize(self::PAGE_SIZE);
         return $this;
