@@ -132,7 +132,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory
@@ -143,6 +142,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -153,7 +153,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory,
@@ -177,7 +176,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $logAdapterFactory,
             $locale,
             $centinelService,
-            $coreData,
             $storeManager,
             $configFactory,
             $data

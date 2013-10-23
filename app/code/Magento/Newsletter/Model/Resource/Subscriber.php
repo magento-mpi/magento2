@@ -68,7 +68,6 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     ) {
         parent::__construct($resource);
         $this->_date = $date;
-        $this->_coreData = $coreData;
     }
 
     /**
