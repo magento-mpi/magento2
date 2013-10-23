@@ -168,7 +168,7 @@ lib/Magento/Data/Tree/Db.php
 lib/Magento/Data/Tree/Dbp.php
 lib/Magento/Data/Tree/Node.php
 lib/Magento/Data/Tree/Node/Collection.php
-lib/Magento/Date.php
+lib/Magento/Stdlib/DateTime.php
 lib/Magento/Debug.php
 lib/Magento/Event.php
 lib/Magento/Event/Collection.php
