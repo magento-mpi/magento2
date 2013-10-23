@@ -20,6 +20,7 @@ namespace Magento;
 class Debug
 {
     public static $argLength = 16;
+
     /**
      * Magento Root path
      *
@@ -45,11 +46,11 @@ class Debug
     }
 
     /**
-     * Prints or return a backtrace
+     * Prints or returns a backtrace
      *
      * @param bool $return      return or print
      * @param bool $html        output in HTML format
-     * @param bool $withArgs    add short argumets of methods
+     * @param bool $withArgs    add short arguments of methods
      * @return string|bool
      */
     public static function backtrace($return = false, $html = true, $withArgs = true)
@@ -64,7 +65,7 @@ class Debug
      * @param array $trace      trace array
      * @param bool $return      return or print
      * @param bool $html        output in HTML format
-     * @param bool $withArgs    add short argumets of methods
+     * @param bool $withArgs    add short arguments of methods
      * @return string|bool
      */
     public static function trace(array $trace, $return = false, $html = true, $withArgs = true)
@@ -144,6 +145,7 @@ class Debug
      * Format argument in called method
      *
      * @param mixed $arg
+     * @return string
      */
     protected static function _formatCalledArgument($arg)
     {
@@ -186,40 +188,5 @@ class Debug
         }
 
         return $out;
-    }
-
-    /**
-     * Pretty debug backtrace
-     *
-     * @param bool $return
-     * @param bool $html
-     * @param bool $showFirst
-     * @return string
-     */
-    public static function prettyBacktrace($return = false, $html = true, $showFirst = false)
-    {
-        $backTrace = debug_backtrace();
-        $out = '';
-        if ($html) {
-            $out .= "<pre>";
-        }
-
-        foreach ($backTrace as $index => $trace) {
-            if (!$showFirst && $index == 0) {
-                continue;
-            }
-            // sometimes there is undefined index 'file'
-            @$out .= "[$index] {$trace['file']}:{$trace['line']}\n";
-        }
-
-        if ($html) {
-            $out .= "</pre>";
-        }
-
-        if ($return) {
-            return $out;
-        } else {
-            echo $out;
-        }
     }
 }
