@@ -1,4 +1,7 @@
-* Declared public interfaces for View component into library  
+* Eliminated dependency in Magento_Data_Form from Core module
+* Eliminated Media module
+* Fixed copyright information
+* Declared public interfaces for View component into library
 * Plushe theme is set as the default theme
 
 2.0.0.0-dev48
