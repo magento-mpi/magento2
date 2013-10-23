@@ -504,7 +504,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = $this->_backendUrl->getUrl('*/*/denied');
+            $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
         }
         elseif (is_array($url)) {
             $url = $this->_backendUrl->getUrl(array_shift($url), $url);
