@@ -72,8 +72,7 @@ class OnepageCheckoutTest extends Functional
     public function dataProviderOnepageCheckout()
     {
         return array(
-            // TODO fix it
-            // array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect())
         );
     }

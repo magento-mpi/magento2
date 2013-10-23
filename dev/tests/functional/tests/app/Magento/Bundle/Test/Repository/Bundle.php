@@ -29,6 +29,10 @@ class Bundle extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
+        $this->_data['bundle'] = array(
+            'config' => $defaultConfig,
+            'data' => $defaultData
+        );
 
         $this->_data['bundle_fixed_with_category'] = $this->_data['default'];
         $this->_data['bundle_fixed_with_category']['data']['category_name'] = '%category%';
