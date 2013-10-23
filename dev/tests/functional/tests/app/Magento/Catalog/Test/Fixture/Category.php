@@ -36,17 +36,17 @@ class Category extends DataFixture
     protected $_categories;
 
     /**
-     * Update to switch data for always applying these placeholders when switching to any data set
+     * Custom constructor to create category with custom parent category
      *
-     * @param $name
-     * @return bool
+     * @param Config $configuration
+     * @param array $placeholders
      */
-    public function switchData($name)
+    public function __construct(Config $configuration, $placeholders =  array())
     {
+        parent::__construct($configuration, $placeholders);
+
         $this->_placeholders['men::getCategoryName'] = array($this, '_categoryProvider');
         $this->_placeholders['men::getCategoryId'] = array($this, '_categoryProvider');
-
-        return parent::switchData($name);
     }
 
     /**

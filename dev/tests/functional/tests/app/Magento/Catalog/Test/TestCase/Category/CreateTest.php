@@ -56,6 +56,7 @@ class CreateTest extends Functional
         $frontendHomePage->open();
         $loader->waitLoader();
         $navigationMenu = $frontendHomePage->getTopmenu();
+        //TODO: this method does not work if parent has more than one parent in tree
         $navigationMenu->selectCategoryByName($category->getCategoryName());
         $pageTitleBlock = $frontendHomePage->getTitleBlock();
         $categoryTitle = $pageTitleBlock->getTitle();
