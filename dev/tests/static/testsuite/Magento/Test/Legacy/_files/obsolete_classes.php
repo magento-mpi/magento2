@@ -1025,10 +1025,10 @@ return array(
         'Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput',
         'Magento\View\Layout\File\Source\Decorator\ModuleOutput'
     ),
-    array('Magento\Core\Model\Layout\File\Source\Override\Base','Magento\View\Layout\File\Override\Base'),
-    array('Magento\Core\Model\Layout\File\Source\Override\Theme','Magento\View\Layout\File\Override\Theme'),
-    array('Magento\Core\Model\Layout\File\Source\Theme','Magento\View\Layout\File\Source\Theme'),
-    array('Magento\Core\Model\Layout\File\SourceInterface','Magento\View\Layout\File\SourceInterface'),
-    array('Magento\Core\Model\LayoutFactory','Magento\View\LayoutFactory'),
-    array('Magento\Core\Model\Layout','Magento\View\LayoutInterface'),
+    array('Magento\Core\Model\Layout\File\Source\Override\Base', 'Magento\View\Layout\File\Override\Base'),
+    array('Magento\Core\Model\Layout\File\Source\Override\Theme', 'Magento\View\Layout\File\Override\Theme'),
+    array('Magento\Core\Model\Layout\File\Source\Theme', 'Magento\View\Layout\File\Source\Theme'),
+    array('Magento\Core\Model\Layout\File\SourceInterface', 'Magento\View\Layout\File\SourceInterface'),
+    array('Magento\Core\Model\LayoutFactory', 'Magento\View\LayoutFactory'),
+    array('Magento\Core\Model\Layout', 'Magento\View\LayoutInterface'),
 );
