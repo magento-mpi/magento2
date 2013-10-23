@@ -8,12 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Convert;
+
 /**
  * Convert the data to XML Excel
  */
-
-namespace Magento\Convert;
-
 class Excel
 {
     /**

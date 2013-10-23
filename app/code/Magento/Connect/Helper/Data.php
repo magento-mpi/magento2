@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Default helper of the module
- *
- * @category    Magento
- * @package     Magento_Connect
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Connect\Helper;
 
+/**
+ * Default helper of the module
+ */
 class Data extends \Magento\Core\Helper\Data
 {
     /**
@@ -32,6 +28,11 @@ class Data extends \Magento\Core\Helper\Data
     protected $_dirs;
 
     /**
+     * @var \Magento\Convert\Xml
+     */
+    protected $_xmlConverter;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -43,6 +44,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Encryption\EncryptionInterface $encryptor
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Convert\Xml $xmlConverter
      * @param \Magento\Core\Model\Dir $dirs
      * @param bool $dbCompatibleMode
      */
@@ -58,12 +60,14 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\App\State $appState,
         \Magento\Encryption\EncryptionInterface $encryptor,
         \Magento\Filesystem $filesystem,
+        \Magento\Convert\Xml $xmlConverter,
         \Magento\Core\Model\Dir $dirs,
         $dbCompatibleMode = true
     )
     {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
+        $this->_xmlConverter = $xmlConverter;
         parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
@@ -165,7 +169,7 @@ class Data extends \Magento\Core\Helper\Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = $this->xmlToAssoc($xml);
+            $data = $this->_xmlConverter->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }
