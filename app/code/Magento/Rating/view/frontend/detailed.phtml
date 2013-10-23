@@ -3,21 +3,20 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 <?php if(!empty($collection) && $collection->getSize()): ?>
-    <table class="ratings-table">
-        <col width="1" />
-        <col />
+    <table class="ratings-table data-table review-summary-table">
+    <col width="1" />
+    <col />
         <tbody>
             <?php foreach ($collection as $_rating): ?>
                 <?php if($_rating->getSummary()): ?>
                     <tr>
-                        <th><?php echo __($this->escapeHtml($_rating->getRatingCode())) ?></th>
-                        <td>
+                        <th class="label"><?php echo __($this->escapeHtml($_rating->getRatingCode())) ?></th>
+                        <td class="value">
                             <div class="rating-box">
                                 <div class="rating" style="width:<?php echo ceil($_rating->getSummary()) ?>%;"></div>
                             </div>
