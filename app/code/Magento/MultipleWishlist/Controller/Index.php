@@ -376,7 +376,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 if ($productName) {
                     $message = __('We could not copy "%1".', $productName);
                 } else {
@@ -426,7 +426,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 } catch (\DomainException $e) {
                     $alreadyPresent[$id] = $item;
                 } catch (\Exception $e) {
-                    $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Logger')->logException($e);
                     $failed[] = $id;
                 }
             }
@@ -599,7 +599,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                         $notAllowed[$id] = $item;
                     }
                 } catch (\Exception $e) {
-                    $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Logger')->logException($e);
                     $failed[] = $id;
                 }
             }

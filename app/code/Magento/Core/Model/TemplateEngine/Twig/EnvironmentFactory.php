@@ -32,7 +32,7 @@ class EnvironmentFactory
     private $_dir;
     
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     private $_logger;
 
@@ -47,14 +47,14 @@ class EnvironmentFactory
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\TemplateEngine\Twig\Extension $extension
      * @param \Magento\Core\Model\Dir $dir
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Twig_LoaderInterface $loader
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\TemplateEngine\Twig\Extension $extension,
         \Magento\Core\Model\Dir $dir,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Twig_LoaderInterface $loader
     ) {
         $this->_filesystem = $filesystem;

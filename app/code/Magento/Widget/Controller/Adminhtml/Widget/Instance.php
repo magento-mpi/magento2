@@ -28,7 +28,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -36,13 +36,13 @@ class Instance extends \Magento\Adminhtml\Controller\Action
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetFactory = $widgetFactory;

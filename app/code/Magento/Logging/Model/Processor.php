@@ -110,7 +110,7 @@ class Processor
     /**
      * Logger model
      *
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -141,7 +141,7 @@ class Processor
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Core\Controller\Request\Http $request
@@ -153,7 +153,7 @@ class Processor
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Core\Controller\Request\Http $request,

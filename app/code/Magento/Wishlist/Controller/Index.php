@@ -246,7 +246,7 @@ class Index
         }
         catch (\Exception $e) {
             $session->addError(__('An error occurred while adding item to wish list.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
@@ -293,7 +293,7 @@ class Index
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Customer\Model\Session')
                 ->addError(__('We can\'t configure the product.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -347,7 +347,7 @@ class Index
             $session->addError($e->getMessage());
         } catch (\Exception $e) {
             $session->addError(__('An error occurred while updating wish list.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
     }
@@ -397,7 +397,7 @@ class Index
                     try {
                         $item->delete();
                     } catch (\Exception $e) {
-                        $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                        $this->_objectManager->get('Magento\Logger')->logException($e);
                         $this->_objectManager->get('Magento\Customer\Model\Session')->addError(
                             __('Can\'t delete item from wishlist')
                         );

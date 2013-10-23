@@ -85,7 +85,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -119,7 +119,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\Config $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
@@ -140,7 +140,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
@@ -279,7 +279,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

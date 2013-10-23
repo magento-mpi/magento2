@@ -60,7 +60,7 @@ class CommonFunctionsTest extends \PHPUnit_Framework_TestCase
         $this->_helperImageMock = $this->getMockBuilder('Magento\Catalog\Helper\Image')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')

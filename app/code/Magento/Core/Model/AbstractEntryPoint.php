@@ -26,6 +26,13 @@ abstract class AbstractEntryPoint
     protected $_objectManager;
 
     /**
+     * Application error handler
+     *
+     * @var \Magento\Error\HandlerInterface
+     */
+    protected $_errorHandler;
+
+    /**
      * @param \Magento\Core\Model\Config\Primary $config
      * @param \Magento\ObjectManager $objectManager
      */
@@ -47,45 +54,6 @@ abstract class AbstractEntryPoint
     }
 
     /**
-     * Process exception
-     *
-     * @param \Exception $exception
-     */
-    public function processException(\Exception $exception)
-    {
-        $this->_init();
-        $appMode = $this->_objectManager->get('Magento\Core\Model\App\State')->getMode();
-        if ($appMode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
-            print '<pre>';
-            print $exception->getMessage() . "\n\n";
-            print $exception->getTraceAsString();
-            print '</pre>';
-        } else {
-            $reportData = array($exception->getMessage(), $exception->getTraceAsString());
-
-            // retrieve server data
-            if (isset($_SERVER)) {
-                if (isset($_SERVER['REQUEST_URI'])) {
-                    $reportData['url'] = $_SERVER['REQUEST_URI'];
-                }
-                if (isset($_SERVER['SCRIPT_NAME'])) {
-                    $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
-                }
-            }
-
-            // attempt to specify store as a skin
-            try {
-                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-                $reportData['skin'] = $storeManager->getStore()->getCode;
-            } catch (\Exception $exception) {
-            }
-
-            $modelDir = $this->_objectManager->get('Magento\Core\Model\Dir');
-            require_once($modelDir->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');
-        }
-    }
-
-    /**
      * Initializes the entry point, so a Magento application is ready to be used
      */
     protected function _init()
@@ -93,6 +61,22 @@ abstract class AbstractEntryPoint
         if (!$this->_objectManager) {
             $this->_objectManager = new \Magento\Core\Model\ObjectManager($this->_config);
         }
+        if (!$this->_errorHandler) {
+            $this->_initErrorHandler();
+        }
+    }
+
+    /**
+     * Set default error handler
+     */
+    protected function _initErrorHandler()
+    {
+        /** @var $appState \Magento\Core\Model\App\State */
+        $appState = $this->_objectManager->get('Magento\Core\Model\App\State');
+        $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface', array(
+            'isDeveloperMode' => $appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER,
+        ));
+        set_error_handler(array($this->_errorHandler, 'handler'));
     }
 
     /**

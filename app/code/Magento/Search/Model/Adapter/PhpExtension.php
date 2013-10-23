@@ -40,7 +40,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Search\Model\Resource\Index                         $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext               $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Core\Model\Logger                                   $logger
+     * @param \Magento\Logger                                   $logger
      * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
      * @param \Magento\Core\Model\CacheInterface                           $cache
      * @param \Magento\Eav\Model\Config                                    $eavConfig
@@ -60,7 +60,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,

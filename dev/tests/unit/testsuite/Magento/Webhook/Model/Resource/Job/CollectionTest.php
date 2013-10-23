@@ -33,7 +33,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $mockResourceEvent->expects($this->once())
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         $collection = new \Magento\Webhook\Model\Resource\Job\Collection(
             $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent

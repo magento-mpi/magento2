@@ -19,8 +19,14 @@ class AbstractEntryPointTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = $this->getMock('Magento\ObjectManager');
 
-        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $objectManager->expects($this->at(0))->method('get')->will($this->returnValue($appState));
 
+        $handler = $this->getMock('Magento\Error\HandlerInterface', array(), array(), '', false);
+        $objectManager->expects($this->at(1))->method('create')->will($this->returnValue($handler));
+
+        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        /** @var $model \Magento\Core\Model\AbstractEntryPoint */
         $model = $this->getMockForAbstractClass('Magento\Core\Model\AbstractEntryPoint',
             array($config, $objectManager), '');
         $model->expects($this->once())

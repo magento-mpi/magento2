@@ -195,7 +195,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -400,7 +400,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -587,7 +587,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         if ($e instanceof \Magento\Core\Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $result = array(
                 'error' => __('An error has occurred. See error log for details.')
             );
@@ -905,7 +905,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                         } catch (\Magento\Core\Exception $e){
                             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                         } catch (\Exception $e){
-                            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                            $this->_objectManager->get('Magento\Logger')->logException($e);
                         }
                     }
                 }
@@ -989,7 +989,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         try {
             $this->_initData();
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('*/customer');
             $this->_redirectFlag = true;
         }

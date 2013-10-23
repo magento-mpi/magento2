@@ -51,7 +51,7 @@ class Filter extends \Magento\Filter\Template
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -91,7 +91,7 @@ class Filter extends \Magento\Filter\Template
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -101,7 +101,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

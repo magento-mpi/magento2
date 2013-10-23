@@ -65,7 +65,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
      * @param \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -87,7 +87,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Session\AbstractSession $session,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,
         \Magento\Core\Model\ModuleListInterface $moduleList,

@@ -82,7 +82,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
 
         $data = array(
-            'logdate' => now(),
+            'logdate' => \Magento\Date::now(),
             'lognum'  => $user->getLognum() + 1
         );
 

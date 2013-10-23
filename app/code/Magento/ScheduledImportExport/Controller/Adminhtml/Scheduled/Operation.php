@@ -159,7 +159,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $backendSession->addError(
                     __("We couldn't save the scheduled operation.")
                 );
@@ -192,7 +192,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $backendSession->addError(__('Something sent wrong deleting the scheduled operation.'));
             }
         }
@@ -235,7 +235,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $backendSession->addError(__('We cannot delete all items.'));
             }
         }
@@ -271,7 +271,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $backendSession->addError(__('We cannot change status for all items.'));
             }
         }

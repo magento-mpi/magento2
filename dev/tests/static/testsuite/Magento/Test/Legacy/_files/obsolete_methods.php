@@ -874,4 +874,7 @@ return array(
     array('cleanString', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::cleanString'),
     array('strpos', '\Magento\Core\Helper\String', '\Magento\Stdlib\StringIconv::strpos'),
     array('truncate', '\Magento\Core\Helper\String', '\Magento\Filter\Truncate'),
+    array('uc_words'),
+    array('is_empty_date'),
+    array('now'),
 );

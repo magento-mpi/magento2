@@ -30,7 +30,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_widget;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -43,7 +43,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

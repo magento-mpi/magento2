@@ -29,7 +29,14 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (\Exception $e) {
-            $this->processException($e);
+            // attempt to specify store as a skin
+            try {
+                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+                $skin = $storeManager->getStore()->getCode;
+            } catch (\Exception $exception) {
+                $skin = null;
+            }
+            $this->_errorHandler->processException($e, $skin);
         }
     }
 

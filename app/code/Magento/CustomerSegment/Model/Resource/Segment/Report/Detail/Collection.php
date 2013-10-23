@@ -18,7 +18,7 @@ class Collection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -31,7 +31,7 @@ class Collection
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Eav\Model\Config $eavConfig,

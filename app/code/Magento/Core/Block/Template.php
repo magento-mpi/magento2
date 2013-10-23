@@ -51,7 +51,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_dirs;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 

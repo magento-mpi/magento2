@@ -515,7 +515,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
     {
         /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation */
         $operation = $this->_schedOperFactory->create(
-            'Magento\ScheduledImportExport\Model\\' . uc_words($this->getOperationType())
+            'Magento\ScheduledImportExport\Model\\'
+                . \Magento\Core\Helper\String::upperCaseWords($this->getOperationType())
         );
 
         $operation->initialize($this);

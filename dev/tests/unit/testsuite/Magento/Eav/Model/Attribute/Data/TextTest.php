@@ -21,8 +21,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false, false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false, false);
-        $helper = $this->getMock('\Magento\Stdlib\StringIconv', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false, false);
+        $helper = $this->getMock('Magento\Stdlib\StringIconv', array(), array(), '', false, false);
 
 
 

@@ -78,7 +78,7 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -91,7 +91,7 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,

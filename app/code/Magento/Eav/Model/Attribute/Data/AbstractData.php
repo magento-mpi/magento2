@@ -76,7 +76,7 @@ abstract class AbstractData
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -84,11 +84,11 @@ abstract class AbstractData
      * Constructor
      *
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */    
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_locale = $locale;
         $this->_logger = $logger;

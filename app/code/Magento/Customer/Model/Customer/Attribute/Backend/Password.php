@@ -28,11 +28,11 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     protected $stringIconv;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\StringIconv $stringIconv
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Stdlib\StringIconv $stringIconv
     ) {
         $this->stringIconv = $stringIconv;

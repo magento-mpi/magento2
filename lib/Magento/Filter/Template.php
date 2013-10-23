@@ -241,7 +241,7 @@ class Template implements \Zend_Filter_Interface
             ) {
                 // If object calling methods or getting properties
                 if ($stackVars[$i]['type'] == 'property') {
-                    $caller = 'get' . uc_words($stackVars[$i]['name'], '');
+                    $caller = 'get' . \Magento\Core\Helper\String::upperCaseWords($stackVars[$i]['name'], '_', '');
                     $stackVars[$i]['variable'] = method_exists($stackVars[$i - 1]['variable'], $caller)
                         ? $stackVars[$i - 1]['variable']->$caller()
                         : $stackVars[$i - 1]['variable']->getData($stackVars[$i]['name']);

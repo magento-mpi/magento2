@@ -39,7 +39,7 @@ class StorageFactory
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_log;
 
@@ -61,7 +61,7 @@ class StorageFactory
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $log
+     * @param \Magento\Logger $log
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\App\Proxy $app
      * @param \Magento\Core\Model\App\State $appState
@@ -71,7 +71,7 @@ class StorageFactory
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $log,
+        \Magento\Logger $log,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\App\Proxy $app,
         \Magento\Core\Model\App\State $appState,
@@ -119,7 +119,16 @@ class StorageFactory
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
-                $this->_log->initForStore($instance->getStore(true), $this->_config);
+                $store = $instance->getStore(true);
+                if ($store->getConfig('dev/log/active')) {
+                    $writer = (string)$this->_config->getNode('global/log/core/writer_model');
+
+                    $this->_log->unsetLoggers();
+                    $this->_log->addStreamLog(
+                        \Magento\Logger::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $writer);
+                    $this->_log->addStreamLog(
+                        \Magento\Logger::LOGGER_EXCEPTION, $store->getConfig('dev/log/exception_file'), $writer);
+                }
             }
         }
         return $this->_cache[$className];

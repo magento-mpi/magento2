@@ -234,7 +234,7 @@ class Version
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
@@ -267,7 +267,7 @@ class Version
                 $this->_adminhtmlSession->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_adminhtmlSession->addError(__('Something went wrong while deleting this version.'));
                 $error = true;
             }

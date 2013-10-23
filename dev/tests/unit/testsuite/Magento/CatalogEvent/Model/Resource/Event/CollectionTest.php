@@ -143,7 +143,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         $this->_collection = $this->getMock(
             'Magento\CatalogEvent\Model\Resource\Event\Collection',

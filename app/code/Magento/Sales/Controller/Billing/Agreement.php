@@ -105,7 +105,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()->addError(__('We couldn\'t start the billing agreement wizard.'));
             }
         }
@@ -137,7 +137,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()->addError(__('We couldn\'t finish the billing agreement wizard.'));
             }
             $this->_redirect('*/*/index');
@@ -170,7 +170,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()->addError(__('We couldn\'t cancel the billing agreement.'));
             }
         }

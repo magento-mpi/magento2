@@ -27,7 +27,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -67,7 +67,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_remoteAddress;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
      * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
@@ -80,7 +80,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\ModuleManager $moduleManager,
         \Magento\Core\Controller\Request\HttpProxy $httpRequest,
@@ -170,7 +170,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
     
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

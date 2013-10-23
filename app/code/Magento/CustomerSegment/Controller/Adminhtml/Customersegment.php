@@ -258,7 +258,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
                 return;
             } catch (\Exception $e) {
                 $this->_session->addError(__("We're unable to save the segment."));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -279,7 +279,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
             return;
         } catch (\Exception $e) {
             $this->_session->addError(__("We're unable to delete the segement."));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

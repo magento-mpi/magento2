@@ -71,4 +71,28 @@ class DateTest extends \PHPUnit_Framework_TestCase
             'Zend Date including Time' => array($date, true, date('Y-m-d H:i:s', $date->getTimestamp())),
         );
     }
+
+    /**
+     * @param string $date
+     * @param bool $expected
+     *
+     * @dataProvider isEmptyDateDataProvider
+     */
+    public function testIsEmptyDate($date, $expected)
+    {
+        $actual = \Magento\Date::isEmptyDate($date);
+        $this->assertEquals($actual, $expected);
+    }
+
+    public function isEmptyDateDataProvider()
+    {
+        return array(
+            array('', true),
+            array(' ', true),
+            array('0000-00-00', true),
+            array('0000-00-00 00:00:00', true),
+            array('2000-10-10', false),
+            array('2000-10-10 10:10:10', false),
+        );
+    }
 }

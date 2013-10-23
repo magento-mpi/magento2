@@ -20,7 +20,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var \Magento\Core\Model\Logger */
+    /** @var \Magento\Logger */
     protected $_loggerMock;
 
     protected function setUp()
@@ -34,7 +34,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 

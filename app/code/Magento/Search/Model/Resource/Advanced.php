@@ -118,7 +118,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
         if ($attribute->getBackendType() == 'datetime') {
             $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
-                if (!is_empty_date($val)) {
+                if (!\Magento\Date::isEmptyDate($val)) {
                     $date = new \Zend_Date($val, $format);
                     $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }

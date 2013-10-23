@@ -27,12 +27,12 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\StringIconv $stringHelper
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Stdlib\StringIconv $stringHelper
     ) {
         parent::__construct($locale, $logger);

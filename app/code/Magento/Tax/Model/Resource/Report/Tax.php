@@ -26,7 +26,7 @@ class Tax extends \Magento\Reports\Model\Resource\Report\AbstractReport
     protected $_updatedAtFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
@@ -34,7 +34,7 @@ class Tax extends \Magento\Reports\Model\Resource\Report\AbstractReport
      * @param \Magento\Tax\Model\Resource\Report\Tax\UpdatedatFactory $updatedAtFactory
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,

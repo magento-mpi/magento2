@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Logger model
  */
-namespace Magento\Core\Model;
+namespace Magento;
 
 class Logger
 {
@@ -38,6 +36,8 @@ class Logger
     protected $_fileSystem;
 
     /**
+     * @todo \Magento\Core\Model\Dir should be changes after folks team sprint commit
+     *
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Io\File $fileSystem
      * @param string $defaultFile
@@ -46,8 +46,8 @@ class Logger
     {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;
-        $this->addStreamLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM, $defaultFile)
-            ->addStreamLog(\Magento\Core\Model\Logger::LOGGER_EXCEPTION, $defaultFile);
+        $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)
+            ->addStreamLog(self::LOGGER_EXCEPTION, $defaultFile);
     }
 
     /**
@@ -58,7 +58,7 @@ class Logger
      * @param string $loggerKey
      * @param string $fileOrWrapper
      * @param string $writerClass
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      * @link http://php.net/wrappers
      */
     public function addStreamLog($loggerKey, $fileOrWrapper = '', $writerClass = '')
@@ -82,32 +82,14 @@ class Logger
     }
 
     /**
-     * Reset all loggers and initialize them according to store configuration
+     * Unset all declared loggers
      *
-     * @param \Magento\Core\Model\Store $store
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @return $this
      */
-    public function initForStore(\Magento\Core\Model\Store $store, \Magento\Core\Model\ConfigInterface $config)
+    public function unsetLoggers()
     {
         $this->_loggers = array();
-        if ($store->getConfig('dev/log/active')) {
-            $writer = (string)$config->getNode('global/log/core/writer_model');
-            $this->addStreamLog(self::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $writer);
-            $this->addStreamLog(self::LOGGER_EXCEPTION, $store->getConfig('dev/log/exception_file'), $writer);
-        }
-    }
-
-    /**
-     * Add a logger if store configuration allows
-     *
-     * @param string $loggerKey
-     * @param \Magento\Core\Model\Store $store
-     */
-    public function addStoreLog($loggerKey, \Magento\Core\Model\Store $store)
-    {
-        if ($store->getConfig('dev/log/active')) {
-            $this->addStreamLog($loggerKey);
-        }
+        return $this;
     }
 
     /**

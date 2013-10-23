@@ -30,7 +30,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     protected $_salesResourceHelper;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
@@ -38,7 +38,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * @param \Magento\Sales\Model\Resource\Helper $salesResourceHelper
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,

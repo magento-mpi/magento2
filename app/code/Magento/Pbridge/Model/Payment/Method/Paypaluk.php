@@ -51,7 +51,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     protected $_pbridgeData;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -70,7 +70,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,

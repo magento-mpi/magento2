@@ -503,7 +503,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId)
                     ->delete();
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($exception);
+                $this->_objectManager->get('Magento\Logger')->logException($exception);
             }
         }
 

@@ -94,7 +94,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Search\Model\Resource\Index                         $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext               $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Core\Model\Logger                                   $logger
+     * @param \Magento\Logger                                   $logger
      * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
      * @param \Magento\Core\Model\CacheInterface                           $cache
      * @param \Magento\Eav\Model\Config                                    $eavConfig
@@ -113,7 +113,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
@@ -222,7 +222,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
 
-        if (is_empty_date($date)) {
+        if (\Magento\Date::isEmptyDate($date)) {
             return null;
         }
 

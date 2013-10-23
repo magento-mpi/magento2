@@ -66,7 +66,7 @@ class Collection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Type\Configurable $catalogProductTypeConfigurable
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -76,7 +76,7 @@ class Collection
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Type\Configurable $catalogProductTypeConfigurable,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,

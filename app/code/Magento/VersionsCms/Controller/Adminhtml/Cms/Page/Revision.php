@@ -399,7 +399,7 @@ class Revision
                 $this->_session->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_session->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }

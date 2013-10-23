@@ -39,12 +39,12 @@ class Image
      * Construct
      *
      * @param \Magento\Core\Model\Dir $dir
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
      */
     public function __construct(
         \Magento\Core\Model\Dir $dir,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
     ) {
         $this->_dir = $dir;

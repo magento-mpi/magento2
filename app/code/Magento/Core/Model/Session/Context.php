@@ -17,7 +17,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_validator;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -106,7 +106,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Core\Model\Session\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -125,7 +125,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function __construct(
         \Magento\Core\Model\Session\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -178,7 +178,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \\Magento\Core\Model\Logger
+     * @return \\Magento\Logger
      */
     public function getLogger()
     {

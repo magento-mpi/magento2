@@ -119,7 +119,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_flatAttributeGroups;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -163,7 +163,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -181,7 +181,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,

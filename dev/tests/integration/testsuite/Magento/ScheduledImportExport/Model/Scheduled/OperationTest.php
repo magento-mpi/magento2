@@ -51,7 +51,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->_model->setOperationType($operationType);
 
         $this->assertInstanceOf(
-            'Magento\ScheduledImportExport\Model\\' . uc_words($operationType),
+            'Magento\ScheduledImportExport\Model\\' . \Magento\Core\Helper\String::upperCaseWords($operationType),
             $this->_model->getInstance()
         );
     }

@@ -79,7 +79,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
 
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => __('Sorry, but we can\'t load the theme list.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -124,12 +124,12 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         }
@@ -169,7 +169,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
                 'themeId' => $themeCustomization->getId()
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('error' => __('This theme is not assigned.'))
             ));
@@ -202,9 +202,9 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             $response = array('success' => true);
         } catch (\Magento\Core\Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('This theme is not saved.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -239,7 +239,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             }
             $response = array('message' =>  $message);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
         }
 
@@ -274,9 +274,9 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             );
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__('You cannot duplicate this theme.'));
         }
         $this->_redirectUrl($this->_getRefererUrl());
@@ -323,7 +323,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             }
             $response = array('message' => $message);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Unknown error'));
         }
         /** @var $coreHelper \Magento\Core\Helper\Data */
@@ -485,7 +485,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t load the list of themes.'));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 
