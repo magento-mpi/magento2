@@ -51,8 +51,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected function _collectHierarchyErrors($node, $xml, &$errors)
     {
         $name = $node->getName();
-        $refName = $node->getAttribute('type') == \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT
-            ? $node->getAttribute('owner') : $node->getAttribute('parent');
+        $refName = $node->getAttribute('type') == $node->getAttribute('parent');
         if ($refName) {
             $refNode = $xml->xpath("/layouts/{$refName}");
             if (!$refNode) {
@@ -60,8 +59,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     $this->markTestIncomplete('MAGETWO-9182');
                 }
                 $errors[$name][] = "Node '{$refName}', referenced in hierarchy, does not exist";
-            } elseif ($refNode[0]->getAttribute('type') == \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT) {
-                $errors[$name][] = "Page fragment type '{$refName}', cannot be an ancestor in a hierarchy";
             }
         }
     }
@@ -104,8 +101,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $xml = $this->_composeXml($theme);
 
                 $xpath = '/layouts/*['
-                    . '@type="' . \Magento\Core\Model\Layout\Merge::TYPE_PAGE . '"'
-                    . ' or @type="' . \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT . '"]';
+                    . '@type="' . \Magento\Core\Model\Layout\Merge::TYPE_PAGE  . '"]';
                 $handles = $xml->xpath($xpath) ?: array();
 
                 /** @var \Magento\View\Layout\Element $node */

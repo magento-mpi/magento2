@@ -106,9 +106,7 @@ class Layout extends \Magento\Core\Block\Html\Select
 
         foreach ($pageTypes as $pageTypeName => $pageTypeInfo) {
             $params = array();
-            if ($pageTypeInfo['type'] == \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT) {
-                $params['class'] = 'fragment';
-            }
+
             $this->addOption($pageTypeName, $pageTypeInfo['label'], $params);
         }
     }

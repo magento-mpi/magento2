@@ -72,7 +72,7 @@ interface ProcessorInterface
      *     'handle_name_1' => array(
      *         'name'     => 'handle_name_1',
      *         'label'    => 'Handle Name 1',
-     *         'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
+     *         'type'     => self::TYPE_PAGE,
      *     ),
      *     // ...
      * )

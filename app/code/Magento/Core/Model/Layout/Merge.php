@@ -19,7 +19,6 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      * Available item type names
      */
     const TYPE_PAGE = 'page';
-    const TYPE_FRAGMENT = 'fragment';
     /**#@-*/
 
     /**
@@ -257,7 +256,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
         if (empty($handles)) {
             return null;
         }
-        $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
+        $condition = '@type="' . self::TYPE_PAGE . '"';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
         return $nodes ? reset($nodes) : null;
     }
@@ -280,7 +279,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      *     'handle_name_1' => array(
      *         'name'     => 'handle_name_1',
      *         'label'    => 'Handle Name 1',
-     *         'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
+     *         'type'     => self::TYPE_PAGE,
      *     ),
      *     // ...
      * )
@@ -292,7 +291,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
         $result = array();
 
         $conditions = array(
-            '(@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '")'
+            '(@type="' . self::TYPE_PAGE . '")'
         );
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
