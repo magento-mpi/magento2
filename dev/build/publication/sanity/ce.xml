@@ -376,7 +376,7 @@
             <!-- EE functionality mentioned in CE test by accident - logical error in test
                 (class from JavaScript is collected due to regexp usage) -->
             <word>CustomerSegment</word>
-            <path>dev/tests/static/testsuite/Magento/Test/Integrity/ReferenceBlacklist.php</path>
+            <path>dev/tests/static/testsuite/Magento/Test/Integrity/_files/blacklist/reference.txt</path>
         </item>
     </whitelist>
 </config>
