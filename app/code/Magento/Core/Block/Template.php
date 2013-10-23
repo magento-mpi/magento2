@@ -261,7 +261,7 @@ HTML;
                 || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
-                $extension = pathinfo($fileName, PATHINFO_EXTENSION); 
+                $extension = pathinfo($fileName, PATHINFO_EXTENSION);
                 $templateEngine = $this->_tmplEngineFactory->get($extension);
                 echo $templateEngine->render($this, $fileName, $this->_viewVars);
             } else {
