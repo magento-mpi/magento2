@@ -124,7 +124,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(\Magento\Date::now())
+            ->setLastVisitAt(\Magento\Stdlib\DateTime::now())
             ->save();
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
         $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -142,7 +142,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(\Magento\Date::now())
+            ->setLastVisitAt(\Magento\Stdlib\DateTime::now())
             ->save();
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor')
@@ -157,7 +157,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(\Magento\Date::now())
+            ->setLastVisitAt(\Magento\Stdlib\DateTime::now())
             ->save();
 
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */

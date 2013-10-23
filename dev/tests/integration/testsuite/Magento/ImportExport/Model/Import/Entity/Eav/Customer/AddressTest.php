@@ -222,8 +222,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'entity_id'      => $addressId,
             'entity_type_id' => $addressModel->getEntityTypeId(),
             'parent_id'      => $customerId,
-            'created_at'     => \Magento\Date::now(),
-            'updated_at'     => \Magento\Date::now()
+            'created_at'     => \Magento\Stdlib\DateTime::now(),
+            'updated_at'     => \Magento\Stdlib\DateTime::now()
         );
 
         // invoke _saveAddressEntities
