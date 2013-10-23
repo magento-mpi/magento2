@@ -66,7 +66,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/');
+        $this->_getUrl('sales/*/');
     }
 
     /**
@@ -82,7 +82,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/');
+        $this->_getUrl('sales/*/');
     }
 
     /**
@@ -127,9 +127,9 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if ($profile) {
-            $this->_redirect('*/*/view', array('profile' => $profile->getId()));
+            $this->_getUrl('sales/*/view', array('profile' => $profile->getId()));
         } else {
-            $this->_redirect('*/*/');
+            $this->_getUrl('sales/*/');
         }
     }
 
@@ -155,9 +155,9 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if ($profile) {
-            $this->_redirect('*/*/view', array('profile' => $profile->getId()));
+            $this->_getUrl('sales/*/view', array('profile' => $profile->getId()));
         } else {
-            $this->_redirect('*/*/');
+            $this->_getUrl('sales/*/');
         }
     }
 

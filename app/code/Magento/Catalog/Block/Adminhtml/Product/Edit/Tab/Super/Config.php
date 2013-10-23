@@ -175,7 +175,7 @@ class Config
                             'event' => 'generate',
                             'target' => '#product-variations-matrix',
                             'eventData' => array(
-                                'url' => $this->getUrl('*/*/generateVariations', array('_current' => true)),
+                                'url' => $this->getUrl('catalog/*/generateVariations', array('_current' => true)),
                             ),
                         ),
                     ),
@@ -193,7 +193,7 @@ class Config
                     'mage-init' => array(
                         'configurableAttribute' => array(
                             'url' => $this->getUrl(
-                                '*/product_attribute/new',
+                                'catalog/product_attribute/new',
                                 array(
                                     'store' => $this->getProduct()->getStoreId(),
                                     'product_tab' => 'variations',

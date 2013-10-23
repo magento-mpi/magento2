@@ -65,7 +65,7 @@ class Set extends \Magento\Backend\Controller\Adminhtml\Action
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
-            $this->_redirect('*/*/index');
+            $this->_getUrl('sales/*/index');
             return;
         }
 
@@ -167,9 +167,9 @@ class Set extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->getResponse()->setBody($body);
             } else {
                 if ($hasError) {
-                    $this->_redirect('*/*/add');
+                    $this->_getUrl('sales/*/add');
                 } else {
-                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                    $this->_getUrl('sales/*/edit', array('id' => $model->getId()));
                 }
             }
         } else {

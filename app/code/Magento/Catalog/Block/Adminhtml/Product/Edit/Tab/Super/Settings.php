@@ -134,6 +134,6 @@ class Settings extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/', array('set' => null, 'type' => null));
+        return $this->getUrl('catalog/*/', array('set' => null, 'type' => null));
     }
 }

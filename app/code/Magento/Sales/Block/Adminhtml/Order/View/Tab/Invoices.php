@@ -158,7 +158,7 @@ class Invoices
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/order_invoice/view',
+        return $this->getUrl('sales/order_invoice/view',
             array(
                 'invoice_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()
@@ -168,7 +168,7 @@ class Invoices
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/invoices', array('_current' => true));
+        return $this->getUrl('sales/*/invoices', array('_current' => true));
     }
 
 

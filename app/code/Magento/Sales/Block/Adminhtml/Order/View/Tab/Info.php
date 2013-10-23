@@ -89,7 +89,7 @@ class Info
 
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('*/*/*', array('order_id'=>$orderId));
+        return $this->getUrl('sales/*/*', array('order_id'=>$orderId));
     }
 
     /**

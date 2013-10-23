@@ -53,7 +53,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/rate'))
+            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('tax/rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
@@ -100,7 +100,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_redirectReferer();
             return;
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/rate'));
+        $this->getResponse()->setRedirect($this->getUrl('tax/rate'));
     }
 
     /**
@@ -179,7 +179,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_title(sprintf("%s", $rateModel->getCode()));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/rate'))
+            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('tax/rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')

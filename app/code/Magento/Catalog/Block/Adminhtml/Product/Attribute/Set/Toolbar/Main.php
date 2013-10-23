@@ -29,7 +29,7 @@ class Main extends \Magento\Backend\Block\Template
     {
         $this->addChild('addButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New Set'),
-            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/add') . '\')',
+            'onclick'   => 'setLocation(\'' . $this->getUrl('catalog/*/add') . '\')',
             'class' => 'add',
         ));
         return parent::_prepareLayout();

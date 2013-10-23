@@ -81,7 +81,7 @@ class Formgroup
 
         $form->setUseContainer(true);
         $form->setMethod('post');
-        $form->setAction($this->getUrl('*/product_group/save'));
+        $form->setAction($this->getUrl('catalog/product_group/save'));
         $this->setForm($form);
     }
 

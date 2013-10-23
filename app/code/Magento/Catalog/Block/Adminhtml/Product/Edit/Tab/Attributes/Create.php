@@ -50,7 +50,7 @@ class Create extends \Magento\Backend\Block\Widget\Button
                 array('productAttributes' =>
                     array(
                         'url' => $this->getUrl(
-                            '*/product_attribute/new',
+                            'catalog/product_attribute/new',
                             array(
                                 'group' => $this->getConfig()->getAttributeGroupCode(),
                                 'store' => $this->getConfig()->getStoreId(),
@@ -65,7 +65,7 @@ class Create extends \Magento\Backend\Block\Widget\Button
 
         $this->getConfig()
             ->setUrl($this->getUrl(
-                '*/product_attribute/new',
+                'catalog/product_attribute/new',
                 array(
                     'group' => $this->getConfig()->getAttributeGroupCode(),
                     'store' => $this->getConfig()->getStoreId(),

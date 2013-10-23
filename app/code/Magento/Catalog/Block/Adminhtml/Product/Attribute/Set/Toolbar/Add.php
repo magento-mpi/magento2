@@ -35,7 +35,7 @@ class Add extends \Magento\Adminhtml\Block\Template
         ));
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
+            'onclick'   => 'setLocation(\''.$this->getUrl('catalog/*/').'\')',
             'class' => 'back'
         ));
 

@@ -95,7 +95,7 @@ class History extends \Magento\Adminhtml\Block\Template
 
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment', array('order_id'=>$this->getOrder()->getId()));
+        return $this->getUrl('sales/*/addComment', array('order_id'=>$this->getOrder()->getId()));
     }
 
     /**

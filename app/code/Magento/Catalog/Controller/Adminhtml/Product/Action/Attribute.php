@@ -161,7 +161,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
         }
 
-        $this->_redirect('*/product/', array('store'=>$this->_getHelper()->getSelectedStoreId()));
+        $this->_redirect('catalog/product/', array('store'=>$this->_getHelper()->getSelectedStoreId()));
     }
 
     /**
@@ -181,7 +181,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
 
         if ($error) {
             $this->_getSession()->addError($error);
-            $this->_redirect('*/product/', array('_current'=>true));
+            $this->_redirect('catalog/product/', array('_current'=>true));
         }
 
         return !$error;

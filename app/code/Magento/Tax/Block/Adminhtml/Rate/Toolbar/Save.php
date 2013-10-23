@@ -26,7 +26,7 @@ class Save extends \Magento\Adminhtml\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->assign('createUrl', $this->getUrl('*/rate/save'));
+        $this->assign('createUrl', $this->getUrl('tax/rate/save'));
 
     }
 

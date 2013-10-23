@@ -263,7 +263,7 @@ class History
      */
     public function getTabUrl()
     {
-        return $this->getUrl('*/*/commentsHistory', array('_current' => true));
+        return $this->getUrl('sales/*/commentsHistory', array('_current' => true));
     }
 
     /**
