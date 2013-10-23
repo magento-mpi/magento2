@@ -3,7 +3,7 @@ selenium:
     browserName: 'firefox'
     host: 'localhost'
     port: 4444
-    seleniumServerRequestsTimeout: 90
+    seleniumServerRequestsTimeout: 30
     sessionStrategy: shared
     desiredCapabilities:
         platform: ANY

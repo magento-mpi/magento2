@@ -72,7 +72,8 @@ class OnepageCheckoutTest extends Functional
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect())
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro())
         );
     }
 }
