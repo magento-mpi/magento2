@@ -171,7 +171,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE;
             $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
                 ->getMode();
-            if ($mode != \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+            if ($mode != \Magento\App\State::MODE_DEVELOPER) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
                     $this->assertNotNull($errorDetails->$traceNode, "Exception trace was expected.");
