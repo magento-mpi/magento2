@@ -11,7 +11,7 @@
 /**
  * Source model for eav attribute custom_design
  */
-namespace Magento\View\Theme\Source;
+namespace Magento\Core\Model\Theme\Source;
 
 use Magento\Core\Model\Theme\Label;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
