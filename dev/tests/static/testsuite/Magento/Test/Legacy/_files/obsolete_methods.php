@@ -849,4 +849,5 @@ return array(
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
+    array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),
 );
