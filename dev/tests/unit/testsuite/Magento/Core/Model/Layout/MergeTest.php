@@ -109,8 +109,6 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPageHandles()
     {
-        $this->markTestSkipped("MAGETWO-15709");
-
         /* add a non-page handle to verify that it won't be affected during page handles manipulation */
         $nonPageHandles = array('non_page_handle');
         $this->_model->addHandle($nonPageHandles);
@@ -120,7 +118,8 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($nonPageHandles, $this->_model->getHandles());
 
         /* test that only the first existing handle is taken into account */
-        $handlesToTry = array('default', 'catalog_category_default', 'catalog_product_view', 'catalog_product_view_type_simple');
+        $handlesToTry = array(
+            'default', 'catalog_category_default', 'catalog_product_view', 'catalog_product_view_type_simple');
         $expectedPageHandles = array(
             'default', 'catalog_category_default', 'catalog_product_view', 'catalog_product_view_type_simple'
         );
@@ -130,6 +129,9 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
         /* test that new handles override the previous ones */
         $expectedPageHandles = array('default', 'checkout_onepage_index');
+        $this->_model->removeHandle('catalog_category_default');
+        $this->_model->removeHandle('catalog_product_view');
+        $this->_model->removeHandle('catalog_product_view_type_simple');
         $this->assertTrue($this->_model->addPageHandles(array('default', 'checkout_onepage_index')));
         $this->assertEquals($expectedPageHandles, $this->_model->getPageHandles());
         $this->assertEquals(array_merge($nonPageHandles, $expectedPageHandles), $this->_model->getHandles());
