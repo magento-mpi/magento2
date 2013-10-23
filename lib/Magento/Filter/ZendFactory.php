@@ -62,12 +62,6 @@ class ZendFactory extends AbstractFactory
         'lowerCase'             => 'Zend_Filter_File_LowerCase',
         'fileEncrypt'           => 'Zend_Filter_File_Encrypt',
         'fileDecrypt'           => 'Zend_Filter_File_Decrypt',
-        'compressBz2'           => 'Zend_Filter_Compress_Bz2',
-        'compressGz'            => 'Zend_Filter_Compress_Gz',
-        'compressLzf'           => 'Zend_Filter_Compress_Lzf',
-        'compressRar'           => 'Zend_Filter_Compress_Rar',
-        'compressTar'           => 'Zend_Filter_Compress_Tar',
-        'compressZip'           => 'Zend_Filter_Compress_Zip',
     );
 
     /**
