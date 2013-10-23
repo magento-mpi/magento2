@@ -1,5 +1,13 @@
+* Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
 * Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
+* Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
+* Unable to create a new widget instance
+* Error on Customers Segments Conditions tab while choose 'Number of Orders' condition
+* Blank page when placing order via Ogone
+* Impossible to create product if multiple attribute assigned to attribute set
+* Removed JavaScript unit test TreeSuggestTest.prototype.testBind as it is obsolete
+* Fixed Themes files are not found by Utility_Files class due to removal of __package__ from directory path
 * Introduced ability to register a template engine to process template files having certain extension
 * Removed support of the Twig template engine along with the corresponding component from the library
 * Removed layout flag that forced template blocks to output rendered content directly to a browser bypassing the response object
