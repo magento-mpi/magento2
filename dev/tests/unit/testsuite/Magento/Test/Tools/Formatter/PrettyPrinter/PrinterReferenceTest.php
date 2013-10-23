@@ -35,6 +35,9 @@ class PrinterReferenceTest extends TestBase
                 "<?php\nclass C1\n{\n    const ALPHA = 'a';\n\n    public function a()\n    {\n" .
                 "        echo self::ALPHA;\n    }\n}\n"
             ),
+            array("<?php \$myarray[]=1;", "<?php\n\$myarray[] = 1;\n"),
+            array("<?php \$myarray[0]=1;", "<?php\n\$myarray[0] = 1;\n"),
+            array("<?php \$myarray['black']=1;", "<?php\n\$myarray['black'] = 1;\n"),
         );
     }
 
