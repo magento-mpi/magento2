@@ -68,13 +68,9 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\Order\Pdf\AbstractPdf', array('drawLineBlocks', 'getPdf'), array(), '', false, false
         );
 
-        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
-        $locale = $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false, false);
-        $stringIconv = new \Magento\Stdlib\StringIconv;
-        $string = new \Magento\Stdlib\String($stringIconv);
         $modelConstructorArgs = $objectManager
             ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
-                'helper' => new \Magento\Core\Helper\String($context, $locale, $stringIconv, $string)
+                'string' => new \Magento\Stdlib\String(new \Magento\Stdlib\StringIconv())
         ));
 
         $this->_model = $this->getMock(
@@ -84,7 +80,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         );
 
         $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
-        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context, $locale, $stringIconv, $string));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
         $this->_model->setPage(new \Zend_Pdf_Page('a4'));

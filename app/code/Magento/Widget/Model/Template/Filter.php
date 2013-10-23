@@ -33,7 +33,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
+     * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Widget\Model\Widget $widget
      */
@@ -45,7 +45,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\LayoutFactory $layoutFactory,
+        \Magento\View\LayoutFactory $layoutFactory,
         \Magento\Widget\Model\Resource\Widget $widgetResource,
         \Magento\Widget\Model\Widget $widget
     ) {
