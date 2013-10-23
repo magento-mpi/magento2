@@ -35,7 +35,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     protected $_advanced = false;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
     protected $_escaper;
 
@@ -221,13 +221,13 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     {
         $html = '';
         if ($this->getBeforeElementHtml()) {
-            $html .= '<label class="addbefore" for="' . $this->getHtmlId() . '">' . $this->getBeforeElementHtml() . '</label>';            
+            $html .= '<label class="addbefore" for="' . $this->getHtmlId() . '">' . $this->getBeforeElementHtml() . '</label>';
         }
         $html .= '<input id="' . $this->getHtmlId() . '" name="' . $this->getName() . '" '
             . $this->_getUiId()
             . ' value="' . $this->getEscapedValue() . '" ' . $this->serialize($this->getHtmlAttributes()) . '/>';
         if ($this->getAfterElementHtml()) {
-            $html.= '<label class="addafter" for="' . $this->getHtmlId() . '">' . $this->getAfterElementHtml() . '</label>';            
+            $html.= '<label class="addafter" for="' . $this->getHtmlId() . '">' . $this->getAfterElementHtml() . '</label>';
         }
         return $html;
     }

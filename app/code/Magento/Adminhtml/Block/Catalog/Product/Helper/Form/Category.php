@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Product form category field helper
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
 
+/**
+ * Product form category field helper
+ */
 class Category extends \Magento\Data\Form\Element\Multiselect
 {
     /**
@@ -37,12 +33,18 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $attributes
      */
     public function __construct(
@@ -52,10 +54,12 @@ class Category extends \Magento\Data\Form\Element\Multiselect
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Helper\Data $coreData,
         array $attributes = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
+        $this->_coreData = $coreData;
         parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
         $this->_layout = $layout;
     }
@@ -103,7 +107,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     {
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
-        $selectorOptions = $this->_escaper->jsonEncode($this->_getSelectorOptions());
+        $selectorOptions = $this->_coreData->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout
