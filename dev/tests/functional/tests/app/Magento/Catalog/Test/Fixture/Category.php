@@ -112,6 +112,49 @@ class Category extends DataFixture
             'input_prefix' => 'general'
         );
 
+        $this->_data = array(
+            'fields' => array(
+                'name' => array(
+                    'value' => 'Subcategory %isolation%',
+                    'group' => static::GROUP_GENERAL_INFORMATION
+                ),
+                'is_active' => array(
+                    'value' => 'Yes',
+                    'input_value' => '1',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'include_in_menu' => array(
+                    'value' => 'Yes',
+                    'input_value' => '1',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'available_sort_by' => array(
+                    'value' => '',
+                    'use_default' => true,
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'multiselect'
+                ),
+                'default_sort_by' => array(
+                    'value' => '',
+                    'use_default' => true,
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+                'path' => array(
+                    'value' => '',
+                    'input_value' => '2',
+                    'group' => static::GROUP_GENERAL_INFORMATION,
+                    'input' => 'select'
+                ),
+            ),
+            'category_path' =>  array(
+                'value' => 'Default Category (0)',
+                'input_value' => ''
+            )
+        );
+
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogCategory($this->_dataConfig, $this->_data);
     }
