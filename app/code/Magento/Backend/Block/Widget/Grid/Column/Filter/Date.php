@@ -22,27 +22,17 @@ class Date
     protected $_locale;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_locale = $locale;
         parent::__construct($context, $resourceHelper, $data);
     }
@@ -57,7 +47,7 @@ class Date
 
     public function getHtml()
     {
-        $htmlId = $this->_coreData->uniqHash($this->_getHtmlId());
+        $htmlId = \Magento\Math\Random::getUniqueHash($this->_getHtmlId());
         $format = $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
             . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'

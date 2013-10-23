@@ -454,7 +454,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**

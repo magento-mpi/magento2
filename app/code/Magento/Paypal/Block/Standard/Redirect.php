@@ -12,13 +12,6 @@ namespace Magento\Paypal\Block\Standard;
 class Redirect extends \Magento\Core\Block\AbstractBlock
 {
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
@@ -36,7 +29,6 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Context $context
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
      * @param array $data
@@ -44,12 +36,10 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Data\Form\Element\Factory $elementFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Context $context,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_formFactory = $formFactory;
         $this->_elementFactory = $elementFactory;
         $this->_paypalStandardFactory = $paypalStandardFactory;
@@ -72,7 +62,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
         foreach ($standard->getStandardCheckoutFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
-        $idSuffix = $this->_coreData->uniqHash();
+        $idSuffix = \Magento\Math\Random::getUniqueHash();
         $submitButton = $this->_elementFactory->create('submit', array('attributes' => array(
             'value' => __('Click here if you are not redirected within 10 seconds.'),
         )));

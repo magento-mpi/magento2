@@ -116,13 +116,6 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     protected $_workflow = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
@@ -143,7 +136,6 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     protected $_orderItemFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -158,7 +150,6 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -170,7 +161,6 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_orderFactory = $orderFactory;
         $this->_addressFactory = $addressFactory;
         $this->_paymentFactory = $paymentFactory;
@@ -197,9 +187,9 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     {
         $this->_getResource()->beginTransaction();
         try {
-            $this->setInternalReferenceId($this->_coreData->uniqHash('temporary-'));
+            $this->setInternalReferenceId(\Magento\Math\Random::getUniqueHash('temporary-'));
             $this->save();
-            $this->setInternalReferenceId($this->_coreData->uniqHash($this->getId() . '-'));
+            $this->setInternalReferenceId(\Magento\Math\Random::getUniqueHash($this->getId() . '-'));
             $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();

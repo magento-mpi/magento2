@@ -318,13 +318,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     );
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -336,7 +329,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
@@ -344,10 +336,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Directory\Model\CountryFactory $countryFactory
     ) {
-        $this->_coreData = $coreData;
         parent::__construct($customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $countryFactory);
     }
 
@@ -544,7 +534,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      */
     protected function getRequestId()
     {
-        return $this->_coreData->uniqHash();
+        return \Magento\Math\Random::getUniqueHash();
     }
 
     /**
