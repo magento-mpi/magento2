@@ -11,6 +11,9 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_StaticCall;
+use PHPParser_Node_Expr;
+use PHPParser_Node_Expr_ArrayDimFetch;
+use PHPParser_Node_Expr_Variable;
 
 class StaticCallReference extends ReferenceAbstract
 {
@@ -29,6 +32,7 @@ class StaticCallReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return $this->p($node->class) . '::'
             . ($node->name instanceof PHPParser_Node_Expr
@@ -40,7 +44,7 @@ class StaticCallReference extends ReferenceAbstract
             . '(' . $this->getParametersForCall($node->args) . ')';
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         $line->add('::');
         $this->resolveNode($this->node->class, $treeNode);
         if ($this->node->name instanceof PHPParser_Node_Expr) {
@@ -56,9 +60,8 @@ class StaticCallReference extends ReferenceAbstract
             }
         }
         else
-            $this->node->name;
-
-        // add the arguments
+            $line->add($this->node->name);
+       // add the arguments
         $line->add('(');
         $this->processArgumentList($this->node->args, $treeNode, $line, new SimpleListLineBreak());
         $line->add(')');

@@ -21,7 +21,7 @@ abstract class AbstractPrefixOperator extends AbstractOperator
     protected function resolvePrefixOperator(TreeNode $treeNode)
     {
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // Resolve the children according to precedence.
         $line->add($this->operator());
         $this->resolvePrecedence($this->expr(), $treeNode, 1);

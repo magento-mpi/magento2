@@ -28,9 +28,10 @@ class ClassReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /** @var Line $line */
-        $line = $treeNode->getData();
-        // Add the preceeding \ if this is a fully qualified name
+        $line = $treeNode->getData()->line;
+        // Add the preceding \ if this is a fully qualified name
         if ($this->node->isFullyQualified()) {
             $line->add('\\');
         }

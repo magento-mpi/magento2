@@ -29,6 +29,7 @@ class ExpressionReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         if ($node->name instanceof PHPParser_Node_Expr) {
             return '${' . $this->p($node->name) . '}';
@@ -37,7 +38,7 @@ class ExpressionReference extends ReferenceAbstract
         }
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the expression to the end of the current line
         $line->add('$');
         if ($this->node->name instanceof PHPParser_Node_Expr) {

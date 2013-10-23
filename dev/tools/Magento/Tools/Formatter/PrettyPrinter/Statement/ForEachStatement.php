@@ -36,10 +36,10 @@ class ForEachStatement extends AbstractLoopStatement
              . ($node->byRef ? '&' : '') . $this->p($node->valueVar) . ') {'
              . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line = new Line('foreach (');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('foreach (');
         // add in the collection
         $this->resolveNode($this->node->expr, $treeNode);
         $line->add(' as ');

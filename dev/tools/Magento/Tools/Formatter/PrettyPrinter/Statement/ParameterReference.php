@@ -28,6 +28,7 @@ class ParameterReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return ($node->type ? (is_string($node->type) ? $node->type : $this->p($node->type)) . ' ' : '')
              . ($node->byRef ? '&' : '')
@@ -35,7 +36,7 @@ class ParameterReference extends ReferenceAbstract
              . ($node->default ? ' = ' . $this->p($node->default) : '');
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // if the type is specified, add it to the line
         if ($this->node->type) {
             // if the type is a string, just add it

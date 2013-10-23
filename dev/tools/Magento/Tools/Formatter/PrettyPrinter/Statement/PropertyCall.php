@@ -35,11 +35,12 @@ class PropertyCall extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name);
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the expression to the end of the current line
         $this->resolveNode($this->node->var, $treeNode);
         $line->add(new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');

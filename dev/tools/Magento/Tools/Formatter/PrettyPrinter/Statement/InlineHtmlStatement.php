@@ -32,7 +32,8 @@ class InlineHtmlStatement extends StatementAbstract
         /* Reference
         return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
          */
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData(new Line($this->node->value));
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
+        $line->add($this->node->value);
     }
 }

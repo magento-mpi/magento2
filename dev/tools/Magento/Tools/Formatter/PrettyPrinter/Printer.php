@@ -62,7 +62,7 @@ class Printer
     protected function addRootForNode(PHPParser_Node $node, TreeNode $treeNode)
     {
         $statement = SyntaxFactory::getInstance()->getStatement($node);
-        return $treeNode->addSibling(new TreeNode($statement));
+        return $treeNode->addSibling(AbstractSyntax::getNode($statement));
     }
 
     /**
@@ -73,7 +73,7 @@ class Printer
     {
         // create a new tree, presuming that it is php
         $tree = new Tree();
-        $treeNode = $tree->addRoot(new TreeNode((new Line('<?php'))->add(new HardLineBreak())));
+        $treeNode = $tree->addRoot(AbstractSyntax::getNodeLine((new Line('<?php'))->add(new HardLineBreak())));
         // add in the root nodes
         if (is_array($statements)) {
             foreach ($statements as $node) {

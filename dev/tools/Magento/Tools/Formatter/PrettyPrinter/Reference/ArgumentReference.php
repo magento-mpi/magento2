@@ -29,11 +29,12 @@ class ArgumentReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return ($node->byRef ? '&' : '') . $this->p($node->value);
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the reference, if needed
         if ($this->node->byRef) {
             $line->add('&');

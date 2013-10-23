@@ -26,9 +26,9 @@ class NodeLeveler extends LevelNodeVisitor
     public function nodeEntry(TreeNode $treeNode)
     {
         parent::nodeEntry($treeNode);
-        // get the data from the node
+        /** @var LineData $lineData */
         $lineData = $treeNode->getData();
-        $this->processLine($lineData, 0, $treeNode);
+        $this->processLine($lineData->line, 0, $treeNode);
     }
 
     /**
@@ -37,12 +37,12 @@ class NodeLeveler extends LevelNodeVisitor
      * @param int $level
      * @param TreeNode $treeNode
      */
-    protected function processLine($line, $level, TreeNode $treeNode)
+    protected function processLine(Line &$line, $level, TreeNode $treeNode)
     {
         // split the lines at the current level to check for length
         $currentLines = $line->splitLine($level);
-        // determine if all is good
         $valid = true;
+        // determine if all the lines are within tolerances
         foreach ($currentLines as $currentLine) {
             $lineText = $currentLine[Line::ATTRIBUTE_LINE];
             if (self::MAX_LINE_LENGTH < strlen($lineText) + $this->level * strlen(self::PREFIX)) {
@@ -77,7 +77,7 @@ class NodeLeveler extends LevelNodeVisitor
      * @param array $currentLines
      * @param TreeNode $treeNode
      */
-    protected function splitNode(Line $line, array $currentLines, TreeNode $treeNode)
+    protected function splitNode(Line &$line, array $currentLines, TreeNode $treeNode)
     {
         // save off any child nodes of the current node
         $originalChildren = $treeNode->getChildren();
@@ -90,11 +90,12 @@ class NodeLeveler extends LevelNodeVisitor
             if ($index == 0) {
                 $line->setTokens($currentLine);
             } else {
+                $newNode = AbstractSyntax::getNodeLine(new Line($currentLine));
                 // determine the indentation based on the type of terminator on the previous line
                 if ($lastLineBreak->isNextLineIndented()) {
-                    $treeNode->addChild(new TreeNode(new Line($currentLine)));
+                    $treeNode->addChild($newNode);
                 } else {
-                    $lastNode = $treeNode->addSibling(new TreeNode(new Line($currentLine)));
+                    $lastNode = $treeNode->addSibling($newNode);
                 }
             }
             // save off the current line break

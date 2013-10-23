@@ -30,6 +30,7 @@ class StringReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         $heredocCloseTag = $node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
@@ -49,7 +50,7 @@ class StringReference extends ReferenceAbstract
         return $result;
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);

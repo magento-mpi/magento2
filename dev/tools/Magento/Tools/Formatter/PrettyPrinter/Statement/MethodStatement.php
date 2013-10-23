@@ -8,6 +8,7 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
@@ -54,12 +55,11 @@ class MethodStatement extends ClassMemberAbstract
         $result .= self::EOL;
         return $result;
          */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the class line
-        $line = new Line();
         $this->addModifier($this->node->type, $line);
         $line->add('function ');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
         if ($this->node->byRef) {
             $line->add('&');
         }
@@ -72,6 +72,6 @@ class MethodStatement extends ClassMemberAbstract
         // process content of the methods
         $this->processNodes($this->node->stmts, $treeNode);
         // add closing block
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 }

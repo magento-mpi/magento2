@@ -33,7 +33,7 @@ class NodePrinter extends LevelNodeVisitor
     {
         parent::nodeEntry($treeNode);
         // add the line data base on indents
-        $line = $treeNode->getData()->getLine();
+        $line = $treeNode->getData()->line->getLine();
         // only prepend the prefix if the line is more than a LF
         if (strlen($line) > 1 || HardLineBreak::EOL != $line) {
             $line = str_repeat(self::PREFIX, $this->level) . $line;

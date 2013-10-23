@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Const;
 
@@ -27,11 +28,13 @@ class ClassConstant extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return $node->name . ' = ' . $this->p($node->value);
          */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the name to the end of the current line
-        $line = $treeNode->getData();
         $line->add($this->node->name)->add(' = ');
         // add in the value as a node
         $this->resolveNode($this->node->value, $treeNode);

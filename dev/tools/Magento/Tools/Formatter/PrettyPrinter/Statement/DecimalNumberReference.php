@@ -29,6 +29,7 @@ class DecimalNumberReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (null === $result) {
@@ -52,7 +53,7 @@ class DecimalNumberReference extends ReferenceAbstract
             }
         }
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the value to the end of the current line
         $line->add($stringValue);
     }

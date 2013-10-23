@@ -30,17 +30,16 @@ class InterfaceStatement extends ClassTypeAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return 'interface ' . $node->name
              . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
              . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
-        parent::resolve($treeNode);
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the class line
-        $line = new Line();
         $line->add('interface ')->add($this->node->name);
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
         // add in extends declaration
         if (!empty($this->node->extends)) {
             $line->add(' extends');

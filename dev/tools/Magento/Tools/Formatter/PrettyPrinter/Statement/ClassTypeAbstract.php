@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -20,11 +21,11 @@ abstract class ClassTypeAbstract extends StatementAbstract
     protected function addBody(TreeNode $treeNode)
     {
         // add the opening brace on a new line
-        $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
+        $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('{'))->add(new HardLineBreak())));
         // processing the child nodes
         $this->processNodes($this->node->stmts, $treeNode);
         // add the closing brace on a new line
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 
     /**
@@ -42,7 +43,7 @@ abstract class ClassTypeAbstract extends StatementAbstract
         $originatingNode->addChild($newNode);
         // add a separator between all nodes
         if ($index < $total - 1) {
-            $originatingNode->addChild(new TreeNode(new Line(new HardLineBreak())));
+            $originatingNode->addChild(AbstractSyntax::getNodeLine(new Line(new HardLineBreak())));
         }
         // always return the originating node
         return $originatingNode;

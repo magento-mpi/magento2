@@ -28,12 +28,13 @@ class PropertyReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return '$' . $node->name
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the name to the end of the current line
         $line->add('$')->add($this->node->name);
         // optionally add in the default value

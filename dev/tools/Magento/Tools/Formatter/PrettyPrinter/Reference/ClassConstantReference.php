@@ -29,11 +29,12 @@ class ClassConstantReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return $this->p($node->class) . '::' . $node->name;
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the class reference
         $this->resolveNode($this->node->class, $treeNode);
         // add in the actual reference

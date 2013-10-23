@@ -24,7 +24,7 @@ abstract class AbstractInfixOperator extends AbstractOperator
     protected function resolveInfixOperator(TreeNode $treeNode)
     {
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // Resolve the children according to precedence.
         $this->resolvePrecedence($this->left(), $treeNode, -1);
         $line->add($this->operator());

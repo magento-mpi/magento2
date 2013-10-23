@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -43,15 +44,15 @@ class UseStatement extends StatementAbstract
             // add the line to the tree
             $line = new Line('use ');
             // add the line prior to current node only out of convenience
-            $useTreeNode = $treeNode->addSibling(new TreeNode($line), false);
+            $useTreeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($line), false);
             // process the name
             $this->resolveNode($use, $useTreeNode);
             // finish out the line
             $line->add(';')->add(new HardLineBreak());
         }
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add a newline after the block
-        $line = new Line(new HardLineBreak());
-        // replace the statement with the line since it is resolved
-        $treeNode->setData($line);
+        $line->add(new HardLineBreak());
     }
 }

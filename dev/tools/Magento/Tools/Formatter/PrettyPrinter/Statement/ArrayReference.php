@@ -29,11 +29,12 @@ class ArrayReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return 'array(' . $this->pCommaSeparated($node->items) . ')';
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the array to the end of the current line
         $line->add('array(');
         if (count($this->node->items) > 0) {

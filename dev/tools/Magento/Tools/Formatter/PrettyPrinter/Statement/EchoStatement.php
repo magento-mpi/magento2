@@ -35,11 +35,9 @@ class EchoStatement extends StatementAbstract
         return 'echo ' . $this->pCommaSeparated($node->exprs) . ';';
         */
         /** @var Line $line */
-        $line = new Line();
+        $line = $treeNode->getData()->line;
         // add the class line
         $line->add('echo ');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
         // add the arguments
         $this->processArgumentList($this->node->exprs, $treeNode, $line, new SimpleListLineBreak());
         // add in the terminator

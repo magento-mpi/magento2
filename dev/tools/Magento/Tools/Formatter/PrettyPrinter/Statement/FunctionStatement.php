@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
@@ -36,11 +37,11 @@ class FunctionStatement extends StatementAbstract
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
          */
-        // add the class line
-        $line = new Line();
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
+        // add the function line
         $line->add('function ');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        // add in the reference marker
         if ($this->node->byRef) {
             $line->add('&');
         }
@@ -53,6 +54,6 @@ class FunctionStatement extends StatementAbstract
         // process content of the methods
         $this->processNodes($this->node->stmts, $treeNode);
         // add closing block
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 }

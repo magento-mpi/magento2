@@ -44,7 +44,6 @@ class IncludeStatement extends StatementAbstract
         parent::__construct($node);
     }
 
-
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
@@ -53,12 +52,7 @@ class IncludeStatement extends StatementAbstract
     {
         parent::resolve($treeNode);
         /** @var Line $line */
-        $line = $treeNode->getData();
-        if (!$line instanceof Line) {
-            // Setup line with token
-            $line = new Line();
-            $treeNode->setData($line);
-        }
+        $line = $treeNode->getData()->line;
         // Add token with space
         $line->add(self::$map[$this->node->type])->add(' ');
         // Resolve expr

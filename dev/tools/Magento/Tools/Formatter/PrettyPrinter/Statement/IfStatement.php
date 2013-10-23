@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -36,10 +37,11 @@ class IfStatement extends StatementAbstract
              . $this->pImplode($node->elseifs)
              . (null !== $node->else ? $this->p($node->else) : '');
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the if line
-        $line = new Line('if (');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('if (');
+        // add in the condition
         $this->resolveNode($this->node->cond, $treeNode);
         $line->add(') {')->add(new HardLineBreak());
         // processing the child nodes
@@ -53,7 +55,7 @@ class IfStatement extends StatementAbstract
             $treeNode = $this->processNodes($this->node->else, $treeNode, false);
         }
         // add the closing brace on a new line
-        $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
+        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 
     /**

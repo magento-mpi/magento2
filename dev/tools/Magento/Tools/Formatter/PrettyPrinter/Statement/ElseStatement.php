@@ -33,10 +33,10 @@ class ElseStatement extends StatementAbstract
         /* Reference
         return ' else {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the if line
-        $line = new Line('} else {');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('} else {');
         $line->add(new HardLineBreak());
         // processing the child nodes
         $this->processNodes($this->node->stmts, $treeNode);

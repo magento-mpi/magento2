@@ -49,7 +49,14 @@ abstract class AbstractSyntax
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
      */
-    public abstract function resolve(TreeNode $treeNode);
+    public function resolve(TreeNode $treeNode) {
+        /** @var LineData $lineData */
+        $lineData = $treeNode->getData();
+        // if the line has not been resolved, start with a blank line
+        if (null === $lineData->line) {
+            $lineData->line = new Line();
+        }
+    }
 
     /**
      * This method adds the arguments to the current line
@@ -86,5 +93,19 @@ abstract class AbstractSyntax
         /** @var AbstractSyntax $statement */
         $statement = SyntaxFactory::getInstance()->getStatement($node);
         $statement->resolve($treeNode);
+    }
+
+    /**
+     * This method is a help method used to return a new node.
+     */
+    public static function getNode(AbstractSyntax $syntax, $line = null) {
+        return new TreeNode(new LineData($syntax, $line));
+    }
+
+    /**
+     * This method is a help method used to return a new node.
+     */
+    public static function getNodeLine(Line $line) {
+        return new TreeNode(new LineData(null, $line));
     }
 }

@@ -31,8 +31,9 @@ class DirConstReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         /*
         public function pScalar_DirConst(PHPParser_Node_Scalar_DirConst $node) {
             return '__DIR__';

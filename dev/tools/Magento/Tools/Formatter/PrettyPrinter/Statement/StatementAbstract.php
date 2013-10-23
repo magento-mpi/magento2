@@ -10,6 +10,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\LineData;
 use Magento\Tools\Formatter\PrettyPrinter\SyntaxFactory;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Class;
@@ -29,6 +30,7 @@ abstract class StatementAbstract extends AbstractSyntax
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         // all statements have potential of having comments, so resolve those
         $this->addCommentsBefore($treeNode);
     }
@@ -48,7 +50,8 @@ abstract class StatementAbstract extends AbstractSyntax
                 $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
                 foreach ($commentLines as $commentLine) {
                     // add the line individually to the tree so that they can be indented correctly
-                    $treeNode->addSibling(new TreeNode((new Line($commentLine))->add(new HardLineBreak())), false);
+                    $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
+                    $treeNode->addSibling($newNode, false);
                 }
             }
         }
@@ -110,24 +113,19 @@ abstract class StatementAbstract extends AbstractSyntax
      * @param mixed $nodes Array or single node
      * @param TreeNode $originatingNode Node where new nodes are originating from
      * @param mixed $data Data that is passed to derived class when processing the node.
+     * @return TreeNode
      */
     protected function processNodes($nodes, TreeNode $originatingNode, $data = null)
     {
         if (is_array($nodes)) {
             $total = count($nodes);
             foreach ($nodes as $index => $node) {
-                $statement = SyntaxFactory::getInstance()->getStatement($node);
-                $originatingNode = $this->processNode(
-                    $originatingNode,
-                    new TreeNode($statement),
-                    $index,
-                    $total,
-                    $data
-                );
+                $treeNode = AbstractSyntax::getNode(SyntaxFactory::getInstance()->getStatement($node));
+                $originatingNode = $this->processNode($originatingNode, $treeNode, $index, $total, $data);
             }
         } else {
-            $statement = SyntaxFactory::getInstance()->getStatement($nodes);
-            $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), 0, 1, $data);
+            $treeNode = AbstractSyntax::getNode(SyntaxFactory::getInstance()->getStatement($nodes));
+            $originatingNode = $this->processNode($originatingNode, $treeNode, 0, 1, $data);
         }
         // return the last node that was added (or whatever was returned from the last node processing)
         return $originatingNode;

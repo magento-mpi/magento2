@@ -38,10 +38,10 @@ class ForStatement extends AbstractLoopStatement
              . $this->pCommaSeparated($node->loop)
              . ') {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line = new Line('for (');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('for (');
         // add in the init expression
         $lineBreak = new ConditionalLineBreak(array(array('')));
         $this->processArgumentList($this->node->init, $treeNode, $line, $lineBreak);

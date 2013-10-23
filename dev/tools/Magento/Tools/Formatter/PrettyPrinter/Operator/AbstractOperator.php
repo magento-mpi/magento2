@@ -58,9 +58,9 @@ abstract class AbstractOperator extends AbstractSyntax
             if ($childPrecedence > $parentPrecedence
                 || ($parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition)
             ) {
-                $treeNode->getData()->add('(');
+                $treeNode->getData()->line->add('(');
                 $child->resolve($treeNode);
-                $treeNode->getData()->add(')');
+                $treeNode->getData()->line->add(')');
             } else {
                 $child->resolve($treeNode);
             }
@@ -68,13 +68,13 @@ abstract class AbstractOperator extends AbstractSyntax
             $child->resolve($treeNode);
         }
         if ($childPosition === 1 && $this->terminate) {
-            $treeNode->getData()->add(';')->add(new HardLineBreak());
+            $treeNode->getData()->line->add(';')->add(new HardLineBreak());
         }
     }
     public function resolve(TreeNode $treeNode)
     {
-        if ($treeNode->getData() instanceof AbstractOperator && $treeNode->getData() === $this) {
-            $treeNode->setData(new Line());
+        parent::resolve($treeNode);
+        if ($this === $treeNode->getData()->syntax) {
             $this->terminate = true;
         }
     }

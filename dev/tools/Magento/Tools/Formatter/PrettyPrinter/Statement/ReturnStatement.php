@@ -34,10 +34,11 @@ class ReturnStatement extends StatementAbstract
         /* Reference
         return 'return' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '') . ';';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the return line
-        $line = new Line('return');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('return');
+        // add in the express, if available
         if (null !== $this->node->expr) {
             $line->add(' ');
             $this->resolveNode($this->node->expr, $treeNode);

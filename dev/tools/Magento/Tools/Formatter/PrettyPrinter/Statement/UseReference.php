@@ -28,6 +28,7 @@ class UseReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return $this->p($node->name)
              . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
@@ -37,7 +38,7 @@ class UseReference extends ReferenceAbstract
         // process the alias, if needed
         if ($this->node->name->getLast() !== $this->node->alias) {
             /** @var Line $line */
-            $line = $treeNode->getData();
+            $line = $treeNode->getData()->line;
             $line->add(' as ')->add($this->node->alias);
         }
     }

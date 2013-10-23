@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -34,16 +35,16 @@ class DoStatement extends AbstractLoopStatement
         return 'do {' . "\n" . $this->pStmts($node->stmts) . "\n"
              . '} while (' . $this->p($node->cond) . ');';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line = (new Line('do {'))->add(new HardLineBreak());
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('do {')->add(new HardLineBreak());
         // add in the children nodes
         $this->processNodes($this->node->stmts, $treeNode);
         // add the closing bracket and condition
         $line = new Line('} while (');
         // add the new line to get it below the body statements
-        $treeNode = $treeNode->addSibling(new TreeNode($line));
+        $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($line));
         // resolve the condition
         $this->resolveNode($this->node->cond, $treeNode);
         // add the terminating line

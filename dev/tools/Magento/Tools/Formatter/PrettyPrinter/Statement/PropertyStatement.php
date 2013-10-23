@@ -34,11 +34,10 @@ class PropertyStatement extends ClassMemberAbstract
         /* Reference
         return $this->pModifiers($node->type) . $this->pCommaSeparated($node->props) . ';';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the property line
-        $line = new Line();
         $this->addModifier($this->node->type, $line);
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
         // add in the list of actual constants
         $this->processArgumentList($this->node->props, $treeNode, $line, new SimpleListLineBreak());
         // terminate the line

@@ -34,10 +34,10 @@ class ConstantStatement extends ClassMemberAbstract
         /* Reference
         return 'const ' . $this->pCommaSeparated($node->consts) . ';';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the const line
-        $line = new Line('const ');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('const ');
         // add in the list of actual constants
         $this->processArgumentList($this->node->consts, $treeNode, $line, new SimpleListLineBreak());
         // terminate the line

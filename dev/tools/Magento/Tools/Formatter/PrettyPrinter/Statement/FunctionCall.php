@@ -35,18 +35,15 @@ class FunctionCall extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         return $this->p($node->name) . '(' . $this->getParametersForCall($node->args) . ')';
         */
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         $this->resolveNode($this->node->name, $treeNode);
         $line->add('(');
-        $this->processArgumentList(
-            $this->node->args,
-            $treeNode, $line,
-            new CallLineBreak(array(array(' '), array(new HardIndentLineBreak())))
-        );
+        $this->processArgumentList($this->node->args, $treeNode, $line, new CallLineBreak());
         $line->add(')');
     }
 }

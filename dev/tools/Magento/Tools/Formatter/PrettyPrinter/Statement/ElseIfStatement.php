@@ -34,10 +34,10 @@ class ElseIfStatement extends StatementAbstract
         return ' elseif (' . $this->p($node->cond) . ') {'
              . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the if line
-        $line = new Line('} elseif (');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('} elseif (');
         $this->resolveNode($this->node->cond, $treeNode);
         $line->add(') {')->add(new HardLineBreak());
         // processing the child nodes

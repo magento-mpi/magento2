@@ -30,10 +30,10 @@ class NamespaceStatement extends StatementAbstract
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line = new Line('namespace ');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('namespace ');
         // finish out the line
         $this->resolveNode($this->node->name, $treeNode);
         $line->add(';')->add(new HardLineBreak())->add(new HardLineBreak());

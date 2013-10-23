@@ -21,7 +21,7 @@ abstract class AbstractPostfixOperator extends AbstractOperator
     protected function resolvePostfixOperator(TreeNode $treeNode)
     {
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // Resolve the children according to precedence.
         $this->resolvePrecedence($this->expr(), $treeNode, -1);
         $line->add($this->operator());

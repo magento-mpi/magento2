@@ -33,10 +33,10 @@ class WhileStatement extends AbstractLoopStatement
         return 'while (' . $this->p($node->cond) . ') {'
              . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
         */
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line = new Line('while (');
-        // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData($line);
+        $line->add('while (');
         // add in the condition
         $this->resolveNode($this->node->cond, $treeNode);
         // add in the rest

@@ -29,6 +29,7 @@ class IntegerNumberReference extends ReferenceAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
+        parent::resolve($treeNode);
         /* Reference
         $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (null === $result) {
@@ -45,7 +46,7 @@ class IntegerNumberReference extends ReferenceAbstract
             $stringValue = (string)$this->node->value;
         }
         /** @var Line $line */
-        $line = $treeNode->getData();
+        $line = $treeNode->getData()->line;
         // add the value to the end of the current line
         $line->add($stringValue);
     }

@@ -28,14 +28,13 @@ class LineResolver extends NodeVisitorAbstract
     public function nodeEntry(TreeNode $treeNode)
     {
         parent::nodeEntry($treeNode);
-
-        // get the data from the node
-        $nodeData = $treeNode->getData();
-        // if the data represents a node, try to resolve the node
-        if ($nodeData instanceof StatementAbstract || $nodeData instanceof AbstractOperator) {
+        /** @var LineData $lineData */
+        $lineData = $treeNode->getData();
+        // if the syntax has not been resolved, then try to resolve it
+        if (null === $lineData->line) {
             $this->statementCount++;
-            // let the statement try to resolve to a line
-            $nodeData->resolve($treeNode);
+            // let the syntax try to resolve to a line
+            $lineData->syntax->resolve($treeNode);
         }
     }
 }
