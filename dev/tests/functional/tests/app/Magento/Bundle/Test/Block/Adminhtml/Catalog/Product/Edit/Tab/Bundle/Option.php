@@ -162,7 +162,7 @@ class Option extends Block
     public function fillBundleOption(array $fields, Element $context)
     {
         $this->fillOptionData($fields);
-        foreach ($fields as $field) {
+        foreach ($fields['assigned_products'] as $field) {
             if (is_array($field)) {
                 $this->_rootElement->find($this->addProducts, Locator::SELECTOR_CSS)->click();
                 $searchBlock = $this->getSearchGridBlock($context);
@@ -191,10 +191,10 @@ class Option extends Block
      */
     private function fillOptionData(array $fields)
     {
-        $this->_rootElement->find($this->title)->setValue($fields['title']);
+        $this->_rootElement->find($this->title)->setValue($fields['title']['value']);
         $this->_rootElement->find($this->type, Locator::SELECTOR_CSS, 'select')
-            ->setValue($fields['type']);
+            ->setValue($fields['type']['value']);
         $this->_rootElement->find($this->required, Locator::SELECTOR_CSS, 'checkbox')
-            ->setValue($fields['required']);
+            ->setValue($fields['required']['value']);
     }
 }

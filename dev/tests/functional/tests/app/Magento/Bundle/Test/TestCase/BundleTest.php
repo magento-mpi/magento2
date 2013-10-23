@@ -13,6 +13,8 @@ namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Catalog\Test\Fixture\Product;
+use Magento\Bundle\Test\Fixture\Bundle;
 
 /**
  * Class BundleTest
@@ -36,7 +38,8 @@ class BundleTest extends Functional
     public function testCreate()
     {
         //Data
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle()->switchData('bundle_fixed');
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle->switchData('bundle_fixed_with_category');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
@@ -48,5 +51,53 @@ class BundleTest extends Functional
         $productBlockForm->save($bundle);
         //Verification
         $createProductPage->assertProductSaveResult($bundle);
+        $this->assertOnGrid($bundle);
+        $this->assertOnCategory($bundle);
+    }
+
+    /**
+     * Assert existing product on admin product grid
+     *
+     * @param Product $product
+     */
+    protected function assertOnGrid($product)
+    {
+        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage->open();
+        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
+        $gridBlock = $productGridPage->getProductGrid();
+        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+    }
+
+    /**
+     * @param Bundle $product
+     */
+    protected function assertOnCategory($product)
+    {
+        //Pages
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $categoryPage->openCategory($product->getCategoryName());
+        //Verification on category product list
+        $productListBlock = $categoryPage->getListProductBlock();
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $productListBlock->openProductViewPage($product->getProductName());
+        //Verification on product detail page
+        $productViewBlock = $productPage->getViewBlock();
+        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+
+        $actualPrices = $productViewBlock->getProductPrice();
+        $expectedPrices = $product->getProductPrice();
+        foreach ($actualPrices as $priceType => $actualPrice) {
+            $this->assertContains($expectedPrices[$priceType], $actualPrice);
+        }
+
+        $productOptionsBlock = $productPage->getOptionsBlock();
+        $actualOptions = $productOptionsBlock->getBundleOptions();
+        $expectedOptions = $product->getBundleOptions();
+        foreach ($actualOptions as $optionType => $actualOption) {
+            $this->assertContains($expectedOptions[$optionType], $actualOption);
+        }
     }
 }
