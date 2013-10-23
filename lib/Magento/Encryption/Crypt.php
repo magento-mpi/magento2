@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Crypt
+ * @package     \Magento\Encryption\Crypt
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Class encapsulates cryptographic algorithm
  */
-namespace Magento;
+namespace Magento\Encryption;
 
 class Crypt
 {

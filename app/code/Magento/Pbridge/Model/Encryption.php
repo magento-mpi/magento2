@@ -17,13 +17,13 @@ class Encryption extends \Magento\Pci\Model\Encryption
      * Constructor
      *
      * @param \Magento\Math\Random $randomGenerator
-     * @param \Magento\CryptFactory $cryptFactory
+     * @param \Magento\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      * @param $key
      */
     public function __construct(
         \Magento\Math\Random $randomGenerator,
-        \Magento\CryptFactory $cryptFactory,
+        \Magento\Encryption\CryptFactory $cryptFactory,
         $cryptKey,
         $key
     ) {

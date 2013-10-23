@@ -16,7 +16,7 @@ class Encrypted
     implements \Magento\Core\Model\Config\Data\BackendModelInterface
 {
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -25,7 +25,7 @@ class Encrypted
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -35,7 +35,7 @@ class Encrypted
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Config $config,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -54,7 +54,7 @@ class Encrypted
     {
         parent::__wakeup();
         $this->_encryptor = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Encryption\EncryptionInterface');
+            ->get('Magento\Encryption\EncryptorInterface');
     }
 
     /**

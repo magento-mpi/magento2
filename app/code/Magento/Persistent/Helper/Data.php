@@ -65,7 +65,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Persistent\Helper\Session $persistentSession
@@ -82,7 +82,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App\State $appState,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Persistent\Helper\Session $persistentSession,

@@ -7,7 +7,7 @@
  */
 namespace Magento\Encryption;
 
-interface EncryptionInterface
+interface EncryptorInterface
 {
     /**
      * Generate a [salted] hash.
@@ -61,7 +61,7 @@ interface EncryptionInterface
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return \Magento\Crypt
+     * @return \Magento\Encryption\Crypt
      */
     public function validateKey($key);
 }

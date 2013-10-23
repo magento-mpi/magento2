@@ -23,7 +23,7 @@
     </type>
     <type name="Magento\Install\Block\End">
         <param name="cryptKey">
-            <value type="argument">Magento\Encryption\Model::PARAM_CRYPT_KEY</value>
+            <value type="argument">Magento\Encryption\Encryptor::PARAM_CRYPT_KEY</value>
         </param>
         <param name='session'>
             <instance type="Magento\Install\Model\Session" />

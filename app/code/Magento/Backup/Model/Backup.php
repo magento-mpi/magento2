@@ -62,7 +62,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -70,14 +70,14 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      * @param \Magento\Backup\Helper\Data $helper
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(
         \Magento\Backup\Helper\Data $helper,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         $data = array()
     ) {
         $this->_encryptor = $encryptor;

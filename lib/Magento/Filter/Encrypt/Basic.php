@@ -11,14 +11,14 @@ namespace Magento\Filter\Encrypt;
 class Basic implements \Zend_Filter_Encrypt_Interface
 {
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $encryptor;
 
     /**
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
-    public function __construct(\Magento\Encryption\EncryptionInterface $encryptor)
+    public function __construct(\Magento\Encryption\EncryptorInterface $encryptor)
     {
         $this->encryptor = $encryptor;
     }

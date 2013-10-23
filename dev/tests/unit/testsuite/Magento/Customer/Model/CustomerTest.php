@@ -80,7 +80,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $encryptor = $this->getMockBuilder('\Magento\Encryption\EncryptionInterface')
+        $encryptor = $this->getMockBuilder('\Magento\Encryption\EncryptorInterface')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

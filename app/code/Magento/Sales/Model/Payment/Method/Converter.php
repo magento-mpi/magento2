@@ -35,15 +35,15 @@ class Converter
     );
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Encryption\EncryptionInterface $encryptor
+        \Magento\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_encryptor = $encryptor;
     }

@@ -128,8 +128,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $user = $objectManager->create('Magento\User\Model\User');
         $user->loadByUsername('dummy_username');
 
-        /** @var \Magento\Encryption\EncryptionInterface $encryptor */
-        $encryptor = $objectManager->get('Magento\Encryption\EncryptionInterface');
+        /** @var \Magento\Encryption\EncryptorInterface $encryptor */
+        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
         $this->assertTrue($encryptor->validateHash($newDummyPassword, $user->getPassword()));
     }
 

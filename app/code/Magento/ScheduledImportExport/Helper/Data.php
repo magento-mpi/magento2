@@ -43,7 +43,7 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\File\Size $fileSize
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -59,7 +59,7 @@ class Data extends \Magento\ImportExport\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App\State $appState,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\File\Size $fileSize,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Reward\Helper\Data $rewardData,

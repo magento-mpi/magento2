@@ -42,19 +42,19 @@ class Config
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
-        \Magento\Encryption\EncryptionInterface $encryptor
+        \Magento\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;

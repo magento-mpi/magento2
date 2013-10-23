@@ -40,7 +40,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
         );
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_encryptorMock = $this->getMock('Magento\Encryption\EncryptionInterface', array(), array(), '', false);
+        $this->_encryptorMock = $this->getMock('Magento\Encryption\EncryptorInterface', array(), array(), '', false);
         $this->_model = $helper->getObject('Magento\Backend\Model\Config\Backend\Encrypted', array(
             'config' => $this->_configMock,
             'context' => $contextMock,

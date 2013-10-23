@@ -8,10 +8,10 @@
 
 namespace Magento\Encryption;
 
-class ModelTest extends \PHPUnit_Framework_TestCase
+class EncryptorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var @var \Magento\Encryption\Model
+     * @var @var \Magento\Encryption\Encryptor
      */
     protected $_model;
 
@@ -74,9 +74,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncryptWithEmptyKey($key)
     {
-        $encryptor = new \Magento\Encryption\Model(
+        $encryptor = new \Magento\Encryption\Encryptor(
             $this->getMock('\Magento\Math\Random', array(), array(), '', false),
-            $this->getMock('Magento\CryptFactory', array(), array(), '', false),
+            $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false),
             $key
         );
 
@@ -103,9 +103,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncrypt($value, $expected)
     {
-        $crypt = $this->getMock('Magento\Crypt', array(), array(), '', false);
-        $cryptFactory = $this->getMock('Magento\CryptFactory', array(), array(), '', false);
-        $encryptor = new \Magento\Encryption\Model(
+        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $cryptFactory = $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false);
+        $encryptor = new \Magento\Encryption\Encryptor(
             $this->getMock('\Magento\Math\Random', array(), array(), '', false),
             $cryptFactory,
             'cryptKey'
@@ -140,9 +140,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecrypt($value, $expected)
     {
-        $crypt = $this->getMock('Magento\Crypt', array(), array(), '', false);
-        $cryptFactory = $this->getMock('Magento\CryptFactory', array(), array(), '', false);
-        $encryptor = new \Magento\Encryption\Model(
+        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $cryptFactory = $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false);
+        $encryptor = new \Magento\Encryption\Encryptor(
             $this->getMock('\Magento\Math\Random', array(), array(), '', false),
             $cryptFactory,
             'cryptKey'
@@ -172,9 +172,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'some_key';
 
-        $crypt = $this->getMock('Magento\Crypt', array(), array(), '', false);
-        $cryptFactory = $this->getMock('Magento\CryptFactory', array(), array(), '', false);
-        $encryptor = new \Magento\Encryption\Model(
+        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $cryptFactory = $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false);
+        $encryptor = new \Magento\Encryption\Encryptor(
             $this->getMock('\Magento\Math\Random', array(), array(), '', false),
             $cryptFactory,
             'cryptKey'
@@ -192,9 +192,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
     {
         $key = null;
 
-        $crypt = $this->getMock('Magento\Crypt', array(), array(), '', false);
-        $cryptFactory = $this->getMock('Magento\CryptFactory', array(), array(), '', false);
-        $encryptor = new \Magento\Encryption\Model(
+        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $cryptFactory = $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false);
+        $encryptor = new \Magento\Encryption\Encryptor(
             $this->getMock('\Magento\Math\Random', array(), array(), '', false),
             $cryptFactory,
             'cryptKey'
@@ -209,13 +209,13 @@ class ModelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Encryption\Model
+     * @return \Magento\Encryption\Encryptor
      */
     protected function _getEncryptor()
     {
-        return new \Magento\Encryption\Model(
+        return new \Magento\Encryption\Encryptor(
             $this->getMock('\Magento\Math\Random', array(), array(), '', false),
-            $this->getMock('Magento\CryptFactory', array(), array(), '', false),
+            $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false),
             'cryptKey'
         );
     }

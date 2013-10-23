@@ -68,7 +68,7 @@ class Url extends \Magento\Core\Model\Url
     protected $_cache;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -82,7 +82,7 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -97,7 +97,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;

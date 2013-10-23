@@ -105,8 +105,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $encryptor \Magento\Encryption\EncryptionInterface */
-        $encryptor = $objectManager->get('Magento\Encryption\EncryptionInterface');
+        /** @var $encryptor \Magento\Encryption\EncryptorInterface */
+        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
 
         return array(
             array('', '', '',
@@ -135,8 +135,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $encryptor \Magento\Encryption\EncryptionInterface */
-        $encryptor = $objectManager->get('Magento\Encryption\EncryptionInterface');
+        /** @var $encryptor \Magento\Encryption\EncryptorInterface */
+        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
 
         /** @var $request \Magento\Core\Controller\Request\Http */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

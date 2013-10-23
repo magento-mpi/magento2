@@ -15,7 +15,7 @@
  */
 namespace Magento\Pci\Model;
 
-class Encryption extends \Magento\Encryption\Model
+class Encryption extends \Magento\Encryption\Encryptor
 {
     const HASH_VERSION_MD5    = 0;
     const HASH_VERSION_SHA256 = 1;
@@ -34,12 +34,12 @@ class Encryption extends \Magento\Encryption\Model
 
     /**
      * @param \Magento\Math\Random $randomGenerator
-     * @param \Magento\CryptFactory $cryptFactory
+     * @param \Magento\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
         \Magento\Math\Random $randomGenerator,
-        \Magento\CryptFactory $cryptFactory,
+        \Magento\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {
         parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
@@ -159,7 +159,7 @@ class Encryption extends \Magento\Encryption\Model
      * By default initializes with latest key and crypt versions
      *
      * @param string $key
-     * @return \Magento\Crypt
+     * @return \Magento\Encryption\Crypt
      */
     protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
@@ -186,7 +186,7 @@ class Encryption extends \Magento\Encryption\Model
             $mode   = MCRYPT_MODE_ECB;
         }
 
-        return new \Magento\Crypt($key, $cipher, $mode, $initVector);
+        return new \Magento\Encryption\Crypt($key, $cipher, $mode, $initVector);
     }
 
     /**

@@ -130,7 +130,7 @@ class Installer extends \Magento\Object
     protected $_session;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -172,7 +172,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;

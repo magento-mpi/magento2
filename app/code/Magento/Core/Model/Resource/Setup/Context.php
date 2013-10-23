@@ -55,7 +55,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -69,7 +69,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
      * @param \Magento\Core\Model\Theme\CollectionFactory $themeFactory
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -81,7 +81,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
         \Magento\Core\Model\Theme\CollectionFactory $themeFactory,
-        \Magento\Encryption\EncryptionInterface $encryptor
+        \Magento\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
@@ -168,7 +168,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Encryption\EncryptionInterface
+     * @return \Magento\Encryption\EncryptorInterface
      */
     public function getEncryptor()
     {

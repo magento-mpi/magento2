@@ -141,7 +141,7 @@ class User
     protected $_emailInfoFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -157,7 +157,7 @@ class User
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -176,7 +176,7 @@ class User
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -230,7 +230,7 @@ class User
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_emailInfoFactory = $objectManager->get('Magento\Core\Model\Email\InfoFactory');
         $this->_mailer = $objectManager->get('Magento\Core\Model\Email\Template\MailerFactory');
-        $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptionInterface');
+        $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
     }
 
     /**

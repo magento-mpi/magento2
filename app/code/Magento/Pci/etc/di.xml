@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <preference for="Magento\Encryption\EncryptionInterface" type="Magento\Pci\Model\Encryption" />
+    <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Pci\Model\Encryption" />
     <type name="Magento\Pci\Model\Observer">
         <param name="authorization">
             <instance type="Magento\Authorization" />

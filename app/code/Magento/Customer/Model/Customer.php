@@ -172,7 +172,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_attributeFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -193,7 +193,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
@@ -214,7 +214,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
-        \Magento\Encryption\EncryptionInterface $encryptor,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

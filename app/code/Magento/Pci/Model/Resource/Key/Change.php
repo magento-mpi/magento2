@@ -22,7 +22,7 @@ namespace Magento\Pci\Model\Resource\Key;
 class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Encryption\EncryptionInterface
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -46,14 +46,14 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
-     * @param \Magento\Encryption\EncryptionInterface $encryptor
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Dir $dir,
         \Magento\Backend\Model\Config\Structure $structure,
-        \Magento\Encryption\EncryptionInterface $encryptor
+        \Magento\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_dir = $dir;
         $this->_encryptor = clone $encryptor;

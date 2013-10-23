@@ -13,11 +13,11 @@
  *
  * @category   Magento
  * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Encryption;
 
-class Model implements EncryptionInterface
+class Encryptor implements EncryptorInterface
 {
     const PARAM_CRYPT_KEY = 'crypt.key';
 
@@ -34,23 +34,23 @@ class Model implements EncryptionInterface
     protected $_cryptKey;
 
     /**
-     * @var \Magento\CryptFactory
+     * @var \Magento\Encryption\CryptFactory
      */
     protected $_cryptFactory;
 
     /**
-     * @var \Magento\Crypt
+     * @var \Magento\Encryption\Crypt
      */
     protected $_crypt;
 
     /**
      * @param \Magento\Math\Random $randomGenerator
-     * @param \Magento\CryptFactory $cryptFactory
+     * @param \Magento\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
         \Magento\Math\Random $randomGenerator,
-        \Magento\CryptFactory $cryptFactory,
+        \Magento\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {
         $this->_randomGenerator = $randomGenerator;
@@ -142,7 +142,7 @@ class Model implements EncryptionInterface
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return \Magento\Crypt
+     * @return \Magento\Encryption\Crypt
      */
     public function validateKey($key)
     {
@@ -153,7 +153,7 @@ class Model implements EncryptionInterface
      * Instantiate crypt model
      *
      * @param string $key
-     * @return \Magento\Crypt
+     * @return \Magento\Encryption\Crypt
      */
     protected function _getCrypt($key = null)
     {
