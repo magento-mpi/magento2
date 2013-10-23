@@ -25,9 +25,9 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @var \Magento\Catalog\Model\Product\OptionFactory
@@ -37,7 +37,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Filter\FilterManager $filter
      * @param array $data
@@ -45,12 +45,12 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_productOptionFactory = $productOptionFactory;
         $this->filter = $filter;
         parent::__construct($coreData, $context, $data);
@@ -168,7 +168,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
 
         $result = array('value' => $truncatedValue);
 
-        if ($this->stringIconv->strlen($optionValue) > 55) {
+        if ($this->string->strlen($optionValue) > 55) {
             $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $result = array_merge($result, array('full_view' => $optionValue));

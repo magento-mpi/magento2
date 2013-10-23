@@ -119,9 +119,9 @@ abstract class AbstractEntity
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Entity model parameters
@@ -231,7 +231,7 @@ abstract class AbstractEntity
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -240,7 +240,7 @@ abstract class AbstractEntity
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -253,7 +253,7 @@ abstract class AbstractEntity
         $this->_connection          = isset($data['connection']) ? $data['connection']
             : $resource->getConnection('write');
         $this->_jsonHelper          =  $coreData;
-        $this->stringIconv        =  $stringIconv;
+        $this->string        =  $string;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
@@ -561,8 +561,8 @@ abstract class AbstractEntity
     {
         switch ($attributeParams['type']) {
             case 'varchar':
-                $value = $this->stringIconv->cleanString($rowData[$attributeCode]);
-                $valid = $this->stringIconv->strlen($value) < self::DB_MAX_VARCHAR_LENGTH;
+                $value = $this->string->cleanString($rowData[$attributeCode]);
+                $valid = $this->string->strlen($value) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
                 $value = trim($rowData[$attributeCode]);
@@ -581,8 +581,8 @@ abstract class AbstractEntity
                 $valid = strtotime($value) !== false;
                 break;
             case 'text':
-                $value = $this->stringIconv->cleanString($rowData[$attributeCode]);
-                $valid = $this->stringIconv->strlen($value) < self::DB_MAX_TEXT_LENGTH;
+                $value = $this->string->cleanString($rowData[$attributeCode]);
+                $valid = $this->string->strlen($value) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;

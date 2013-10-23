@@ -166,9 +166,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @var \Magento\Core\Model\UrlInterface
@@ -194,7 +194,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
@@ -206,7 +206,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
@@ -214,7 +214,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_urlBuilder = $urlBuilder;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_config = $config;
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
@@ -437,12 +437,12 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
                 continue;
             }
             //COM filed can only handle max 100
-            if ($this->stringIconv->strlen($invoiceDesc.$item->getName()) > 100) {
+            if ($this->string->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return $this->stringIconv->substr($invoiceDesc, 0, -2);
+        return $this->string->substr($invoiceDesc, 0, -2);
     }
 
     /**

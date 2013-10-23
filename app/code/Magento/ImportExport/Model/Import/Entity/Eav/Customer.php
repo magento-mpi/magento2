@@ -117,7 +117,7 @@ class Customer
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -132,7 +132,7 @@ class Customer
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -156,7 +156,7 @@ class Customer
             $data['attribute_collection'] = $this->_attributeCollection;
         }
 
-        parent::__construct($coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+        parent::__construct($coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
             $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_specialAttributes[] = self::COLUMN_WEBSITE;
@@ -442,7 +442,7 @@ class Customer
             }
             // check password
             if (isset($rowData['password']) && strlen($rowData['password'])
-                && $this->stringIconv->strlen($rowData['password']) < self::MIN_PASSWORD_LENGTH
+                && $this->string->strlen($rowData['password']) < self::MIN_PASSWORD_LENGTH
             ) {
                 $this->addRowError(self::ERROR_PASSWORD_LENGTH, $rowNumber);
             }

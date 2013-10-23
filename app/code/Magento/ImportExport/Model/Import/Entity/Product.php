@@ -381,7 +381,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -410,7 +410,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -451,7 +451,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockItemFactory = $stockItemFactory;
         $this->_locale = $locale;
         parent::__construct(
-            $coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $stringIconv
+            $coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $string
         );
         $this->_optionEntity = isset($data['option_entity'])
             ? $data['option_entity']

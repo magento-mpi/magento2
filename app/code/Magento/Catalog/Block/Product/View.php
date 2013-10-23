@@ -25,9 +25,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Tax calculation
@@ -59,7 +59,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
@@ -73,7 +73,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
@@ -83,7 +83,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_productFactory = $productFactory;
         $this->_locale = $locale;
         $this->_taxCalculation = $taxCalculation;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
             $context, $data);
     }
@@ -114,7 +114,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             if ($description) {
                 $headBlock->setDescription( ($description) );
             } else {
-                $headBlock->setDescription($this->stringIconv->substr($product->getDescription(), 0, 255));
+                $headBlock->setDescription($this->string->substr($product->getDescription(), 0, 255));
             }
             //@todo: move canonical link to separate block
             if ($this->helper('Magento\Catalog\Helper\Product')->canUseCanonicalTag()

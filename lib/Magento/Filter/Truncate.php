@@ -37,25 +37,25 @@ class Truncate implements \Zend_Filter_Interface
     protected $breakWords;
 
     /**
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param int $length
      * @param string $etc
      * @param string &$remainder
      * @param bool $breakWords
      */
     public function __construct(
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         $length = 80,
         $etc = '...',
         &$remainder = '',
         $breakWords = true
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->length = $length;
         $this->etc = $etc;
         $this->remainder = &$remainder;
@@ -76,9 +76,9 @@ class Truncate implements \Zend_Filter_Interface
             return '';
         }
 
-        $originalLength = $this->stringIconv->strlen($string);
+        $originalLength = $this->string->strlen($string);
         if ($originalLength > $length) {
-            $length -= $this->stringIconv->strlen($this->etc);
+            $length -= $this->string->strlen($this->etc);
             if ($length <= 0) {
                 return '';
             }
@@ -86,12 +86,12 @@ class Truncate implements \Zend_Filter_Interface
             $preparedLength = $length;
             if (!$this->breakWords) {
                 $preparedString = preg_replace(
-                    '/\s+?(\S+)?$/u', '', $this->stringIconv->substr($string, 0, $length + 1)
+                    '/\s+?(\S+)?$/u', '', $this->string->substr($string, 0, $length + 1)
                 );
-                $preparedLength = $this->stringIconv->strlen($preparedString);
+                $preparedLength = $this->string->strlen($preparedString);
             }
-            $this->remainder = $this->stringIconv->substr($string, $preparedLength, $originalLength);
-            return $this->stringIconv->substr($preparedString, 0, $length) . $this->etc;
+            $this->remainder = $this->string->substr($string, $preparedLength, $originalLength);
+            return $this->string->substr($preparedString, 0, $length) . $this->etc;
         }
 
         return $string;

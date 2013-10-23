@@ -35,13 +35,13 @@ class TruncateTest extends \PHPUnit_Framework_TestCase
         return array(
             '1' => array(
                 '1234567890',
-                array(new \Magento\Stdlib\StringIconv, 5, '...', '', true),
+                array(new \Magento\Stdlib\String, 5, '...', '', true),
                 '12...',
                 '34567890'
             ),
             '2' => array(
                 '123 456 789',
-                array(new \Magento\Stdlib\StringIconv, 8, '..', $remainder, false),
+                array(new \Magento\Stdlib\String, 8, '..', $remainder, false),
                 '123..',
                 ' 456 789'
             )

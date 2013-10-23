@@ -28,25 +28,25 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_escaper = $escaper;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
@@ -157,7 +157,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     }
                 }
             }
-            $result = $this->stringIconv->substr($result, 0, -2);
+            $result = $this->string->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             $_result = $option->getValueById($optionValue);
             if ($_result) {

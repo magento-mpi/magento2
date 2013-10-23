@@ -112,7 +112,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -130,7 +130,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -149,7 +149,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+        parent::__construct($coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
             $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_rewardFactory = $rewardFactory;

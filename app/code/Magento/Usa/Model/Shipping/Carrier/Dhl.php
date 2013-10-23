@@ -105,9 +105,9 @@ class Dhl
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Dhl constructor
@@ -126,7 +126,7 @@ class Dhl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -146,10 +146,10 @@ class Dhl
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_usaData = $usaData;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
@@ -374,7 +374,7 @@ class Dhl
         $r->setValue(round($request->getPackageValue(), 2));
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
-        $r->setDestStreet($this->stringIconv->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35));
+        $r->setDestStreet($this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35));
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
         $r->setOrigCompanyName($request->getOrigCompanyName());

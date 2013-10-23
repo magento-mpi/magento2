@@ -25,9 +25,9 @@ class Catalog extends \Magento\Object
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Adminhtml data
@@ -38,16 +38,16 @@ class Catalog extends \Magento\Object
 
     /**
      * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
         \Magento\Adminhtml\Helper\Data $adminhtmlData,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
         $this->_adminhtmlData = $adminhtmlData;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_catalogSearchData = $catalogSearchData;
     }
 
@@ -78,7 +78,7 @@ class Catalog extends \Magento\Object
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => __('Product'),
                 'name'          => $product->getName(),
-                'description'   => $this->stringIconv->substr($description, 0, 30),
+                'description'   => $this->string->substr($description, 0, 30),
                 'url' => $this->_adminhtmlData->getUrl('*/catalog_product/edit', array('id' => $product->getId())),
             );
         }

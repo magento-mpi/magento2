@@ -63,9 +63,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Core store config
@@ -95,7 +95,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      * @param \Magento\Escaper $escaper
@@ -103,13 +103,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filter
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
@@ -151,7 +151,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = $this->stringIconv->strlen($this->getQueryText());
+        $thisQueryLength = $this->string->strlen($this->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -169,11 +169,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             } else {
                 $this->_queryText = is_array($this->_queryText)
                     ? ''
-                    : $this->stringIconv->cleanString(trim($this->_queryText));
+                    : $this->string->cleanString(trim($this->_queryText));
 
                 $maxQueryLength = $this->getMaxQueryLength();
-                if ($maxQueryLength !== '' && $this->stringIconv->strlen($this->_queryText) > $maxQueryLength) {
-                    $this->_queryText = $this->stringIconv->substr($this->_queryText, 0, $maxQueryLength);
+                if ($maxQueryLength !== '' && $this->string->strlen($this->_queryText) > $maxQueryLength) {
+                    $this->_queryText = $this->string->substr($this->_queryText, 0, $maxQueryLength);
                     $this->_isMaxLength = true;
                 }
             }

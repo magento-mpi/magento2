@@ -36,7 +36,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
@@ -53,7 +53,7 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
@@ -63,7 +63,7 @@ class View extends \Magento\Catalog\Block\Product\View
     ) {
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct($storeManager, $catalogConfig, $productFactory, $locale, $taxCalculation, $coreRegistry,
-            $stringIconv, $taxData, $catalogData, $coreData, $context, $data);
+            $string, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

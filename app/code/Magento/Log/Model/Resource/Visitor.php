@@ -18,9 +18,9 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @var \Magento\Core\Model\Date
@@ -35,18 +35,18 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_date = $date;
         $this->_storeManager = $storeManager;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($resource);
     }
 
@@ -85,8 +85,8 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $adapter    = $this->_getWriteAdapter();
         $data       = new \Magento\Object(array(
-            'url'    => $this->stringIconv->substr($visitor->getUrl(), 0, 250),
-            'referer'=> $this->stringIconv->substr($visitor->getHttpReferer(), 0, 250)
+            'url'    => $this->string->substr($visitor->getUrl(), 0, 250),
+            'referer'=> $this->string->substr($visitor->getHttpReferer(), 0, 250)
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url_info'));
 
@@ -162,17 +162,17 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _saveVisitorInfo($visitor)
     {
-        $referer    = $this->stringIconv->cleanString($visitor->getHttpReferer());
-        $referer    = $this->stringIconv->substr($referer, 0, 255);
+        $referer    = $this->string->cleanString($visitor->getHttpReferer());
+        $referer    = $this->string->substr($referer, 0, 255);
 
-        $userAgent  = $this->stringIconv->cleanString($visitor->getHttpUserAgent());
-        $userAgent  = $this->stringIconv->substr($userAgent, 0, 255);
+        $userAgent  = $this->string->cleanString($visitor->getHttpUserAgent());
+        $userAgent  = $this->string->substr($userAgent, 0, 255);
 
-        $charset    = $this->stringIconv->cleanString($visitor->getHttpAcceptCharset());
-        $charset    = $this->stringIconv->substr($charset, 0, 255);
+        $charset    = $this->string->cleanString($visitor->getHttpAcceptCharset());
+        $charset    = $this->string->substr($charset, 0, 255);
 
-        $language   = $this->stringIconv->cleanString($visitor->getHttpAcceptLanguage());
-        $language   = $this->stringIconv->substr($language, 0, 255);
+        $language   = $this->string->cleanString($visitor->getHttpAcceptLanguage());
+        $language   = $this->string->substr($language, 0, 255);
 
         $data = new \Magento\Object(array(
             'visitor_id'            => $visitor->getId(),

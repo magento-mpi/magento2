@@ -25,21 +25,21 @@ class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($context, $data);
     }
 
@@ -56,8 +56,8 @@ class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
         $lineLength = $this->getColumn()->getData('lineLength')
             ? $this->getColumn()->getData('lineLength')
             : $this->_defaultMaxLineLength;
-        for ($i = 0, $n = floor($this->stringIconv->strlen($line) / $lineLength); $i <= $n; $i++) {
-            $wrappedLine .= $this->stringIconv->substr($line, ($lineLength * $i), $lineLength)
+        for ($i = 0, $n = floor($this->string->strlen($line) / $lineLength); $i <= $n; $i++) {
+            $wrappedLine .= $this->string->substr($line, ($lineLength * $i), $lineLength)
                 . "<br />";
         }
         return $wrappedLine;

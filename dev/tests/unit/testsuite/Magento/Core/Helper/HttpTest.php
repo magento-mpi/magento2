@@ -22,7 +22,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object = new \Magento\Core\Helper\Http(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            new \Magento\Stdlib\StringIconv
+            new \Magento\Stdlib\String
         );
     }
 

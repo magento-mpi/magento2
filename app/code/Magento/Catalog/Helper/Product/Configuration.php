@@ -41,28 +41,28 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Filter\FilterManager $filter,
         \Magento\Core\Helper\Context $context,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
-        \Magento\Stdlib\StringIconv $stringIconv
+        \Magento\Stdlib\String $string
     ) {
         $this->_productOptionFactory = $productOptionFactory;
         $this->filter = $filter;
         $this->_config = $config;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($context);
     }
 
@@ -284,7 +284,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
 
         $result = array('value' => $truncatedValue);
 
-        if ($maxLength && ($this->stringIconv->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && ($this->string->strlen($optionValue) > $maxLength)) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

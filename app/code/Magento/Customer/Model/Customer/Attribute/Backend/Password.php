@@ -23,19 +23,19 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Stdlib\StringIconv $stringIconv
+        \Magento\Stdlib\String $string
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($logger);
     }
 
@@ -50,7 +50,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     {
         $password = $object->getPassword();
 
-        $length = $this->stringIconv->strlen($password);
+        $length = $this->string->strlen($password);
         if ($length > 0) {
             if ($length < self::MIN_PASSWORD_LENGTH) {
                 throw new \Magento\Core\Exception(
@@ -58,8 +58,8 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
                 );
             }
 
-            if ($this->stringIconv->substr($password, 0, 1) == ' ' ||
-                $this->stringIconv->substr($password, $length - 1, 1) == ' ') {
+            if ($this->string->substr($password, 0, 1) == ' ' ||
+                $this->string->substr($password, $length - 1, 1) == ' ') {
                 throw new \Magento\Core\Exception(__('The password can not begin or end with a space.'));
             }
 

@@ -177,20 +177,12 @@ class International
     protected $_configReader;
 
     /**
-     * Magento string lib
-     *
-     * @var \Magento\Stdlib\StringIconv
-     */
-    protected $stringIconv;
-
-    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
      *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Usa\Helper\Data $usaData
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
@@ -208,14 +200,13 @@ class International
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Usa\Helper\Data $usaData,
-        \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory,
         \Magento\Core\Model\Config\Modules\Reader $configReader,
@@ -233,17 +224,16 @@ class International
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
-        $this->string = $coreString;
         $this->_coreDate = $coreDate;
         $this->_pdfFactory = $pdfFactory;
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
             $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
@@ -404,7 +394,7 @@ class International
         $requestObject->setValue(round($request->getPackageValue(), 2))
             ->setValueWithDiscount($request->getPackageValueWithDiscount())
             ->setCustomsValue($request->getPackageCustomsValue())
-            ->setDestStreet($this->stringIconv->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
+            ->setDestStreet($this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
             ->setDestStreetLine2($request->getDestStreetLine2())
             ->setDestCity($request->getDestCity())
             ->setOrigCompanyName($request->getOrigCompanyName())

@@ -18,19 +18,19 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Stdlib\StringIconv $stringIconv
+        \Magento\Stdlib\String $string
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($context);
     }
 
@@ -102,7 +102,7 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     {
         $uri = $this->_getRequest()->getRequestUri();
         if ($clean) {
-            $uri = $this->stringIconv->cleanString($uri);
+            $uri = $this->string->cleanString($uri);
         }
         return $uri;
     }

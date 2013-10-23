@@ -59,7 +59,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -72,7 +72,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -85,7 +85,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     ) {
         $this->_storageFactory = $storageFactory;
         parent::__construct(
-            $coreData, $stringIconv, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
+            $coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
             $collectionFactory, $eavConfig, $data
         );
 

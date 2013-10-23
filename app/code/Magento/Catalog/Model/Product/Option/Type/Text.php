@@ -18,9 +18,9 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @var \Magento\Escaper
@@ -31,18 +31,18 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Escaper $escaper,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_escaper = $escaper;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
@@ -68,7 +68,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
-        if ($maxCharacters > 0 && $this->stringIconv->strlen($value) > $maxCharacters) {
+        if ($maxCharacters > 0 && $this->string->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
             throw new \Magento\Core\Exception(__('The text is too long.'));
         }

@@ -22,7 +22,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     {
         $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false, false);
-        $helper = $this->getMock('Magento\Stdlib\StringIconv', array(), array(), '', false, false);
+        $helper = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
 
 
 

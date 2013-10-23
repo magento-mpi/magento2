@@ -36,9 +36,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @var \Magento\SalesRule\Model\Resource\Coupon
@@ -47,15 +47,15 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_resourceCoupon = $resourceCoupon;
         parent::__construct($resource);
     }
@@ -181,7 +181,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $data    = array();
         foreach ($labels as $storeId => $label) {
-            if ($this->stringIconv->strlen($label)) {
+            if ($this->string->strlen($label)) {
                 $data[] = array('rule_id' => $ruleId, 'store_id' => $storeId, 'label' => $label);
             } else {
                 $deleteByStoreIds[] = $storeId;

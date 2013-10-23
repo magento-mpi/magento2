@@ -23,20 +23,20 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * @var \Magento\Core\Helper\String
      */
-    protected $_stringIconv;
+    protected $_string;
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
-     * @param \Magento\Stdlib\StringIconv $stringHelper
+     * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
-        \Magento\Stdlib\StringIconv $stringHelper
+        \Magento\Stdlib\String $stringHelper
     ) {
         parent::__construct($locale, $logger);
-        $this->_stringIconv = $stringHelper;
+        $this->_string = $stringHelper;
     }
 
     /**
@@ -78,7 +78,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
         }
 
         // validate length
-        $length = $this->_stringIconv->strlen(trim($value));
+        $length = $this->_string->strlen(trim($value));
 
         $validateRules = $attribute->getValidateRules();
         if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']) {

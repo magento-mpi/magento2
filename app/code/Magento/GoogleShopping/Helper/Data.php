@@ -22,9 +22,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Store manager
@@ -34,16 +34,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Context $context
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
@@ -71,7 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function cleanAtomAttribute($string)
     {
-        return $this->stringIconv->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
+        return $this->string->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 
     /**

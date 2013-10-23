@@ -23,11 +23,6 @@ class String extends \Magento\Core\Helper\AbstractHelper
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
-     */
-    protected $stringIconv;
-
-    /**
      * @var \Magento\Stdlib\String
      */
     protected $string;
@@ -35,18 +30,15 @@ class String extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Stdlib\StringIconv $stringIconv
      * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Stdlib\StringIconv $stringIconv,
         \Magento\Stdlib\String $string
     ) {
         parent::__construct($context);
         $this->_locale = $locale;
-        $this->stringIconv = $stringIconv;
         $this->string = $string;
     }
 
@@ -64,11 +56,11 @@ class String extends \Magento\Core\Helper\AbstractHelper
         $str = $this->string->split($str, $length);
         $newStr = '';
         foreach ($str as $part) {
-            if ($this->stringIconv->strlen($part) >= $length) {
-                $lastDelimiter = $this->stringIconv->strpos($this->stringIconv->strrev($part), $needle);
-                $tmpNewStr = $this->stringIconv->substr($this->stringIconv->strrev($part), 0, $lastDelimiter)
-                    . $insert . $this->stringIconv->substr($this->stringIconv->strrev($part), $lastDelimiter);
-                $newStr .= $this->stringIconv->strrev($tmpNewStr);
+            if ($this->string->strlen($part) >= $length) {
+                $lastDelimiter = $this->string->strpos($this->string->strrev($part), $needle);
+                $tmpNewStr = $this->string->substr($this->string->strrev($part), 0, $lastDelimiter)
+                    . $insert . $this->string->substr($this->string->strrev($part), $lastDelimiter);
+                $newStr .= $this->string->strrev($tmpNewStr);
             } else {
                 $newStr .= $part;
             }

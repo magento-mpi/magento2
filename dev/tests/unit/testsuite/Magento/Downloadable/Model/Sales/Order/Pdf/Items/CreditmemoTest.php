@@ -70,7 +70,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
 
         $modelConstructorArgs = $objectManager
             ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
-                'string' => new \Magento\Stdlib\String(new \Magento\Stdlib\StringIconv())
+                'string' => new \Magento\Stdlib\String()
         ));
 
         $this->_model = $this->getMock(

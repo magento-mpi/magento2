@@ -191,9 +191,9 @@ abstract class AbstractEntity
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @var \Magento\ImportExport\Model\Resource\Helper
@@ -207,7 +207,7 @@ abstract class AbstractEntity
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -216,12 +216,12 @@ abstract class AbstractEntity
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\Stdlib\StringIconv $stringIconv
+        \Magento\Stdlib\String $string
     ) {
         $this->_coreData = $coreData;
         $this->_importExportData = $importExportData;
         $this->_resourceHelper = $resourceHelper;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
 
         $entityType = $config->getEntityType($this->getEntityTypeCode());
 
@@ -572,8 +572,8 @@ abstract class AbstractEntity
     {
         switch ($attrParams['type']) {
             case 'varchar':
-                $val   = $this->stringIconv->cleanString($rowData[$attrCode]);
-                $valid = $this->stringIconv->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
+                $val   = $this->string->cleanString($rowData[$attrCode]);
+                $valid = $this->string->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
                 $val   = trim($rowData[$attrCode]);
@@ -592,8 +592,8 @@ abstract class AbstractEntity
                 $valid = strtotime($val) !== false;
                 break;
             case 'text':
-                $val   = $this->stringIconv->cleanString($rowData[$attrCode]);
-                $valid = $this->stringIconv->strlen($val) < self::DB_MAX_TEXT_LENGTH;
+                $val   = $this->string->cleanString($rowData[$attrCode]);
+                $valid = $this->string->strlen($val) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;

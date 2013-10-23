@@ -82,9 +82,9 @@ class Account extends \Magento\Core\Controller\Front\Action
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
@@ -95,7 +95,7 @@ class Account extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
@@ -106,7 +106,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Stdlib\StringIconv $stringIconv
+        \Magento\Stdlib\String $string
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
@@ -115,7 +115,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         $this->_customerFactory = $customerFactory;
         $this->_formFactory = $formFactory;
         $this->_addressFactory = $addressFactory;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($context);
     }
 
@@ -896,7 +896,7 @@ class Account extends \Magento\Core\Controller\Front\Action
                 $confPass   = $this->getRequest()->getPost('confirmation');
 
                 $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
-                if ($this->stringIconv->strpos($oldPass, ':')) {
+                if ($this->string->strpos($oldPass, ':')) {
                     list(, $salt) = explode(':', $oldPass);
                 } else {
                     $salt = false;

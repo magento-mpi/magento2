@@ -29,16 +29,16 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
@@ -46,11 +46,11 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_resource = $filterAttributeFactory->create();
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'attribute';
     }
@@ -126,7 +126,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
             if (is_array($option['value'])) {
                 continue;
             }
-            if ($this->stringIconv->strlen($option['value'])) {
+            if ($this->string->strlen($option['value'])) {
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {

@@ -30,19 +30,19 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Stdlib\StringIconv $stringIconv
+        \Magento\Stdlib\String $string
     ) {
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($logger);
     }
 
@@ -61,7 +61,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             return false;
         }
 
-        if ($this->stringIconv->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
+        if ($this->string->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
             throw new \Magento\Core\Exception(
                 __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
             );

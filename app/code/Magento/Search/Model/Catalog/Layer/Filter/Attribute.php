@@ -30,7 +30,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
@@ -39,7 +39,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
@@ -48,7 +48,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             $storeManager,
             $catalogLayer,
             $filterAttributeFactory,
-            $stringIconv,
+            $string,
             $data
         );
     }

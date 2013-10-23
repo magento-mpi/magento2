@@ -18,9 +18,9 @@ class Searchquery extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\A
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\StringIconv
+     * @var \Magento\Stdlib\String
      */
-    protected $stringIconv;
+    protected $string;
 
     /**
      * Filter manager
@@ -33,17 +33,17 @@ class Searchquery extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\A
     /**
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Stdlib\StringIconv $stringIconv
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Filter\FilterManager $filter,
         \Magento\Backend\Block\Context $context,
-        \Magento\Stdlib\StringIconv $stringIconv,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->filter = $filter;
-        $this->stringIconv = $stringIconv;
+        $this->string = $string;
         parent::__construct($context, $data);
     }
 
@@ -56,7 +56,7 @@ class Searchquery extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\A
     public function render(\Magento\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
-        if ($this->stringIconv->strlen($value) > 30) {
+        if ($this->string->strlen($value) > 30) {
             $value = '<span title="' . $this->escapeHtml($value) . '">'
                 . $this->escapeHtml($this->filter->truncate($value, array('length' => 30))) . '</span>';
         } else {

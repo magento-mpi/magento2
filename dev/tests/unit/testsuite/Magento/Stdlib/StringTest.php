@@ -20,7 +20,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_string = new String(new StringIconv());
+        $this->_string = new String();
     }
 
     /**
@@ -35,5 +35,16 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
                 '12345', '123', '12345', '6789'
             ), $this->_string->split('12345  123    123456789', 5, true, true));
+    }
+
+    public function testCleanString()
+    {
+        $string = '12345';
+        $this->assertEquals($string, $this->_string->cleanString($string));
+    }
+
+    public function testStrpos()
+    {
+        $this->assertEquals(1, $this->_string->strpos('123', 2));
     }
 }
