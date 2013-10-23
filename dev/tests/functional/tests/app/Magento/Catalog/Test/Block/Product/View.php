@@ -21,7 +21,7 @@ use \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
  * Class View
  * Product View block
  *
- * @package Magento\Catalog\Test\Block\Product
+ * @package Magento\Catalog\Test\Block\Product\View
  */
 class View extends Block
 {
@@ -106,10 +106,38 @@ class View extends Block
      *
      * @return array|string
      */
+    protected function _getSimplePrice()
+    {
+        return $this->_rootElement->find('.price-box .price')->getText();
+    }
+
+    /**
+     * Return product price displayed on page
+     *
+     * @return array|string Returns arrays with keys corresponding to fixture keys
+     */
     public function getProductPrice()
     {
-        return $this->_rootElement
-            ->find('//*[@class="price-box"]//span[@class="price"]', Locator::SELECTOR_XPATH)
-            ->getText();
+        $priceFromTo = $this->_getPriceFromTo();
+        return empty($priceFromTo) ? $this->_getSimplePrice() : $priceFromTo;
+    }
+
+    /**
+     * Get bundle product price in form "From: To:"
+     *
+     * @return array F.e. array('price_from' => '$110', 'price_to' => '$120')
+     */
+    protected function _getPriceFromTo()
+    {
+        $priceFrom = $this->_rootElement->find('.price-from');
+        $priceTo = $this->_rootElement->find('.price-to');
+        $price = array();
+        if ($priceFrom->isVisible()) {
+            $price['price_from'] = $priceFrom->find('.price')->getText();
+        }
+        if ($priceTo->isVisible()) {
+            $price['price_to'] = $priceTo->find('.price')->getText();
+        }
+        return $price;
     }
 }

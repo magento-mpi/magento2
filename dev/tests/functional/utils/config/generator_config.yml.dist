@@ -12,5 +12,6 @@ tests_fallback:
 
 # Handler priority configuration
 handler_fallback:
-    1: Curl
-    2: Ui
+    1: Direct
+    2: Curl
+    3: Ui

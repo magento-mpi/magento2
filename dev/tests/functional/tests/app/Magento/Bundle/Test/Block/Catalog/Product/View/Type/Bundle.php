@@ -15,6 +15,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Magento\Catalog\Test\Block\Product\View\Options;
 
 /**
  * Class Bundle
@@ -22,7 +23,7 @@ use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
  *
  * @package Magento\Bundle\Test\Block\Catalog\Product\View\Type
  */
-class Bundle extends Block
+class Bundle extends Options
 {
     /**
      * @param BundleFixture $fixture
