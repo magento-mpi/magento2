@@ -60,10 +60,12 @@ class Theme implements SourceInterface
             "{$themePath}/{$namespace}_{$module}/layout/{$filePath}.xml"
         );
         $result = array();
+        $pattern = "#{$themePath}/(?<moduleName>[^/]+)/layout/" . rtrim($filePath, '*') . "[^/]*\.xml$#i";
         foreach ($files as $filename) {
-            $moduleDir = dirname(dirname($filename));
-            $moduleFull = basename($moduleDir);
-            $result[] = $this->fileFactory->create($filename, $moduleFull, $theme);
+            if (!preg_match($pattern, $filename, $matches)) {
+                continue;
+            }
+            $result[] = $this->fileFactory->create($filename, $matches['moduleName'], $theme);
         }
         return $result;
     }
