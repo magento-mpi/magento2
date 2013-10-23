@@ -61,7 +61,7 @@ class AbstractInvoice
     public function viewAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            $this->_forward('view', 'sales_order_invoice', null, array('come_from'=>'invoice'));
+            $this->_forward('view', 'order_invoice', null, array('come_from'=>'invoice'));
         } else {
             $this->_forward('noRoute');
         }
