@@ -8,6 +8,10 @@
 * Impossible to create product if multiple attribute assigned to attribute set
 * Removed JavaScript unit test TreeSuggestTest.prototype.testBind as it is obsolete
 * Fixed Themes files are not found by Utility_Files class due to removal of __package__ from directory path
+* Introduced ability to register a template engine to process template files having certain extension
+* Removed support of the Twig template engine along with the corresponding component from the library
+* Removed layout flag that forced template blocks to output rendered content directly to a browser bypassing the response object
+* Moved out responsibility of rendering template debugging hints from the template block to the plugin and decorator for a template engine
 
 2.0.0.0-dev48
 =============
