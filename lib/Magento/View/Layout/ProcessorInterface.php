@@ -8,6 +8,9 @@
 
 namespace Magento\View\Layout;
 
+/**
+ * @package Magento\View
+ */
 interface ProcessorInterface
 {
     /**

@@ -18,6 +18,9 @@ use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\ProcessorInterface;
 use Magento\View\Render\RenderFactory;
 
+/**
+ * @package Magento\View
+ */
 class Update extends AbstractHandle implements CommandInterface
 {
     /**
@@ -39,18 +42,13 @@ class Update extends AbstractHandle implements CommandInterface
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
         ProcessorFactory $processorFactory
-    )
-    {
+    ) {
         parent::__construct($handleFactory, $renderFactory);
-
         $this->processorFactory = $processorFactory;
     }
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Update
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -81,5 +79,14 @@ class Update extends AbstractHandle implements CommandInterface
         $xml = $layoutProcessor->asSimplexml();
 
         return $xml;
+    }
+
+    /**
+     * @inheritdoc
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function register(array $element, LayoutInterface $layout, $parentName)
+    {
+        return $this;
     }
 }

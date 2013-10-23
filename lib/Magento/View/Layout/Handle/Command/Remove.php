@@ -14,6 +14,9 @@ use Magento\View\Layout\Handle;
 use Magento\View\Layout\Handle\CommandInterface;
 use Magento\View\Layout\Handle\Render;
 
+/**
+ * @package Magento\View
+ */
 class Remove extends Handle\AbstractHandle implements CommandInterface
 {
     /**
@@ -22,10 +25,7 @@ class Remove extends Handle\AbstractHandle implements CommandInterface
     const TYPE = 'remove';
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Remove
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -44,10 +44,7 @@ class Remove extends Handle\AbstractHandle implements CommandInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Remove
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {

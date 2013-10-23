@@ -14,6 +14,9 @@ use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle\DataInterface;
 use Magento\View\Layout\Handle\Render;
 
+/**
+ * @package Magento\View
+ */
 class Source extends AbstractHandle implements DataInterface
 {
     /**
@@ -22,10 +25,7 @@ class Source extends AbstractHandle implements DataInterface
     const TYPE = 'data';
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Source
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -48,11 +48,7 @@ class Source extends AbstractHandle implements DataInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @throws \Exception
-     * @return Source
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {

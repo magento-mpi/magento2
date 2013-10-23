@@ -13,7 +13,6 @@ use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
 use Magento\View\Layout\ProcessorFactory;
@@ -21,8 +20,14 @@ use Magento\View\Layout\ProcessorInterface;
 use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
 
+/**
+ * @package Magento\View
+ */
 class Preset extends AbstractHandle implements RenderInterface
 {
+    /**
+     * Preset type
+     */
     const TYPE = 'preset';
 
     /**
@@ -56,19 +61,14 @@ class Preset extends AbstractHandle implements RenderInterface
         RenderFactory $renderFactory,
         LayoutFactory $layoutFactory,
         ProcessorFactory $processorFactory
-    )
-    {
+    ) {
         parent::__construct($handleFactory, $renderFactory);
-
         $this->layoutFactory = $layoutFactory;
         $this->processorFactory = $processorFactory;
     }
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Preset
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -105,10 +105,7 @@ class Preset extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Preset
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
@@ -127,11 +124,7 @@ class Preset extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @param string $type [optional]
-     * @return mixed
+     * @inheritdoc
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {

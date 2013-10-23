@@ -14,6 +14,9 @@ use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle\RenderInterface;
 use Magento\View\Render\Html;
 
+/**
+ * @package Magento\View
+ */
 class Container extends AbstractHandle implements RenderInterface
 {
     /**
@@ -22,10 +25,7 @@ class Container extends AbstractHandle implements RenderInterface
     const TYPE = 'container';
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Container
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -52,10 +52,7 @@ class Container extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Container
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
@@ -72,11 +69,7 @@ class Container extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @param string $type [optional]
-     * @return string
+     * @inheritdoc
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {

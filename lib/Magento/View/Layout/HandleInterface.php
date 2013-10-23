@@ -9,8 +9,10 @@
 namespace Magento\View\Layout;
 
 use Magento\View\LayoutInterface;
-use Magento\View\Layout\Element;
 
+/**
+ * @package Magento\View
+ */
 interface HandleInterface
 {
     /**

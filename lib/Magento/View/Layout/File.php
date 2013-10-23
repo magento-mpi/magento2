@@ -12,6 +12,9 @@ namespace Magento\View\Layout;
 
 use Magento\View\Design\ThemeInterface;
 
+/**
+ * @package Magento\View
+ */
 class File
 {
     /**

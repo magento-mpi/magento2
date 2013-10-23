@@ -11,11 +11,15 @@ namespace Magento\View\Layout\Handle;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\Core\Model\Layout\Argument\Processor;
 use Magento\View\Render\RenderFactory;
 
-class Arguments extends AbstractHandle implements HandleInterface
+/**
+ * Arguments
+ *
+ * @package Magento\View
+ */
+class Arguments extends AbstractHandle
 {
     /**
      * Handle type
@@ -35,10 +39,9 @@ class Arguments extends AbstractHandle implements HandleInterface
     public function __construct(
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
-        Processor $argumentProcessor)
-    {
+        Processor $argumentProcessor
+    ) {
         parent::__construct($handleFactory, $renderFactory);
-
         $this->argumentProcessor = $argumentProcessor;
     }
 

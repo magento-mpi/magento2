@@ -16,6 +16,9 @@ use Magento\View\Layout\Handle\CommandInterface;
 use Magento\Core\Model\Store\Config;
 use Magento\View\Render\RenderFactory;
 
+/**
+ * @package Magento\View
+ */
 class Action extends AbstractHandle implements CommandInterface
 {
     /**
@@ -36,20 +39,21 @@ class Action extends AbstractHandle implements CommandInterface
      */
     protected $coreStoreConfig;
 
+    /**
+     * @param HandleFactory $handleFactory
+     * @param RenderFactory $renderFactory
+     * @param Config $coreStoreConfig
+     */
     public function __construct(
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
-        Config $coreStoreConfig)
-    {
+        Config $coreStoreConfig
+    ) {
         parent::__construct($handleFactory, $renderFactory);
-
         $this->coreStoreConfig = $coreStoreConfig;
     }
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Action
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -74,10 +78,7 @@ class Action extends AbstractHandle implements CommandInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Action
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {

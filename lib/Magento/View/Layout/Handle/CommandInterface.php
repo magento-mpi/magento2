@@ -10,6 +10,11 @@ namespace Magento\View\Layout\Handle;
 
 use Magento\View\Layout\HandleInterface;
 
+/**
+ * Command Interface
+ *
+ * @package Magento\View
+ */
 interface CommandInterface extends HandleInterface
 {
     // TODO:

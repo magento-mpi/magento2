@@ -11,8 +11,10 @@ namespace Magento\View\Layout\Handle\Reference;
 use Magento\View\Layout\Handle\Render\Block as OriginalBlock;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 
+/**
+ * @package Magento\View
+ */
 class Block extends OriginalBlock
 {
     /**
@@ -21,10 +23,7 @@ class Block extends OriginalBlock
     const TYPE = 'referenceBlock';
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Block
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {

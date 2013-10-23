@@ -12,6 +12,11 @@ use Magento\View\LayoutInterface;
 use Magento\View\Layout\HandleInterface;
 use Magento\View\Render\Html;
 
+/**
+ * Render Interface
+ *
+ * @package Magento\View
+ */
 interface RenderInterface extends HandleInterface
 {
     /**

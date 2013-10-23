@@ -9,7 +9,6 @@
 namespace Magento\View\Layout\Handle\Render;
 
 use Magento\View\Layout\Handle\AbstractHandle;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\LayoutInterface;
@@ -21,6 +20,9 @@ use Magento\Core\Model\View\FileSystem;
 
 use Magento\View\Render\Html;
 
+/**
+ * @package Magento\View
+ */
 class Template extends AbstractHandle implements RenderInterface
 {
     /**
@@ -42,18 +44,13 @@ class Template extends AbstractHandle implements RenderInterface
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
         FileSystem $filesystem
-    )
-    {
+    ) {
         parent::__construct($handleFactory, $renderFactory);
-
         $this->filesystem = $filesystem;
     }
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Template
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -79,10 +76,7 @@ class Template extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Template
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
@@ -99,11 +93,7 @@ class Template extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @param string $type [optional]
-     * @return string
+     * @inheritdoc
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
