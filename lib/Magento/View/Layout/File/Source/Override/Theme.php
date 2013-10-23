@@ -72,22 +72,26 @@ class Theme implements SourceInterface
         }
 
         $result = array();
+        $pattern = "#(?<module>[^/]+)/layout/override/theme/(?<themeName>[^/]+)/"
+            . preg_quote(rtrim($filePath, '*'))
+            . "[^/]*\.xml$#i";
         foreach ($files as $filename) {
-            if (preg_match("#([^/]+)/layout/override/theme/([^/]+)/[^/]+\.xml$#i", $filename, $matches)) {
-                $moduleFull = $matches[1];
-                $ancestorThemeCode = $matches[2];
-                if (!isset($themes[$ancestorThemeCode])) {
-                    throw new Exception(
-                        sprintf(
-                            "Trying to override layout file '%s' for theme '%s', which is not ancestor of theme '%s'",
-                            $filename,
-                            $ancestorThemeCode,
-                            $theme->getCode()
-                        )
-                    );
-                }
-                $result[] = $this->fileFactory->create($filename, $moduleFull, $themes[$ancestorThemeCode]);
+            if (!preg_match($pattern, $filename, $matches)) {
+                continue;
             }
+            $moduleFull = $matches['module'];
+            $ancestorThemeCode = $matches['themeName'];
+            if (!isset($themes[$ancestorThemeCode])) {
+                throw new Exception(
+                    sprintf(
+                        "Trying to override layout file '%s' for theme '%s', which is not ancestor of theme '%s'",
+                        $filename,
+                        $ancestorThemeCode,
+                        $theme->getCode()
+                    )
+                );
+            }
+            $result[] = $this->fileFactory->create($filename, $moduleFull, $themes[$ancestorThemeCode]);
         }
         return $result;
     }

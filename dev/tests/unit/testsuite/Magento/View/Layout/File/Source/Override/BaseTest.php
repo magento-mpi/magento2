@@ -41,35 +41,64 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetFiles()
+    /**
+     * @param array $files
+     * @param string $filePath
+     *
+     * @dataProvider dataProvider
+     */
+    public function testGetFiles($files, $filePath)
     {
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
 
+        $handlePath = 'design/area/theme/path/%s/layout/override/base/%s.xml';
+        $returnKeys = array();
+        foreach ($files as $file) {
+            $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
+        }
+
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme/path/*_*/layout/override/base/*.xml')
-            ->will($this->returnValue(array(
-                'design/area/theme/path/Module_One/layout/override/base/1.xml',
-                'design/area/theme/path/Module_One/layout/override/base/2.xml',
-                'design/area/theme/path/Module_Two/layout/override/base/3.xml',
-            )))
+            ->with('design', "area/theme/path/*_*/layout/override/base/{$filePath}.xml")
+            ->will($this->returnValue($returnKeys))
         ;
 
-        $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_One');
-        $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_One');
-        $fileThree = new \Magento\View\Layout\File('3.xml', 'Module_Two');
-        $this->_fileFactory
-            ->expects($this->exactly(3))
-            ->method('create')
-            ->will($this->returnValueMap(array(
-                array('design/area/theme/path/Module_One/layout/override/base/1.xml', 'Module_One', null, $fileOne),
-                array('design/area/theme/path/Module_One/layout/override/base/2.xml', 'Module_One', null, $fileTwo),
-                array('design/area/theme/path/Module_Two/layout/override/base/3.xml', 'Module_Two', null, $fileThree),
-            )))
-        ;
+        $checkResult = array();
+        foreach ($files as $key => $file) {
+            $checkResult[$key] = new \Magento\View\Layout\File($file['handle'] . '.xml', $file['module']);
+            $this->_fileFactory
+                ->expects($this->at($key))
+                ->method('create')
+                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'])
+                ->will($this->returnValue($checkResult[$key]))
+            ;
+        }
 
-        $this->assertSame(array($fileOne, $fileTwo, $fileThree), $this->_model->getFiles($theme));
+        $this->assertSame($checkResult, $this->_model->getFiles($theme, $filePath));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProvider()
+    {
+        return array(
+            array(
+                array(
+                    array('handle' => '1', 'module' => 'Module_One'),
+                    array('handle' => '2', 'module' => 'Module_One'),
+                    array('handle' => '3', 'module' => 'Module_Two'),
+                ),
+                '*',
+            ),
+            array(
+                array(
+                    array('handle' => 'preset/4', 'module' => 'Module_Fourth'),
+                ),
+                'preset/4',
+            ),
+        );
     }
 }

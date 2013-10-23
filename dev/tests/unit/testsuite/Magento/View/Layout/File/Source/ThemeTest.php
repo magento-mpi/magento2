@@ -42,6 +42,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $files
+     * @param string $filePath
+     *
      * @dataProvider dataProvider
      */
     public function testGetFiles($files, $filePath)
@@ -74,6 +77,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($checkResult, $this->_model->getFiles($theme, $filePath));
     }
 
+    /**
+     * @return array
+     */
     public function dataProvider()
     {
         return array(
