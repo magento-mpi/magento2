@@ -109,6 +109,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPageHandles()
     {
+        $this->markTestSkipped('MAGETWO-15709');
         /* add a non-page handle to verify that it won't be affected during page handles manipulation */
         $nonPageHandles = array('non_page_handle');
         $this->_model->addHandle($nonPageHandles);

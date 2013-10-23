@@ -273,51 +273,27 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     }
 
     /**
-     * Retrieve full hierarchy of types and fragment types in the system
+     * Retrieve all page and fragment types that exist in the system.
      *
      * Result format:
      * array(
      *     'handle_name_1' => array(
      *         'name'     => 'handle_name_1',
      *         'label'    => 'Handle Name 1',
-     *         'children' => array(
-     *             'handle_name_2' => array(
-     *                 'name'     => 'handle_name_2',
-     *                 'label'    => 'Handle Name 2',
-     *                 'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
-     *                 'children' => array(
-     *                     // ...
-     *                 )
-     *             ),
-     *             // ...
-     *         )
+     *         'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
      *     ),
      *     // ...
      * )
      *
      * @return array
      */
-    public function getPageHandlesHierarchy()
-    {
-        return $this->_getPageHandleChildren('');
-    }
-
-    /**
-     * Retrieve recursively all children of a page handle
-     *
-     * @param string $parentName
-     * @return array
-     */
-    protected function _getPageHandleChildren($parentName)
+    public function getAllPageHandles()
     {
         $result = array();
 
         $conditions = array(
-            '(@type="' . self::TYPE_PAGE . '" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ')'
+            '(@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '")'
         );
-        if ($parentName) {
-            $conditions[] = '(@type="' . self::TYPE_FRAGMENT . '" and @owner="' . $parentName . '")';
-        }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
         /** @var $node \Magento\View\Layout\Element */
@@ -327,11 +303,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
                 'name'     => $name,
                 'label'    => __((string)$node->getAttribute('label')),
                 'type'     => $node->getAttribute('type'),
-                'children' => array()
             );
-            if ($info['type'] == self::TYPE_PAGE) {
-                $info['children'] = $this->_getPageHandleChildren($name);
-            }
             $result[$name] = $info;
         }
         return $result;
