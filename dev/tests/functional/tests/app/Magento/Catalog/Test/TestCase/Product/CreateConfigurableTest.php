@@ -39,9 +39,9 @@ class CreateConfigurableTest extends Functional
      */
     public function testCreateConfigurableProduct()
     {
-        $confFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $confFixture->switchData('configurable_curl');
-        $confFixture->persist();
+//        $confFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+//        $confFixture->switchData('default');
+//        $confFixture->persist();
 
         $fixtureAttribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
         $fixtureAttribute->switchData('configurable_attribute');

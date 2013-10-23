@@ -37,6 +37,16 @@ class ProductAttribute extends DataFixture
     }
 
     /**
+     * Get attribute code
+     *
+     * @return string
+     */
+    public function getAttributeCode()
+    {
+        return $this->getData('fields/attribute_code/value');
+    }
+
+    /**
      * Get attribute option ids
      *
      * @return array

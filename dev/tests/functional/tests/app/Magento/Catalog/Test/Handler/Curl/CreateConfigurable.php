@@ -32,14 +32,74 @@ class CreateConfigurable extends Curl
      */
     protected function _prepareData(Fixture $fixture)
     {
-        $params = $fixture->getData('fields');
+        $params = $fixture->getData();
+        $attributeIdPointer = $params['fields']['configurable_attributes_data'];
+        reset($attributeIdPointer);
+        $attributeId = key($attributeIdPointer);
+        $attributeOptionIdsPointer = $params['fields']['configurable_attributes_data'][$attributeId]['values'];
+        reset($attributeOptionIdsPointer);
+        $attributeOptionIds = key($attributeOptionIdsPointer);
+        $curlData = array(
+            'attributes' => array(
+                '0' => $attributeId
+            ),
+            'variations-matrix' => array(
+                $attributeOptionIds => array(
+//                    'configurable_attribute' => '{"' . uuu_code . '":"' . $attributeOptionIds.  '"}'
+                ),
+                $attributeOptionIds+1 => array(
+//                    'configurable_attribute' => '{"' . uuu_code . '":"' . $attributeOptionIds+1 .  '"}'
+                )
+            )
+        );
+        $params = array_merge($params, $curlData);
 
+        $paramsField = $fixture->getData('fields');
+        $curlProductData = array(
+            'quantity_and_stock_status' => array(
+                'is_in_stock' => 1
+            ),
+            'status' => 1,
+            'configurable_attributes_data' => array(
+                $attributeId => array(
+                    'code' => 'attributeCode',
+                    'attribute_id' => $attributeId,
+                    'values' => array(
+                        $attributeOptionIds => array(
+                            'value_index' => $attributeOptionIds,
+                            ),
+                        $attributeOptionIds+1 => array(
+                            'value_index' => $attributeOptionIds+1
+                            )
+                        )
+                    )
+                ),
+            'meta_title' => '',
+            'meta_keyword' => '',
+            'meta_description' => '',
+            'website_ids' => array(
+                '0' => 1
+            ),
+            'msrp_enabled' => 2,
+            'msrp_display_actual_price_type' => 4,
+            'enable_googlecheckout' => 1,
+            'stock_data' => array(
+                'use_config_manage_stock' => 1,
+                'use_config_enable_qty_increments'=> 1,
+                'use_config_qty_increments' => 1,
+                'is_in_stock' => 1,
+            ),
+            'options_container' => 'container2',
+            'visibility' => 4,
+            'use_config_gift_message_available' => 1,
+            'use_config_gift_wrapping_available' => 1,
+            'is_returnable' => 2
+        );
 
-        foreach ($params as $key => $value) {
-            if (array_key_exists($key, $this->_substitution) && array_key_exists($value, $this->_substitution[$key])) {
-                $params[$key] = $this->_substitution[$key][$value];
-            }
-        }
+        $paramsField = array_merge($paramsField, $curlProductData);
+
+        $params  = array_merge($params, $paramsField);
+
         return $params;
     }
 

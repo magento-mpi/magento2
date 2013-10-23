@@ -33,6 +33,7 @@ class ConfigurableProduct extends Product
     public function __construct(Config $configuration, $placeholders = array())
     {
         parent::__construct($configuration, $placeholders);
+
         $this->_placeholders['attribute1::getAttributeLabel'] = array($this, 'attributeProvider');
         $this->_placeholders['attribute1::getAttributeId'] = array($this, 'attributeProvider');
         $this->_placeholders['attribute1::getOptionFixtures'] = array($this, 'attributeProvider');
@@ -48,23 +49,24 @@ class ConfigurableProduct extends Product
     }
 
     /**
-     * Create new attribute
+     * Return product attribute parameter
      *
-     * @return string
+     * @param string $placeholder
+     * @return null|array
      */
     protected function attributeProvider($placeholder)
     {
         list($code, $method) = explode('::', $placeholder);
         $attribute = $this->_getAttribute($code);
         if ($method == 'getOptionVariations') {
-            return $this->_getOptionVariations($attribute->getAttributeOptionIds());
+            return $this->getOptionVariations($attribute->getAttributeOptionIds());
         } elseif ($method == 'getOptionFixtures') {
-            return $this->_getOptionFixtures($attribute->getAttributeOptionIds());
+            return $this->getOptionFixtures($attribute->getAttributeOptionIds());
         }
         return is_callable(array($attribute, $method)) ? $attribute->$method() : null;
     }
 
-    protected function _getOptionVariations($optionIds)
+    protected function getOptionVariations($optionIds)
     {
         $data = array();
         foreach ($optionIds as $num => $id) {
@@ -76,9 +78,10 @@ class ConfigurableProduct extends Product
                 ),
             );
         }
+        return $data;
     }
 
-    protected function _getOptionFixtures($optionIds)
+    protected function getOptionFixtures($optionIds)
     {
         $data = array();
         foreach ($optionIds as $num => $id) {
@@ -88,8 +91,13 @@ class ConfigurableProduct extends Product
                 'include' => 1
             );
         }
+        return $data;
     }
 
+    /**
+     * @param string $code
+     * @return \Magento\Catalog\Test\Fixture\ProductAttribute
+     */
     protected function _getAttribute($code)
     {
         if (!isset($this->_attributes[$code])) {
@@ -157,15 +165,14 @@ class ConfigurableProduct extends Product
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'configurable_attributes_data' => array
-                (
-                    '%attribute_id%' => array(
-                        'label' => '%attribute1::getAttributeLabel%',
+                'configurable_attributes_data' => array(
+                    '%attribute1::getAttributeId%' => array(
+                        'label'  => '%attribute1::getAttributeLabel%',
                         'values' => '%attribute1::getOptionFixtures%'
                     )
-                ),
-                'variations-matrix' => '%attribute1::getOptionVariations%'
+                )
             ),
+            'variations-matrix' => '%attribute1::getOptionVariations%',
             'affect_configurable_product_attributes' => 0,
             'new-variations-attribute-set-id' => 4
 //            'configurable_options' => array(
