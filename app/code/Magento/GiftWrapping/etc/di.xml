@@ -8,11 +8,6 @@
  */
 -->
 <config>
-    <virtualType name="Magento\GiftWrapping\Model\StatusOptions" type="Magento\Backend\Model\Config\Source\Statuses\Options">
-        <param name="helper">
-            <instance type="Magento\GiftWrapping\Helper\Data" />
-        </param>
-    </virtualType>
     <type name="Magento\App\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
