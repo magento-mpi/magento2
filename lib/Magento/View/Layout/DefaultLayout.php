@@ -12,11 +12,6 @@ use Magento\View\DataSourcePool;
 use Magento\View\BlockPool;
 use Magento\View\Context;
 use Magento\View\LayoutInterface;
-use Magento\View\Layout\Structure;
-use Magento\View\Layout\HandleInterface;
-use Magento\View\Layout\HandleFactory;
-use Magento\View\Layout\Handle\Render\Block;
-use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Design\ThemeFactory;
 use Magento\ObjectManager;
 use Magento\Simplexml;
@@ -392,8 +387,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true)
     {
-        //$this->structure->reorderChild($parentName, $childName, $offsetOrSibling);
-
         if (is_numeric($offsetOrSibling)) {
             $offset = (int)abs($offsetOrSibling) * ($after ? 1 : -1);
             $this->structure->reorderChild($parentName, $childName, $offset);
@@ -525,7 +518,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
 
         $block = $this->blockPool->add($name, $type, $attributes);
 
-        //$block->setType($type);
         $block->setNameInLayout($name);
         $block->setLayout($this);
 
