@@ -54,10 +54,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\CatalogSearch\Helper\Data $catalogSearchHelper */
         $catalogSearchHelper = $this->getMock('Magento\CatalogSearch\Helper\Data', array('getQueryText'), array(
             $objectManager->get('Magento\Core\Helper\Context'),
-            new \Magento\Stdlib\StringIconv,
+            $objectManager->get('Magento\Stdlib\StringIconv'),
             $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
             $objectManager->get('Magento\CatalogSearch\Model\QueryFactory'),
-            $objectManager->get('Magento\Escaper')
+            $objectManager->get('Magento\Escaper'),
+            $objectManager->get('Magento\Filter\FilterManager'),
         ));
         $catalogSearchHelper->expects($this->any())
             ->method('getQueryText')
