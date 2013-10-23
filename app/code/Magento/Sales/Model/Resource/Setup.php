@@ -16,11 +16,6 @@ namespace Magento\Sales\Model\Resource;
 class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * @var \Magento\Core\Model\Config
      */
     protected $_config;
@@ -244,16 +239,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
             )
         );
         return $entities;
-    }
-
-    /**
-     * Get Core Helper
-     *
-     * @return \Magento\Core\Helper\Data
-     */
-    public function getCoreData()
-    {
-        return $this->_coreData;
     }
 
     /**

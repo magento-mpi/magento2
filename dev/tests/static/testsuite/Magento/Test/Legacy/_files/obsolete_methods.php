@@ -857,6 +857,7 @@ return array(
     array('getHttpUserRemoteAddr', '\Magento\Core\Helper\Http'),
     array('getHttpUserServerAddr', '\Magento\Core\Helper\Http'),
     array('getEncryptor', '\Magento\Core\Helper\Data'),
+    array('getCoreData', '\Magento\Sales\Model\Resource\Setup'),
     array('encrypt', '\Magento\Core\Helper\Data'),
     array('decrypt', '\Magento\Core\Helper\Data'),
     array('validateKey', '\Magento\Core\Helper\Data'),
