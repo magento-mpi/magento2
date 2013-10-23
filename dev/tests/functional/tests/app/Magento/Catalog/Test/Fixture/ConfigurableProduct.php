@@ -32,10 +32,18 @@ class ConfigurableProduct extends Product
         return $this;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Get variations product prices
+     *
+     * @return array
+     */
+    public function getVariations()
+    {
+        return $this->_data['configurable_options']['configurable_items'];
+    }
 
     /**
-     * {inheritdoc}
+     * Init Data
      */
     protected function _initData()
     {
@@ -49,7 +57,6 @@ class ConfigurableProduct extends Product
 
             'grid_filter' => array('name')
         );
-
         $this->_data = array(
             'fields' => array(
                 'name' => array(
@@ -63,8 +70,26 @@ class ConfigurableProduct extends Product
                 'price' => array(
                     'value' => '9.99',
                     'group' => static::GROUP_PRODUCT_DETAILS
+                ),
+                'tax_class_id' => array(
+                    'value' => 'Taxable Goods',
+                    'group' => static::GROUP_PRODUCT_DETAILS,
+                    'input' => 'select'
+                ),
+                'weight' => array(
+                    'value' => '1',
+                    'group' => static::GROUP_PRODUCT_DETAILS
                 )
+            ),
+            'configurable_options' => array(
+                'configurable_items' => array(
+                    array('product_price' => '1.00', 'product_quantity' => '100'),
+                    array('product_price' => '2.00', 'product_quantity' => '200')
+                ),
             )
         );
+
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCatalogConfigurableProduct($this->_dataConfig, $this->_data);
     }
 }
