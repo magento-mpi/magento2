@@ -8,16 +8,12 @@
  * @license    {license_link}
  */
 
+namespace Magento\Stdlib;
+
 /**
  * Converter of date formats
  * Internal dates
- *
- * @category Magento
- * @package  \Magento\Stdlib
- * @author   Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Stdlib;
-
 class DateTime
 {
     /**#@+
