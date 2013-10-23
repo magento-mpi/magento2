@@ -30,7 +30,6 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
-        $coreData = $objectManager->get('Magento\Core\Helper\Data');
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $objectManager->create('Magento\Sales\Model\Order');
@@ -47,7 +46,6 @@ class VoidTest extends \PHPUnit_Framework_TestCase
             $logAdapterFactory,
             $locale,
             $centinelService,
-            $coreData,
             $storeManager,
             $configFactory
         ));
