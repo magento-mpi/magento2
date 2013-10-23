@@ -73,7 +73,7 @@ class GuestPaypalDirect extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 30
+                'grand_total' => '30'
             )
         );
     }
