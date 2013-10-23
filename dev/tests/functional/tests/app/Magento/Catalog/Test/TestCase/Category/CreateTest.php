@@ -31,7 +31,6 @@ class CreateTest extends Functional
         //Data
         /** @var Category $category */
         $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-        $category->switchData('men');
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
