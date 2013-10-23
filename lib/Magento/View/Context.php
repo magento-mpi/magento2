@@ -18,7 +18,7 @@ use Magento\Core\Model\Translate;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\Core\Model\Factory\Helper as FactoryHelper;
 use Magento\Core\Model\View\Url as ViewUrl;
-use Magento\Core\Model\View\Config as ViewConfig;
+use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Core\Model\Logger;
 use Magento\Core\Model\App;
 use Magento\Core\Model\App\State as AppState;
@@ -27,8 +27,6 @@ use Magento\Core\Model\Session\AbstractSession;
 use Magento\Core\Model\UrlInterface;
 use Magento\Core\Model\CacheInterface as Cache;
 use Magento\Core\Model\Cache\StateInterface as CacheState;
-
-use Magento\View\DesignInterface;
 
 /**
  * @todo Reduce fields number
@@ -275,7 +273,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\Config
+     * @return \Magento\View\ConfigInterface
      */
     public function getViewConfig()
     {
