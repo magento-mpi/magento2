@@ -64,34 +64,45 @@ class PaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('free_shipping');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_disabled_all_methods');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_express');
-        $configFixture->persist();
-        $configFixture->switchData('default_tax_config');
-        $configFixture->persist();
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('free_shipping');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_disabled_all_methods');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_express');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('default_tax_config');
+        $coreConfig->persist();
+
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
         $simple->persist();
+
         $this->products = array(
             $simple
         );
+
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->billingAddress->switchData('address_US_1');
+
         $this->shippingAddresses = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->shippingAddresses->switchData('address_US_1');
+
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('free_shipping');
+
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
-        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $customerAddress->switchData('address_US_1');
-        $this->telephoneNumber = $this->telephoneNumber->getTelephone();
+
+        $this->telephoneNumber = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->telephoneNumber->switchData('address_US_1');
+        $this->telephoneNumber->getTelephone();
+
         //Verification data
         $this->_data = array(
             'totals' => array(

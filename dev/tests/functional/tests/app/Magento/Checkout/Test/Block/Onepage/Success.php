@@ -52,7 +52,7 @@ class Success extends Block
         //Elements
         $this->continue = '.button-set button';
         $this->orderId = 'a[href*="view/order_id"]';
-        $this->orderIdGuest = '//div[@class="col-main"]/p[1]';
+        $this->orderIdGuest = '//div[contains(@class, "column main")]//p[1]';
     }
 
     /**
