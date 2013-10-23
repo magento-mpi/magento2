@@ -74,20 +74,4 @@ class MethodStatement extends StatementAbstract
         // add closing block
         $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
     }
-
-    /**
-     * This method processes the newly added node.
-     * @param TreeNode $originatingNode Node where new nodes are originating from
-     * @param TreeNode $newNode Newly added node containing the statement
-     * @param int $index 0 based index of the new node
-     * @param int $total total number of nodes to be added
-     * @return TreeNode Returns the originating node since just children are being added.
-     */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
-    {
-        // this is called to add the member nodes to the class
-        $originatingNode->addChild($newNode);
-        // always return the originating node
-        return $originatingNode;
-    }
 }

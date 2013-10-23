@@ -84,6 +84,11 @@ class StatementFactory
         $this->register('Name_FullyQualified', ClassReference::getType());
         $this->register('Expr_Array', ArrayReference::getType());
         $this->register('Expr_ArrayItem', ArrayItemReference::getType());
+        $this->register('Stmt_Foreach', ForEachStatement::getType());
+        $this->register('Stmt_For', ForStatement::getType());
+        $this->register('Stmt_If', IfStatement::getType());
+        $this->register('Stmt_ElseIf', ElseIfStatement::getType());
+        $this->register('Stmt_Else', ElseStatement::getType());
     }
 
     /**

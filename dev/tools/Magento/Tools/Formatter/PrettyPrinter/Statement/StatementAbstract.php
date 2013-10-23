@@ -91,11 +91,13 @@ abstract class StatementAbstract extends BaseAbstract
      * @param TreeNode $newNode Newly added node containing the statement
      * @param int $index 0 based index of the new node
      * @param int $total total number of nodes to be added
+     * @param mixed $data Data that is passed to derived class when processing the node.
      */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total, $data = null)
     {
-        // default action is to do nothing, since it is up to the derived node to determine exactly
-        // what needs to be done with the newly added node
+        // default is to add the new node as a child of the originating node
+        $originatingNode->addChild($newNode);
+        // always return the originating node
         return $originatingNode;
     }
 
@@ -104,18 +106,19 @@ abstract class StatementAbstract extends BaseAbstract
      * allows the derived class a chance to insert the new node into the appropriate location.
      * @param mixed $nodes Array or single node
      * @param TreeNode $originatingNode Node where new nodes are originating from
+     * @param mixed $data Data that is passed to derived class when processing the node.
      */
-    protected function processNodes($nodes, TreeNode $originatingNode)
+    protected function processNodes($nodes, TreeNode $originatingNode, $data = null)
     {
         if (is_array($nodes)) {
             $total = count($nodes);
             foreach ($nodes as $index => $node) {
                 $statement = StatementFactory::getInstance()->getStatement($node);
-                $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), $index, $total);
+                $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), $index, $total, $data);
             }
         } else {
             $statement = StatementFactory::getInstance()->getStatement($nodes);
-            $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), 0, 1);
+            $originatingNode = $this->processNode($originatingNode, new TreeNode($statement), 0, 1, $data);
         }
         // return the last node that was added (or whatever was returned from the last node processing)
         return $originatingNode;

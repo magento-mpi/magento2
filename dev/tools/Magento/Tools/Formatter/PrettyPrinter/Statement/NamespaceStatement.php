@@ -47,9 +47,10 @@ class NamespaceStatement extends StatementAbstract
      * @param TreeNode $newNode Newly added node containing the statement
      * @param int $index 0 based index of the new node
      * @param int $total total number of nodes to be added
+     * @param mixed $data Data that is passed to derived class when processing the node.
      * @return TreeNode Returns the newly added node.
      */
-    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total)
+    protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total, $data = null)
     {
         // this is called to add the use and class lines
         return $originatingNode->addSibling($newNode);

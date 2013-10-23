@@ -7,19 +7,18 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_Interface;
+use PHPParser_Node_Stmt_If;
 
-class InterfaceStatement  extends StatementAbstract
+class IfStatement extends StatementAbstract
 {
     /**
-     * This method constructs a new statement based on the specify interface node
-     * @param PHPParser_Node_Stmt_Interface $node
+     * This method constructs a new statement based on the specified if statement.
+     * @param PHPParser_Node_Stmt_If $node
      */
-    public function __construct(PHPParser_Node_Stmt_Interface $node)
+    public function __construct(PHPParser_Node_Stmt_If $node)
     {
         parent::__construct($node);
     }
@@ -30,27 +29,29 @@ class InterfaceStatement  extends StatementAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
-        /* Reference
-        return 'interface ' . $node->name
-             . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
-             . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         parent::resolve($treeNode);
-        // add the class line
-        $line = new Line();
-        $line->add('interface ')->add($this->node->name);
+        /* Reference
+        return 'if (' . $this->p($node->cond) . ') {'
+             . "\n" . $this->pStmts($node->stmts) . "\n" . '}'
+             . $this->pImplode($node->elseifs)
+             . (null !== $node->else ? $this->p($node->else) : '');
+        */
+        // add the if line
+        $line = new Line('if (');
         // replace the statement with the line since it is resolved or at least in the process of being resolved
         $treeNode->setData($line);
-        // add in extends declaration
-        if (!empty($this->node->extends)) {
-            $line->add(' extends');
-            $this->processArgumentList($this->node->extends, $treeNode, $line, new ClassInterfaceLineBreak());
-        }
-        $line->add(new HardLineBreak());
-        // add the opening brace on a new line
-        $treeNode = $treeNode->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
+        $this->resolveNode($this->node->cond, $treeNode);
+        $line->add(') {')->add(new HardLineBreak());
         // processing the child nodes
-        $this->processNodes($this->node->stmts, $treeNode);
+        $this->processNodes($this->node->stmts, $treeNode, true);
+        // process elseif statements
+        if (!empty($this->node->elseifs)) {
+            $treeNode = $this->processNodes($this->node->elseifs, $treeNode, false);
+        }
+        // process else statements
+        if (null !== $this->node->else) {
+            $treeNode = $this->processNodes($this->node->else, $treeNode, false);
+        }
         // add the closing brace on a new line
         $treeNode->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
     }
@@ -66,13 +67,13 @@ class InterfaceStatement  extends StatementAbstract
      */
     protected function processNode(TreeNode $originatingNode, TreeNode $newNode, $index, $total, $data = null)
     {
-        // this is called to add the member nodes to the class
-        $originatingNode->addChild($newNode);
-        // add a separator between all nodes
-        if ($index < $total - 1) {
-            $originatingNode->addChild(new TreeNode(new Line(new HardLineBreak())));
+        if ($data) {
+            // adding the statements inside the conditional, so add them as children
+            $originatingNode->addChild($newNode);
+        } else {
+            // this is called to add the elseif and else nodes; therefore, add it as a sibling to the originating node
+            $originatingNode = $originatingNode->addSibling($newNode);
         }
-        // always return the originating node
         return $originatingNode;
     }
 }
