@@ -83,7 +83,6 @@ class Container extends AbstractHandle implements RenderInterface
         $result = '';
         if (isset($element['name'])) {
             $elementName = $element['name'];
-
             $result = $this->renderChildren($elementName, $layout, $type);
         }
 

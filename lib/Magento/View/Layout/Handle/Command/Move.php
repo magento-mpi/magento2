@@ -36,9 +36,10 @@ class Move extends Handle\AbstractHandle implements CommandInterface
     {
         $element = $this->parseAttributes($layoutElement);
 
-        $element['type'] = self::TYPE;
-
         $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
+        $element['type'] = self::TYPE;
+        $element['name'] = $elementName;
+
         $layout->addElement($elementName, $element);
 
         if (isset($parentName)) {
@@ -63,8 +64,12 @@ class Move extends Handle\AbstractHandle implements CommandInterface
                 $layout->unsetChild($elementParentName, $elementName);
 
                 if (isset($element['destination'])) {
-                    $toMove = $element;
-                    $toMove['name'] = $elementName;
+                    $toMove = array(
+                        'name' => $elementName,
+                        'as' => isset($element['as']) ? $element['as'] : null,
+                        'before' => isset($element['before']) ? $element['before'] : null,
+                        'after' => isset($element['after']) ? $element['after'] : null,
+                    );
 
                     // assign to parent element
                     $this->assignToParentElement($toMove, $layout, $element['destination']);
@@ -72,8 +77,7 @@ class Move extends Handle\AbstractHandle implements CommandInterface
             }
         }
 
-        $alias = $layout->getChildAlias($parentName, $element['name']);
-        $layout->unsetChild($parentName, $alias);
+        $layout->unsetElement($element['name']);
 
         return $this;
     }

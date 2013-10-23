@@ -124,7 +124,8 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         ProcessorFactory $processorFactory,
         Structure $structure,
         BlockPool $blockPool,
-        DataSourcePool $dataSourcePool
+        DataSourcePool $dataSourcePool,
+        $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->design = $design;
         $this->themeFactory = $themeFactory;
@@ -134,6 +135,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         $this->structure = $structure;
         $this->blockPool = $blockPool;
         $this->dataSourcePool = $dataSourcePool;
+        $this->area = $area;
     }
 
     /**
@@ -709,10 +711,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function getArea()
     {
-        if (isset($this->area)) {
-            return $this->area;
-        }
-        return $this->context->getArea();
+        return $this->area;
     }
 
     /**

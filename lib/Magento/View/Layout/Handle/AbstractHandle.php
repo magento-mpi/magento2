@@ -113,7 +113,7 @@ abstract class AbstractHandle
         return $this;
     }
 
-    protected function assignToParentElement($element, LayoutInterface $layout, $parentName)
+    protected function assignToParentElement(array $element, LayoutInterface $layout, $parentName)
     {
         if (isset($parentName)) {
             $alias = !empty($element['as']) ? $element['as'] : $element['name'];

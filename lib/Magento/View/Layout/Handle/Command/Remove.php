@@ -22,11 +22,6 @@ class Remove extends Handle\AbstractHandle implements CommandInterface
     const TYPE = 'remove';
 
     /**
-     * @var int
-     */
-    private $inc = 0;
-
-    /**
      * @param Element $layoutElement
      * @param LayoutInterface $layout
      * @param string $parentName
@@ -35,14 +30,14 @@ class Remove extends Handle\AbstractHandle implements CommandInterface
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
         $element = $this->parseAttributes($layoutElement);
-
+        $element['element'] = $element['name'];
+        $element['name'] = 'Command-Move-' . $this->nameIncrement++;
         $element['type'] = self::TYPE;
 
-        $elementName = isset($element['name']) ? $element['name'] : ('Command-Move-' . $this->inc++);
-        $layout->addElement($elementName, $element);
+        $layout->addElement($element['name'], $element);
 
         if (isset($parentName)) {
-            $layout->setChild($parentName, $elementName, $elementName);
+            $layout->setChild($parentName, $element['name'], $element['name']);
         }
 
         return $this;
@@ -56,13 +51,11 @@ class Remove extends Handle\AbstractHandle implements CommandInterface
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
-        $elementName = isset($element['element']) ? $element['element'] : null;
-        if (isset($elementName)) {
-            $layout->unsetElement($elementName);
+        if (isset($element['element'])) {
+            $layout->unsetElement($element['element']);
         }
 
-        $alias = $layout->getChildAlias($parentName, $element['name']);
-        $layout->unsetChild($parentName, $alias);
+        $layout->unsetElement($element['name']);
 
         return $this;
     }
