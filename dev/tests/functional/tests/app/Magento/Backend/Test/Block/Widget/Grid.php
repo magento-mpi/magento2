@@ -60,22 +60,15 @@ abstract class Grid extends Block
     protected $selectItem;
 
     /**
-     * Locator value for loader which blocks grid
-     *
-     * @var string
-     */
-    protected $loadingMask;
-
-    /**
      * Initialize block elements
      */
     protected function _init()
     {
+        parent::_init();
         $this->searchButton = '[title=Search][class*=action]';
         $this->resetButton = '[title="Reset Filter"][class*=action]';
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
-        $this->loadingMask = '.loading-mask';
     }
 
     /**
@@ -103,12 +96,9 @@ abstract class Grid extends Block
     public function search(array $filter)
     {
         $this->resetFilter();
-        sleep(2);
         $this->_prepareForSearch($filter);
-        sleep(2);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-        sleep(2); // @TODO This sleep should be resolved in MAGETWO-16069
-        $this->waitForElementNotVisible($this->loadingMask);
+        $this->_templateBlock->waitLoader();
     }
 
     /**
@@ -151,7 +141,7 @@ abstract class Grid extends Block
     public function resetFilter()
     {
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->loadingMask);
+        $this->_templateBlock->waitLoader();
     }
 
     public function deleteAll()

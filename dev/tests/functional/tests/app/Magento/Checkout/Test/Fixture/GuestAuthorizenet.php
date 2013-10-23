@@ -35,18 +35,25 @@ class GuestAuthorizenet extends Checkout
         $configFixture->persist();
         $configFixture->switchData('authorizenet');
         $configFixture->persist();
-        $configFixture->switchData('default_tax_config');
+        $configFixture->switchData('us_tax_config');
         $configFixture->persist();
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple1->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple2->switchData('simple');
-        $simple1->persist();
-        $simple2->persist();
+        $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct->switchData('simple');
+        $simpleProduct->persist();
+
+        $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurableProduct->switchData('configurable');
+        $configurableProduct->persist();
+
+        $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundleProduct->switchData('bundle');
+        $bundleProduct->persist();
+
         $this->products = array(
-            $simple1,
-            $simple2
+            $simpleProduct,
+            $bundleProduct,
+            $configurableProduct
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();

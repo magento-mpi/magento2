@@ -30,6 +30,7 @@ class Config extends AbstractRepository
         );
 
         $this->_data['default_tax_config'] = $this->_getDefaultTax();
+        $this->_data['us_tax_config'] = $this->_getUsTax();
         $this->_data['display_price'] = $this->_getPriceDisplay();
         $this->_data['display_shopping_cart'] = $this->_getShoppingCartDisplay();
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
@@ -538,5 +539,15 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Provides taxes for US configuration based on default tax configuration
+     *
+     * @return array
+     */
+    protected function _getUsTax()
+    {
+        return $this->_getDefaultTax();
     }
 }
