@@ -62,21 +62,9 @@ abstract class AbstractEntryPoint
             $this->_objectManager = new \Magento\Core\Model\ObjectManager($this->_config);
         }
         if (!$this->_errorHandler) {
-            $this->_initErrorHandler();
+            $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface');
+            set_error_handler(array($this->_errorHandler, 'handler'));
         }
-    }
-
-    /**
-     * Set default error handler
-     */
-    protected function _initErrorHandler()
-    {
-        /** @var $appState \Magento\App\State */
-        $appState = $this->_objectManager->get('Magento\App\State');
-        $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface', array(
-            'isDeveloperMode' => $appState->getMode() == \Magento\App\State::MODE_DEVELOPER,
-        ));
-        set_error_handler(array($this->_errorHandler, 'handler'));
     }
 
     /**
@@ -84,4 +72,3 @@ abstract class AbstractEntryPoint
      */
     protected abstract function _processRequest();
 }
-

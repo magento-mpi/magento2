@@ -29,7 +29,7 @@
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Encryption\Encryptor" />
     <preference for="Magento\Filter\Encrypt\AdapterInterface" type=" Magento\Filter\Encrypt\Basic" />
-    <preference for="Magento\Error\HandlerInterface" type="Magento\Error\Handler" />
+    <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Core\App\FrontController\Plugin\Install" sortOrder="40"/>
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
