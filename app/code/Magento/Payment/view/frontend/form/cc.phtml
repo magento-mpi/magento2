@@ -9,14 +9,6 @@
 ?>
 <?php $_code=$this->getMethodCode() ?>
 <fieldset class="fieldset items" id="payment_form_<?php echo $_code ?>" style="display: none;">
-<?php /*
-    <div class="field name required">
-         <label for="<?php echo $_code ?>_cc_owner" class="label"><span><?php echo __('Name on Card') ?></span></label>
-         <div class="control">
-             <input type="text" title="<?php echo __('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->escapeHtml($this->getInfoData('cc_owner')) ?>" />
-            </div>
-    </div>
-*/ ?>
     <div class="field type required">
         <label for="<?php echo $_code ?>_cc_type" class="label"><span><?php echo __('Credit Card Type') ?></span></label>
         <div class="control">
@@ -106,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <div class="adv-container" data-validation-msg="validate-cc-ukss">&nbsp;</div>
+            <div class="adv container" data-validation-msg="validate-cc-ukss">&nbsp;</div>
         </div>
         <script type="text/javascript">
             head.js("<?php echo $this->getViewFileUrl('Magento_Payment::cc-type.js')?>", function() {

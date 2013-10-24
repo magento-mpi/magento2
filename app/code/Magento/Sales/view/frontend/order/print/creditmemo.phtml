@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-?>!!!!!
+?>
 <?php $_order = $this->getOrder() ?>
 <div class="page title">
     <h1 class="title"><?php echo __('Order #%1', $_order->getRealOrderId()) ?></h1>
 </div>
-<p class="order-date"><?php echo __('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<p class="order date"><?php echo __('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 <?php $_creditmemo = $this->getCreditmemo() ?>
 <?php if($_creditmemo): ?>
     <?php $_creditmemos = array($_creditmemo); ?>
@@ -96,6 +96,5 @@
             <?php endforeach; ?>
         </table>
     </div>
-<script type="text/javascript">(function($) {$('#my-refund-table-<?php echo $_creditmemo->getId(); ?>').decorate('table', {'tbody': ['odd','even'], 'tbody tr': ['first','last']})})(jQuery)</script>
 <?php endforeach; ?>
 <script type="text/javascript">window.print();</script>

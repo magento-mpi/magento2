@@ -11830,7 +11830,7 @@ img[align="right"] {
   width: 20%;
 }
 .data.table.giftregistry .col.actions,
-.data.table.giftregistry .col.qty-fulfilled {
+.data.table.giftregistry .col.fulfilled {
   text-align: center;
 }
 .data.table.giftregistry .product.options.list dt {
@@ -13017,6 +13017,9 @@ body.account .column.main .block.event .item {
 .form.create.return .field.item .data.table .col.remaining.qty {
   text-align: center;
   width: 65px;
+}
+.form.create.return .reason_other {
+  display: inline-block;
 }
 .returns.details.view {
   *zoom: 1;

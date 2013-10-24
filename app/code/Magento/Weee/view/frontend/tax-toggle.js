@@ -1,8 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    Weee
- * @package     mage
+ * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -59,7 +59,7 @@
             <th class="col sku"><?php echo __('SKU') ?></th>
             <th class="col price"><?php echo __('Price') ?></th>
             <th class="col qty"><?php echo __('Qty') ?></th>
-            <th class="a-right"><?php echo __('Subtotal') ?></th>
+            <th class="col subtotal"><?php echo __('Subtotal') ?></th>
         </tr>
         </thead>
         <tfoot>
@@ -75,7 +75,4 @@
         <?php endforeach; ?>
     </table>
 </div>
-<script type="text/javascript">(function ($) {
-    $('#my-orders-table').decorate('table', {'tbody':['odd', 'even'], 'tbody tr':['first', 'last']})
-})(jQuery)</script>
 <script type="text/javascript">window.print();</script>

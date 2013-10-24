@@ -92,8 +92,5 @@
         <?php endforeach; ?>
     </table>
 </div>
-<script type="text/javascript">(function ($) {
-    $('#my-invoice-table-<?php echo $_invoice->getId(); ?>').decorate('table', {'tbody':['odd', 'even'], 'tbody tr':['first', 'last']})
-})(jQuery)</script>
 <?php endforeach; ?>
 <script type="text/javascript">window.print();</script>

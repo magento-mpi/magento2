@@ -3,14 +3,13 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 <?php $_item = $this->getItem() ?>
 <?php $_order = $this->getItem()->getOrderItem()->getOrder() ?>
-<tr class="border" id="order-item-row-<?php echo $_item->getId() ?>">
+<tr id="order-item-row-<?php echo $_item->getId() ?>">
     <td class="col name">
         <strong class="product name"><?php echo $this->escapeHtml($_item->getName()) ?></strong>
         <?php if($_options = $this->getItemOptions()): ?>
