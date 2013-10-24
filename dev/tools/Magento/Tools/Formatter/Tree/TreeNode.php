@@ -125,6 +125,8 @@ class TreeNode implements Node
         $index = array_search($existingChild, $this->children);
         if (false !== $index) {
             unset($this->children[$index]);
+            // need to keep the index consistent, so reset to the values
+            $this->children = array_values($this->children);
         }
     }
 
