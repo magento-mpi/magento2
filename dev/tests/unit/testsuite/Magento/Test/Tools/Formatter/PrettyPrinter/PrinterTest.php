@@ -513,6 +513,51 @@ class Foo
 }
 
 FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo extends \\Magento\\Test\\Bar{
+    public function __construct(
+        \\Magento\\Test\\One \$testOne,
+        \\Magento\\Test\\Two \$testTwo,
+        \\Magento\\Test\\Three \$testThree,
+        \\Magento\\Test\\Four \$testFour,
+        \\Magento\\Test\\Five \$testFive,
+        \\Magento\\Test\\Six \$testSix,
+        \\Magento\\Test\\Seven \$testSeven
+    ) {
+        \$this->_testOne = \$testOne;
+        parent::__construct(\$testTwo, \$testThree, \$testFour, \$testFive, \$testSix, \$testSeven);
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo extends \\Magento\\Test\\Bar
+{
+    public function __construct(
+        \\Magento\\Test\\One \$testOne,
+        \\Magento\\Test\\Two \$testTwo,
+        \\Magento\\Test\\Three \$testThree,
+        \\Magento\\Test\\Four \$testFour,
+        \\Magento\\Test\\Five \$testFive,
+        \\Magento\\Test\\Six \$testSix,
+        \\Magento\\Test\\Seven \$testSeven
+    ) {
+        \$this->_testOne = \$testOne;
+        parent::__construct(\$testTwo,
+            \$testThree,
+            \$testFour,
+            \$testFive,
+            \$testSix,
+            \$testSeven);
+    }
+}
+
+FORMATTEDCODESNIPPET
             )
         );
     }

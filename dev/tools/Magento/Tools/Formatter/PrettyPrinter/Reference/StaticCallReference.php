@@ -7,10 +7,8 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
-use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr;
@@ -47,8 +45,8 @@ class StaticCallReference extends AbstractReference
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        $line->add('::');
         $this->resolveNode($this->node->class, $treeNode);
+        $line->add('::');
         if ($this->node->name instanceof PHPParser_Node_Expr) {
             if ($this->node->name instanceof PHPParser_Node_Expr_Variable ||
                 $this->node->name instanceof PHPParser_Node_Expr_ArrayDimFetch) {
@@ -67,10 +65,5 @@ class StaticCallReference extends AbstractReference
         $line->add('(');
         $this->processArgumentList($this->node->args, $treeNode, $line, new SimpleListLineBreak());
         $line->add(')');
-        // TODO this probably needs to be in a more common place for other references as well.  Also,
-        // the check for the current instance being a root node could be in a boolean method instead.
-        if ($treeNode->getParent() instanceof Tree) {
-            $line->add(';')->add(new HardLineBreak());
-        }
     }
 }
