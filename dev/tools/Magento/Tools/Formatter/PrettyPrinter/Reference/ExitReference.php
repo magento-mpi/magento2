@@ -11,7 +11,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Exit;
 
-class ExitReference extends AbstractReference
+class ExitReference extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specified exit node.

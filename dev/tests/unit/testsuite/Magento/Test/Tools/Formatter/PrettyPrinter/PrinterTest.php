@@ -568,6 +568,52 @@ class Foo extends \\Magento\\Test\\Bar
 }
 
 FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo{
+    public function testList(\$testOne) {
+        list(\$varOne, \$varTwo) = \$testOne;
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function testList(\$testOne)
+    {
+        list(\$varOne, \$varTwo) = \$testOne;
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo{
+    public function testList(\$testOne) {
+        list( \$varOne,\$varTwo,\$varThree,\$varFour,\$varFive,\$varSix,\$varSeven) = \$testOne;
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function testList(\$testOne)
+    {
+        list(\$varOne, \$varTwo, \$varThree, \$varFour, \$varFive, \$varSix, \$varSeven) = \$testOne;
+    }
+}
+
+FORMATTEDCODESNIPPET
             )
         );
     }

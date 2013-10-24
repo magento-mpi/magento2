@@ -18,7 +18,8 @@ abstract class AbstractLoopStatement extends StatementAbstract
      * This method adds in the closing element and the body statements of a loop.
      * @param TreeNode $treeNode
      */
-    protected function addBody(TreeNode $treeNode) {
+    protected function addBody(TreeNode $treeNode)
+    {
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the terminating paren and opening brace

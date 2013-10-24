@@ -11,7 +11,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Arg;
 
-class ArgumentReference extends AbstractReference
+class ArgumentReference extends AbstractVariableReference
 {
     /**
      * This method constructs a new statement based on the specified argument node.

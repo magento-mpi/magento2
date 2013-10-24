@@ -8,14 +8,12 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_FuncCall;
 
-class FunctionCall extends AbstractReference
+class FunctionCall extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -39,8 +37,7 @@ class FunctionCall extends AbstractReference
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $this->resolveNode($this->node->name, $treeNode);
-        $line->add('(');
-        $this->processArgumentList($this->node->args, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        // add in the argument call
+        return $this->processArgsList($this->node->args, $treeNode, $line, new CallLineBreak());
     }
 }

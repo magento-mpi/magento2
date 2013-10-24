@@ -8,21 +8,21 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr;
-use PHPParser_Node_Expr_Variable;
+use PHPParser_Node_Expr_List;
 
-class ExpressionReference extends AbstractVariableReference
+class ListReference extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specify expression
-     * @param PHPParser_Node_Expr_Variable $node
+     * @param PHPParser_Node_Expr_List $node
      */
-    public function __construct(PHPParser_Node_Expr_Variable $node)
+    public function __construct(PHPParser_Node_Expr_List $node)
     {
         parent::__construct($node);
     }
-
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
@@ -31,23 +31,21 @@ class ExpressionReference extends AbstractVariableReference
     {
         parent::resolve($treeNode);
         /* Reference
-        if ($node->name instanceof PHPParser_Node_Expr) {
-            return '${' . $this->p($node->name) . '}';
-        } else {
-            return '$' . $node->name;
+        $pList = array();
+        foreach ($node->vars as $var) {
+            if (null === $var) {
+                $pList[] = '';
+            } else {
+                $pList[] = $this->p($var);
+            }
         }
+        return 'list(' . implode(', ', $pList) . ')';
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add the expression to the end of the current line
-        $line->add('$');
-        if ($this->node->name instanceof PHPParser_Node_Expr) {
-            $line->add('{');
-            // add in the value as a node
-            $this->resolveNode($this->node->name, $treeNode);
-            $line->add('}');
-        } else {
-            $line->add($this->node->name);
-        }
+        $line->add('list(');
+        $lineBreak = new ConditionalLineBreak(array(array('', ' ')));
+        $this->processArgumentList($this->node->vars, $treeNode, $line, $lineBreak);
+        $line->add(')');
     }
 }

@@ -13,7 +13,7 @@ use PHPParser_Node;
 use PHPParser_Node_Expr_ArrayDimFetch;
 use PHPParser_Node_Expr_New;
 
-class ArrayIndexedReference extends AbstractReference
+class ArrayIndexedReference extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specified indexed array access.
@@ -53,7 +53,8 @@ class ArrayIndexedReference extends AbstractReference
      * @param PHPParser_Node $node Raw node being processed
      * @param TreeNode $treeNode
      */
-    protected function resolveVariable(PHPParser_Node $node, TreeNode $treeNode) {
+    protected function resolveVariable(PHPParser_Node $node, TreeNode $treeNode)
+    {
         if ($node instanceof PHPParser_Node_Expr_New) {
             /** @var Line $line */
             $line = $treeNode->getData()->line;

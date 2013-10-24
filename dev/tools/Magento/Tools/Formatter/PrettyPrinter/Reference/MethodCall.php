@@ -5,20 +5,21 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
+use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
+use PHPParser_Node_Expr_Closure;
 use PHPParser_Node_Expr_MethodCall;
 
-class MethodCall extends AbstractReference
+class MethodCall extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -53,12 +54,6 @@ class MethodCall extends AbstractReference
             $line->add($this->node->name);
         }
         // add in the argument call
-        $line->add('(');
-        $this->processArgumentList(
-            $this->node->args,
-            $treeNode, $line,
-            new ConditionalLineBreak(array(array(' '), array(new HardIndentLineBreak())))
-        );
-        $line->add(')');
+        $this->processArgsList($this->node->args, $treeNode, $line, new CallLineBreak());
     }
 }

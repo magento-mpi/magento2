@@ -7,18 +7,17 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr_Array;
+use PHPParser_Node_Expr_ClosureUse;
 
-class ArrayReference extends AbstractFunctionReference
+class ClosureUseReference extends AbstractReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Expr_Array $node
+     * This method constructs a new statement based on the specify expression
+     * @param PHPParser_Node_Expr_ClosureUse $node
      */
-    public function __construct(PHPParser_Node_Expr_Array $node)
+    public function __construct(PHPParser_Node_Expr_ClosureUse $node)
     {
         parent::__construct($node);
     }
@@ -30,14 +29,15 @@ class ArrayReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        /*
+            public function pExpr_ClosureUse(PHPParser_Node_Expr_ClosureUse $node) {
+            return ($node->byRef ? '&' : '') . '$' . $node->var;}
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add the array to the end of the current line
-        $line->add('array(');
-        $this->processArgumentList($this->node->items, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        if ($this->node->byRef) {
+            $line->add('&');
+        }
+        $line->add('$')->add($this->node->var);
     }
 }

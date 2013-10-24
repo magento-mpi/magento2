@@ -12,7 +12,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  * Class LineData
  * @package Magento\Tools\Formatter\PrettyPrinter
  */
-class LineData {
+class LineData
+{
     /**
      * This member holds the line generated from the syntax.
      * @var Line
@@ -31,7 +32,8 @@ class LineData {
      * @param AbstractSyntax|null $syntax Syntax for the given line
      * @param Line $line Initial value for the line.
      */
-    public function __construct(AbstractSyntax $syntax = null, Line $line = null) {
+    public function __construct(AbstractSyntax $syntax = null, Line $line = null)
+    {
         $this->syntax = $syntax;
         $this->line = $line;
     }

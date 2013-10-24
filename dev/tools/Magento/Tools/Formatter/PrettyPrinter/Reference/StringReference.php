@@ -76,7 +76,7 @@ class StringReference extends AbstractScalarReference
         $line->add('<<<')->add($heredocCloseTag)->add(new HardLineBreak());
         $heredocLines = explode(HardLineBreak::EOL, $body);
         if (!empty($heredocLines)) {
-            foreach($heredocLines as $heredocLine) {
+            foreach ($heredocLines as $heredocLine) {
                 $line->add(new IndentConsumer())->add($heredocLine)->add(new HardLineBreak());
             }
         }

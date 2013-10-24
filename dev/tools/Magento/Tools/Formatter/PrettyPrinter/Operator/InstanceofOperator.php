@@ -9,7 +9,8 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 
-class InstanceofOperator extends AbstractInfixOperator {
+class InstanceofOperator extends AbstractInfixOperator
+{
     /*
     public function pExpr_Instanceof(PHPParser_Node_Expr_Instanceof $node) {
         return $this->pInfixOp('Expr_Instanceof', $node->expr, ' instanceof ', $node->class);
@@ -42,5 +43,4 @@ class InstanceofOperator extends AbstractInfixOperator {
     {
         return 2;
     }
-
 }

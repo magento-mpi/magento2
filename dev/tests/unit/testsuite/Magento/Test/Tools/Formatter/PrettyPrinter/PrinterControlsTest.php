@@ -107,4 +107,38 @@ class PrinterControlsTest extends TestBase
             ),
         );
     }
+
+    /**
+     * This method tests for controls.
+     *
+     * @dataProvider dataControls
+     */
+    public function testControls($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    /**
+     * Provide data to test method
+     *
+     * @return array
+     */
+    public function dataControls()
+    {
+        return array(
+            array(
+                "<?php class Con1 {public function a(){array_merge(\$a,function(){echo 'hi';});}}",
+                "<?php\nclass Con1\n{\n    public function a()\n    {\n" .
+                "        array_merge(\n            \$a,\n            function () {\n                echo 'hi';\n" .
+                "            }\n        );\n    }\n}\n"
+            ),
+            array(
+                "<?php class Con2 {public function a(){array_merge(\$a,function()use(\$a,\$b){echo 'hi';});}}",
+                "<?php\nclass Con2\n{\n    public function a()\n    {\n        array_merge(\n            \$a,\n" .
+                "            function () use (\$a, \$b) {\n                echo 'hi';\n" .
+                "            }\n        );\n    }\n}\n"
+            ),
+        );
+    }
 }

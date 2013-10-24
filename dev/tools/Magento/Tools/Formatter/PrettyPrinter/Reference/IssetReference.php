@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Isset;
 
-class IssetReference extends AbstractReference
+class IssetReference extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specified argument node.

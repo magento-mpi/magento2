@@ -15,7 +15,7 @@ use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_ArrayDimFetch;
 use PHPParser_Node_Expr_Variable;
 
-class StaticCallReference extends AbstractReference
+class StaticCallReference extends AbstractFunctionReference
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -52,16 +52,15 @@ class StaticCallReference extends AbstractReference
                 $this->node->name instanceof PHPParser_Node_Expr_ArrayDimFetch) {
                 // add in the value as a node
                 $this->resolveNode($this->node->name, $treeNode);
-            }
-            else {
+            } else {
                 $line->add('{');
                 $this->resolveNode($this->node->name, $treeNode);
                 $line->add('}');
             }
-        }
-        else
+        } else {
             $line->add($this->node->name);
-       // add the arguments
+        }
+        // add the arguments
         $line->add('(');
         $this->processArgumentList($this->node->args, $treeNode, $line, new SimpleListLineBreak());
         $line->add(')');

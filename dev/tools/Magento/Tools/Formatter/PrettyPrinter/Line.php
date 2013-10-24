@@ -81,7 +81,8 @@ class Line
      * This method returns if the no indent token if found in the string.
      * @return bool
      */
-    public function isNoIndent() {
+    public function isNoIndent()
+    {
         return array_key_exists(self::ATTRIBUTE_NO_INDENT, $this->tokens);
     }
 

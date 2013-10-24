@@ -33,10 +33,14 @@ class LineResolver extends NodeVisitorAbstract
         if (null === $lineData->line) {
             $this->statementCount++;
             // let the syntax try to resolve to a line
-            $lineData->syntax->resolve($treeNode);
+            $treeNode = $lineData->syntax->resolve($treeNode);
             // if there is only a reference, then add a line terminator
             if (!$lineData->syntax instanceof StatementAbstract) {
-                $lineData->line->add(';')->add(new HardLineBreak());
+                $line = $lineData->line;
+                if (null !== $treeNode) {
+                    $line = $treeNode->getData()->line;
+                }
+                $line->add(';')->add(new HardLineBreak());
             }
         }
     }

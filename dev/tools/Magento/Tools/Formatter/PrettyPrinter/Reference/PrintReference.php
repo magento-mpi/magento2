@@ -7,18 +7,17 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr_Array;
+use PHPParser_Node_Expr_Print;
 
-class ArrayReference extends AbstractFunctionReference
+class PrintReference extends AbstractFunctionReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Expr_Array $node
+     * This method constructs a new statement based on the specified argument node.
+     * @param PHPParser_Node_Expr_Print $node
      */
-    public function __construct(PHPParser_Node_Expr_Array $node)
+    public function __construct(PHPParser_Node_Expr_Print $node)
     {
         parent::__construct($node);
     }
@@ -31,13 +30,13 @@ class ArrayReference extends AbstractFunctionReference
     {
         parent::resolve($treeNode);
         /* Reference
-        return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        return 'print ' . $this->p($node->expr);
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add the array to the end of the current line
-        $line->add('array(');
-        $this->processArgumentList($this->node->items, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        // add in the empty statement
+        $line->add('print ');
+        // add in the actual variable reference
+        $this->resolveNode($this->node->expr, $treeNode);
     }
 }

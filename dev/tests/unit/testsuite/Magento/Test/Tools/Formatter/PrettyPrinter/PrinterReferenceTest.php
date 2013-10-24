@@ -48,6 +48,9 @@ class PrinterReferenceTest extends TestBase
                 "\n    123456,\n    123456\n);\n"
             ),
             array("<?php empty(\$a);", "<?php\nempty(\$a);\n"),
+            array("<?php eval(\$a);", "<?php\neval(\$a);\n"),
+            array("<?php clone(\$a);", "<?php\nclone \$a;\n"),
+            array("<?php print(\$a);", "<?php\nprint \$a;\n"),
             array("<?php exit('Bye');", "<?php\nexit('Bye');\n"),
             array("<?php isset(\$Bye);", "<?php\nisset(\$Bye);\n"),
             array("<?php if (isset(\$Bye)) { echo 'b'; } ", "<?php\nif (isset(\$Bye)) {\n    echo 'b';\n}\n"),
@@ -58,8 +61,12 @@ class PrinterReferenceTest extends TestBase
             ),
             array("<?php \$a = `Is this \$encapsed\\n`;", "<?php\n\$a = `Is this \$encapsed\\n`;\n"),
             array(
-                "<?php if (true) {\$a = `Is this \$encapsed\\n`;}",
-                "<?php\nif (true) {\n    \$a = `Is this \$encapsed\\n`;\n}\n"
+                "<?php if (true) {\$a = `Is this \$encapsed\\n`;\nclone \$encapsed;}",
+                "<?php\nif (true) {\n    \$a = `Is this \$encapsed\\n`;\n    clone \$encapsed;\n}\n"
+            ),
+            array(
+                "<?php if ( !self::\$_instance ){self::\$_instance=null;}",
+                "<?php\nif (!self::\$_instance) {\n    self::\$_instance = null;\n}\n"
             ),
         );
     }
