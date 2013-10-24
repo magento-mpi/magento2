@@ -32,6 +32,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Url',
             array('getBaseUrl'),
             array(
+                $this->getMock('Magento\App\RouterListInterface'),
+                $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
                 $securityInfoMock,
                 $storeConfig,
                 $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
