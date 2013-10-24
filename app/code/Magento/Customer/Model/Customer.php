@@ -127,7 +127,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -177,7 +177,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -198,7 +198,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,

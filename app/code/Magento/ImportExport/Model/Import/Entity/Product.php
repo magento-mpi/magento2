@@ -295,7 +295,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -355,7 +355,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_uploaderFactory;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -382,7 +382,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ImportExport\Model\Import\Config $importConfig
@@ -397,7 +397,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -411,7 +411,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Core\Model\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
@@ -426,7 +426,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -1339,7 +1339,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
             $this->_fileUploader->init();
 
-            $mediaDir = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA);
+            $mediaDir = $this->_dir->getDir(\Magento\App\Dir::MEDIA);
             if (!$mediaDir) {
                 throw new \Magento\Exception('Media directory is unavailable.');
             }

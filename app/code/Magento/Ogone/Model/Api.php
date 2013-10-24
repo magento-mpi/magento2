@@ -171,7 +171,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $string;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -187,25 +187,25 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Construct
-     *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * 
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,

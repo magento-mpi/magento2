@@ -32,7 +32,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -44,14 +44,14 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Backend\Model\Config\Structure $structure,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
@@ -109,9 +109,9 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function changeEncryptionKey($key = null)
     {
-        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG));
+        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(\Magento\App\Dir::CONFIG));
         // prepare new key, encryptor and new file contents
-        $file = $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG) . DS . 'local.xml';
+        $file = $this->_dir->getDir(\Magento\App\Dir::CONFIG) . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
             throw new \Exception(__('File %1 is not writeable.', $file));

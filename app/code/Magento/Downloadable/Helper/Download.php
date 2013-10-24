@@ -106,7 +106,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirModel;
 
@@ -122,7 +122,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\Dir $dirModel
+     * @param \Magento\App\Dir $dirModel
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
@@ -132,7 +132,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\Dir $dirModel,
+        \Magento\App\Dir $dirModel,
         \Magento\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;
@@ -232,7 +232,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                 if (!is_file($this->_resourceFile)) {
                     $this->_coreFileStorageDb->saveFileToFilesystem($this->_resourceFile);
                 }
-                $this->_handle->open(array('path' => $this->_dirModel->getDir(\Magento\Core\Model\Dir::VAR_DIR)));
+                $this->_handle->open(array('path' => $this->_dirModel->getDir(\Magento\App\Dir::VAR_DIR)));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
                     throw new \Magento\Core\Exception(__("We can't find this file."));
                 }
@@ -327,7 +327,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     /**
      * Retrieve Http Request Object
      *
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getHttpRequest()
     {
@@ -337,7 +337,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     /**
      * Retrieve Http Response Object
      *
-     * @return \Magento\Core\Controller\Response\Http
+     * @return \Magento\App\ResponseInterface
      */
     public function getHttpResponse()
     {

@@ -14,7 +14,7 @@ namespace Magento\Install\Controller;
 class Action extends \Magento\Core\Controller\Varien\Action
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope
+     * @var \Magento\Config\Scope
      */
     protected $_configScope;
 
@@ -38,25 +38,25 @@ class Action extends \Magento\Core\Controller\Varien\Action
     /**
      * Application state
      *
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Config\Scope $configScope,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\App\State $appState
+        \Magento\App\State $appState
     ) {
         $this->_configScope = $configScope;
         $this->_viewDesign = $viewDesign;

@@ -22,10 +22,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $dirs = new \Magento\Core\Model\Dir(__DIR__, array(), array(
-            \Magento\Core\Model\Dir::THEMES => 'themes',
-            \Magento\Core\Model\Dir::MODULES => 'modules',
-            \Magento\Core\Model\Dir::PUB_LIB => 'pub_lib',
+        $dirs = new \Magento\App\Dir(__DIR__, array(), array(
+            \Magento\App\Dir::THEMES => 'themes',
+            \Magento\App\Dir::MODULES => 'modules',
+            \Magento\App\Dir::PUB_LIB => 'pub_lib',
         ));
         $this->_model = new \Magento\Core\Model\Design\Fallback\Factory($dirs);
 

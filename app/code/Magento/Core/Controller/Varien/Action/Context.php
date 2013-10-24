@@ -12,12 +12,12 @@ namespace Magento\Core\Controller\Varien\Action;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @var \Magento\Core\Controller\Response\Http
+     * @var \Magento\App\ResponseInterface
      */
     protected $_response;
 
@@ -27,7 +27,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_frontController = null;
 
@@ -37,7 +37,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -55,22 +55,22 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param $isRenderInherited
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param bool $isRenderInherited
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Controller\Response\Http $response,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\App\FrontController $frontController,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         $isRenderInherited
     ) {
         $this->_request           = $request;
@@ -94,7 +94,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Varien\Front
+     * @return \Magento\App\FrontController
      */
     public function getFrontController()
     {
@@ -118,7 +118,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest()
     {
@@ -126,7 +126,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Response\Http
+     * @return \Magento\App\ResponseInterface
      */
     public function getResponse()
     {
@@ -134,7 +134,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \Magento\Event\ManagerInterface
      */
     public function getEventManager()
     {

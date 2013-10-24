@@ -83,7 +83,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     private $_resource;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     private $_appState;
 
@@ -109,7 +109,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
      * @param \Magento\Logger $logger
@@ -120,7 +120,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
         \Magento\Logger $logger,
@@ -408,7 +408,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
         }
 
         $layout = $this->asString();
-        if ($this->_appState->getMode() === \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
             if (!$this->_layoutValidator->isValid(
                     $layout,
                     \Magento\Adminhtml\Model\LayoutUpdate\Validator::LAYOUT_SCHEMA_MERGED,

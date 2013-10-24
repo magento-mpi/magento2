@@ -39,7 +39,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_fileValidator;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
@@ -48,14 +48,14 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
-        \Magento\Core\Model\Dir $coreDir
+        \Magento\App\Dir $coreDir
     ) {
         parent::__construct($locale, $logger);
         $this->_coreData = $coreData;
@@ -66,10 +66,10 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * Extract data from request and return value
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return array|string
      */
-    public function extractValue(\Zend_Controller_Request_Http $request)
+    public function extractValue(\Magento\App\RequestInterface $request)
     {
         if ($this->getIsAjaxRequest()) {
             return false;

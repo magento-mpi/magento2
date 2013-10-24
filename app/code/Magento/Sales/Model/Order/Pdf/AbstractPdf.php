@@ -85,7 +85,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
@@ -115,7 +115,7 @@ abstract class AbstractPdf extends \Magento\Object
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
@@ -130,7 +130,7 @@ abstract class AbstractPdf extends \Magento\Object
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
@@ -225,7 +225,7 @@ abstract class AbstractPdf extends \Magento\Object
         $this->y = $this->y ? $this->y : 815;
         $image = $this->_coreStoreConfig->getConfig('sales/identity/logo', $store);
         if ($image) {
-            $image = $this->_coreDir->getDir(\Magento\Core\Model\Dir::MEDIA) . '/sales/store/logo/' . $image;
+            $image = $this->_coreDir->getDir(\Magento\App\Dir::MEDIA) . '/sales/store/logo/' . $image;
             if (is_file($image)) {
                 $image       = \Zend_Pdf_Image::imageWithPath($image);
                 $top         = 830; //top border of the page

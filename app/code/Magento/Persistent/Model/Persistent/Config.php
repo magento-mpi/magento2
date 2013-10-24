@@ -42,7 +42,7 @@ class Config
     /**
      * App state model
      *
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -54,19 +54,17 @@ class Config
     protected $_persistentFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Config\DomFactory $domFactory
      * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Persistent\Model\Factory $persistentFactory
      */
     public function __construct(
         \Magento\Config\DomFactory $domFactory,
         \Magento\Core\Model\Config\Modules\Reader $moduleReader,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Persistent\Model\Factory $persistentFactory
     ) {
         $this->_domFactory = $domFactory;
@@ -218,7 +216,7 @@ class Config
 
         if (method_exists($object, $method)) {
             $object->$method($instance);
-        } elseif ($this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        } elseif ($this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
             throw new \Magento\Core\Exception('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
         }
 

@@ -62,7 +62,12 @@
  */
 namespace Magento\Core\Model;
 
-class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
+use Magento\Core\Model\App;
+use Magento\Core\Model\Session;
+use Magento\Core\Model\Store;
+use Magento\Core\Model\StoreManager;
+
+class Url extends \Magento\Object implements \Magento\UrlInterface
 {
     /**
      * Configuration data cache
@@ -90,9 +95,9 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     );
 
     /**
-     * Controller request object
+     * Request instance
      *
-     * @var \Zend_Controller_Request_Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -135,22 +140,28 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
      *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
-     *
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Session $session
+     * 
+     * @param \Magento\App\RouterListInterface $routerList
+     * @param \Magento\App\RequestInterface $request
+     * @param Url\SecurityInfoInterface $urlSecurityInfo
+     * @param Store\Config $coreStoreConfig
+     * @param App $app
+     * @param StoreManager $storeManager
+     * @param Session $session
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\App\RouterListInterface $routerList,
+        \Magento\App\RequestInterface $request,
+        Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Session $session,
         array $data = array()
     ) {
+        $this->_request = $request;
+        $this->_routerList = $routerList;
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
@@ -299,10 +310,10 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     /**
      * Set request
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return \Magento\Core\Model\Url
      */
-    public function setRequest(\Zend_Controller_Request_Http $request)
+    public function setRequest(\Magento\App\RequestInterface $request)
     {
         $this->_request = $request;
         return $this;
@@ -311,13 +322,10 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     /**
      * Zend request object
      *
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest()
     {
-        if (!$this->_request) {
-            $this->_request = $this->_app->getRequest();
-        }
         return $this->_request;
     }
 
@@ -511,7 +519,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     public function getRoutePath($routeParams = array())
     {
         if (!$this->hasData('route_path')) {
-            $routePath = $this->getRequest()->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+            $routePath = $this->getRequest()->getAlias(Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
             if (!empty($routeParams['_use_rewrite']) && ($routePath !== null)) {
                 $this->setData('route_path', $routePath);
                 return $routePath;
@@ -561,7 +569,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     {
         if (!$this->hasData('route_front_name')) {
             $routeId = $this->getRouteName();
-            $router = $this->_app->getFrontController()->getRouterList()->getRouterByRoute($routeId);
+            $router = $this->_routerList->getRouterByRoute($routeId);
             $frontName = $router->getFrontNameByRoute($routeId);
 
             $this->setRouteFrontName($frontName);
@@ -1158,7 +1166,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     {
         $key = 'use_session_id_for_url_' . (int) $secure;
         if (is_null($this->getData($key))) {
-            $httpHost = $this->_app->getFrontController()->getRequest()->getHttpHost();
+            $httpHost = $this->_request->getHttpHost();
             $urlHost = parse_url($this->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure),
                 PHP_URL_HOST);
 

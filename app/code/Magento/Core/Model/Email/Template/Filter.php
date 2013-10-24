@@ -280,7 +280,6 @@ class Filter extends \Magento\Filter\Template
             $layout->addOutputElement($rootBlock->getNameInLayout());
         }
 
-        $layout->setDirectOutput(false);
         $result = $layout->getOutput();
         $layout->__destruct(); // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
         return $result;

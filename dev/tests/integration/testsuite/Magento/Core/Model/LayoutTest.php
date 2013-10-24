@@ -77,13 +77,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\View\Layout\ProcessorInterface', $this->_layout->getUpdate());
     }
 
-    public function testGetSetDirectOutput()
-    {
-        $this->assertFalse($this->_layout->isDirectOutput());
-        $this->_layout->setDirectOutput(true);
-        $this->assertTrue($this->_layout->isDirectOutput());
-    }
-
     public function testGenerateXml()
     {
         $layoutUtility = new \Magento\Core\Utility\Layout($this);

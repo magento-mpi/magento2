@@ -77,7 +77,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('var');
         $exportDir = $varDir . DS . $fileInfo['file_path'];
         if (!is_dir($exportDir)) {

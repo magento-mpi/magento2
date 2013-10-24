@@ -111,12 +111,12 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
     /**
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -132,7 +132,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
@@ -605,7 +605,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     protected function _getHistoryDirPath()
     {
-        $dirPath = $this->_coreDir->getDir(\Magento\Core\Model\Dir::LOG) . DS . self::LOG_DIRECTORY
+        $dirPath = $this->_coreDir->getDir(\Magento\App\Dir::LOG) . DS . self::LOG_DIRECTORY
             . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
 
         if (!is_dir($dirPath)) {

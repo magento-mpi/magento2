@@ -78,7 +78,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     protected function _mockModel($mockedMethods)
     {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();

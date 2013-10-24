@@ -33,7 +33,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -42,7 +42,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -139,7 +139,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
      */
     protected function _getBaseDir()
     {
-        return $this->_coreDir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . self::BASEPATH_PAYPAL_CERT;
+        return $this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR) . DS . self::BASEPATH_PAYPAL_CERT;
     }
 
     /**

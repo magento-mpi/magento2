@@ -41,7 +41,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -55,7 +55,7 @@ class Observer
     /**
      * Request http
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -90,7 +90,7 @@ class Observer
     /**
      * Url model
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
@@ -130,38 +130,38 @@ class Observer
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\UrlInterface $url
-     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     * @param \Magento\UrlInterface $url
+     * @param SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
-     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param Persistent\ConfigFactory $persistentConfigFactory
+     * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\UrlInterface $url,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
-        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\App\RequestInterface $requestHttp,
         \Magento\View\LayoutInterface $layout,
         \Magento\Escaper $escaper
     ) {

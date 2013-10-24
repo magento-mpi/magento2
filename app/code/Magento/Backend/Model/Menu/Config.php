@@ -20,7 +20,7 @@ class Config
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -61,7 +61,7 @@ class Config
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
      * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
@@ -71,7 +71,7 @@ class Config
         \Magento\Backend\Model\MenuFactory $menuFactory,
         \Magento\Backend\Model\Menu\Config\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {

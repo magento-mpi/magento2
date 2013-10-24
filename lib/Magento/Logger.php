@@ -26,7 +26,7 @@ class Logger
     protected $_loggers = array();
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirs = null;
 
@@ -36,13 +36,11 @@ class Logger
     protected $_fileSystem;
 
     /**
-     * @todo \Magento\Core\Model\Dir should be changes after folks team sprint commit
-     *
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\App\Dir $dirs
      * @param \Magento\Io\File $fileSystem
      * @param string $defaultFile
      */
-    public function __construct(\Magento\Core\Model\Dir $dirs, \Magento\Io\File $fileSystem, $defaultFile = '')
+    public function __construct(\Magento\App\Dir $dirs, \Magento\Io\File $fileSystem, $defaultFile = '')
     {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;
@@ -65,7 +63,7 @@ class Logger
     {
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
-            $logDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::LOG);
+            $logDir = $this->_dirs->getDir(\Magento\App\Dir::LOG);
             $this->_fileSystem->checkAndCreateFolder($logDir);
             $file = $logDir . DIRECTORY_SEPARATOR . $file;
         }

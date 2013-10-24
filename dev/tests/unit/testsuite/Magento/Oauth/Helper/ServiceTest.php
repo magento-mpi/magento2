@@ -32,6 +32,19 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->_coreHelper = new \Magento\Core\Helper\Data(
+            $this->_coreContextMock,
+            $this->getMockBuilder('Magento\Event\ManagerInterface')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento\Core\Helper\Http')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()->getMock(),
+            $this->_storeConfigMock,
+            $this->getMockBuilder('Magento\Core\Model\StoreManager')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento\Core\Model\Locale')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento\Core\Model\Date')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock(),
+            $this->_encryptorMock
+        );
+
         $this->_oauthHelper = new \Magento\Oauth\Helper\Service(
             $this->_coreContextMock,
             $this->_storeConfigMock

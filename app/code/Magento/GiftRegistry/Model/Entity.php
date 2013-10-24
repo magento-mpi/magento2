@@ -178,7 +178,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $storeManager;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $request;
 
@@ -195,23 +195,23 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
-     * @param \Magento\GiftRegistry\Model\Type $type
-     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
-     * @param \Magento\GiftRegistry\Model\Item $itemModel
+     * @param Type $type
+     * @param Attribute\Config $attributeConfig
+     * @param Item $itemModel
      * @param \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\GiftRegistry\Model\PersonFactory $personFactory
-     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param PersonFactory $personFactory
+     * @param ItemFactory $itemFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
-     * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
-     * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
+     * @param Resource\Entity $resource
+     * @param Resource\Entity\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -235,7 +235,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Escaper $escaper,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,

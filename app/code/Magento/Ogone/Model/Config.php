@@ -28,7 +28,7 @@ class Config extends \Magento\Payment\Model\Config
     protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
@@ -37,7 +37,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,

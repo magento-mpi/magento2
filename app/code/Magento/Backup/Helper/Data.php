@@ -61,7 +61,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Directory model
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -80,7 +80,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
      */
     public function __construct(
@@ -89,7 +89,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Cache\Config $cacheConfig,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
     ) {
         parent::__construct($context);
@@ -147,7 +147,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getBackupsDir()
     {
-        return $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'backups';
+        return $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'backups';
     }
 
     /**
@@ -211,12 +211,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             '.git',
             '.svn',
             'maintenance.flag',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'session',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'cache',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'full_page_cache',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'locks',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'report',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'session',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'cache',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'full_page_cache',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'locks',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'log',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'report',
         );
     }
 
@@ -231,10 +231,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             '.svn',
             '.git',
             'maintenance.flag',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'session',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'locks',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'report',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'session',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'locks',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'log',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'report',
             $this->_dir->getDir() . DS . 'errors',
             $this->_dir->getDir() . DS . 'index.php',
         );

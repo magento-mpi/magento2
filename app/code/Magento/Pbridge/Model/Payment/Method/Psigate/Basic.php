@@ -90,9 +90,9 @@ class Basic extends \Magento\Payment\Model\Method\Cc
      * Construct
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\App\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -103,9 +103,9 @@ class Basic extends \Magento\Payment\Model\Method\Cc
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\App\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -314,7 +314,7 @@ class Basic extends \Magento\Payment\Model\Method\Cc
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \\Magento\Pbridge\Model\Payment\Method\Psigate\Basic
+     * @return \Magento\Pbridge\Model\Payment\Method\Psigate\Basic
      */
     public function setStore($store)
     {

@@ -15,7 +15,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -30,7 +30,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Core\Model\ModuleListInterface
+     * @var \Magento\App\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -61,10 +61,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\App\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Resource\Resource $resourceResource
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
@@ -73,10 +73,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\App\ModuleListInterface $moduleList,
         \Magento\Core\Model\Resource\Resource $resourceResource,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
@@ -96,7 +96,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \Magento\Event\ManagerInterface
      */
     public function getEventManager()
     {
@@ -112,7 +112,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\ModuleListInterface
+     * @return \Magento\App\ModuleListInterface
      */
     public function getModuleList()
     {

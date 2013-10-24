@@ -54,13 +54,13 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param bool $isRenderInherited
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\AuthorizationInterface $authorization
@@ -68,17 +68,17 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Controller\Response\Http $response,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\App\FrontController $frontController,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         $isRenderInherited,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,

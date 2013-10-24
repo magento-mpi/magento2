@@ -62,7 +62,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     protected $_reportOrderFactory;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -75,7 +75,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -854,8 +854,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         }
 
         $this->addFieldToFilter($fieldToFilter, array(
-            'from'  => $from->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
-            'to'    => $to->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+            'from'  => $from->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT),
+            'to'    => $to->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
         ));
 
         return $this;

@@ -32,7 +32,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -71,7 +71,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -83,7 +83,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Controller\Request\Http $request
+        \Magento\App\RequestInterface $request
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;

@@ -817,9 +817,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         } else {
             return $this->norouteAction();
         }
-        /** @var $dirModel \Magento\Core\Model\Dir */
-        $dirModel = $this->_objectManager->get('Magento\Core\Model\Dir');
-        $path = $dirModel->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'rma_item';
+        /** @var $dirModel \Magento\App\Dir */
+        $dirModel = $this->_objectManager->get('Magento\App\Dir');
+        $path = $dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'rma_item';
 
         $ioFile = new \Magento\Io\File();
         $ioFile->open(array('path' => $path));

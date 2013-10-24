@@ -56,7 +56,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_website = $this->getMockBuilder('Magento\Core\Model\Website')
             ->disableOriginalConstructor()
-            ->setMethods(array('getStoreIds'))
+            ->setMethods(array('getStoreIds', '__wakeup'))
             ->getMock();
         $this->_senderMock = $this->getMockBuilder('Magento\Core\Model\Sender')
             ->disableOriginalConstructor()
@@ -68,7 +68,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_attribute = $this->getMockBuilder('Magento\Eav\Model\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIsVisible'))
+            ->setMethods(array('getIsVisible', '__wakeup'))
             ->getMock();
         $this->_resourceMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer')
             ->disableOriginalConstructor()
@@ -97,7 +97,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_storeManager));
 
         $this->_model = new \Magento\Customer\Model\Customer(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->_customerData,
             $this->_contextMock,
             $coreRegistry,
