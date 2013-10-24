@@ -63,8 +63,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Convert\Xml $xmlConverter,
         \Magento\Core\Model\Dir $dirs,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
         $this->_xmlConverter = $xmlConverter;
@@ -161,7 +160,7 @@ class Data extends \Magento\Core\Helper\Data
     public function loadLocalPackage($packageName)
     {
         //check LFI protection
-        $this->checkLfiProtection($packageName);
+        $this->_filesystem->checkLfiProtection($packageName);
 
         $path = $this->getLocalPackagesPath();
         $xmlFile = $path . $packageName . '.xml';

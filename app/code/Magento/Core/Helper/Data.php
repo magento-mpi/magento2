@@ -545,21 +545,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Check LFI protection
-     *
-     * @throws \Magento\Core\Exception
-     * @param string $name
-     * @return bool
-     */
-    public function checkLfiProtection($name)
-    {
-        if (preg_match('#\.\.[\\\/]#', $name)) {
-            throw new \Magento\Core\Exception(__('Requested file may not include parent directory traversal ("../", "..\\" notation)'));
-        }
-        return true;
-    }
-
-    /**
      * Check whether database compatible mode is used (configs enable it for MySQL by default).
      *
      * @return bool

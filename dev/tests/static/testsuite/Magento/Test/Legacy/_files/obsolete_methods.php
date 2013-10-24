@@ -884,5 +884,6 @@ return array(
     array('isCountryInEU', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::isCountryInEU'),
     array('assocToXml', '\Magento\Core\Helper\Data', '\Magento\Convert\ConvertArray::assocToXml'),
     array('xmlToAssoc', '\Magento\Core\Helper\Data', '\Magento\Convert\Xml::xmlToAssoc'),
+    array('checkLfiProtection', '\Magento\Core\Helper\Data', '\Magento\Filesystem::checkLfiProtection'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
 );
