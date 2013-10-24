@@ -41,6 +41,9 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\n\$d=1*1;", "<?php\n\$d = 1 * 1;\n"),
             array("<?php\n\$d=1/1;", "<?php\n\$d = 1 / 1;\n"),
             array("<?php\n\$d=1-1;", "<?php\n\$d = 1 - 1;\n"),
+            array("<?php\n\$d=5%2;", "<?php\n\$d = 5 % 2;\n"),
+            array("<?php\n\$d=5&2;", "<?php\n\$d = 5 & 2;\n"),
+            array("<?php\n\$d=5|2;", "<?php\n\$d = 5 | 2;\n"),
             array("<?php\n\$d=1/1*2+1;", "<?php\n\$d = 1 / 1 * 2 + 1;\n"),
             array("<?php\n\$d=1/1*(2+1);", "<?php\n\$d = 1 / 1 * (2 + 1);\n"),
             array("<?php\n\$d=&\$refable;", "<?php\n\$d =& \$refable;\n"),
@@ -70,6 +73,7 @@ class PrinterOperatorsTest extends TestBase
             ),
             array("<?php\n\$d=~\$a;", "<?php\n\$d = ~\$a;\n"),
             array("<?php\n\$d=++\$a;", "<?php\n\$d = ++\$a;\n"),
+            array("<?php\n\$d=@\$a;", "<?php\n\$d = @\$a;\n"),
             array("<?php\n\$d=22+ ++\$a;", "<?php\n\$d = 22 + ++\$a;\n"),
             array("<?php\n\$d=--\$a;", "<?php\n\$d = --\$a;\n"),
             array("<?php\n\$d=22+ --\$a;", "<?php\n\$d = 22 + --\$a;\n"),
@@ -78,6 +82,7 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\n\$d=\$a--;", "<?php\n\$d = \$a--;\n"),
             array("<?php\n\$d=22+ \$a--;", "<?php\n\$d = 22 + \$a--;\n"),
             array("<?php\n\$d=+22;", "<?php\n\$d = +22;\n"),
+            array("<?php\n\$d=-22;", "<?php\n\$d = -22;\n"),
             array("<?php\n\$d=+\$plus;", "<?php\n\$d = +\$plus;\n"),
             array("<?php\n\$d= \$a==\$b;", "<?php\n\$d = \$a == \$b;\n"),
             array("<?php\n\$d= \$a!=\$b;", "<?php\n\$d = \$a != \$b;\n"),
@@ -90,6 +95,10 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\n\$a=\$x==5 ? 'a':'b';","<?php\n\$a = \$x == 5 ? 'a' : 'b';\n"),
             array("<?php\n\$a=(\$x==5)? 'a':'b';","<?php\n\$a = \$x == 5 ? 'a' : 'b';\n"),
             array("<?php\n\$a=(\$x==5)? 'a':(\$y ? 'a' : 'b');","<?php\n\$a = \$x == 5 ? 'a' : (\$y ? 'a' : 'b');\n"),
+            array("<?php\nif (!\$d>\$c) {\$a!==\$b;}", "<?php\nif (!\$d > \$c) {\n    \$a !== \$b;\n}\n"),
+            array("<?php\nif (!\$d>=\$c) {\$a!==\$b;}", "<?php\nif (!\$d >= \$c) {\n    \$a !== \$b;\n}\n"),
+            array("<?php\nif (!\$d<\$c) {\$a!==\$b;}", "<?php\nif (!\$d < \$c) {\n    \$a !== \$b;\n}\n"),
+            array("<?php\nif (!\$d<=\$c) {\$a!==\$b;}", "<?php\nif (!\$d <= \$c) {\n    \$a !== \$b;\n}\n"),
         );
     }
 }

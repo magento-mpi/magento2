@@ -51,5 +51,4 @@ class PrinterReferenceTest extends TestBase
             array("<?php if (isset(\$Bye)) { echo 'b'; } ", "<?php\nif (isset(\$Bye)) {\n    echo 'b';\n}\n"),
         );
     }
-
 }
