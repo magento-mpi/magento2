@@ -594,7 +594,7 @@ return array(
     array('loadProductPrices', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
     array('lockOrderInventoryData', 'Magento\CatalogInventory\Model\Observer'),
     array('logEncryptionKeySave'),
-    array('logI' . 'nvitationSave'),
+    array('logInvitationSave'),
     array('map', 'Magento\ObjectManager\Config\Mapper\Dom', 'Magento_ObjectManager_Config_Mapper_Dom::convert'),
     array('mergeFiles', 'Magento\Core\Helper\Data', 'Magento\Core\Model\Page\Asset\MergeStrategyInterface'),
     array('mergeFiles', 'Magento\Core\Model\Design\Package', 'Magento\Core\Model\Page\Asset\MergeStrategyInterface'),
@@ -889,4 +889,9 @@ return array(
     array('xmlToAssoc', '\Magento\Core\Helper\Data', '\Magento\Convert\Xml::xmlToAssoc'),
     array('checkLfiProtection', '\Magento\Core\Helper\Data', '\Magento\Filesystem::checkLfiProtection'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
+    array('is_dir_writeable'),
+    array('destruct'),
+    array('mageDebugBacktrace'),
+    array('mageDelTree'),
+    array('mageParseCsv'),
 );

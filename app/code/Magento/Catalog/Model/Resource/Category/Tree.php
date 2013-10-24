@@ -383,6 +383,21 @@ class Tree extends \Magento\Data\Tree\Dbp
     }
 
     /**
+     * Clean unneeded collection
+     *
+     * @param \Magento\Catalog\Model\Resource\Category\Collection|array $object
+     */
+    protected function _clean($object)
+    {
+        if (is_array($object)) {
+            foreach ($object as $obj) {
+                $this->_clean($obj);
+            }
+        }
+        unset($object);
+    }
+
+    /**
      * Enter description here...
      *
      * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
@@ -391,7 +406,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     public function setCollection($collection)
     {
         if (!is_null($this->_collection)) {
-            destruct($this->_collection);
+            $this->_clean($this->_collection);
         }
         $this->_collection = $collection;
         return $this;
