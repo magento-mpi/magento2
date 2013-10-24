@@ -22,6 +22,25 @@
                     <param name="_current">1</param>
                 </argument>
             </arguments>
+            <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="integration.grid.massaction" as="grid.massaction">
+                <arguments>
+                    <argument name="massaction_id_field" xsi:type="string">entity_id</argument>
+                    <argument name="options" xsi:type="array">
+                        <item name="Authorize" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Authorize</item>
+                            <item name="url" xsi:type="string">*/integration/massAuthorize</item>
+                        </item>
+                        <item name="Re-Authorize" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Re-Authorize</item>
+                            <item name="url" xsi:type="string">*/integration/massReauthorize</item>
+                        </item>
+                        <item name="Unathorize" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Unauthorize</item>
+                            <item name="url" xsi:type="string">*/integration/massUnauthorize</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
             <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="integration.grid.columnSet">
                 <arguments>
                     <argument name="rowUrl" xsi:type="array">
