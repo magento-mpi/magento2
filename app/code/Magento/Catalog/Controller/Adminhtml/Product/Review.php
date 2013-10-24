@@ -344,9 +344,9 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
 
                 $session->addSuccess(__('You saved the review.'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/pending'));
+                    $this->getResponse()->setRedirect($this->getUrl('catalog/*/pending'));
                 } else {
-                    $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
+                    $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
                 }
 
                 return;
@@ -356,7 +356,7 @@ class Review extends \Magento\Backend\Controller\Adminhtml\Action
                 $session->addException($e, __('An error occurred while saving review.'));
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
+        $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
         return;
     }
 

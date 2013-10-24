@@ -183,7 +183,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
                         $(\'save_button\').disabled = true;
                         new Ajax.Updater(
                             "rating_detail",
-                            "' . $this->getUrl('adminhtml/*/ratingItems', array('_current'=>true)).'",
+                            "' . $this->getUrl('catalog/*/ratingItems', array('_current'=>true)).'",
                             {
                                 parameters:Form.serializeElements(elements),
                                 evalScripts:true,

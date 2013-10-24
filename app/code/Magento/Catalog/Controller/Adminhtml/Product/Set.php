@@ -180,7 +180,7 @@ class Set extends \Magento\Backend\Controller\Adminhtml\Action
                 $response['message'] = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {
                 $response['error']   = 0;
-                $response['url']     = $this->getUrl('adminhtml/*/');
+                $response['url']     = $this->getUrl('catalog/*/');
             }
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')
                 ->jsonEncode($response));
@@ -213,7 +213,7 @@ class Set extends \Magento\Backend\Controller\Adminhtml\Action
                 ->delete();
 
             $this->_getSession()->addSuccess(__('The attribute set has been removed.'));
-            $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
+            $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred while deleting this set.'));
             $this->_redirectReferer();
