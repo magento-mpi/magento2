@@ -45,7 +45,13 @@ class NodeLeveler extends LevelNodeVisitor
         // determine if all the lines are within tolerances
         foreach ($currentLines as $currentLine) {
             $lineText = $currentLine[Line::ATTRIBUTE_LINE];
-            if (self::MAX_LINE_LENGTH < strlen($lineText) + $this->level * strlen(self::PREFIX)) {
+            // determine the length of the resulting line
+            $lineLength = strlen($lineText);
+            if (!array_key_exists(Line::ATTRIBUTE_NO_INDENT, $currentLine)) {
+                $lineLength += $this->level * strlen(self::PREFIX);
+            }
+            // if the result is still longer than a line, then flag this as invalid
+            if (self::MAX_LINE_LENGTH < $lineLength) {
                 $valid = false;
                 break;
             }
@@ -99,7 +105,7 @@ class NodeLeveler extends LevelNodeVisitor
                 if ($lastLineBreak->isNextLineIndented()) {
                     $treeNode->addChild($newNode);
                 } else {
-                    $lastNode = $treeNode->addSibling($newNode);
+                    $lastNode = $lastNode->addSibling($newNode);
                 }
             }
             // save off the current line break

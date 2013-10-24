@@ -12,8 +12,6 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 
 class NodePrinter extends LevelNodeVisitor
 {
-    const MAX_LINE_LENGTH = 80;
-
     /**
      * This member holds what is being used as a prefix to the line (i.e. 4 spaces).
      */
@@ -35,7 +33,7 @@ class NodePrinter extends LevelNodeVisitor
         // add the line data base on indents
         $line = $treeNode->getData()->line->getLine();
         // only prepend the prefix if the line is more than a LF
-        if (strlen($line) > 1 || HardLineBreak::EOL != $line) {
+        if (strlen($line) > 1 && !$treeNode->getData()->line->isNoIndent()) {
             $line = str_repeat(self::PREFIX, $this->level) . $line;
         }
         // add the resulting string

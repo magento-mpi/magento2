@@ -16,6 +16,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 class Line
 {
     const ATTRIBUTE_LINE = 'line';
+    const ATTRIBUTE_NO_INDENT = 'noindent';
     const ATTRIBUTE_TERMINATOR = 'terminator';
     /**
      * This member holds the actual tokens in the line
@@ -74,6 +75,14 @@ class Line
     public function getTokens()
     {
         return $this->tokens;
+    }
+
+    /**
+     * This method returns if the no indent token if found in the string.
+     * @return bool
+     */
+    public function isNoIndent() {
+        return array_key_exists(self::ATTRIBUTE_NO_INDENT, $this->tokens);
     }
 
     /**
@@ -142,6 +151,9 @@ class Line
                 } else {
                     $currentLines[$index][self::ATTRIBUTE_LINE] .= (string)$resolvedToken;
                 }
+            } elseif ($token instanceof IndentConsumer) {
+                // if there is the special flag in the line, then note it in the resulting line
+                $currentLines[$index][self::ATTRIBUTE_NO_INDENT] = $token;
             }
         }
         return $currentLines;

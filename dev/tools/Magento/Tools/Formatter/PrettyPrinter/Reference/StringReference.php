@@ -9,6 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_String;
@@ -73,8 +74,12 @@ class StringReference extends AbstractReference
     protected function processHeredoc(Line $line, $heredocCloseTag, $body)
     {
         $line->add('<<<')->add($heredocCloseTag)->add(new HardLineBreak());
-        // TODO: take into account body not being indented
-        $line->add($body)->add(new HardLineBreak());
-        $line->add($heredocCloseTag);
+        $heredocLines = explode(HardLineBreak::EOL, $body);
+        if (!empty($heredocLines)) {
+            foreach($heredocLines as $heredocLine) {
+                $line->add(new IndentConsumer())->add($heredocLine)->add(new HardLineBreak());
+            }
+        }
+        $line->add(new IndentConsumer())->add($heredocCloseTag);
     }
 }
