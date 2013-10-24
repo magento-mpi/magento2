@@ -36,11 +36,11 @@ class ConfigurableProduct extends Product
         $data = array();
         foreach ($optionIds as $num => $id) {
             $data[$id] = array(
-                'name' => 'variation %isolation%' . $num,
-                'sku' => 'variation %isolation%' . $num,
-                'weight' => ($num+1),
+                'name'      => 'variation %isolation%' . $num,
+                'sku'       => 'variation %isolation%' . $num,
+                'weight'    => ($num + 1),
                 'quantity_and_stock_status' => array(
-                    'qty' => ($num+1) * 100,
+                    'qty' => ($num + 1) * 100,
                 ),
             );
         }
@@ -63,6 +63,8 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Returns attribute & create it if is needed
+     *
      * @param string $code
      * @return \Magento\Catalog\Test\Fixture\ProductAttribute
      */
@@ -85,9 +87,9 @@ class ConfigurableProduct extends Product
         $data = array();
         foreach ($optionIds as $num => $id) {
             $data[$id] = array(
-                'pricing_value' => ($num+1)*1,
-                'is_percent' => 0,
-                'include' => 1
+                'pricing_value' => ($num + 1) * 1,
+                'is_percent'    => 0,
+                'include'       => 1
             );
         }
         return $data;
@@ -144,9 +146,9 @@ class ConfigurableProduct extends Product
                 ),
                 'configurable_attributes_data' => $this->getConfigurableAttributeData('attribute1')
             ),
-            'variations-matrix' => $this->getOptionVariations('attribute1'),
-            'affect_configurable_product_attributes' => 0,
-            'new-variations-attribute-set-id' => 4
+            'variations-matrix'                         => $this->getOptionVariations('attribute1'),
+            'affect_configurable_product_attributes'    => 0,
+            'new-variations-attribute-set-id'           => 4
         );
 
         $this->_repository = Factory::getRepositoryFactory()

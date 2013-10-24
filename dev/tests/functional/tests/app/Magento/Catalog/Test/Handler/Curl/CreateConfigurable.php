@@ -46,26 +46,26 @@ class CreateConfigurable extends Curl
         $params['product'] = $paramsField;
         unset($params['fields']);
 
-        $attributeIdPointer = $params['product']['configurable_attributes_data'];
-        reset($attributeIdPointer);
-        $attributeId = key($attributeIdPointer);
-        $attributeOptionIdsPointer = $params['product']['configurable_attributes_data'][$attributeId]['values'];
-        reset($attributeOptionIdsPointer);
-        $attributeOptionIds = key($attributeOptionIdsPointer);
-        $attribute = $fixture->getAttribute('attribute1');
-        $attributeCode = $attribute->getAttributeCode();
+        $attribute      = $fixture->getAttribute('attribute1');
+        $optionsIds     = $attribute->getAttributeOptionIds();
+        $attributeId    = $attribute->getAttributeId();
+        $attributeCode  = $attribute->getAttributeCode();
+        $variationsMatrix   = array();
+        $valueIndexes       = array();
+        foreach ($optionsIds as $optionsId) {
+            $variationsMatrix[$optionsId] = array(
+                'configurable_attribute' => '{"' . $attributeCode . '":"' . $optionsId .  '"}'
+            );
+            $valueIndexes[$optionsId] = array(
+                'value_index' => $optionsId
+            );
+        }
+
         $curlData = array(
             'attributes' => array(
-                '0' => $attributeId
+                '0' => $attribute->getAttributeId()
             ),
-            'variations-matrix' => array(
-                $attributeOptionIds => array(
-                    'configurable_attribute' => '{"' . $attributeCode . '":"' . $attributeOptionIds .  '"}'
-                ),
-                array(
-                    'configurable_attribute' => '{"' . $attributeCode . '":"' . ($attributeOptionIds+1) . '"}'
-                )
-            )
+            'variations-matrix' => $variationsMatrix
         );
         $params = array_replace_recursive($curlData, $params);
 
@@ -76,16 +76,9 @@ class CreateConfigurable extends Curl
             'status' => 1,
             'configurable_attributes_data' => array(
                 $attributeId => array(
-                    'code' => $attributeCode,
-                    'attribute_id' => $attributeId,
-                    'values' => array(
-                        $attributeOptionIds => array(
-                            'value_index' => $attributeOptionIds,
-                            ),
-                        $attributeOptionIds+1 => array(
-                            'value_index' => $attributeOptionIds+1
-                            )
-                        )
+                    'code'          => $attributeCode,
+                    'attribute_id'  => $attributeId,
+                    'values'        => $valueIndexes
                     )
                 ),
             'meta_title' => '',
