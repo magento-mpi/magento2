@@ -80,6 +80,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\UseReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\UseStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\WhileStatement;
 use PHPParser_Node;
+use Exception;
 
 /**
  * This class controls the mapping of the parser nodes to printer nodes.
@@ -115,11 +116,16 @@ class SyntaxFactory
             $statementName = $this->nodeMap[$parserNode->getType()];
         }
         // TODO: remove this check once all statement types have been accounted for
-        \PHPUnit_Framework_Assert::assertNotEquals(
-            UnknownStatement::getType(),
-            $statementName,
-            "Unable to resolve node type of '" . $parserNode->getType() . "'"
-        );
+//        \PHPUnit_Framework_Assert::assertNotEquals(
+//            UnknownStatement::getType(),
+//            $statementName,
+//            "Unable to resolve node type of '" . $parserNode->getType() . "'"
+//        );
+//        throw new Exception("Unable to resolve node type of '" . $parserNode->getType() . "'");
+        else {
+            echo "Unable to resolve node type of '" . $parserNode->getType() . "'\n";
+        }
+
         // return an instance of the class with the parsed node as a parameter
         return new $statementName($parserNode);
     }
@@ -129,8 +135,24 @@ class SyntaxFactory
      */
     protected function __construct()
     {
-        $this->register('Expr_Include', IncludeStatement::getType());
         $this->register('Scalar_DirConst', DirConstReference::getType());
+        $this->register('Const', ClassConstant::getType());
+        $this->register('Name', ClassReference::getType());
+        $this->register('Scalar_DNumber', DecimalNumberReference::getType());
+        $this->register('Scalar_LNumber', IntegerNumberReference::getType());
+        $this->register('Scalar_String', StringReference::getType());
+        $this->register('Param', ParameterReference::getType());
+        $this->register('Name_FullyQualified', ClassReference::getType());
+        $this->register('Arg', ArgumentReference::getType());
+        $this->registerExprs();
+        $this->registerStmts();
+    }
+
+    /**
+     * This method constructs the new factory. By default, it registers the known expression types.
+     */
+    protected function registerExprs() {
+        $this->register('Expr_Include', IncludeStatement::getType());
         $this->register('Expr_Equal', EqualOperator::getType());
         $this->register('Expr_NotEqual', NotEqualOperator::getType());
         $this->register('Expr_Identical', IdenticalOperator::getType());
@@ -163,30 +185,35 @@ class SyntaxFactory
         $this->register('Expr_Plus', PlusOperator::getType());
         $this->register('Expr_Mul', MultiplyOperator::getType());
         $this->register('Expr_Minus', MinusOperator::getType());
+        $this->register('Expr_ConstFetch', ConstantReference::getType());
+        $this->register('Expr_Variable', ExpressionReference::getType());
+        $this->register('Expr_MethodCall', MethodCall::getType());
+        $this->register('Expr_Array', ArrayReference::getType());
+        $this->register('Expr_ArrayItem', ArrayItemReference::getType());
+        $this->register('Expr_ClassConstFetch', ClassConstantReference::getType());
+        $this->register('Expr_StaticCall', StaticCallReference::getType());
+        $this->register('Expr_PropertyFetch', PropertyCall::getType());
+        $this->register('Expr_FuncCall', FunctionCall::getType());
+        $this->register('Expr_ArrayDimFetch', ArrayIndexedReference::getType());
+    }
+
+
+    /**
+     * This method constructs the new factory. By default, it registers the known statement types.
+     */
+    protected function registerStmts() {
         $this->register('Stmt_Namespace', NamespaceStatement::getType());
         $this->register('Stmt_Use', UseStatement::getType());
         $this->register('Stmt_UseUse', UseReference::getType());
         $this->register('Stmt_Class', ClassStatement::getType());
         $this->register('Stmt_Interface', InterfaceStatement::getType());
         $this->register('Stmt_ClassConst', ConstantStatement::getType());
-        $this->register('Const', ClassConstant::getType());
-        $this->register('Expr_ConstFetch', ConstantReference::getType());
         $this->register('Stmt_Property', PropertyStatement::getType());
         $this->register('Stmt_PropertyProperty', PropertyReference::getType());
         $this->register('Stmt_ClassMethod', MethodStatement::getType());
         $this->register('Stmt_InlineHTML', InlineHtmlStatement::getType());
-        $this->register('Name', ClassReference::getType());
-        $this->register('Scalar_DNumber', DecimalNumberReference::getType());
-        $this->register('Scalar_LNumber', IntegerNumberReference::getType());
-        $this->register('Scalar_String', StringReference::getType());
         $this->register('Stmt_Return', ReturnStatement::getType());
-        $this->register('Expr_Variable', ExpressionReference::getType());
-        $this->register('Expr_MethodCall', MethodCall::getType());
         $this->register('Stmt_Echo', EchoStatement::getType());
-        $this->register('Param', ParameterReference::getType());
-        $this->register('Name_FullyQualified', ClassReference::getType());
-        $this->register('Expr_Array', ArrayReference::getType());
-        $this->register('Expr_ArrayItem', ArrayItemReference::getType());
         $this->register('Stmt_Foreach', ForEachStatement::getType());
         $this->register('Stmt_For', ForStatement::getType());
         $this->register('Stmt_While', WhileStatement::getType());
@@ -195,12 +222,6 @@ class SyntaxFactory
         $this->register('Stmt_ElseIf', ElseIfStatement::getType());
         $this->register('Stmt_Else', ElseStatement::getType());
         $this->register('Stmt_Function', FunctionStatement::getType());
-        $this->register('Arg', ArgumentReference::getType());
-        $this->register('Expr_ClassConstFetch', ClassConstantReference::getType());
-        $this->register('Expr_StaticCall', StaticCallReference::getType());
-        $this->register('Expr_PropertyFetch', PropertyCall::getType());
-        $this->register('Expr_FuncCall', FunctionCall::getType());
-        $this->register('Expr_ArrayDimFetch', ArrayIndexedReference::getType());
     }
 
     /**
