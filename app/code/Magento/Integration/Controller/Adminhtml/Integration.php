@@ -92,4 +92,28 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->renderLayout();
     }
+
+    public function consumerAction()
+    {
+        $integrationId = (int)$this->getRequest()->getParam('id');
+
+        $model = $this->_objectManager->create('Magento\Integration\Model\Integration');
+        if ($integrationId) {
+            $model->load($integrationId);
+        }
+
+        if (!$this->_registry->registry('current_integration')) {
+            $this->_registry->register('current_integration', $model);
+        }
+
+        if (!$model->getId() && $integrationId) {
+            $this->_getSession()
+                ->addError(__('This integration no longer exists.'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }
