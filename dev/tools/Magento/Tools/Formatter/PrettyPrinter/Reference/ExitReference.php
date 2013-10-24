@@ -8,11 +8,10 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\ReferenceAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Exit;
 
-class ExitReference extends ReferenceAbstract
+class ExitReference extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specified exit node.

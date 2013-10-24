@@ -5,14 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Array;
 
-class ArrayReference extends ReferenceAbstract
+class ArrayReference extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specify class node

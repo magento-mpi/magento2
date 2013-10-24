@@ -8,13 +8,12 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\ReferenceAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 use PHPParser_Node_Expr_ArrayDimFetch;
 use PHPParser_Node_Expr_New;
 
-class ArrayIndexedReference extends ReferenceAbstract
+class ArrayIndexedReference extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specified indexed array access.

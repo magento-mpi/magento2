@@ -8,17 +8,20 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr_New;
+use PHPParser_Node_Expr;
+use PHPParser_Node_Expr_FuncCall;
 
-class NewReference extends AbstractReference
+class FunctionCall extends AbstractReference
 {
     /**
-     * This method constructs a new statement based on the specified new reference.
-     * @param PHPParser_Node_Expr_New $node
+     * This method constructs a new statement based on the specify class node
+     * @param PHPParser_Node_Expr_FuncCall $node
      */
-    public function __construct(PHPParser_Node_Expr_New $node)
+    public function __construct(PHPParser_Node_Expr_FuncCall $node)
     {
         parent::__construct($node);
     }
@@ -31,15 +34,11 @@ class NewReference extends AbstractReference
     {
         parent::resolve($treeNode);
         /* Reference
-        return 'new ' . $this->p($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
+        return $this->p($node->name) . '(' . $this->getParametersForCall($node->args) . ')';
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add in the new statement
-        $line->add('new ');
-        // add in the class reference
-        $this->resolveNode($this->node->class, $treeNode);
-        // add in the arguments
+        $this->resolveNode($this->node->name, $treeNode);
         $line->add('(');
         $this->processArgumentList($this->node->args, $treeNode, $line, new CallLineBreak());
         $line->add(')');

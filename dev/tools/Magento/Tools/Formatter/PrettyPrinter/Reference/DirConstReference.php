@@ -8,11 +8,10 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\ReferenceAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_DirConst;
 
-class DirConstReference extends ReferenceAbstract
+class DirConstReference extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specified string

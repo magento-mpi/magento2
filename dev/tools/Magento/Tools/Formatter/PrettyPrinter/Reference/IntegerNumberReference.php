@@ -5,14 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_LNumber;
 
-class IntegerNumberReference extends ReferenceAbstract
+class IntegerNumberReference extends AbstractReference
 {
     /**
      * This method constructs a new reference based on the specified integer number.

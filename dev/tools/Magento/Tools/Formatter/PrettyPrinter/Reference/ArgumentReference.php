@@ -8,11 +8,10 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\ReferenceAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Arg;
 
-class ArgumentReference extends ReferenceAbstract
+class ArgumentReference extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specified argument node.

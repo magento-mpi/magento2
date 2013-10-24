@@ -5,14 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_Variable;
 
-class ExpressionReference extends ReferenceAbstract
+class ExpressionReference extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specify expression

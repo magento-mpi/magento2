@@ -5,10 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
-
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
-
+namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
@@ -16,15 +13,15 @@ use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
-use PHPParser_Node_Expr_MethodCall;
+use PHPParser_Node_Expr_PropertyFetch;
 
-class MethodCall extends ReferenceAbstract
+class PropertyCall extends AbstractReference
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Expr_MethodCall $node
+     * @param PHPParser_Node_Expr_PropertyFetch $node
      */
-    public function __construct(PHPParser_Node_Expr_MethodCall $node)
+    public function __construct(PHPParser_Node_Expr_PropertyFetch $node)
     {
         parent::__construct($node);
     }
@@ -37,8 +34,7 @@ class MethodCall extends ReferenceAbstract
     {
         parent::resolve($treeNode);
         /* Reference
-        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name)
-             . '(' . $this->pCommaSeparated($node->args) . ')';
+        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name);
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
@@ -52,13 +48,5 @@ class MethodCall extends ReferenceAbstract
             // otherwise, just use the name
             $line->add($this->node->name);
         }
-        // add in the argument call
-        $line->add('(');
-        $this->processArgumentList(
-            $this->node->args,
-            $treeNode, $line,
-            new ConditionalLineBreak(array(array(' '), array(new HardIndentLineBreak())))
-        );
-        $line->add(')');
     }
 }
