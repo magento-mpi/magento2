@@ -86,11 +86,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetStoreId()
-    {
-        $this->assertTrue(is_numeric($this->_helper->getStoreId()));
-    }
-
     /**
      * @magentoAppIsolation enabled
      */

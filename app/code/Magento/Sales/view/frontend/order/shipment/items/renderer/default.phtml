@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\GiftCard\Block\Sales\Order\Item\Renderer|\Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer|\Magento\Catalog\Block\Product\Price */
 ?>
 <?php $_item = $this->getItem() ?>
 <?php $_order = $this->getItem()->getOrderItem()->getOrder() ?>
@@ -44,6 +46,6 @@
             <a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $_item->getId()?>" data-item-id="<?php echo $_item->getId()?>"><?php echo __('Gift Message') ?></a>
         <?php endif; ?>
     </td>
-    <td><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->splitInjection($this->getSku())) ?></td>
+    <td><?php echo $this->prepareSku($this->getSku()) ?></td>
     <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
 </tr>

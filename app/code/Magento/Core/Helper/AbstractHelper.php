@@ -182,22 +182,6 @@ abstract class AbstractHelper
     }
 
     /**
-     * Remove html tags, but leave "<" and ">" signs
-     *
-     * @param string $html
-     * @return string
-     */
-    public function removeTags($html)
-    {
-        $callback = function ($matches) {
-            return htmlentities($matches[0]);
-        };
-        $html = preg_replace_callback("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #xi", $callback, $html);
-        $html =  strip_tags($html);
-        return htmlspecialchars_decode($html);
-    }
-
-    /**
      * Retrieve url
      *
      * @param   string $route
