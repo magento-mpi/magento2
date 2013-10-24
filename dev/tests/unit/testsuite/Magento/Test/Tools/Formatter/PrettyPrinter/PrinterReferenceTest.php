@@ -41,14 +41,26 @@ class PrinterReferenceTest extends TestBase
             array("<?php \$newobj=new Blah();", "<?php\n\$newobj = new Blah();\n"),
             array("<?php \$newobj=new Blah(1);", "<?php\n\$newobj = new Blah(1);\n"),
             array(
-                "<?php \$newobj=new Blah(123456,123456,123456,123456,123456,123456,123456,123456,123456);",
+                "<?php \$newobj=new Blah(123456,123456,123456,123456,123456,123456,123456,123456,123456,123456,123456,".
+                "123456,123456,123456);",
                 "<?php\n\$newobj = new Blah(\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n" .
-                "    123456,\n    123456,\n    123456,\n    123456\n);\n"
+                "    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,".
+                "\n    123456,\n    123456\n);\n"
             ),
             array("<?php empty(\$a);", "<?php\nempty(\$a);\n"),
             array("<?php exit('Bye');", "<?php\nexit('Bye');\n"),
             array("<?php isset(\$Bye);", "<?php\nisset(\$Bye);\n"),
             array("<?php if (isset(\$Bye)) { echo 'b'; } ", "<?php\nif (isset(\$Bye)) {\n    echo 'b';\n}\n"),
+            array("<?php \$a = \"Is this \$encapsed\\n\";", "<?php\n\$a = \"Is this \$encapsed\\n\";\n"),
+            array(
+                "<?php if (true) {\$a = \"Is this \$encapsed\\n\";}",
+                "<?php\nif (true) {\n    \$a = \"Is this \$encapsed\\n\";\n}\n"
+            ),
+            array("<?php \$a = `Is this \$encapsed\\n`;", "<?php\n\$a = `Is this \$encapsed\\n`;\n"),
+            array(
+                "<?php if (true) {\$a = `Is this \$encapsed\\n`;}",
+                "<?php\nif (true) {\n    \$a = `Is this \$encapsed\\n`;\n}\n"
+            ),
         );
     }
 }

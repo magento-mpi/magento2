@@ -69,6 +69,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\DecimalNumberReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\EmptyReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\EncapsedReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ExitReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ExpressionReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FileConstantReference;
@@ -82,6 +83,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ParameterReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\PropertyCall;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\PropertyReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\ShellExecReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StaticCallReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StringReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\UseReference;
@@ -260,6 +262,7 @@ class SyntaxFactory
         $this->register('Expr_New', NewReference::getType());
         $this->register('Expr_Empty', EmptyReference::getType());
         $this->register('Expr_Exit', ExitReference::getType());
+        $this->register('Expr_ShellExec', ShellExecReference::getType());
     }
 
     /**
@@ -271,6 +274,7 @@ class SyntaxFactory
         $this->register('Scalar_DNumber', DecimalNumberReference::getType());
         $this->register('Scalar_LNumber', IntegerNumberReference::getType());
         $this->register('Scalar_String', StringReference::getType());
+        $this->register('Scalar_Encapsed', EncapsedReference::getType());
         $this->register('Scalar_MethodConst', MethodConstantReference::getType());
         $this->register('Scalar_FileConst', FileConstantReference::getType());
     }
