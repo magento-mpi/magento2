@@ -38,9 +38,7 @@
                 <?php endif; ?>
                 </td>
                 <td class="col description">
-                    <div class="text">
-                        <?php echo $this->helper('Magento\Review\Helper\Data')->getDetailHtml($_review->getDetail()) ?>
-                    </div>
+                    <?php echo $this->helper('Magento\Review\Helper\Data')->getDetailHtml($_review->getDetail()) ?>
                 </td>
                 <td class="col actions">
                     <a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>" class="action more">

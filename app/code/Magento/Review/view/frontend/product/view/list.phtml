@@ -43,9 +43,6 @@
                 </p>
             </div>
             <div class="review title"><?php echo $this->escapeHtml($_review->getTitle()) ?></div>
-            <?php /*
-                <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"></a>
-                */?>
             <div class="review content">
                 <?php echo nl2br($this->escapeHtml($_review->getDetail())) ?>
             </div>

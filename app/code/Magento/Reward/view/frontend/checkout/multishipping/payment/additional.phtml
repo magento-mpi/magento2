@@ -14,7 +14,7 @@
     <div class="field choice payment">
         <input type="checkbox" name="payment[use_reward_points]" value="1" id="use-reward-points"<?php echo $this->useRewardPoints()?' checked="checked"':'' ?> class="checkbox" />
         <label for="use-reward-points" class="label">
-            <?php echo __('Use my reward points; %1 are available.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), $this->getCurrencyAmount())); ?>
+            <span><?php echo __('Use my reward points; %1 are available.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), $this->getCurrencyAmount())); ?></span>
         </label>
     </div>
 </div>
