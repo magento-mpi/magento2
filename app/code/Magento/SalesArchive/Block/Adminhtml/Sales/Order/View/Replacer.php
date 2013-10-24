@@ -57,7 +57,7 @@ class Replacer
             );
 
             $restoreUrl = $this->getUrl(
-                '*/sales_archive/remove',
+                'adminhtml/sales_archive/remove',
                 array('order_id' => $this->getOrder()->getId())
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
@@ -71,7 +71,7 @@ class Replacer
             $isActive = $this->_configModel->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
-                    '*/sales_archive/add',
+                    'adminhtml/sales_archive/add',
                     array('order_id' => $this->getOrder()->getId())
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {
