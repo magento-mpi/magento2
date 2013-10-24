@@ -10,6 +10,8 @@
 
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit\Tab;
 
+use \Magento\Integration\Controller\Adminhtml\Integration;
+
 /**
  * Main Integration properties edit form
  *
@@ -50,52 +52,64 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
         $htmlIdPrefix = 'integration_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
-
-        $model = $this->_coreRegistry->registry('current_integration');
-
+        $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
         $fieldset = $form->addFieldset('base_fieldset');
-
-        if ($model->getIntegrationId()) {
-            $fieldset->addField('integration_id', 'hidden', array(
-                'name' => 'integration_id',
-            ));
+        if ($integrationData[Integration::DATA_INTEGRATION_ID]) {
+            $fieldset->addField(
+                Integration::DATA_INTEGRATION_ID,
+                'hidden',
+                array(
+                    'name' => 'id',
+                )
+            );
         }
-
-        $fieldset->addField('name', 'text', array(
-            'label'     => __('Integration Name'),
-            'name'      => 'name',
-            'required'  => true,
-            'disabled'  => false
-        ));
-
-        $fieldset->addField('email', 'text', array(
-            'label'     => __('Email'),
-            'name'      => 'email',
-            'required'  => true,
-            'disabled'  => false
-        ));
-
-        $fieldset->addField('authentication', 'select', array(
-            'label'     => __('Authentication'),
-            'name'      => 'authentication',
-            'required'  => true,
-            'disabled'  => false,
-            'options'   => array(
-                \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH  => __('OAuth'),
-                \Magento\Integration\Model\Integration::AUTHENTICATION_MANUAL => __('Manual'),
-            ),
-        ));
-
-        $fieldset->addField('endpoint', 'text', array(
-            'label'     => __('Endpoint URL'),
-            'name'      => 'endpoint',
-            'required'  => true,
-            'disabled'  => false
-        ));
-
-        $form->setValues($model->getData());
+        $fieldset->addField(
+            'name',
+            'text',
+            array(
+                'label' => __('Integration Name'),
+                'name' => 'name',
+                'required' => true,
+                'disabled' => false
+            )
+        );
+        $fieldset->addField(
+            'email',
+            'text',
+            array(
+                'label' => __('Email'),
+                'name' => 'email',
+                'required' => true,
+                'disabled' => false,
+                'class' => 'validate-email',
+            )
+        );
+        $fieldset->addField(
+            'authentication',
+            'select',
+            array(
+                'label' => __('Authentication'),
+                'name' => 'authentication',
+                'required' => true,
+                'disabled' => false,
+                'options' => array(
+                    \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH => __('OAuth'),
+                    \Magento\Integration\Model\Integration::AUTHENTICATION_MANUAL => __('Manual'),
+                ),
+            )
+        );
+        $fieldset->addField(
+            'endpoint',
+            'text',
+            array(
+                'label' => __('Endpoint URL'),
+                'name' => 'endpoint',
+                'required' => true,
+                'disabled' => false
+            )
+        );
+        $form->setValues($integrationData);
         $this->setForm($form);
-
         return $this;
     }
 
