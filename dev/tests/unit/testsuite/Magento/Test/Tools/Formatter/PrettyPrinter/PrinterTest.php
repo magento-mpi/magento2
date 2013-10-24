@@ -151,6 +151,30 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 class Foo {
     function x() {
+        unset(\$d);
+
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function x()
+    {
+        unset(\$d);
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
         throw new \Exception('error');
 
     }

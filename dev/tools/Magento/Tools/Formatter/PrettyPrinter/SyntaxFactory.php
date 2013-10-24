@@ -110,6 +110,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\SwitchStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ThrowStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\TryCatchStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\UnknownStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\UnsetStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\UseStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\WhileStatement;
 use PHPParser_Node;
@@ -280,6 +281,7 @@ class SyntaxFactory
     protected function registerStmts()
     {
         $this->register('Stmt_Namespace', NamespaceStatement::getType());
+        $this->register('Stmt_Unset', UnsetStatement::getType());
         $this->register('Stmt_Use', UseStatement::getType());
         $this->register('Stmt_UseUse', UseReference::getType());
         $this->register('Stmt_Class', ClassStatement::getType());
