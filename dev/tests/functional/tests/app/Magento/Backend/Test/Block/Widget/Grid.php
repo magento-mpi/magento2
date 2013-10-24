@@ -60,6 +60,13 @@ abstract class Grid extends Block
     protected $selectItem;
 
     /**
+     * The body element of the page
+     *
+     * @var Template
+     */
+    protected $_templateBlock;
+
+    /**
      * Initialize block elements
      */
     protected function _init()
@@ -69,6 +76,8 @@ abstract class Grid extends Block
         $this->resetButton = '[title="Reset Filter"][class*=action]';
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
+        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+            $this->_rootElement->find('/ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
     }
 
     /**

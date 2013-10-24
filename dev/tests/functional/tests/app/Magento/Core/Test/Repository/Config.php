@@ -318,19 +318,19 @@ class Config extends AbstractRepository
                                                     'express_checkout_required_express_checkout' => array( //Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( //Email Associated with PayPal
-                                                                'value' => 'mtf_bussiness_standard@example.com'
+                                                                'value' => 'paymentspro@biz.com'
                                                             ),
                                                             'api_authentication' => array( //API Authentication Methods
                                                                 'value' => 0 //API Signature
                                                             ),
                                                             'api_username' => array( //API Username
-                                                                'value' => 'mtf_bussiness_standard_api1.example.com'
+                                                                'value' => 'paymentspro_api1.biz.com'
                                                             ),
                                                             'api_password' => array( //API Password
-                                                                'value' => '1380260139'
+                                                                'value' => '1369911703'
                                                             ),
                                                             'api_signature' => array( //API Signature
-                                                                'value' => 'AcYK4Hvrvg8x95.1ptMpawrNh0v4AdXYN21zLoEaQYfqqsD1du9YCpMB'
+                                                                'value' => 'AOolWQExAt2k.RZzqZ6i6hWlSW4vAnkvVXvL8r1P-kXgqaV7sfD.ftNQ'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
                                                                 'value' => 1 //Yes

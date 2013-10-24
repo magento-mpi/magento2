@@ -26,24 +26,27 @@ use Mtf\Client\Element\Locator;
 class Totals extends Block
 {
     /**
-     * Order grand total
+     * Grand total search mask
+     *
      * @var string
      */
-    private $grandTotal;
+    protected  $_grandTotalMask;
 
     /**
      * Initialize block elements
      */
     protected function _init()
     {
-        $this->grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
+        $this->_grandTotalMask          = '//tr[normalize-space(td)="Grand Total"]//span';
     }
 
     /**
-     * Get price for Grand Total
+     * Get Grand Total Text
+     *
+     * @return array|string
      */
     public function getGrandTotal()
     {
-        return $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->_grandTotalMask, Locator::SELECTOR_XPATH)->getText();
     }
 }
