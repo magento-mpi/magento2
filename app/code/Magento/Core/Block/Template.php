@@ -204,54 +204,13 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $viewShortPath = str_replace($this->_dirs->getDir(\Magento\App\Dir::ROOT), '', $fileName);
         \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
-
-        $do = $this->getDirectOutput();
-
-        if (!$do) {
-            ob_start();
-        }
-        if ($this->getShowTemplateHints()) {
-            echo <<<HTML
-<div style="position:relative; border:1px dotted red; margin:6px 2px; padding:18px 2px 2px 2px; zoom:1;">
-<div style="position:absolute; left:0; top:0; padding:2px 5px; background:red; color:white; font:normal 11px Arial;
-text-align:left !important; z-index:998;" onmouseover="this.style.zIndex='999'"
-onmouseout="this.style.zIndex='998'" title="{$fileName}">{$fileName}</div>
-HTML;
-            if (self::$_showTemplateHintsBlocks) {
-                $thisClass = get_class($this);
-                echo <<<HTML
-<div style="position:absolute; right:0; top:0; padding:2px 5px; background:red; color:blue; font:normal 11px Arial;
-text-align:left !important; z-index:998;" onmouseover="this.style.zIndex='999'" onmouseout="this.style.zIndex='998'"
-title="{$thisClass}">{$thisClass}</div>
-HTML;
-            }
-        }
-
-        try {
-            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::APP))
-                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
+        if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::APP))
+                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
-            ) {
-                $extension = pathinfo($fileName, PATHINFO_EXTENSION); 
-                $templateEngine = $this->_tmplEngineFactory->get($extension);
-                echo $templateEngine->render($this, $fileName, $this->_viewVars);
-            } else {
-                $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
-            }
-
-        } catch (\Exception $e) {
-            if (!$do) {
-                ob_get_clean();
-            }
-            throw $e;
-        }
-
-        if ($this->getShowTemplateHints()) {
-            echo '</div>';
-        }
-
-        if (!$do) {
-            $html = ob_get_clean();
+        ) {
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $templateEngine = $this->_templateEnginePool->get($extension);
+            $html = $templateEngine->render($this, $fileName, $this->_viewVars);
         } else {
             $html = '';
             $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
