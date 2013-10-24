@@ -51,6 +51,11 @@ class CreateTest extends Functional
         //Verifying
         $messageBlock->waitForSuccessMessage($category);
 
+        //Flush cache
+        $cacheManagementPage = Factory::getPageFactory()->getAdminCache();
+        $cacheManagementPage->open();
+        $cacheManagementPage->getActionsBlock()->flushMagentoCache();
+
         //Open created category on frontend
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
