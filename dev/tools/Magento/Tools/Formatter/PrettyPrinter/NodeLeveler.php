@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 
 class NodeLeveler extends LevelNodeVisitor
 {
-    const MAX_LINE_LENGTH = 80;
+    const MAX_LINE_LENGTH = 120;
 
     /**
      * This member holds what is being used as a prefix to the line (i.e. 4 spaces).
