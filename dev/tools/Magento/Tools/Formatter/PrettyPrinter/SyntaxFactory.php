@@ -35,6 +35,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Operator\ConcatOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\DivideOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\EqualOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\IdenticalOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\InstanceofOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\LogicalAndOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\LogicalOrOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\LogicalXorOperator;
@@ -168,6 +169,7 @@ class SyntaxFactory
     protected function registerExprs()
     {
         $this->register('Expr_Include', IncludeStatement::getType());
+        $this->register('Expr_Instanceof', InstanceofOperator::getType());
         $this->register('Expr_Cast_Int', CastIntOperator::getType());
         $this->register('Expr_Cast_Double', CastDoubleOperator::getType());
         $this->register('Expr_Cast_String', CastStringOperator::getType());
