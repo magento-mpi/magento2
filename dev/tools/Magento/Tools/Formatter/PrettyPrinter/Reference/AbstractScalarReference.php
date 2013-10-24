@@ -39,9 +39,12 @@ class AbstractScalarReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        // add in the constant value
-        $line->add($this->result);
+        // optionally add in the result
+        if (null !== $this->result) {
+            /** @var Line $line */
+            $line = $treeNode->getData()->line;
+            // add in the constant value
+            $line->add($this->result);
+        }
     }
 }
