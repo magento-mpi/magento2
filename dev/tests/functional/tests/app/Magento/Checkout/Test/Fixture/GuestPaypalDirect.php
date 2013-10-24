@@ -34,29 +34,28 @@ class GuestPaypalDirect extends Checkout
         $coreConfig->switchData('flat_rate');
         $coreConfig->persist();
 
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $coreConfig->switchData('paypal_disabled_all_methods');
         $coreConfig->persist();
 
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('authorizenet_disable');
+        $coreConfig->persist();
+
         $coreConfig->switchData('paypal_direct');
         $coreConfig->persist();
 
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $coreConfig->switchData('default_tax_config');
         $coreConfig->persist();
 
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple1->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple2->switchData('simple');
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple');
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
 
-        $simple1->persist();
-        $simple2->persist();
+        $simple->persist();
+        $bundle->persist();
         $this->products = array(
-            $simple1,
-            $simple2
+            $simple,
+            $bundle
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -73,7 +72,7 @@ class GuestPaypalDirect extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '30'
+                'grand_total' => 140
             )
         );
     }

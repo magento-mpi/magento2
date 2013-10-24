@@ -30,14 +30,15 @@ class Bundle extends Options
      */
     public function fillBundleOptions(BundleFixture $fixture)
     {
-        $bundleOptions = $fixture->getBundleOptions();
-        $order = 1;
+        $bundleOptions = $fixture->getSelectionData();
+        $index = 1;
         foreach ($bundleOptions as $option) {
             $optionClass = '\\Magento\\Bundle\\Test\\Block\\Catalog\\Product\\View\\Type\\Option\\'
                 . ucfirst($option['type']);
-            $optionBlock = new $optionClass($this->_rootElement->find('//dd[' . $order++ . ']',
-                Locator::SELECTOR_XPATH));
-            $optionBlock->fillOption($option['data']);
+            $optionBlock = new $optionClass(
+                $this->_rootElement->find('.field.option.required:nth-of-type(' . $index++ . ')')
+            );
+            $optionBlock->fillOption($option);
         }
     }
 }

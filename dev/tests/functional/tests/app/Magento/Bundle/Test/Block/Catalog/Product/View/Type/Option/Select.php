@@ -29,8 +29,8 @@ class Select extends Form
     protected function _init()
     {
         $this->_mapping = array(
-            'value' => '.input-box select',
-            'qty' => '.qty-holder input'
+            'value' => 'select',
+            'qty' => 'input.qty'
         );
     }
 
@@ -41,8 +41,14 @@ class Select extends Form
      */
     public function fillOption(array $data)
     {
-        $this->_rootElement->find($this->_mapping['value'], Locator::SELECTOR_CSS, 'select')
-            ->setValue($data['value']);
-        $this->_rootElement->find($this->_mapping['qty'], Locator::SELECTOR_CSS)->setValue($data['qty']);
+        $this->waitForElementVisible($this->_mapping['value']);
+        $this->waitForElementVisible($this->_mapping['qty']);
+
+        $select = $this->_rootElement->find($this->_mapping['value'], Locator::SELECTOR_CSS, 'select');
+        $select->setValue($data['value']);
+        $qtyField = $this->_rootElement->find($this->_mapping['qty'], Locator::SELECTOR_CSS);
+        if (!$qtyField->isDisabled()) {
+            $qtyField->setValue($data['qty']);
+        }
     }
 }
