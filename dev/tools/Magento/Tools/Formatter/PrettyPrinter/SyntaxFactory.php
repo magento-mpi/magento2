@@ -65,6 +65,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\ArrayItemReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ArrayReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassConstant;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassConstantReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassConstantScalarReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\DecimalNumberReference;
@@ -74,10 +75,13 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\ExitReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ExpressionReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FileConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FunctionCall;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\FunctionConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\IntegerNumberReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\IssetReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\LineConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\MethodCall;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\MethodConstantReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\NamespaceConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\NewReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ParameterReference;
@@ -280,6 +284,10 @@ class SyntaxFactory
         $this->register('Scalar_Encapsed', EncapsedReference::getType());
         $this->register('Scalar_MethodConst', MethodConstantReference::getType());
         $this->register('Scalar_FileConst', FileConstantReference::getType());
+        $this->register('Scalar_NSConst', NamespaceConstantReference::getType());
+        $this->register('Scalar_LineConst', LineConstantReference::getType());
+        $this->register('Scalar_FuncConst', FunctionConstantReference::getType());
+        $this->register('Scalar_ClassConst', ClassConstantScalarReference::getType());
     }
 
     /**
