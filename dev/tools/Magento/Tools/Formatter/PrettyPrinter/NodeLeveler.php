@@ -50,6 +50,18 @@ class NodeLeveler extends LevelNodeVisitor
                 break;
             }
         }
+
+        // The recursive nature of this method increments $level each time this
+        // method is called.  A special case relates to $level being >= 1.
+        // Currently, a ConditionalLineBreak cannot handle a value for
+        // $level > 1.  Setting $valid = true prevents the recursion
+        // that prevents ConditionalLineBreak from having to handle a value > 1.
+        // TODO: this is still just a temporary fix, but better than the prior
+        // fix which prevented splitNode() or setTokens() from being called.
+        if ($level >= 1) {
+            $valid = true;
+        }
+
         // if valid, then add any extra lines
         if ($valid) {
             // only need to change things if resolved line spans multiple lines
@@ -58,16 +70,8 @@ class NodeLeveler extends LevelNodeVisitor
             } else {
                 $line->setTokens($currentLines[0]);
             }
-        } elseif ($level < 1) {
-            // TODO the level was not checked before and this led to a situtation
-            // where this recursion exceeded the nesting limit of 1000.  Now we
-            // check that the level is < 1, however, it seems like that is TOO
-            //limiting.
-
-            // try a higher level split
+        } else {
             $this->processLine($line, $level + 1, $treeNode);
-        } elseif ($level > 0) {
-            echo "Line too long: " . $lineText . "\n";
         }
     }
 
