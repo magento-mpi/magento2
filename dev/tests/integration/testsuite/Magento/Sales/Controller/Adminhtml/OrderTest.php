@@ -10,7 +10,7 @@
  */
 
 
-namespace Magento\Adminhtml\Controller\Sales;
+namespace Magento\Sales\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml

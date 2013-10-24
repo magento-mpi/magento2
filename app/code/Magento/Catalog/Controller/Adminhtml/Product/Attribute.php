@@ -102,7 +102,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             if (! $model->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This attribute no longer exists.'));
-                $this->_getUrl('sales/*/');
+                $this->_redirect('catalog/*/');
                 return;
             }
 
@@ -110,7 +110,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This attribute cannot be edited.'));
-                $this->_getUrl('sales/*/');
+                $this->_redirect('catalog/*/');
                 return;
             }
         }
@@ -232,7 +232,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                         __('Attribute Set with name \'%1\' already exists.', $name)
                     );
                     $session->setAttributeData($data);
-                    $this->_getUrl('sales/*/edit', array('_current' => true));
+                    $this->_redirect('catalog/*/edit', array('_current' => true));
                     return;
                 }
 
@@ -266,7 +266,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                         . 'numbers (0-9) or underscore(_) in this field, first character should be a letter.',
                             $attributeCode)
                     );
-                    $this->_getUrl('sales/*/edit', array('attribute_id' => $id, '_current' => true));
+                    $this->_redirect('catalog/*/edit', array('attribute_id' => $id, '_current' => true));
                     return;
                 }
             }
@@ -280,7 +280,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                     foreach ($inputType->getMessages() as $message) {
                         $session->addError($message);
                     }
-                    $this->_getUrl('sales/*/edit', array('attribute_id' => $id, '_current' => true));
+                    $this->_redirect('catalog/*/edit', array('attribute_id' => $id, '_current' => true));
                     return;
                 }
             }
@@ -290,7 +290,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                 if (!$model->getId()) {
                     $session->addError(
                         __('This attribute no longer exists.'));
-                    $this->_getUrl('sales/*/');
+                    $this->_redirect('catalog/*/');
                     return;
                 }
                 // entity type check
@@ -298,7 +298,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                     $session->addError(
                         __('You can\'t update your attribute.'));
                     $session->setAttributeData($data);
-                    $this->_getUrl('sales/*/');
+                    $this->_redirect('catalog/*/');
                     return;
                 }
 
@@ -377,19 +377,19 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                     }
                     $this->_redirect('catalog/product/addAttribute', $requestParams);
                 } elseif ($redirectBack) {
-                    $this->_getUrl('sales/*/edit', array('attribute_id' => $model->getId(),'_current'=>true));
+                    $this->_redirect('catalog/*/edit', array('attribute_id' => $model->getId(),'_current'=>true));
                 } else {
-                    $this->_getUrl('sales/*/', array());
+                    $this->_redirect('catalog/*/', array());
                 }
                 return;
             } catch (\Exception $e) {
                 $session->addError($e->getMessage());
                 $session->setAttributeData($data);
-                $this->_getUrl('sales/*/edit', array('attribute_id' => $id, '_current' => true));
+                $this->_redirect('catalog/*/edit', array('attribute_id' => $id, '_current' => true));
                 return;
             }
         }
-        $this->_getUrl('sales/*/');
+        $this->_redirect('catalog/*/');
     }
 
     public function deleteAction()
@@ -403,7 +403,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This attribute cannot be deleted.'));
-                $this->_getUrl('sales/*/');
+                $this->_redirect('catalog/*/');
                 return;
             }
 
@@ -411,17 +411,17 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->delete();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The product attribute has been deleted.'));
-                $this->_getUrl('sales/*/');
+                $this->_redirect('catalog/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_getUrl('sales/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
+                $this->_redirect('catalog/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;
             }
         }
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find an attribute to delete.'));
-        $this->_getUrl('sales/*/');
+        $this->_redirect('catalog/*/');
     }
 
     /**

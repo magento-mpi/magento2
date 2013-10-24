@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Block\Adminhtml\Rating\Edit\Tab;
+namespace Magento\Rating\Block\Adminhtml\Edit\Tab;
 
 /**
  * @magentoAppArea adminhtml
@@ -16,9 +16,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            'Magento\Rating\Block\Adminhtml\Rating\Edit\Tab\Form',
+            'Magento\Rating\Block\Adminhtml\Edit\Tab\Form',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
-                ->createBlock('Magento\Rating\Block\Adminhtml\Rating\Edit\Tab\Form')
+                ->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tab\Form')
         );
     }
 }

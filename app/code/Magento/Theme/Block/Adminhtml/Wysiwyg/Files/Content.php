@@ -101,7 +101,9 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getNewfolderUrl()
     {
-        return $this->getUrl('adminhtml/*/newFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl(
+            'adminhtml/*/newFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams()
+        );
     }
 
     /**
@@ -111,7 +113,9 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     protected function getDeletefolderUrl()
     {
-        return $this->getUrl('adminhtml/*/deleteFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl(
+            'adminhtml/*/deleteFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams()
+        );
     }
 
     /**
@@ -121,7 +125,9 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getDeleteFilesUrl()
     {
-        return $this->getUrl('adminhtml/*/deleteFiles', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl(
+            'adminhtml/*/deleteFiles', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams()
+        );
     }
 
     /**

@@ -166,7 +166,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
             'onclick' => 'deleteConfirm(\''
                 . addslashes(__('Are you sure you want to do this?'))
                 . '\', \''
-                . $this->_adminhtmlData->getUrl('adminhtml/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
+                . $this->_adminhtmlData->getUrl('adminhtml/*/delete', array('id' => $this->getUrlRewrite()->getId()))
+                . '\')',
             'class'   => 'scalable delete',
             'level'   => -1
         ));

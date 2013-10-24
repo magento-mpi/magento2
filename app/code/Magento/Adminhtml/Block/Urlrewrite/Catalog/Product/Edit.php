@@ -172,7 +172,8 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
         $this->addChild('skip_categories', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Skip Category Selection'),
             'onclick' => 'window.location = \''
-                . $this->_adminhtmlData->getUrl('adminhtml/*/*', array('product' => $this->_getProduct()->getId())) . '\'',
+                . $this->_adminhtmlData->getUrl('adminhtml/*/*', array('product' => $this->_getProduct()->getId()))
+                . '\'',
             'class' => 'save',
             'level' => -1
         ));

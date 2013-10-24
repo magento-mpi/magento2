@@ -26,7 +26,7 @@ class GraphTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Backend\Block\Dashboard\Graph');
-        $this->_block->setDataHelperName('Magento\Adminhtml\Helper\Dashboard\Order');
+        $this->_block->setDataHelperName('Magento\Backend\Helper\Dashboard\Order');
     }
 
     public function testGetChartUrl()

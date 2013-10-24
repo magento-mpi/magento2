@@ -75,7 +75,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->_getUrl('sales/*/');
+        $this->_redirect('sales/*/');
         return;
     }
 
@@ -113,7 +113,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
             try {
                 $agreementModel->cancel();
                 $this->_getSession()->addSuccess(__('You canceled the billing agreement.'));
-                $this->_getUrl('sales/*/view', array('_current' => true));
+                $this->_redirect('sales/*/view', array('_current' => true));
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -121,9 +121,9 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(__('We could not cancel the billing agreement.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
-            $this->_getUrl('sales/*/view', array('_current' => true));
+            $this->_redirect('sales/*/view', array('_current' => true));
         }
-        return $this->_getUrl('sales/*/');
+        return $this->_redirect('sales/*/');
     }
 
     /**
@@ -137,7 +137,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
             try {
                 $agreementModel->delete();
                 $this->_getSession()->addSuccess(__('You deleted the billing agreement.'));
-                $this->_getUrl('sales/*/');
+                $this->_redirect('sales/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -145,9 +145,9 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(__('We could not delete the billing agreement.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
-            $this->_getUrl('sales/*/view', array('_current' => true));
+            $this->_redirect('sales/*/view', array('_current' => true));
         }
-        $this->_getUrl('sales/*/');
+        $this->_redirect('sales/*/');
     }
 
     /**

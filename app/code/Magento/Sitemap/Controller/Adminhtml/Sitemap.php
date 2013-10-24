@@ -38,7 +38,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Init actions
      *
-     * @return \Magento\Adminhtml\Controller\Sitemap
+     * @return \Magento\Sitemap\Controller\Adminhtml\Sitemap
      */
     protected function _initAction()
     {

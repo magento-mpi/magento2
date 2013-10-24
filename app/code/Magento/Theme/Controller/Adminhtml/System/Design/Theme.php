@@ -150,7 +150,9 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError('The theme was not saved');
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $redirectBack ? $this->_redirect('adminhtml/*/edit', array('id' => $theme->getId())) : $this->_redirect('adminhtml/*/');
+        $redirectBack
+            ? $this->_redirect('adminhtml/*/edit', array('id' => $theme->getId()))
+            : $this->_redirect('adminhtml/*/');
     }
 
     /**

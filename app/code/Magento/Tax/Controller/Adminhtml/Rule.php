@@ -63,7 +63,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             if (!$ruleModel->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->unsRuleData();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This rule no longer exists.'));
-                $this->_getUrl('tax/*/');
+                $this->_redirect('tax/*/');
                 return;
             }
         }
@@ -96,11 +96,11 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The tax rule has been saved.'));
 
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_getUrl('tax/*/edit', array('rule' => $ruleModel->getId()));
+                    $this->_redirect('tax/*/edit', array('rule' => $ruleModel->getId()));
                     return;
                 }
 
-                $this->_getUrl('tax/*/');
+                $this->_redirect('tax/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
@@ -122,7 +122,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             ->load($ruleId);
         if (!$ruleModel->getId()) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This rule no longer exists'));
-            $this->_getUrl('tax/*/');
+            $this->_redirect('tax/*/');
             return;
         }
 
@@ -130,7 +130,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             $ruleModel->delete();
 
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The tax rule has been deleted.'));
-            $this->_getUrl('tax/*/');
+            $this->_redirect('tax/*/');
 
             return;
         } catch (\Magento\Core\Exception $e) {

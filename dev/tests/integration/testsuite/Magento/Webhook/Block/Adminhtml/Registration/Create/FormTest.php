@@ -43,7 +43,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertEquals('post', $form->getData('method'));
-        $this->assertEquals($block->getUrl('*/*/register', array('id' => 333)), $form->getData('action'));
+        $this->assertEquals($block->getUrl('adminhtml/*/register', array('id' => 333)), $form->getData('action'));
         $this->assertEquals('api_user', $form->getId());
 
 
