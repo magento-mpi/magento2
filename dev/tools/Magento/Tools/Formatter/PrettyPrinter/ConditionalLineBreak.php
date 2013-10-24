@@ -37,7 +37,7 @@ class ConditionalLineBreak extends LineBreak
      */
     public function __toString()
     {
-        throwException(new \Exception("This should never be called."));
+        throw new \Exception("This should never be called.");
     }
 
     /**
@@ -67,6 +67,6 @@ class ConditionalLineBreak extends LineBreak
      */
     public function isNextLineIndented()
     {
-        throwException(new \Exception("This should never be called."));
+        throw new \Exception("This should never be called.");
     }
 }
