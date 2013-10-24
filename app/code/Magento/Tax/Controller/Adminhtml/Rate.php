@@ -227,7 +227,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
             } else {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('Something went wrong deleting this rate because of an incorrect rate ID.'));
-                $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
+                $this->getResponse()->setRedirect($this->getUrl('tax/*/'));
             }
         }
     }
