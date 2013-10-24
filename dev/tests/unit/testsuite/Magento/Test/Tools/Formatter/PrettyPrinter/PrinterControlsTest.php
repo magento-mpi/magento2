@@ -50,6 +50,12 @@ class PrinterControlsTest extends TestBase
                 "<?php\nclass L2\n{\n    public function a()\n    {\n        do {\n" .
                 "            echo 'hi';\n        } while (\$a);\n    }\n}\n"
             ),
+            array(
+                "<?php class L2 {public function a(){try{echo 'hi';}catch(\\Exception \$e){echo 'lo';}}}",
+                "<?php\nclass L2\n{\n    public function a()\n    {\n        try {\n" .
+                "            echo 'hi';\n        } catch (\\Exception \$e) {\n            echo 'lo';\n        }\n" .
+                "    }\n}\n"
+            ),
         );
     }
 

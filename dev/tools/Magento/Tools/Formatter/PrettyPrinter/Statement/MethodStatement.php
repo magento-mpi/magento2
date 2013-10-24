@@ -68,10 +68,17 @@ class MethodStatement extends ClassMemberAbstract
         $line->add($this->node->name)->add('(');
         $this->processArgumentList($this->node->params, $treeNode, $line, $lineBreak);
         $line->add($lineBreak);
-        $line->add(')')->add($lineBreak)->add('{')->add(new HardLineBreak());
-        // process content of the methods
-        $this->processNodes($this->node->stmts, $treeNode);
-        // add closing block
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        $line->add(')');
+        // add in the optional statements
+        if (null !== $this->node->stmts) {
+            $line->add($lineBreak)->add('{')->add(new HardLineBreak());
+            // process content of the methods
+            $this->processNodes($this->node->stmts, $treeNode);
+            // add closing block
+            $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        } else {
+            // no statements, so assume it is an abstract class and terminate the line
+            $line->add(';')->add(new HardLineBreak());
+        }
     }
 }
