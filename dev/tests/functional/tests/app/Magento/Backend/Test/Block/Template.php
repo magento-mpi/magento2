@@ -24,34 +24,12 @@ use Mtf\Block\Block;
 class Template extends Block
 {
     /**
-     * Loader selector
-     *
-     * @var string
-     */
-    protected $loader;
-
-    /**
-     * Loader selector
-     *
-     * @var string
-     */
-    protected $secondLoader;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->loader = '.loading-mask';
-        $this->secondLoader = '.loading-old';
-    }
-
-    /**
      * Wait until loader will be disappeared
      */
     public function waitLoader()
     {
-        $this->waitForElementNotVisible($this->loader);
-        $this->waitForElementNotVisible($this->secondLoader);
+        $this->waitForElementNotVisible('.loading-mask');
+        $this->waitForElementNotVisible('.loader');
+        $this->waitForElementNotVisible('.loading-old');
     }
 }
