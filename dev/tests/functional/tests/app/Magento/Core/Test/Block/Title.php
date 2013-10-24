@@ -28,8 +28,6 @@ class Title extends Block
      */
     public function getTitle()
     {
-        if($this->_rootElement->isVisible()) {
-            return $this->_rootElement->getText();
-        }
+        return $this->_rootElement->getText();
     }
 }
