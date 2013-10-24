@@ -60,22 +60,24 @@ abstract class Grid extends Block
     protected $selectItem;
 
     /**
-     * Locator value for loader which blocks grid
+     * The body element of the page
      *
-     * @var string
+     * @var Template
      */
-    protected $loadingMask;
+    protected $_templateBlock;
 
     /**
      * Initialize block elements
      */
     protected function _init()
     {
+        parent::_init();
         $this->searchButton = '[title=Search][class*=action]';
         $this->resetButton = '[title="Reset Filter"][class*=action]';
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
-        $this->loadingMask = '.loading-mask';
+        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+            $this->_rootElement->find('/ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
     }
 
     /**
@@ -103,12 +105,9 @@ abstract class Grid extends Block
     public function search(array $filter)
     {
         $this->resetFilter();
-        sleep(2);
         $this->_prepareForSearch($filter);
-        sleep(2);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-        sleep(2); // @TODO This sleep should be resolved in MAGETWO-16069
-        $this->waitForElementNotVisible($this->loadingMask);
+        $this->_templateBlock->waitLoader();
     }
 
     /**
@@ -122,7 +121,7 @@ abstract class Grid extends Block
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
-            $rowItem->click();
+            $rowItem->find('//td[@data-column="action"]//a', Locator::SELECTOR_XPATH)->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }
@@ -151,7 +150,7 @@ abstract class Grid extends Block
     public function resetFilter()
     {
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->loadingMask);
+        $this->_templateBlock->waitLoader();
     }
 
     public function deleteAll()
