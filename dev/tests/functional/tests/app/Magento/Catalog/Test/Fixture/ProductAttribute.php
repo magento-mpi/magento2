@@ -22,16 +22,59 @@ class ProductAttribute extends DataFixture
     /**
      * Logical sets for mapping data into tabs
      */
-    const GROUP_PRODUCT_ATTRIBUTE_MAIN      = 'product_attribute_tabs_main';
-    const GROUP_PRODUCT_ATTRIBUTE_LABELS    = 'product_attribute_tabs_labels';
-    const GROUP_PRODUCT_ATTRIBUTE_FRONT     = 'product_attribute_tabs_front';
+    const GROUP_PRODUCT_ATTRIBUTE_MAIN = 'product_attribute_tabs_main';
+    const GROUP_PRODUCT_ATTRIBUTE_LABELS = 'product_attribute_tabs_labels';
+    const GROUP_PRODUCT_ATTRIBUTE_FRONT = 'product_attribute_tabs_front';
+
+    /**
+     * Get attribute name
+     *
+     * @return string
+     */
+    public function getAttributeLabel()
+    {
+        return $this->getData('fields/attribute_label/value');
+    }
+
+    /**
+     * Get attribute code
+     *
+     * @return string
+     */
+    public function getAttributeCode()
+    {
+        return $this->getData('fields/attribute_code/value');
+    }
+
+    /**
+     * Get attribute option ids
+     *
+     * @return array
+     */
+    public function getAttributeOptionIds()
+    {
+        return $this->getData('fields/option_ids');
+    }
+
+    /**
+     * Get attribute id
+     *
+     * @return string
+     */
+    public function getAttributeId()
+    {
+        return $this->getData('fields/attribute_id/value');
+    }
 
     /**
      * Save Attribute into Magento
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateProductAttribute($this);
+        $attributeIds = Factory::getApp()->magentoCatalogCreateProductAttribute($this);
+        $this->_data['fields']['attribute_id']['value'] = $attributeIds['attributeId'];
+        $this->_data['fields']['option_ids'] = $attributeIds['optionIds'];
+
         return $this;
     }
 
@@ -43,16 +86,16 @@ class ProductAttribute extends DataFixture
         $this->_data = array(
             'fields' => array(
                 'attribute_code' => array(
-                    'value' => 'attribute_%isolation%',
+                    'value' => 'attribute_code_%isolation%',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
                 'attribute_label' => array(
-                    'value' => 'Auto Generated Attribute #%isolation%',
-                    'curl'  => 'frontend_label[0]',
+                    'value' => 'Attribute Label %isolation%',
+                    'curl' => 'frontend_label[0]',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN
                 ),
                 'frontend_input' => array(
-                    'value' => 'text',
+                    'value' => 'select',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
                 'is_unique' => array(
@@ -67,17 +110,9 @@ class ProductAttribute extends DataFixture
                     'value' => 0,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
-                'default_value_text' => array(
-                    'value' => 'Attribute Default Value %isolation%',
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
                 'frontend_class' => array(
                     'value' => '',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
-                'frontend_label[1]' => array(
-                    'value' => 'Label for Auto Generated Attribute #%isolation%',
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_LABELS,
                 ),
                 'is_searchable' => array(
                     'value' => 1,
@@ -92,7 +127,7 @@ class ProductAttribute extends DataFixture
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
                 'is_configurable' => array(
-                    'value' => 0,
+                    'value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
                 'is_used_for_promo_rules' => array(
@@ -117,6 +152,9 @@ class ProductAttribute extends DataFixture
                 )
             )
         );
+
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCatalogProductAttribute($this->_dataConfig, $this->_data);
     }
 
     /**
