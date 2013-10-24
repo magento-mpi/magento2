@@ -23,70 +23,69 @@ use \Magento\Catalog\Test\Fixture\Product;
  */
 class ConfigurableProduct extends Product
 {
-    protected $_attributes;
-    /**
-     * Custom constructor to create configurable product with attribute
-     *
-     * @param Config $configuration
-     * @param array $placeholders
-     */
-    public function __construct(Config $configuration, $placeholders = array())
-    {
-        parent::__construct($configuration, $placeholders);
-
-        $this->_placeholders['attribute1::getAttributeLabel'] = array($this, 'attributeProvider');
-        $this->_placeholders['attribute1::getAttributeId'] = array($this, 'attributeProvider');
-        $this->_placeholders['attribute1::getOptionFixtures'] = array($this, 'attributeProvider');
-        $this->_placeholders['attribute1::getOptionVariations'] = array($this, 'attributeProvider');
-    }
-
-    public function reset()
-    {
-        $default = $this->_repository->get('default');
-
-        $this->_dataConfig = $default['config'];
-        $this->_data = $default['data'];
-    }
+    protected $attributes = array();
 
     /**
-     * Return product attribute parameter
-     *
-     * @param string $placeholder
-     * @return null|array
+     * @param string $code
+     * @return array
      */
-    protected function attributeProvider($placeholder)
+    protected function getOptionVariations($code)
     {
-        list($code, $method) = explode('::', $placeholder);
-        $attribute = $this->_getAttribute($code);
-        if ($method == 'getOptionVariations') {
-            return $this->getOptionVariations($attribute->getAttributeOptionIds());
-        } elseif ($method == 'getOptionFixtures') {
-            return $this->getOptionFixtures($attribute->getAttributeOptionIds());
-        }
-        return is_callable(array($attribute, $method)) ? $attribute->$method() : null;
-    }
-
-    protected function getOptionVariations($optionIds)
-    {
+        $attribute = $this->getAttribute($code);
+        $optionIds = $attribute->getAttributeOptionIds();
         $data = array();
         foreach ($optionIds as $num => $id) {
             $data[$id] = array(
-                'name' => 'variation %isolation%',
-                'sku' => 'variation %isolation%',
+                'name' => 'variation %isolation%' . $num,
+                'sku' => 'variation %isolation%' . $num,
+                'weight' => ($num+1),
                 'quantity_and_stock_status' => array(
-                    'qty' => $num * 100,
+                    'qty' => ($num+1) * 100,
                 ),
             );
         }
         return $data;
     }
 
+    /**
+     * @param string $code
+     * @return array
+     */
+    protected function getConfigurableAttributeData($code)
+    {
+        $attribute = $this->getAttribute($code);
+        return array(
+            $attribute->getAttributeId() => array(
+                'label'  => $attribute->getAttributeLabel(),
+                'values' => $this->getOptionFixtures($attribute->getAttributeOptionIds())
+            )
+        );
+    }
+
+    /**
+     * @param string $code
+     * @return \Magento\Catalog\Test\Fixture\ProductAttribute
+     */
+    public function getAttribute($code)
+    {
+        if (!isset($this->attributes[$code])) {
+            $attribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
+            $attribute->switchData('configurable_attribute');
+            $this->attributes[$code] = $attribute->persist();
+        }
+        return $this->attributes[$code];
+    }
+
+    /**
+     * @param array $optionIds
+     * @return array
+     */
     protected function getOptionFixtures($optionIds)
     {
         $data = array();
         foreach ($optionIds as $num => $id) {
             $data[$id] = array(
-                'pricing_value' => $num*1,
+                'pricing_value' => ($num+1)*1,
                 'is_percent' => 0,
                 'include' => 1
             );
@@ -95,37 +94,15 @@ class ConfigurableProduct extends Product
     }
 
     /**
-     * @param string $code
-     * @return \Magento\Catalog\Test\Fixture\ProductAttribute
-     */
-    protected function _getAttribute($code)
-    {
-        if (!isset($this->_attributes[$code])) {
-            $attribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
-            $attribute->switchData('configurable_attribute');
-            $this->_attributes[$code] = $attribute->persist();
-        }
-        return $this->_attributes[$code];
-    }
-
-    /**
      * Create product
+     *
+     * @return $this|ConfigurableProduct
      */
     public function persist()
     {
         Factory::getApp()->magentoCatalogCreateConfigurable($this);
 
         return $this;
-    }
-
-    /**
-     * Get variations product prices
-     *
-     * @return array
-     */
-    public function getVariations()
-    {
-        return $this->_data['configurable_options']['configurable_items'];
     }
 
     /**
@@ -165,22 +142,11 @@ class ConfigurableProduct extends Product
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'configurable_attributes_data' => array(
-                    '%attribute1::getAttributeId%' => array(
-                        'label'  => '%attribute1::getAttributeLabel%',
-                        'values' => '%attribute1::getOptionFixtures%'
-                    )
-                )
+                'configurable_attributes_data' => $this->getConfigurableAttributeData('attribute1')
             ),
-            'variations-matrix' => '%attribute1::getOptionVariations%',
+            'variations-matrix' => $this->getOptionVariations('attribute1'),
             'affect_configurable_product_attributes' => 0,
             'new-variations-attribute-set-id' => 4
-//            'configurable_options' => array(
-//                'configurable_items' => array(
-//                    array('product_price' => '1', 'product_quantity' => '100'),
-//                    array('product_price' => '2', 'product_quantity' => '200')
-//                ),
-//            )
         );
 
         $this->_repository = Factory::getRepositoryFactory()

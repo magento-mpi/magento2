@@ -12,6 +12,7 @@
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -27,34 +28,47 @@ class CreateConfigurable extends Curl
     /**
      * Returns transformed data
      *
-     * @param Fixture $fixture
+     * @param ConfigurableProduct $fixture
      * @return mixed
      */
-    protected function _prepareData(Fixture $fixture)
+    protected function _prepareData(ConfigurableProduct $fixture)
     {
         $params = $fixture->getData();
-        $attributeIdPointer = $params['fields']['configurable_attributes_data'];
+        $params['fields']['tax_class_id']['value'] = 2;
+        $paramsField = array();
+        foreach ($fixture->getData('fields') as $key => $value) {
+            if ($key == 'configurable_attributes_data') {
+                $paramsField[$key] = $value;
+            } else {
+                $paramsField[$key] = $value['value'];
+            }
+        }
+        $params['product'] = $paramsField;
+        unset($params['fields']);
+
+        $attributeIdPointer = $params['product']['configurable_attributes_data'];
         reset($attributeIdPointer);
         $attributeId = key($attributeIdPointer);
-        $attributeOptionIdsPointer = $params['fields']['configurable_attributes_data'][$attributeId]['values'];
+        $attributeOptionIdsPointer = $params['product']['configurable_attributes_data'][$attributeId]['values'];
         reset($attributeOptionIdsPointer);
         $attributeOptionIds = key($attributeOptionIdsPointer);
+        $attribute = $fixture->getAttribute('attribute1');
+        $attributeCode = $attribute->getAttributeCode();
         $curlData = array(
             'attributes' => array(
                 '0' => $attributeId
             ),
             'variations-matrix' => array(
                 $attributeOptionIds => array(
-//                    'configurable_attribute' => '{"' . uuu_code . '":"' . $attributeOptionIds.  '"}'
+                    'configurable_attribute' => '{"' . $attributeCode . '":"' . $attributeOptionIds .  '"}'
                 ),
-                $attributeOptionIds+1 => array(
-//                    'configurable_attribute' => '{"' . uuu_code . '":"' . $attributeOptionIds+1 .  '"}'
+                array(
+                    'configurable_attribute' => '{"' . $attributeCode . '":"' . ($attributeOptionIds+1) . '"}'
                 )
             )
         );
-        $params = array_merge($params, $curlData);
+        $params = array_replace_recursive($curlData, $params);
 
-        $paramsField = $fixture->getData('fields');
         $curlProductData = array(
             'quantity_and_stock_status' => array(
                 'is_in_stock' => 1
@@ -62,7 +76,7 @@ class CreateConfigurable extends Curl
             'status' => 1,
             'configurable_attributes_data' => array(
                 $attributeId => array(
-                    'code' => 'attributeCode',
+                    'code' => $attributeCode,
                     'attribute_id' => $attributeId,
                     'values' => array(
                         $attributeOptionIds => array(
@@ -96,9 +110,8 @@ class CreateConfigurable extends Curl
             'is_returnable' => 2
         );
 
-        $paramsField = array_merge($paramsField, $curlProductData);
-
-        $params  = array_merge($params, $paramsField);
+        $paramsField = array_replace_recursive($curlProductData, $paramsField);
+        $params['product'] = array_merge($params['product'], $paramsField);
 
         return $params;
     }
