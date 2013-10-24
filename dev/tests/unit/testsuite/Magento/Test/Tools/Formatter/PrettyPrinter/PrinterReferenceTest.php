@@ -45,6 +45,8 @@ class PrinterReferenceTest extends TestBase
                 "<?php\n\$newobj = new Blah(\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n" .
                 "    123456,\n    123456,\n    123456,\n    123456\n);\n"
             ),
+            array("<?php empty(\$a);", "<?php\nempty(\$a);\n"),
+            array("<?php exit('Bye');", "<?php\nexit('Bye');\n"),
         );
     }
 

@@ -5,10 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Operator\AbstractOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\ReferenceAbstract;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementAbstract;
 use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -35,6 +34,10 @@ class LineResolver extends NodeVisitorAbstract
             $this->statementCount++;
             // let the syntax try to resolve to a line
             $lineData->syntax->resolve($treeNode);
+            // if there is only a reference, then add a line terminator
+            if ($lineData->syntax instanceof ReferenceAbstract) {
+                $lineData->line->add(';')->add(new HardLineBreak());
+            }
         }
     }
 }

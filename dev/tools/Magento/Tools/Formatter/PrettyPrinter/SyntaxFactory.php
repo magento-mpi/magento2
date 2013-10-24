@@ -42,6 +42,8 @@ use Magento\Tools\Formatter\PrettyPrinter\Operator\UnaryPlusOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ArgumentReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ArrayIndexedReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassConstantReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\EmptyReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\ExitReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\NewReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ArrayItemReference;
@@ -197,6 +199,8 @@ class SyntaxFactory
         $this->register('Expr_FuncCall', FunctionCall::getType());
         $this->register('Expr_ArrayDimFetch', ArrayIndexedReference::getType());
         $this->register('Expr_New', NewReference::getType());
+        $this->register('Expr_Empty', EmptyReference::getType());
+        $this->register('Expr_Exit', ExitReference::getType());
     }
 
     /**
