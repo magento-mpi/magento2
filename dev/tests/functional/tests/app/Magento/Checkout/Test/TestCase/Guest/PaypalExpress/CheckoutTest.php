@@ -40,7 +40,7 @@ class CheckoutTest extends Functional
     protected $_shippingMethodFixture;
 
     /**
-     * @var \Magento\Shipping\Test\Fixture\Method
+     * @var \Magento\Core\Test\Fixture\Config
      */
     protected $_configFixture;
 
@@ -48,6 +48,21 @@ class CheckoutTest extends Functional
      * @var \Magento\Checkout\Test\Fixture\GuestPaypalExpress
      */
     protected $_paypalExpressFixture;
+
+    /**
+     * @var \Magento\Tax\Test\Fixture\TaxClass
+     */
+    protected $_taxClassFixture;
+
+    /**
+     * @var \Magento\Tax\Test\Fixture\TaxRate
+     */
+    protected $_taxRateFixture;
+
+    /**
+     * @var \Magento\Tax\Test\Fixture\TaxRule
+     */
+    protected $_taxRuleFixture;
 
     /**
      *  Set up test
@@ -60,6 +75,9 @@ class CheckoutTest extends Functional
         $this->_shippingMethodFixture   = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->_configFixture           = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $this->_paypalExpressFixture    = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress();
+        $this->_taxClassFixture         = Factory::getFixtureFactory()->getMagentoTaxTaxClass();
+        $this->_taxRateFixture          = Factory::getFixtureFactory()->getMagentoTaxTaxRate();
+        $this->_taxRuleFixture          = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
     }
 
     /**
@@ -73,6 +91,9 @@ class CheckoutTest extends Functional
         $this->_shippingMethodFixture   = null;
         $this->_configFixture           = null;
         $this->_paypalExpressFixture    = null;
+        $this->_taxClassFixture         = null;
+        $this->_taxRateFixture          = null;
+        $this->_taxRuleFixture          = null;
     }
 
     /**
@@ -80,23 +101,16 @@ class CheckoutTest extends Functional
      */
     protected function _prepareConfig()
     {
-//        if ($this->_configFixture->switchData('free_shipping')) {
-//            $this->_configFixture->persist();
-//        }
-//        if ($this->_configFixture->switchData('paypal_express')) {
-//            $this->_configFixture->persist();
-//        }
-
-//        $coreConfig->switchData('paypal_disabled_all_methods');
-//        $coreConfig->persist();
-//
-//        $coreConfig->switchData('paypal_express');
-//        $coreConfig->persist();
-//
-//        $coreConfig->switchData('default_tax_config');
-//        $coreConfig->persist();
-
+        $this->_configFixture->switchData('paypal_disabled_all_methods');
+        $this->_configFixture->persist();
+        $this->_configFixture->switchData('free_shipping');
+        $this->_configFixture->persist();
+        $this->_configFixture->switchData('paypal_express');
+        $this->_configFixture->persist();
+        $this->_configFixture->switchData('us_tax_config');
+        $this->_configFixture->persist();
     }
+
     /**
      *  Process product view page
      */
@@ -122,6 +136,13 @@ class CheckoutTest extends Functional
         $paypalPage->getReviewBlock()->continueCheckout();
     }
 
+    protected function _processTaxes()
+    {
+        $this->_taxClassFixture->persist();
+        $this->_taxRateFixture->persist();
+        $this->_taxRuleFixture->persist();
+    }
+
     /**
      * Process verify order page
      */
@@ -144,11 +165,14 @@ class CheckoutTest extends Functional
         $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $expected = $this->_paypalExpressFixture->getData('totals/grand_total');
-        $actual = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal();
-
-        $this->assertContains($expected, $actual, 'Incorrect grand total value for the order #' . $orderId);
-        $this->assertContains($expected, $actual, 'Incorrect grand total value for the order #' . $orderId);
+        $expectedGrandTotal = $this->_paypalExpressFixture->getData('totals/grand_total');
+        $actualGrandTotal = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal();
+        $expectedAuthorizedAmount = $this->_paypalExpressFixture->getData('totals/authorized_amount');
+        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount();
+        $expectedCommentHistory = $this->_paypalExpressFixture->getData('totals/comment_history');
+        $actualCommentHistory = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getCommentHistory();
+        $this->assertContains($expectedGrandTotal, $actualGrandTotal, 'Incorrect grand total value for the order #' . $orderId);
+        $this->assertContains($expectedAuthorizedAmount, $actualAuthorizedAmount, 'Incorrect authorized amount value for the order #' . $orderId);
     }
 
     /**
@@ -157,9 +181,11 @@ class CheckoutTest extends Functional
     public function testCheckoutFreeShipping()
     {
         $this->_prepareConfig();
+        $this->_processTaxes();
         $this->_processProductViewPage();
         $this->_processPaypalCheckoutPage();
         $this->_processVerifyOrderPage();
         $this->_processAdminOrderPage();
+
     }
 }

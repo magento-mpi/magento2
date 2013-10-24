@@ -48,14 +48,12 @@ class TaxClass extends DataFixture
     protected function _initData()
     {
         $this->_data = array(
-            'data' => array(
-                'fields' => array(
-                    'class_name' => array(
-                        'value' => 'Customer Tax Class %isolation%'
-                    ),
-                    'class_type' => array(
-                        'value' => 'CUSTOMER'
-                    )
+            'fields' => array(
+                'class_name' => array(
+                    'value' => 'Customer Tax Class %isolation%'
+                ),
+                'class_type' => array(
+                    'value' => 'CUSTOMER'
                 )
             )
         );
