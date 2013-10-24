@@ -114,12 +114,12 @@ class View extends Block
     /**
      * Return product price displayed on page
      *
-     * @return array Returns arrays with keys corresponding to fixture keys
+     * @return array|string Returns arrays with keys corresponding to fixture keys
      */
     public function getProductPrice()
     {
         $priceFromTo = $this->_getPriceFromTo();
-        return empty($priceFromTo) ? array('price' => $this->_getSimplePrice()) : $priceFromTo;
+        return empty($priceFromTo) ? $this->_getSimplePrice() : $priceFromTo;
     }
 
     /**

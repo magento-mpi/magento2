@@ -60,21 +60,19 @@ class CreateCategory extends Direct
      * @param array $data
      * @return array
      */
-    protected function _convertData(array $data)
+    protected function _convertData(array &$data)
     {
-        $newData = array();
-        $fields = isset($data['fields']) ? $data['fields'] : array();
-        if (!$fields) {
+        if (empty($data['fields'])) {
             return array();
         }
 
-        foreach ($fields as $field => $attributes) {
-            if ($attributes['value'] == 'Yes' || $attributes['value'] == 'No') {
-                $value = $attributes['value'] == 'Yes' ? 1 : 0;
-            } else {
-                $value = $attributes['value'];
+        $newData = array();
+        foreach ($data['fields'] as $field => $attributes) {
+            if (isset($attributes['value'])) {
+                $newData[$field] = $attributes['value'];
+            } elseif (isset($attributes['input_value'])) {
+                $newData[$field] = $attributes['input_value'];
             }
-            $newData[$field] = $value;
         }
 
         return $newData;

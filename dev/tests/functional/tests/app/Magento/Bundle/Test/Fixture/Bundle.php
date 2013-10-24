@@ -240,13 +240,14 @@ class Bundle extends Product
                         )
                     ),
                     'group' => static::GROUP_BUNDLE_OPTIONS
-                ),
-                'prices' => array(
-                    'price_from' => '110',
-                    'price_to' => '120'
                 )
+            ),
+            'prices' => array(
+                'price_from' => '110',
+                'price_to' => '120'
             )
         );
+
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoBundleBundle($this->_dataConfig, $this->_data);
     }

@@ -13,6 +13,7 @@
 namespace Magento\Backend\Test\Block\Catalog\Category;
 
 use Mtf\Block\Block;
+use Mtf\Client\Driver\Selenium\Element\TreeElement;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
@@ -32,20 +33,12 @@ class Tree extends Block
     private $addSubcategory;
 
     /**
-     * Default category selector
-     *
-     * @var string
-     */
-    private $defaultCategory;
-
-    /**
      * Initialize block elements
      */
     protected function _init()
     {
         //Elements
         $this->addSubcategory = 'add_subcategory_button';
-        $this->defaultCategory = '#extdd-2';
     }
 
     /**
@@ -58,9 +51,19 @@ class Tree extends Block
 
     /**
      * Select Default category
+     *
+     * @param string $path
      */
-    public function selectDefaultCategory()
+    public function selectCategory($path)
     {
-        $this->_rootElement->clickByPath('0');
+        $this->_rootElement->clickByPath($path);
+    }
+
+    /**
+     * Expand all categories tree
+     */
+    public function expandAllCategories()
+    {
+        $this->_rootElement->find('.tree-actions > a:nth-of-type(2)')->click();
     }
 }

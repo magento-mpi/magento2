@@ -36,7 +36,8 @@ class CreateTest extends Functional
      */
     public function testCreateProduct()
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple_with_category');
+        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product->switchData('simple_with_category');
         //Data
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $createProductPage->init($product);
