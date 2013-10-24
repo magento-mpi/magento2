@@ -37,6 +37,8 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\n\$d=(object)1;", "<?php\n\$d = (object) 1;\n"),
             array("<?php\n\$d=(bool)1;", "<?php\n\$d = (bool) 1;\n"),
             array("<?php\n\$d=(unset)1;", "<?php\n\$d = (unset) 1;\n"),
+            array("<?php\n\$d=1<<1;", "<?php\n\$d = 1 << 1;\n"),
+            array("<?php\n\$d=1>>1;", "<?php\n\$d = 1 >> 1;\n"),
             array("<?php\n\$d=1+1;", "<?php\n\$d = 1 + 1;\n"),
             array("<?php\n\$d=1*1;", "<?php\n\$d = 1 * 1;\n"),
             array("<?php\n\$d=1/1;", "<?php\n\$d = 1 / 1;\n"),
@@ -44,6 +46,7 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\n\$d=5%2;", "<?php\n\$d = 5 % 2;\n"),
             array("<?php\n\$d=5&2;", "<?php\n\$d = 5 & 2;\n"),
             array("<?php\n\$d=5|2;", "<?php\n\$d = 5 | 2;\n"),
+            array("<?php\n\$d=5^2;", "<?php\n\$d = 5 ^ 2;\n"),
             array("<?php\n\$d=1/1*2+1;", "<?php\n\$d = 1 / 1 * 2 + 1;\n"),
             array("<?php\n\$d=1/1*(2+1);", "<?php\n\$d = 1 / 1 * (2 + 1);\n"),
             array("<?php\n\$d=&\$refable;", "<?php\n\$d =& \$refable;\n"),
@@ -99,7 +102,10 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\nif (!\$d>=\$c) {\$a!==\$b;}", "<?php\nif (!\$d >= \$c) {\n    \$a !== \$b;\n}\n"),
             array("<?php\nif (!\$d<\$c) {\$a!==\$b;}", "<?php\nif (!\$d < \$c) {\n    \$a !== \$b;\n}\n"),
             array("<?php\nif (!\$d<=\$c) {\$a!==\$b;}", "<?php\nif (!\$d <= \$c) {\n    \$a !== \$b;\n}\n"),
-            array("<?php\nif(\$d  instanceof  MyClass){\$d=null;}", "<?php\nif (\$d instanceof MyClass) {\n    \$d = null;\n}\n"),
+            array(
+                "<?php\nif(\$d  instanceof  MyClass){\$d=null;}", "<?php\nif (\$d instanceof MyClass) {".
+                "\n    \$d = null;\n}\n"
+            ),
         );
     }
 }
