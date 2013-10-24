@@ -13,13 +13,13 @@ use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\ProcessorInterface;
 use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
+use Magento\Core\Model\Layout\Argument\Processor;
 
 class Preset extends AbstractHandle implements RenderInterface
 {
@@ -49,16 +49,18 @@ class Preset extends AbstractHandle implements RenderInterface
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
      * @param LayoutFactory $layoutFactory
+     * @param Processor $argumentProcessor
      * @param ProcessorFactory $processorFactory
      */
     public function __construct(
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
         LayoutFactory $layoutFactory,
+        Processor $argumentProcessor,
         ProcessorFactory $processorFactory
     )
     {
-        parent::__construct($handleFactory, $renderFactory);
+        parent::__construct($handleFactory, $renderFactory, $argumentProcessor);
 
         $this->layoutFactory = $layoutFactory;
         $this->processorFactory = $processorFactory;

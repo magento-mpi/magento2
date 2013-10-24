@@ -9,14 +9,12 @@
 namespace Magento\View\Layout\Handle\Render;
 
 use Magento\View\Layout\Handle\AbstractHandle;
-use Magento\View\Layout\HandleInterface;
 use Magento\View\Layout\Handle\RenderInterface;
-
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-
 use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
+use Magento\Core\Model\Layout\Argument\Processor;
 use Magento\Core\Model\View\FileSystem;
 
 use Magento\View\Render\Html;
@@ -36,15 +34,17 @@ class Template extends AbstractHandle implements RenderInterface
     /**
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
+     * @param Processor $argumentProcessor
      * @param FileSystem $filesystem
      */
     public function __construct(
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
+        Processor $argumentProcessor,
         FileSystem $filesystem
     )
     {
-        parent::__construct($handleFactory, $renderFactory);
+        parent::__construct($handleFactory, $renderFactory, $argumentProcessor);
 
         $this->filesystem = $filesystem;
     }

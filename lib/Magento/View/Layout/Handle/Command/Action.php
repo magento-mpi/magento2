@@ -15,6 +15,7 @@ use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle\CommandInterface;
 use Magento\Core\Model\Store\Config;
 use Magento\View\Render\RenderFactory;
+use Magento\Core\Model\Layout\Argument\Processor;
 
 class Action extends AbstractHandle implements CommandInterface
 {
@@ -39,9 +40,10 @@ class Action extends AbstractHandle implements CommandInterface
     public function __construct(
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
+        Processor $argumentProcessor,
         Config $coreStoreConfig)
     {
-        parent::__construct($handleFactory, $renderFactory);
+        parent::__construct($handleFactory, $renderFactory, $argumentProcessor);
 
         $this->coreStoreConfig = $coreStoreConfig;
     }

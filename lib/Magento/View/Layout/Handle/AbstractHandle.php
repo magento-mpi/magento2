@@ -8,10 +8,11 @@
 
 namespace Magento\View\Layout\Handle;
 
+use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\HandleFactory;
-use Magento\View\LayoutInterface;
 use Magento\View\Render\RenderFactory;
+use Magento\Core\Model\Layout\Argument\Processor;
 
 abstract class AbstractHandle
 {
@@ -26,6 +27,11 @@ abstract class AbstractHandle
     protected $renderFactory;
 
     /**
+     * @var Processor
+     */
+    protected $argumentProcessor;
+
+    /**
      * @var int
      */
     protected $nameIncrement = 0;
@@ -33,13 +39,16 @@ abstract class AbstractHandle
     /**
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
+     * @param Processor $argumentProcessor
      */
     public function __construct(
         HandleFactory $handleFactory,
-        RenderFactory $renderFactory
+        RenderFactory $renderFactory,
+        Processor $argumentProcessor
     ) {
         $this->handleFactory = $handleFactory;
         $this->renderFactory = $renderFactory;
+        $this->argumentProcessor = $argumentProcessor;
     }
 
     /**
@@ -68,14 +77,30 @@ abstract class AbstractHandle
     protected function parseArguments(Element $layoutElement)
     {
         $arguments = array();
-        foreach ($layoutElement as $argument) {
+        foreach ($layoutElement->xpath('argument') as $argument) {
             /** @var $argument Element */
-            $name = $argument->getAttribute('name');
-            $value = (string) $argument;
-            $arguments[$name] = $value;
+            $argumentName = (string)$argument['name'];
+            $arguments[$argumentName] = $this->argumentProcessor->parse($argument);
         }
 
+        $arguments = $this->processArguments($arguments);
+
         return $arguments;
+    }
+
+    /**
+     * Process arguments
+     *
+     * @param array $arguments
+     * @return array
+     */
+    protected function processArguments(array $arguments)
+    {
+        $result = array();
+        foreach ($arguments as $name => $argument) {
+            $result[$name] = $this->argumentProcessor->process($argument);
+        }
+        return $result;
     }
 
     protected function parseChildren(Element $layoutElement, LayoutInterface $layout, $elementName)

@@ -17,6 +17,7 @@ use Magento\View\Layout\HandleFactory;
 use Magento\View\Layout\ProcessorFactory;
 use Magento\View\Layout\ProcessorInterface;
 use Magento\View\Render\RenderFactory;
+use Magento\Core\Model\Layout\Argument\Processor;
 
 class Update extends AbstractHandle implements CommandInterface
 {
@@ -33,15 +34,17 @@ class Update extends AbstractHandle implements CommandInterface
     /**
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
+     * @param Processor $argumentProcessor
      * @param ProcessorFactory $processorFactory
      */
     public function __construct(
         HandleFactory $handleFactory,
         RenderFactory $renderFactory,
+        Processor $argumentProcessor,
         ProcessorFactory $processorFactory
     )
     {
-        parent::__construct($handleFactory, $renderFactory);
+        parent::__construct($handleFactory, $renderFactory, $argumentProcessor);
 
         $this->processorFactory = $processorFactory;
     }
