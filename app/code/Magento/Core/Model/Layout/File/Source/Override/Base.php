@@ -19,7 +19,7 @@ class Base implements \Magento\Core\Model\Layout\File\SourceInterface
     private $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     private $_dirs;
 
@@ -30,12 +30,12 @@ class Base implements \Magento\Core\Model\Layout\File\SourceInterface
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\Layout\File\Factory $fileFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\App\Dir $dirs,
         \Magento\Core\Model\Layout\File\Factory $fileFactory
     ) {
         $this->_filesystem = $filesystem;
@@ -51,7 +51,7 @@ class Base implements \Magento\Core\Model\Layout\File\SourceInterface
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
         $files = $this->_filesystem->searchKeys(
-            $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES),
+            $this->_dirs->getDir(\Magento\App\Dir::THEMES),
             "{$themePath}/{$namespace}_{$module}/layout/override/*.xml"
         );
         $result = array();

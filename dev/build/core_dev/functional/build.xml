@@ -292,6 +292,27 @@
             <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
             <replacefilter token="{{selenium_testsuite}}" value="${env.selenium_testsuite}"/>
         </replace>
+
+        <antcall target="_run_compiler">
+            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
+        </antcall>
     </target>
 
+    <target name="_run_compiler" description="Run DI compiler tool">
+        <exec executable="php" failonerror="true" >
+            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php -- --log error --verbose'/>
+            <redirector outputproperty="compilationErrors" />
+        </exec>
+
+        <available file="${product_root_dir}/var/di/definitions.php" property="definitionsFile" />
+        <fail unless="definitionsFile" message="Definition file does not exists" />
+
+        <fail message="${compilationErrors}">
+            <condition>
+                <not>
+                    <equals arg1="${compilationErrors}" arg2=""/>
+                </not>
+            </condition>
+        </fail>
+    </target>
 </project>

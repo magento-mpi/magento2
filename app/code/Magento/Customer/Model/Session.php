@@ -114,7 +114,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         }
 
         $this->init($namespace, $sessionName);
-        $this->_eventManager->dispatch('customer_session_init', array('customer_session'=>$this));
+        $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
 
     /**

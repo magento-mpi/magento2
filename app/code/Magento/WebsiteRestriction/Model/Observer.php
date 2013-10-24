@@ -43,7 +43,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -55,7 +55,7 @@ class Observer
     /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -64,7 +64,7 @@ class Observer
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
@@ -100,9 +100,9 @@ class Observer
             if (!$this->_config->isRestrictionEnabled()) {
                 return;
             }
-            /* @var $request \Magento\Core\Controller\Request\Http */
+            /* @var $request \Magento\App\RequestInterface */
             $request    = $controller->getRequest();
-            /* @var $response \Magento\Core\Controller\Response\Http */
+            /* @var $response \Magento\App\ResponseInterface */
             $response   = $controller->getResponse();
             switch ($this->_config->getMode()) {
                 // show only landing page with 503 or 200 code

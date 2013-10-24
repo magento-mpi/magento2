@@ -116,7 +116,7 @@ class Template extends \Magento\Core\Model\Template
     protected $_emailFilterFactory;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -132,7 +132,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param array $data
      *
@@ -150,7 +150,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Core\Model\ConfigInterface $coreConfig,
         \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\Email\Template\Config $emailConfig,
         array $data = array()
     ) {

@@ -33,7 +33,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        $this->_dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_dirs->expects($this->any())->method('getDir')->will($this->returnArgument(0));
         $this->_fileFactory = $this->getMock('Magento\Core\Model\Layout\File\Factory', array(), array(), '', false);
         $this->_model = new \Magento\Core\Model\Layout\File\Source\Base(

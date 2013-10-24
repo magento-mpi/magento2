@@ -25,7 +25,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->method('hasSingleStore')
             ->will($this->returnValue($isSingleStore));
 
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
 
         if ($isSingleStore) {
             $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);

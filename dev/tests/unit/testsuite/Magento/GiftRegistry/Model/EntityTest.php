@@ -79,10 +79,10 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                 }
             ));
 
-        $appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
-        $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false, false);
+        $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
@@ -113,7 +113,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $loggingEventFactory = $this->getMock(
             'Magento\Logging\Model\Event\ChangesFactory', array(), array(), '', false);
         $request = $this->getMock(
-            'Magento\Core\Controller\Request\Http', array(), array(), '', false);
+            'Magento\App\RequestInterface', array(), array(), '', false);
 
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
             $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,

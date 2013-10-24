@@ -1,7 +1,12 @@
-* Eliminated dependency in Magento\Data\Form from Core module
+* Eliminated dependency in Magento\Data\Form from Magento\Core module
 * Eliminated Magento\Media module
 * Fixed copyright information
-* Declared public interfaces for View component into library
+* Unified Area configuration
+* Moved EventManager to Magento\Event lib component
+* Moved FrontController, Routers, Base Actions to Magento\App
+* Created Magento\App component in library
+* Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
+* Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
 * Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
 * Unable to create a new widget instance
