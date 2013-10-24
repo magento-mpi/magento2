@@ -867,6 +867,7 @@ return array(
     array('escapeUrl', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeUrl'),
     array('jsQuoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeJsQuote'),
     array('quoteEscape', '\Magento\Core\Helper\AbstractHelper', '\Magento\Escaper::escapeQuote'),
+    array('removeTags', '\Magento\Core\Helper\AbstractHelper', '\Magento\Filter\FilterManager'),
     array('removeAccents', '\Magento\Core\Helper\Data', '\Magento\Filter\FilterManager'),
     array('splitWords', '\Magento\Core\Helper\String', '\Magento\Filter\FilterManager'),
     array('strlen', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::strlen'),
