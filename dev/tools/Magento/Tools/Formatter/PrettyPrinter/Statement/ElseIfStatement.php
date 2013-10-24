@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Elseif;
 
-class ElseIfStatement extends StatementAbstract
+class ElseIfStatement extends AbstractConditionalStatement
 {
     /**
      * This method constructs a new statement based on the specified elseif statement.

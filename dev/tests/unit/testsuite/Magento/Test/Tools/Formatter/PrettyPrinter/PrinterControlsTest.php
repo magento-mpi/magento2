@@ -93,6 +93,12 @@ class PrinterControlsTest extends TestBase
                 "            echo 'hi';\n        } elseif (\$c) {\n            echo 'lo';\n        } else {\n" .
                 "            echo 'e';\n        }\n    }\n}\n"
             ),
+            array(
+                "<?php class Sc1 {public function a(){switch(\$a){case 1:break;default:break;}}}",
+                "<?php\nclass Sc1\n{\n    public function a()\n    {\n        switch (\$a) {\n" .
+                "            case 1:\n                break;\n            default:\n                break;\n" .
+                "        }\n    }\n}\n"
+            ),
         );
     }
 }

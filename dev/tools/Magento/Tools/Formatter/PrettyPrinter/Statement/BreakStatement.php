@@ -36,7 +36,7 @@ class BreakStatement extends AbstractControlStatement
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the const line
-        $line->add('break ');
+        $line->add('break');
         // add in the break number, if specified
         if (null !== $this->node->num) {
             $this->resolveNode($this->node->num, $treeNode);

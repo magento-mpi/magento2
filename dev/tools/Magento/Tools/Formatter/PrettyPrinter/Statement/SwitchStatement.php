@@ -7,18 +7,19 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_Else;
+use PHPParser_Node_Stmt_Switch;
 
-class ElseStatement extends AbstractConditionalStatement
+class SwitchStatement extends AbstractConditionalStatement
 {
     /**
      * This method constructs a new statement based on the specified if statement.
-     * @param PHPParser_Node_Stmt_Else $node
+     * @param PHPParser_Node_Stmt_Switch $node
      */
-    public function __construct(PHPParser_Node_Stmt_Else $node)
+    public function __construct(PHPParser_Node_Stmt_Switch $node)
     {
         parent::__construct($node);
     }
@@ -31,14 +32,19 @@ class ElseStatement extends AbstractConditionalStatement
     {
         parent::resolve($treeNode);
         /* Reference
-        return ' else {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+        return 'switch (' . $this->p($node->cond) . ') {'
+             . "\n" . $this->pStmts($node->cases) . "\n" . '}';
         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add the if line
-        $line->add('} else {');
-        $line->add(new HardLineBreak());
-        // processing the child nodes
-        $this->processNodes($this->node->stmts, $treeNode);
+        // add the control word
+        $line->add('switch (');
+        // add in the condition
+        $this->resolveNode($this->node->cond, $treeNode);
+        $line->add(') {')->add(new HardLineBreak());
+        // processing the case nodes as children
+        $this->processNodes($this->node->cases, $treeNode);
+        // add the closing brace on a new line
+        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 }

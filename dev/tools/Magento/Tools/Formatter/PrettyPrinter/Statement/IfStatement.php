@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_If;
 
-class IfStatement extends StatementAbstract
+class IfStatement extends AbstractConditionalStatement
 {
     /**
      * This method constructs a new statement based on the specified if statement.

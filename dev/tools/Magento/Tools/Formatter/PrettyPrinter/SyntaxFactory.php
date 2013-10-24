@@ -74,6 +74,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\StaticCallReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StringReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\UseReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\BreakStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\CaseStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ConstantStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ContinueStatement;
@@ -92,6 +93,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\MethodStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\NamespaceStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\PropertyStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ReturnStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\SwitchStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ThrowStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\UnknownStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\UseStatement;
@@ -254,6 +256,8 @@ class SyntaxFactory
         $this->register('Stmt_Function', FunctionStatement::getType());
         $this->register('Stmt_Break', BreakStatement::getType());
         $this->register('Stmt_Continue', ContinueStatement::getType());
+        $this->register('Stmt_Switch', SwitchStatement::getType());
+        $this->register('Stmt_Case', CaseStatement::getType());
         $this->register('Stmt_Throw', ThrowStatement::getType());
     }
 
