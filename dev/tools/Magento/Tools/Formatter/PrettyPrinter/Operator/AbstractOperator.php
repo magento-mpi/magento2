@@ -67,15 +67,5 @@ abstract class AbstractOperator extends AbstractSyntax
         } else {
             $child->resolve($treeNode);
         }
-        if ($childPosition === 1 && $this->terminate) {
-            $treeNode->getData()->line->add(';')->add(new HardLineBreak());
-        }
-    }
-    public function resolve(TreeNode $treeNode)
-    {
-        parent::resolve($treeNode);
-        if ($this === $treeNode->getData()->syntax) {
-            $this->terminate = true;
-        }
     }
 }

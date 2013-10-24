@@ -1,12 +1,10 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: jgedeon
- * Date: 10/23/13
- * Time: 2:48 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;

@@ -24,6 +24,13 @@ use Magento\Tools\Formatter\PrettyPrinter\Operator\BitwiseNotOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanNotOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanAndOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanOrOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastArrayOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastBoolOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastDoubleOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastIntOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastObjectOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastStringOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\CastUnsetOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\ConcatOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\DivideOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\EqualOperator;
@@ -40,6 +47,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Operator\PostDecrementOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\PostIncrementOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\PreDecrementOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\PreIncrementOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\TernaryOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\UnaryPlusOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ArgumentReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ArrayIndexedReference;
@@ -157,6 +165,14 @@ class SyntaxFactory
     protected function registerExprs()
     {
         $this->register('Expr_Include', IncludeStatement::getType());
+        $this->register('Expr_Cast_Int', CastIntOperator::getType());
+        $this->register('Expr_Cast_Double', CastDoubleOperator::getType());
+        $this->register('Expr_Cast_String', CastStringOperator::getType());
+        $this->register('Expr_Cast_Array', CastArrayOperator::getType());
+        $this->register('Expr_Cast_Object', CastObjectOperator::getType());
+        $this->register('Expr_Cast_Bool', CastBoolOperator::getType());
+        $this->register('Expr_Cast_Unset', CastUnsetOperator::getType());
+        $this->register('Expr_Ternary', TernaryOperator::getType());
         $this->register('Expr_Equal', EqualOperator::getType());
         $this->register('Expr_NotEqual', NotEqualOperator::getType());
         $this->register('Expr_Identical', IdenticalOperator::getType());
