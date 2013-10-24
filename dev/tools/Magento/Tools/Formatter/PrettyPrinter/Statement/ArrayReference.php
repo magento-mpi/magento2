@@ -37,11 +37,7 @@ class ArrayReference extends ReferenceAbstract
         $line = $treeNode->getData()->line;
         // add the array to the end of the current line
         $line->add('array(');
-        if (count($this->node->items) > 0) {
-            $lineBreak = new CallLineBreak();
-            $this->processArgumentList($this->node->items, $treeNode, $line, $lineBreak);
-            $line->add($lineBreak);
-        }
+        $this->processArgumentList($this->node->items, $treeNode, $line, new CallLineBreak());
         $line->add(')');
     }
 }

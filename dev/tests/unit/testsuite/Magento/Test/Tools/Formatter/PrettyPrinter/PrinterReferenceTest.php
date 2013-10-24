@@ -38,6 +38,13 @@ class PrinterReferenceTest extends TestBase
             array("<?php \$myarray[]=1;", "<?php\n\$myarray[] = 1;\n"),
             array("<?php \$myarray[0]=1;", "<?php\n\$myarray[0] = 1;\n"),
             array("<?php \$myarray['black']=1;", "<?php\n\$myarray['black'] = 1;\n"),
+            array("<?php \$newobj=new Blah();", "<?php\n\$newobj = new Blah();\n"),
+            array("<?php \$newobj=new Blah(1);", "<?php\n\$newobj = new Blah(1);\n"),
+            array(
+                "<?php \$newobj=new Blah(123456,123456,123456,123456,123456,123456,123456,123456,123456);",
+                "<?php\n\$newobj = new Blah(\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n" .
+                "    123456,\n    123456,\n    123456,\n    123456\n);\n"
+            ),
         );
     }
 

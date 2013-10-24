@@ -18,6 +18,16 @@ abstract class LineBreak
     abstract public function getValue($level, $index, $total);
 
     /**
+     * This method returns a flag indicating that when placed in a list, an additional instance is
+     * required after the list.
+     * @return bool
+     */
+    public function isAfterListRequired()
+    {
+        return false;
+    }
+
+    /**
      * This method returns if this class of line breaks are grouped by class. If not grouped by
      * class, it is assumed to be grouped by instance.
      * @return bool

@@ -71,14 +71,19 @@ abstract class AbstractSyntax
         Line $line,
         LineBreak $lineBreak
     ) {
-        foreach ($arguments as $index => $argument) {
-            // add the line break prior to the argument
-            $line->add($lineBreak);
-            // process the argument itself
-            $this->resolveNode($argument, $treeNode);
-            // if not the last one, separate with a comma
-            if ($index < sizeof($arguments) - 1) {
-                $line->add(',');
+        if (!empty($arguments)) {
+            foreach ($arguments as $index => $argument) {
+                // add the line break prior to the argument
+                $line->add($lineBreak);
+                // process the argument itself
+                $this->resolveNode($argument, $treeNode);
+                // if not the last one, separate with a comma
+                if ($index < sizeof($arguments) - 1) {
+                    $line->add(',');
+                }
+            }
+            if ($lineBreak->isAfterListRequired()) {
+                $line->add($lineBreak);
             }
         }
     }
