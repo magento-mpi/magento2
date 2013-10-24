@@ -1,3 +1,5 @@
+* Removed page type hierarchy
+* Removed page fragment types
 * Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
 * Declared public interfaces for View component into library  
 * Plushe theme is set as the default theme
