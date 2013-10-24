@@ -20,8 +20,6 @@ namespace Magento\Core\Block;
 
 class Template extends \Magento\Core\Block\AbstractBlock
 {
-    const XML_PATH_DEBUG_TEMPLATE_HINTS         = 'dev/debug/template_hints';
-    const XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS  = 'dev/debug/template_hints_blocks';
     const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
 
     /**
@@ -41,9 +39,6 @@ class Template extends \Magento\Core\Block\AbstractBlock
      * @var bool
      */
     protected $_allowSymlinks = null;
-
-    protected static $_showTemplateHints;
-    protected static $_showTemplateHintsBlocks;
 
     /**
      * @var \Magento\App\Dir
@@ -73,9 +68,9 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_template;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Factory
+     * @var \Magento\Core\Model\TemplateEngine\Pool
      */
-    protected $_tmplEngineFactory;
+    protected $_templateEnginePool;
 
     /**
      * Core data
@@ -93,6 +88,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
+     * @todo Remove injection of the core helper from this class and its descendants, because it's no longer used
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -104,7 +100,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
-        $this->_tmplEngineFactory = $context->getEngineFactory();
+        $this->_templateEnginePool = $context->getEnginePool();
         $this->_storeManager = $context->getApp();
         parent::__construct($context, $data);
     }
@@ -198,35 +194,10 @@ class Template extends \Magento\Core\Block\AbstractBlock
     }
 
     /**
-     * Check if direct output is allowed for block
-     *
-     * @return bool
-     */
-    public function getDirectOutput()
-    {
-        if ($this->getLayout()) {
-            return $this->getLayout()->isDirectOutput();
-        }
-        return false;
-    }
-
-    public function getShowTemplateHints()
-    {
-        if (is_null(self::$_showTemplateHints)) {
-            self::$_showTemplateHints = $this->_storeConfig->getConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
-                && $this->_coreData->isDevAllowed();
-            self::$_showTemplateHintsBlocks = $this->_storeConfig->getConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
-                && $this->_coreData->isDevAllowed();
-        }
-        return self::$_showTemplateHints;
-    }
-
-    /**
      * Retrieve block view from file (template)
      *
-     * @param  string $fileName
+     * @param string $fileName
      * @return string
-     * @throws \Exception
      */
     public function fetchView($fileName)
     {
@@ -257,8 +228,8 @@ HTML;
         }
 
         try {
-            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::APP))
-                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::THEMES))
+            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::APP))
+                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
                 $extension = pathinfo($fileName, PATHINFO_EXTENSION); 
@@ -283,7 +254,9 @@ HTML;
             $html = ob_get_clean();
         } else {
             $html = '';
+            $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
         }
+
         \Magento\Profiler::stop('TEMPLATE:' . $fileName);
         return $html;
     }

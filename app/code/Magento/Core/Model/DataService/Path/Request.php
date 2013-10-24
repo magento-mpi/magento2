@@ -2,7 +2,7 @@
 /**
  * Wrapper around \Magento\App\Request\Http for the Navigator class.
  *
- * HTTP Requests need to be exposed as data services for the front end (twig) to be able to access the
+ * HTTP Requests need to be exposed as data services for the front end to be able to access the
  * request data. This class acts as a wrapper around the \Magento\App\Request\Http object so
  * that the data can be searched for and extracted via the Navigator class.
  *
