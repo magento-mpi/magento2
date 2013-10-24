@@ -97,8 +97,12 @@ class Tree implements Node
     {
         if (null !== $this->rootNode) {
             if (is_array($this->rootNode)) {
-                foreach ($this->rootNode as $rootNode) {
-                    $this->traverseNode($rootNode, $visitor);
+                // loop through the roots by index since the traversal may cause additional nodes to
+                // be added or removed
+                $index = 0;
+                while ($index < sizeof($this->rootNode)) {
+                    $this->traverseNode($this->rootNode[$index], $visitor);
+                    $index++;
                 }
             } else {
                 $this->traverseNode($this->rootNode, $visitor);
@@ -121,8 +125,7 @@ class Tree implements Node
             // be added or removed
             $index = 0;
             while ($index < sizeof($treeNode->getChildren())) {
-                $child = $treeNode->getChildren()[$index];
-                $this->traverseNode($child, $visitor);
+                $this->traverseNode($treeNode->getChildren()[$index], $visitor);
                 $index++;
             }
         }
