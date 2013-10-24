@@ -147,14 +147,7 @@ class International
      *
      * @var \Magento\Usa\Helper\Data
      */
-    protected $_usaData = null;
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
+    protected $_usaData;
 
     /**
      * @var \Magento\Core\Model\Date
@@ -181,7 +174,6 @@ class International
      *
      * Sets necessary data
      *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory
@@ -205,7 +197,6 @@ class International
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory,
@@ -227,7 +218,6 @@ class International
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
         $this->_pdfFactory = $pdfFactory;
@@ -692,7 +682,7 @@ class International
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = $this->_coreData->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = \Magento\Math\Division::getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }

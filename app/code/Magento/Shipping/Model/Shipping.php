@@ -45,13 +45,6 @@ class Shipping
     protected $_availabilityConfigField = 'active';
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -94,7 +87,6 @@ class Shipping
     protected $_regionFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -105,7 +97,6 @@ class Shipping
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -115,7 +106,6 @@ class Shipping
         \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory
     ) {
-        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_shippingConfig = $shippingConfig;
         $this->_storeManager = $storeManager;
@@ -339,7 +329,7 @@ class Shipping
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = $this->_coreData->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = \Magento\Math\Division::getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }

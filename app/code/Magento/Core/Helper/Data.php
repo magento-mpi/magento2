@@ -521,25 +521,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Returns the floating point remainder (modulo) of the division of the arguments
-     *
-     * @param float|int $dividend
-     * @param float|int $divisor
-     * @return float|int
-     */
-    public function getExactDivision($dividend, $divisor)
-    {
-        $epsilon = $divisor / self::DIVIDE_EPSILON;
-
-        $remainder = fmod($dividend, $divisor);
-        if (abs($remainder - $divisor) < $epsilon || abs($remainder) < $epsilon) {
-            $remainder = 0;
-        }
-
-        return $remainder;
-    }
-
-    /**
      * Check if Single-Store mode is enabled in configuration
      *
      * This flag only shows that admin does not want to show certain UI components at backend (like store switchers etc)

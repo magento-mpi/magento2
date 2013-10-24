@@ -11,7 +11,6 @@ define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 define('DS', DIRECTORY_SEPARATOR);
 
 require BP . '/app/functions.php';
-require BP . '/app/code/Magento/Core/functions.php';
 
 require BP . '/app/autoload.php';
 \Magento\Autoload\IncludePath::addIncludePath(array(
