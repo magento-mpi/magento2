@@ -148,6 +148,30 @@ FORMATTEDCODESNIPPET
             ),
             array(<<<ORIGINALCODESNIPPET
 <?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
+        throw new \Exception('error');
+
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function x()
+    {
+        throw new \Exception('error');
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
 /**
  * {license_notice}
  *
