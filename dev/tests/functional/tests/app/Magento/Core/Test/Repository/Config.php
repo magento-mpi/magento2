@@ -407,11 +407,11 @@ class Config extends AbstractRepository
                                                                 'value' => 'No'
                                                             )
                                                         )
-                                                    ),
-                                                    'fields' => array(
-                                                        'enable_paypal_payflow' => array( //Enable this Solution
-                                                            'value' => 1 //Yes
-                                                        )
+                                                    )
+                                                ),
+                                                'fields' => array(
+                                                    'enable_paypal_payflow' => array( //Enable this Solution
+                                                        'value' => 1 //Yes
                                                     )
                                                 )
                                             ),
@@ -423,6 +423,13 @@ class Config extends AbstractRepository
                                                 )
                                             )
                                         )
+                                    )
+                                )
+                            ),
+                            'paypal_express' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 1
                                     )
                                 )
                             )
