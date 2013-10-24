@@ -11,23 +11,99 @@
 
 namespace Magento\Checkout\Test\Fixture;
 
-use Mtf\Fixture\DataFixture;
+use Mtf\Factory\Factory;
 
 /**
- * Fixture PaypalExpress
+ * Class GuestPaypalExpress
+ * PayPal Express Method
+ * Guest checkout using PayPal Express Checkout method and offline shipping method
+ *
+ * @ZephyrId MAGETWO-12413
+ * @package Magento\Checkout\Test\Fixture
  */
-class GuestPaypalExpress extends DataFixture
+class GuestPaypalExpress extends Checkout
 {
     /**
-     * Prepare data for guest checkout using "Checkout with PayPal" button on product page
+     * Paypal customer buyer
+     *
+     * @var \Magento\Paypal\Test\Fixture\Customer
+     */
+    private $paypalCustomer;
+
+    /**
+     * Get Paypal buyer account
+     *
+     * @return \Magento\Paypal\Test\Fixture\Customer
+     */
+    public function getPaypalCustomer()
+    {
+        return $this->paypalCustomer;
+    }
+
+    /**
+     * Prepare data for guest checkout with PayPal Express
      */
     protected function _initData()
     {
+        //Configuration
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('flat_rate');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_disabled_all_methods');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_express');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('us_tax_config');
+        $coreConfig->persist();
+
+        Factory::getFixtureFactory()->getMagentoTaxTaxClass()->persist();
+        Factory::getFixtureFactory()->getMagentoTaxTaxRate()->persist();
+        Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
+
+        //Products
+        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple1->switchData('simple');
+
+        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple2->switchData('simple');
+
+        //$configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+
+
+
+        $simple1->persist();
+        $simple2->persist();
+        //$configurable->persist();
+        $this->products = array(
+            $simple1,
+            $simple2,
+            //$configurable
+        );
+        //Checkout data
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->billingAddress->switchData('address_US_1');
+
+        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $this->shippingMethods->switchData('flat_rate');
+
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_express');
+
+//        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+//        $this->creditCard->switchData('visa_direct');
+
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
+
+        //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total'       => '$10.00',
+                'grand_total' => '$10.00',
                 'authorized_amount' => '$10.00',
-                'comment_history'   => '',
+                'comment_history'   => 'Authorized amount of $30.00',
             )
         );
     }
