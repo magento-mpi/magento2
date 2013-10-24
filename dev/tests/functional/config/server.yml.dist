@@ -1,9 +1,9 @@
 selenium:
-    browser: 'Mozilla Firefox'
-    browserName: 'firefox'
+    browser: 'Google Chrome'
+    browserName: 'chrome'
     host: 'localhost'
     port: 4444
-    seleniumServerRequestsTimeout: 30
+    seleniumServerRequestsTimeout: 90
     sessionStrategy: shared
     desiredCapabilities:
         platform: ANY
