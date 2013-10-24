@@ -61,10 +61,14 @@ class Base implements SourceInterface
         );
 
         $result = array();
+        $pattern = "#/(?<moduleName>[^/]+)/layout/override/base/"
+            . preg_quote(rtrim($filePath, '*'))
+            . "[^/]*\.xml$#i";
         foreach ($files as $filename) {
-            $moduleDir = dirname(dirname(dirname(dirname($filename))));
-            $moduleFull = basename($moduleDir);
-            $result[] = $this->fileFactory->create($filename, $moduleFull);
+            if (!preg_match($pattern, $filename, $matches)) {
+                continue;
+            }
+            $result[] = $this->fileFactory->create($filename, $matches['moduleName']);
         }
         return $result;
     }

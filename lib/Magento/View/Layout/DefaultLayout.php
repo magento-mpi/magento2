@@ -23,6 +23,8 @@ use Magento\View\DesignInterface;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
+ * @package Magento\View
  */
 class DefaultLayout extends Simplexml\Config implements LayoutInterface
 {
@@ -32,9 +34,9 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     protected $inc = 0;
 
     /**
-     * @var /SimpleXMLElement
+     * @var \SimpleXMLElement
      */
-    protected $_xml;
+    protected $xml;
 
     /**
      * @var array
@@ -177,7 +179,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function generateXml()
     {
-        $this->_xml = $this->getUpdate()->asSimplexml();
+        $this->xml = $this->getUpdate()->asSimplexml();
         return $this;
     }
 
@@ -196,7 +198,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
 
         $this->structure->createElement('.', $this->root);
 
-        foreach ($this->_xml as $node) {
+        foreach ($this->xml as $node) {
             /** @var $node Element  */
             $type = $node->getName();
             /** @var $handle HandleInterface */
@@ -225,6 +227,12 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @param bool $rewrite
+     * @return $this
+     */
     public function updateElement($name, array $arguments, $rewrite = false)
     {
         $this->structure->updateElement($name, $arguments, $rewrite);
@@ -243,11 +251,18 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         return $this->structure->hasElement($name);
     }
 
+    /**
+     * @param string $name
+     * @return array|null
+     */
     public function getElement($name)
     {
         return $this->structure->getElement($name);
     }
 
+    /**
+     * @return array
+     */
     public function getElements()
     {
         return $this->structure->getElements();

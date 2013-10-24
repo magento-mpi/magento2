@@ -59,12 +59,18 @@ class Base implements SourceInterface
             $this->dirs->getDir(Dir::MODULES),
             "{$namespace}/{$module}/view/{$area}/layout/{$filePath}.xml"
         );
+
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/"
+            . preg_quote($area)
+            . "/layout/"
+            . preg_quote(rtrim($filePath, '*'))
+            . "[^/]*\.xml$#i";
         $result = array();
         foreach ($files as $filename) {
-            $moduleDir = dirname(dirname(dirname(dirname($filename))));
-            $module = basename($moduleDir);
-            $namespace = basename(dirname($moduleDir));
-            $moduleFull = "{$namespace}_{$module}";
+            if (!preg_match($pattern, $filename, $matches)) {
+                continue;
+            }
+            $moduleFull = "{$matches['namespace']}_{$matches['module']}";
             $result[] = $this->fileFactory->create($filename, $moduleFull);
         }
         return $result;

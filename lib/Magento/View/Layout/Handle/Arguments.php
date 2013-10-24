@@ -8,6 +8,7 @@
 
 namespace Magento\View\Layout\Handle;
 
+use Magento\View\Layout\HandleFactory;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\HandleInterface;

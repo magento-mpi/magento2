@@ -12,6 +12,9 @@ use Magento\ObjectManager;
 
 use Magento\View\Layout\Handle;
 
+/**
+ * @package Magento\View
+ */
 class HandleFactory
 {
     /**
@@ -24,6 +27,9 @@ class HandleFactory
      */
     protected $handles = array();
 
+    /**
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;

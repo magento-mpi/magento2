@@ -10,6 +10,11 @@ namespace Magento\View\Layout\Handle;
 
 use Magento\View\Layout\HandleInterface;
 
+/**
+ * Data Interface
+ *
+ * @package Magento\View
+ */
 interface DataInterface extends HandleInterface
 {
     // TODO:

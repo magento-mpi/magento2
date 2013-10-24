@@ -9,9 +9,14 @@
  */
 namespace Magento\View\Layout;
 
+/**
+ * Structure
+ *
+ * @package Magento\View
+ */
 class Structure
 {
-    /**
+    /**#@+
      * Reserved keys for storing structural relations
      */
     const ATTRIBUTE_INTERNAL_ID = 'id';
@@ -21,6 +26,7 @@ class Structure
     const PARENT   = 'parent';
     const CHILDREN = 'children';
     const GROUPS = 'groups';
+    /**#@-*/
 
     /**
      * Increment number used for internal element IDs
@@ -239,7 +245,8 @@ class Structure
         }
 
         if ($this->isParentRecursively($elementId, $parentId)) {
-            throw new \Exception("The '{$elementId}' is a parent of '{$parentId}' recursively, "
+            throw new \Exception(
+                "The '{$elementId}' is a parent of '{$parentId}' recursively, "
                 . "therefore '{$elementId}' cannot be set as child to it."
             );
         }
@@ -588,7 +595,7 @@ class Structure
         $childInternalId = $this->assertElementExists($elementId);
         $parentInternalId = $this->assertElementExists($parentId);
         $childrenList = $this->getChildren($parentId);
-        if (isset($childrenList[$elementId]) && ($childrenList[$elementId] != $alias) ) {
+        if (isset($childrenList[$elementId]) && ($childrenList[$elementId] != $alias)) {
             throw new \Exception("The element '{$parentId}' already has a child with alias '{$alias}'");
         }
 

@@ -11,8 +11,10 @@ namespace Magento\View\Layout\Handle\Reference;
 use Magento\View\Layout\Handle\Render\Container as OriginalContainer;
 use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
-use Magento\View\Layout\HandleInterface;
 
+/**
+ * @package Magento\View
+ */
 class Container extends OriginalContainer
 {
     /**
@@ -21,10 +23,7 @@ class Container extends OriginalContainer
     const TYPE = 'referenceContainer';
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Container
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {

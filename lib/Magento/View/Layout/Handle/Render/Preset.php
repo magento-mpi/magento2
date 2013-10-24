@@ -21,8 +21,14 @@ use Magento\View\LayoutFactory;
 use Magento\View\Render\Html;
 use Magento\Core\Model\Layout\Argument\Processor;
 
+/**
+ * @package Magento\View
+ */
 class Preset extends AbstractHandle implements RenderInterface
 {
+    /**
+     * Preset type
+     */
     const TYPE = 'preset';
 
     /**
@@ -67,10 +73,7 @@ class Preset extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Preset
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -107,10 +110,7 @@ class Preset extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Preset
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
@@ -129,11 +129,7 @@ class Preset extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @param string $type [optional]
-     * @return mixed
+     * @inheritdoc
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {

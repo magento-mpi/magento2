@@ -14,7 +14,10 @@ use Magento\View\Layout\HandleFactory;
 use Magento\View\Render\RenderFactory;
 use Magento\Core\Model\Layout\Argument\Processor;
 
-abstract class AbstractHandle
+/**
+ * @package Magento\View
+ */
+abstract class AbstractHandle implements HandleInterface
 {
     /**
      * @var \Magento\View\Layout\HandleFactory
@@ -103,6 +106,11 @@ abstract class AbstractHandle
         return $result;
     }
 
+    /**
+     * @param Element $layoutElement
+     * @param LayoutInterface $layout
+     * @param string $elementName
+     */
     protected function parseChildren(Element $layoutElement, LayoutInterface $layout, $elementName)
     {
         // parse children
@@ -138,6 +146,11 @@ abstract class AbstractHandle
         return $this;
     }
 
+    /**
+     * @param array $element
+     * @param LayoutInterface $layout
+     * @param string $parentName
+     */
     protected function assignToParentElement(array $element, LayoutInterface $layout, $parentName)
     {
         if (isset($parentName)) {
@@ -148,6 +161,10 @@ abstract class AbstractHandle
         }
     }
 
+    /**
+     * @param string $elementName
+     * @param LayoutInterface $layout
+     */
     protected function registerChildren($elementName, LayoutInterface $layout)
     {
         foreach ($layout->getChildNames($elementName) as $childName) {
@@ -158,6 +175,12 @@ abstract class AbstractHandle
         }
     }
 
+    /**
+     * @param string $elementName
+     * @param LayoutInterface $layout
+     * @param string $type
+     * @return string
+     */
     protected function renderChildren($elementName, LayoutInterface $layout, $type)
     {
         $result = '';
@@ -191,6 +214,10 @@ abstract class AbstractHandle
         return $result;
     }
 
+    /**
+     * @param array $element
+     * @return array
+     */
     protected function getContainerInfo($element)
     {
         $containerInfo = array();
@@ -203,34 +230,49 @@ abstract class AbstractHandle
         return $containerInfo;
     }
 
+    /**
+     * @param array $element
+     * @return null|string
+     */
     protected function getContainerLabelInfo($element)
     {
         return !empty($element['label']) ? $element['label'] : null;
     }
 
+    /**
+     * @param array $element
+     * @return null|string
+     */
     protected function getContainerTagInfo($element)
     {
         return !empty($element['htmlTag']) ? $element['htmlTag'] : null;
     }
 
+    /**
+     * @param array $element
+     * @return null|string
+     */
     protected function getContainerClassInfo($element)
     {
         return !empty($element['htmlClass']) ? $element['htmlClass'] : null;
     }
 
+    /**
+     * @param array $element
+     * @return null|string
+     */
     protected function getContainerIdInfo($element)
     {
         return !empty($element['htmlId']) ? $element['htmlId'] : null;
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return AbstractHandle
+     * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
-    {
-        return $this;
-    }
+    abstract public function register(array $element, LayoutInterface $layout, $parentName);
+
+    /**
+     * @inheritdoc
+     */
+    abstract public function parse(Element $layoutElement, LayoutInterface $layout, $parentName);
 }

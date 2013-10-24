@@ -15,6 +15,9 @@ use Magento\View\Layout\Handle\RenderInterface;
 
 use Magento\View\Render\Html;
 
+/**
+ * @package Magento\View
+ */
 class Block extends AbstractHandle implements RenderInterface
 {
     /**
@@ -23,10 +26,7 @@ class Block extends AbstractHandle implements RenderInterface
     const TYPE = 'block';
 
     /**
-     * @param Element $layoutElement
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Block
+     * @inheritdoc
      */
     public function parse(Element $layoutElement, LayoutInterface $layout, $parentName)
     {
@@ -53,11 +53,7 @@ class Block extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @return Block
-     * @throws \InvalidArgumentException
+     * @inheritdoc
      */
     public function register(array $element, LayoutInterface $layout, $parentName)
     {
@@ -72,10 +68,13 @@ class Block extends AbstractHandle implements RenderInterface
             $layout->updateElement($elementName, array('is_registered' => true));
 
             /** @var $block \Magento\Core\Block\Template */
-            $block = $layout->createBlock($element['class'], $elementName,
+            $block = $layout->createBlock(
+                $element['class'],
+                $elementName,
                 array(
                     'data' => $arguments
-                ));
+                )
+            );
 
             $block->setNameInLayout($elementName);
             $block->setLayout($layout);
@@ -92,16 +91,13 @@ class Block extends AbstractHandle implements RenderInterface
     }
 
     /**
-     * @param array $element
-     * @param LayoutInterface $layout
-     * @param string $parentName
-     * @param string $type [optional]
-     * @return mixed
+     * @inheritdoc
      */
     public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
     {
         $result = '';
-        if ($block = $layout->getBlock($element['name'])) {
+        $block = $layout->getBlock($element['name']);
+        if ($block) {
             $result = $block->toHtml();
         }
 

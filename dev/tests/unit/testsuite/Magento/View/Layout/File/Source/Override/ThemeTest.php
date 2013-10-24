@@ -77,6 +77,38 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($fileOne, $fileTwo), $this->_model->getFiles($theme));
     }
 
+    public function testGetFilesWithPreset()
+    {
+        $grandparentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $grandparentTheme->expects($this->once())->method('getCode')->will($this->returnValue('grand_parent_theme'));
+
+        $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $parentTheme->expects($this->once())->method('getCode')->will($this->returnValue('parent_theme'));
+        $parentTheme->expects($this->once())->method('getParentTheme')->will($this->returnValue($grandparentTheme));
+
+        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
+        $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
+
+        $filePathOne = 'design/area/theme_path/Module_Two/layout/override/theme/grand_parent_theme/preset/3.xml';
+        $this->_filesystem
+            ->expects($this->once())
+            ->method('searchKeys')
+            ->with('design', 'area/theme_path/*_*/layout/override/theme/*/preset/3.xml')
+            ->will($this->returnValue(array($filePathOne)))
+        ;
+
+        $fileOne = new \Magento\View\Layout\File('3.xml', 'Module_Two', $grandparentTheme);
+        $this->_fileFactory
+            ->expects($this->once())
+            ->method('create')
+            ->with($filePathOne, 'Module_Two', $grandparentTheme)
+            ->will($this->returnValue($fileOne))
+        ;
+
+        $this->assertSame(array($fileOne), $this->_model->getFiles($theme, 'preset/3'));
+    }
+
     public function testGetFilesWrongAncestor()
     {
         $filePath = 'design/area/theme_path/Module_One/layout/override/theme/parent_theme/1.xml';
