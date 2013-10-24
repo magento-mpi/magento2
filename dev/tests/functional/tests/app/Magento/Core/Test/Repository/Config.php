@@ -373,7 +373,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'payment_paypal_payment_gateways' => array( // PayPal Payment Gateways
+                            'paypal_payment_gateways' => array( // PayPal Payment Gateways
                                 'groups' => array(
                                     'paypal_verisign_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
                                         'groups' => array(
@@ -381,7 +381,9 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array( // Payflow Pro and Express Checkout
                                                         'fields' => array(
-                                                            'using_pbridge' => 'No', // Use via Payment Bridge
+                                                            'using_pbridge' => array( // Use via Payment Bridge
+                                                                'value' => 'No'
+                                                            ),
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),
