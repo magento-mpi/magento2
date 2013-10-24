@@ -43,6 +43,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\ArgumentReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ArrayIndexedReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ClassConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\NewReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ArrayItemReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ArrayReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassConstant;
@@ -51,7 +52,6 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ConstantStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\DecimalNumberReference;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\DoStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\EchoStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ElseIfStatement;
@@ -115,15 +115,14 @@ class SyntaxFactory
         // if the the type is a registered type, return that class instead
         if (array_key_exists($parserNode->getType(), $this->nodeMap)) {
             $statementName = $this->nodeMap[$parserNode->getType()];
-        }
-        // TODO: remove this check once all statement types have been accounted for
-//        \PHPUnit_Framework_Assert::assertNotEquals(
-//            UnknownStatement::getType(),
-//            $statementName,
-//            "Unable to resolve node type of '" . $parserNode->getType() . "'"
-//        );
-//        throw new Exception("Unable to resolve node type of '" . $parserNode->getType() . "'");
-        else {
+        } else {
+            // TODO: remove this check once all statement types have been accounted for
+            //        \PHPUnit_Framework_Assert::assertNotEquals(
+            //            UnknownStatement::getType(),
+            //            $statementName,
+            //            "Unable to resolve node type of '" . $parserNode->getType() . "'"
+            //        );
+            //        throw new Exception("Unable to resolve node type of '" . $parserNode->getType() . "'");
             echo "Unable to resolve node type of '" . $parserNode->getType() . "'\n";
         }
 
@@ -152,7 +151,8 @@ class SyntaxFactory
     /**
      * This method constructs the new factory. By default, it registers the known expression types.
      */
-    protected function registerExprs() {
+    protected function registerExprs()
+    {
         $this->register('Expr_Include', IncludeStatement::getType());
         $this->register('Expr_Equal', EqualOperator::getType());
         $this->register('Expr_NotEqual', NotEqualOperator::getType());
@@ -199,11 +199,11 @@ class SyntaxFactory
         $this->register('Expr_New', NewReference::getType());
     }
 
-
     /**
      * This method constructs the new factory. By default, it registers the known statement types.
      */
-    protected function registerStmts() {
+    protected function registerStmts()
+    {
         $this->register('Stmt_Namespace', NamespaceStatement::getType());
         $this->register('Stmt_Use', UseStatement::getType());
         $this->register('Stmt_UseUse', UseReference::getType());

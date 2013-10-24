@@ -1,16 +1,14 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: jgedeon
- * Date: 10/23/13
- * Time: 3:02 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
-
+namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\ReferenceAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_DirConst;
 

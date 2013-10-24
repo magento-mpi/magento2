@@ -1,12 +1,10 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: jgedeon
- * Date: 10/23/13
- * Time: 3:30 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_NotEqual;
