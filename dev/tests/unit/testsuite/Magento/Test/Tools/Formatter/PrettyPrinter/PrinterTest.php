@@ -784,6 +784,11 @@ FORMATTEDCODESNIPPET
                 "    TestClass12345 \$c,\n    TestClass12345 \$d,\n    TestClass12345 \$e,\n".
                 "    TestClass12345 \$f,\n    TestClass12345 \$g\n) {\n}\n"
             ),
+            array("<?php static \$a;", "<?php\nstatic \$a;\n"),
+            array(
+                "<?php static \$a;function a(){global \$a;}",
+                "<?php\nstatic \$a;\nfunction a()\n{\n    global \$a;\n}\n"
+            ),
         );
     }
 }

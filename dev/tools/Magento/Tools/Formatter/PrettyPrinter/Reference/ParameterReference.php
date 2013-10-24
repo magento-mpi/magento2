@@ -11,7 +11,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Param;
 
-class ParameterReference extends AbstractReference
+class ParameterReference extends AbstractVariableReference
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -45,19 +45,14 @@ class ParameterReference extends AbstractReference
             } else {
                 // otherwise, assume it is a node, and resolve it
                 $this->resolveNode($this->node->type, $treeNode);
-                $line->add(' ');
             }
+            $line->add(' ');
         }
         // if the parameter is by reference, so note it
         if ($this->node->byRef) {
             $line->add('&');
         }
         // add in the variable reference
-        $line->add('$')->add($this->node->name);
-        // optionally add in the default value
-        if (null !== $this->node->default) {
-            $line->add(' = ');
-            $this->resolveNode($this->node->default, $treeNode);
-        }
+        $this->addVariableReference($treeNode, $line);
     }
 }

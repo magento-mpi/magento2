@@ -9,15 +9,15 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Stmt_PropertyProperty;
+use PHPParser_Node_Stmt_StaticVar;
 
-class PropertyReference extends AbstractVariableReference
+class StaticVariableReference extends AbstractVariableReference
 {
     /**
      * This method constructs a new reference based on the specified property.
-     * @param PHPParser_Node_Stmt_PropertyProperty $node
+     * @param PHPParser_Node_Stmt_StaticVar $node
      */
-    public function __construct(PHPParser_Node_Stmt_PropertyProperty $node)
+    public function __construct(PHPParser_Node_Stmt_StaticVar $node)
     {
         parent::__construct($node);
     }

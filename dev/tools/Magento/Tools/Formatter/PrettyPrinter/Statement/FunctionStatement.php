@@ -14,7 +14,7 @@ use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Function;
 
-class FunctionStatement extends StatementAbstract
+class FunctionStatement extends AbstractScriptStatement
 {
     /**
      * This method constructs a new statement based on the specified function

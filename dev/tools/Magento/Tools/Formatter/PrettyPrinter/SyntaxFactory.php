@@ -85,6 +85,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\PropertyCall;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\PropertyReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ShellExecReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StaticCallReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\StaticVariableReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StringReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\UseReference;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\BreakStatement;
@@ -100,6 +101,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ElseStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ForEachStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ForStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\FunctionStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\GlobalVariableStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IfStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IncludeStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\InlineHtmlStatement;
@@ -108,6 +110,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\MethodStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\NamespaceStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\PropertyStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ReturnStatement;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\StaticVariableStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\SwitchStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\ThrowStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\TryCatchStatement;
@@ -312,6 +315,9 @@ class SyntaxFactory
         $this->register('Stmt_Throw', ThrowStatement::getType());
         $this->register('Stmt_TryCatch', TryCatchStatement::getType());
         $this->register('Stmt_Catch', CatchStatement::getType());
+        $this->register('Stmt_Static', StaticVariableStatement::getType());
+        $this->register('Stmt_Global', GlobalVariableStatement::getType());
+        $this->register('Stmt_StaticVar', StaticVariableReference::getType());
     }
 
     /**
