@@ -79,8 +79,7 @@ class TreeElement extends Element
     }
 
     /**
-     * Click a tree element by its path in tree
-     * (format numeric as 0/2/etc)
+     * Click a tree element by its path (Node names) in tree
      *
      * @param string $path
      * @throws \InvalidArgumentException
@@ -110,16 +109,17 @@ class TreeElement extends Element
      * Return the nested array if it exists or object of class Element if this is the final part of structure
      *
      * @param string $pathChunk
-     * @param string $structureChunk
+     * @param array $structureChunk
      * @return array|Element||false
      */
     protected function deep($pathChunk, $structureChunk)
     {
-        if (isset($structureChunk[$pathChunk])){
-            return $structureChunk[$pathChunk];
-        } else {
-            return false;
+        foreach ($structureChunk as $structureNode) {
+            if (isset($structureNode) && $structureNode['name'] == $pathChunk) {
+                return $structureNode;
+            }
         }
+        return false;
     }
 
     /**
@@ -129,28 +129,29 @@ class TreeElement extends Element
      */
     public function getStructure()
     {
-        return $this->_getNodeContent($this);
+        return $this->_getNodeContent($this, '.x-tree-root-node');
     }
 
     /**
      * Get recursive structure of the tree content
      *
      * @param Element $node
+     * @param string $parentCssClass
      * @return array
      */
-    protected function _getNodeContent($node)
+    protected function _getNodeContent($node, $parentCssClass)
     {
         $nodeArray = array();
         $nodeList = array();
         $counter = 1;
 
-        $newNode = $node->find('.x-tree-node:nth-of-type(' . $counter . ')' );
+        $newNode = $node->find($parentCssClass .' > .x-tree-node:nth-of-type(' . $counter . ')' );
 
         //Get list of all children nodes to work with
         while ($newNode->isVisible()) {
             $nodeList[] = $newNode;
             ++$counter;
-            $newNode = $node->find('.x-tree-node:nth-of-type(' . $counter . ')' );
+            $newNode = $node->find($parentCssClass .' > .x-tree-node:nth-of-type(' . $counter . ')' );
         }
 
         //Write to array values of current node
@@ -162,7 +163,7 @@ class TreeElement extends Element
             $nodeArray[] = array(
                 'name' => $text,
                 'element' => $currentNode,
-                'subnodes' => ( $nodesContents->isVisible())? $this->_getNodeContent($nodesContents) : null
+                'subnodes' => ( $nodesContents->isVisible())? $this->_getNodeContent($nodesContents, '.x-tree-node > .x-tree-node-ct') : null
             );
         }
 

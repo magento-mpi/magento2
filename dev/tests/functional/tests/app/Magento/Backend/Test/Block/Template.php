@@ -31,11 +31,19 @@ class Template extends Block
     protected $loader;
 
     /**
+     * Loader selector
+     *
+     * @var string
+     */
+    protected $secondLoader;
+
+    /**
      * Initialize block elements
      */
     protected function _init()
     {
         $this->loader = '.loading-mask';
+        $this->secondLoader = '.loading-old';
     }
 
     /**
@@ -44,5 +52,6 @@ class Template extends Block
     public function waitLoader()
     {
         $this->waitForElementNotVisible($this->loader);
+        $this->waitForElementNotVisible($this->secondLoader);
     }
 }
