@@ -311,6 +311,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($block instanceof self) {
             $block = $block->getNameInLayout();
         }
+
         $layout->setChild($thisName, $block, $alias);
 
         return $this;
