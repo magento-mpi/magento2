@@ -16,7 +16,6 @@ namespace Magento\Core\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
-    const XML_PATH_PUBLIC_FILES_VALID_PATHS     = 'general/file/public_files_valid_paths';
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
 
@@ -509,16 +508,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getDefaultCountry($store = null)
     {
         return $this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
-    }
-
-    /**
-     * Return list with public files valid paths
-     *
-     * @return array
-     */
-    public function getPublicFilesValidPath()
-    {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
     }
 
     /**

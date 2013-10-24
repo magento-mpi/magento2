@@ -891,6 +891,7 @@ return array(
     array('getProtectedFileExtensions', '\Magento\Core\Helper\Data',
           '\Magento\Core\Model\File\Validator\NotProtectedExtension::getProtectedFileExtensions'),
     array('getStoreId', '\Magento\Core\Helper\Data'),
+    array('getPublicFilesValidPath', '\Magento\Core\Helper\Data'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
     array('is_dir_writeable'),
     array('destruct'),
