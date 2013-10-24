@@ -53,10 +53,9 @@ class Attribute extends \Magento\Backend\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
-     * @param \Magento\Core\Model\App\Proxy $app
+     * @param \Magento\Core\Model\App $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
@@ -66,10 +65,9 @@ class Attribute extends \Magento\Backend\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\App\RouterList $routerList,
-        \Magento\Core\Model\App\Proxy $app,
+        \Magento\Core\Model\App $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
@@ -77,12 +75,11 @@ class Attribute extends \Magento\Backend\Helper\Data
         \Magento\Backend\Model\Session $session,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
     ) {
-
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
-            $context, $coreData, $primaryConfig, $routerList, $app, $backendUrl, $auth, $frontNameResolver
+            $context, $primaryConfig, $routerList, $app, $backendUrl, $auth, $frontNameResolver
         );
     }
 

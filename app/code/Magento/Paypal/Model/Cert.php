@@ -21,7 +21,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
     const BASEPATH_PAYPAL_CERT  = 'cert/paypal';
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 

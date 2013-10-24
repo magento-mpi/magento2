@@ -18,12 +18,12 @@ class Header
     /**
      * Request object
      *
-     * @var \Magento\Core\Controller\Request\HttpProxy
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
     public function __construct(
-        \Magento\Core\Controller\Request\HttpProxy $httpRequest
+        \Magento\App\RequestInterface $httpRequest
     ) {
         $this->_request = $httpRequest;
     }

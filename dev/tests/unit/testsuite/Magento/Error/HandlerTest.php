@@ -24,7 +24,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(BP), '', true);
+        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(BP), '', true);
     }
 
     /**
@@ -52,7 +52,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $handler = new \Magento\Error\Handler($this->_loggerMock, $this->_dirMock, false);
         $this->_dirMock->expects($this->atLeastOnce())
             ->method('getDir')
-            ->with(\Magento\Core\Model\Dir::PUB)
+            ->with(\Magento\App\Dir::PUB)
             ->will($this->returnValue(dirname(__DIR__) . DS . '_files'));
 
         $exception = new \Exception('TestMessage');

@@ -19,7 +19,7 @@ class Handler implements HandlerInterface
     protected $logger;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $dir;
 
@@ -55,13 +55,13 @@ class Handler implements HandlerInterface
      * @todo remove dependency on a Dir after Folks team made sprint commitment
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param bool $isDeveloperMode
      * @return \Magento\Error\Handler
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         $isDeveloperMode = false
     ) {
         $this->logger = $logger;
@@ -93,7 +93,7 @@ class Handler implements HandlerInterface
                     $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                 }
             }
-            require_once($this->dir->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once($this->dir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
     }
 

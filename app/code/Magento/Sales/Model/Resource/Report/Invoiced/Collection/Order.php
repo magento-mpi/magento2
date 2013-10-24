@@ -44,7 +44,7 @@ class Order
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \v,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Report $resource

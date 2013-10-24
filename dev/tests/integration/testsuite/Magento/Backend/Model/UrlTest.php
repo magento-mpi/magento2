@@ -138,7 +138,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         /** @var $encryptor \Magento\Encryption\EncryptorInterface */
         $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
 
-        /** @var $request \Magento\Core\Controller\Request\Http */
+        /** @var $request \Magento\App\Request\Http */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\App\RequestInterface');
         $request->setControllerName('controller')->setActionName('action');

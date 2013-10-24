@@ -42,7 +42,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             = $this->getMock('\Magento\Backend\App\Area\FrontNameResolver', array(), array(), '', false);
         $this->_helper = new \Magento\Backend\Helper\Data(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
             $this->_primaryConfigMock,
             $this->getMock('Magento\App\RouterList', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\App', array(), array(), '', false),

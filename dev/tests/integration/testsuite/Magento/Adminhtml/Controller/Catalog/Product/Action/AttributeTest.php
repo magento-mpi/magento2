@@ -31,7 +31,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/catalog_product_action_attribute/save/store/0');
 
         $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
-        $expectedUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Url')->
+        $expectedUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\UrlInterface')->
             getUrl('backend/admin/catalog_product/index');
         $isRedirectPresent = false;
         foreach ($this->getResponse()->getHeaders() as $header) {

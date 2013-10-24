@@ -71,10 +71,10 @@ abstract class AbstractEntryPoint
      */
     protected function _initErrorHandler()
     {
-        /** @var $appState \Magento\Core\Model\App\State */
-        $appState = $this->_objectManager->get('Magento\Core\Model\App\State');
+        /** @var $appState \Magento\App\State */
+        $appState = $this->_objectManager->get('Magento\App\State');
         $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface', array(
-            'isDeveloperMode' => $appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER,
+            'isDeveloperMode' => $appState->getMode() == \Magento\App\State::MODE_DEVELOPER,
         ));
         set_error_handler(array($this->_errorHandler, 'handler'));
     }

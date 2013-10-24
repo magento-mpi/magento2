@@ -20,7 +20,7 @@ class RemoteAddress
     /**
      * Request object
      *
-     * @var \Magento\Core\Controller\Request\HttpProxy
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -37,7 +37,7 @@ class RemoteAddress
     protected $_remoteAddress;
 
     public function __construct(
-        \Magento\Core\Controller\Request\HttpProxy $httpRequest,
+        \Magento\App\RequestInterface $httpRequest,
         \Magento\Core\Model\ConfigInterface $config
     ) {
         $this->_request = $httpRequest;

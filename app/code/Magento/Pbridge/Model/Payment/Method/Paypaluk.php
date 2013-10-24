@@ -61,12 +61,12 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
