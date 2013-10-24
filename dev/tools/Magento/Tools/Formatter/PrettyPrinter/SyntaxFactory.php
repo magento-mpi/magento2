@@ -22,6 +22,8 @@ use Magento\Tools\Formatter\PrettyPrinter\Operator\AssignShiftLeftOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\AssignShiftRightOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BitwiseNotOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanNotOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanAndOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanOrOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\ConcatOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\DivideOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\EqualOperator;
@@ -161,6 +163,8 @@ class SyntaxFactory
         $this->register('Expr_Identical', IdenticalOperator::getType());
         $this->register('Expr_NotIdentical', NotIdenticalOperator::getType());
         $this->register('Expr_BooleanNot', BooleanNotOperator::getType());
+        $this->register('Expr_BooleanAnd', BooleanAndOperator::getType());
+        $this->register('Expr_BooleanOr', BooleanOrOperator::getType());
         $this->register('Expr_Assign', AssignmentOperator::getType());
         $this->register('Expr_AssignRef', AssignRefOperator::getType());
         $this->register('Expr_AssignPlus', AssignPlusOperator::getType());
