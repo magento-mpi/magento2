@@ -275,17 +275,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve store identifier
-     *
-     * @param   mixed $store
-     * @return  int
-     */
-    public function getStoreId($store=null)
-    {
-        return $this->_storeManager->getStore($store)->getId();
-    }
-
-    /**
      * @param null $storeId
      * @return bool
      */
