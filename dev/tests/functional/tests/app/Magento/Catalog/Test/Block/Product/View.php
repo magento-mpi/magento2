@@ -77,7 +77,9 @@ class View extends Block
      */
     public function addToCart(Product $product)
     {
-        if ($this->getBundleBlock()->isVisible()) {
+        $configureButton = $this->_rootElement->find('.action.primary.customize');
+        if ($configureButton->isVisible()) {
+            $configureButton->click();
             $this->getBundleBlock()->fillBundleOptions($product);
         }
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();

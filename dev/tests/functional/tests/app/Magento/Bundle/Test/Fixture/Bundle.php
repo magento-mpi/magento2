@@ -114,8 +114,29 @@ class Bundle extends Product
      */
     public function getProductPrice()
     {
-        $prices = $this->getData('prices');
+        $prices = $this->getData('checkout/prices');
         return $prices ? $prices : parent::getProductPrice();
+    }
+
+    /**
+     * Get options type, value and qty to select for adding to shopping cart
+     *
+     * @return array
+     */
+    public function getSelectionData() {
+        $options = $this->getData('checkout/selection');
+        $selectionData = array();
+        foreach ($options as $option => $selection) {
+            $selectionItem['type'] = $this->getData('fields/bundle_selections/value/' . $option . '/type/input_value');
+            $selectionItem['qty'] = $this->getData(
+                'fields/bundle_selections/value/' . $option .
+                '/assigned_products/' . $selection . '/data/selection_qty/value'
+            );
+            $selectionItem['value'] = $this->getData('fields/bundle_selections/value/' . $option .
+                '/assigned_products/' . $selection . '/search_data/name');
+            $selectionData[] = $selectionItem;
+        }
+        return $selectionData;
     }
 
     /**
@@ -242,9 +263,14 @@ class Bundle extends Product
                     'group' => static::GROUP_BUNDLE_OPTIONS
                 )
             ),
-            'prices' => array(
-                'price_from' => '110',
-                'price_to' => '120'
+            'checkout' => array(
+                'prices' => array(
+                    'price_from' => '110',
+                    'price_to' => '120'
+                ),
+                'selection' => array(
+                    'bundle_item_0' => 'assigned_product_1'
+                )
             )
         );
 
