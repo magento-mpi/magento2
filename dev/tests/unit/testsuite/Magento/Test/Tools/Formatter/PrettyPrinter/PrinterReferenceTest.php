@@ -47,6 +47,8 @@ class PrinterReferenceTest extends TestBase
             ),
             array("<?php empty(\$a);", "<?php\nempty(\$a);\n"),
             array("<?php exit('Bye');", "<?php\nexit('Bye');\n"),
+            array("<?php isset(\$Bye);", "<?php\nisset(\$Bye);\n"),
+            array("<?php if (isset(\$Bye)) { echo 'b'; } ", "<?php\nif (isset(\$Bye)) {\n    echo 'b';\n}\n"),
         );
     }
 

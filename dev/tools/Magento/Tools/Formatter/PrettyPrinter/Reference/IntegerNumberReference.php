@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_LNumber;
 
-class IntegerNumberReference extends AbstractReference
+class IntegerNumberReference extends AbstractScalarReference
 {
     /**
      * This method constructs a new reference based on the specified integer number.

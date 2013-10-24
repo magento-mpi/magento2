@@ -62,9 +62,12 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\DecimalNumberReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\EmptyReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ExitReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ExpressionReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\FileConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FunctionCall;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\IntegerNumberReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\IssetReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\MethodCall;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\MethodConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\NewReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ParameterReference;
@@ -154,24 +157,33 @@ class SyntaxFactory
      */
     protected function __construct()
     {
-        $this->register('Scalar_DirConst', DirConstReference::getType());
         $this->register('Const', ClassConstant::getType());
         $this->register('Name', ClassReference::getType());
-        $this->register('Scalar_DNumber', DecimalNumberReference::getType());
-        $this->register('Scalar_LNumber', IntegerNumberReference::getType());
-        $this->register('Scalar_String', StringReference::getType());
         $this->register('Param', ParameterReference::getType());
         $this->register('Name_FullyQualified', ClassReference::getType());
         $this->register('Arg', ArgumentReference::getType());
         $this->registerExprs();
+        $this->registerScalars();
         $this->registerStmts();
     }
 
     /**
-     * This method constructs the new factory. By default, it registers the known expression types.
+     * This method registers the given parser node type to the named statement.
+     *
+     * @param string $parserNodeName Contains the name corresponding to the type of parser node
+     * @param string $statement Contains the name of the class used to process the parser node
+     */
+    protected function register($parserNodeName, $statement)
+    {
+        $this->nodeMap[$parserNodeName] = $statement;
+    }
+
+    /**
+     * This method registers the expression types.
      */
     protected function registerExprs()
     {
+        $this->register('Expr_Isset', IssetReference::getType());
         $this->register('Expr_Include', IncludeStatement::getType());
         $this->register('Expr_Instanceof', InstanceofOperator::getType());
         $this->register('Expr_Cast_Int', CastIntOperator::getType());
@@ -232,7 +244,20 @@ class SyntaxFactory
     }
 
     /**
-     * This method constructs the new factory. By default, it registers the known statement types.
+     * This method registers the scalar types.
+     */
+    protected function registerScalars()
+    {
+        $this->register('Scalar_DirConst', DirConstReference::getType());
+        $this->register('Scalar_DNumber', DecimalNumberReference::getType());
+        $this->register('Scalar_LNumber', IntegerNumberReference::getType());
+        $this->register('Scalar_String', StringReference::getType());
+        $this->register('Scalar_MethodConst', MethodConstantReference::getType());
+        $this->register('Scalar_FileConst', FileConstantReference::getType());
+    }
+
+    /**
+     * This method registers the statements.
      */
     protected function registerStmts()
     {
@@ -263,17 +288,6 @@ class SyntaxFactory
         $this->register('Stmt_Throw', ThrowStatement::getType());
         $this->register('Stmt_TryCatch', TryCatchStatement::getType());
         $this->register('Stmt_Catch', CatchStatement::getType());
-    }
-
-    /**
-     * This method registers the given parser node type to the named statement.
-     *
-     * @param string $parserNodeName Contains the name corresponding to the type of parser node
-     * @param string $statement Contains the name of the class used to process the parser node
-     */
-    protected function register($parserNodeName, $statement)
-    {
-        $this->nodeMap[$parserNodeName] = $statement;
     }
 
     /**

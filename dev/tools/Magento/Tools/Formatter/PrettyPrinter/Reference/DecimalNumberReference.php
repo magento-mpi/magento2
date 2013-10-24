@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_DNumber;
 
-class DecimalNumberReference extends AbstractReference
+class DecimalNumberReference extends AbstractScalarReference
 {
     /**
      * This method constructs a new reference based on the specified decimal number.

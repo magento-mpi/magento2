@@ -183,6 +183,10 @@ FORMATTEDCODESNIPPET
 
 require_once __DIR__.'processor.php';
 require __DIR__.'processor.php';
+require_once __FILE__.'processor.php';
+require __FILE__.'processor.php';
+require_once __METHOD__.'processor.php';
+require __METHOD__.'processor.php';
 require_once 'processor.php';
 require('processor.php');
 require_once('processor.php');
@@ -209,6 +213,10 @@ ORIGINALCODESNIPPET
 
 require_once __DIR__ . 'processor.php';
 require __DIR__ . 'processor.php';
+require_once __FILE__ . 'processor.php';
+require __FILE__ . 'processor.php';
+require_once __METHOD__ . 'processor.php';
+require __METHOD__ . 'processor.php';
 require_once 'processor.php';
 require 'processor.php';
 require_once 'processor.php';
