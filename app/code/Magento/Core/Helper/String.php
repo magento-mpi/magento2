@@ -69,27 +69,6 @@ class String extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Sorts array with multibyte string keys
-     *
-     * @param array $sort
-     * @return array
-     */
-    public function ksortMultibyte(array &$sort)
-    {
-        if (empty($sort)) {
-            return false;
-        }
-        $oldLocale = setlocale(LC_COLLATE, "0");
-        $localeCode = $this->_locale->getLocaleCode();
-        // use fallback locale if $localeCode is not available
-        setlocale(LC_COLLATE,  $localeCode . '.UTF8', 'C.UTF-8', 'en_US.utf8');
-        ksort($sort, SORT_LOCALE_STRING);
-        setlocale(LC_COLLATE, $oldLocale);
-
-        return $sort;
-    }
-
-    /**
      * Builds namespace + classname out of the parts array
      *
      * Split every part into pieces by _ and \ and uppercase every piece

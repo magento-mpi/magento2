@@ -875,6 +875,7 @@ return array(
     array('cleanString', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::cleanString'),
     array('strpos', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::strpos'),
     array('truncate', '\Magento\Core\Helper\String', '\Magento\Filter\Truncate'),
+    array('ksortMultibyte', '\Magento\Core\Helper\String'),
     array('uc_words'),
     array('is_empty_date'),
     array('now'),
