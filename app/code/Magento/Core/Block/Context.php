@@ -95,7 +95,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Escaper
      */
     protected $_escaper;
 

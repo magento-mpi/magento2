@@ -874,6 +874,8 @@ return array(
     array('strrev', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::strrev'),
     array('cleanString', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::cleanString'),
     array('strpos', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::strpos'),
+    array('strSplit', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::split'),
+    array('splitInjection', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::splitInjection'),
     array('truncate', '\Magento\Core\Helper\String', '\Magento\Filter\Truncate'),
     array('uc_words'),
     array('is_empty_date'),

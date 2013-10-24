@@ -40,6 +40,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Filter\FilterManager $filter
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
@@ -195,5 +196,16 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     public function getProductAdditionalInformationBlock()
     {
         return $this->getLayout()->getBlock('additional.product.info');
+    }
+
+    /**
+     * Prepare SKU
+     *
+     * @param string $sku
+     * @return string
+     */
+    public function prepareSku($sku)
+    {
+        return $this->escapeHtml($this->string->splitInjection($sku));
     }
 }

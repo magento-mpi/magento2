@@ -21,51 +21,15 @@ class String extends \Magento\Core\Helper\AbstractHelper
     protected $_locale;
 
     /**
-     * Magento string lib
-     *
-     * @var \Magento\Stdlib\String
-     */
-    protected $string;
-
-    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Locale $locale,
-        \Magento\Stdlib\String $string
+        \Magento\Core\Model\Locale $locale
     ) {
         parent::__construct($context);
         $this->_locale = $locale;
-        $this->string = $string;
-    }
-
-    /**
-     * Split string and appending $insert string after $needle
-     *
-     * @param string $str
-     * @param integer $length
-     * @param string $needle
-     * @param string $insert
-     * @return string
-     */
-    public function splitInjection($str, $length = 50, $needle = '-', $insert = ' ')
-    {
-        $str = $this->string->split($str, $length);
-        $newStr = '';
-        foreach ($str as $part) {
-            if ($this->string->strlen($part) >= $length) {
-                $lastDelimiter = $this->string->strpos($this->string->strrev($part), $needle);
-                $tmpNewStr = $this->string->substr($this->string->strrev($part), 0, $lastDelimiter)
-                    . $insert . $this->string->substr($this->string->strrev($part), $lastDelimiter);
-                $newStr .= $this->string->strrev($tmpNewStr);
-            } else {
-                $newStr .= $part;
-            }
-        }
-        return $newStr;
     }
 
     /**

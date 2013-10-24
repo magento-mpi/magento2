@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\Bundle\Block\Sales\Order\Items\Renderer */
 ?>
 <?php $parentItem = $this->getItem() ?>
 <?php $items = array_merge(array($parentItem), $parentItem->getChildrenItems()); ?>
@@ -46,7 +48,7 @@
 <?php endif; ?>
 <tr>
     <th><?php echo __('SKU') ?></th>
-    <td><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->splitInjection($_item->getSku())) ?></td>
+    <td><?php echo $this->prepareSku($_item->getSku()) ?></td>
 </tr>
 
 <?php if (!$_item->getParentItem()): ?>

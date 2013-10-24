@@ -34,6 +34,32 @@ class String
     }
 
     /**
+     * Split string and appending $insert string after $needle
+     *
+     * @param string $str
+     * @param integer $length
+     * @param string $needle
+     * @param string $insert
+     * @return string
+     */
+    public function splitInjection($str, $length = 50, $needle = '-', $insert = ' ')
+    {
+        $str = $this->split($str, $length);
+        $newStr = '';
+        foreach ($str as $part) {
+            if ($this->strlen($part) >= $length) {
+                $lastDelimiter = $this->strpos($this->strrev($part), $needle);
+                $tmpNewStr = $this->substr($this->strrev($part), 0, $lastDelimiter)
+                    . $insert . $this->substr($this->strrev($part), $lastDelimiter);
+                $newStr .= $this->strrev($tmpNewStr);
+            } else {
+                $newStr .= $part;
+            }
+        }
+        return $newStr;
+    }
+
+    /**
      * Binary-safe variant of strSplit()
      * + option not to break words
      * + option to trim spaces (between each word)
