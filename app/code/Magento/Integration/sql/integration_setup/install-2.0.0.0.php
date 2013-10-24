@@ -77,14 +77,14 @@ $table = $installer->getConnection()
         'created_at',
         \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array(),
+        array('default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT),
         'Creation Time'
     )
     ->addColumn(
         'updated_at',
         \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array(),
+        array('default' => \Magento\DB\Ddl\Table::TIMESTAMP_UPDATE),
         'Update Time'
     )
     ->addIndex(

@@ -11,8 +11,6 @@
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit;
 
 /**
- * Class \Magento\Integration\Block\Adminhtml\Integration\Edit\Form
- *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic

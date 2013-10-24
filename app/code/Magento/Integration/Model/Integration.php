@@ -15,7 +15,15 @@
  * @method \Magento\Integration\Model\Resource\Integration\Collection getCollection()
  * @method \Magento\Integration\Model\Resource\Integration\Collection getResourceCollection()
  * @method string getName()
- * @method \Magento\Integration\Model\Integration setName() setName(string $name)
+ * @method \Magento\Integration\Model\Integration setName(string $name)
+ * @method string getEmail()
+ * @method \Magento\Integration\Model\Integration setEmail(string $email)
+ * @method int getStatus()
+ * @method \Magento\Integration\Model\Integration getStatus(int $value)
+ * @method int getAuthentication()
+ * @method \Magento\Integration\Model\Integration setAuthentication(int $value)
+ * @method string getEndpoint()
+ * @method \Magento\Integration\Model\Integration setEndpoint(string $endpoint)
  */
 namespace Magento\Integration\Model;
 
@@ -26,12 +34,14 @@ class Integration extends \Magento\Core\Model\AbstractModel
      */
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    /**#@-*/
 
     /**#@+
      * Authentication mechanism
      */
     const AUTHENTICATION_OAUTH = 1;
     const AUTHENTICATION_MANUAL = 2;
+    /**#@-*/
 
     /**
      * Prefix of model events names.
@@ -43,7 +53,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Core\Model\Url\Validator
      */
-    protected $urlValidator;
+    protected $_urlValidator;
 
     /**
      * @param \Magento\Core\Model\Url\Validator $urlValidator
@@ -62,7 +72,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->urlValidator = $urlValidator;
+        $this->_urlValidator = $urlValidator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
     */
@@ -80,7 +90,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * BeforeSave actions
      *
-     * @return \Magento\Integration\Model\Consumer
+     * @return \Magento\Integration\Model\Integration
      */
     protected function _beforeSave()
     {
@@ -105,10 +115,10 @@ class Integration extends \Magento\Core\Model\AbstractModel
             $this->setCallbackUrl(trim($this->getCallbackUrl()));
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
-            if ($this->getCallbackUrl() && !$this->urlValidator->isValid($this->getCallbackUrl())) {
+            if ($this->getCallbackUrl() && !$this->_urlValidator->isValid($this->getCallbackUrl())) {
                 throw new \Magento\Core\Exception(__('Invalid Callback URL'));
             }
-            if ($this->getRejectedCallbackUrl() && !$this->urlValidator->isValid($this->getRejectedCallbackUrl())) {
+            if ($this->getRejectedCallbackUrl() && !$this->_urlValidator->isValid($this->getRejectedCallbackUrl())) {
                 throw new \Magento\Core\Exception(__('Invalid Rejected Callback URL'));
             }
         }
