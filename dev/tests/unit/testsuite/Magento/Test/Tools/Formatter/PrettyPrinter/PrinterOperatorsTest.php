@@ -99,6 +99,7 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\nif (!\$d>=\$c) {\$a!==\$b;}", "<?php\nif (!\$d >= \$c) {\n    \$a !== \$b;\n}\n"),
             array("<?php\nif (!\$d<\$c) {\$a!==\$b;}", "<?php\nif (!\$d < \$c) {\n    \$a !== \$b;\n}\n"),
             array("<?php\nif (!\$d<=\$c) {\$a!==\$b;}", "<?php\nif (!\$d <= \$c) {\n    \$a !== \$b;\n}\n"),
+            array("<?php\nif(\$d  instanceof  MyClass){\$d=null;}", "<?php\nif (\$d instanceof MyClass) {\n    \$d = null;\n}\n"),
         );
     }
 }

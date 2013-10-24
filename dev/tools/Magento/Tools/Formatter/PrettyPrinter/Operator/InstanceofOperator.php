@@ -22,7 +22,7 @@ class InstanceofOperator extends AbstractInfixOperator {
 
     public function operator()
     {
-        return ' Instanceof ';
+        return ' instanceof ';
     }
     public function left()
     {
