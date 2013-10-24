@@ -11,9 +11,20 @@ use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node_Stmt;
 
 abstract class ClassTypeAbstract extends StatementAbstract
 {
+    /**
+     * This method constructs a new statement based on the specify class node
+     * @param PHPParser_Node_Stmt $node
+     */
+    public function __construct(PHPParser_Node_Stmt $node)
+    {
+        parent::__construct($node);
+        // Enable trimming blank lines around comments
+        $this->trimComments = true;
+    }
     /**
      * This method adds the body of the class to the tree.
      * @param TreeNode $treeNode Node to used as the sibling of the opening brace.

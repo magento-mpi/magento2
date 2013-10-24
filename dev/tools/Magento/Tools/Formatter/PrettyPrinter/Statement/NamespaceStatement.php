@@ -21,6 +21,8 @@ class NamespaceStatement extends StatementAbstract
     public function __construct(PHPParser_Node_Stmt_Namespace $node)
     {
         parent::__construct($node);
+        // Enable trimming blank lines around comments
+        $this->trimComments = true;
     }
 
     /**
