@@ -25,8 +25,13 @@ class Exception extends \Magento\Core\Exception
      * {@inheritdoc}
      * @param array $parameters - Array of optional exception parameters.
      */
-    public function __construct($message = "", $code = 0, Exception $previous = null, $parameters = array(), $name = '')
-    {
+    public function __construct(
+        $message = "",
+        $code = 0,
+        Exception $previous = null,
+        array $parameters = array(),
+        $name = ''
+    ) {
         parent::__construct($message, $code, $previous);
         $this->_parameters = $parameters;
         $this->_name = $name;

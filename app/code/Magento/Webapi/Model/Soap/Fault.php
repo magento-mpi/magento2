@@ -22,10 +22,10 @@ class Fault extends \RuntimeException
     /**#@+
      * Nodes that can appear in Detail node of SOAP fault.
      */
-    const NODE_ERROR_DETAIL_CODE = 'Code';
-    const NODE_ERROR_DETAIL_PARAMETERS = 'Parameters';
-    const NODE_ERROR_DETAIL_TRACE = 'Trace';
-    const NODE_ERROR_DETAILS = 'ErrorDetails';
+    const NODE_DETAIL_CODE = 'Code';
+    const NODE_DETAIL_PARAMETERS = 'Parameters';
+    const NODE_DETAIL_TRACE = 'Trace';
+    const NODE_DETAIL_WRAPPER = 'DefaultFault';
     /**#@-*/
 
     /** @var string */
@@ -90,13 +90,13 @@ class Fault extends \RuntimeException
     public function toXml()
     {
         if ($this->_application->isDeveloperMode()) {
-            $this->addDetails(array(self::NODE_ERROR_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
+            $this->addDetails(array(self::NODE_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
         }
         if ($this->getParameters()) {
-            $this->addDetails(array(self::NODE_ERROR_DETAIL_PARAMETERS => $this->getParameters()));
+            $this->addDetails(array(self::NODE_DETAIL_PARAMETERS => $this->getParameters()));
         }
         if ($this->getErrorCode()) {
-            $this->addDetails(array(self::NODE_ERROR_DETAIL_CODE => $this->getErrorCode()));
+            $this->addDetails(array(self::NODE_DETAIL_CODE => $this->getErrorCode()));
         }
 
         return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $this->getDetails());
@@ -203,7 +203,9 @@ class Fault extends \RuntimeException
     {
         $detailXml = $this->_generateDetailXml($details);
         $language = $this->getLanguage();
-        $detailsNamespace = !empty($detailXml) ? 'xmlns:m="' . $this->_soapServer->generateUri(true) . '"' : '';
+        $detailsNamespace = !empty($detailXml)
+            ? 'xmlns:m="' . urlencode($this->_soapServer->generateUri(true)) . '"'
+            : '';
         $reason = htmlentities($reason);
         $message = <<<FAULT_MESSAGE
 <?xml version="1.0" encoding="utf-8" ?>
@@ -238,7 +240,7 @@ FAULT_MESSAGE;
         if (is_array($details) && !empty($details)) {
             $detailsXml = $this->_convertDetailsToXml($details);
             if ($detailsXml) {
-                $errorDetailsNode = $this->getFaultName() ? $this->getFaultName() :self::NODE_ERROR_DETAILS;
+                $errorDetailsNode = $this->getFaultName() ? $this->getFaultName() :self::NODE_DETAIL_WRAPPER;
                 $detailsXml = "<env:Detail><m:{$errorDetailsNode}>"
                     . $detailsXml . "</m:{$errorDetailsNode}></env:Detail>";
             } else {

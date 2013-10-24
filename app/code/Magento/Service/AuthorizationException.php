@@ -27,7 +27,7 @@ class AuthorizationException extends \Magento\Service\Exception
         // TODO Specify default exception code when Service \Exception Handling policy is defined
         $code = 0,
         \Exception $previous = null,
-        $parameters = array(),
+        array $parameters = array(),
         $name = 'authorization',
         $userId = null,
         $resourceId = null

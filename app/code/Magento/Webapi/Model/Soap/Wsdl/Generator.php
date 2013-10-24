@@ -10,6 +10,9 @@
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
+use Magento\Webapi\Model\Soap\Wsdl;
+use Magento\Webapi\Model\Soap\Fault;
+
 class Generator
 {
     const WSDL_NAME = 'MagentoWSDL';
@@ -104,16 +107,16 @@ class Generator
 
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
-
+        $this->_addDefaultFaultComplexTypeNodes($wsdl);
         foreach ($services as $serviceClass => $serviceData) {
             $portTypeName = $this->getPortTypeName($serviceClass);
             $bindingName = $this->getBindingName($serviceClass);
             $portType = $wsdl->addPortType($portTypeName);
-            $binding = $wsdl->addBinding($bindingName, \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $portTypeName);
+            $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($serviceClass);
             $serviceName = $this->getServiceName($serviceClass);
-            $wsdl->addService($serviceName, $portName, \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS
+            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS
                 . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
@@ -128,9 +131,18 @@ class Generator
                     $outputMessageName = $this->_createOperationOutput($wsdl, $operationName, $methodData);
                 }
 
-                $faultsInfo = false;
+                /** Default SOAP fault should be added to each operation declaration */
+                $faultsInfo = array(
+                    array(
+                        'name' => Fault::NODE_DETAIL_WRAPPER,
+                        'message' => Wsdl::TYPES_NS . ':' . $this->_getDefaultFaultMessageName()
+                    )
+                );
                 if (isset($methodData['interface']['faultComplexTypes'])) {
-                    $faultsInfo = $this->_createOperationFaults($wsdl, $operationName, $methodData);
+                    $faultsInfo = array_merge(
+                        $faultsInfo,
+                        $this->_createOperationFaults($wsdl, $operationName, $methodData)
+                    );
                 }
 
                 $wsdl->addPortOperation(
@@ -149,7 +161,6 @@ class Generator
                     SOAP_1_2
                 );
                 $wsdl->addSoapOperation($bindingOperation, $operationName, SOAP_1_2);
-                // @TODO: implement faults binding
             }
         }
         return $wsdl->toXML();
@@ -185,7 +196,7 @@ class Generator
                 ) {
                     $response += $this->getComplexTypeNodes($serviceName, $referencedTypeName, $domDocument);
                     /** Add target namespace to the referenced type name */
-                    $referencedType->value = \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
+                    $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
                 }
             }
             $complexTypeNode->setAttribute(
@@ -215,17 +226,17 @@ class Generator
     /**
      * Create input message and corresponding element and complex types in WSDL.
      *
-     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
+     * @param Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string input message name
      */
-    protected function _createOperationInput(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationInput(Wsdl $wsdl, $operationName, $methodData)
     {
         $inputMessageName = $this->getInputMessageName($operationName);
         $elementData = array(
             'name' => $inputMessageName,
-            'type' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName
+            'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
         );
         if (isset($methodData['interface']['inputComplexTypes'])) {
             foreach ($methodData['interface']['inputComplexTypes'] as $complexTypeNode) {
@@ -239,28 +250,28 @@ class Generator
             $inputMessageName,
             array(
                 'messageParameters' => array(
-                    'element' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName
+                    'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
                 )
             )
         );
-        return \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName;
+        return Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
 
     /**
      * Create output message, corresponding element and complex types in WSDL.
      *
-     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
+     * @param Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string output message name
      */
-    protected function _createOperationOutput(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationOutput(Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
         $wsdl->addElement(
             array(
                 'name' => $outputMessageName,
-                'type' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName
+                'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
         if (isset($methodData['interface']['outputComplexTypes'])) {
@@ -272,22 +283,22 @@ class Generator
             $outputMessageName,
             array(
                 'messageParameters' => array(
-                    'element' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName
+                    'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
                 )
             )
         );
-        return \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName;
+        return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**
      * Create an array of items that contain information about method faults.
      *
-     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
+     * @param Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return array array(array('name' => ..., 'message' => ...))
      */
-    protected function _createOperationFaults(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationFaults(Wsdl $wsdl, $operationName, $methodData)
     {
         $faults = array();
         if (isset($methodData['interface']['faultComplexTypes'])) {
@@ -296,7 +307,7 @@ class Generator
                 $wsdl->addElement(
                     array(
                         'name' => $faultMessageName,
-                        'type' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $faultMessageName
+                        'type' => Wsdl::TYPES_NS . ':' . $faultMessageName
                     )
                 );
                 foreach ($faultComplexTypes as $complexTypeNode) {
@@ -306,13 +317,13 @@ class Generator
                     $faultMessageName,
                     array(
                         'messageParameters' => array(
-                            'element' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $faultMessageName
+                            'element' => Wsdl::TYPES_NS . ':' . $faultMessageName
                         )
                     )
                 );
                 $faults[] = array(
                     'name' => $operationName . $faultName,
-                    'message' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $faultMessageName
+                    'message' => Wsdl::TYPES_NS . ':' . $faultMessageName
                 );
             }
         }
@@ -548,6 +559,27 @@ class Generator
     }
 
     /**
+     * Add WSDL elements related to default SOAP fault, which are common for all operations: element, type and message.
+     *
+     * @param Wsdl $wsdl
+     * @return \DOMNode[]
+     */
+    protected function _addDefaultFaultComplexTypeNodes($wsdl)
+    {
+        $domDocument = new \DOMDocument();
+        $typeName = Fault::NODE_DETAIL_WRAPPER;
+        $defaultFault = $this->_generateEmptyComplexType($typeName, $domDocument);
+        $elementName = Fault::NODE_DETAIL_WRAPPER;
+        $wsdl->addElement(array('name' => $elementName, 'type' => Wsdl::TYPES_NS . ':' . $typeName));
+        $wsdl->addMessage(
+            $this->_getDefaultFaultMessageName(),
+            array('messageParameters' => array('element' => Wsdl::TYPES_NS . ':' . $elementName))
+        );
+        $this->_addDefaultFaultElements($defaultFault);
+        $wsdl->addComplexType($defaultFault);
+    }
+
+    /**
      * Generate all necessary complex types for the fault of specified type.
      *
      * @param string $serviceName
@@ -568,24 +600,12 @@ class Generator
 
             /** Create new fault complex type, which will contain reference to fault param complex type */
             $newFaultComplexType = $this->_generateEmptyComplexType($faultTypeName, $domDocument);
+            $this->_addDefaultFaultElements($newFaultComplexType);
             /** Create 'Parameters' element and use fault param complex type as its type */
             $parametersElement = $domDocument->createElement('xsd:element');
-            $parametersElement->setAttribute('name', \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_PARAMETERS);
-            $parametersElement->setAttribute('type', \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $paramsTypeName);
+            $parametersElement->setAttribute('name', Fault::NODE_DETAIL_PARAMETERS);
+            $parametersElement->setAttribute('type', Wsdl::TYPES_NS . ':' . $paramsTypeName);
             $newFaultComplexType->firstChild->appendChild($parametersElement);
-
-            /** Create 'Code' element */
-            $codeElement = $domDocument->createElement('xsd:element');
-            $codeElement->setAttribute('name', \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_CODE);
-            $codeElement->setAttribute('type', 'xsd:int');
-            $newFaultComplexType->firstChild->appendChild($codeElement);
-
-            /** Create 'Trace' element */
-            $codeElement = $domDocument->createElement('xsd:element');
-            $codeElement->setAttribute('name', \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE);
-            $codeElement->setAttribute('type', 'xsd:string');
-            $codeElement->setAttribute('minOccurs', '0');
-            $newFaultComplexType->firstChild->appendChild($codeElement);
 
             $complexTypesNodes[$faultTypeName] = $newFaultComplexType;
         }
@@ -609,5 +629,36 @@ class Generator
         $sequenceNode = $domDocument->createElement('xsd:sequence');
         $complexTypeNode->appendChild($sequenceNode);
         return $complexTypeNode;
+    }
+
+    /**
+     * Add 'Detail' and 'Trace' elements to the fault element.
+     *
+     * @param \DOMElement $faultElement
+     */
+    protected function _addDefaultFaultElements($faultElement)
+    {
+        /** Create 'Code' element */
+        $codeElement = $faultElement->ownerDocument->createElement('xsd:element');
+        $codeElement->setAttribute('name', Fault::NODE_DETAIL_CODE);
+        $codeElement->setAttribute('type', 'xsd:int');
+        $faultElement->firstChild->appendChild($codeElement);
+
+        /** Create 'Trace' element */
+        $traceElement = $faultElement->ownerDocument->createElement('xsd:element');
+        $traceElement->setAttribute('name', Fault::NODE_DETAIL_TRACE);
+        $traceElement->setAttribute('type', 'xsd:string');
+        $traceElement->setAttribute('minOccurs', '0');
+        $faultElement->firstChild->appendChild($traceElement);
+    }
+
+    /**
+     * Retrieve name of default SOAP fault message name in WSDL.
+     *
+     * @return string
+     */
+    protected function _getDefaultFaultMessageName()
+    {
+        return Fault::NODE_DETAIL_WRAPPER;
     }
 }

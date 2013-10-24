@@ -26,12 +26,12 @@ class ResourceNotFoundException extends \Magento\Service\Exception
         // TODO Specify default exception code when Service \Exception Handling policy is defined
         $code = 0,
         \Exception $previous = null,
-        $parameters = array(),
+        array $parameters = array(),
         $name = 'resourceNotFound',
         $resourceId = null
     ) {
         if ($resourceId) {
-            $parameters = array('resourceNotFound' =>  array('resource_id' => $resourceId));
+            $parameters = array_merge($parameters, array('resource_id' => $resourceId));
             if (!$message) {
                 $message = "Resource with ID '{$resourceId}' not found.";
             }

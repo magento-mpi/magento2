@@ -11,8 +11,13 @@ namespace Magento\Webapi\Model\Soap;
 
 class FaultTest extends \PHPUnit_Framework_TestCase
 {
+    protected $_wsdlUrl = 'http://host.com/?wsdl&services=customerV1';
+
     /** @var \Magento\Core\Model\App */
     protected $_appMock;
+
+    /** @var \Magento\Webapi\Model\Soap\Server */
+    protected $_soapServerMock;
 
     /** @var \Magento\Webapi\Model\Soap\Fault */
     protected $_soapFault;
@@ -35,7 +40,15 @@ class FaultTest extends \PHPUnit_Framework_TestCase
             \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             $details
         );
-        $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_appMock, $webapiException);
+        $this->_soapServerMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server')->disableOriginalConstructor()
+            ->getMock();
+        $this->_soapServerMock->expects($this->any())->method('generateUri')->will($this->returnValue($this->_wsdlUrl));
+
+        $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
+            $this->_appMock,
+            $this->_soapServerMock,
+            $webapiException
+        );
         parent::setUp();
     }
 
@@ -49,9 +62,10 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     public function testToXmlDeveloperModeOff()
     {
         $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
+        $wsdlUrl = urlencode($this->_wsdlUrl);
         $expectedResult = <<<XML
 <?xml version="1.0" encoding="utf-8" ?>
-<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{$wsdlUrl}">
     <env:Body>
         <env:Fault>
             <env:Code>
@@ -61,13 +75,13 @@ class FaultTest extends \PHPUnit_Framework_TestCase
                 <env:Text xml:lang="en">Soap fault reason.</env:Text>
             </env:Reason>
             <env:Detail>
-                <m:ErrorDetails>
+                <m:DefaultFault>
                     <m:Parameters>
                         <m:param1>value1</m:param1>
                         <m:param2>2</m:param2>
                     </m:Parameters>
                     <m:Code>111</m:Code>
-                </m:ErrorDetails>
+                </m:DefaultFault>
             </env:Detail>
         </env:Fault>
     </env:Body>
@@ -170,12 +184,14 @@ XML;
         );
         $soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,
+            $this->_soapServerMock,
             $webapiException
         );
         $actualXml = $soapFault->toXml();
+        $wsdlUrl = urlencode($this->_wsdlUrl);
         $expectedXml = <<<FAULT_XML
 <?xml version="1.0" encoding="utf-8" ?>
-<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{$wsdlUrl}">
     <env:Body>
         <env:Fault>
             <env:Code>

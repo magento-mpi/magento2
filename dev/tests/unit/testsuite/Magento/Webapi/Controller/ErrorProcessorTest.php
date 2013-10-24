@@ -201,16 +201,16 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'Magento\Service\ResourceNotFoundException' => array(
-                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null, 'resourceNotFound',
-                    array('datail1' => 'value1'), 'resource10'),
+                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null,
+                    array('datail1' => 'value1'), 'resourceNotFound', 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 'Resource not found',
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento_Service_ResourceNotFoundException (Empty message)' => array(
-                new \Magento\Service\ResourceNotFoundException('', 2345, null, 'resourceNotFound',
-                    array('datail1' => 'value1'), 'resource10'),
+                new \Magento\Service\ResourceNotFoundException('', 2345, null,
+                    array('datail1' => 'value1'), 'resourceNotFound', 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 "Resource with ID 'resource10' not found.",
                 2345,

@@ -149,14 +149,14 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        $errorDetailsNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAILS;
+        $errorDetailsNode = \Magento\Webapi\Model\Soap\Fault::NODE_DETAIL_WRAPPER;
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
         if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
 
             /** Check additional error parameters */
-            $paramsNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_PARAMETERS;
+            $paramsNode = \Magento\Webapi\Model\Soap\Fault::NODE_DETAIL_PARAMETERS;
             if ($expectedErrorParams) {
                 $this->assertEquals(
                     $expectedErrorParams,
@@ -168,7 +168,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             }
 
             /** Check error trace */
-            $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE;
+            $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_DETAIL_TRACE;
             $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
                 ->getMode();
             if ($mode != \Magento\Core\Model\App\State::MODE_DEVELOPER) {
@@ -184,7 +184,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             if ($expectedErrorCode) {
                 $this->assertEquals(
                     $expectedErrorCode,
-                    $errorDetails->{\Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_CODE},
+                    $errorDetails->{\Magento\Webapi\Model\Soap\Fault::NODE_DETAIL_CODE},
                     "Error code in fault details is invalid."
                 );
             }
