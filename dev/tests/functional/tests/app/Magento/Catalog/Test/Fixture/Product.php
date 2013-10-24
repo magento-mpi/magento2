@@ -180,6 +180,24 @@ class Product extends DataFixture
     }
 
     /**
+     * Get Url params
+     *
+     * @param string $urlKey
+     * @return string
+     */
+    public function getUrlParams($urlKey)
+    {
+        $params = array();
+        $config = $this->getDataConfig();
+        if (!empty($config[$urlKey]) && is_array($config[$urlKey])) {
+            foreach ($config[$urlKey] as $key => $value) {
+                $params[] = $key .'/' .$value;
+            }
+        }
+        return implode('/', $params);
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()
