@@ -194,7 +194,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -224,7 +224,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param Logger $logger
-     * @param Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\DesignInterface $design
@@ -234,13 +234,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param DataService\Graph $dataServiceGraph
      * @param Store\Config $coreStoreConfig
-     * @param $area
+     * @param string $area
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\View\DesignInterface $design,

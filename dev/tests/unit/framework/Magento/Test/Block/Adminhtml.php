@@ -81,12 +81,12 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_sessionMock         = $this->_makeMock('Magento\Core\Model\Session');
         $this->_translatorMock      = $this->_makeMock('Magento\Core\Model\Translate');
         $this->_layoutMock          = $this->_makeMock('Magento\Core\Model\Layout');
-        $this->_requestMock         = $this->_makeMock('Magento\Core\Controller\Request\Http');
+        $this->_requestMock         = $this->_makeMock('Magento\App\RequestInterface');
         $this->_messagesMock        = $this->_makeMock('Magento\Core\Block\Messages');
-        $this->_urlMock             = $this->_makeMock('Magento\Core\Model\UrlInterface');
-        $this->_eventManagerMock    = $this->_makeMock('Magento\Core\Model\Event\Manager');
-        $this->_controllerMock      = $this->_makeMock('Magento\Core\Controller\Varien\Front');
-        $this->_dirMock             = $this->_makeMock('Magento\Core\Model\Dir');
+        $this->_urlMock             = $this->_makeMock('Magento\UrlInterface');
+        $this->_eventManagerMock    = $this->_makeMock('Magento\Event\ManagerInterface');
+        $this->_controllerMock      = $this->_makeMock('Magento\App\FrontController');
+        $this->_dirMock             = $this->_makeMock('Magento\App\Dir');
         $this->_loggerMock          = $this->_makeMock('Magento\Core\Model\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\Core\Model\CacheInterface');

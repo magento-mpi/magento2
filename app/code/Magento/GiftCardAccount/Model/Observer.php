@@ -22,7 +22,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -62,7 +62,7 @@ class Observer
     protected $_storeManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\GiftCardAccount\Helper\Data $giftCAHelper
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
@@ -71,7 +71,7 @@ class Observer
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\GiftCardAccount\Model\History $giftCAHistory,

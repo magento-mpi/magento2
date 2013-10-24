@@ -32,7 +32,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
-        $request = $objectManager->get('Magento\TestFramework\Request');
+        $request = $objectManager->get('Magento\App\RequestInterface');
         $arguments = array(
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
@@ -98,7 +98,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea($expectedArea);
 
-        $this->_objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope($expectedArea);
+        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $controller = $this->_objectManager->create($controllerClass);
         $this->assertInstanceOf('Magento\Core\Model\Layout', $controller->getLayout());
@@ -274,7 +274,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Controller\Front\Action',
             array('context'  => $context)
         );
-        $this->_objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope('frontend');
+        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('frontend');
         $this->_object->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());

@@ -22,7 +22,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -68,12 +68,12 @@ class Observer
 
     /**
      * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
      */
     public function __construct(
         \Magento\PromotionPermissions\Helper\Data $promoPermData,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
     ) {
         $this->_request = $request;

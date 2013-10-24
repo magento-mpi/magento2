@@ -23,7 +23,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_urlBuilder = $this->getMockForAbstractClass('Magento\Core\Model\UrlInterface');
+        $this->_urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface');
         $args = array('urlBuilder' => $this->_urlBuilder);
         $this->_block = $helper->getObject('Magento\GiftRegistry\Block\Product\View', $args);
     }

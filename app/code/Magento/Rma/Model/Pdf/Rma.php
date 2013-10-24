@@ -59,7 +59,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\App\Dir $dirs
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -76,7 +76,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\App\Dir $dirs,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory,
         \Magento\Core\Model\LocaleInterface $locale,

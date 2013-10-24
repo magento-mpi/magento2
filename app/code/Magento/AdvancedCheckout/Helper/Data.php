@@ -477,7 +477,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function processSkuFileUploading($session)
     {
-        /** @var $importModel \Magento\AdvancedCheckout\Model\Import */
         $importModel = $this->_importFactory->create();
         try {
             $importModel->uploadFile();
@@ -500,10 +499,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Check whether SKU file was uploaded
      *
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return bool
      */
-    public function isSkuFileUploaded(\Magento\Core\Controller\Request\Http $request)
+    public function isSkuFileUploaded(\Magento\App\RequestInterface $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }

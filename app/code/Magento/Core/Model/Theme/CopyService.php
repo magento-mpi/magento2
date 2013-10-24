@@ -36,7 +36,7 @@ class CopyService
     protected $_updateFactory;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -50,7 +50,7 @@ class CopyService
      * @param \Magento\Core\Model\Theme\FileFactory $fileFactory
      * @param \Magento\Core\Model\Layout\Link $link
      * @param \Magento\Core\Model\Layout\UpdateFactory $updateFactory
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Theme\Customization\Path $customization
      */
     public function __construct(
@@ -58,7 +58,7 @@ class CopyService
         \Magento\Core\Model\Theme\FileFactory $fileFactory,
         \Magento\Core\Model\Layout\Link $link,
         \Magento\Core\Model\Layout\UpdateFactory $updateFactory,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Theme\Customization\Path $customization
     ) {
         $this->_filesystem = $filesystem;

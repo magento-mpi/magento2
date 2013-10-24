@@ -51,7 +51,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
      * @param \Magento\Core\Model\Session $coreSession
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
@@ -61,7 +61,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
         \Magento\Core\Model\Session $coreSession,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\FullPageCache\Model\Cache $fpcCache,
@@ -77,10 +77,10 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * Prepare response body before caching
      *
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\ResponseInterface $response
      * @return string
      */
-    public function prepareContent(\Zend_Controller_Response_Http $response)
+    public function prepareContent(\Magento\App\ResponseInterface $response)
     {
         $countLimit = $this->_coreStoreConfig->getConfig(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
