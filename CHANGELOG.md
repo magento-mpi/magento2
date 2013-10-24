@@ -1,7 +1,7 @@
 * Eliminated dependency in Magento\Data\Form from Core module
-* Eliminated Media module
+* Eliminated Magento\Media module
 * Fixed copyright information
-* Declared public interfaces for View component into library  
+* Declared public interfaces for View component into library
 * Plushe theme is set as the default theme
 * Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
 * Unable to create a new widget instance
