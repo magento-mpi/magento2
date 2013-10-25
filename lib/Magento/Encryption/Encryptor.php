@@ -8,17 +8,16 @@
  * @license     {license_link}
  */
 
-/**
- * Provides basic logic for hashing passwords and encrypting/decrypting misc data
- *
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Encryption;
 
+/**
+ * Provides basic logic for hashing passwords and encrypting/decrypting misc data
+ */
 class Encryptor implements EncryptorInterface
 {
+    /**
+     * Crypt key
+     */
     const PARAM_CRYPT_KEY = 'crypt.key';
 
     /**

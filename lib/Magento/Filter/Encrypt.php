@@ -8,6 +8,9 @@
 
 namespace Magento\Filter;
 
+/**
+ * Encrypt filter
+ */
 class Encrypt extends \Zend_Filter_Encrypt
 {
     /**

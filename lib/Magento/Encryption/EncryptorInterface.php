@@ -7,6 +7,9 @@
  */
 namespace Magento\Encryption;
 
+/**
+ * Encryptor interface
+ */
 interface EncryptorInterface
 {
     /**
