@@ -920,4 +920,6 @@ return array(
     ),
     array('getRequestUri', '\Magento\Core\Helper\Http', '\Magento\HTTP\Header::getRequestUri'),
     array('validateIpAddr', '\Magento\Core\Helper\Http', '\Zend_Validate_Ip::isValid'),
+    array('getRemoteAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\RemoteAddress::getRemoteAddress'),
+    array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
 );
