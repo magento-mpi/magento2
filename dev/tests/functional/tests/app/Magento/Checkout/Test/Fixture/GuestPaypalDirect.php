@@ -50,12 +50,15 @@ class GuestPaypalDirect extends Checkout
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
 
         $simple->persist();
         $bundle->persist();
+        $configurable->persist();
         $this->products = array(
             $simple,
-            $bundle
+            $bundle,
+            $configurable
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -72,7 +75,7 @@ class GuestPaypalDirect extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '149.90'
+                'grand_total' => '166.72'
             )
         );
     }
