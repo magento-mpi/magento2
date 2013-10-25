@@ -31,8 +31,6 @@ class Topmenu extends Block
     public function selectCategoryByName($categoryName)
     {
         $categoryLink = $this->_rootElement->find('//a[span="'.$categoryName.'"]', Locator::SELECTOR_XPATH);
-        if ($categoryLink->isVisible()) {
-            $categoryLink->click();
-        }
+        $categoryLink->click();
     }
 }

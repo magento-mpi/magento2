@@ -114,12 +114,12 @@ class View extends Block
     /**
      * Return product price displayed on page
      *
-     * @return array Returns arrays with keys corresponding to fixture keys
+     * @return array|string Returns arrays with keys corresponding to fixture keys
      */
     public function getProductPrice()
     {
         $priceFromTo = $this->_getPriceFromTo();
-        return empty($priceFromTo) ? array('price' => $this->_getSimplePrice()) : $priceFromTo;
+        return empty($priceFromTo) ? $this->_getSimplePrice() : $priceFromTo;
     }
 
     /**
@@ -139,5 +139,19 @@ class View extends Block
             $price['price_to'] = $priceTo->find('.price')->getText();
         }
         return $price;
+    }
+
+    /**
+     * Return configurable product options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        for ($i =2; $i<=3; $i++) {
+            $options[] = $this->_rootElement
+                ->find(".super-attribute-select option:nth-child($i)")->getText();
+        }
+        return $options;
     }
 }

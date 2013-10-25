@@ -30,7 +30,7 @@ class CreateTest extends Functional
     {
         //Data
         /** @var Category $category */
-        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory()->switchData('subcategory');
+        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
@@ -40,8 +40,9 @@ class CreateTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
+        $treeBlock->expandAllCategories();
         $loader->waitLoader();
-        $treeBlock->selectDefaultCategory();
+        $treeBlock->selectCategory($category->getCategoryPath());
         $loader->waitLoader();
         $treeBlock->addSubcategory();
         $loader->waitLoader();
@@ -50,10 +51,17 @@ class CreateTest extends Functional
         //Verifying
         $messageBlock->waitForSuccessMessage($category);
 
+        //Flush cache
+        $cacheManagementPage = Factory::getPageFactory()->getAdminCache();
+        $cacheManagementPage->open();
+        $cacheManagementPage->getActionsBlock()->flushMagentoCache();
+
         //Open created category on frontend
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
+        $loader->waitLoader();
         $navigationMenu = $frontendHomePage->getTopmenu();
+        //TODO: this method does not work if parent has more than one parent in tree
         $navigationMenu->selectCategoryByName($category->getCategoryName());
         $pageTitleBlock = $frontendHomePage->getTitleBlock();
         $categoryTitle = $pageTitleBlock->getTitle();

@@ -193,6 +193,8 @@ class Product extends DataFixture
     protected function _initData()
     {
         $this->_dataConfig = array(
+            'constraint' => 'Success',
+
             'block_form_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductForm',
             'block_grid_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductGrid',
 
@@ -200,7 +202,12 @@ class Product extends DataFixture
 
             'url_create_page'   => 'admin/catalog_product/new',
             'url_update_page'   => 'admin/catalog_product/edit',
-            'url_grid_page'     => 'admin/catalog_product/index'
+            'url_grid_page'     => 'admin/catalog_product/index',
+
+            'create_url_params' => array(
+                'type' => 'simple',
+                'set'  => 4,
+            )
         );
 
         $this->_data = array(
@@ -216,7 +223,7 @@ class Product extends DataFixture
                     'curl'  => 'product[sku]'
                 ),
                 'price'  => array(
-                    'value' => 10,
+                    'value' => '10',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'curl'  => 'product[price]'
                 ),

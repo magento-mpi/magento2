@@ -40,7 +40,11 @@ class CreateBundle extends Curl
             if ($key == 'bundle_selections') {
                 $data = array_merge($data, $this->_getBundleData($values['value']));
             } else {
-                $value = isset($values['input_value']) ? $values['input_value'] : $values['value'];
+                $value = $this->getValue($values);
+                //do not add this data if value does not exist
+                if (null === $value) {
+                    continue;
+                }
                 if (isset($values['input_name'])) {
                     $key = $values['input_name'];
                 }
@@ -52,6 +56,20 @@ class CreateBundle extends Curl
             }
         }
         return $data;
+    }
+
+    /**
+     * Retrieve field value or return null if value does not exist
+     *
+     * @param $values
+     * @return null|mixed
+     */
+    protected function getValue($values)
+    {
+        if (!isset($values['value'])) {
+            return null;
+        }
+        return isset($values['input_value']) ? $values['input_value'] : $values['value'];
     }
 
     /**
@@ -86,7 +104,7 @@ class CreateBundle extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params;
+        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params . '/popup/1/';
     }
 
     /**
@@ -120,10 +138,12 @@ class CreateBundle extends Curl
 
         $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
-        return $response;
+        preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
     }
 }
