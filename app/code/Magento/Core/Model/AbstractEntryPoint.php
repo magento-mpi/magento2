@@ -71,7 +71,7 @@ abstract class AbstractEntryPoint
      */
     protected function _initErrorHandler()
     {
-        $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface');
+        $this->_errorHandler = $this->_objectManager->get('Magento\Error\HandlerInterface');
         set_error_handler(array($this->_errorHandler, 'handler'));
     }
 
