@@ -60,7 +60,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
-                $objectManager->get('Magento\Core\Model\Dir'),
+                $objectManager->get('Magento\App\Dir'),
                 $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             )
         );

@@ -120,7 +120,7 @@ class OperationTest
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('var');
         $exportDir = $varDir . DS . 'export';
         if (!is_dir($exportDir)) {

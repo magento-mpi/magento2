@@ -28,7 +28,7 @@
             <instance type="Magento\AdminGws\Model\Role\Proxy" />
         </param>
         <param name="request">
-            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
+            <instance type="Magento\App\Request\Http\Proxy" />
         </param>
     </type>
 </config>

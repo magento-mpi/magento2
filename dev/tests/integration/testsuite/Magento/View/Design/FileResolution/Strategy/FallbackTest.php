@@ -11,7 +11,6 @@
 
 namespace Magento\View\Design\FileResolution\Strategy;
 
-use Magento\Core\Model\Dir;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\View\Design\Fallback\Factory;
 
@@ -46,10 +45,10 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function _buildModel()
     {
         // Prepare config with directories
-        $dirs = new Dir(
+        $dirs = new \Magento\App\Dir(
             $this->_baseDir,
             array(),
-            array(Dir::THEMES => $this->_viewDir)
+            array(\Magento\App\Dir::THEMES => $this->_viewDir)
         );
 
         return Bootstrap::getObjectManager()->create(

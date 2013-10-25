@@ -8,8 +8,6 @@
 
 namespace Magento\View\Design\Fallback;
 
-use Magento\Core\Model\Dir;
-
 /**
  * Factory Test
  *
@@ -29,15 +27,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $dirs = new Dir(
-            __DIR__,
-            array(),
-            array(
-                Dir::THEMES => 'themes',
-                Dir::MODULES => 'modules',
-                Dir::PUB_LIB => 'pub_lib',
-            )
-        );
+        $dirs = new \Magento\App\Dir(__DIR__, array(), array(
+            \Magento\App\Dir::THEMES => 'themes',
+            \Magento\App\Dir::MODULES => 'modules',
+            \Magento\App\Dir::PUB_LIB => 'pub_lib',
+        ));
         $this->model = new Factory($dirs);
 
         $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');

@@ -18,7 +18,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     /**
      * Directories
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirs;
 
@@ -43,14 +43,14 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param Context $context
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\App\Dir $dirs
      * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\App\Dir $dirs,
         \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\Core\Model\View\FileSystem $viewFileSystem
@@ -102,7 +102,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
             'skipProxy'  => true
         );
 
-        $basePath = $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT);
+        $basePath = $this->_dirs->getDir(\Magento\App\Dir::ROOT);
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
@@ -129,9 +129,9 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_LIB));
-        $codeDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::MODULES));
-        $designDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES));
+        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\App\Dir::PUB_LIB));
+        $codeDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\App\Dir::MODULES));
+        $designDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\App\Dir::THEMES));
 
         $groups = array();
         $themes = array();

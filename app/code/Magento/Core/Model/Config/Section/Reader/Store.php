@@ -35,7 +35,7 @@ class Store
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -45,7 +45,7 @@ class Store
      * @param \Magento\Core\Model\Config\Section\Store\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Core\Model\Config\Initial $initialConfig,
@@ -53,7 +53,7 @@ class Store
         \Magento\Core\Model\Config\Section\Store\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\App\State $appState
+        \Magento\App\State $appState
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_sectionPool = $sectionPool;

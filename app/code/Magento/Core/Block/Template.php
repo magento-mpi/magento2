@@ -47,7 +47,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_allowSymlinks = null;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirs;
 
@@ -88,7 +88,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_app;
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -107,7 +107,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_templateEngineFactory = $context->getEngineFactory();
-        $this->_app = $context->getApp();
+        $this->_storeManager = $context->getApp();
         parent::__construct($context, $data);
     }
 
@@ -207,12 +207,12 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     public function fetchView($fileName)
     {
-        $viewShortPath = str_replace($this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT), '', $fileName);
+        $viewShortPath = str_replace($this->_dirs->getDir(\Magento\App\Dir::ROOT), '', $fileName);
         \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
-        if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::APP))
-            || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
-            || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
+        if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::APP))
+                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::THEMES))
+                || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
         ) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
             $templateEngine = $this->_templateEngineFactory->get($extension);
@@ -273,7 +273,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     {
         return array(
             'BLOCK_TPL',
-            $this->_app->getStore()->getCode(),
+            $this->_storeManager->getStore()->getCode(),
             $this->getTemplateFile(),
             'template' => $this->getTemplate()
         );

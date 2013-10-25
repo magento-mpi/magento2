@@ -12,7 +12,7 @@ namespace Magento\View\Layout\File\Source\Override;
 
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Core\Model\Dir;
+use Magento\App\Dir;
 use Magento\Filesystem;
 use Magento\View\Layout\File\Factory;
 use Magento\Core\Exception;

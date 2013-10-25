@@ -59,12 +59,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
 
 
-        /** @var \Magento\Core\Model\Config\Scope $configScope */
-        $configScope = $objectManager->get('Magento\Core\Model\Config\Scope');
+        /** @var \Magento\Config\Scope $configScope */
+        $configScope = $objectManager->get('Magento\Config\ScopeInterface');
         $configScope->setCurrentScope($area);
 
-        /** @var $eventManager \Magento\Core\Model\Event\Manager */
-        $eventManager = $objectManager->get('Magento\Core\Model\Event\Manager');
+        /** @var $eventManager \Magento\Event\ManagerInterface */
+        $eventManager = $objectManager->get('Magento\Event\ManagerInterface');
         $eventManager->dispatch('controller_action_layout_generate_blocks_after', array('layout' => $layout));
 
         $actualAssets = array_keys($pageAssets->getAll());

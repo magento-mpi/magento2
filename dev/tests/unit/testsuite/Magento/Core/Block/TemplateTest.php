@@ -36,10 +36,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $dirMap = array(
-            array(\Magento\Core\Model\Dir::APP, __DIR__),
-            array(\Magento\Core\Model\Dir::THEMES, __DIR__ . '/design'),
+            array(\Magento\App\Dir::APP, __DIR__),
+            array(\Magento\App\Dir::THEMES, __DIR__ . '/design'),
         );
-        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
+        $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $dirs->expects($this->any())->method('getDir')->will($this->returnValueMap($dirMap));
 
         $this->_viewFileSystem = $this->getMock('\Magento\Core\Model\View\FileSystem', array(), array(), '', false);
