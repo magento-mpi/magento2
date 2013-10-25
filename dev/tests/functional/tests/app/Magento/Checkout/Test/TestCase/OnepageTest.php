@@ -21,7 +21,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Test\TestCase\Checkout
  */
-class OnepageCheckoutTest extends Functional
+class OnepageTest extends Functional
 {
     /**
      * Place order on frontend via one page checkout.
@@ -31,6 +31,7 @@ class OnepageCheckoutTest extends Functional
      */
     public function testOnepageCheckout(Checkout $fixture)
     {
+        $fixture->persist();
         //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
@@ -71,7 +72,7 @@ class OnepageCheckoutTest extends Functional
     public function dataProviderOnepageCheckout()
     {
         return array(
-           array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro())
         );

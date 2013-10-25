@@ -29,6 +29,19 @@ class GuestPaypalDirect extends Checkout
      */
     protected function _initData()
     {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => '166.72'
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
         //Configuration
         $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $coreConfig->switchData('flat_rate');
@@ -72,11 +85,5 @@ class GuestPaypalDirect extends Checkout
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_direct');
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '166.72'
-            )
-        );
     }
 }
