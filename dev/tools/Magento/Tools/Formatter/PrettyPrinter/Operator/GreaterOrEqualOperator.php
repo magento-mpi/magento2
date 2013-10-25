@@ -17,12 +17,12 @@ class GreaterOrEqualOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' >= ';
+        return '>=';
     }
     /* 'Expr_GreaterOrEqual'   => array( 7,  0), */
     public function associativity()
     {
-        0;
+        return 0;
     }
 
     public function precedence()

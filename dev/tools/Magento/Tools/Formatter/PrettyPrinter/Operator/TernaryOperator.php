@@ -7,10 +7,12 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
+use Magento\Tools\Formatter\PrettyPrinter\InfixOperatorLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\TernaryOperatorLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Ternary;
 
-class TernaryOperator extends AbstractOperator
+class TernaryOperator extends AbstractLeftAssocOperator
 {
     /*
     public function pExpr_Ternary(PHPParser_Node_Expr_Ternary $node) {
@@ -27,25 +29,20 @@ class TernaryOperator extends AbstractOperator
     }
 
     /**
-     * This operator is a special case and requires us to override resolve to build the operator up on the fly
-     * then it can continue calling the super classes resolve.
+     * This operator is a special case and requires us to override addOperatorToLine to build the operator up on the
+     * fly then it can continue
      * @param TreeNode $treeNode
      */
-    public function resolve(TreeNode $treeNode)
+    protected function addOperatorToLine(TreeNode $treeNode)
     {
-        parent::resolve($treeNode);
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // Resolve the children according to precedence.
-        $this->resolvePrecedence($this->left(), $treeNode, -1);
         $line->add(' ?');
         if (null !== $this->node->if) {
             $line->add(' ');
             $this->resolveNode($this->node->if, $treeNode);
-            $line->add(' ');
         }
-        $line->add(': ');
-        $this->resolvePrecedence($this->right(), $treeNode, 1);
+        $line->add(' : ');
     }
     public function operator()
     {
@@ -61,11 +58,6 @@ class TernaryOperator extends AbstractOperator
         return $this->node->else;
     }
     /* 'Expr_Ternary'          => array(14, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
-
     public function precedence()
     {
         return 14;

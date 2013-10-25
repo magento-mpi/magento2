@@ -17,12 +17,12 @@ class NotEqualOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' != ';
+        return '!=';
     }
     /* 'Expr_NotEqual'         => array( 8,  0), */
     public function associativity()
     {
-        0;
+        return 0;
     }
 
     public function precedence()

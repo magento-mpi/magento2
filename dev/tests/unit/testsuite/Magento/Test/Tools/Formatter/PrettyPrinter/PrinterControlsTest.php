@@ -178,8 +178,10 @@ class TestClass
     {
         if (
             isset(\$abcdefghijklmnopqrstuvwxyz) &&
-            isset(\$abcdefghijklmnopqrstuvwxyz) &&
-            isset(\$abcdefghijklmnopqrstuvwxyz)
+            isset(
+            \$abcdefghijklmnopqrstuvwxyz) &&
+            isset(
+            \$abcdefghijklmnopqrstuvwxyz)
         ) {
             \$callback = 'hello';
             \$callback = 'good';

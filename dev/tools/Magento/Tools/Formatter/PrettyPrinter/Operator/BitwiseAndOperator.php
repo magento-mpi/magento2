@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_BitwiseAnd;
 
-class BitwiseAndOperator extends AbstractInfixOperator
+class BitwiseAndOperator extends AbstractLeftAssocOperator
 {
     public function __construct(PHPParser_Node_Expr_BitwiseAnd $node)
     {
@@ -17,13 +17,9 @@ class BitwiseAndOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' & ';
+        return '&';
     }
     /* 'Expr_BitwiseAnd'       => array( 9, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
     public function precedence()
     {
         return 9;

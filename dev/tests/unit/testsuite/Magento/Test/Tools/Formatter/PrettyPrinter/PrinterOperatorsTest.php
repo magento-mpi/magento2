@@ -54,6 +54,7 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\n\$d-=2-3-4*(4+6);", "<?php\n\$d -= 2 - 3 - 4 * (4 + 6);\n"),
             array("<?php\n\$d*=2-3-4*(4+6);", "<?php\n\$d *= 2 - 3 - 4 * (4 + 6);\n"),
             array("<?php\n\$d/=2-3-4*(4+6);", "<?php\n\$d /= 2 - 3 - 4 * (4 + 6);\n"),
+            array("<?php\n\$d =2&&(3||4)&&(4&&6);", "<?php\n\$d = 2 && (3 || 4) && (4 && 6);\n"),
             array("<?php\n\$d.='tiger';", "<?php\n\$d .= 'tiger';\n"),
             array("<?php\n\$d.='tiger\\n';", "<?php\n\$d .= 'tiger\\n';\n"),
             array("<?php\n\$d.=\"tiger\\n\";", "<?php\n\$d .= \"tiger\\n\";\n"),
@@ -105,6 +106,85 @@ class PrinterOperatorsTest extends TestBase
             array(
                 "<?php\nif(\$d  instanceof  MyClass){\$d=null;}", "<?php\nif (\$d instanceof MyClass) {".
                 "\n    \$d = null;\n}\n"
+            ),
+            array(
+                "<?php\nclass Zoo {function zoo() {\$alligator = (\$bear !== \$cat && \$dragon > \$elephant && ".
+                "\$fox->isSlick()) ? 'a' : 'b';}}",
+                "<?php\nclass Zoo\n{".
+                "\n    public function zoo()".
+                "\n    {".
+                "\n        \$alligator = \$bear !== \$cat && \$dragon > \$elephant && \$fox->isSlick() ? 'a' : 'b';".
+                "\n    }\n}\n"
+            ),
+            array(
+                "<?php\nclass Zoo {function zoo() {\$alligator = ((\$bear !== \$cat || \$dragon) > \$elephant && ".
+                "\$fox->isSlick()) ? 'a' : 'b';}}",
+                "<?php\nclass Zoo\n{".
+                "\n    public function zoo()".
+                "\n    {".
+                "\n        \$alligator = (\$bear !== \$cat || \$dragon) > \$elephant && \$fox->isSlick() ? 'a' : 'b';".
+                "\n    }\n}\n"
+            ),
+            array(
+                "<?php\nclass Zoo {function zoo() {\$alligator = ((\$bear !== \$cat || \$dragon) > \$elephant && ".
+                "\$fox->isSlick()) ? 'a' : (((\$bear !== \$cat || \$dragon) > \$elephant && ".
+                "\$fox->isSlick()) ? 'x' : 'y');}}",
+                "<?php\nclass Zoo\n{".
+                "\n    public function zoo()".
+                "\n    {".
+                "\n        \$alligator = (".
+                "\n            \$bear !==".
+                "\n            \$cat ||".
+                "\n            \$dragon".
+                "\n            \$elephant &&".
+                "\n            \$fox->isSlick() ? 'a' : (".
+                "\n            \$cat ||".
+                "\n            \$dragon".
+                "\n            \$elephant &&".
+                "\n            \$fox".
+                "\n            ->isSlick() ? 'x' : 'y'".
+                "\n        ) >".
+                "\n        (".
+                "\n        \$bear !==".
+                "\n        ) >".
+                "\n        );".
+                "\n    }\n}\n"
+            ),
+            array(
+                "<?php\nclass Zoo {function zoo() {\$zooAnimals=\$alligator+\$bear-\$cat*\$dragon/\$elephant^\$fox&".
+                "\$giraffe+\$hippopotamus+\$iguana+\$jackle;}}",
+                "<?php\nclass Zoo\n{\n    public function zoo()\n    {\n        \$zooAnimals = \$alligator +".
+                "\n            \$bear -".
+                "\n            \$cat *".
+                "\n            \$dragon /".
+                "\n            \$elephant ^".
+                "\n            \$fox &".
+                "\n            \$giraffe +".
+                "\n            \$hippopotamus +".
+                "\n            \$iguana +".
+                "\n            \$jackle;\n    }\n}\n"
+            ),
+            array(
+                "<?php\nclass Zoo {function zoo() {if (\$alligator&&\$bear||\$cat&&!\$dragon||\$elephant and \$fox or".
+                "\$giraffe xor \$hippopotamus && \$iguana && !\$jackle) { \$x += \$y;\necho 'hi';}}}",
+                "<?php\nclass Zoo\n{\n    public function zoo()".
+                "\n    {".
+                "\n        if (".
+                "\n            \$alligator &&".
+                "\n            \$bear ||".
+                "\n            \$cat &&".
+                "\n            !\$dragon ||".
+                "\n            \$elephant and".
+                "\n            \$fox or".
+                "\n            \$giraffe xor".
+                "\n            \$hippopotamus &&".
+                "\n            \$iguana &&".
+                "\n            !\$jackle".
+                "\n        ) {".
+                "\n            \$x += \$y;".
+                "\n            echo 'hi';".
+                "\n        }".
+                "\n    }\n}\n"
             ),
         );
     }

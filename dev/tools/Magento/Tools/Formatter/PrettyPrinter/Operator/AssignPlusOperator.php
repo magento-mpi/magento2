@@ -17,15 +17,7 @@ class AssignPlusOperator extends AbstractAssignmentOperator
     }
     public function operator()
     {
-        return ' += ';
+        return '+=';
     }
     /* 'Expr_AssignPlus'       => array(15,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-    public function precedence()
-    {
-        return 15;
-    }
 }

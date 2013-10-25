@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Mul;
 
-class MultiplyOperator extends AbstractInfixOperator
+class MultiplyOperator extends AbstractMathOperator
 {
     public function __construct(PHPParser_Node_Expr_Mul $node)
     {
@@ -17,15 +17,7 @@ class MultiplyOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' * ';
+        return '*';
     }
     /* 'Expr_Mul'              => array( 4, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
-    public function precedence()
-    {
-        return 4;
-    }
 }

@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Mod;
 
-class ModulusOperator extends AbstractInfixOperator
+class ModulusOperator extends AbstractMathOperator
 {
     public function __construct(PHPParser_Node_Expr_Mod $node)
     {
@@ -17,15 +17,7 @@ class ModulusOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' % ';
+        return '%';
     }
     /* 'Expr_Mod'              => array( 4, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
-    public function precedence()
-    {
-        return 4;
-    }
 }

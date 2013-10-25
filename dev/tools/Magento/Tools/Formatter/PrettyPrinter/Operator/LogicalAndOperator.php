@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_LogicalAnd;
 
-class LogicalAndOperator extends AbstractInfixOperator
+class LogicalAndOperator extends AbstractLeftAssocOperator
 {
     public function __construct(PHPParser_Node_Expr_LogicalAnd $node)
     {
@@ -17,13 +17,9 @@ class LogicalAndOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' and ';
+        return 'and';
     }
     /* 'Expr_LogicalAnd'       => array(16, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
     public function precedence()
     {
         return 16;

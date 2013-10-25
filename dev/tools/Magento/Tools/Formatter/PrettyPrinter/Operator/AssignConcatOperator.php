@@ -17,15 +17,7 @@ class AssignConcatOperator extends AbstractAssignmentOperator
     }
     public function operator()
     {
-        return ' .= ';
+        return '.=';
     }
     /* 'Expr_AssignConcat'     => array(15,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-    public function precedence()
-    {
-        return 15;
-    }
 }

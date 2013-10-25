@@ -17,15 +17,7 @@ class AssignDivideOperator extends AbstractAssignmentOperator
     }
     public function operator()
     {
-        return ' /= ';
+        return '/=';
     }
     /* 'Expr_AssignDiv'        => array(15,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-    public function precedence()
-    {
-        return 15;
-    }
 }

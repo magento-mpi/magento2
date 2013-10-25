@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Cast_Int;
 
-class CastIntOperator extends AbstractPrefixOperator
+class CastIntOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Int $node)
     {
@@ -20,13 +20,4 @@ class CastIntOperator extends AbstractPrefixOperator
         return '(int) ';
     }
     /* 'Expr_Cast_Int'         => array( 1,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-
-    public function precedence()
-    {
-        return 1;
-    }
 }

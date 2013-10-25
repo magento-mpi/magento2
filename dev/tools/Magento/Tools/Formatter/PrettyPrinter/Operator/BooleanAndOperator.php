@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_BooleanAnd;
 
-class BooleanAndOperator extends AbstractInfixOperator
+class BooleanAndOperator extends AbstractLeftAssocOperator
 {
     public function __construct(PHPParser_Node_Expr_BooleanAnd $node)
     {
@@ -17,13 +17,9 @@ class BooleanAndOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' && ';
+        return '&&';
     }
     /* 'Expr_BooleanAnd'       => array(12, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
     public function precedence()
     {
         return 12;

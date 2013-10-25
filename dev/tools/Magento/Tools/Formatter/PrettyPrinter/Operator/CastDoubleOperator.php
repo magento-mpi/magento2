@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Cast_Double;
 
-class CastDoubleOperator extends AbstractPrefixOperator
+class CastDoubleOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Double $node)
     {
@@ -20,13 +20,4 @@ class CastDoubleOperator extends AbstractPrefixOperator
         return '(double) ';
     }
     /* 'Expr_Cast_Double'      => array( 1,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-
-    public function precedence()
-    {
-        return 1;
-    }
 }

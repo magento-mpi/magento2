@@ -17,15 +17,7 @@ class AssignShiftLeftOperator extends AbstractAssignmentOperator
     }
     public function operator()
     {
-        return ' <<= ';
+        return '<<=';
     }
     /* 'Expr_AssignShiftLeft'  => array(15,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-    public function precedence()
-    {
-        return 15;
-    }
 }

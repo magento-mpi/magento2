@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Cast_Bool;
 
-class CastBoolOperator extends AbstractPrefixOperator
+class CastBoolOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Bool $node)
     {
@@ -20,13 +20,4 @@ class CastBoolOperator extends AbstractPrefixOperator
         return '(bool) ';
     }
     /* 'Expr_Cast_Bool'        => array( 1,  1), */
-    public function associativity()
-    {
-        return 1;
-    }
-
-    public function precedence()
-    {
-        return 1;
-    }
 }

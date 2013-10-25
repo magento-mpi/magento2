@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_ShiftRight;
 
-class ShiftRightOperator extends AbstractInfixOperator
+class ShiftRightOperator extends AbstractLeftAssocOperator
 {
     public function __construct(PHPParser_Node_Expr_ShiftRight $node)
     {
@@ -17,13 +17,9 @@ class ShiftRightOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' >> ';
+        return '>>';
     }
     /* 'Expr_ShiftRight'        => array( 6, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
     public function precedence()
     {
         return 6;

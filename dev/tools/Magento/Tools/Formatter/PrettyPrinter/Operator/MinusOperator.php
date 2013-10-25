@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Minus;
 
-class MinusOperator extends AbstractInfixOperator
+class MinusOperator extends AbstractMathOperator
 {
     public function __construct(PHPParser_Node_Expr_Minus $node)
     {
@@ -17,13 +17,9 @@ class MinusOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' - ';
+        return '-';
     }
     /* 'Expr_Minus'            => array( 5, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
     public function precedence()
     {
         return 5;

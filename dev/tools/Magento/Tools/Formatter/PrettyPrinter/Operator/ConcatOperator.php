@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_Concat;
 
-class ConcatOperator extends AbstractInfixOperator
+class ConcatOperator extends AbstractLeftAssocOperator
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -22,15 +22,10 @@ class ConcatOperator extends AbstractInfixOperator
 
     public function operator()
     {
-        return ' . ';
+        return '.';
     }
 
     /* 'Expr_Concat'           => array( 5, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
-
     public function precedence()
     {
         return 5;

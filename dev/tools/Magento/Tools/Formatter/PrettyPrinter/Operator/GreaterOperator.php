@@ -17,7 +17,7 @@ class GreaterOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' > ';
+        return '>';
     }
     /* 'Expr_Greater'          => array( 7,  0), */
     public function associativity()

@@ -17,12 +17,12 @@ class SmallerOrEqualOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' <= ';
+        return '<=';
     }
     /* 'Expr_SmallerOrEqual'   => array( 7,  0), */
     public function associativity()
     {
-        0;
+        return 0;
     }
 
     public function precedence()

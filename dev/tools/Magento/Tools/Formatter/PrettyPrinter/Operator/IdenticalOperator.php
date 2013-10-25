@@ -17,12 +17,12 @@ class IdenticalOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' === ';
+        return '===';
     }
     /* 'Expr_Identical'            => array( 8,  0), */
     public function associativity()
     {
-        0;
+        return 0;
     }
 
     public function precedence()

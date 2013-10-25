@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use PHPParser_Node_Expr_LogicalXor;
 
-class LogicalXorOperator extends AbstractInfixOperator
+class LogicalXorOperator extends AbstractLeftAssocOperator
 {
     public function __construct(PHPParser_Node_Expr_LogicalXor $node)
     {
@@ -17,13 +17,9 @@ class LogicalXorOperator extends AbstractInfixOperator
     }
     public function operator()
     {
-        return ' xor ';
+        return 'xor';
     }
     /* 'Expr_LogicalXor'       => array(17, -1), */
-    public function associativity()
-    {
-        return -1;
-    }
     public function precedence()
     {
         return 17;
