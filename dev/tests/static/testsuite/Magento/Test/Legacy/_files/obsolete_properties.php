@@ -90,7 +90,6 @@ return array(
     array('_useAnalyticFunction'),
     array('_defaultIndexer', 'Magento\CatalogInventory\Model\Resource\Indexer\Stock'),
     array('_engine', 'Magento\CatalogSearch\Model\Resource\Fulltext'),
-    array('_moduleNamespaces', 'Magento\Core\Model\Config'),
     array('_allowedAreas', 'Magento\Core\Model\Config'),
     array('_app', 'Magento\Core\Block\AbstractBlock'),
     array('_app', 'Magento\Core\Block\Template'),
