@@ -37,7 +37,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
         $this->_userService = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIdFieldName', 'getRoleUsers', 'load', 'getReadConnection'))
+            ->setMethods(array('getIdFieldName', 'getRoleUsers', 'load', 'getReadConnection', '__wakeup'))
             ->getMock();
 
         $this->_userService->expects($this->any())
