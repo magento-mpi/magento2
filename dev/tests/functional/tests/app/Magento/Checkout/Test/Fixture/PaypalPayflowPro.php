@@ -15,14 +15,14 @@ use Mtf\Factory\Factory;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class GuestPaypalDirect
- * PayPal Payments Pro Method
+ * Class PaypalPayflowPro
+ * PayPal Payflow Pro Method
  * Guest checkout using PayPal Payments Pro method and offline shipping method
  *
- * @ZephyrId MAGETWO-12968
+ * @ZephyrId MAGETWO-15570
  * @package Magento\Checkout\Test\Fixture
  */
-class GuestPaypalDirect extends Checkout
+class PaypalPayflowPro extends Checkout
 {
     /**
      * Prepare data for guest checkout with PayPal Payments Pro Method
@@ -34,28 +34,37 @@ class GuestPaypalDirect extends Checkout
         $coreConfig->switchData('flat_rate');
         $coreConfig->persist();
 
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $coreConfig->switchData('paypal_disabled_all_methods');
         $coreConfig->persist();
 
-        $coreConfig->switchData('authorizenet_disable');
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('paypal_payflow_pro');
         $coreConfig->persist();
 
-        $coreConfig->switchData('paypal_direct');
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('display_price');
         $coreConfig->persist();
 
-        $coreConfig->switchData('default_tax_config');
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('display_shopping_cart');
         $coreConfig->persist();
 
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+//        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+//        $configurable->switchData('configurable');
 
         $simple->persist();
+//        $configurable->persist();
         $bundle->persist();
+
         $this->products = array(
             $simple,
-            $bundle
+            $bundle,
+//            $configurable
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -65,14 +74,18 @@ class GuestPaypalDirect extends Checkout
         $this->shippingMethods->switchData('flat_rate');
 
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
-        $this->paymentMethod->switchData('paypal_direct');
+        $this->paymentMethod->switchData('paypal_payflow_pro');
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_direct');
+        $this->creditCard->switchData('visa_default');
+
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
+
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '149.90'
+                'grand_total' => '$140.00'
             )
         );
     }

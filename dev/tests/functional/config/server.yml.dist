@@ -1,6 +1,6 @@
 selenium:
-    browser: 'Mozilla Firefox'
-    browserName: 'firefox'
+    browser: 'Google Chrome'
+    browserName: 'chrome'
     host: 'localhost'
     port: 4444
     seleniumServerRequestsTimeout: 90

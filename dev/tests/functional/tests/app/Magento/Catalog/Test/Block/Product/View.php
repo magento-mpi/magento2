@@ -142,4 +142,18 @@ class View extends Block
         }
         return $price;
     }
+
+    /**
+     * Return configurable product options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        for ($i =2; $i<=3; $i++) {
+            $options[] = $this->_rootElement
+                ->find(".super-attribute-select option:nth-child($i)")->getText();
+        }
+        return $options;
+    }
 }

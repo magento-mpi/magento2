@@ -6,7 +6,7 @@ specified_modules: dev\tests\mtf\utils\config\ee_modules.yml.dist
 tests_fallback:
     1:
         path: tests/design
-        namespace: Magento\Plushe
+        namespace: Magento\Plush
     2:
         path: tests/app
 

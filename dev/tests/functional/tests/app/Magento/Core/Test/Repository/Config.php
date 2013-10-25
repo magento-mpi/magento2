@@ -31,9 +31,12 @@ class Config extends AbstractRepository
 
         $this->_data['default_tax_config'] = $this->_getDefaultTax();
         $this->_data['us_tax_config'] = $this->_getUsTax();
+        $this->_data['display_price'] = $this->_getPriceDisplay();
+        $this->_data['display_shopping_cart'] = $this->_getShoppingCartDisplay();
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
+        $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['flat_rate'] = $this->_getFlatRate();
@@ -362,6 +365,76 @@ class Config extends AbstractRepository
         );
     }
 
+    protected function _getPaypalPayFlowPro() {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_payment_gateways' => array( // PayPal Payment Gateways
+                                'groups' => array(
+                                    'paypal_verisign_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
+                                        'groups' => array(
+                                            'paypal_payflow_required' => array( // Required Paypal Settings
+                                                'groups' => array(
+                                                    'paypal_payflow_api_settings' => array( // Payflow Pro and Express Checkout
+                                                        'fields' => array(
+                                                            'using_pbridge' => array( // Use via Payment Bridge
+                                                                'value' => 0
+                                                            ),
+                                                            'business_account' => array( // Email Associated with PayPal Merchant Account
+                                                                'value' => 'pro_em_1350644409_biz@ebay.com'
+                                                            ),
+                                                            'partner' => array( // Partner
+                                                                'value' => 'PayPal'
+                                                            ),
+                                                            'user' => array( // API User
+                                                                'value' => 'empayflowpro'
+                                                            ),
+                                                            'vendor' => array( // Vendor
+                                                                'value' => 'empayflowpro'
+                                                            ),
+                                                            'pwd' => array( // API Password
+                                                                'value' => 'Temp1234'
+                                                            ),
+                                                            'sandbox_flag' => array( // Test Mode
+                                                                'value' => 1
+//                                                                'input_value' => 1,
+//                                                                'input_name' => 'payment/verisign/sandbox_flag'
+                                                            ),
+                                                            'use_proxy' => array( // Use Proxy
+                                                                'value' => 0
+                                                            )
+                                                        )
+                                                    )
+                                                ),
+                                                'fields' => array(
+                                                    'enable_paypal_payflow' => array( //Enable this Solution
+                                                        'value' => 1 //Yes
+                                                    )
+                                                )
+                                            ),
+                                            'settings_paypal_payflow' => array( // Basic Settings - PayPal Payflow Pro
+                                                'fields' => array(
+                                                    'payment_action' => array( // Payment Action
+                                                        'value' => 'Authorization'
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
     protected function _getDefaultTax()
     {
         return array(
@@ -391,6 +464,78 @@ class Config extends AbstractRepository
                                     ),
                                     'apply_tax_on' => array( //Apply Tax On
                                         'value' => 0 //Custom Price if available
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getPriceDisplay()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'tax' => array(
+                        'section' => 'tax',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'display' => array( // Price Display Settings
+                                'fields' => array(
+                                    'type' => array( // Display Product Prices In Catalog
+                                        'value' => 'Excluding Tax'
+                                    ),
+                                    'shipping' => array( // Display Shipping Prices
+                                        'value' => 'Excluding Tax'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getShoppingCartDisplay()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'tax' => array(
+                        'section' => 'tax',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'cart_display' => array( // Shipping Cart Display Settings
+                                'fields' => array(
+                                    'price' => array( // Display Prices
+                                        'value' => 'Excluding Tax'
+                                    ),
+                                    'subtotal' => array( // Display Subtotal
+                                        'value' => 'Excluding Tax'
+                                    ),
+                                    'shipping' => array( // Display Shipping Amount
+                                        'value' => 'Excluding Tax'
+                                    ),
+                                    'gift_wrapping' => array( // Display Gift Wrapping Prices
+                                        'value' => 'Excluding Tax'
+                                    ),
+                                    'printed_card' => array( // Display Printed Card Prices
+                                        'value' => 'Excluding Tax'
+                                    ),
+                                    'grandtotal' => array( // Include Tax In Grand Total
+                                        'value' => 'No'
+                                    ),
+                                    'full_summary' => array( // Display Full Tax Summary
+                                        'value' => 'No'
+                                    ),
+                                    'zero_tax' => array( // Display Zero Tax Subtotal
+                                        'value' => 'No'
                                     )
                                 )
                             )

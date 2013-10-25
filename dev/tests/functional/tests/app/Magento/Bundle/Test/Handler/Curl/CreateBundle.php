@@ -40,7 +40,7 @@ class CreateBundle extends Curl
             if ($key == 'bundle_selections') {
                 $data = array_merge($data, $this->_getBundleData($values['value']));
             } else {
-                $value = $this->getValue($values);
+                $value = $this->_getValue($values);
                 //do not add this data if value does not exist
                 if (null === $value) {
                     continue;
@@ -61,10 +61,10 @@ class CreateBundle extends Curl
     /**
      * Retrieve field value or return null if value does not exist
      *
-     * @param $values
+     * @param array $values
      * @return null|mixed
      */
-    protected function getValue($values)
+    protected function _getValue($values)
     {
         if (!isset($values['value'])) {
             return null;
@@ -104,7 +104,7 @@ class CreateBundle extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params . '/popup/1/';
+        return $_ENV['app_backend_url'] . 'admin/catalog_product/save/' . $params . 'popup/1/';
     }
 
     /**
