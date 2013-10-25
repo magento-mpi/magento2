@@ -166,6 +166,7 @@ return array(
     array('addCartLink', 'Magento\Checkout\Block\Links'),
     array('addCheckoutLink', 'Magento\Checkout\Block\Links'),
     array('addColumnInputName', 'Magento\Backend\Block\Widget\Grid\Serializer'),
+    array('addColumnRender', 'Magento\Adminhtml\Block\Sales\Items\AbstractItems', 'setColumnRenders'),
     array('addConfigField', 'Magento\Core\Model\Resource\Setup'),
     array('addConstraint', 'Magento\DB\Adapter\Pdo\Mysql'),
     array('addCss', 'Magento\Page\Block\Html\Head'),

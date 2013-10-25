@@ -154,7 +154,6 @@ class Classes
         $classes = self::getXmlAttributeValues($xml, '/layout//block[@type]', 'type');
         $classes = array_merge($classes, self::getXmlNodeValues($xml,
             '/layout//action/attributeType | /layout//action[@method="addTab"]/content
-                | /layout//action[@method="addColumnRender"
                     or @method="addPriceBlockType" or @method="addMergeSettingsBlockType"
                     or @method="addInformationRenderer"
                     or @method="addDatabaseBlock"]/*[2]
