@@ -32,7 +32,7 @@ class PaypalPayflowPro extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$155.99'
+                'grand_total' => '$166.72'
             )
         );
     }

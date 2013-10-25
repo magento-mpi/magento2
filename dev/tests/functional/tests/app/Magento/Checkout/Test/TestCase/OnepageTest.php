@@ -64,6 +64,10 @@ class OnepageTest extends Functional
             Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
+
+        $expectedAuthorizedAmount = 'Authorized amount of '.$fixture->getGrandTotal();
+        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount();
+        $this->assertContains($expectedAuthorizedAmount, $actualAuthorizedAmount, 'Incorrect authorized amount value for the order #' . $orderId);
     }
 
     /**

@@ -37,7 +37,7 @@ class History extends Block
      *
      * @var string
      */
-    protected $_authorizedAmountId;
+    protected $_authorizedAmount;
 
     /**
      * Initialize block elements
@@ -45,7 +45,7 @@ class History extends Block
     protected function _init()
     {
         $this->_commentHistoryClass    = 'note-list-comment';
-        $this->_authorizedAmountId  = 'order_history_block';
+        $this->_authorizedAmount  = '#order_history_block .note-list-comment';
     }
 
     /**
@@ -65,11 +65,6 @@ class History extends Block
      */
     public function getAuthorizedAmount()
     {
-        $text = $this->_rootElement->find($this->_authorizedAmountId, Locator::SELECTOR_ID)->getText();
-        return trim(substr($text,
-            strpos($text,'Authorized amount of ') + strlen('Authorized amount of '),
-            strpos($text,' Transaction ID: ') -(strpos($text,'Authorized amount of ')
-                + strlen('Authorized amount of '))
-        ));
+        return $this->_rootElement->find($this->_authorizedAmount)->getText();
     }
 }
