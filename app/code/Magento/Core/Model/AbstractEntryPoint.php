@@ -62,9 +62,17 @@ abstract class AbstractEntryPoint
             $this->_objectManager = new \Magento\Core\Model\ObjectManager($this->_config);
         }
         if (!$this->_errorHandler) {
-            $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface');
-            set_error_handler(array($this->_errorHandler, 'handler'));
+            $this->_initErrorHandler();
         }
+    }
+
+    /**
+     * Set default error handler
+     */
+    protected function _initErrorHandler()
+    {
+        $this->_errorHandler = $this->_objectManager->create('Magento\Error\HandlerInterface');
+        set_error_handler(array($this->_errorHandler, 'handler'));
     }
 
     /**

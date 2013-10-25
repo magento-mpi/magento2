@@ -19,7 +19,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Can\'t test entry point response without sending headers');
         }
 
-        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->any())
             ->method('get')
