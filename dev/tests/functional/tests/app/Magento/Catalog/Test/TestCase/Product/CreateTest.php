@@ -71,16 +71,18 @@ class CreateTest extends Functional
      */
     protected function assertOnCategory($product)
     {
-        //Pages
-        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        sleep(5);
+        $categoryPage->open();
+        sleep(5);
         $categoryPage->openCategory($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());

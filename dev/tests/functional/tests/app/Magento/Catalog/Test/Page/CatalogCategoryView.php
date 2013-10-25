@@ -53,7 +53,6 @@ class CatalogCategoryView extends Page
      */
     public function openCategory($categoryName)
     {
-        $this->open();
         $location = '//nav[@class="navigation"]//a[span[text()="' . $categoryName . '"]]';
         $this->_browser->find($location, Locator::SELECTOR_XPATH)->click();
 
