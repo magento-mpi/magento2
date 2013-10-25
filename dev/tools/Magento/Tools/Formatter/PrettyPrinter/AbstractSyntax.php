@@ -180,15 +180,6 @@ abstract class AbstractSyntax
     }
 
     /**
-     * Remove the comments attribute data if it is there.
-     */
-    public function removeComments()
-    {
-        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
-            $this->node->setAttribute(self::ATTRIBUTE_COMMENTS, null);
-        }
-    }
-    /**
      * Method to let us know if we should trim blank lines before and after comments on this syntax element.
      *
      * @return bool

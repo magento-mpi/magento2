@@ -32,16 +32,15 @@ class LineResolver extends NodeVisitorAbstract
         parent::nodeEntry($treeNode);
         /** @var LineData $lineData */
         $lineData = $treeNode->getData();
-        // Handle Comments
-        // Only the syntax object has comments attached to it. So if there isn't one there are probably no comments
-        if ($lineData->syntax !== null) {
-            // Make sure we add the comments
-            $comments = $this->getComments($lineData->syntax);
-            $this->addCommentsBefore($comments, $treeNode);
-            $lineData->syntax->removeComments();
-        }
         // if the syntax has not been resolved, then try to resolve it
         if (null === $lineData->line) {
+            // Handle Comments
+            // Only the syntax object has comments attached to it. So if there isn't one there are probably no comments
+            if ($lineData->syntax !== null) {
+                // Make sure we add the comments
+                $comments = $this->getComments($lineData->syntax);
+                $this->addCommentsBefore($comments, $treeNode);
+            }
             $this->statementCount++;
             // let the syntax try to resolve to a line
             $treeNode = $lineData->syntax->resolve($treeNode);
