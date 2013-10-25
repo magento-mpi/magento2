@@ -38,9 +38,6 @@ lib/Magento/Cache/Backend/Database.php
 lib/Magento/Cache/Backend/Eaccelerator.php
 lib/Magento/Cache/Backend/Memcached.php
 lib/Magento/Cache/Core.php
-lib/Magento/Code/Generator.php
-lib/Magento/Code/Generator/EntityAbstract.php
-lib/Magento/Code/Generator/Io.php
 lib/Magento/Connect
 lib/Magento/Convert/ConvertException.php
 lib/Magento/Convert/Mapper/Column.php
@@ -119,8 +116,4 @@ lib/Magento/Pear.php
 lib/Magento/Simplexml
 lib/Magento/System
 lib/Magento/Util.php
-lib/Magento/Validator/Composite/VarienObject.php
-lib/Magento/Validator/Constraint.php
-lib/Magento/Validator/Constraint/Property.php
-lib/Magento/Validator/Entity/Properties.php
 lib/Magento/Xml
