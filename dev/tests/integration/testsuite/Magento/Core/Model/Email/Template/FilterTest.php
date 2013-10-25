@@ -94,7 +94,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
+                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
 
@@ -110,7 +110,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
         $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
-        /** @var $layout \Magento\View\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = $objectManager->create('Magento\Core\Model\Layout', array('area' => $area));
         $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
         $this->assertEquals($area, $layout->getArea());

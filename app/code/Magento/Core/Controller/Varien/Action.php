@@ -20,7 +20,9 @@
  */
 namespace Magento\Core\Controller\Varien;
 
-class Action extends \Magento\Core\Controller\Varien\AbstractAction
+use Magento\App\Action\AbstractAction;
+
+class Action extends \Magento\App\Action\AbstractAction
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -97,7 +99,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     protected $_removeDefaultTitle = false;
 
     /**
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_frontController = null;
 
@@ -107,7 +109,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -373,10 +375,6 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             return;
         }
 
-        if ($this->_frontController->getNoRender()) {
-            return;
-        }
-
         \Magento\Profiler::start('LAYOUT');
 
         $this->_renderTitles();
@@ -389,8 +387,6 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
 
         $this->_eventManager->dispatch('controller_action_layout_render_before');
         $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
-
-        $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();
         $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
@@ -438,7 +434,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             }
 
             \Magento\Profiler::stop($profilerKey);
-        } catch (\Magento\Core\Controller\Varien\Exception $e) {
+        } catch (\Magento\App\Action\Exception $e) {
             // set prepared flags
             foreach ($e->getResultFlags() as $flagData) {
                 list($action, $flag, $value) = $flagData;
@@ -447,11 +443,11 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             // call forward, redirect or an action
             list($method, $parameters) = $e->getResultCallback();
             switch ($method) {
-                case \Magento\Core\Controller\Varien\Exception::RESULT_REDIRECT:
+                case \Magento\App\Action\Exception::RESULT_REDIRECT:
                     list($path, $arguments) = $parameters;
                     $this->_redirect($path, $arguments);
                     break;
-                case \Magento\Core\Controller\Varien\Exception::RESULT_FORWARD:
+                case \Magento\App\Action\Exception::RESULT_FORWARD:
                     list($action, $controller, $module, $params) = $parameters;
                     $this->_forward($action, $controller, $module, $params);
                     break;
@@ -530,7 +526,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!$this->_objectManager->get('Magento\Core\Model\App\State')->isInstalled()) {
+            if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
@@ -539,7 +535,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
 
         // Prohibit disabled store actions
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($this->_objectManager->get('Magento\Core\Model\App\State') && !$storeManager->getStore()->getIsActive()) {
+        if ($this->_objectManager->get('Magento\App\State') && !$storeManager->getStore()->getIsActive()) {
             $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
         }
 

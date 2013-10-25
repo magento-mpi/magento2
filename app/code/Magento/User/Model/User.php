@@ -108,7 +108,7 @@ class User
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -145,7 +145,7 @@ class User
      *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Sender $sender
@@ -163,7 +163,7 @@ class User
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\User\Helper\Data $userData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Sender $sender,
@@ -216,7 +216,7 @@ class User
     {
         parent::__wakeup();
         $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
-        $this->_eventManager    = $objectManager->get('Magento\Core\Model\Event\Manager');
+        $this->_eventManager    = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_sender          = $objectManager->get('Magento\Core\Model\Sender');
         $this->_coreData        = $objectManager->get('Magento\Core\Helper\Data');
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');

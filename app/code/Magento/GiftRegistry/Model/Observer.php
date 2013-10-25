@@ -310,7 +310,7 @@ class Observer
      */
     public function assignHtmlHeadRenderingFlag(\Magento\Event\Observer $observer)
     {
-        /** @var $layout \Magento\View\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = $observer->getEvent()->getLayout();
         /** @var $blockHead \Magento\Page\Block\Html\Head */
         $blockHead = $layout->getBlock('head');

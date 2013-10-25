@@ -11,7 +11,7 @@
  */
 namespace Magento\View\Design\Fallback;
 
-use Magento\Core\Model\Dir;
+use Magento\App\Dir;
 use Magento\View\Design\Fallback\Rule\Composite;
 use Magento\View\Design\Fallback\Rule\ModularSwitch;
 use Magento\View\Design\Fallback\Rule\RuleInterface;

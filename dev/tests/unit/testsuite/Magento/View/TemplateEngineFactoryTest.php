@@ -25,47 +25,25 @@ class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_factory = new TemplateEngineFactory($this->_objectManagerMock);
     }
 
-    /**
-     * Test getting a phtml engine
-     */
-    public function testGetPhtmlEngine()
+    public function testCreateKnownEngine()
     {
-        $phtmlEngineMock = $this->getMock('Magento\View\TemplateEngine\Php');
-        $this->_objectManagerMock->expects($this->once())
+        $engine = $this->getMock('Magento\View\TemplateEngineInterface');
+        $this->_objectManagerMock
+            ->expects($this->once())
             ->method('get')
-            ->with($this->equalTo('Magento\View\TemplateEngine\Php'))
-            ->will($this->returnValue($phtmlEngineMock));
-        $actual = $this->_factory->get(TemplateEngineFactory::ENGINE_PHTML);
-        $this->assertSame($phtmlEngineMock, $actual, 'phtml engine not returned');
+            ->with('Magento\View\TemplateEngine\Php')
+            ->will($this->returnValue($engine))
+        ;
+        $this->assertSame($engine, $this->_factory->get('phtml'));
     }
 
     /**
-     * Test attempting to get an engine the factory does not know about (neither Twig nor Phtml.)
-     *
-     * Should throw an exception
-     *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown template engine type: NotAnEngineName
+     * @expectedExceptionMessage Unknown template engine type: non_existing
      */
-    public function testGetBadEngine()
+    public function testCreateUnknownEngine()
     {
-        $this->_objectManagerMock->expects($this->never())
-            ->method('get');
-        $this->_factory->get('NotAnEngineName');
-    }
-
-    /**
-     * Test attempting to get an engine passing in null as the engine type.
-     *
-     * Should throw an exception
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown template engine type:
-     */
-    public function testGetNullEngine()
-    {
-        $this->_objectManagerMock->expects($this->never())
-            ->method('get');
-        $this->_factory->get(NULL);
+        $this->_objectManagerMock->expects($this->never())->method('get');
+        $this->_factory->get('non_existing');
     }
 }

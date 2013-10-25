@@ -52,14 +52,14 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir = null;
 
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;

@@ -31,7 +31,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Test class instance
      *
-     * @var \Magento\Core\Controller\Varien\Action\Factory
+     * @var \Magento\App\ActionFactory
      */
     protected $_model;
 
@@ -42,7 +42,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
+        $this->_model = new \Magento\App\ActionFactory($this->_objectManager);
         $this->assertAttributeInstanceOf('Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
@@ -53,7 +53,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->with(self::CONTROLLER_NAME)
             ->will($this->returnValue('TestControllerInstance'));
 
-        $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
+        $this->_model = new \Magento\App\ActionFactory($this->_objectManager);
         $this->assertEquals('TestControllerInstance', $this->_model->createController(self::CONTROLLER_NAME));
     }
 }

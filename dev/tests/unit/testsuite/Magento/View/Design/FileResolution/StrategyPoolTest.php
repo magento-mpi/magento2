@@ -10,8 +10,8 @@
  */
 namespace Magento\View\Design\FileResolution;
 
-use Magento\Core\Model\App\State;
-use Magento\Core\Model\Dir;
+use Magento\App\State;
+use Magento\App\Dir;
 
 /**
  * StrategyPool Test
@@ -48,7 +48,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $this->appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->dirs = new Dir('base_dir');
         $this->filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 

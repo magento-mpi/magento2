@@ -118,12 +118,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -173,7 +173,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_processorFactory;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory
@@ -196,7 +196,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory,
@@ -275,14 +275,14 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     }
 
     /**
-     * @param \Zend_Controller_Request_Http $request
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param string $content
-     * @return bool|string
+     * @return bool
      */
     public function extractContent(
-        \Zend_Controller_Request_Http $request,
-        \Zend_Controller_Response_Http $response,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         $content
     ) {
 
@@ -332,9 +332,9 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     /**
      * Restore response headers
      *
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\ResponseInterface $response
      */
-    protected function _restoreResponseHeaders(\Zend_Controller_Response_Http $response)
+    protected function _restoreResponseHeaders(\Magento\App\ResponseInterface $response)
     {
         $responseHeaders = $this->_metadata->getMetadata('response_headers');
         if (is_array($responseHeaders)) {
@@ -516,12 +516,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * Process response body by specific request
      *
      * @param \Zend_Controller_Request_Http $request
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\ResponseInterface $response
      * @return \Magento\FullPageCache\Model\Processor
      */
     public function processRequestResponse(
         \Zend_Controller_Request_Http $request,
-        \Zend_Controller_Response_Http $response
+        \Magento\App\ResponseInterface $response
     ) {
         /**
          * Basic validation for request processing

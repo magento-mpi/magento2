@@ -30,9 +30,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
 
-        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
-            array($backendData), '', false, false, true, array('setActionName'));
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -50,7 +48,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
                 'getMessagesBlock'
             ),
             array(), '', false);
-        /** @var $layoutMock \Magento\View\Layout */
+        /** @var $layoutMock \Magento\View\LayoutInterface */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects($this->any())->method('getNode')
             ->will($this->returnValue(new \Magento\Simplexml\Element('<root />')));
@@ -174,7 +172,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())->method('getStore')
             ->will($this->returnSelf());
 
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $authMock = $this->getMock('Magento\AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
@@ -194,7 +192,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             ),
             array('Magento\Core\Model\Translate', $translate),
             array('Magento\Core\Model\Config', $configMock),
-            array('Magento\Core\Model\Event\Manager', $eventManager),
+            array('Magento\Event\ManagerInterface', $eventManager),
             array('Magento\Core\Model\StoreManager', $storeManager),
             array('Magento\AuthorizationInterface', $authMock),
             array('Magento\Backend\Model\Session', $backendSession),

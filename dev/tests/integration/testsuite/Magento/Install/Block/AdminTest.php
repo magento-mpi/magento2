@@ -26,7 +26,7 @@ class AdminTest extends \PHPUnit_Framework_TestCase
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Install\Model\Session');
         $session->setAdminData(array_merge($preserve, $omit));
 
-        /** @var $layout \Magento\View\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Layout', array('area' => 'install'));
         /** @var $block \Magento\Install\Block\Admin */

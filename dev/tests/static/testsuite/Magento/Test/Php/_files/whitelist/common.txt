@@ -41,19 +41,12 @@ app/code/Magento/Checkout/Block/Cart/Link.php
 app/code/Magento/Checkout/Block/Link.php
 app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Cms/Model/Template/FilterProvider.php
-app/code/Magento/Core/Controller/Varien/AbstractAction.php
-app/code/Magento/Core/Controller/Varien/Action/Factory.php
-app/code/Magento/Core/Controller/Varien/Action/Forward.php
-app/code/Magento/Core/Controller/Varien/DispatchableInterface.php
-app/code/Magento/Core/Controller/Varien/Router/AbstractRouter.php
 app/code/Magento/Core/data
 app/code/Magento/Core/Helper/Css.php
 app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
 app/code/Magento/Core/Model/Design.php
-app/code/Magento/Core/Model/Dir
-app/code/Magento/Core/Model/Dir.php
 app/code/Magento/Core/Model/Email/Template/Config
 app/code/Magento/Core/Model/Email/Template/Config.php
 app/code/Magento/Core/Model/EntryPoint
@@ -63,8 +56,6 @@ app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
-app/code/Magento/Core/Model/Module/Dir
-app/code/Magento/Core/Model/Module/Dir.php
 app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
@@ -159,3 +150,5 @@ lib/Magento/Cache/Core.php
 lib/Magento/Convert
 lib/Magento/Date.php
 lib/Magento/Object.php
+lib/Magento/App
+lib/Magento/View

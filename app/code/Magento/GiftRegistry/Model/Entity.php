@@ -185,7 +185,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $storeManager;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $request;
 
@@ -214,7 +214,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param array $data
      */
     public function __construct(
@@ -239,7 +239,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Core\Controller;
 
 class Index extends \Magento\Core\Controller\Front\Action {

@@ -49,7 +49,7 @@ class Observer
     /**
      * Request object
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -57,13 +57,13 @@ class Observer
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Backend\Model\Auth\Session $session
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Config $config,
         \Magento\Backend\Model\Auth\Session $session,
-        \Magento\Core\Controller\Request\Http $request
+        \Magento\App\RequestInterface $request
     ) {
         $this->_invitationData = $invitationData;
         $this->_config = $config;
