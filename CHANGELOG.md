@@ -1,5 +1,8 @@
-* Markup in modules (Weee, Directory, Sales, Payment, PaypalUk, Paypal) temlates is updated, old files temporary moved to magento_backup theme
-* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules old files temporary moved to magento_backup theme
+* Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
+* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
+* Eliminated dependency in Magento\Data\Form from Magento\Core module
+* Eliminated Magento\Media module
+* Fixed copyright information
 * Unified Area configuration
 * Moved EventManager to Magento\Event lib component
 * Moved FrontController, Routers, Base Actions to Magento\App
