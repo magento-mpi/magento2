@@ -75,11 +75,11 @@ class Handler extends \Magento\Error\Handler
      */
     protected function _processError($errorMessage)
     {
-        $exception = new \Exception($errorMessage);
-        $errorMessage .= $exception->getTraceAsString();
         if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
             parent::_processError($errorMessage);
         } else {
+            $exception = new \Exception($errorMessage);
+            $errorMessage .= $exception->getTraceAsString();
             $this->logger->log($errorMessage, \Zend_Log::ERR);
         }
     }
