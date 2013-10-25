@@ -44,13 +44,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_coreHttp = null;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -107,7 +100,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -115,12 +107,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
-     * @internal param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -130,7 +120,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreHttp = $coreHttp;   //TODO: seems not used
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
@@ -511,6 +500,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
+     * Return list with public files valid paths
+     *
+     * @return array
+     */
+    public function getPublicFilesValidPath()
+    {
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
+    }
+
+    /**
      * Check whether database compatible mode is used (configs enable it for MySQL by default).
      *
      * @return bool
@@ -518,6 +517,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function useDbCompatibleMode()
     {
         return $this->_dbCompatibleMode;
+    }
+
+    /**
+     * Returns the floating point remainder (modulo) of the division of the arguments
+     *
+     * @param float|int $dividend
+     * @param float|int $divisor
+     * @return float|int
+     */
+    public function getExactDivision($dividend, $divisor)
+    {
+        $epsilon = $divisor / self::DIVIDE_EPSILON;
+
+        $remainder = fmod($dividend, $divisor);
+        if (abs($remainder - $divisor) < $epsilon || abs($remainder) < $epsilon) {
+            $remainder = 0;
+        }
+
+        return $remainder;
     }
 
     /**

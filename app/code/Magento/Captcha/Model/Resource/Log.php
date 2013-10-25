@@ -37,13 +37,6 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreDate;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_coreHttp = null;
-
-    /**
      * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;

@@ -3,35 +3,29 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Core\Helper;
+namespace Magento\HTTP;
 
 /**
- * Core Http Helper
+ * Helper for working with HTTP authentication
+ *
  */
-class Http extends \Magento\Core\Helper\AbstractHelper
+class Authentication
 {
     /**
-     * Magento string lib
+     * Request object
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Core\Controller\Request\HttpProxy
      */
-    protected $string;
+    protected $_request;
 
-    /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Stdlib\String $string
-     */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Stdlib\String $string
+        \Magento\Core\Controller\Request\HttpProxy $httpRequest
     ) {
-        $this->string = $string;
-        parent::__construct($context);
+        $this->_request = $httpRequest;
     }
 
     /**
@@ -42,7 +36,7 @@ class Http extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\App\RequestInterface $request
      * @return array
      */
-    public function getHttpAuthCredentials(\Magento\App\RequestInterface $request)
+    public static function getCredentials(\Magento\App\RequestInterface $request)
     {
         $server = $request->getServer();
         $user = '';
@@ -83,38 +77,11 @@ class Http extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\App\ResponseInterface $response
      * @param string $realm
      */
-    public function failHttpAuthentication(\Magento\App\ResponseInterface $response, $realm)
+    public static function setAuthenticationFailed(\Magento\App\ResponseInterface $response, $realm)
     {
         $response->setHeader('HTTP/1.1', '401 Unauthorized')
             ->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
             ->setBody('<h1>401 Unauthorized</h1>')
         ;
-    }
-
-    /**
-     * Returns the REQUEST_URI taking into account
-     * platform differences between Apache and IIS
-     *
-     * @param boolean $clean clean non UTF-8 characters
-     * @return string
-     */
-    public function getRequestUri($clean = false)
-    {
-        $uri = $this->_getRequest()->getRequestUri();
-        if ($clean) {
-            $uri = $this->string->cleanString($uri);
-        }
-        return $uri;
-    }
-
-    /**
-     * Validate IP address
-     *
-     * @param string $address
-     * @return boolean
-     */
-    public function validateIpAddr($address)
-    {
-        return preg_match('#^(1?\d{1,2}|2([0-4]\d|5[0-5]))(\.(1?\d{1,2}|2([0-4]\d|5[0-5]))){3}$#', $address);
     }
 }

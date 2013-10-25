@@ -27,11 +27,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_httpHelper;
-
-    /**
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
@@ -108,7 +103,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
      * @param \Magento\Core\Model\Message $message
@@ -127,7 +121,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Session\Validator $validator,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Message\CollectionFactory $messageFactory,
         \Magento\Core\Model\Message $message,
@@ -145,7 +138,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_validator = $validator;
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
-        $this->_httpHelper = $coreHttp;
         $this->_storeConfig = $coreStoreConfig;
         $this->_saveMethod = $saveMethod;
         $this->_savePath = $savePath;
@@ -167,14 +159,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getEventManager()
     {
         return $this->_eventManager;
-    }
-
-    /**
-     * @return \Magento\Core\Helper\Http
-     */
-    public function getHttpHelper()
-    {
-        return $this->_httpHelper;
     }
 
     /**

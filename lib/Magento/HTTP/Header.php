@@ -22,10 +22,17 @@ class Header
      */
     protected $_request;
 
+    /**
+     * @var \Magento\Stdlib\String
+     */
+    protected $_converter;
+
     public function __construct(
-        \Magento\App\RequestInterface $httpRequest
+        \Magento\App\RequestInterface $httpRequest,
+        \Magento\Stdlib\String $converter
     ) {
         $this->_request = $httpRequest;
+        $this->_converter = $converter;
     }
 
     /**
@@ -81,6 +88,22 @@ class Header
     public function getHttpReferer($clean = true)
     {
         return $this->_getHttpCleanValue('HTTP_REFERER', $clean);
+    }
+
+    /**
+     * Returns the REQUEST_URI taking into account
+     * platform differences between Apache and IIS
+     *
+     * @param boolean $clean clean non UTF-8 characters
+     * @return string
+     */
+    public function getRequestUri($clean = false)
+    {
+        $uri = $this->_request->getRequestUri();
+        if ($clean) {
+            $uri = $this->_converter->cleanString($uri);
+        }
+        return $uri;
     }
 
     /**

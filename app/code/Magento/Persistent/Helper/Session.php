@@ -67,7 +67,6 @@ class Session extends \Magento\Core\Helper\Data
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -84,7 +83,6 @@ class Session extends \Magento\Core\Helper\Data
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -97,13 +95,12 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }

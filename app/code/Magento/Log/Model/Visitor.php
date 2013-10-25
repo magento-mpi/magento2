@@ -39,13 +39,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_skipRequestLogging = false;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_coreHttp = null;
-
-    /**
      * @var array
      */
     protected $_ignoredUserAgents;
@@ -120,7 +113,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -142,7 +134,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
@@ -159,7 +150,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
-        $this->_coreHttp = $coreHttp;
         $this->_coreConfig = $coreConfig;
         $this->_ignoredUserAgents = $ignoredUserAgents;
         $this->_httpHeader = $httpHeader;
@@ -201,17 +191,18 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function initServerData()
     {
+        $clean = true;
         $this->addData(array(
             'server_addr'           => $this->_serverAddress->getServerAddress(true),
             'remote_addr'           => $this->_remoteAddress->getRemoteAddress(true),
             'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
-            'http_host'             => $this->_httpHeader->getHttpHost(true),
-            'http_user_agent'       => $this->_httpHeader->getHttpUserAgent(true),
-            'http_accept_language'  => $this->_httpHeader->getHttpAcceptLanguage(true),
-            'http_accept_charset'   => $this->_httpHeader->getHttpAcceptCharset(true),
-            'request_uri'           => $this->_coreHttp->getRequestUri(true),
+            'http_host'             => $this->_httpHeader->getHttpHost($clean),
+            'http_user_agent'       => $this->_httpHeader->getHttpUserAgent($clean),
+            'http_accept_language'  => $this->_httpHeader->getHttpAcceptLanguage($clean),
+            'http_accept_charset'   => $this->_httpHeader->getHttpAcceptCharset($clean),
+            'request_uri'           => $this->_httpHeader->getRequestUri($clean),
             'session_id'            => $this->_getSession()->getSessionId(),
-            'http_referer'          => $this->_httpHeader->getHttpReferer(true),
+            'http_referer'          => $this->_httpHeader->getHttpReferer($clean),
         ));
 
         return $this;
