@@ -9,6 +9,7 @@
 namespace Magento\View;
 
 use Magento\View\Layout;
+use Magento\View\Element\BlockInterface;
 use Magento\Core\Model\BlockFactory;
 use Magento\ObjectManager;
 
@@ -38,25 +39,25 @@ class BlockPool
      * @param string $name
      * @param string $class
      * @param array $arguments [optional]
-     * @return \Magento\Core\Block\AbstractBlock
-     * @throws \Exception
+     * @return BlockPool
+     * @throws \InvalidArgumentException
      */
     public function add($name, $class, array $arguments = array())
     {
         if (!class_exists($class)) {
-            throw new \Exception(__('Invalid Block class name: ' . $class));
+            throw new \InvalidArgumentException(__('Invalid Block class name: ' . $class));
         }
 
         $block = $this->blockFactory->createBlock($class, $arguments);
 
         $this->blocks[$name] = $block;
 
-        return $block;
+        return $this;
     }
 
     /**
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock | null
+     * @return BlockInterface | null
      */
     public function get($name = null)
     {
