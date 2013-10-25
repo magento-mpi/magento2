@@ -13,7 +13,6 @@ namespace Magento\View;
 use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
 
-use Magento\Core\Model\Event\Manager as EventManager;
 use Magento\Core\Model\Translate;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\Core\Model\Factory\Helper as FactoryHelper;
