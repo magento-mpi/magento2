@@ -133,6 +133,32 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 class Foo {
     function x() {
+        // bob
+        \$d = 1+1;
+
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+    public function x()
+    {
+        // bob
+        \$d = 1 + 1;
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
         \$d = 1+1;
 
     }
@@ -255,6 +281,7 @@ require_once 'processor' . '.php';
 require 'processor' . '.php';
 require_once 'processor' . '.php';
 require 'processor' . '.php';
+
 \$processor = 1 + 2;
 
 FORMATTEDCODESNIPPET

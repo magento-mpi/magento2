@@ -20,9 +20,6 @@ use PHPParser_Node_Stmt_Class;
  */
 abstract class AbstractStatement extends AbstractSyntax
 {
-    const ATTRIBUTE_COMMENTS = 'comments';
-    protected $trimComments = false;
-
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into
      * lines. Derived classes must replace the statement in the tree, or this method will repeat
@@ -32,51 +29,6 @@ abstract class AbstractStatement extends AbstractSyntax
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        // all statements have potential of having comments, so resolve those
-        $this->addCommentsBefore($treeNode);
-    }
-
-    /**
-     * This method adds any comments in the current node as prior siblings to the current node.
-     * @param TreeNode $treeNode Node representing the current node.
-     */
-    protected function addCommentsBefore(TreeNode $treeNode)
-    {
-        // only attempt to add comments if they are present
-        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
-            // add individual lines of the comments to the tree
-            $comments = $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
-            $this->trimComments($comments);
-            foreach ($comments as $comment) {
-                // split the lines so that they can be indented correctly
-                $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
-                foreach ($commentLines as $commentLine) {
-                    // add the line individually to the tree so that they can be indented correctly
-                    $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
-                    $treeNode->addSibling($newNode, false);
-                }
-            }
-        }
-    }
-
-    protected function trimComments(&$comments)
-    {
-        $numComments = sizeof($comments);
-        if ($this->trimComments && $numComments > 0) {
-            if ($numComments > 1) {
-                if (preg_match('/^\s*\n$/', $comments[0])) {
-                    // Remove it
-                    array_shift($comments);
-                    // Reduce the number of comments
-                    $numComments--;
-                }
-            }
-            if ($numComments != 0 && preg_match('/^\s*\n$/', $comments[$numComments-1])) {
-                // Remove it
-                array_pop($comments);
-            }
-
-        }
     }
 
     /**

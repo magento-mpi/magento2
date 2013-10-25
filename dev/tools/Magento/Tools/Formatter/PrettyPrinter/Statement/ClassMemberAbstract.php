@@ -12,13 +12,11 @@ use PHPParser_Node_Stmt;
 abstract class ClassMemberAbstract extends AbstractStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
-     * @param PHPParser_Node_Stmt $node
+     * We should trim these comments
+     * @return bool
      */
-    public function __construct(PHPParser_Node_Stmt $node)
+    public function isTrimComments()
     {
-        parent::__construct($node);
-        // Enable trimming blank lines around comments
-        $this->trimComments = true;
+        return true;
     }
 }

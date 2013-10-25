@@ -21,6 +21,11 @@ use PHPParser_Node;
 abstract class AbstractSyntax
 {
     /**
+     * Key into node attributes for comments
+     */
+    const ATTRIBUTE_COMMENTS = 'comments';
+
+    /**
      * This member holds the current node.
      * @var PHPParser_Node
      */
@@ -160,5 +165,36 @@ abstract class AbstractSyntax
     public static function getNodeLine(Line $line)
     {
         return new TreeNode(new LineData(null, $line));
+    }
+
+    /**
+     * Return the array that contains the comments from the node's attributes, if it is there.
+     *
+     * @return mixed
+     */
+    public function getComments()
+    {
+        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
+            return $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
+        }
+    }
+
+    /**
+     * Remove the comments attribute data if it is there.
+     */
+    public function removeComments()
+    {
+        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
+            $this->node->setAttribute(self::ATTRIBUTE_COMMENTS, null);
+        }
+    }
+    /**
+     * Method to let us know if we should trim blank lines before and after comments on this syntax element.
+     *
+     * @return bool
+     */
+    public function isTrimComments()
+    {
+        return false;
     }
 }
