@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Error;
+
 /**
  * Default Error Handler
  */
-namespace Magento\Error;
-
 class Handler implements HandlerInterface
 {
     /**
@@ -53,6 +53,7 @@ class Handler implements HandlerInterface
     /**
      * Show error as exception
      *
+     * @param string $errorMessage
      * @throws \Exception
      */
     protected function _processError($errorMessage)
