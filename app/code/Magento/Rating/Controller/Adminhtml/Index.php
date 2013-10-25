@@ -116,16 +116,16 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the rating.'));
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRatingData(false);
 
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('rating/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRatingData($this->getRequest()->getPost());
-                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('rating/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_redirect('adminhtml/*/');
+        $this->_redirect('rating/*/');
     }
 
     public function deleteAction()
@@ -137,13 +137,13 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->load($this->getRequest()->getParam('id'))
                     ->delete();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the rating.'));
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('rating/*/');
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('rating/*/edit', array('id' => $this->getRequest()->getParam('id')));
             }
         }
-        $this->_redirect('adminhtml/*/');
+        $this->_redirect('rating/*/');
     }
 
     protected function _initEnityId()
