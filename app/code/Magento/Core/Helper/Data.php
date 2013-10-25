@@ -500,16 +500,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Return list with public files valid paths
-     *
-     * @return array
-     */
-    public function getPublicFilesValidPath()
-    {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
-    }
-
-    /**
      * Check whether database compatible mode is used (configs enable it for MySQL by default).
      *
      * @return bool
@@ -517,25 +507,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function useDbCompatibleMode()
     {
         return $this->_dbCompatibleMode;
-    }
-
-    /**
-     * Returns the floating point remainder (modulo) of the division of the arguments
-     *
-     * @param float|int $dividend
-     * @param float|int $divisor
-     * @return float|int
-     */
-    public function getExactDivision($dividend, $divisor)
-    {
-        $epsilon = $divisor / self::DIVIDE_EPSILON;
-
-        $remainder = fmod($dividend, $divisor);
-        if (abs($remainder - $divisor) < $epsilon || abs($remainder) < $epsilon) {
-            $remainder = 0;
-        }
-
-        return $remainder;
     }
 
     /**
