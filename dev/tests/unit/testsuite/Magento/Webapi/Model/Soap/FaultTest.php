@@ -11,7 +11,7 @@ namespace Magento\Webapi\Model\Soap;
 
 class FaultTest extends \PHPUnit_Framework_TestCase
 {
-    protected $_wsdlUrl = 'http://host.com/?wsdl&services=customerV1';
+    const WSDL_URL = 'http://host.com/?wsdl&services=customerV1';
 
     /** @var \Magento\Core\Model\App */
     protected $_appMock;
@@ -42,7 +42,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
         );
         $this->_soapServerMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server')->disableOriginalConstructor()
             ->getMock();
-        $this->_soapServerMock->expects($this->any())->method('generateUri')->will($this->returnValue($this->_wsdlUrl));
+        $this->_soapServerMock->expects($this->any())->method('generateUri')->will($this->returnValue(self::WSDL_URL));
 
         $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,
@@ -62,7 +62,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     public function testToXmlDeveloperModeOff()
     {
         $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
-        $wsdlUrl = urlencode($this->_wsdlUrl);
+        $wsdlUrl = urlencode(self::WSDL_URL);
         $expectedResult = <<<XML
 <?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{$wsdlUrl}">
@@ -87,10 +87,11 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     </env:Body>
 </env:Envelope>
 XML;
+
         $actualXml = $this->_soapFault->toXml();
-        $this->assertXmlStringEqualsXmlString(
-            $expectedResult,
-            $actualXml,
+        $this->assertEquals(
+            $this->_sanitizeXML($expectedResult),
+            $this->_sanitizeXML($actualXml),
             'Wrong SOAP fault message with default parameters.'
         );
     }
@@ -119,7 +120,12 @@ XML;
             $faultCode,
             $additionalParameters
         );
-        $this->assertXmlStringEqualsXmlString($expectedResult, $actualResult, $assertMessage);
+        $wsdlUrl = urlencode(self::WSDL_URL);
+        $this->assertEquals(
+            $this->_sanitizeXML(str_replace('{wsdl_url}', $wsdlUrl, $expectedResult)),
+            $this->_sanitizeXML($actualResult),
+            $assertMessage
+        );
     }
 
     /**
@@ -188,7 +194,7 @@ XML;
             $webapiException
         );
         $actualXml = $soapFault->toXml();
-        $wsdlUrl = urlencode($this->_wsdlUrl);
+        $wsdlUrl = urlencode(self::WSDL_URL);
         $expectedXml = <<<FAULT_XML
 <?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{$wsdlUrl}">
@@ -201,18 +207,38 @@ XML;
                 <env:Text xml:lang="en">{$message}</env:Text>
             </env:Reason>
             <env:Detail>
-                <m:ErrorDetails>
+                <m:DefaultFault>
                     <m:Parameters>
                         <m:param1>value1</m:param1>
                         <m:param2>2</m:param2>
                     </m:Parameters>
                     <m:Code>{$code}</m:Code>
-                </m:ErrorDetails>
+                </m:DefaultFault>
             </env:Detail>
         </env:Fault>
     </env:Body>
 </env:Envelope>
 FAULT_XML;
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml, "Soap fault is invalid.");
+
+        $this->assertEquals(
+            $this->_sanitizeXML($expectedXml),
+            $this->_sanitizeXML($actualXml),
+            "Soap fault is invalid."
+        );
+    }
+
+    /**
+     * Convert XML to string.
+     *
+     * @param string $xmlString
+     * @return string
+     */
+    protected function _sanitizeXML($xmlString)
+    {
+        $dom = new \DOMDocument(1.0);
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = false; // Only useful for "pretty" output with saveXML()
+        $dom->loadXML($xmlString); // Must be done AFTER preserveWhiteSpace and formatOutput are set
+        return $dom->saveXML();
     }
 }
