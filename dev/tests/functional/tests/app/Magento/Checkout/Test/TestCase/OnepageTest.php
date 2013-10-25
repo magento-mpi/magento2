@@ -21,7 +21,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Test\TestCase\Checkout
  */
-class OnepageCheckoutTest extends Functional
+class OnepageTest extends Functional
 {
     /**
      * Place order on frontend via one page checkout.
@@ -31,6 +31,7 @@ class OnepageCheckoutTest extends Functional
      */
     public function testOnepageCheckout(Checkout $fixture)
     {
+        $fixture->persist();
         //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
@@ -63,6 +64,10 @@ class OnepageCheckoutTest extends Functional
             Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
+
+        $expectedAuthorizedAmount = 'Authorized amount of '.$fixture->getGrandTotal();
+        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount();
+        $this->assertContains($expectedAuthorizedAmount, $actualAuthorizedAmount, 'Incorrect authorized amount value for the order #' . $orderId);
     }
 
     /**
@@ -71,7 +76,7 @@ class OnepageCheckoutTest extends Functional
     public function dataProviderOnepageCheckout()
     {
         return array(
-           array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro())
         );

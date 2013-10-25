@@ -29,6 +29,19 @@ class PaypalPayflowPro extends Checkout
      */
     protected function _initData()
     {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => '$166.72'
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
         //Configuration
         $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $coreConfig->switchData('flat_rate');
@@ -80,12 +93,5 @@ class PaypalPayflowPro extends Checkout
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
-
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$155.99'
-            )
-        );
     }
 }

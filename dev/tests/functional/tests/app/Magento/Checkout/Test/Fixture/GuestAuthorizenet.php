@@ -29,6 +29,19 @@ class GuestAuthorizenet extends Checkout
      */
     protected function _initData()
     {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => '$166.72'
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
         //Configuration
         $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $configFixture->switchData('flat_rate');
@@ -64,11 +77,5 @@ class GuestAuthorizenet extends Checkout
         $this->paymentMethod->switchData('authorizenet');
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_authorizenet');
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '30'
-            )
-        );
     }
 }
