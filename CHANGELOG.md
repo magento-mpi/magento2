@@ -1,4 +1,7 @@
 * View abstraction was moved into lib
+* Eliminated dependency in Magento\Data\Form from Magento\Core module
+* Eliminated Magento\Media module
+* Fixed copyright information
 * Unified Area configuration
 * Moved EventManager to Magento\Event lib component
 * Moved FrontController, Routers, Base Actions to Magento\App
