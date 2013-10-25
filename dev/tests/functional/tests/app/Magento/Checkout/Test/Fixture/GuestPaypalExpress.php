@@ -56,12 +56,14 @@ class GuestPaypalExpress extends Checkout
         $coreConfig->switchData('paypal_express');
         $coreConfig->persist();
 
-        $coreConfig->switchData('us_tax_config');
-        $coreConfig->persist();
-
         Factory::getFixtureFactory()->getMagentoTaxTaxClass()->persist();
         Factory::getFixtureFactory()->getMagentoTaxTaxRate()->persist();
         Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
+
+        $coreConfig->switchData('us_tax_config');
+        $coreConfig->persist();
+
+
 
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
