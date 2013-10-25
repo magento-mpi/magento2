@@ -37,6 +37,7 @@ class Totals extends Block
      */
     protected function _init()
     {
+        parent::_init();
         $this->_grandTotalMask          = '//tr[normalize-space(td)="Grand Total"]//span';
     }
 

@@ -44,6 +44,7 @@ class History extends Block
      */
     protected function _init()
     {
+        parent::_init();
         $this->_commentHistoryId    = 'history_comment';
         $this->_authorizedAmountId  = 'order_history_block';
     }

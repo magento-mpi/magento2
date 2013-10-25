@@ -49,6 +49,7 @@ class Success extends Block
      */
     protected function _init()
     {
+        parent::_init();
         //Elements
         $this->continue = '.button-set button';
         $this->orderId = 'a[href*="view/order_id"]';

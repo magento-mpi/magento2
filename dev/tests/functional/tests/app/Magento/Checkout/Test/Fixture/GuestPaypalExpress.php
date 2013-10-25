@@ -101,8 +101,8 @@ class GuestPaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$10.00',
-                'authorized_amount' => '$10.00',
+                'grand_total'           => '10.00',
+                'authorized_amount'     => '10.00',
                 'comment_history'   => 'Authorized amount of $30.00',
             )
         );
