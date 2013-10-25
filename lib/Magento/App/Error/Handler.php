@@ -37,13 +37,11 @@ class Handler extends \Magento\Error\Handler
         \Magento\Logger $logger,
         \Magento\App\Dir $dir,
         \Magento\App\State $appState
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->dir = $dir;
         $this->appState = $appState;
     }
-
 
     /**
      * Process exception
@@ -54,10 +52,7 @@ class Handler extends \Magento\Error\Handler
     public function processException(\Exception $exception, $skinCode = null)
     {
         if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
-            print '<pre>';
-            print $exception->getMessage() . "\n\n";
-            print $exception->getTraceAsString();
-            print '</pre>';
+            parent::processException($exception, $skinCode);
         } else {
             $reportData = array($exception->getMessage(), $exception->getTraceAsString(), 'skin' => $skinCode);
             // retrieve server data
@@ -83,7 +78,7 @@ class Handler extends \Magento\Error\Handler
         $exception = new \Exception($errorMessage);
         $errorMessage .= $exception->getTraceAsString();
         if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
-            throw new \Exception($errorMessage);
+            parent::_processError($errorMessage);
         } else {
             $this->logger->log($errorMessage, \Zend_Log::ERR);
         }
