@@ -8,15 +8,14 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_List;
 
 class ListReference extends AbstractFunctionReference
 {
     /**
-     * This method constructs a new statement based on the specify expression
+     * This method constructs a new statement based on the specified argument node.
      * @param PHPParser_Node_Expr_List $node
      */
     public function __construct(PHPParser_Node_Expr_List $node)
@@ -44,8 +43,7 @@ class ListReference extends AbstractFunctionReference
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $line->add('list(');
-        $lineBreak = new ConditionalLineBreak(array(array('', ' ')));
-        $this->processArgumentList($this->node->vars, $treeNode, $line, $lineBreak);
+        $this->processArgumentList($this->node->vars, $treeNode, $line, new SimpleListLineBreak());
         $line->add(')');
     }
 }

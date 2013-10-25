@@ -37,6 +37,13 @@ class StaticPropertyReference extends AbstractReference
         // add the class reference
         $this->resolveNode($this->node->class, $treeNode);
         // add in the actual reference
-        $line->add('::$')->add($this->node->name);
+        $line->add('::$');
+        // if the name is an expression, then use the framework to resolve
+        if ($this->node->name instanceof PHPParser_Node_Expr) {
+            $this->resolveNode($this->node->name, $treeNode);
+        } else {
+            // otherwise, just use the name
+            $line->add($this->node->name);
+        }
     }
 }

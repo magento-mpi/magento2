@@ -558,11 +558,12 @@ class Foo extends \\Magento\\Test\\Bar{
         \\Magento\\Test\\Four \$testFour,
         \\Magento\\Test\\Five \$testFive,
         \\Magento\\Test\\Six \$testSix,
-        \\Magento\\Test\\Seven \$testSeven
+        \\Magento\\Test\\Seven \$testSeven,
+        \\Magento\\Test\\Eight \$testEight,
+        \\Magento\\Test\\Nine \$testNine
     ) {
         \$this->_testOne = \$testOne;
-        parent::__construct(\$testTwo, \$testThree, \$testFour, \$testFive, \$testSix, \$testSeven, \$testSeven,
-            \$testSeven,\$testSeven);
+        parent::__construct(\$testTwo, \$testThree, \$testFour, \$testFive, \$testSix, \$testSeven, \$testSeven, \$testEight, \$testNine);
     }
 };
 ORIGINALCODESNIPPET
@@ -579,7 +580,9 @@ class Foo extends \\Magento\\Test\\Bar
         \\Magento\\Test\\Four \$testFour,
         \\Magento\\Test\\Five \$testFive,
         \\Magento\\Test\\Six \$testSix,
-        \\Magento\\Test\\Seven \$testSeven
+        \\Magento\\Test\\Seven \$testSeven,
+        \\Magento\\Test\\Eight \$testEight,
+        \\Magento\\Test\\Nine \$testNine
     ) {
         \$this->_testOne = \$testOne;
         parent::__construct(\$testTwo,
@@ -589,8 +592,8 @@ class Foo extends \\Magento\\Test\\Bar
             \$testSix,
             \$testSeven,
             \$testSeven,
-            \$testSeven,
-            \$testSeven);
+            \$testEight,
+            \$testNine);
     }
 }
 
@@ -624,7 +627,7 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 class Foo{
     public function testList(\$testOne) {
-        list( \$varOne,\$varTwo,\$varThree,\$varFour,\$varFive,\$varSix,\$varSeven) = \$testOne;
+        list( \$varOne,\$varTwo,\$varThree,\$varFour,\$varFive,\$varSix,\$varSeven,\$varEight,\$varNine,\$varTen) = \$testOne;
     }
 };
 ORIGINALCODESNIPPET
@@ -636,7 +639,16 @@ class Foo
 {
     public function testList(\$testOne)
     {
-        list(\$varOne, \$varTwo, \$varThree, \$varFour, \$varFive, \$varSix, \$varSeven) = \$testOne;
+        list(\$varOne,
+            \$varTwo,
+            \$varThree,
+            \$varFour,
+            \$varFive,
+            \$varSix,
+            \$varSeven,
+            \$varEight,
+            \$varNine,
+            \$varTen) = \$testOne;
     }
 }
 
