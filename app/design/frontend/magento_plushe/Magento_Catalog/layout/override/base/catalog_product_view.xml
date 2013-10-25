@@ -64,7 +64,7 @@
                 </arguments>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.rating" template="product/view/rating.phtml"/>
-            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="product/view/attribute.phtml">
+            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="product/view/attribute.phtml" group="detailed_info">
                 <arguments>
                     <argument name="at_call" xsi:type="string">getShortDescription</argument>
                     <argument name="at_code" xsi:type="string">short_description</argument>
