@@ -139,6 +139,60 @@ class PrinterControlsTest extends TestBase
                 "            function () use (\$a, \$b) {\n                echo 'hi';\n" .
                 "            }\n        );\n    }\n}\n"
             ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+namespace Magento\Tools\Formatter\TestClass;
+class TestClass {
+    public function main(\$abcdefghijklmnopqrstuvwxyz) {
+        if (isset(\$abcdefghijklmnopqrstuvwxyz)&&isset(\$abcdefghijklmnopqrstuvwxyz)&&
+            isset(\$abcdefghijklmnopqrstuvwxyz)) {
+            \$callback = 'hello';
+            \$callback = 'good';
+            \$callback = 'bye';
+            if (isset(\$abcdefghijklmnopqrstuvwxyz)) {
+                \$callback = 'asdf';
+            }
+        }
+    }
+}
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+namespace Magento\Tools\Formatter\TestClass;
+
+class TestClass
+{
+    public function main(\$abcdefghijklmnopqrstuvwxyz)
+    {
+        if (
+            isset(\$abcdefghijklmnopqrstuvwxyz) &&
+            isset(\$abcdefghijklmnopqrstuvwxyz) &&
+            isset(\$abcdefghijklmnopqrstuvwxyz)
+        ) {
+            \$callback = 'hello';
+            \$callback = 'good';
+            \$callback = 'bye';
+            if (isset(\$abcdefghijklmnopqrstuvwxyz)) {
+                \$callback = 'asdf';
+            }
+        }
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
         );
     }
 }
