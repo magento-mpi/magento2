@@ -443,6 +443,11 @@ class Config extends AbstractRepository
         );
     }
 
+    /**
+     * Provide Configuration for Default Tax settings
+     *
+     * @return array
+     */
     protected function _getDefaultTax()
     {
         return array(
