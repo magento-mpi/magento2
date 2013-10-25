@@ -32,6 +32,8 @@ class Element extends \Magento\Simplexml\Element
 
     /**
      * @return Element
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function prepare()
     {
