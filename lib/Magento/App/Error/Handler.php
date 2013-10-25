@@ -47,14 +47,14 @@ class Handler extends \Magento\Error\Handler
      * Process exception
      *
      * @param \Exception $exception
-     * @param string|null $skinCode
+     * @param array $params
      */
-    public function processException(\Exception $exception, $skinCode = null)
+    public function processException(\Exception $exception, array $params = array())
     {
         if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
-            parent::processException($exception, $skinCode);
+            parent::processException($exception, $params);
         } else {
-            $reportData = array($exception->getMessage(), $exception->getTraceAsString(), 'skin' => $skinCode);
+            $reportData = array($exception->getMessage(), $exception->getTraceAsString()) + $params;
             // retrieve server data
             if (isset($_SERVER)) {
                 if (isset($_SERVER['REQUEST_URI'])) {

@@ -40,9 +40,9 @@ class Handler implements HandlerInterface
      * Process exception
      *
      * @param \Exception $exception
-     * @param string|null $skinCode
+     * @param array $params
      */
-    public function processException(\Exception $exception, $skinCode = null)
+    public function processException(\Exception $exception, array $params = array())
     {
         print '<pre>';
         print $exception->getMessage() . "\n\n";

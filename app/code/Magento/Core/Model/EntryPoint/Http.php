@@ -36,7 +36,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
             } catch (\Exception $exception) {
                 $skin = null;
             }
-            $this->_errorHandler->processException($e, $skin);
+            $this->_errorHandler->processException($e, array('skin' => $skin));
         }
     }
 
