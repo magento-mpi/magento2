@@ -187,6 +187,7 @@ return array(
     array('addPageHandles', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('addPagerLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('addRegisterLink', 'Magento\Customer\Block\Account\Link'),
+    array('addRenderer', 'Magento\Bundle\Block\Catalog\Product\View\Type\Bundle'),
     array('addReviewSummaryTemplate', 'Magento\Catalog\Block\Product\AbstractProduct'),
     array('addRowItemRender', 'Magento\Checkout\Block\Multishipping\Overview'),
     array('addSaleableFilterToCollection'),
