@@ -30,8 +30,16 @@ class ProductGrid extends Grid
     {
         parent::_init();
         $this->filters = array(
-            'name' => '#productGrid_product_filter_name',
-            'sku' => '#productGrid_product_filter_sku'
+            'name' => array(
+                'selector' => '#productGrid_product_filter_name'
+            ),
+            'sku' => array(
+                'selector' => '#productGrid_product_filter_sku'
+            ),
+            'type' => array(
+                'selector' => '#productGrid_product_filter_type',
+                'input' => 'select'
+            )
         );
     }
 

@@ -90,7 +90,14 @@ abstract class Grid extends Block
     {
         foreach ($filters as $key => $value) {
             if (isset($this->filters[$key])) {
-                $this->_rootElement->find($this->filters[$key], Locator::SELECTOR_CSS)->setValue($value);
+                $selector = $this->filters[$key]['selector'];
+                $strategy = isset($this->filters[$key]['strategy'])
+                    ? $this->filters[$key]['strategy']
+                    : Locator::SELECTOR_CSS;
+                $typifiedElement = isset($this->filters[$key]['input'])
+                    ? $this->filters[$key]['input']
+                    : null;
+                $this->_rootElement->find($selector, $strategy, $typifiedElement)->setValue($value);
             } else {
                 throw new \Exception('Such column is absent in the grid or not described yet.');
             }
