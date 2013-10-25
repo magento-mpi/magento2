@@ -29,5 +29,13 @@ class ConfigurableProduct extends AbstractRepository
 
         $this->_data['configurable_default_category'] = $this->_data['default'];
         $this->_data['configurable_default_category']['data']['category_name'] = '%category%';
+        $this->_data['configurable2'] = $this->_getConfigurable2();
+    }
+
+    protected function _getConfigurable2()
+    {
+        $data = $this->_data['default'];
+        $data['data']['fields']['price']['value'] = 10;
+        return $data;
     }
 }

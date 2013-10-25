@@ -28,7 +28,17 @@ class TaxRate extends DataFixture
      */
     public function getTaxRateName()
     {
-        return $this->getData('fields/code/value');
+        return $this->getData('code/value');
+    }
+
+    /**
+     * Get tax rate id
+     *
+     * @return string
+     */
+    public function getTaxRateId()
+    {
+        return $this->getData('fields/id');
     }
 
     /**
@@ -38,8 +48,8 @@ class TaxRate extends DataFixture
      */
     public function persist()
     {
-        Factory::getApp()->magentoTaxCreateTaxRate($this);
-
+        $id = Factory::getApp()->magentoTaxCreateTaxRate($this);
+        $this->_data['fields']['id'] = $id;
         return $this;
     }
 

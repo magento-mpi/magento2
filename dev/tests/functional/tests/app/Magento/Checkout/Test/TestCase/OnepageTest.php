@@ -73,12 +73,13 @@ class OnepageTest extends Functional
     /**
      * @return array
      */
-    public function dataProviderOnepageCheckout()
+    public static function dataProviderOnepageCheckout()
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro())
+            array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow())
         );
     }
 }

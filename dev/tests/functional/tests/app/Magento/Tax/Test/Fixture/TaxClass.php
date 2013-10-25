@@ -28,7 +28,17 @@ class TaxClass extends DataFixture
      */
     public function getTaxClassName()
     {
-        return $this->getData('fields/class_name/value');
+        return $this->getData('fields/data/class_name/value');
+    }
+
+    /**
+     * Return saved class id
+     *
+     * @return mixed
+     */
+    public function getTaxClassId()
+    {
+        return $this->getData('fields/id');
     }
 
     /**
@@ -38,7 +48,8 @@ class TaxClass extends DataFixture
      */
     public function persist()
     {
-        Factory::getApp()->magentoTaxCreateTaxClass($this);
+        $id = Factory::getApp()->magentoTaxCreateTaxClass($this);
+        $this->_data['fields']['id'] = $id;
         return $this;
     }
 

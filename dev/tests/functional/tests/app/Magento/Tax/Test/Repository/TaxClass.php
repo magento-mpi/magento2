@@ -33,7 +33,7 @@ class TaxClass extends AbstractRepository
         );
 
         $this->_data['product_tax_class'] = $this->_data['customer_tax_class'];
-        $this->_data['product_tax_class']['data']['class_name']['value'] = 'Product Tax Class %isolation%';
-        $this->_data['product_tax_class']['data']['class_type']['value'] = 'PRODUCT';
+        $this->_data['product_tax_class']['data']['fields']['class_name']['value'] = 'Product Tax Class %isolation%';
+        $this->_data['product_tax_class']['data']['fields']['class_type']['value'] = 'PRODUCT';
     }
 }

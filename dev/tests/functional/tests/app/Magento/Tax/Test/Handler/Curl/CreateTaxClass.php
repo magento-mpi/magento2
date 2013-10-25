@@ -44,6 +44,18 @@ class CreateTaxClass extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();
         $curl->close();
-        return $response;
+        return $this->_getClassId($response);
+    }
+
+    /**
+     * Return saved class id if saved
+     *
+     * @param string $data
+     * @return int|null
+     */
+    protected function _getClassId($data)
+    {
+        $data = json_decode($data);
+        return isset($data->class_id) ? (int)$data->class_id : null;
     }
 }

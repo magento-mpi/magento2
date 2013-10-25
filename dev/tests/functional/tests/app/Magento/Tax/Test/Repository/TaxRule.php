@@ -20,11 +20,41 @@ use Mtf\Repository\AbstractRepository;
  */
 class TaxRule extends AbstractRepository
 {
-    function __construct(array $defaultConfig, array $defaultData)
+    /**
+     * Initialize repository data
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
+    public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => $defaultData
         );
+
+        $this->_data['custom_rule'] = array_replace_recursive($this->_data['default'], $this->_getCustomTaxRule());
     }
+
+    /**
+     * Return data structure for Tax Rule with custom Rates, Tax class
+     *
+     * @return array
+     */
+    protected function _getCustomTaxRule()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'tax_rate[0]' => array(
+                        'value' => '%us_ca_rate_8_25%'
+                    ),
+                    'tax_rate[1]' => array(
+                        'value' => '%us_ny_rate_8_375%'
+                    ),
+                )
+            )
+        );
+    }
+
 }

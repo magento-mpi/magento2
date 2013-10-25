@@ -40,7 +40,9 @@ class Config extends AbstractRepository
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['flat_rate'] = $this->_getFlatRate();
+        $this->_data['flat_rate_2'] = $this->_getFlatRate2();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
+        $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
     }
 
     protected function _getFreeShipping()
@@ -110,6 +112,13 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    protected function _getFlatRate2()
+    {
+        $data = $this->_getFlatRate();
+        $data['data']['sections']['carriers']['groups']['flatrate']['price']['value'] = 15;
+        return $data;
     }
 
     protected function _getAuthorizeNet()
@@ -582,6 +591,85 @@ class Config extends AbstractRepository
     protected function _getUsTax()
     {
         return $this->_getDefaultTax();
+    }
+
+    /**
+     * Data for PayPal Payflow Edition method
+     */
+    protected function _getPayPalPayflow()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_payment_gateways' => array(
+                                'groups' => array(
+                                    'paypal_verisign_with_express_checkout_us' => array(
+                                        'groups' => array(
+                                            'paypal_payflow_required' => array(
+                                                'groups' => array(
+                                                    'paypal_payflow_api_settings' => array(
+                                                        'fields' => array(
+                                                            'using_pbridge' => array(
+                                                                'value' => 0
+                                                            ),
+                                                            'business_account' => array(
+                                                                'value' => 'pro_em_1350644409_biz@ebay.com'
+                                                            ),
+                                                            'partner' => array(
+                                                                'value' => 'PayPal'
+                                                            ),
+                                                            'user' => array(
+                                                                'value' => 'empayflowpro'
+                                                            ),
+                                                            'vendor' => array(
+                                                                'value' => 'empayflowpro'
+                                                            ),
+                                                            'pwd' => array(
+                                                                'value' => 'Temp1234'
+                                                            ),
+                                                            'sandbox_flag' => array(
+                                                                'value' => 1
+                                                            ),
+                                                            'enable_paypal_payflow' => array(
+                                                                'value' => 1
+                                                            ),
+                                                            'use_proxy' => array(
+                                                                'value' => 0
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            'settings_paypal_payflow' => array(
+                                                'groups' => array(
+                                                    'fields' => array(
+                                                        'payment_action' => array(
+                                                            'value' => 'Authorization'
+                                                        )
+                                                    ),
+                                                    'settings_paypal_payflow_advanced' => array(
+                                                        'fields' => array(
+                                                            'useccv' => array(
+                                                                'value' => 1
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     /**
