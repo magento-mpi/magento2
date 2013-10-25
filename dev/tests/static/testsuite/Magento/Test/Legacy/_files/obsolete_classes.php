@@ -989,7 +989,6 @@ return array(
     array('Magento\Poll\Model\Resource\Poll\Answer\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Vote'),
-    array('Mage:'),
     array('Magento\Backup', 'Magento\Backup\Factory'),
     array('Magento\Core\Controller\Front\Router', 'Magento\Core\Controller\Request\HttpProxy'),
     array('Magento\Core\Controller\Response\Http', 'Magento\Core\Controller\Varien\Action\Forward'),

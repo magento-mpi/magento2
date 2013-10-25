@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Backup
+ * @category     Magento
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Extended version of \Magento\Archive\Tar that supports filtering
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Archive;

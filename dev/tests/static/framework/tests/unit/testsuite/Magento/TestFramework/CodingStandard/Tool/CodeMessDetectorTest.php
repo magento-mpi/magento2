@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\CodingStandard\Tool;
+namespace Magento\TestFramework\CodingStandard\Tool;
 
 class CodeMessDetectorTest extends \PHPUnit_Framework_TestCase
 {
