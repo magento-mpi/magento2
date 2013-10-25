@@ -28,9 +28,4 @@ class RemoteAddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(false, $this->_helper->getRemoteAddress());
     }
-
-    public function testGetRemoteAddressHeaders()
-    {
-        $this->assertEquals(array(), $this->_helper->getRemoteAddressHeaders());
-    }
 }

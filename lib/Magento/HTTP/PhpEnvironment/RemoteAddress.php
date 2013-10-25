@@ -15,8 +15,6 @@ namespace Magento\HTTP\PhpEnvironment;
  */
 class RemoteAddress
 {
-    const XML_NODE_REMOTE_ADDRESS_HEADERS  = 'global/remote_addr_headers';
-
     /**
      * Request object
      *
@@ -25,23 +23,36 @@ class RemoteAddress
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Remote address cache
      *
      * @var string
      */
     protected $_remoteAddress;
 
+    /**
+     * @var array
+     */
+    protected $_alternativeHeaders;
+
+    /**
+     * @param \Magento\App\RequestInterface $httpRequest
+     * @param array $alternativeHeaders
+     * @throws \InvalidArgumentException
+     */
     public function __construct(
         \Magento\App\RequestInterface $httpRequest,
-        \Magento\Core\Model\ConfigInterface $config
+        $alternativeHeaders = array()
     ) {
         $this->_request = $httpRequest;
-        $this->_config = $config;
+
+        if (!is_array($alternativeHeaders)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid value of type "%s" given while array is expected as alternative headers',
+                gettype($alternativeHeaders)
+            ));
+        }
+
+        $this->_alternativeHeaders = $alternativeHeaders;
     }
 
     /**
@@ -53,8 +64,7 @@ class RemoteAddress
     public function getRemoteAddress($ipToLong = false)
     {
         if (is_null($this->_remoteAddress)) {
-            $headers = $this->getRemoteAddressHeaders();
-            foreach ($headers as $var) {
+            foreach ($this->_alternativeHeaders as $var) {
                 if ($this->_request->getServer($var, false)) {
                     $this->_remoteAddress = $_SERVER[$var];
                     break;
@@ -71,23 +81,5 @@ class RemoteAddress
         }
 
         return $ipToLong ? ip2long($this->_remoteAddress) : $this->_remoteAddress;
-    }
-
-    /**
-     * Retrieve Remote Addresses Additional check Headers
-     *
-     * @return array
-     */
-    public function getRemoteAddressHeaders()
-    {
-        $headers = array();
-        $element = $this->_config->getNode(self::XML_NODE_REMOTE_ADDRESS_HEADERS);
-        if ($element instanceof \Magento\Core\Model\Config\Element) {
-            foreach ($element->children() as $node) {
-                $headers[] = (string)$node;
-            }
-        }
-
-        return $headers;
     }
 }
