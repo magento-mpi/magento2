@@ -194,7 +194,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
 
                 if ($this->_handle === false) {
                     throw new \Magento\Core\Exception(
-                        __('Something went wrong connecting to the host. Error#%d - %s.', $errno, $errstr)
+                        __('Something went wrong connecting to the host. Error#%1 - %2.', $errno, $errstr)
                     );
                 }
 
