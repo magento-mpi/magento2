@@ -10,6 +10,9 @@
 
 namespace Magento\Encryption;
 
+/**
+ * Crypt factory
+ */
 class CryptFactory
 {
     /**

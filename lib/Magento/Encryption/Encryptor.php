@@ -93,7 +93,7 @@ class Encryptor implements EncryptorInterface
      *
      * @param string $password
      * @param string $hash
-     * @throws \Magento\Exception
+     * @throws \InvalidArgumentException
      * @return bool
      */
     public function validateHash($password, $hash)
@@ -104,8 +104,10 @@ class Encryptor implements EncryptorInterface
                 return $this->hash($password) === $hash;
             case 2:
                 return $this->hash($hashArr[1] . $password) === $hashArr[0];
+            default:
+                break;
         }
-        throw new \Magento\Exception('Invalid hash.');
+        throw new \InvalidArgumentException('Invalid hash.');
     }
 
     /**
