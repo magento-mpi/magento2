@@ -64,7 +64,6 @@ class Message extends \Magento\Core\Helper\Data
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -81,7 +80,6 @@ class Message extends \Magento\Core\Helper\Data
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -100,7 +98,7 @@ class Message extends \Magento\Core\Helper\Data
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }

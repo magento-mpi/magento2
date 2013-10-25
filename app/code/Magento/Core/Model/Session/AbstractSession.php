@@ -54,13 +54,6 @@ class AbstractSession extends \Magento\Object
     protected $_logger;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_coreHttp = null;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -153,7 +146,6 @@ class AbstractSession extends \Magento\Object
     ) {
         $this->_validator = $context->getValidator();
         $this->_eventManager = $context->getEventManager();
-        $this->_coreHttp = $context->getHttpHelper();   //TODO: It seems it's never used
         $this->_logger = $context->getLogger();
         $this->_coreStoreConfig = $context->getStoreConfig();
         $this->_savePath = $this->_savePath ?: $context->getSavePath();

@@ -9,40 +9,27 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Helper;
+namespace Magento\Http;
 
-class HttpTest extends \PHPUnit_Framework_TestCase
+class AuthenticationTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_object = null;
-
-    protected function setUp()
-    {
-        $this->_object = new \Magento\Core\Helper\Http(
-            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            new \Magento\Stdlib\String
-        );
-    }
-
     /**
      * @param array $server
      * @param string $expectedLogin
      * @param string $expectedPass
-     * @dataProvider getHttpAuthCredentialsDataProvider
+     * @dataProvider getCredentialsDataProvider
      */
-    public function testGetHttpAuthCredentials($server, $expectedLogin, $expectedPass)
+    public function testGetCredentials($server, $expectedLogin, $expectedPass)
     {
         $request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->once())->method('getServer')->will($this->returnValue($server));
-        $this->assertSame(array($expectedLogin, $expectedPass), $this->_object->getHttpAuthCredentials($request));
+        $this->assertSame(array($expectedLogin, $expectedPass), \Magento\Http\Authentication::getCredentials($request));
     }
 
     /**
      * @return array
      */
-    public function getHttpAuthCredentialsDataProvider()
+    public function getCredentialsDataProvider()
     {
         $login    = 'login';
         $password = 'password';
@@ -76,12 +63,12 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFailHttpAuthentication()
+    public function testSetAuthenticationFailed()
     {
         $response = new \Magento\App\Response\Http();
         $realm = uniqid();
         $response->headersSentThrowsException = false;
-        $this->_object->failHttpAuthentication($response, $realm);
+        \Magento\Http\Authentication::setAuthenticationFailed($response, $realm);
         $headers = $response->getHeaders();
         $this->assertArrayHasKey(0, $headers);
         $this->assertEquals('401 Unauthorized', $headers[0]['value']);

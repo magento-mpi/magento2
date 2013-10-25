@@ -44,13 +44,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_coreHttp = null;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -107,7 +100,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -115,12 +107,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
-     * @internal param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -130,7 +120,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreHttp = $coreHttp;   //TODO: seems not used
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
