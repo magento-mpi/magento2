@@ -29,6 +29,7 @@ app/design/frontend/magento_backup/Magento_Reward
 app/design/frontend/magento_backup/Magento_Rma
 app/design/frontend/magento_backup/Magento_VersionsCms
 app/design/frontend/magento_backup/Magento_WebsiteRestriction
+app/design/frontend/magento_backup/Magento_Pbridge
 app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/RenderersTest.php
