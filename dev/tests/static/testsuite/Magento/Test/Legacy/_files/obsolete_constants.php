@@ -252,4 +252,6 @@ return array(
         'Magento\Customer\Helper\Data::XML_PATH_MERCHANT_VAT_NUMBER'),
     array('XML_PATH_PROTECTED_FILE_EXTENSIONS', '\Magento\Core\Helper\Data',
         '\Magento\Core\Model\File\Validator\NotProtectedExtension::XML_PATH_PROTECTED_FILE_EXTENSIONS'),
+    array('XML_PATH_PUBLIC_FILES_VALID_PATHS', '\Magento\Core\Helper\Data',
+        '\Magento\Adminhtml\Helper\Catalog::XML_PATH_PUBLIC_FILES_VALID_PATHS'),
 );

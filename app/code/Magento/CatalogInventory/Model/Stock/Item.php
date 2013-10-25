@@ -127,13 +127,6 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_catalogInventoryMinsaleqty;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Catalog inventory data
      *
      * @var \Magento\CatalogInventory\Helper\Data
@@ -185,7 +178,6 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -201,7 +193,6 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -216,7 +207,6 @@ class Item extends \Magento\Core\Model\AbstractModel
         $this->_indexer = $indexer;
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
-        $this->_coreData = $coreData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
@@ -734,7 +724,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $qtyIncrements = $this->getDefaultQtyIncrements();
         }
 
-        if ($qtyIncrements && ($this->_coreData->getExactDivision($qty, $qtyIncrements) != 0)) {
+        if ($qtyIncrements && (\Magento\Math\Division::getExactDivision($qty, $qtyIncrements) != 0)) {
             $result->setHasError(true)
                 ->setQuoteMessage(
                     __('Please correct the quantity for some products.')

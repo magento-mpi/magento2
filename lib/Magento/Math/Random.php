@@ -1,7 +1,5 @@
 <?php
 /**
- * Random data generator
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Math;
 
+/**
+ * Random data generator
+ */
 class Random
 {
     const CHARS_LOWERS                          = 'abcdefghijklmnopqrstuvwxyz';
@@ -24,23 +25,30 @@ class Random
      * Permission level to deny access
      */
     const RULE_PERM_DENY = 0;
-    
+
     /**
      * Permission level to inherit access from parent role
      */
     const RULE_PERM_INHERIT = 1;
-    
+
     /**
      * Permission level to allow access
      */
     const RULE_PERM_ALLOW = 2;
 
+    /**
+     * Get random string
+     *
+     * @param int $length
+     * @param null|string $chars
+     * @return string
+     */
     public static function getRandomString($length, $chars = null)
     {
         if (is_null($chars)) {
             $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
         }
-        mt_srand(10000000*(double)microtime());
+        mt_srand(10000000 * (double)microtime());
         for ($i = 0, $string = '', $lc = strlen($chars)-1; $i < $length; $i++) {
             $string .= $chars[mt_rand(0, $lc)];
         }
