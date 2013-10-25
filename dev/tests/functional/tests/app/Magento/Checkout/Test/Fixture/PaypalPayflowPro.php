@@ -51,20 +51,19 @@ class PaypalPayflowPro extends Checkout
         $coreConfig->persist();
 
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple1->switchData('simple');
-//        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
-//        $bundle->switchData('bundle');
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple');
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
 //        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
 //        $configurable->switchData('configurable');
 
-        $simple1->persist();
+        $simple->persist();
 //        $configurable->persist();
-//        $bundle->persist();
+        $bundle->persist();
 
         $this->products = array(
-            $simple1,
-//            $bundle,
+            $simple,
+            $bundle,
 //            $configurable
         );
         //Checkout data
@@ -86,7 +85,7 @@ class PaypalPayflowPro extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '15'
+                'grand_total' => '$140.00'
             )
         );
     }
