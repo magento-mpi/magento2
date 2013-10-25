@@ -1,3 +1,7 @@
+* Eliminated dependency in Magento\Data\Form from Magento\Core module
+* Eliminated Magento\Media module
+* Fixed copyright information
+
 2.0.0.0-dev49
 =============
 * Various improvements:
