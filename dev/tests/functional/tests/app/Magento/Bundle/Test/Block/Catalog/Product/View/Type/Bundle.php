@@ -26,11 +26,12 @@ use Magento\Catalog\Test\Block\Product\View\Options;
 class Bundle extends Options
 {
     /**
-     * @param BundleFixture $fixture
+     * Fill bundle options
+     *
+     * @param array $bundleOptions
      */
-    public function fillBundleOptions(BundleFixture $fixture)
+    public function fillBundleOptions($bundleOptions)
     {
-        $bundleOptions = $fixture->getSelectionData();
         $index = 1;
         foreach ($bundleOptions as $option) {
             $optionClass = '\\Magento\\Bundle\\Test\\Block\\Catalog\\Product\\View\\Type\\Option\\'

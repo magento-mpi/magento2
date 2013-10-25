@@ -56,12 +56,14 @@ class GuestPaypalExpress extends Checkout
         $coreConfig->switchData('paypal_express');
         $coreConfig->persist();
 
-        $coreConfig->switchData('us_tax_config');
-        $coreConfig->persist();
-
         Factory::getFixtureFactory()->getMagentoTaxTaxClass()->persist();
         Factory::getFixtureFactory()->getMagentoTaxTaxRate()->persist();
         Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
+
+        $coreConfig->switchData('us_tax_config');
+        $coreConfig->persist();
+
+
 
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
@@ -99,9 +101,9 @@ class GuestPaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$129.99',
-                'authorized_amount' => '$129.99',
-                'comment_history'   => 'Authorized amount of $129.99',
+                'grand_total' => '$166.72',
+                'authorized_amount' => '$166.72',
+                'comment_history'   => 'Authorized amount of $166.72',
             )
         );
     }

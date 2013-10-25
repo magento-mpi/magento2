@@ -148,10 +148,31 @@ class ConfigurableProduct extends Product
             ),
             'variations-matrix'                         => $this->getOptionVariations('attribute1'),
             'affect_configurable_product_attributes'    => 0,
-            'new-variations-attribute-set-id'           => 4
+            'new-variations-attribute-set-id'           => 4,
+            'checkout' => array(
+                'selections' => array(
+                    'attribute1' => 'one'
+                )
+            )
         );
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogConfigurableProduct($this->_dataConfig, $this->_data);
+    }
+
+    /**
+     * Get configurable options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        $selections = $this->getData('checkout/selections');
+        $options = array();
+        foreach ($selections as $attributeCode => $value) {
+            $attributeLabel = $this->getAttribute($attributeCode)->getAttributeLabel();
+            $options[$attributeLabel] = $value;
+        }
+        return $options;
     }
 }
