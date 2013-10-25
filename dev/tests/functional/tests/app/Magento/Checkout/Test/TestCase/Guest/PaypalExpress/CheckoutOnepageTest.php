@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\TestCase\Checkout\Guest\PaypalExpress;
+namespace Magento\Checkout\Test\TestCase\Guest\PaypalExpress;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
