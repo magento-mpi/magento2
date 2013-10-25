@@ -8,6 +8,9 @@
 
 namespace Magento\View\Layout;
 
+/**
+ * @package Magento\View
+ */
 class Element extends \Magento\Simplexml\Element
 {
     /**#@+
@@ -24,42 +27,45 @@ class Element extends \Magento\Simplexml\Element
     const TYPE_MOVE = 'move';
     /**#@-*/
 
+    /**
+     * @return Element
+     */
     public function prepare()
     {
         switch ($this->getName()) {
             case self::TYPE_BLOCK:
                 $this->prepareBlock();
                 break;
-
             case self::TYPE_REFERENCE_BLOCK:
             case self::TYPE_REFERENCE_CONTAINER:
                 $this->prepareReference();
                 break;
-
             case self::TYPE_ACTION:
                 $this->prepareAction();
                 break;
-
             case self::TYPE_ARGUMENT:
                 $this->prepareActionArgument();
                 break;
-
             default:
                 break;
         }
         foreach ($this as $child) {
+            /** @var Element $child */
             $child->prepare();
         }
         return $this;
     }
 
+    /**
+     * @return bool|string
+     */
     public function getBlockName()
     {
         $tagName = (string)$this->getName();
-        if (empty($this['name']) || !in_array($tagName, array(
-                self::TYPE_BLOCK,
-                self::TYPE_REFERENCE_BLOCK,
-        ))) {
+        $isThisBlock = empty($this['name'])
+            || !in_array($tagName, array(self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK));
+
+        if ($isThisBlock) {
             return false;
         }
         return (string)$this['name'];
@@ -75,12 +81,17 @@ class Element extends \Magento\Simplexml\Element
     public function getElementName()
     {
         $tagName = $this->getName();
-        if (!in_array($tagName, array(
-            self::TYPE_BLOCK,
-            self::TYPE_REFERENCE_BLOCK,
-            self::TYPE_CONTAINER,
-            self::TYPE_REFERENCE_CONTAINER
-        ))) {
+        $isThisContainer = !in_array(
+            $tagName,
+            array(
+                self::TYPE_BLOCK,
+                self::TYPE_REFERENCE_BLOCK,
+                self::TYPE_CONTAINER,
+                self::TYPE_REFERENCE_CONTAINER
+            )
+        );
+
+        if ($isThisContainer) {
             return false;
         }
         return $this->getAttribute('name');

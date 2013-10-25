@@ -31,6 +31,8 @@
     <preference for="Magento\Interception\PluginList" type="Magento\Interception\PluginList\PluginList" />
     <preference for="Magento\View\LayoutInterface" type="Magento\Core\Model\Layout" />
     <preference for="Magento\View\Layout\ProcessorInterface" type="Magento\Core\Model\Layout\Merge" />
+    <type name="Magento\View\Layout\Structure" shared="false" />
+    <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\Core\Model\App\State">
         <param name="installDate">
             <value type="argument">Magento\Core\Model\App\State::PARAM_INSTALL_DATE</value>

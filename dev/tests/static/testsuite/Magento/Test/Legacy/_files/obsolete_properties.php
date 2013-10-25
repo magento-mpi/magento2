@@ -90,4 +90,5 @@ return array(
     array('_useAnalyticFunction'),
     array('_defaultIndexer', 'Magento\CatalogInventory\Model\Resource\Indexer\Stock'),
     array('_engine', 'Magento\CatalogSearch\Model\Resource\Fulltext'),
+    array('_enginePool', '\Magento\Core\Block\Template\Context', '_engineFactory'),
 );
