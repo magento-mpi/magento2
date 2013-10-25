@@ -365,7 +365,8 @@ class Config extends AbstractRepository
         );
     }
 
-    protected function _getPaypalPayFlowPro() {
+    protected function _getPaypalPayFlowPro()
+    {
         return array(
             'data' => array(
                 'sections' => array(
@@ -481,6 +482,11 @@ class Config extends AbstractRepository
         );
     }
 
+    /**
+     * Provides Price Display Configuration
+     *
+     * @return array
+     */
     protected function _getPriceDisplay()
     {
         return array(
@@ -508,6 +514,11 @@ class Config extends AbstractRepository
         );
     }
 
+    /**
+     * Provides Shopping Cart Display Configuration
+     *
+     * @return array
+     */
     protected function _getShoppingCartDisplay()
     {
         return array(
