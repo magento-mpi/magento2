@@ -51,9 +51,23 @@ class ProductAttribute extends DataFixture
      *
      * @return array
      */
-    public function getAttributeOptionIds()
+    public function getOptionIds()
     {
         return $this->getData('fields/option_ids');
+    }
+
+    /**
+     * Get attribute options
+     *
+     * @return array
+     */
+    public function getOptionLabels()
+    {
+        $options = array();
+        $options[] = $this->getData('fields/option[value][option_0][0]/value');
+        $options[] = $this->getData('fields/option[value][option_1][0]/value');
+
+        return $options;
     }
 
     /**
@@ -90,7 +104,7 @@ class ProductAttribute extends DataFixture
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
                 'attribute_label' => array(
-                    'value' => 'Attribute Label %isolation%',
+                    'value' => 'Attribute %isolation%',
                     'curl' => 'frontend_label[0]',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN
                 ),

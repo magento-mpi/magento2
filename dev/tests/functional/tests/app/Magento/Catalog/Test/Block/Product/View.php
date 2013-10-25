@@ -15,7 +15,8 @@ use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
-use \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
 /**
  * Class View
@@ -142,16 +143,24 @@ class View extends Block
     }
 
     /**
-     * Return configurable product options
+     * Verify configurable product options
      *
-     * @return array
+     * @param ConfigurableProduct $product
+     * @return bool
      */
-    public function getProductOptions()
+    public function verifyProductOptions(ConfigurableProduct $product)
     {
-        for ($i =2; $i<=3; $i++) {
-            $options[] = $this->_rootElement
-                ->find(".super-attribute-select option:nth-child($i)")->getText();
+        $attributes = $product->getConfigurableOptions();
+        foreach ($attributes as $attributeName => $attribute) {
+            foreach ($attribute as $optionName) {
+                $option = $this->_rootElement->find('//*[*[@class="product options configure"]//span[text()="'
+                    . $attributeName . '"]]//select/option[contains(text(), "' . $optionName . '")]',
+                    Locator::SELECTOR_XPATH);
+                if (!$option->isVisible()) {
+                    return false;
+                };
+            }
         }
-        return $options;
+        return true;
     }
 }

@@ -19,6 +19,7 @@ class BatTests
 
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateTest');
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\CreateTest');
         return $suite;
     }
