@@ -60,7 +60,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
             $product->getTypeInstance()->setStoreFilter(
-                $this->_storeConfig->getStore($product->getStoreId()),
+                $this->_storeManager->getStore($product->getStoreId()),
                 $product
             );
         }
