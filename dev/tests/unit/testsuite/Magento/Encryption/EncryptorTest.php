@@ -50,7 +50,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      * @param string $password
      * @param string $hash
      *
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid hash.
      * @dataProvider validateHashExceptionDataProvider
      */
