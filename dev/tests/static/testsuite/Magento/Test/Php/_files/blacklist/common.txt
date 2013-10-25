@@ -27,8 +27,10 @@ dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expecte
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
 dev/tests/unit/testsuite/Magento/Catalog/Model/Resource/Product/Option/MysqlStub.php
 dev/tests/unit/testsuite/Magento/Catalog/Model/Resource/Product/Option/ValueTest.php
+dev/tests/unit/testsuite/Magento/Code/Plugin/GeneratorTest/SimpleObjectManager.php
 dev/tests/unit/testsuite/Magento/Core/Model/Resource/Db/AbstractTest.php
 dev/tests/unit/testsuite/Magento/Core/Model/TemplateEngine/_files
+dev/tools/Magento/Tools/I18n/Zend
 lib/Magento/Archive
 lib/Magento/Autoload/Simple.php
 lib/Magento/Backup
