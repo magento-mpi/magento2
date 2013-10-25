@@ -16,6 +16,7 @@
 * Removed support of the Twig template engine along with the corresponding component from the library
 * Removed layout flag that forced template blocks to output rendered content directly to a browser bypassing the response object
 * Moved out responsibility of rendering template debugging hints from the template block to the plugin and decorator for a template engine
+* Fixed Impossible to create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
 
 2.0.0.0-dev48
 =============
@@ -66,7 +67,6 @@
   * Fixed blank page on shopping cart if FedEx shipping method is enabled
   * Fixed fatal error when SID presents in URL
   * Fixed absence of selection of a role assigned to an admin user
-  * Fixed Impossible to create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
 
 2.0.0.0-dev46
 =============
