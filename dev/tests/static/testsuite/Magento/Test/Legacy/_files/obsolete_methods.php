@@ -194,6 +194,7 @@ return array(
     array('addTemplateData', 'Magento\Newsletter\Model\Queue'),
     array('addToAlersAction'),
     array('addToChildGroup'),
+    array('addToParentGroup', '\Magento\Core\Block\AbstractBlock'),
     array('addUpdate', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('addVisibleFilterToCollection', 'Magento\Catalog\Model\Product\Status'),
     array('addVisibleInCatalogFilterToCollection', '',

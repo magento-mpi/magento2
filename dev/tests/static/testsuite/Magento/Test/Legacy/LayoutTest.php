@@ -201,7 +201,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             'addTab',
             'addTabAfter',
             'addText',
-            'addToParentGroup',
             'append',
             'removeTab',
             'setActive',
