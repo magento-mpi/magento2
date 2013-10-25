@@ -19,7 +19,7 @@ class TruncateTest extends \PHPUnit_Framework_TestCase
      */
     public function testTruncate($string, $args, $expected, $expectedReminder)
     {
-        list ($strLib, $length, $etc, $reminder, $breakWords) = $args;
+        list($strLib, $length, $etc, $reminder, $breakWords) = $args;
         $filter = new \Magento\Filter\Truncate($strLib, $length, $etc, $reminder, $breakWords);
         $this->assertEquals($expected, $filter->filter($string));
 
