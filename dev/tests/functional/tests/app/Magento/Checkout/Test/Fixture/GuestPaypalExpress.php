@@ -64,23 +64,21 @@ class GuestPaypalExpress extends Checkout
         Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
 
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple1->switchData('simple');
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple');
 
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple2->switchData('simple');
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
 
-        //$configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();;
 
+        $simple->persist();
+        $configurable->persist();
+        $bundle->persist();
 
-
-        $simple1->persist();
-        $simple2->persist();
-        //$configurable->persist();
         $this->products = array(
-            $simple1,
-            $simple2,
-            //$configurable
+            $simple,
+            $configurable,
+            $bundle
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -92,8 +90,8 @@ class GuestPaypalExpress extends Checkout
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
         $this->paymentMethod->switchData('paypal_express');
 
-//        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-//        $this->creditCard->switchData('visa_direct');
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
@@ -101,9 +99,9 @@ class GuestPaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$30.00',
-                'authorized_amount' => '$30.00',
-                'comment_history'   => 'Authorized amount of $30.00',
+                'grand_total' => '$129.99',
+                'authorized_amount' => '$129.99',
+                'comment_history'   => 'Authorized amount of $129.99',
             )
         );
     }
