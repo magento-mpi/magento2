@@ -13,8 +13,7 @@ namespace Magento\Checkout\Test\TestCase\Guest\PaypalExpress;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
-use Mtf\Util\Generate\FixtureFactory;
+use Magento\Checkout\Test\Fixture\PaypalExpressGuestCheckout;
 
 class CheckoutTest extends Functional
 {
@@ -45,7 +44,7 @@ class CheckoutTest extends Functional
     protected $_configFixture;
 
     /**
-     * @var \Magento\Checkout\Test\Fixture\GuestPaypalExpress
+     * @var \Magento\Checkout\Test\Fixture\PaypalExpressGuestCheckout
      */
     protected $_paypalExpressFixture;
 
@@ -74,7 +73,7 @@ class CheckoutTest extends Functional
         $this->_customerAddressFixture  = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->_shippingMethodFixture   = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->_configFixture           = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $this->_paypalExpressFixture    = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress();
+        $this->_paypalExpressFixture    = Factory::getFixtureFactory()->getMagentoCheckoutPaypalExpressGuestCheckout();
         $this->_taxClassFixture         = Factory::getFixtureFactory()->getMagentoTaxTaxClass();
         $this->_taxRateFixture          = Factory::getFixtureFactory()->getMagentoTaxTaxRate();
         $this->_taxRuleFixture          = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
