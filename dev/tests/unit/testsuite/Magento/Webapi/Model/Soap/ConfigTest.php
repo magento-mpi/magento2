@@ -107,7 +107,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'someMethod' => array(
                         'httpMethod' => 'GET',
                         'method' => 'someMethod',
-                        'route' => ''
+                        'route' => '',
+                        'isSecure' => false
                     )
                 )
             ),
@@ -118,10 +119,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'someMethod' => array(
                         'httpMethod' => 'GET',
                         'method' => 'someMethod',
-                        'route' => ''
+                        'route' => '',
+                        'isSecure' => false
                     )
                 )
-            ),
+            )
         );
 
         $expectedResult = array(
