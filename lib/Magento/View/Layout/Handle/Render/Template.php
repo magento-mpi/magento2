@@ -81,7 +81,7 @@ class Template extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
@@ -98,11 +98,11 @@ class Template extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render($elementName, LayoutInterface $layout)
     {
-        $render = $this->renderFactory->get($type);
-        $elementName = $element['name'];
+        $render = $this->renderFactory->get(Html::TYPE_HTML);
 
+        $parentName = $layout->getParentName($elementName);
         $data = array();
         if (isset($parentName)) {
             $data = $layout->getElementDataSources($parentName);
@@ -112,8 +112,8 @@ class Template extends AbstractHandle implements RenderInterface
 
         // TODO probably prepare limited proxy to avoid violations
         $data['layout'] = $layout;
-
-        $result = $render->renderTemplate($this->getTemplateFile($element['path'], $layout), $data);
+        $templatePath = $layout->getElementProperty($elementName, 'path');
+        $result = $render->renderTemplate($this->getTemplateFile($templatePath, $layout), $data);
 
         return $result;
     }

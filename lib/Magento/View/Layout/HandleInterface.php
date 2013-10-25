@@ -25,8 +25,7 @@ interface HandleInterface
     /**
      * @param array $element
      * @param LayoutInterface $layout
-     * @param string $parentName
      * @return HandleInterface
      */
-    public function register(array $element, LayoutInterface $layout, $parentName);
+    public function register(array $element, LayoutInterface $layout);
 }

@@ -52,11 +52,11 @@ class Move extends Handle\AbstractHandle implements CommandInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         $elementName = isset($element['element']) ? $element['element'] : null;
-        if (isset($elementName) && isset($parentName)) {
-            if ($layout->getElement($element['element'])) {
+        if (isset($elementName)) {
+            if ($layout->hasElement($element['element'])) {
                 $elementParentName = $layout->getParentName($elementName);
                 $layout->unsetChild($elementParentName, $elementName);
 

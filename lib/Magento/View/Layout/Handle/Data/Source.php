@@ -35,6 +35,7 @@ class Source extends AbstractHandle implements DataInterface
             $element = $this->parseAttributes($layoutElement);
 
             $element['type'] = self::TYPE;
+            $element['name'] = $elementName;
             $layout->addElement($elementName, $element);
 
             // assign to parent element
@@ -50,7 +51,7 @@ class Source extends AbstractHandle implements DataInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         if (isset($element['class'])) {
             if (!class_exists($element['class'])) {
@@ -59,8 +60,8 @@ class Source extends AbstractHandle implements DataInterface
 
             $elementName = isset($element['name']) ? $element['name'] : null;
             $alias = isset($element['as']) ? $element['as'] : $elementName;
-
-            $layout->addDataSource($element['class'], $elementName, $parentName, $alias);
+            $parent = isset($element['parent']) ? $element['parent'] : null;
+            $layout->addDataSource($element['class'], $elementName, $parent, $alias);
         }
 
         return $this;

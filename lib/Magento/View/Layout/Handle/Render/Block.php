@@ -13,8 +13,6 @@ use Magento\View\LayoutInterface;
 use Magento\View\Layout\Element;
 use Magento\View\Layout\Handle\RenderInterface;
 
-use Magento\View\Render\Html;
-
 /**
  * @package Magento\View
  */
@@ -55,7 +53,7 @@ class Block extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         if (!empty($element['name']) && !isset($element['is_registered'])) {
             if (!class_exists($element['class'])) {
@@ -67,7 +65,7 @@ class Block extends AbstractHandle implements RenderInterface
 
             $layout->updateElement($elementName, array('is_registered' => true));
 
-            /** @var $block \Magento\Core\Block\Template */
+            /** @var $block \Magento\View\Element\BlockInterface */
             $block = $layout->createBlock(
                 $element['class'],
                 $elementName,
@@ -93,10 +91,10 @@ class Block extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render($elementName, LayoutInterface $layout)
     {
         $result = '';
-        $block = $layout->getBlock($element['name']);
+        $block = $layout->getBlock($elementName);
         if ($block) {
             $result = $block->toHtml();
         }

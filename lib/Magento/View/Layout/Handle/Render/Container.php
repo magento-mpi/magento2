@@ -54,7 +54,7 @@ class Container extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
@@ -71,17 +71,13 @@ class Container extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render($elementName, LayoutInterface $layout)
     {
-        $result = '';
-        if (isset($element['name'])) {
-            $elementName = $element['name'];
-            $result = $this->renderChildren($elementName, $layout, $type);
-        }
+        $result = $this->renderChildren($elementName, $layout);
 
-        $render = $this->renderFactory->get($type);
+        $render = $this->renderFactory->get(Html::TYPE_HTML);
 
-        $containerInfo = $this->getContainerInfo($element);
+        $containerInfo = $this->getContainerInfo($elementName, $layout);
 
         $result = $render->renderContainer($result, $containerInfo);
 

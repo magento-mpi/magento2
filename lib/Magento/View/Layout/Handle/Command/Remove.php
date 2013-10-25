@@ -46,7 +46,7 @@ class Remove extends Handle\AbstractHandle implements CommandInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         if (isset($element['element'])) {
             $layout->unsetElement($element['element']);

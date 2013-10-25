@@ -90,7 +90,7 @@ class Update extends AbstractHandle implements CommandInterface
      * @inheritdoc
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         return $this;
     }

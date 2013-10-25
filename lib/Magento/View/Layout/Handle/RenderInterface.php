@@ -20,11 +20,9 @@ use Magento\View\Render\Html;
 interface RenderInterface extends HandleInterface
 {
     /**
-     * @param array $element
+     * @param string $elementName
      * @param LayoutInterface $layout
-     * @param string $parentName
-     * @param string $type [optional]
      * @return string
      */
-    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML);
+    public function render($elementName, LayoutInterface $layout);
 }

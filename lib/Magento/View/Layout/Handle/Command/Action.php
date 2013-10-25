@@ -40,6 +40,7 @@ class Action extends AbstractHandle implements CommandInterface
     /**
      * @param HandleFactory $handleFactory
      * @param RenderFactory $renderFactory
+     * @param Processor $argumentProcessor
      * @param Config $coreStoreConfig
      */
     public function __construct(
@@ -52,6 +53,7 @@ class Action extends AbstractHandle implements CommandInterface
 
         $this->coreStoreConfig = $coreStoreConfig;
     }
+
     /**
      * @inheritdoc
      */
@@ -80,20 +82,20 @@ class Action extends AbstractHandle implements CommandInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         $method = isset($element['method']) ? $element['method'] : null;
-
-        if (isset($method) && isset($parentName)) {
+        $parent = isset($element['parent']) ? $element['parent'] : null;
+        if (isset($method) && isset($parent)) {
             $arguments = isset($element['arguments']) ? $element['arguments'] : array();
-            $block = $layout->getBlock($parentName);
+            $block = $layout->getBlock($parent);
             if (isset($block)) {
                 call_user_func_array(array($block, $method), $arguments);
             }
         }
 
-        $alias = $layout->getChildAlias($parentName, $element['name']);
-        $layout->unsetChild($parentName, $alias);
+        $alias = $layout->getElementAlias($element['name']);
+        $layout->unsetChild($parent, $alias);
 
         return $this;
     }

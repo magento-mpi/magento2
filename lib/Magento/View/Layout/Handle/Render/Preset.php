@@ -112,7 +112,7 @@ class Preset extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         if (isset($element['name']) && !isset($element['is_registered'])) {
             $elementName = $element['name'];
@@ -131,22 +131,13 @@ class Preset extends AbstractHandle implements RenderInterface
     /**
      * @inheritdoc
      */
-    public function render(array $element, LayoutInterface $layout, $parentName, $type = Html::TYPE_HTML)
+    public function render($elementName, LayoutInterface $layout)
     {
-        $result = '';
-
-        if (isset($element['name'])) {
-            $elementName = $element['name'];
-
-            $personalLayout = $this->getLayoutInstance($element['__layout']);
-
-            $result = $this->renderChildren($elementName, $personalLayout, $type);
-        }
-
-        $render = $this->renderFactory->get($type);
-
-        $containerInfo = $this->getContainerInfo($element);
-
+        $personalLayoutId = $layout->getElementProperty($elementName, '__layout');
+        $personalLayout = $this->getLayoutInstance($personalLayoutId);
+        $result = $this->renderChildren($elementName, $personalLayout);
+        $render = $this->renderFactory->get(Html::TYPE_HTML);
+        $containerInfo = $this->getContainerInfo($elementName, $layout);
         $result = $render->renderContainer($result, $containerInfo);
 
         return $result;

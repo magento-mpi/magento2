@@ -16,6 +16,9 @@ class Element extends \Magento\Simplexml\Element
     /**#@+
      * Supported layout directives
      */
+    const TYPE_RENDERER = 'renderer';
+    const TYPE_TEMPLATE = 'template';
+    const TYPE_DATA = 'data';
     const TYPE_BLOCK = 'block';
     const TYPE_CONTAINER = 'container';
     const TYPE_ACTION = 'action';
@@ -34,6 +37,9 @@ class Element extends \Magento\Simplexml\Element
     {
         switch ($this->getName()) {
             case self::TYPE_BLOCK:
+            case self::TYPE_RENDERER:
+            case self::TYPE_TEMPLATE:
+            case self::TYPE_DATA:
                 $this->prepareBlock();
                 break;
             case self::TYPE_REFERENCE_BLOCK:

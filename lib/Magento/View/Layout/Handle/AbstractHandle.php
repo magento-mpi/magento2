@@ -17,7 +17,7 @@ use Magento\Core\Model\Layout\Argument\Processor;
 /**
  * @package Magento\View
  */
-abstract class AbstractHandle implements HandleInterface
+abstract class AbstractHandle
 {
     /**
      * @var \Magento\View\Layout\HandleFactory
@@ -116,11 +116,7 @@ abstract class AbstractHandle implements HandleInterface
         // parse children
         if ($layoutElement->hasChildren()) {
             foreach ($layoutElement as $childXml) {
-                /** @var $childXml Element */
-                $type = $childXml->getName();
-                /** @var $handle \Magento\View\Layout\HandleInterface */
-                $handle = $this->handleFactory->get($type);
-                $handle->parse($childXml, $layout, $elementName);
+                $layout->parseElement($childXml, $elementName);
             }
         }
     }
@@ -168,20 +164,16 @@ abstract class AbstractHandle implements HandleInterface
     protected function registerChildren($elementName, LayoutInterface $layout)
     {
         foreach ($layout->getChildNames($elementName) as $childName) {
-            $child = $layout->getElement($childName);
-            /** @var $handle RenderInterface */
-            $handle = $this->handleFactory->get($child['type']);
-            $handle->register($child, $layout, $elementName);
+            $layout->registerElement($childName);
         }
     }
 
     /**
      * @param string $elementName
      * @param LayoutInterface $layout
-     * @param string $type
      * @return string
      */
-    protected function renderChildren($elementName, LayoutInterface $layout, $type)
+    protected function renderChildren($elementName, LayoutInterface $layout)
     {
         $result = '';
         foreach ($layout->getChildNames($elementName) as $childName) {
@@ -191,6 +183,7 @@ abstract class AbstractHandle implements HandleInterface
             if ($handle instanceof RenderInterface) {
                 $result .= $handle->render($child, $layout, $elementName, $type);
             }
+            $result .= $layout->renderElement($childName);
         }
 
         return $result;
@@ -215,61 +208,25 @@ abstract class AbstractHandle implements HandleInterface
     }
 
     /**
-     * @param array $element
+     * @param string $elementName
+     * @param LayoutInterface $layout
      * @return array
      */
-    protected function getContainerInfo($element)
+    protected function getContainerInfo($elementName, LayoutInterface $layout)
     {
         $containerInfo = array();
-
-        $containerInfo['label'] = $this->getContainerLabelInfo($element);
-        $containerInfo['tag'] = $this->getContainerTagInfo($element);
-        $containerInfo['class'] = $this->getContainerClassInfo($element);
-        $containerInfo['id'] = $this->getContainerIdInfo($element);
+        $containerInfo['label'] = $layout->getElementProperty($elementName, 'label');
+        $containerInfo['tag'] = $layout->getElementProperty($elementName, 'htmlTag');
+        $containerInfo['class'] = $layout->getElementProperty($elementName, 'htmlClass');
+        $containerInfo['id'] = $layout->getElementProperty($elementName, 'htmlId');
 
         return $containerInfo;
     }
 
     /**
-     * @param array $element
-     * @return null|string
-     */
-    protected function getContainerLabelInfo($element)
-    {
-        return !empty($element['label']) ? $element['label'] : null;
-    }
-
-    /**
-     * @param array $element
-     * @return null|string
-     */
-    protected function getContainerTagInfo($element)
-    {
-        return !empty($element['htmlTag']) ? $element['htmlTag'] : null;
-    }
-
-    /**
-     * @param array $element
-     * @return null|string
-     */
-    protected function getContainerClassInfo($element)
-    {
-        return !empty($element['htmlClass']) ? $element['htmlClass'] : null;
-    }
-
-    /**
-     * @param array $element
-     * @return null|string
-     */
-    protected function getContainerIdInfo($element)
-    {
-        return !empty($element['htmlId']) ? $element['htmlId'] : null;
-    }
-
-    /**
      * @inheritdoc
      */
-    abstract public function register(array $element, LayoutInterface $layout, $parentName);
+    abstract public function register(array $element, LayoutInterface $layout);
 
     /**
      * @inheritdoc

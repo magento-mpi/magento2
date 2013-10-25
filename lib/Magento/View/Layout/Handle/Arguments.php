@@ -49,9 +49,8 @@ class Arguments extends AbstractHandle implements HandleInterface
      *
      * @param array $element
      * @param LayoutInterface $layout
-     * @param string $parentName
      */
-    public function register(array $element, LayoutInterface $layout, $parentName)
+    public function register(array $element, LayoutInterface $layout)
     {
         //
     }

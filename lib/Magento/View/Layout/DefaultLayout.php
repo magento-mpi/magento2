@@ -13,11 +13,12 @@ use Magento\View\BlockPool;
 use Magento\View\Context;
 use Magento\View\LayoutInterface;
 use Magento\View\Design\ThemeFactory;
+use Magento\View\Layout\Handle\RenderInterface;
+use Magento\View\DesignInterface;
 use Magento\ObjectManager;
 use Magento\Simplexml;
-
 use Magento\Core\Block\AbstractBlock;
-use Magento\View\DesignInterface;
+use Magento\Core\Model\Event\Manager;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -37,11 +38,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @var \SimpleXMLElement
      */
     protected $xml;
-
-    /**
-     * @var array
-     */
-    protected $root;
 
     /**
      * @var Structure
@@ -94,6 +90,13 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     protected $helpers = array();
 
     /**
+     * Cache of elements to output during rendering
+     *
+     * @var array
+     */
+    protected $output = array();
+
+    /**
      * @var string
      */
     protected $area;
@@ -109,6 +112,25 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     protected $messages;
 
     /**
+     * Cache of generated elements' HTML
+     *
+     * @var array
+     */
+    protected $renderElementCache = array();
+
+    /**
+     * @var \Magento\Object
+     */
+    protected $renderingOutput;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $eventManager = null;
+
+    /**
      * @param DesignInterface $design
      * @param ThemeFactory $themeFactory
      * @param Context $context
@@ -117,6 +139,8 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param Structure $structure
      * @param BlockPool $blockPool
      * @param DataSourcePool $dataSourcePool
+     * @param Manager $eventManager
+     * @param string $area
      */
     public function __construct(
         DesignInterface $design,
@@ -127,6 +151,7 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         Structure $structure,
         BlockPool $blockPool,
         DataSourcePool $dataSourcePool,
+        Manager $eventManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->design = $design;
@@ -137,7 +162,10 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         $this->structure = $structure;
         $this->blockPool = $blockPool;
         $this->dataSourcePool = $dataSourcePool;
+        $this->eventManager = $eventManager;
         $this->area = $area;
+
+        $this->renderingOutput = new \Magento\Object();
     }
 
     /**
@@ -191,28 +219,82 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function generateElements()
     {
-        $this->root = array(
+        $root = array(
             'type' => 'container',
             'name' => '.'
         );
 
-        $this->structure->createElement('.', $this->root);
+        $this->structure->createElement('.', $root);
 
         foreach ($this->xml as $node) {
             /** @var $node Element  */
             $type = $node->getName();
             /** @var $handle HandleInterface */
             $handle = $this->handleFactory->get($type);
-            $handle->parse($node, $this, $this->root['name']);
+            $handle->parse($node, $this, $root['name']);
         }
 
-        $this->root = $this->structure->getElement('.');
+        $root = $this->structure->getElement('.');
 
-        $handle = $this->handleFactory->get($this->root['type']);
-        $handle->register($this->root, $this, null);
+        $handle = $this->handleFactory->get($root['type']);
+        $handle->register($root, $this, null);
 
-        $this->root = $this->structure->getElement('.');
+        $this->addOutputElement('.');
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function parseElement(Element $layoutElement, $parentName)
+    {
+        $type = $layoutElement->getName();
+        /** @var $handle \Magento\View\Layout\HandleInterface */
+        $handle = $this->handleFactory->get($type);
+        $handle->parse($layoutElement, $this, $parentName);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerElement($name)
+    {
+        $element = $this->structure->getElement($name);
+        /** @var $handle \Magento\View\Layout\HandleInterface */
+        $handle = $this->handleFactory->get($element['type']);
+        $handle->register($element, $this);
+    }
+
+    /**
+     * Find an element in layout, render it and return string with its output
+     *
+     * @param string $name
+     * @param bool $useCache
+     * @return string
+     */
+    public function renderElement($name, $useCache = true)
+    {
+        if (!isset($this->renderElementCache[$name]) || !$useCache) {
+            $result = '';
+            $element = $this->structure->getElement($name);
+            if ($element) {
+                /** @var $handle RenderInterface */
+                $handle = $this->handleFactory->get($element['type']);
+                if ($handle instanceof RenderInterface) {
+                    $result = $handle->render($element, $this);
+                }
+            }
+            $this->renderElementCache[$name] = $result;
+        }
+
+        $this->renderingOutput->setData('output', $this->renderElementCache[$name]);
+        $this->eventManager->dispatch('core_layout_render_element', array(
+            'element_name' => $name,
+            'layout'       => $this,
+            'transport'    => $this->renderingOutput,
+        ));
+
+        return $this->renderingOutput->getData('output');
     }
 
     /**
@@ -282,26 +364,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     }
 
     /**
-     * Find an element in layout, render it and return string with its output
-     *
-     * @param string $name
-     * @param bool $useCache
-     * @return string
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function renderElement($name, $useCache = true)
-    {
-        $element = $this->structure->getElement($name);
-        if ($element) {
-            /** @var $handle \Magento\View\Layout\Handle\RenderInterface */
-            $handle = $this->handleFactory->get($element['type']);
-            return $handle->render($element, $this, '');
-        }
-        return '';
-    }
-
-    /**
      * Add an element to output
      *
      * @param string $name
@@ -309,21 +371,38 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      */
     public function addOutputElement($name)
     {
-        $this->root = $this->structure->getElement($name);
+        $this->output[$name] = $name;
 
         return $this;
     }
 
     /**
-     * Get Root View Element output
+     * Remove an element from output
+     *
+     * @param string $name
+     * @return DefaultLayout
+     */
+    public function removeOutputElement($name)
+    {
+        if (isset($this->output[$name])) {
+            unset($this->output[$name]);
+        }
+        return $this;
+    }
+
+    /**
+     * Get All View Elements marked for output
      *
      * @return string
      */
     public function getOutput()
     {
-        /** @var $handle \Magento\View\Layout\Handle\RenderInterface */
-        $handle = $this->handleFactory->get($this->root['type']);
-        return $handle->render($this->root, $this, '');
+        $out = '';
+        foreach ($this->output as $name) {
+            $out .= $this->renderElement($name);
+        }
+
+        return $out;
     }
 
     /**
@@ -366,16 +445,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     {
         $childId = $this->structure->getChildId($parentName, $alias);
         return $this->getBlock($childId);
-    }
-
-    /**
-     * @param string $parentId
-     * @param string $childId
-     * @return null|string
-     */
-    public function getChildAlias($parentId, $childId)
-    {
-        return $this->structure->getChildAlias($parentId, $childId);
     }
 
     /**
@@ -491,8 +560,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param string $blockName
      * @param string $parentGroupName
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addToParentGroup($blockName, $parentGroupName)
     {
@@ -505,8 +572,6 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      * @param string $blockName
      * @param string $groupName
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getGroupChildNames($blockName, $groupName)
     {
@@ -539,7 +604,8 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
         }
 
         $attributes['layout'] = $this;
-        $block = $this->blockPool->add($name, $type, $attributes);
+        $this->blockPool->add($name, $type, $attributes);
+        $block = $this->blockPool->get($name);
 
         $block->setNameInLayout($name);
         $block->setLayout($this);
@@ -636,13 +702,11 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      *
      * @param string $oldName
      * @param string $newName
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return LayoutInterface
      */
     public function renameElement($oldName, $newName)
     {
-        die(__METHOD__);
+        return $this->structure->renameElement($oldName, $newName);
     }
 
     /**
@@ -650,25 +714,11 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
      *
      * @param string $name
      * @return bool|string
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getElementAlias($name)
     {
-        die(__METHOD__);
-    }
-
-    /**
-     * Remove an element from output
-     *
-     * @param string $name
-     * @return DefaultLayout
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function removeOutputElement($name)
-    {
-        die(__METHOD__);
+        $parentId = $this->structure->getParentId($name);
+        return $this->structure->getChildAlias($parentId, $name);
     }
 
     /**
@@ -798,6 +848,20 @@ class DefaultLayout extends Simplexml\Config implements LayoutInterface
     {
         if ($this->structure->hasElement($name)) {
             return Element::TYPE_CONTAINER === $this->structure->getAttribute($name, 'type');
+        }
+        return false;
+    }
+
+    /**
+     * Whether specified element is a renderer
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isRenderer($name)
+    {
+        if ($this->structure->hasElement($name)) {
+            return Element::TYPE_RENDERER === $this->structure->getAttribute($name, 'type');
         }
         return false;
     }
