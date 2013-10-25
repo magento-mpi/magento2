@@ -1,3 +1,4 @@
+* View abstraction was moved into lib
 * Unified Area configuration
 * Moved EventManager to Magento\Event lib component
 * Moved FrontController, Routers, Base Actions to Magento\App
