@@ -213,7 +213,7 @@ class Observer
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Reports\Model\Resource\Product\Index\Viewed\CollectionFactory $reportsFactory,
-        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\AppInterface $application,
         \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory,
         \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory
