@@ -427,6 +427,13 @@ class Config extends AbstractRepository
                                         )
                                     )
                                 )
+                            ),
+                            'paypaluk_express' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 0
+                                    )
+                                )
                             )
                         )
                     )
