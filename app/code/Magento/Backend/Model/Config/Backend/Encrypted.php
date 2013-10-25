@@ -44,12 +44,20 @@ class Encrypted
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * Magic method called during class serialization
+     *
+     * @return array
+     */
     public function __sleep()
     {
         $properties = parent::__sleep();
         return array_diff($properties, array('_encryptor'));
     }
 
+    /**
+     * Magic method called during class un-serialization
+     */
     public function __wakeup()
     {
         parent::__wakeup();
