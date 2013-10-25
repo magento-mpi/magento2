@@ -42,6 +42,7 @@ class NodeLeveler extends LevelNodeVisitor
         // split the lines at the current level to check for length
         $currentLines = $line->splitLine($level);
         $valid = true;
+        $invalidLine = null;
         // determine if all the lines are within tolerances
         foreach ($currentLines as $currentLine) {
             $lineText = $currentLine[Line::ATTRIBUTE_LINE];
@@ -53,6 +54,7 @@ class NodeLeveler extends LevelNodeVisitor
             // if the result is still longer than a line, then flag this as invalid
             if (self::MAX_LINE_LENGTH < $lineLength) {
                 $valid = false;
+                $invalidLine = $currentLine[Line::ATTRIBUTE_LINE];
                 break;
             }
         }
@@ -64,8 +66,10 @@ class NodeLeveler extends LevelNodeVisitor
         // that prevents ConditionalLineBreak from having to handle a value > 1.
         // TODO: this is still just a temporary fix, but better than the prior
         // fix which prevented splitNode() or setTokens() from being called.
-        if ($level >= 1) {
+        if (!$valid && $level >= 1) {
             $valid = true;
+            echo "Warning: Line Longer Than Max ($lineLength > ".self::MAX_LINE_LENGTH.')';
+            echo "\n-----\n$invalidLine\n-----\n";
         }
 
         // if valid, then add any extra lines
