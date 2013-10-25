@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Website Closed Stub Page" type="page" parent="cms_page_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Website Closed Stub Page" type="page">
     <block class="Magento\Page\Block\Html" name="root" output="1" template="1column.phtml">
         <container name="after_body_start" as="after_body_start" label="Page Top"/>
         <block class="Magento\Page\Block\Html\Head" name="head" as="head"/>

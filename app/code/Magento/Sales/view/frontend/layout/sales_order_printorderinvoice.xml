@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Invoice Print View" type="page" parent="sales_order_print">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Invoice Print View" type="page">
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\PrintOrder\Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
             <block class="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer" as="default" template="order/invoice/items/renderer/default.phtml"/>

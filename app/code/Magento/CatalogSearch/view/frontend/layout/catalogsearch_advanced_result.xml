@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Advanced Search Result" type="page" parent="catalogsearch_advanced_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Advanced Search Result" type="page">
     <update handle="page_two_columns_right"/>
     <referenceContainer name="content">
         <block class="Magento\CatalogSearch\Block\Advanced\Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">

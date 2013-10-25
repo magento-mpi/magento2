@@ -2,6 +2,8 @@
 * Eliminated Magento\Media module
 * Fixed copyright information
 * 'Delete' button is absent on Reward Rate page
+* Removed page type hierarchy
+* Removed page fragment types
 
 2.0.0.0-dev49
 =============
