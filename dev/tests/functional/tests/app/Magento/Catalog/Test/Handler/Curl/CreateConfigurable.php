@@ -37,8 +37,11 @@ class CreateConfigurable extends Curl
         $params['fields']['tax_class_id']['value'] = 2;
         $paramsField = array();
         foreach ($fixture->getData('fields') as $key => $value) {
+            $_value = $this->_getValue($value);
             if ($key == 'configurable_attributes_data') {
                 $paramsField[$key] = $value;
+            } else if($_value) {
+                $paramsField[$key] = $_value;
             } else {
                 $paramsField[$key] = $value['value'];
             }
@@ -107,6 +110,20 @@ class CreateConfigurable extends Curl
         $params['product'] = array_merge($params['product'], $paramsField);
 
         return $params;
+    }
+
+    /**
+     * Retrieve field value or return null if value does not exist
+     *
+     * @param array $values
+     * @return null|mixed
+     */
+    protected function _getValue($values)
+    {
+        if (!isset($values['value'])) {
+            return null;
+        }
+        return isset($values['input_value']) ? $values['input_value'] : $values['value'];
     }
 
     /**

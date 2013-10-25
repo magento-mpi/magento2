@@ -138,7 +138,8 @@ class ConfigurableProduct extends Product
                 'tax_class_id' => array(
                     'value' => 'Taxable Goods',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
+                    'input_value' => '2',
                 ),
                 'weight' => array(
                     'value' => '1',

@@ -21,9 +21,9 @@ use Mtf\Factory\Factory;
 class GuestPayPalPayflow extends Checkout
 {
     /**
-     * Prepare Authorize.Net data
+     * Create required data
      */
-    protected function _initData()
+    public function persist()
     {
         $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $coreConfig->switchData('paypal_disabled_all_methods');
@@ -72,10 +72,18 @@ class GuestPayPalPayflow extends Checkout
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_default');
+    }
 
+    /**
+     * Prepare Authorize.Net data
+     */
+    protected function _initData()
+    {
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '155.90'
+                'grand_total' => '156.81',
+                'authorized_amount' => '156.81',
+                'comment_history' => 'We will authorize $156.81'
             )
         );
     }
