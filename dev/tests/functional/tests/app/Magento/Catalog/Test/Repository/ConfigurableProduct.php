@@ -88,43 +88,43 @@ class ConfigurableProduct extends AbstractRepository
                             )
                         )
                     ),
-                    'variation-matrix' => array(
+                    'variations-matrix' => array(
                         'value' => array(
                             '0' => array(
-                                'name' => array(
-                                    'value' => 'Variation 0-%isolation%'
-                                ),
-                                'sku' => array(
-                                    'value' => 'Variation 0-%isolation%'
-                                ),
-                                'quantity_and_stock_status' => array(
-                                    'qty' => array(
-                                        'value' => 100
-                                    )
-                                ),
                                 'configurable_attribute' => array(
                                     '0' => array(
                                         'attribute_label' => '%attribute_code_1%',
                                         'attribute_option' => '%attribute_1_option_label_1%'
                                     )
+                                ),
+                                'value' => array(
+                                    'name' => array(
+                                        'value' => 'Variation 0-%isolation%'
+                                    ),
+                                    'sku' => array(
+                                        'value' => 'Variation 0-%isolation%'
+                                    ),
+                                    'qty' => array(
+                                        'value' => 100
+                                    )
                                 )
                             ),
                             '1' => array(
-                                'name' => array(
-                                    'value' => 'Variation 1-%isolation%'
-                                ),
-                                'sku' => array(
-                                    'value' => 'Variation 1-%isolation%'
-                                ),
-                                'quantity_and_stock_status' => array(
-                                    'qty' => array(
-                                        'value' => 200
-                                    )
-                                ),
                                 'configurable_attribute' => array(
                                     '0' => array(
                                         'attribute_label' => '%attribute_code_1%',
                                         'attribute_option' => '%attribute_1_option_label_2%'
+                                    )
+                                ),
+                                'value' => array(
+                                    'name' => array(
+                                        'value' => 'Variation 1-%isolation%'
+                                    ),
+                                    'sku' => array(
+                                        'value' => 'Variation 1-%isolation%'
+                                    ),
+                                    'qty' => array(
+                                        'value' => 200
                                     )
                                 )
                             )

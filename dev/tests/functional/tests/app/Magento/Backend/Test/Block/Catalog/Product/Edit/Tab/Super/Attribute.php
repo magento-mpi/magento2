@@ -79,10 +79,10 @@ class Attribute extends Block
                     $optionRow->find($this->pricingValue, Locator::SELECTOR_CSS)
                         ->setValue($field['pricing_value']['value']);
                 }
-                $value = $field['is_percent']['value'] == 'Yes' ? '%' : '$';
-                $optionRow->find($this->priceTypeButton, Locator::SELECTOR_CSS)->click();
-                $optionRow->find($this->priceTypeValue . '//a[text()="' . $value . '"]', Locator::SELECTOR_XPATH)
-                    ->click();
+                if ($field['is_percent']['value'] == 'Yes') {
+                    $optionRow->find($this->priceTypeButton, Locator::SELECTOR_CSS)->click();
+                    $optionRow->find($this->priceTypeValue . '//a[text()="%"]', Locator::SELECTOR_XPATH)->click();
+                }
                 $optionRow->find($this->include, Locator::SELECTOR_CSS, 'checkbox')
                     ->setValue($field['include']['value']);
             }

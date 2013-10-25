@@ -12,13 +12,13 @@
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class Create Configurable Product
@@ -37,10 +37,16 @@ class CreateConfigurable extends Curl
 
         $curlData['product'] = $this->_getProductData($fixture);
         $curlData['product']['configurable_attributes_data'] = $this->_getConfigurableData($fixture);
-        $curlData['variation-matrix'] = $this->_getVariationMatrix($fixture);
+        $curlData['variations-matrix'] = $this->_getVariationMatrix($fixture);
         $curlData['attributes'] = $fixture->getDataConfig()['attributes']['id'];
+        $curlData['affect_configurable_product_attributes'] = 1;
+        $curlData['new-variations-attribute-set-id'] = 4;
 
-        return $curlData;
+        $curlEncoded = json_encode($curlData, true);
+        $curlEncoded = str_replace('"Yes"', '1', $curlEncoded);
+        $curlEncoded = str_replace('"No"', '0', $curlEncoded);
+
+        return json_decode($curlEncoded, true);
     }
 
     /**
@@ -54,55 +60,17 @@ class CreateConfigurable extends Curl
         $curlData = array();
         $baseData = $fixture->getData('fields');
         unset($baseData['configurable_attributes_data']);
-        unset($baseData['variation-matrix']);
+        unset($baseData['variations-matrix']);
         foreach($baseData as $key => $field) {
             $curlData[$key] = $field['value'];
         }
 
-        /*
-        $params['fields']['tax_class_id']['value'] = 2;
-        $paramsField = array();
-        foreach ($fixture->getData('fields') as $key => $value) {
-            if ($key == 'configurable_attributes_data') {
-                $paramsField[$key] = $value;
-            } else {
-                $paramsField[$key] = $value['value'];
-            }
-        }
-        $params = array_replace_recursive($curlData, $params);
-
-        $curlProductData = array(
-            'quantity_and_stock_status' => array(
-                'is_in_stock' => 1
-            ),
-            'status' => 1,
-            'meta_title' => '',
-            'meta_keyword' => '',
-            'meta_description' => '',
-            'website_ids' => array(
-                '0' => 1
-            ),
-            'msrp_enabled' => 2,
-            'msrp_display_actual_price_type' => 4,
-            'enable_googlecheckout' => 1,
-            'stock_data' => array(
-                'use_config_manage_stock' => 1,
-                'use_config_enable_qty_increments'=> 1,
-                'use_config_qty_increments' => 1,
-                'is_in_stock' => 1,
-            ),
-            'options_container' => 'container2',
-            'visibility' => 4,
-            'use_config_gift_message_available' => 1,
-            'use_config_gift_wrapping_available' => 1,
-            'is_returnable' => 2
+        $curlData['tax_class_id'] = 2;
+        $curlData['quantity_and_stock_status']['is_in_stock'] = 1;
+        $curlData['stock_data'] = array(
+            'use_config_manage_stock' => 1,
+            'is_in_stock' => 1
         );
-
-        $paramsField = array_replace_recursive($curlProductData, $paramsField);
-        $params['product'] = array_merge($params['product'], $paramsField);
-
-        return $params;
-        */
 
         return $curlData;
     }
@@ -120,21 +88,22 @@ class CreateConfigurable extends Curl
         $curlData = array();
 
         foreach ($configurableAttribute as $attributeNumber => $attribute) {
+            $attributeId = $config['attributes']['id'][$attributeNumber];
             $optionNumber = 0;
             foreach ($attribute as $attributeFieldName => $attributeField) {
-                $attributeId = $config['attributes']['id'][$attributeNumber];
                 if (isset($attributeField['value'])) {
+                    $curlData[$attributeId][$attributeFieldName] = $attributeField['value'];
+                } else {
                     $optionsId = $config['options'][$attributeId]['id'][$optionNumber];
                     foreach ($attributeField as $optionName => $optionField) {
                         $curlData[$attributeId]['values'][$optionsId][$optionName] = $optionField['value'];
                     }
                     $curlData[$attributeId]['values'][$optionsId]['value_index'] = $optionsId;
                     ++$optionNumber;
-                } else {
-                    $curlData[$attributeId][$attributeFieldName] = $attributeField['value'];
                 }
-                $curlData[$attributeId]['attribute_id'] = $attributeId;
             }
+            $curlData[$attributeId]['code'] = $config['attributes'][$attributeId]['code'];
+            $curlData[$attributeId]['attribute_id'] = $attributeId;
         }
 
         return $curlData;
@@ -149,18 +118,20 @@ class CreateConfigurable extends Curl
     protected function _getVariationMatrix(ConfigurableProduct $fixture)
     {
         $config = $fixture->getDataConfig();
-        $variationData = $fixture->getData('fields/variation-matrix/value');
+        $variationData = $fixture->getData('fields/variations-matrix/value');
         $curlData = array();
         $variationNumber = 0;
         foreach ($config['options'] as $attributeId => $options) {
             foreach ($options['id'] as $option) {
-                unset($variationData[$variationNumber]['configurable_attribute']);
-                foreach ($variationData[$variationNumber] as $fieldName => $fieldData) {
-                    if ($fieldName == 'quantity_and_stock_status') {
-                        $curlData[$option][$fieldName]['qty'] = $fieldData['qty']['value'];
+                foreach ($variationData[$variationNumber]['value'] as $fieldName => $fieldData) {
+                    if ($fieldName == 'qty') {
+                        $curlData[$option]['quantity_and_stock_status'][$fieldName] = $fieldData['value'];
                     } else {
                         $curlData[$option][$fieldName] = $fieldData['value'];
                     }
+                }
+                if (!isset($curlData[$option]['weight']) && $fixture->getData('fields/weight/value')) {
+                    $curlData[$option]['weight'] = $fixture->getData('fields/weight/value');
                 }
                 $curlData[$option]['configurable_attribute'] =
                     '{"' . $config['attributes'][$attributeId]['code'] . '":"' . $option . '"}';
@@ -186,6 +157,7 @@ class CreateConfigurable extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
         $response = $curl->read();
         $curl->close();
+
         return $response;
     }
 }

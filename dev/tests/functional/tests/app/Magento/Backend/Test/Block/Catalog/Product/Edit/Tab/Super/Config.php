@@ -126,7 +126,7 @@ class Config extends Tab
             $this->getAttributeBlock($key)->fillAttributeOptions($attribute);
         }
         $this->generateVariations();
-        $this->getMatrixBlock()->fillVariation($fields['variation-matrix']['value']);
+        $this->getMatrixBlock()->fillVariation($fields['variations-matrix']['value']);
     }
 
     /**
