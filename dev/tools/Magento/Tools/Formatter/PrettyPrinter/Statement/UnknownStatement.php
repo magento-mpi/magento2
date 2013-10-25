@@ -16,7 +16,7 @@ use PHPParser_Node;
 /**
  * This class generically represents the passed in node.
  */
-class UnknownStatement extends StatementAbstract
+class UnknownStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specify class node

@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Echo;
 
-class EchoStatement extends StatementAbstract
+class EchoStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specify class node

@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
-abstract class AbstractLoopStatement extends StatementAbstract
+abstract class AbstractLoopStatement extends AbstractStatement
 {
     /**
      * This method adds in the closing element and the body statements of a loop.

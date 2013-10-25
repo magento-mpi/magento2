@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Unset;
 
-class UnsetStatement extends StatementAbstract
+class UnsetStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specify class node

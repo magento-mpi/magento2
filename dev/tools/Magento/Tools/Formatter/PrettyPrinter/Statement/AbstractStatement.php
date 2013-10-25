@@ -18,7 +18,7 @@ use PHPParser_Node_Stmt_Class;
 /**
  * This class is the base class for all printer statements.
  */
-abstract class StatementAbstract extends AbstractSyntax
+abstract class AbstractStatement extends AbstractSyntax
 {
     const ATTRIBUTE_COMMENTS = 'comments';
     protected $trimComments = false;

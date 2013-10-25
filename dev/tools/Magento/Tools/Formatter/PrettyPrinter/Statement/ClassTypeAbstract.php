@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt;
 
-abstract class ClassTypeAbstract extends StatementAbstract
+abstract class ClassTypeAbstract extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specify class node

@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Include;
 
-class IncludeStatement extends StatementAbstract
+class IncludeStatement extends AbstractStatement
 {
     /*
     public function pExpr_Include(PHPParser_Node_Expr_Include $node) {

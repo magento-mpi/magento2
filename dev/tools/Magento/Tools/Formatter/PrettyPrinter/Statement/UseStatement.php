@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Use;
 
-class UseStatement extends StatementAbstract
+class UseStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specified use clause.

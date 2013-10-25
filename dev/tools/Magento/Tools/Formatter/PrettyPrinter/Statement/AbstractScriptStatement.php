@@ -7,6 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-abstract class AbstractScriptStatement extends StatementAbstract
+abstract class AbstractScriptStatement extends AbstractStatement
 {
 }

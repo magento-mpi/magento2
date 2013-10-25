@@ -13,7 +13,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Return;
 
-class ReturnStatement extends StatementAbstract
+class ReturnStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specified return

@@ -12,7 +12,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Namespace;
 
-class NamespaceStatement extends StatementAbstract
+class NamespaceStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specify class node
