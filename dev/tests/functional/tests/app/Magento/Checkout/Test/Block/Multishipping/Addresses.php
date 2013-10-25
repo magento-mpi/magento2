@@ -31,20 +31,12 @@ class Addresses extends Block
     private $newAddress;
 
     /**
-     * Continue checkout button
-     *
-     * @var string
-     */
-    private $continue;
-
-    /**
      * Initialize block elements
      */
     protected function _init()
     {
         //Elements
         $this->newAddress = '[data-role="add-new-address"]';
-        $this->continue = '.buttons-set [data-role="can-continue"]';
     }
 
     /**
@@ -67,6 +59,7 @@ class Addresses extends Block
             $this->_rootElement->find('//tr[//a[text()="' . $key . '"]]/following-sibling::*//select',
                 Locator::SELECTOR_XPATH, 'select')->setValue($value);
         }
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $btnLocation = '//button[@class="action continue" and @data-role="can-continue"]';
+        $this->_rootElement->find($btnLocation, Locator::SELECTOR_XPATH)->click();
     }
 }

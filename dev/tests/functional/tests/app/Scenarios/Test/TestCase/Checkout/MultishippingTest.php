@@ -13,17 +13,17 @@ namespace Scenarios\Test\TestCase\Checkout;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Checkout\Test\Fixture\MultishippingGuestPaypalDirect;
 
 class MultishippingCheckoutTest extends Functional
 {
     /**
      * Place order on frontend via multishipping.
      *
-     * @param Checkout $fixture
+     * @param MultishippingGuestPaypalDirect $fixture
      * @dataProvider dataProviderMultishippingCheckout
      */
-    public function testMultishippingCheckout(Checkout $fixture)
+    public function testMultishippingCheckout(MultishippingGuestPaypalDirect $fixture)
     {
         //Add products to cart
         $products = $fixture->getProducts();
@@ -37,13 +37,15 @@ class MultishippingCheckoutTest extends Functional
 
         //Proceed to checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        //Multishipping checkout
         $checkoutCartPage->getCartBlock()->getMultishippingLinkBlock()->multipleAddressesCheckout();
 
-        //Multishipping checkout
         //Register new customer
         Factory::getPageFactory()->getCheckoutMultishippingLogin()->getLoginBlock()->registerCustomer();
-        Factory::getPageFactory()->getCheckoutMultishippingRegister()->getRegisterBlock()
-            ->registerCustomer($fixture->getCustomer());
+        $multishippingRegisterPage = Factory::getPageFactory()->getCheckoutMultishippingRegister();
+        //Hack. Opening of this page must be removed when https://jira.corp.x.com/browse/MAGETWO-16318 will be fixed
+        $multishippingRegisterPage->open();
+        $multishippingRegisterPage->getRegisterBlock()->registerCustomer($fixture->getCustomer());
 
         //Mapping products and shipping addresses
         if ($fixture->getNewShippingAddresses()) {
