@@ -16,20 +16,11 @@ namespace Magento\Core\Helper;
 class String extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Locale $locale
      */
-    public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Locale $locale
-    ) {
+    public function __construct(\Magento\Core\Helper\Context $context)
+    {
         parent::__construct($context);
-        $this->_locale = $locale;
     }
 
     /**
