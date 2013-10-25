@@ -76,6 +76,11 @@ class Method extends AbstractRepository
         );
     }
 
+    /**
+     * Provides Credit Card Data for PayPal Payflow Pro Method
+     *
+     * @return array
+     */
     protected function _getPayPalPayflowPro()
     {
         return array(
