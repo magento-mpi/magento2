@@ -109,7 +109,7 @@ class Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                $this->_backendData->getUrl('sales/archive/' . $archiveEntity . 's')
+                $this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(
@@ -217,9 +217,9 @@ class Observer
         $createdFromOrders = !empty($ids);
 
         if ($createdFromOrders) {
-            $response->setRedirect($controller->getUrl('sales/archive/orders'));
+            $response->setRedirect($controller->getUrl('adminhtml/sales_archive/orders'));
         } else {
-            $response->setRedirect($controller->getUrl('sales/archive/shipments'));
+            $response->setRedirect($controller->getUrl('adminhtml/sales_archive/shipments'));
         }
     }
 }

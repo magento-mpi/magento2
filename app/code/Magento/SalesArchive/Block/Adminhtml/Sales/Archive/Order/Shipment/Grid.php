@@ -102,7 +102,7 @@ class Grid
         parent::_prepareMassaction();
 
         $this->getMassactionBlock()->getItem('print_shipping_label')
-            ->setUrl($this->getUrl('sales/archive/massPrintShippingLabel'));
+            ->setUrl($this->getUrl('adminhtml/sales_archive/massPrintShippingLabel'));
 
         return $this;
     }
