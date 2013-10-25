@@ -81,9 +81,9 @@ class OnepageTest extends Functional
     public static function dataProviderOnepageCheckout()
     {
         return array(
-//            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
-//            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
-//            array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow())
         );
     }
