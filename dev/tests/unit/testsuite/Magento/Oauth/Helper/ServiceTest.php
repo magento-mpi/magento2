@@ -35,7 +35,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->_coreHelper = new \Magento\Core\Helper\Data(
             $this->_coreContextMock,
             $this->getMockBuilder('Magento\Event\ManagerInterface')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Helper\Http')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()->getMock(),
             $this->_storeConfigMock,
             $this->getMockBuilder('Magento\Core\Model\StoreManager')->disableOriginalConstructor()->getMock(),
