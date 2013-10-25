@@ -57,8 +57,6 @@ class Handler implements HandlerInterface
      */
     protected function _processError($errorMessage)
     {
-        $exception = new \Exception($errorMessage);
-        $errorMessage .= $exception->getTraceAsString();
         throw new \Exception($errorMessage);
     }
 
