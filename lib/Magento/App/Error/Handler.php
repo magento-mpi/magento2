@@ -16,17 +16,17 @@ class Handler extends \Magento\Error\Handler
     /**
      * @var \Magento\Logger
      */
-    protected $logger;
+    protected $_logger;
 
     /**
      * @var \Magento\App\Dir
      */
-    protected $dir;
+    protected $_dir;
 
     /**
      * @var \Magento\App\State
      */
-    protected $appState;
+    protected $_appState;
 
     /**
      * @param \Magento\Logger $logger
@@ -38,9 +38,9 @@ class Handler extends \Magento\Error\Handler
         \Magento\App\Dir $dir,
         \Magento\App\State $appState
     ) {
-        $this->logger = $logger;
-        $this->dir = $dir;
-        $this->appState = $appState;
+        $this->_logger = $logger;
+        $this->_dir = $dir;
+        $this->_appState = $appState;
     }
 
     /**
@@ -51,7 +51,7 @@ class Handler extends \Magento\Error\Handler
      */
     public function processException(\Exception $exception, array $params = array())
     {
-        if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
+        if ($this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
             parent::processException($exception, $params);
         } else {
             $reportData = array($exception->getMessage(), $exception->getTraceAsString()) + $params;
@@ -64,7 +64,7 @@ class Handler extends \Magento\Error\Handler
                     $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                 }
             }
-            require_once($this->dir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once($this->_dir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
     }
 
@@ -77,10 +77,10 @@ class Handler extends \Magento\Error\Handler
     {
         $exception = new \Exception($errorMessage);
         $errorMessage .= $exception->getTraceAsString();
-        if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
+        if ($this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
             parent::_processError($errorMessage);
         } else {
-            $this->logger->log($errorMessage, \Zend_Log::ERR);
+            $this->_logger->log($errorMessage, \Zend_Log::ERR);
         }
     }
 }

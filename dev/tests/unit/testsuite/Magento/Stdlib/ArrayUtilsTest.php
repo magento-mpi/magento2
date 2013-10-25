@@ -31,10 +31,10 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_arrayUtils->ksortMultibyte($input, $locale);
 
-        $i = 0;
+        $iterator = 0;
         foreach ($input as $value) {
-            $i++;
-            $this->assertEquals($i, $value);
+            $iterator++;
+            $this->assertEquals($iterator, $value);
 
         }
     }
