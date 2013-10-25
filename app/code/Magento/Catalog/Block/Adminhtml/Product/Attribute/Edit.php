@@ -49,7 +49,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'attribute_id';
-        $this->_controller = 'product_attribute';
+        $this->_controller = 'adminhtml_product_attribute';
 
         parent::_construct();
 
@@ -133,7 +133,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('catalog/' . $this->_controller . '/save', array(
+        return $this->getUrl('catalog/product_attribute/save', array(
             '_current' => true,
             'back' => null,
             'product_tab' => $this->getRequest()->getParam('product_tab')
