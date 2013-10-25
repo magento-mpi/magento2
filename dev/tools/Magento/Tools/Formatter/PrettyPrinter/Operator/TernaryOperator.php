@@ -41,8 +41,9 @@ class TernaryOperator extends AbstractLeftAssocOperator
         if (null !== $this->node->if) {
             $line->add(' ');
             $this->resolveNode($this->node->if, $treeNode);
+            $line->add(' ');
         }
-        $line->add(' : ');
+        $line->add(': ');
     }
     public function operator()
     {

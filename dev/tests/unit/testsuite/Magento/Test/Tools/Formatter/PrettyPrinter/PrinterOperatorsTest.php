@@ -96,6 +96,8 @@ class PrinterOperatorsTest extends TestBase
             array("<?php\nif (!\$d&&\$c) {\$a!==\$b;}", "<?php\nif (!\$d && \$c) {\n    \$a !== \$b;\n}\n"),
             array("<?php\nif (!\$d||\$c) {\$a!==\$b;}", "<?php\nif (!\$d || \$c) {\n    \$a !== \$b;\n}\n"),
             array("<?php\n\$a=\$x ? 'a':'b';","<?php\n\$a = \$x ? 'a' : 'b';\n"),
+            array("<?php\n\$a=\$x ?:'b';","<?php\n\$a = \$x ?: 'b';\n"),
+            array("<?php\n\$a=\$x ? :'b';","<?php\n\$a = \$x ?: 'b';\n"),
             array("<?php\n\$a=\$x==5 ? 'a':'b';","<?php\n\$a = \$x == 5 ? 'a' : 'b';\n"),
             array("<?php\n\$a=(\$x==5)? 'a':'b';","<?php\n\$a = \$x == 5 ? 'a' : 'b';\n"),
             array("<?php\n\$a=(\$x==5)? 'a':(\$y ? 'a' : 'b');","<?php\n\$a = \$x == 5 ? 'a' : (\$y ? 'a' : 'b');\n"),
