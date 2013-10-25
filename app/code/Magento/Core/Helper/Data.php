@@ -98,7 +98,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_remoteAddress;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
