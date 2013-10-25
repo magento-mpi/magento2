@@ -16,7 +16,7 @@
 ?>
 
 <div class="returns details view">
-    <strong class="returns status"><?php echo __('Complete') ?></strong>
+    <strong class="returns status"><?php echo $this->escapeHtml($_rma->getStatusLabel()) ?></strong>
     <div class="block returns requested">
         <div class="title"><strong><?php echo __('Request Information') ?></strong></div>
         <div class="content">
@@ -138,7 +138,7 @@
                 <td class="col id">
                     <?php echo $this->escapeHtml($item->getProductName()) ?>
                     <?php if($_options = $this->getItemOptions($item)): ?>
-                    <dl class="item-options">
+                    <dl class="item options">
                     <?php foreach ($_options as $_option) : ?>
                         <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                         <dd><?php echo $_option['value'] ?></dd>

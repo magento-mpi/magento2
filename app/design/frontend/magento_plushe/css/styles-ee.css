@@ -9241,6 +9241,10 @@ img[align="right"] {
   z-index: 1;
   cursor: pointer;
 }
+.customer.welcome .menu {
+  padding: 0;
+  margin: 0;
+}
 .customer.welcome .menu > ul {
   font-weight: 600;
   font-size: 12px;
