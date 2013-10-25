@@ -157,10 +157,13 @@ class View extends Block
      */
     public function getProductOptions()
     {
-        for ($i =2; $i<=3; $i++) {
+        $options = array();
+        $i = 2;
+        while($i <= 3) {
             $options[] = $this->_rootElement
                 ->find(".super-attribute-select option:nth-child($i)")->getText();
         }
+
         return $options;
     }
 }

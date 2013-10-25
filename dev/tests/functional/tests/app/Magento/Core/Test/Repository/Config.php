@@ -365,6 +365,11 @@ class Config extends AbstractRepository
         );
     }
 
+    /**
+     * Get Configuration Settings for PayPal Payflow Pro Payment Method
+     *
+     * @return array
+     */
     protected function _getPaypalPayFlowPro()
     {
         return array(
