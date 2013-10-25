@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\TestCase\Checkout;
+namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class OnepageCheckoutTest
+ * Class OnepageTest
  * Test one page checkout with different configurations
  *
- * @package Magento\Test\TestCase\Checkout
+ * @package Magento\Test\TestCase\Guest
  */
 class OnepageTest extends Functional
 {
