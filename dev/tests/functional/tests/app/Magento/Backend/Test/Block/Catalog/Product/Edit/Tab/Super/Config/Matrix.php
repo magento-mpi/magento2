@@ -48,8 +48,10 @@ class Matrix extends Form
         foreach ($variations as $variation) {
             $variationRow = $this->_getVariationRow($variation['configurable_attribute']);
             foreach($variation['value'] as $key => $field) {
-                $this->_rootElement->find($variationRow . $this->_mapping[$key], Locator::SELECTOR_XPATH)
-                    ->setValue($field['value']);
+                if (!empty($this->_mapping[$key])) {
+                    $this->_rootElement->find($variationRow . $this->_mapping[$key], Locator::SELECTOR_XPATH)
+                        ->setValue($field['value']);
+                }
             }
         }
     }
