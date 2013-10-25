@@ -19,6 +19,7 @@ class ServiceNameCollisionTest extends \PHPUnit_Framework_TestCase
      * Test there are no collisions between service names.
      *
      * @see \Magento\Webapi\Model\Soap\Config::getServiceName()
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function testServiceNameCollisions()
     {
