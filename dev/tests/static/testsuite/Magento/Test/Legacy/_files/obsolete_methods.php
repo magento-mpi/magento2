@@ -914,4 +914,10 @@ return array(
     array('mageDebugBacktrace'),
     array('mageDelTree'),
     array('mageParseCsv'),
+    array('getHttpAuthCredentials', '\Magento\Core\Helper\Http', '\Magento\HTTP\Authentication::getCredentials'),
+    array('failHttpAuthentication', '\Magento\Core\Helper\Http',
+        '\Magento\HTTP\Authentication::setAuthenticationFailed'
+    ),
+    array('getRequestUri', '\Magento\Core\Helper\Http', '\Magento\HTTP\Header::getRequestUri'),
+    array('validateIpAddr', '\Magento\Core\Helper\Http', '\Zend_Validate_Ip::isValid'),
 );
