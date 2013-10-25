@@ -400,7 +400,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
 
         // Checks, whether secret key is required for admin access or request uri is explicitly set
         if ($this->_backendUrl->useSecretKey()) {
-            $requestUri = $this->_backendUrl->getUrl('adminhtml/*/*', array('_current' => true));
+            $requestUri = $this->_backendUrl->getUrl('*/*/*', array('_current' => true));
         } elseif ($this->getRequest()) {
             $requestUri = $this->getRequest()->getRequestUri();
         }
