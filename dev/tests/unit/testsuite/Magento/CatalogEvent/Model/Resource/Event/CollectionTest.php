@@ -86,7 +86,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
 
         $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
         $store->expects($this->once())

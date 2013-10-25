@@ -45,7 +45,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Url model
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlModel;
 
@@ -101,7 +101,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -120,7 +120,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Core\Model\Session\AbstractSession $session,
-        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

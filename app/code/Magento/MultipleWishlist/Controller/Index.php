@@ -51,7 +51,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Url|\Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\Session\Generic $wishlistSession

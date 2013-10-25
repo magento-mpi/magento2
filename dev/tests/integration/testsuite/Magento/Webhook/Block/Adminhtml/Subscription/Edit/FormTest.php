@@ -19,7 +19,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
-        /** @var $layout \Magento\View\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         /** @var \Magento\Core\Model\Registry $registry */

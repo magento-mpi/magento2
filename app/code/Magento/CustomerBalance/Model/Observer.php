@@ -35,7 +35,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -52,7 +52,7 @@ class Observer
     /**
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -60,7 +60,7 @@ class Observer
     public function __construct(
         \Magento\Checkout\Model\Type\Onepage $onePageCheckout,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Core\Model\Registry $coreRegistry
@@ -85,7 +85,7 @@ class Observer
         }
         /* @var $customer \Magento\Customer\Model\Customer */
         $customer = $observer->getCustomer();
-        /* @var $request \Magento\Core\Controller\Request\Http */
+        /* @var $request \Magento\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
         if ($data) {

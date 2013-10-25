@@ -274,21 +274,6 @@ interface LayoutInterface
     public function setArea($area);
 
     /**
-     * Declaring layout direct output flag
-     *
-     * @param   bool $flag
-     * @return  LayoutInterface
-     */
-    public function setDirectOutput($flag);
-
-    /**
-     * Retrieve direct output flag
-     *
-     * @return bool
-     */
-    public function isDirectOutput();
-
-    /**
      * Get property value of an element
      *
      * @param string $name

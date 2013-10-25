@@ -15,10 +15,10 @@ interface SubProcessorInterface
     /**
      * Check if request can be cached
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return bool
      */
-    public function allowCache(\Zend_Controller_Request_Http $request);
+    public function allowCache(\Magento\App\RequestInterface $request);
 
     /**
      * Replace block content to placeholder replacer
@@ -31,10 +31,10 @@ interface SubProcessorInterface
     /**
      * Prepare response body before caching
      *
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\ResponseInterface $response
      * @return string
      */
-    public function prepareContent(\Zend_Controller_Response_Http $response);
+    public function prepareContent(\Magento\App\ResponseInterface $response);
 
     /**
      * Return cache page id with application. Depends on GET super global array.

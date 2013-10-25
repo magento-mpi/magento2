@@ -26,7 +26,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
     protected $_storageFactory;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -37,7 +37,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Core\Model\Registry $coreRegistry,

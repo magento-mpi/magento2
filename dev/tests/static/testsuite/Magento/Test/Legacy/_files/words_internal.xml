@@ -23,6 +23,7 @@
         <word>secure_public_url}}js/</word>
         <word>\Magento\Core\Model\App_Options</word>
         <word>Magento\Adminhtml\Utility\Controller</word>
+        <word>twig</word>
     </words>
     <whitelist>
         <item>
@@ -33,6 +34,10 @@
         </item>
         <item>
             <path>dev/tests/functional/testsuite/Enterprise</path>
+        </item>
+        <item>
+            <path>lib/Symfony</path>
+            <word>twig</word>
         </item>
     </whitelist>
 </config>

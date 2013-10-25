@@ -63,7 +63,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
         $this->_resource = $this->getMock('Magento\Core\Model\Resource\Layout\Update', array(), array(), '', false);
 
-        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
 
         $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 

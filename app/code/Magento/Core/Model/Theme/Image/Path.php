@@ -26,7 +26,7 @@ class Path
     const DEFAULT_PREVIEW_IMAGE = 'Magento_Core::theme/default_preview.jpg';
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -43,12 +43,12 @@ class Path
     /**
      * Initialize dependencies
      *
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\StoreManager $storeManager
     ) {
@@ -85,7 +85,7 @@ class Path
      */
     public function getImagePreviewDirectory()
     {
-        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
+        return $this->_dir->getDir(\Magento\App\Dir::MEDIA) . DIRECTORY_SEPARATOR
             . str_replace('/', DIRECTORY_SEPARATOR, self::PREVIEW_DIRECTORY_PATH);
     }
 
@@ -97,7 +97,7 @@ class Path
     public function getTemporaryDirectory()
     {
         return implode(DIRECTORY_SEPARATOR, array(
-            $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA), 'theme', 'origin'
+            $this->_dir->getDir(\Magento\App\Dir::MEDIA), 'theme', 'origin'
         ));
     }
 }

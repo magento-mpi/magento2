@@ -71,7 +71,7 @@ class Cookie extends \Magento\Core\Model\Cookie
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -81,20 +81,20 @@ class Cookie extends \Magento\Core\Model\Cookie
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $httpRequest
-     * @param \Magento\Core\Controller\Response\Http $httpResponse
+     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\App\ResponseInterface $httpResponse
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $_fpcCache
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Controller\Request\Http $httpRequest,
-        \Magento\Core\Controller\Response\Http $httpResponse,
+        \Magento\App\RequestInterface $httpRequest,
+        \Magento\App\ResponseInterface $httpResponse,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $_fpcCache,
         \Magento\Customer\Model\Session $customerSession
     ) {

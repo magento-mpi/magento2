@@ -24,12 +24,6 @@
         <param name="requestIdentifier">
             <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
         </param>
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-        <param name="coreSession">
-            <instance type="Magento\Core\Model\Session\Proxy" />
-        </param>
     </type>
     <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
         <param name="designChange">
@@ -39,24 +33,6 @@
             <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
-    <type name="Magento\FullPageCache\Model\Container\AbstractContainer">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\FullPageCache\Model\Cookie">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\FullPageCache\Helper\Url">
-        <param name="coreSession">
-            <instance type="Magento\Core\Model\Session\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Log\Model\Visitor">
         <param name="ignoredUserAgents">
             <value>
@@ -64,18 +40,18 @@
             </value>
         </param>
     </type>
+    <type name="Magento\App\Response">
+        <plugin name="pageCache" type="Magento\FullPageCache\Model\Response\Plugin" />
+    </type>
     <type name="Magento\FullPageCache\Model\Observer">
-        <param name="coreUrl">
-            <instance type="Magento\Core\Helper\Url\Proxy" />
+        <param name="ctlgProdCompare">
+            <instance type="Magento\Catalog\Helper\Product\Compare\Proxy" />
         </param>
-        <param name="coreSession">
-            <instance type="Magento\Core\Model\Session\Proxy" />
+        <param name="processor">
+            <instance type="Magento\FullPageCache\Model\Processor\Proxy" />
         </param>
-        <param name="catalogSession">
-            <instance type="Magento\Catalog\Model\Session\Proxy" />
-        </param>
-        <param name="application">
-            <instance type="Magento\Core\Model\App\Proxy" />
+        <param name="cookie">
+            <instance type="Magento\FullPageCache\Model\Cookie\Proxy" />
         </param>
     </type>
 </config>

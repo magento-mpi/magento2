@@ -17,7 +17,6 @@ $magentoOslAfl = array(
     'css'   => 'AFL',
     'js'    => 'AFL',
     'less'  => 'AFL',
-    'twig'  => 'AFL',
 );
 $magentoAfl = $magentoOslAfl;
 unset($magentoAfl['php']);

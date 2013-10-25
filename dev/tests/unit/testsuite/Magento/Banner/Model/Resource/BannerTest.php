@@ -72,7 +72,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->_eventManager = $this->getMock(
-            'Magento\Core\Model\Event\Manager',
+            'Magento\Event\ManagerInterface',
             array('dispatch'),
             array(),
             '',

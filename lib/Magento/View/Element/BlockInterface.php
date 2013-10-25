@@ -1,13 +1,11 @@
 <?php
 /**
+ * Magento Block. Used to present information to user
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Magento Block interface
  */
 namespace Magento\View\Element;
 

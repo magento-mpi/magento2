@@ -10,8 +10,8 @@
 
 namespace Magento\View;
 
-use Magento\Core\Controller\Request\Http as Request;
-use Magento\Core\Controller\Varien\Front;
+use Magento\App\Request\Http as Request;
+use Magento\App\FrontControllerInterface;
 
 use Magento\Core\Model\Event\Manager as EventManager;
 use Magento\Core\Model\Translate;
@@ -21,12 +21,13 @@ use Magento\Core\Model\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Core\Model\Logger;
 use Magento\Core\Model\App;
-use Magento\Core\Model\App\State as AppState;
+use Magento\App\State as AppState;
 
 use Magento\Core\Model\Session\AbstractSession;
-use Magento\Core\Model\UrlInterface;
 use Magento\Core\Model\CacheInterface as Cache;
 use Magento\Core\Model\Cache\StateInterface as CacheState;
+use Magento\UrlInterface;
+use Magento\Event\ManagerInterface;
 
 /**
  * @todo Reduce fields number
@@ -38,17 +39,17 @@ use Magento\Core\Model\Cache\StateInterface as CacheState;
 class Context
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var Request
      */
     protected $request;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var ManagerInterface
      */
     protected $eventManager;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $urlBuilder;
 
@@ -78,7 +79,7 @@ class Context
     protected $storeConfig;
 
     /**
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var FrontControllerInterface
      */
     protected $frontController;
 
@@ -115,20 +116,20 @@ class Context
     protected $app;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $appState;
 
     /**
      * @param Request $request
-     * @param EventManager $eventManager
+     * @param ManagerInterface $eventManager
      * @param UrlInterface $urlBuilder
      * @param Translate $translator
      * @param Cache $cache
      * @param DesignInterface $design
      * @param AbstractSession $session
      * @param StoreConfig $storeConfig
-     * @param Front $frontController
+     * @param FrontControllerInterface $frontController
      * @param FactoryHelper $helperFactory
      * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
@@ -142,14 +143,14 @@ class Context
      */
     public function __construct(
         Request $request,
-        EventManager $eventManager,
+        ManagerInterface $eventManager,
         UrlInterface $urlBuilder,
         Translate $translator,
         Cache $cache,
         DesignInterface $design,
         AbstractSession $session,
         StoreConfig $storeConfig,
-        Front $frontController,
+        FrontControllerInterface $frontController,
         FactoryHelper $helperFactory,
         ViewUrl $viewUrl,
         ViewConfig $viewConfig,
@@ -193,7 +194,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return ManagerInterface
      */
     public function getEventManager()
     {
@@ -201,7 +202,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Controller\Varien\Front
+     * @return FrontControllerInterface
      */
     public function getFrontController()
     {
@@ -225,7 +226,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return Request
      */
     public function getRequest()
     {
@@ -257,7 +258,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\UrlInterface
+     * @return \Magento\UrlInterface
      */
     public function getUrlBuilder()
     {
@@ -451,7 +452,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\App\State
+     * @return \Magento\App\State
      */
     public function getAppState()
     {

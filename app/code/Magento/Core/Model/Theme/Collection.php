@@ -43,17 +43,17 @@ class Collection extends \Magento\Data\Collection
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\App\Dir $dirs,
         \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         parent::__construct($entityFactory);
         $this->_filesystem = $filesystem;
-        $this->setBaseDir($dirs->getDir(\Magento\Core\Model\Dir::THEMES));
+        $this->setBaseDir($dirs->getDir(\Magento\App\Dir::THEMES));
     }
 
     /**

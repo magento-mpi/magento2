@@ -20,15 +20,15 @@ namespace Magento\Core\Model\Layout\Argument\Handler;
 class Url extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlModel;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\UrlInterface $urlModel
      */
-    public function __construct(\Magento\Core\Model\UrlInterface  $urlModel)
+    public function __construct(\Magento\UrlInterface  $urlModel)
     {
         $this->_urlModel = $urlModel;
     }

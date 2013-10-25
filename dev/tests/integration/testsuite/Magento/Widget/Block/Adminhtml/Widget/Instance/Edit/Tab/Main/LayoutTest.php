@@ -18,7 +18,7 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main_Layout
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout
      */
     protected $_block;
 

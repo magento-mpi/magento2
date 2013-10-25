@@ -59,9 +59,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicDir()
     {
-        /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
-        $expectedPublicDir = $dirs->getDir(\Magento\Core\Model\Dir::STATIC_VIEW);
+        /** @var $dirs \Magento\App\Dir */
+        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
+        $expectedPublicDir = $dirs->getDir(\Magento\App\Dir::STATIC_VIEW);
         $this->assertEquals($expectedPublicDir, $this->_viewService->getPublicDir());
     }
 
@@ -390,9 +390,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->getMode();
-        if ($mode != \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($mode != \Magento\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(true);
@@ -406,9 +406,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->getMode();
-        if ($mode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(false);
@@ -424,7 +424,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\Core\Model\Dir::THEMES => "$appInstallDir/media_for_change",
+                \Magento\App\Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
 
@@ -478,9 +478,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->getMode();
-        if ($mode != \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($mode != \Magento\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
 
@@ -495,9 +495,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPublishChangedResourcesWhenUnchangedCssUsualMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->getMode();
-        if ($mode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
 
@@ -514,7 +514,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\Core\Model\Dir::THEMES => "$appInstallDir/media_for_change",
+                \Magento\App\Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
 
@@ -561,7 +561,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
 
@@ -597,7 +597,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
@@ -654,8 +654,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     public function testGetViewFilePublicPathExistingFile()
     {
         $filePath = 'mage/mage.js';
-        $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/' . $filePath;
+        $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::PUB_LIB) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
 
         $actualFile = $this->_viewUrl->getViewFilePublicPath($filePath);
