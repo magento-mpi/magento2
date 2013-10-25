@@ -41,6 +41,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
+        $this->_module = 'catalog';
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
