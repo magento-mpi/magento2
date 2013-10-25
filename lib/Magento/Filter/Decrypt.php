@@ -8,6 +8,9 @@
 
 namespace Magento\Filter;
 
+/**
+ * Decrypt filter
+ */
 class Decrypt extends \Zend_Filter_Decrypt
 {
     /**

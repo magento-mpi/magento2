@@ -159,6 +159,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Install\Model\Installer\Db $installerDb
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(

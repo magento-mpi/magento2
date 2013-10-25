@@ -1028,4 +1028,5 @@ return array(
     array('Magento\Core\Model\ThemeInterface', 'Magento\View\Design\ThemeInterface'),
     array('Magento\Core\Model\View\DesignInterface', 'Magento\View\DesignInterface'),
     array('Magento\Core\Model\Layout\Element', 'Magento\View\Layout\Element'),
+    array('Magento\Core\Helper\Hint', 'Magento\Backend\Block\Store\Switcher'),
 );
