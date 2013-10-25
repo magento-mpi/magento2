@@ -32,7 +32,7 @@ $banners = array(
     )
 );
 
-/** @var $theme \Magento\Core\Model\Theme */
+/** @var $theme \Magento\View\Design\ThemeInterface */
 $theme = $install->getThemeCollection()->getThemeByFullPath('frontend/magento_fixed_width');
 
 foreach ($banners as $sortOrder => $bannerData) {

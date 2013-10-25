@@ -59,9 +59,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_coreStoreConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
-
         $this->_collection = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule\Collection')
-            ->setMethods(array('addFieldToFilter', 'load'))
+            ->setMethods(array('addFieldToFilter', 'load', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_collection->expects($this->any())
@@ -118,10 +117,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue(0));
 
-        $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
-            ->setMethods(array('getJobCode'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $schedule = $this->getMock('Magento\Cron\Model\Schedule', array('getJobCode', '__wakeup'), array(), '', false);
         $schedule->expects($this->once())
             ->method('getJobCode')
             ->will($this->returnValue('not_existed_job_code'));
@@ -158,7 +154,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(0));
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
-            ->setMethods(array('getJobCode', 'tryLockJob', 'getScheduledAt'))
+            ->setMethods(array('getJobCode', 'tryLockJob', 'getScheduledAt', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $schedule->expects($this->any())
@@ -206,7 +202,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->setMethods(
-                array('getJobCode', 'tryLockJob', 'getScheduledAt', 'save', 'setStatus', 'setMessages')
+                array('getJobCode', 'tryLockJob', 'getScheduledAt', 'save', 'setStatus', 'setMessages', '__wakeup')
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -256,7 +252,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->setMethods(
-                array('getJobCode', 'tryLockJob', 'getScheduledAt', 'save', 'setStatus', 'setMessages')
+                array('getJobCode', 'tryLockJob', 'getScheduledAt', 'save', 'setStatus', 'setMessages', '__wakeup')
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -321,7 +317,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->setMethods(
-                array('getJobCode', 'tryLockJob', 'getScheduledAt', 'save', 'setStatus', 'setMessages')
+                array('getJobCode', 'tryLockJob', 'getScheduledAt', 'save', 'setStatus', 'setMessages', '__wakeup')
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -397,7 +393,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'setStatus',
             'setMessages',
             'setExecutedAt',
-            'setFinishedAt'
+            'setFinishedAt',
+            '__wakeup',
         );
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->setMethods($scheduleMethods)
@@ -491,7 +488,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(0));
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
-            ->setMethods(array('getJobCode', 'getScheduledAt'))
+            ->setMethods(array('getJobCode', 'getScheduledAt', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $schedule->expects($this->any())
@@ -562,7 +559,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'setStatus',
             'trySchedule',
             'unsScheduleId',
-            'save'
+            'save',
+            '__wakeup'
         );
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->setMethods($scheduleMethods)
@@ -588,7 +586,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $scheduleMock = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->disableOriginalConstructor()
-            ->setMethods(array('getCollection'))
+            ->setMethods(array('getCollection', '__wakeup'))
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
         $this->_objectManager->expects($this->any())
@@ -606,7 +604,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
             ->disableOriginalConstructor()
-            ->setMethods(array('getExecutedAt', 'getStatus', 'delete'))
+            ->setMethods(array('getExecutedAt', 'getStatus', 'delete', '__wakeup'))
             ->getMock();
         $schedule->expects($this->any())->method('getExecutedAt')->will($this->returnValue('-1 day'));
         $schedule->expects($this->any())->method('getStatus')->will($this->returnValue('success'));
@@ -638,7 +636,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($scheduleMock));
 
         $collection = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule\Collection')
-            ->setMethods(array('addFieldToFilter', 'load'))
+            ->setMethods(array('addFieldToFilter', 'load', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $collection->expects($this->any())

@@ -21,13 +21,13 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
     protected $_categoryFactory;
 
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct(

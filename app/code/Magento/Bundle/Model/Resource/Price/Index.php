@@ -44,7 +44,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -81,7 +81,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
      * @param \Magento\Customer\Model\GroupFactory $customerGroup
      * @param \Magento\Catalog\Model\Config $config
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
@@ -90,7 +90,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,
         \Magento\Customer\Model\GroupFactory $customerGroup,
         \Magento\Catalog\Model\Config $config,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_eventManager = $eventManager;

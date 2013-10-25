@@ -17,4 +17,8 @@ return array(
     array('_layoutUpdate', 'Magento\WebsiteRestriction\Controller\Index'),
     array('_importExportConfig', 'Magento\ScheduledImportExport\Model\Scheduled\Operation\Data'),
     array('_importModel', 'Magento\ScheduledImportExport\Model\Scheduled\Operation\Data'),
+    array('_coreUrl', 'Magento\FullPageCache\Model\Observer'),
+    array('_coreSession', 'Magento\FullPageCache\Model\Observer'),
+    array('_application', 'Magento\FullPageCache\Model\Observer'),
+    array('_app', 'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content'),
 );

@@ -119,7 +119,7 @@ class Observer
     protected $_cmsIncrement;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_httpRequest;
 
@@ -143,7 +143,7 @@ class Observer
      * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
-     * @param \Magento\Core\Controller\Request\Http $httpRequest
+     * @param \Magento\App\RequestInterface $httpRequest
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -167,7 +167,7 @@ class Observer
         \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
-        \Magento\Core\Controller\Request\Http $httpRequest
+        \Magento\App\RequestInterface $httpRequest
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;

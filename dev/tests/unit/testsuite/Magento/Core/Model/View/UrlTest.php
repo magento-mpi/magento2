@@ -14,7 +14,7 @@ namespace Magento\Core\Model\View;
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param \Magento\Core\Model\Theme $themeModel
+     * @param \Magento\View\Design\ThemeInterface $themeModel
      * @dataProvider getViewFileUrlProductionModeDataProvider
      */
     public function testGetViewFileUrlProductionMode($themeModel)
@@ -38,8 +38,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('copy');
 
         // 2. Get directories configuration
-        /** @var $dirs \Magento\Core\Model\Dir|PHPUnit_Framework_MockObject_MockObject */
-        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        /** @var $dirs \Magento\App\Dir|PHPUnit_Framework_MockObject_MockObject */
+        $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValue('some_dir'));
@@ -109,7 +109,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public static function getViewFileUrlProductionModeDataProvider()
     {
         $usualTheme = \PHPUnit_Framework_MockObject_Generator::getMock(
-            'Magento\Core\Model\Theme',
+            'Magento\View\Design\ThemeInterface',
             array(),
             array(),
             '',

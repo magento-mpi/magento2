@@ -17,7 +17,7 @@ class CatalogruleTest extends \PHPUnit_Framework_TestCase
     public function testGetCollection()
     {
         /** @var \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule $block */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule');
 
         /** @var \Magento\CatalogRule\Model\Rule $catalogRule */

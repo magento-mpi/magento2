@@ -77,12 +77,12 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
     /**
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Email\Template\Mailer $templateMailer
@@ -90,7 +90,7 @@ class Observer
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Email\Template\Mailer $templateMailer,
@@ -122,7 +122,7 @@ class Observer
         }
 
         try {
-            $logPath = $this->_coreDir->getDir(\Magento\Core\Model\Dir::LOG)
+            $logPath = $this->_coreDir->getDir(\Magento\App\Dir::LOG)
                 . DS . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
