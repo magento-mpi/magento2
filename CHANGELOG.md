@@ -1,7 +1,6 @@
 * Eliminated dependency in Magento\Data\Form from Magento\Core module
 * Eliminated Magento\Media module
 * Fixed copyright information
-* 'Delete' button is absent on Reward Rate page
 * Removed page type hierarchy
 * Removed page fragment types
 
