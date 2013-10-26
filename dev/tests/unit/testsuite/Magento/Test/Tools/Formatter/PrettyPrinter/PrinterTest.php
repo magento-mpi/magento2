@@ -563,7 +563,8 @@ class Foo extends \\Magento\\Test\\Bar{
         \\Magento\\Test\\Nine \$testNine
     ) {
         \$this->_testOne = \$testOne;
-        parent::__construct(\$testTwo, \$testThree, \$testFour, \$testFive, \$testSix, \$testSeven, \$testSeven, \$testEight, \$testNine);
+        parent::__construct(\$testTwo, \$testThree, \$testFour, \$testFive, \$testSix, \$testSeven, \$testSeven,
+        \$testEight, \$testNine);
     }
 };
 ORIGINALCODESNIPPET
@@ -627,7 +628,8 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 class Foo{
     public function testList(\$testOne) {
-        list( \$varOne,\$varTwo,\$varThree,\$varFour,\$varFive,\$varSix,\$varSeven,\$varEight,\$varNine,\$varTen) = \$testOne;
+        list( \$varOne,\$varTwo,\$varThree,\$varFour,\$varFive,\$varSix,\$varSeven,\$varEight,\$varNine,\$varTen)
+        = \$testOne;
     }
 };
 ORIGINALCODESNIPPET
