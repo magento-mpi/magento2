@@ -28,4 +28,15 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
     {
         return $this->operator;
     }
+
+
+    /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return mixed
+     */
+    public function getSortOrder()
+    {
+        return 2; // TODO add inverse precedence to sort order
+    }
+
 }

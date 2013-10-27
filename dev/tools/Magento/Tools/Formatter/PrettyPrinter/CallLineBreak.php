@@ -86,4 +86,23 @@ class CallLineBreak extends ConditionalLineBreak
     {
         return false;
     }
+
+    /**
+     * This method returns an id used to group line breaks occurring in the same line together.
+     * This is typically either the class name or the instance id.
+     * @return string
+     */
+    public function getGroupingId()
+    {
+        return spl_object_hash($this);
+    }
+
+    /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return mixed
+     */
+    public function getSortOrder()
+    {
+        return 3;
+    }
 }

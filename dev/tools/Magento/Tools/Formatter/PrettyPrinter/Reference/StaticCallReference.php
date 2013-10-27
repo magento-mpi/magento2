@@ -7,8 +7,8 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
+use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr;
@@ -62,7 +62,7 @@ class StaticCallReference extends AbstractFunctionReference
         }
         // add the arguments
         $line->add('(');
-        $this->processArgumentList($this->node->args, $treeNode, $line, new SimpleListLineBreak());
+        $this->processArgumentList($this->node->args, $treeNode, $line, new CallLineBreak());
         $line->add(')');
     }
 }

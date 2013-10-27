@@ -21,7 +21,16 @@ abstract class LevelNodeVisitor extends NodeVisitorAbstract
      * This member holds the current level of traversal (i.e. how many indents are needed).
      * @var int
      */
-    protected $level = -1;
+    protected $level;
+
+    /**
+     * This method constructs a new visitor with the given starting level.
+     * @param int $level Starting level for the traversal.
+     */
+    public function __construct($level = -1)
+    {
+        $this->level = $level;
+    }
 
     /**
      * This method is called when first visiting a node.

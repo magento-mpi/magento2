@@ -8,6 +8,8 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
+use Magento\Tools\Formatter\Tree\Node;
+use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 class NodeLeveler extends LevelNodeVisitor
@@ -21,75 +23,196 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method is called when first visiting a node.
-     * @param TreeNode $treeNode
+     * @param TreeNode $treeNode Current node in the tree.
      */
     public function nodeEntry(TreeNode $treeNode)
     {
         parent::nodeEntry($treeNode);
         /** @var LineData $lineData */
         $lineData = $treeNode->getData();
-        $this->processLine($lineData->line, 0, $treeNode);
+        if ($this->checkLine($lineData->line, $treeNode)) {
+            /** @var Tree $subTree */
+            $subTree = $this->getLineTree($lineData->line);
+            if (null != $subTree) {
+                $roots = $subTree->getChildren();
+                if (is_array($roots)) {
+                    $originalChildren = $treeNode->getChildren();
+                    $lastNode = null;
+                    foreach ($roots as $root) {
+                        // replace the line on the first node
+                        if (null === $lastNode) {
+                            // copy the content from the root over to the current node
+                            $this->copyContents($root, $treeNode);
+                            // the top node is the last node
+                            $lastNode = $treeNode;
+                        } else {
+                            // otherwise, add the next root as a sibling of the last node
+                            $lastNode = $lastNode->addSibling($root);
+                        }
+                    }
+                    // copy the children of the original node to the new last node
+                    if ($lastNode !== $treeNode) {
+                        // copy original children
+                        $this->copyChildren($originalChildren, $lastNode);
+                    }
+                } else {
+                    // copy the content from the root over to the current node
+                    $this->copyContents($roots, $treeNode);
+                }
+            }
+        }
     }
 
     /**
-     * This method processes the current line data for the passed in break level.
-     * @param Line $line
-     * @param int $level
-     * @param TreeNode $treeNode
+     * This method checks to see if the line is valid as is, or if more processing needs to be
+     * done. If the node looks valid, the strings are replaced with the resolved versions of the
+     * line.
+     * @param Line $line Line to check.
+     * @param TreeNode $treeNode Current node in the tree.
+     * @return bool Returns true if more processing needs to be done.
      */
-    protected function processLine(Line &$line, $level, TreeNode $treeNode)
+    protected function checkLine(Line $line, TreeNode $treeNode)
     {
-        // split the lines at the current level to check for length
-        $currentLines = $line->splitLine($level);
-        $valid = true;
-        $invalidLine = null;
-        // determine if all the lines are within tolerances
-        foreach ($currentLines as $currentLine) {
-            $lineText = $currentLine[Line::ATTRIBUTE_LINE];
-            // determine the length of the resulting line
-            $lineLength = strlen($lineText);
-            if (!array_key_exists(Line::ATTRIBUTE_NO_INDENT, $currentLine)) {
-                $lineLength += $this->level * strlen(self::PREFIX);
+        $requiresMoreProcessing = false;
+        // split the lines at the 0th level to check for length
+        $currentLines = $line->splitLine(0);
+        switch (sizeof($currentLines)) {
+            case 1:
+                // if the one line fits on a single line, then replace the contents with the resolved line
+                if ($this->fitsOnLine(current($currentLines))) {
+                    $line->setTokens(current($currentLines));
+                } else {
+                    // otherwise, it needs more processing
+                    $requiresMoreProcessing = true;
+                }
+                break;
+            default:
+                $fits = true;
+                $level = $this->level;
+                foreach($currentLines as $currentLine) {
+                    if (!$this->fitsOnLine($currentLine)) {
+                        $fits = false;
+                        break;
+                    }
+                    if ($currentLine[Line::ATTRIBUTE_TERMINATOR] instanceof HardIndentLineBreak) {
+                        $level++;
+                    }
+                }
+                // if it fits, just deal with the new nodes
+                if ($fits) {
+                    $this->splitNode($line, $currentLines, $treeNode);
+                } else {
+                    // otherwise, it needs more processing
+                    $requiresMoreProcessing = true;
+                }
+        }
+        return $requiresMoreProcessing;
+    }
+
+    /**
+     * This method copies the children found in the array to the target node.
+     * @param mixed $children Array of children or single child to copy.
+     * @param TreeNode $target Node to copy to.
+     */
+    protected function copyChildren($children, TreeNode $target) {
+        if (null !== $children) {
+            if (is_array($children)) {
+                foreach ($children as $child) {
+                    $target->addChild($child);
+                }
+            } else {
+                $target->addChild($children);
             }
-            // if the result is still longer than a line, then flag this as invalid
-            if (self::MAX_LINE_LENGTH < $lineLength) {
-                $valid = false;
-                $invalidLine = $currentLine[Line::ATTRIBUTE_LINE];
+        }
+    }
+
+    /**
+     * This method copies children from the source node to the target node.
+     * @param TreeNode $source Node containing the children to copy
+     * @param TreeNode $target Node to copy to.
+     */
+    protected function copyChildrenFromNode(TreeNode $source, TreeNode $target) {
+        if ($source->hasChildren()) {
+            $this->copyChildren($source->getChildren(), $target);
+        }
+    }
+
+    /**
+     * This method copies the line and the children from the source to the target.
+     * @param TreeNode $source Node to copy from.
+     * @param TreeNode $target Node to copy to.
+     */
+    protected function copyContents(TreeNode $source, TreeNode $target) {
+        // replace the line contents
+        $target->getData()->line = $source->getData()->line;
+        // move children from one node to the other
+        $this->copyChildrenFromNode($source, $target);
+    }
+
+    /**
+     * This method determines if the line fits on the current level. To fit, it must be narrow
+     * enough to fit after the indents.
+     * @param array $line Line representation as returned from line resolver.
+     * @return bool
+     */
+    protected function fitsOnLine(array $line)
+    {
+        // determine the length of the resulting line
+        $lineLength = strlen($line[Line::ATTRIBUTE_LINE]);
+        if (!array_key_exists(Line::ATTRIBUTE_NO_INDENT, $line)) {
+            $lineLength += $this->level * strlen(self::PREFIX);
+        }
+        // check to see if it fits
+        return self::MAX_LINE_LENGTH >= $lineLength;
+    }
+
+    /**
+     * This method splits the line based on line breaks found in the line.
+     * @param Line $line Line to check.
+     * @return Tree Best looking sub-tree representing the given line.
+     */
+    protected function getLineTree(Line $line) {
+        $sortOrders = $line->getSortedLineBreaks();
+        // determine which sort order produces the best results
+        foreach ($sortOrders as $sortOrder) {
+            $subTree = new Tree();
+            $this->getLineTreeForSortOrder($line, $sortOrder, $subTree);
+            // determine if all of these sub lines will fit
+            $lineSizeCheck = new LineSizeCheck($this->level - 1);
+            $subTree->traverse($lineSizeCheck);
+            if ($lineSizeCheck->fits) {
                 break;
             }
         }
+        // return the best tree
+        return $subTree;
+    }
 
-        // The recursive nature of this method increments $level each time this
-        // method is called.  A special case relates to $level being >= 1.
-        // Currently, a ConditionalLineBreak cannot handle a value for
-        // $level > 1.  Setting $valid = true prevents the recursion
-        // that prevents ConditionalLineBreak from having to handle a value > 1.
-        // TODO: this is still just a temporary fix, but better than the prior
-        // fix which prevented splitNode() or setTokens() from being called.
-        if (!$valid && $level >= 1) {
-            $valid = true;
-            echo "Warning: Line Longer Than Max ($lineLength > ".self::MAX_LINE_LENGTH.')';
-            echo "\n-----\n$invalidLine\n-----\n";
-        }
-
-        // if valid, then add any extra lines
-        if ($valid) {
-            // only need to change things if resolved line spans multiple lines
-            if (count($currentLines) > 1) {
-                $this->splitNode($line, $currentLines, $treeNode);
+    /**
+     * This method splits the passed in line based on sort order of the line breaks and adds the
+     * results to the passed in node.
+     * @param Line $line Line to check.
+     * @param int $sortOrder Sort order indicator to use to split the line.
+     * @param Node $treeNode Node to append the lines to.
+     */
+    protected function getLineTreeForSortOrder(Line $line, $sortOrder, Node $treeNode) {
+        $currentLines = $line->splitLineBySortOrder($sortOrder);
+        $lastTerminator = new HardLineBreak();
+        foreach ($currentLines as $currentLine) {
+            if ($lastTerminator instanceof HardIndentLineBreak) {
+                $treeNode->addChild(AbstractSyntax::getNodeLine($currentLine));
             } else {
-                $line->setTokens($currentLines[0]);
+                $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($currentLine));
             }
-        } else {
-            $this->processLine($line, $level + 1, $treeNode);
+            $lastTerminator = $currentLine->getLastToken();
         }
     }
 
     /**
      * This method takes the current lines and splits them around the current node.
-     * @param Line $line
-     * @param array $currentLines
-     * @param TreeNode $treeNode
+     * @param Line $line Line to check.
+     * @param array $currentLines Line representation as returned from line resolver.
+     * @param TreeNode $treeNode Current node in the tree.
      */
     protected function splitNode(Line &$line, array $currentLines, TreeNode $treeNode)
     {
@@ -116,10 +239,8 @@ class NodeLeveler extends LevelNodeVisitor
             $lastLineBreak = $lineBreak;
         }
         // copy the original children if there is a new last node based on the line split
-        if (null !== $originalChildren && $lastNode !== $treeNode) {
-            foreach ($originalChildren as $originalChild) {
-                $lastNode->addChild($originalChild);
-            }
+        if ($lastNode !== $treeNode) {
+            $this->copyChildren($originalChildren, $lastNode);
         }
     }
 }

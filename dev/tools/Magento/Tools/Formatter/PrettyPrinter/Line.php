@@ -15,9 +15,20 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  */
 class Line
 {
+    const ATTRIBUTE_INDEX = 'index';
     const ATTRIBUTE_LINE = 'line';
     const ATTRIBUTE_NO_INDENT = 'noindent';
+    const ATTRIBUTE_SORT_ORDER = 'sortOrder';
     const ATTRIBUTE_TERMINATOR = 'terminator';
+    const ATTRIBUTE_TOTAL = 'total';
+
+    /**
+     * This member holds the line break token information, which is compiled information about the
+     * occurrences of linebreak in the current token list.
+     * @var array
+     */
+    protected $lineBreakTokens = array();
+
     /**
      * This member holds the actual tokens in the line
      * @var array
@@ -51,14 +62,30 @@ class Line
      */
     public function add($token)
     {
-        // just add the token to the end of the list
         if (is_array($token)) {
-            $this->tokens = array_merge($this->tokens, $token);
+            // add each element in the array to line so that line break information can be persisted
+            foreach ($token as $itemToken) {
+                $this->add($itemToken);
+            }
         } else {
+            // just add the token to the end of the list
             $this->tokens[] = $token;
+            // persist line break information
+            if ($token instanceof ConditionalLineBreak) {
+                $this->saveLineBreakToken($token);
+            }
         }
         // return this instance so that chaining can be accomplished
         return $this;
+    }
+
+    /**
+     * This method returns the last token in the list.
+     */
+    public function getLastToken()
+    {
+        $index = sizeof($this->tokens) - 1;
+        return $index >= 0 ? $this->tokens[$index] : null;
     }
 
     /**
@@ -70,10 +97,37 @@ class Line
     }
 
     /**
-     * This method returns the tokens that make up the line.
+     * This method returns the line break tokens found in the line.
+     * @return array
      */
-    public function getTokens()
+    public function getLineBreakTokens()
     {
+        return $this->lineBreakTokens;
+    }
+
+    /**
+     * This method returns a sorted array of line break sort order values.
+     * @return array
+     */
+    public function getSortedLineBreaks()
+    {
+        // determine all of the sort orders found in the line
+        $sortOrders = array(0);
+        foreach ($this->lineBreakTokens as $lineBreakToken) {
+            $sortOrders[] = $lineBreakToken[Line::ATTRIBUTE_SORT_ORDER];
+        }
+        // only need the unique values
+        $sortOrders = array_unique($sortOrders, SORT_NUMERIC);
+        // but need them in numerical order
+        sort($sortOrders, SORT_NUMERIC);
+        // return the new list
+        return $sortOrders;
+    }
+
+    /**
+     * This method returns the array of tokens that make up the line.
+     */
+    public function getTokens() {
         return $this->tokens;
     }
 
@@ -91,7 +145,13 @@ class Line
      */
     public function setTokens(array $tokens)
     {
-        $this->tokens = $tokens;
+        // reset the internally stored values
+        unset($this->tokens);
+        unset($this->lineBreakTokens);
+        $this->tokens = array();
+        $this->lineBreakTokens = array();
+        // save the new tokens
+        $this->add($tokens);
     }
 
     /**
@@ -101,28 +161,52 @@ class Line
      */
     public function splitLine($level)
     {
-        $lineBreakTokens = array();
-        // first, count the number of line break instances in the line
-        foreach ($this->tokens as $token) {
-            if ($token instanceof LineBreak) {
-                $id = $this->getLineBreakId($token);
-                if (!array_key_exists($id, $lineBreakTokens)) {
-                    $lineBreakTokens[$id] = array();
-                }
-
-                if (array_key_exists('total', $lineBreakTokens[$id])) {
-                    $lineBreakTokens[$id]['total']++;
-                } else {
-                    $lineBreakTokens[$id]['total'] = 1;
-                    $lineBreakTokens[$id]['index'] = 0;
-                }
-            }
-        }
+        // reset the index information for the line breaks
+        $this->resetLineBreakIndex();
         // get the array of arrays containing the compiled tokens
-        return $this->getCurrentLines($level, $lineBreakTokens);
+        return $this->getCurrentLines($level);
     }
 
-    private function getCurrentLines($level, &$lineBreakTokens)
+    public function splitLineBySortOrder($sortOrder)
+    {
+        // reset the index information for the line breaks
+        $this->resetLineBreakIndex();
+        // get the array of arrays containing the compiled tokens
+        return $this->getCurrentLinesBySortOrder($sortOrder);
+    }
+
+    /**
+     * This method returns resets the index values for the line breaks.
+     */
+    protected function resetLineBreakIndex()
+    {
+        // reset the index information for the line breaks
+        foreach ($this->lineBreakTokens as $key => $lineBreakToken) {
+            $this->lineBreakTokens[$key][self::ATTRIBUTE_INDEX] = 0;
+        }
+    }
+
+    /**
+     * This method saves information about a newly added token that happens to be a line break.
+     * @param LineBreak $lineBreak Token being placed in the string.
+     */
+    protected function saveLineBreakToken(LineBreak $lineBreak) {
+        // determine how the line break information is going to be saved (called the id)
+        $lineBreakId = $lineBreak->getGroupingId();
+        // if the key doesn't exist in the array, then add an array so the next part will work
+        if (!array_key_exists($lineBreakId, $this->lineBreakTokens)) {
+            $this->lineBreakTokens[$lineBreakId] = array();
+        }
+        // increment the total count
+        if (!array_key_exists(self::ATTRIBUTE_TOTAL, $this->lineBreakTokens[$lineBreakId])) {
+            $this->lineBreakTokens[$lineBreakId][self::ATTRIBUTE_TOTAL] = 0;
+            $this->lineBreakTokens[$lineBreakId][self::ATTRIBUTE_INDEX] = 0;
+            $this->lineBreakTokens[$lineBreakId][self::ATTRIBUTE_SORT_ORDER] = $lineBreak->getSortOrder();
+        }
+        $this->lineBreakTokens[$lineBreakId][self::ATTRIBUTE_TOTAL]++;
+    }
+
+    private function getCurrentLines($level)
     {
         $currentLines = array();
         $index = 0;
@@ -136,17 +220,17 @@ class Line
             if (is_string($token)) {
                 // add the current token to the end of the current line
                 $currentLines[$index][self::ATTRIBUTE_LINE] .= $token;
+            } elseif ($token instanceof HardLineBreak) {
+                $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $token;
+                $index++;
             } elseif ($token instanceof LineBreak) {
-                $lid = $this->getLineBreakId($token);
+                $groupingId = $token->getGroupingId();
                 $resolvedToken = $token->getValue(
                     $level,
-                    $lineBreakTokens[$lid]['index']++,
-                    $lineBreakTokens[$lid]['total']
+                    $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
+                    $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
                 );
-                if ($token instanceof HardLineBreak) {
-                    $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $token;
-                    $index++;
-                } else if ($resolvedToken instanceof HardLineBreak) {
+                if ($resolvedToken instanceof HardLineBreak) {
                     $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $resolvedToken;
                     $index++;
                 } else {
@@ -161,17 +245,38 @@ class Line
     }
 
     /**
-     * This method returns the id for the specified line break.
-     * @param LineBreak $lineBreak
-     * @return string
+     * This method breaks the current line into additional lines, based on the sort order.
+     * @param $sortOrder
+     * @return array
      */
-    private function getLineBreakId(LineBreak $lineBreak)
+    private function getCurrentLinesBySortOrder($sortOrder)
     {
-        if ($lineBreak->isGroupedByClass()) {
-            $lid = get_class($lineBreak);
-        } else {
-            $lid = spl_object_hash($lineBreak);
+        $currentLines = array();
+        $index = 0;
+        // break down the line by only resolving the line breaks based on sort order
+        foreach ($this->tokens as $token) {
+            // if no current line, create one and put it in the array
+            if (!array_key_exists($index, $currentLines)) {
+                $currentLines[$index] = new Line();
+            }
+            if ($token instanceof ConditionalLineBreak) {
+                $groupingId = $token->getGroupingId();
+                // resolve the token if the conditional should be resolved
+                if ($this->lineBreakTokens[$groupingId][self::ATTRIBUTE_SORT_ORDER] <= $sortOrder) {
+                    $token = $token->getValue(
+                        1,
+                        $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
+                        $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
+                    );
+                }
+            }
+            // add the current token to the end of the current line
+            $currentLines[$index]->add($token);
+            // if the token represents a new line, then create one
+            if ($token instanceof HardLineBreak) {
+                $index++;
+            }
         }
-        return $lid;
+        return $currentLines;
     }
 }

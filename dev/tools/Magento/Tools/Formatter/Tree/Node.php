@@ -28,4 +28,16 @@ interface Node
      * added prior to this node.
      */
     public function addSibling(TreeNode $newSibling, $after = true);
+
+    /**
+     * This method returns the array of children.
+     * @return array
+     */
+    public function getChildren();
+
+    /**
+     * This method removes the specified child from the child list.
+     * @param TreeNode $existingChild Node representing an existing child.
+     */
+    public function removeChild(TreeNode $existingChild);
 }

@@ -33,6 +33,16 @@ class HardLineBreak extends LineBreak
     }
 
     /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return mixed
+     */
+    public function getSortOrder()
+    {
+        // hard breaks should always be processed
+        return 0;
+    }
+
+    /**
      * This method returns if the next line should be indented.
      */
     public function isNextLineIndented()

@@ -44,16 +44,16 @@ class PrinterTest extends TestBase
                 "4 => 'hippopotamus', 5 => 'giraffe');\n}\n"
             ),
             array(
-                "<?php class A3 {public \$a3 = array(1=>'alpha1234567890',2=>'beta1234567890',3=>'gamma1234567890',".
+                "<?php class A4 {public \$a3 = array(1=>'alpha1234567890',2=>'beta1234567890',3=>'gamma1234567890',".
                 "4=>'hippopotamus',5=>'giraffe');}",
-                "<?php\nclass A3\n{\n    public \$a3 = array(\n        1 => 'alpha1234567890',\n" .
+                "<?php\nclass A4\n{\n    public \$a3 = array(\n        1 => 'alpha1234567890',\n" .
                 "        2 => 'beta1234567890',\n        3 => 'gamma1234567890',\n".
                 "        4 => 'hippopotamus',\n        5 => 'giraffe'\n    );\n}\n"
             ),
-            array(
-                "<?php class A1 {public \$a = array(array(1.1,1.2),array(2.1,2.2));}",
-                "<?php\nclass A1\n{\n    public \$a = array(array(1.1, 1.2), array(2.1, 2.2));\n}\n"
-            ),
+                        array(
+                            "<?php class A5 {public \$a = array(array(1.1,1.2),array(2.1,2.2));}",
+                            "<?php\nclass A5\n{\n    public \$a = array(array(1.1, 1.2), array(2.1, 2.2));\n}\n"
+                        ),
         );
     }
 
@@ -586,7 +586,8 @@ class Foo extends \\Magento\\Test\\Bar
         \\Magento\\Test\\Nine \$testNine
     ) {
         \$this->_testOne = \$testOne;
-        parent::__construct(\$testTwo,
+        parent::__construct(
+            \$testTwo,
             \$testThree,
             \$testFour,
             \$testFive,
@@ -594,7 +595,8 @@ class Foo extends \\Magento\\Test\\Bar
             \$testSeven,
             \$testSeven,
             \$testEight,
-            \$testNine);
+            \$testNine
+        );
     }
 }
 

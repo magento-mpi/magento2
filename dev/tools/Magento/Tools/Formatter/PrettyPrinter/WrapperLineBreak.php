@@ -25,4 +25,14 @@ class WrapperLineBreak extends ConditionalLineBreak
     {
         parent::__construct(array(array(''), array(new HardIndentLineBreak(), new HardLineBreak())));
     }
+
+    /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return mixed
+     */
+    public function getSortOrder()
+    {
+        return 1;
+    }
+
 }

@@ -36,6 +36,11 @@ class NodePrinter extends LevelNodeVisitor
         if (strlen($line) > 1 && !$treeNode->getData()->line->isNoIndent()) {
             $line = str_repeat(self::PREFIX, $this->level) . $line;
         }
+        // dump an error to the console if the line is long
+        if (NodeLeveler::MAX_LINE_LENGTH < strlen($line)) {
+            echo "Warning: Line Longer Than Max (" . strlen($line) . " > " . NodeLeveler::MAX_LINE_LENGTH . ')';
+            echo "\n-----\n$line\n-----\n";
+        }
         // add the resulting string
         $this->result .= $line;
     }

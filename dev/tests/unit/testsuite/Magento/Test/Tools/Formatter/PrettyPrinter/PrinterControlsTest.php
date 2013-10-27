@@ -141,12 +141,6 @@ class PrinterControlsTest extends TestBase
             ),
             array(<<<ORIGINALCODESNIPPET
 <?php
-/**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
- */
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
     public function main(\$abcdefghijklmnopqrstuvwxyz) {
@@ -164,12 +158,6 @@ class TestClass {
 ORIGINALCODESNIPPET
             , <<<FORMATTEDCODESNIPPET
 <?php
-/**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
- */
 namespace Magento\Tools\Formatter\TestClass;
 
 class TestClass
@@ -178,10 +166,8 @@ class TestClass
     {
         if (
             isset(\$abcdefghijklmnopqrstuvwxyz) &&
-            isset(
-            \$abcdefghijklmnopqrstuvwxyz) &&
-            isset(
-            \$abcdefghijklmnopqrstuvwxyz)
+            isset(\$abcdefghijklmnopqrstuvwxyz) &&
+            isset(\$abcdefghijklmnopqrstuvwxyz)
         ) {
             \$callback = 'hello';
             \$callback = 'good';
@@ -189,6 +175,45 @@ class TestClass
             if (isset(\$abcdefghijklmnopqrstuvwxyz)) {
                 \$callback = 'asdf';
             }
+        }
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+namespace Magento\Tools\Formatter\TestClass;
+class TestClass {
+    public function main(\$results) {
+        if (strcasecmp('FALSE', \$results) === 0 || strcasecmp('TRUE', \$results) === 0 ||
+            strcasecmp('NULL', \$results) === 0) {
+            \$tokens[sizeof(\$tokens) - 1] = strtolower(\$results);
+            // reset the last item in the array due to php's "copy-on-write" rule for arrays
+            \$treeNode->getData()->line->setTokens(\$tokens);
+        }
+    }
+}
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\Tools\Formatter\TestClass;
+
+class TestClass
+{
+    public function main(\$results)
+    {
+        if (
+            strcasecmp('FALSE', \$results) ===
+            0 ||
+            strcasecmp('TRUE', \$results) ===
+            0 ||
+            strcasecmp('NULL', \$results) ===
+            0
+        ) {
+            \$tokens[sizeof(\$tokens) - 1] = strtolower(\$results);
+            // reset the last item in the array due to php's "copy-on-write" rule for arrays
+            \$treeNode->getData()->line->setTokens(\$tokens);
         }
     }
 }

@@ -41,4 +41,20 @@ abstract class LineBreak
      * This method returns if the next line should be indented.
      */
     abstract public function isNextLineIndented();
+
+    /**
+     * This method returns an id used to group line breaks occurring in the same line together.
+     * This is typically either the class name or the instance id.
+     * @return string
+     */
+    public function getGroupingId()
+    {
+        return get_class($this);
+    }
+
+    /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return mixed
+     */
+    abstract public function getSortOrder();
 }

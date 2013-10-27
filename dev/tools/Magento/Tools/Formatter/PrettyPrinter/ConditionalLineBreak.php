@@ -63,6 +63,15 @@ class ConditionalLineBreak extends LineBreak
     }
 
     /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return mixed
+     */
+    public function getSortOrder()
+    {
+        return 3;
+    }
+
+    /**
      * This method returns if the next line should be indented.
      */
     public function isNextLineIndented()

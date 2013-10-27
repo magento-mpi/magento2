@@ -90,6 +90,29 @@ class Tree implements Node
     }
 
     /**
+     * This method returns the array of children. For the tree, the children are the roots..
+     * @return array
+     */
+    public function getChildren()
+    {
+        return $this->rootNode;
+    }
+
+    /**
+     * This method removes the specified child from the child list.
+     * @param TreeNode $existingChild Node representing an existing child.
+     */
+    public function removeChild(TreeNode $existingChild)
+    {
+        $index = array_search($existingChild, $this->rootNode);
+        if (false !== $index) {
+            unset($this->rootNode[$index]);
+            // need to keep the index consistent, so reset to the values
+            $this->rootNode = array_values($this->rootNode);
+        }
+    }
+
+    /**
      * This method traverses the tree and allows the passed in visitor to visit every node in the tree.
      * @param NodeVisitor $visitor Instance doing the visiting.
      */
