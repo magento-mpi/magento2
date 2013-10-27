@@ -31,6 +31,19 @@ class Printer
     protected $originalCode;
 
     /**
+     * @var ParserLexer
+     */
+    public static $lexer;
+
+    /**
+     * This method returns the lexer data member
+     * @return array|\Magento\Tools\Formatter\ParserLexer
+     */
+    public static function getLexer() {
+        return self::$lexer;
+    }
+
+    /**
      * This method is used to construct the printer for the given code block.
      */
     public function __construct($code)
@@ -38,11 +51,31 @@ class Printer
         // save the original code
         $this->originalCode = $code;
         // allocate the parser--should probably be done statically
-        $parser = new PHPParser_Parser(new ParserLexer());
+        self::$lexer = new ParserLexer();
+        $parser = new PHPParser_Parser(self::$lexer);
         // parse the code into statements
         $statements = $parser->parse($this->originalCode);
         // convert the statements to text
         $this->resolveStatements($statements);
+        // Display list of probable removed comments
+        $this->displayRemovedComments(self::$lexer->getCommentMap());
+    }
+
+    /**
+     * This method display the remaining items in the comment map.
+     * Any items left in this collection were likely removed by the
+     * formatter.
+     * @param $commentMap
+     */
+    public function displayRemovedComments($commentMap) {
+        if (isset($commentMap)) {
+            if (count($commentMap) > 0) {
+                echo "REMOVED COMMENTS\n";
+                while (list($key, $value) = each($commentMap)) {
+                    echo "line($key): $value";
+                }
+            }
+        }
     }
 
     /**

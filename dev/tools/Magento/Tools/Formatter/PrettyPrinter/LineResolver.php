@@ -14,6 +14,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassTypeAbstract;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\NamespaceStatement;
 use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Comment;
 
 class LineResolver extends NodeVisitorAbstract
 {
@@ -65,6 +66,10 @@ class LineResolver extends NodeVisitorAbstract
         if ($comments !== null && is_array($comments)) {
             // add individual lines of the comments to the tree
             foreach ($comments as $comment) {
+                // Remove comment from map since it is being consumed
+                if ($comment instanceof PHPParser_Comment) {
+                    unset(Printer::$lexer->commentMap[$comment->getLine()]);
+                }
                 // split the lines so that they can be indented correctly
                 $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
                 foreach ($commentLines as $commentLine) {

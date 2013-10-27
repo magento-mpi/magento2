@@ -38,6 +38,19 @@ class ParserLexer extends PHPParser_Lexer
      */
     const END_LINE_KEY = 'endLine';
     /**
+     * Map of comments indexed by the line numnber containing the comment
+     */
+    public $commentMap;
+
+    /**
+     * This method returns the comment map.
+     * @return mixed
+     */
+    public function getCommentMap() {
+        return $this->commentMap;
+    }
+
+    /**
      * This method retrieves the next available token. Original values are stored for strings and numbers so that they
      * can be used in the pretty printer.
      * @param null $value
@@ -75,6 +88,7 @@ class ParserLexer extends PHPParser_Lexer
 
                 if (T_COMMENT === $token[0]) {
                     $startAttributes[self::COMMENT_KEY][] = new PHPParser_Comment($token[1], $token[2]);
+                    $this->commentMap[$token[2]] = $token[1];
                 } elseif (T_DOC_COMMENT === $token[0]) {
                     $startAttributes[self::COMMENT_KEY][] = new PHPParser_Comment_Doc($token[1], $token[2]);
                 } elseif (!isset($this->dropTokens[$token[0]])) {
