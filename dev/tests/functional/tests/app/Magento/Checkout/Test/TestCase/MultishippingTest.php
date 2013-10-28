@@ -69,7 +69,6 @@ class MultishippingCheckoutTest extends Functional
         Factory::getPageFactory()->getCheckoutMultishippingBilling()->getBillingBlock()->selectPaymentMethod($fixture);
         Factory::getPageFactory()->getCheckoutMultishippingOverview()->getOverviewBlock()->placeOrder($fixture);
 
-        //Verify order in Backend TODO assert constraints
         $orderIds = Factory::getPageFactory()->getCheckoutMultishippingSuccess()->getSuccessBlock()
             ->getOrderIds($fixture);
         Factory::getApp()->magentoBackendLoginUser();
