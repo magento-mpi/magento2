@@ -51,7 +51,8 @@ class MultishippingGuestPaypalDirect extends Checkout
             $simple2
         );
         //Checkout data
-        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer()->switchData('customer_US_1');
+        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $this->customer->switchData('customer_US_1');
         $address1 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $address1->switchData('address_US_1');
         $address2 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
