@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Layout;
+namespace Magento\View\Layout;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {

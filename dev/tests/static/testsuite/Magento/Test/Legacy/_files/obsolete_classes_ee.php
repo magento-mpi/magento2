@@ -10,7 +10,8 @@
 return array(
     array('Magento\CatalogEvent\Block\Adminhtml\Event\Grid'),
     array('Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid'),
-    array('Magento\CustomAttribute\Block\Form\Template'),
+    array('Magento\CustomAttribute\Block\Form\Template', 'Magento\Core\Block\Template with renderers as child blocks'),
+    array('Magento\CustomerCustomAttributes\Block\Form\Renderer\AbstractRenderer'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\Boolean'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\Date'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\File'),
