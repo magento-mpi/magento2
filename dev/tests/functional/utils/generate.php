@@ -1,4 +1,13 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mtf
+ * @package     Mtf
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 $appRoot = dirname(dirname(dirname(dirname(__DIR__))));
 $mtfRoot = dirname(dirname(__FILE__));
