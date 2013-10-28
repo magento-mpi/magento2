@@ -47,7 +47,7 @@ class GuestPayPalPayflow extends Checkout
         $simpleProduct->persist();
 
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable2');
+        $configurableProduct->switchData('configurable');
         $configurableProduct->persist();
 
         $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();

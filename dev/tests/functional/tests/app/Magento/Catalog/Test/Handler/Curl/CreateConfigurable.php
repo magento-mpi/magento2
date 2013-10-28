@@ -62,10 +62,13 @@ class CreateConfigurable extends Curl
         unset($baseData['configurable_attributes_data']);
         unset($baseData['variations-matrix']);
         foreach($baseData as $key => $field) {
-            $curlData[$key] = $field['value'];
+            if (isset ($field['input_value'])) {
+                $curlData[$key] = $field['input_value'];
+            } else if (isset($field['value'])) {
+                $curlData[$key] = $field['value'];
+            }
         }
 
-        $curlData['tax_class_id'] = 2;
         $curlData['quantity_and_stock_status']['is_in_stock'] = 1;
         $curlData['stock_data'] = array(
             'use_config_manage_stock' => 1,
@@ -140,7 +143,7 @@ class CreateConfigurable extends Curl
         }
         return $curlData;
     }
-    
+
     /**
      * Create configurable product
      *
