@@ -8,7 +8,7 @@
  * $params['MAGE_RUN_CODE'] = 'website2';
  * $params['MAGE_RUN_TYPE'] = 'website';
  * ...
- * $entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $params));
+ * $entryPoint = new \Magento\Core\Model\EntryPoint\Http(BP, $params);
  * --------------------------------------------
  *
  * {license_notice}

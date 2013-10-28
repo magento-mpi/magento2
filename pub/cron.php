@@ -19,8 +19,7 @@ try {
         \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
         \Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM => true
     );
-    $config = new \Magento\Core\Model\Config\Primary(BP, $params);
-    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
+    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron(BP, $params);
     $entryPoint->processRequest();
 } catch (\Exception $e) {
     print $e->getMessage() . "\n\n";

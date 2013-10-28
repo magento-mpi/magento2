@@ -123,12 +123,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         ));
         $moduleReader->setModuleDir('Acme_Subscriber', 'etc', __DIR__ . '/_files/Acme/Subscriber/etc');
 
-        /** @var \Magento\Core\Model\Config\Loader $modulesLoader */
-        $modulesLoader = $objectManager->create(
-            'Magento\Core\Model\Config\Loader', array(
-                'fileReader' => $moduleReader
-        ));
-
         $config = new \Magento\Core\Model\Config\Base('<config />');
         $modulesLoader->load($config);
 
@@ -146,17 +140,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue(false));
 
-        /** @var \Magento\Core\Model\Config\Storage $storage */
-        $storage = $objectManager->create(
-            'Magento\Core\Model\Config\Storage', array(
-                'loader' => $modulesLoader,
-                'cache' => $cache
-            )
-        );
 
         /** @var \Magento\Core\Model\Config $mageConfig */
         $mageConfig = $objectManager->create('Magento\Core\Model\Config', array(
-            'storage' => $storage,
             'moduleReader' => $moduleReader,
             'moduleList' => $moduleList
         ));

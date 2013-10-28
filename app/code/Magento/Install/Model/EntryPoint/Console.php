@@ -19,25 +19,20 @@ class Console extends \Magento\App\AbstractEntryPoint
     protected $_params = array();
 
     /**
-     * @param \Magento\Core\Model\Config\Primary $baseDir
+     * @param string $baseDir
      * @param array $params
-     * @param \Magento\Core\Model\Config\Primary $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Install\Model\EntryPoint\Output $output
      */
     public function __construct(
         $baseDir,
         array $params = array(),
-        \Magento\Core\Model\Config\Primary $config = null,
         \Magento\ObjectManager $objectManager = null,
         \Magento\Install\Model\EntryPoint\Output $output = null
     ) {
         $this->_params = $this->_buildInitParams($params);
-        if (!$config) {
-            $config = new \Magento\Core\Model\Config\Primary($baseDir, $this->_params);
-        }
         $this->_output = $output ?: new \Magento\Install\Model\EntryPoint\Output();
-        parent::__construct($config, $objectManager);
+        parent::__construct($baseDir, $params, $objectManager);
     }
 
     /**

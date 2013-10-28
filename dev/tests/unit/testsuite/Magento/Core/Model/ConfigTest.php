@@ -61,8 +61,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $configBase = new \Magento\Core\Model\Config\Base($xml);
         $this->_objectManagerMock = $this->getMock('Magento\App\ObjectManager', array(), array(), '', false);
-        $configStorageMock = $this->getMock('Magento\Core\Model\Config\StorageInterface');
-        $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
@@ -70,7 +68,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Core\Model\Config(
             $this->_objectManagerMock,
-            $configStorageMock,
             $modulesReaderMock,
             $this->_moduleListMock,
             $this->_configScopeMock,

@@ -17,17 +17,10 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_config;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_config = $this->getMock('Magento\Core\Model\Config\Primary', array('getParam'), array(), '', false);
-
         $dirVerification = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
 
         $cacheFrontend = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
@@ -53,7 +46,6 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager->expects($this->any())->method('get')->will($this->returnValueMap(array(
             array('Magento\Core\Model\Cache\Frontend\Pool', $cacheFrontendPool),
             array('Magento\App\Updater', $update),
-            array('Magento\Core\Model\Config\Primary', $this->_config),
             array('Magento\Index\Model\Indexer', $this->_indexer),
             array('Magento\App\Dir\Verification', $dirVerification),
         )));
@@ -69,10 +61,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_indexer->expects($this->exactly($reindexAllCount))->method('reindexAll');
         $this->_indexer->expects($this->exactly($reindexReqCount))->method('reindexRequired');
-        $this->_config->expects($this->once())
-            ->method('getParam')->with(\Magento\Install\Model\EntryPoint\Upgrade::REINDEX)
-            ->will($this->returnValue($reindexMode));
-        $upgrade = new \Magento\Install\Model\EntryPoint\Upgrade($this->_config, $this->_objectManager);
+        $upgrade = new \Magento\Install\Model\EntryPoint\Upgrade(BP, array(), $this->_objectManager);
         $upgrade->processRequest();
     }
 

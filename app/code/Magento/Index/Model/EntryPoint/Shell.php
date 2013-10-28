@@ -22,18 +22,20 @@ class Shell extends \Magento\App\AbstractEntryPoint
     protected $_errorHandler;
 
     /**
-     * @param string $entryFileName filename of the entry point script
-     * @param \Magento\Index\Model\EntryPoint\Shell\ErrorHandler $errorHandler
-     * @param \Magento\Core\Model\Config\Primary $config
+     * @param string $entryFileName
+     * @param Shell\ErrorHandler $errorHandler
+     * @param string $baseDir
+     * @param array $parameters
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         $entryFileName,
         \Magento\Index\Model\EntryPoint\Shell\ErrorHandler $errorHandler,
-        \Magento\Core\Model\Config\Primary $config,
+        $baseDir,
+        $parameters,
         \Magento\ObjectManager $objectManager = null
     ) {
-        parent::__construct($config, $objectManager);
+        parent::__construct($baseDir, $parameters, $objectManager);
         $this->_entryFileName = $entryFileName;
         $this->_errorHandler = $errorHandler;
     }

@@ -179,10 +179,9 @@ class Application
     {
         $overriddenParams['base_dir'] = BP;
         $overriddenParams[State::PARAM_MODE] = $this->_appMode;
-        $config = new \Magento\Core\Model\Config\Primary(BP, $this->_customizeParams($overriddenParams));
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
             $objectManager = new \Magento\TestFramework\ObjectManager(
-                $config,
+                BP, $this->_customizeParams($overriddenParams)
                 new \Magento\TestFramework\ObjectManager\Config()
             );
             $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($config->getDirectories());
@@ -197,7 +196,6 @@ class Application
                 $config->getParams()
             ));
 
-            $objectManager->addSharedInstance($config, 'Magento\Core\Model\Config\Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento\App\Dir');
             $objectManager->configure(array(
                 'preferences' => array(
@@ -268,8 +266,7 @@ class Application
     public function run()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $config = new \Magento\Core\Model\Config\Primary(BP, array());
-        $entryPoint = new \Magento\Core\Model\EntryPoint\Http($config, $objectManager);
+        $entryPoint = new \Magento\Core\Model\EntryPoint\Http(BP, array(), $objectManager);
         $entryPoint->processRequest();
     }
 

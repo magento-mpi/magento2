@@ -27,14 +27,8 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     protected $_shellErrorHandler;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_primaryConfig;
-
     protected function setUp()
     {
-        $this->_primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_shellErrorHandler = $this->getMock(
             'Magento\Index\Model\EntryPoint\Shell\ErrorHandler',
@@ -44,7 +38,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Shell(
-            'indexer.php', $this->_shellErrorHandler, $this->_primaryConfig, $this->_objectManager
+            'indexer.php', $this->_shellErrorHandler, $this->_objectManager
         );
     }
 

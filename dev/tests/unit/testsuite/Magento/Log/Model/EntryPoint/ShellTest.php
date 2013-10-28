@@ -21,10 +21,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $entryFileName = 'shell.php';
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new \Magento\Log\Model\EntryPoint\Shell($config, $entryFileName, $this->_objectManagerMock);
+        $this->_model = new \Magento\Log\Model\EntryPoint\Shell(BP, array(),$entryFileName, $this->_objectManagerMock);
     }
 
     public function testProcessRequest()

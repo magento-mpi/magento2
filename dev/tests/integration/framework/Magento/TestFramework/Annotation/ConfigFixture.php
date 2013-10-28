@@ -84,7 +84,6 @@ class ConfigFixture
             } else {
                 $configModel->setNode($configPath, $value);
                 $objectManager->get('Magento\Core\Model\Config')->setNode($configPath, $value);
-                $objectManager->get('Magento\Core\Model\Config\Primary')->setNode($configPath, $value);
             }
         } else {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')

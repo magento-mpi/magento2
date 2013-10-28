@@ -22,18 +22,20 @@ class Indexer extends \Magento\App\AbstractEntryPoint
     protected $_filesystem;
 
     /**
-     * @param string $reportDir absolute path to report directory to be cleaned
+     * @param string $baseDir
+     * @param array $parameters
+     * @param \Magento\ObjectManager\ObjectManager $reportDir
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Config\Primary $config
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
+        $baseDir,
+        $parameters,
         $reportDir,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Config\Primary $config,
         \Magento\ObjectManager $objectManager = null
     ) {
-        parent::__construct($config, $objectManager);
+        parent::__construct($baseDir, $parameters, $objectManager);
         $this->_reportDir = $reportDir;
         $this->_filesystem = $filesystem;
     }

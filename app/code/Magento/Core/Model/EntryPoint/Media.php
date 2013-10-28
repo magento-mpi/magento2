@@ -57,18 +57,20 @@ class Media extends \Magento\App\AbstractEntryPoint
     protected $_response;
 
     /**
-     * @param \Magento\Core\Model\Config\Primary $config
+     * @param string $baseDir
+     * @param array $parameters
      * @param \Magento\Core\Model\File\Storage\Request $request
      * @param callable $isAllowed
-     * @param string $workingDirectory
-     * @param string $mediaDirectory
-     * @param string $configCacheFile
-     * @param string $relativeFileName
+     * @param $workingDirectory
+     * @param $mediaDirectory
+     * @param $configCacheFile
+     * @param $relativeFileName
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\File\Storage\Response
+     * @param \Magento\Core\Model\File\Storage\Response $response
      */
     public function __construct(
-        \Magento\Core\Model\Config\Primary $config,
+        $baseDir,
+        $parameters,
         \Magento\Core\Model\File\Storage\Request $request,
         \Closure $isAllowed,
         $workingDirectory,
@@ -78,7 +80,7 @@ class Media extends \Magento\App\AbstractEntryPoint
         \Magento\ObjectManager $objectManager = null,
         \Magento\Core\Model\File\Storage\Response $response = null
     ) {
-        parent::__construct($config, $objectManager);
+        parent::__construct($baseDir, $parameters, $objectManager);
         $this->_request = $request;
         $this->_isAllowed = $isAllowed;
         $this->_workingDirectory = $workingDirectory;

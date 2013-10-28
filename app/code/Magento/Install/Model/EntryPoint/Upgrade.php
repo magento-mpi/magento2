@@ -48,8 +48,6 @@ class Upgrade extends \Magento\App\AbstractEntryPoint
      */
     private function _reindex()
     {
-        /** @var $config \Magento\Core\Model\Config\Primary */
-        $config = $this->_objectManager->get('Magento\Core\Model\Config\Primary');
         $reindexMode = $config->getParam(self::REINDEX);
         if ($reindexMode) {
             /** @var $indexer \Magento\Index\Model\Indexer */

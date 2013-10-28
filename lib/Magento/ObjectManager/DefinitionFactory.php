@@ -82,7 +82,7 @@ class DefinitionFactory
             $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'), true, false);
-            
+
             $result =  new \Magento\ObjectManager\Definition\Runtime();
         }
         return $result;

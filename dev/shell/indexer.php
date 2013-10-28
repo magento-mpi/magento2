@@ -17,6 +17,7 @@ $params = array(
 $entryPoint = new \Magento\Index\Model\EntryPoint\Shell(
     basename(__FILE__),
     new \Magento\Index\Model\EntryPoint\Shell\ErrorHandler(),
-    new \Magento\Core\Model\Config\Primary(BP, $params)
+    BP,
+    $params
 );
 $entryPoint->processRequest();

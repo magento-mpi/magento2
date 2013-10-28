@@ -71,7 +71,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\Core\Model\File\Storage\Request', array(), array(), '', false);
         $this->_closure = function () {
             return true;
@@ -93,7 +92,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\Core\Model\EntryPoint\Media(
-            $this->_config,
             $this->_requestMock,
             $this->_closure,
             'var',

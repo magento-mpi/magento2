@@ -33,7 +33,7 @@ try {
 /**
  * Replace {{skin url=""}} with {{view url=""}} for given table field
  *
- * @param \Magento\Core\Model\Config\Primary $objectManager
+ * @param \Magento\ObjectManager $objectManager
  * @param string $table
  * @param string $col
  */

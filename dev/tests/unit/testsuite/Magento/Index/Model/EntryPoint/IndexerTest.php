@@ -25,11 +25,6 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_primaryConfig;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_filesystem;
 
     /**
@@ -40,11 +35,10 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_reportDir = 'tmp' . DIRECTORY_SEPARATOR . 'reports';
-        $this->_primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Indexer(
-            $this->_reportDir, $this->_filesystem, $this->_primaryConfig, $this->_objectManager
+            $this->_reportDir, $this->_filesystem, $this->_objectManager
         );
     }
 

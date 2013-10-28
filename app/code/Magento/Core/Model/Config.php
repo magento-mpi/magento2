@@ -53,13 +53,6 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_objectManager;
 
     /**
-     * Configuration storage
-     *
-     * @var \Magento\Core\Model\Config\StorageInterface
-     */
-    protected $_storage;
-
-    /**
      * Module configuration reader
      *
      * @var \Magento\Core\Model\Config\Modules\Reader

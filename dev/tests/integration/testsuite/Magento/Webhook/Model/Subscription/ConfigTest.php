@@ -83,21 +83,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $moduleReader->setModuleDir('Acme_Subscriber', 'etc', __DIR__ . '/_files/Acme/Subscriber/etc');
 
-        $loader = $this->_objectManager->create(
-            'Magento\Core\Model\Config\Loader',
-            array('fileReader' => $moduleReader)
-        );
-        /** @var \Magento\Core\Model\Config\Storage $storage */
-        $storage = $this->_objectManager->create(
-            'Magento\Core\Model\Config\Storage', array(
-                'loader' => $loader,
-                'cache' => $cache
-            )
-        );
-
         $mageConfig = $this->_objectManager->create(
             'Magento\Core\Model\Config',
-            array('storage' => $storage, 'moduleReader' => $moduleReader)
+            array('moduleReader' => $moduleReader)
         );
 
         /** @var \Magento\Webhook\Model\Subscription\Config $config */

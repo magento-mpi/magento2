@@ -30,15 +30,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $resource = new \stdClass;
         $instanceConfig = new \Magento\TestFramework\ObjectManager\Config();
-        $primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
-        $primaryConfig->expects($this->any())->method('getParams')->will($this->returnValue(array()));
         $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $verification = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
         $cache = $this->getMock('Magento\Core\Model\CacheInterface');
         $configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
         $configLoader->expects($this->once())->method('load')->will($this->returnValue(array()));
         $configCache = $this->getMock('Magento\App\ObjectManager\ConfigCache', array(), array(), '', false);
-        $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
         $primaryLoaderMock = $this->getMock(
             'Magento\App\ObjectManager\ConfigLoader\Primary', array(), array(), '', false
         );

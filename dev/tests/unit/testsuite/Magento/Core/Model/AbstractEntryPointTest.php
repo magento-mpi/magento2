@@ -19,10 +19,11 @@ class AbstractEntryPointTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = $this->getMock('Magento\ObjectManager');
 
-        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
-
-        $model = $this->getMockForAbstractClass('Magento\Core\Model\AbstractEntryPoint',
-            array($config, $objectManager), '');
+        $model = $this->getMockForAbstractClass(
+            'Magento\Core\Model\AbstractEntryPoint',
+            array(BP, array(), $objectManager),
+            ''
+        );
         $model->expects($this->once())
             ->method('_processRequest');
         $model->processRequest();
