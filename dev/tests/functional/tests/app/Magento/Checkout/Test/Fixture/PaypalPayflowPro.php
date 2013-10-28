@@ -68,6 +68,7 @@ class PaypalPayflowPro extends Checkout
         $simple->switchData('simple');
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable');
 
         $simple->persist();
         $configurable->persist();
@@ -92,6 +93,6 @@ class PaypalPayflowPro extends Checkout
         $this->creditCard->switchData('visa_default');
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
-        $this->paypalCustomer->switchData('customer_US');
+        $this->customer->switchData('customer_US');
     }
 }
