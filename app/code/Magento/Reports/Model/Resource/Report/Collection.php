@@ -77,7 +77,7 @@ class Collection extends \Magento\Data\Collection
     protected $_reportCollection = null;
 
     /**
-     * @var  \Zend_DateFactory
+     * @var  \Magento\Reports\Model\DateFactory
      */
     protected $_dateFactory;
 
@@ -93,13 +93,13 @@ class Collection extends \Magento\Data\Collection
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Zend_DateFactory $dateFactory
-     * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $collectionFactory
+     * @param \Magento\Reports\Model\DateFactory $dateFactory
+     * @param Collection\Factory $collectionFactory
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Zend_DateFactory $dateFactory,
+        \Magento\Reports\Model\DateFactory $dateFactory,
         \Magento\Reports\Model\Resource\Report\Collection\Factory $collectionFactory,
         \Magento\Core\Model\EntityFactory $entityFactory
     ) {
