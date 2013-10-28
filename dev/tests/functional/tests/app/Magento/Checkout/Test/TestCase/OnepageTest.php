@@ -73,8 +73,6 @@ class OnepageTest extends Functional
 
         $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount();
         $this->assertContains($expectedAuthorizedAmount, $actualAuthorizedAmount, 'Incorrect authorized amount value for the order #' . $orderId);
-
-        Factory::getApp()->magentoTaxRemoveTaxRule();
     }
 
     /**
