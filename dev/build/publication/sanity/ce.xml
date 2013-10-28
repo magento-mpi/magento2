@@ -378,5 +378,10 @@
             <word>CustomerSegment</word>
             <path>dev/tests/static/testsuite/Magento/Test/Integrity/_files/blacklist/reference.txt</path>
         </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
+            <word>Pbridge</word>
+            <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
+        </item>
     </whitelist>
 </config>

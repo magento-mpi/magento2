@@ -2,12 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  integration_tests
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 session_start();
 require_once __DIR__ . '/../../../app/bootstrap.php';
 restore_error_handler();
