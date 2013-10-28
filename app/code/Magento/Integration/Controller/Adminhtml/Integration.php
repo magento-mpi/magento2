@@ -58,10 +58,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
-        $this->_addBreadcrumb(
-            __('Integrations'),
-            __('Integrations')
-        );
+        $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
         $this->_title(__('Integrations'));
         $this->renderLayout();
     }
@@ -85,30 +82,63 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         return $this->_authorization->isAllowed('Magento_Integration::integrations');
     }
 
+    /**
+     * New integration action.
+     */
     public function newAction()
     {
-        $this->_forward('edit');
+        $this->loadLayout();
+        $this->_setActiveMenu('Magento_Integration::system_integrations');
+        $this->_addBreadcrumb(__('New Integration'), __('New Integration'));
+        $this->_title(__('New Integration'));
+        /** Try to recover integration data from session if it was added during previous request which failed. */
+        $restoredIntegration = $this->_getSession()->getIntegrationData();
+        if ($restoredIntegration) {
+            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $restoredIntegration);
+            $this->_getSession()->setIntegrationData(array());
+        }
+        $this->renderLayout();
     }
 
+    /**
+     * Edit integration action.
+     */
     public function editAction()
     {
+        /** Try to recover integration data from session if it was added during previous request which failed. */
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
+            $restoredIntegration = $this->_getSession()->getIntegrationData();
+            if (isset($restoredIntegration[self::DATA_INTEGRATION_ID])
+                && $integrationId == $restoredIntegration[self::DATA_INTEGRATION_ID]
+            ) {
+                $integrationData = array_merge($integrationData, $restoredIntegration);
+            }
             if (!$integrationData[self::DATA_INTEGRATION_ID]) {
                 $this->_getSession()->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+        } else {
+            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->_redirect('*/*/');
+            return;
         }
         $this->loadLayout();
+        $this->_getSession()->setIntegrationData(array());
+        $this->_setActiveMenu('Magento_Integration::system_integrations');
+        $this->_addBreadcrumb(
+            __('Edit "%1" Integration', $integrationData[self::DATA_NAME]),
+            __('Edit "%1" Integration', $integrationData[self::DATA_NAME])
+        );
+        $this->_title(__('Edit "%1" Integration', $integrationData[self::DATA_NAME]));
         $this->renderLayout();
     }
 
-
     /**
-     * Save integration action
+     * Save integration action.
      */
     public function saveAction()
     {
@@ -138,11 +168,28 @@ class Integration extends \Magento\Adminhtml\Controller\Action
                     $integrationData[self::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID)));
+            $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
+            $this->_redirectOnSaveError();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirectOnSaveError();
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirectOnSaveError();
+        }
+    }
+
+    /**
+     * Redirect merchant to 'Edit integration' or 'New integration' if error happened during integration save.
+     */
+    protected function _redirectOnSaveError()
+    {
+        $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+        if ($integrationId) {
+            $this->_redirect('*/*/edit', array('id' => $integrationId));
+        } else {
+            $this->_redirect('*/*/new');
         }
     }
 }

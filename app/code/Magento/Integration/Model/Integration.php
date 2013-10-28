@@ -6,22 +6,26 @@
  * @license    {license_link}
  */
 
-/**
- * Integration model
- *
- * @method string getName()
- * @method \Magento\Integration\Model\Integration setName(string $name)
- * @method string getEmail()
- * @method \Magento\Integration\Model\Integration setEmail(string $email)
- * @method int getStatus()
- * @method \Magento\Integration\Model\Integration setStatus(int $value)
- * @method int getAuthentication()
- * @method \Magento\Integration\Model\Integration setAuthentication(int $value)
- * @method string getEndpoint()
- * @method \Magento\Integration\Model\Integration setEndpoint(string $endpoint)
- */
 namespace Magento\Integration\Model;
 
+/**
+ * Integration model.
+ *
+ * @method \string getName()
+ * @method Integration setName(\string $name)
+ * @method \string getEmail()
+ * @method Integration setEmail(\string $email)
+ * @method \int getStatus()
+ * @method Integration setStatus(\int $value)
+ * @method \int getAuthentication()
+ * @method Integration setAuthentication(\int $value)
+ * @method \string getEndpoint()
+ * @method Integration setEndpoint(\string $endpoint)
+ * @method \string getCreatedAt()
+ * @method Integration setCreatedAt(\string $createdAt)
+ * @method \string getUpdatedAt()
+ * @method Integration setUpdatedAt(\string $createdAt)
+ */
 class Integration extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
@@ -36,7 +40,6 @@ class Integration extends \Magento\Core\Model\AbstractModel
      */
     const AUTHENTICATION_OAUTH = 1;
     const AUTHENTICATION_MANUAL = 2;
-
     /**#@-*/
 
     /**
@@ -53,27 +56,15 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data to be saved to database
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return Integration
      */
     protected function _beforeSave()
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
             $this->setCreatedAt($this->_getResource()->formatDate(true));
-        } elseif ($this->getId()) {
-            $this->setUpdatedAt($this->_getResource()->formatDate(true));
         }
+        $this->setUpdatedAt($this->_getResource()->formatDate(true));
         return $this;
-    }
-
-    /**
-     * Load Integration by name.
-     *
-     * @param string $name
-     * @return \Magento\Integration\Model\Integration
-     */
-    public function loadByName($name)
-    {
-        return $this->load($name, 'name');
     }
 }

@@ -92,12 +92,11 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      */
     private function _checkIntegrationByName($name)
     {
-        $integration = $this->_integrationFactory->create()->loadByName($name);
+        $integration = $this->_integrationFactory->create()->load($name, 'name');
         if ($integration->getId()) {
             throw new \Magento\Integration\Exception(__("Integration with name '%1' exists.", $name));
         }
     }
-
 
     /**
      * Load integration by id.
@@ -114,5 +113,4 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         }
         return $integration;
     }
-
 }
