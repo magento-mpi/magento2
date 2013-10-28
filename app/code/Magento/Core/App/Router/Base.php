@@ -304,11 +304,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             $currentModuleName = $moduleName;
 
             $controllerClassName = $this->getControllerClassName($moduleName, $controller);
-            if (!$controllerClassName) {
-                continue;
-            }
-
-            if (false === method_exists($controllerClassName, $action . 'Action')) {
+            if (!$controllerClassName || false === method_exists($controllerClassName, $action . 'Action')) {
                 continue;
             }
 
@@ -318,9 +314,6 @@ class Base extends \Magento\App\Router\AbstractRouter
             break;
         }
 
-        /**
-         * if we did not found any suitable
-         */
         if (null == $controllerInstance) {
             $controllerInstance = $this->_getNotFoundControllerInstance($currentModuleName, $request);
             if (is_null($controllerInstance)) {
@@ -409,6 +402,13 @@ class Base extends \Magento\App\Router\AbstractRouter
         return false;
     }
 
+    /**
+     * Build controller class name
+     *
+     * @param string $realModule
+     * @param string $controller
+     * @return string
+     */
     public function getControllerClassName($realModule, $controller)
     {
         $class = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $realModule) .
@@ -455,6 +455,12 @@ class Base extends \Magento\App\Router\AbstractRouter
         return $this->_url->getUseSession();
     }
 
+    /**
+     * Retrieve secure url for current request
+     *
+     * @param \Magento\App\RequestInterface $request
+     * @return string
+     */
     protected function _getCurrentSecureUrl($request)
     {
         $alias = $request->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);

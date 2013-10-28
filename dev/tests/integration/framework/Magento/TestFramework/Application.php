@@ -11,7 +11,6 @@
 
 namespace Magento\TestFramework;
 use Magento\App\State;
-use Magento\App\State;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -181,15 +180,14 @@ class Application
         $overriddenParams[State::PARAM_MODE] = $this->_appMode;
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
             $objectManager = new \Magento\TestFramework\ObjectManager(
-                BP, $this->_customizeParams($overriddenParams)
+                BP, $this->_customizeParams($overriddenParams),
                 new \Magento\TestFramework\ObjectManager\Config()
             );
-            $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($config->getDirectories());
+            $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary();
             $this->_primaryConfig = $primaryLoader->load();
         } else {
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             \Magento\TestFramework\ObjectManager::setInstance($objectManager);
-            $config->configure($objectManager);
 
             $objectManager->getFactory()->setArguments(array_replace(
                 $objectManager->get('Magento\App\Config')->getParams(),
