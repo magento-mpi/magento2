@@ -9,33 +9,40 @@
  */
 ?>
 
-<div class="page-title">
-    <h1><?php echo __('Create Gift Registry'); ?></h1>
-</div>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<form action="<?php echo $this->getAddActionUrl(); ?>" method="post" id="form-validate">
-    <div class="fieldset">
+<h2 class="subtitle">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+</h2>
+
+<form action="<?php echo $this->getAddActionUrl(); ?>" method="post" id="form-validate" class="form validation" data-hasrequired="<?php echo __('* Required Fields') ?>">
+    <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
-        <h2 class="legend"><?php echo __('General Information') ?></h2>
-        <ul class="form-list">
-            <li>
-                <label for="type_id"><?php echo __('Gift Registry Type') ?></label>
-                <div class="input-box">
-                    <select data-validate="{required:true}" name="type_id" id="type_id">
-                            <option value=""><?php echo __('Please select a gift registry type.') ?></option>
-                        <?php foreach ($this->getTypeList() as $type):?>
-                            <option value="<?php echo $type['value']?>"><?php echo $type['label'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </li>
-        </ul>
+        <legend class="legend"><span><?php echo __('General Information') ?></span></legend>
+
+        <div class="field type required">
+            <label for="type_id" class="label"><span><?php echo __('Gift Registry Type') ?></span></label>
+            <div class="control">
+                <select data-validate="{required:true}" name="type_id" id="type_id">
+                    <option value=""><?php echo __('Please select a gift registry type.') ?></option>
+                    <?php foreach ($this->getTypeList() as $type):?>
+                        <option value="<?php echo $type['value']?>"><?php echo $type['label'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="actions">
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back">
+                <span><?php echo __('Back') ?></span>
+            </a>
+        </div>
+        <div class="primary">
+            <button type="submit" id="submit.next" title="<?php echo __('Next') ?>" class="action primary next">
+                <span><?php echo __('Next') ?></span>
+            </button>
+        </div>
     </div>
-    <div class="buttons-set form-buttons">
-        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
-        <button type="submit" id="submit.next" title="<?php echo __('Next') ?>" class="button"><span><span><?php echo __('Next') ?></span></span></button>
-    </div>
-    <p class="required"><?php echo __('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
     (function($) {

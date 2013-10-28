@@ -281,8 +281,8 @@
          * @return {*}
          */
         _setUpTemplate: function(index, templateId, containerId) {
-            var li = $('<li></li>');
-            li.addClass('fields').attr('id', 'row' + index);
+            var li = $('<div/>');
+            li.addClass('fields additional').attr('id', 'row' + index);
             $(templateId).tmpl([{_index_: index}]).appendTo(li);
             $(containerId).append(li);
             // skipping first row
