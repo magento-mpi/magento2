@@ -55,4 +55,9 @@ class UseStatement extends AbstractStatement
         // add a newline after the block
         $line->add(new HardLineBreak());
     }
+
+    public function isTrimComments()
+    {
+        return true;
+    }
 }
