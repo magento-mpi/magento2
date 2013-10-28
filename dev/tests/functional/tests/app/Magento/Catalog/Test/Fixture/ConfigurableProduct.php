@@ -159,20 +159,25 @@ class ConfigurableProduct extends Product
         $this->_data = array(
             'fields' => array(
                 'name' => array(
+                    'value' => 'Configurable Product %isolation%',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'sku' => array(
+                    'value' => 'configurable_sku_%isolation%',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'price' => array(
+                    'value' => '10',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'tax_class_id' => array(
+                    'value' => 'Taxable Goods',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select',
                     'input_value' => '2',
                 ),
                 'weight' => array(
+                    'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'configurable_attributes_data' => array(
@@ -186,13 +191,13 @@ class ConfigurableProduct extends Product
                                         'value' => '%attribute_1_option_label_1%'
                                     ),
                                     'pricing_value' => array(
-                                        'value' => '10'
+                                        'value' => '11'
                                     ),
                                     'is_percent' => array(
-                                        'value' => 'Yes'
+                                        'value' => 'No'
                                     ),
                                     'include' => array(
-                                        'value' => 'No'
+                                        'value' => 'Yes'
                                     ),
                                 ),
                                 '1' => array(
@@ -200,7 +205,7 @@ class ConfigurableProduct extends Product
                                         'value' => '%attribute_1_option_label_2%'
                                     ),
                                     'pricing_value' => array(
-                                        'value' => '20'
+                                        'value' => '12'
                                     ),
                                     'is_percent' => array(
                                         'value' => 'No'
@@ -230,7 +235,7 @@ class ConfigurableProduct extends Product
                                     'value' => 'Variation 0-%isolation%'
                                 ),
                                 'qty' => array(
-                                    'value' => ''
+                                    'value' => '100'
                                 )
                             )
                         ),
@@ -249,7 +254,7 @@ class ConfigurableProduct extends Product
                                     'value' => 'Variation 1-%isolation%'
                                 ),
                                 'qty' => array(
-                                    'value' => ''
+                                    'value' => '200'
                                 )
                             )
                         )

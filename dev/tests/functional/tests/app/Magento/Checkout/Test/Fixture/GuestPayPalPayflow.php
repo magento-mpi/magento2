@@ -25,18 +25,15 @@ class GuestPayPalPayflow extends Checkout
      */
     public function persist()
     {
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_payflow_pro');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('flat_rate');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('default_tax_config');
-        $coreConfig->persist();
+        //Configuration
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_payflow_pro',
+            'default_tax_config',
+            'display_price',
+            'display_shopping_cart'
+        ));
 
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
@@ -47,11 +44,10 @@ class GuestPayPalPayflow extends Checkout
         $simpleProduct->persist();
 
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable');
+        $configurableProduct->switchData('configurable_default_category');
         $configurableProduct->persist();
 
         $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundleProduct->switchData('bundle_option_price');
         $bundleProduct->persist();
 
         $this->products = array(
