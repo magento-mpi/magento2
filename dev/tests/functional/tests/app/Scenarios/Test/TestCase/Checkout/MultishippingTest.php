@@ -13,17 +13,23 @@ namespace Scenarios\Test\TestCase\Checkout;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\MultishippingGuestPaypalDirect;
+use Magento\Checkout\Test\Fixture\Checkout;
 
+/**
+ * Class MultishippingCheckoutTest
+ * Test multiple address page checkout with different configurations
+ *
+ * @package Scenarios\Test\TestCase\Checkout
+ */
 class MultishippingCheckoutTest extends Functional
 {
     /**
      * Place order on frontend via multishipping.
      *
-     * @param MultishippingGuestPaypalDirect $fixture
+     * @param Checkout $fixture
      * @dataProvider dataProviderMultishippingCheckout
      */
-    public function testMultishippingCheckout(MultishippingGuestPaypalDirect $fixture)
+    public function testMultishippingCheckout(Checkout $fixture)
     {
         //Add products to cart
         $products = $fixture->getProducts();
@@ -67,12 +73,13 @@ class MultishippingCheckoutTest extends Functional
         $orderIds = Factory::getPageFactory()->getCheckoutMultishippingSuccess()->getSuccessBlock()
             ->getOrderIds($fixture);
         Factory::getApp()->magentoBackendLoginUser();
-        foreach ($orderIds as $orderId) {
+        $grandTotals = $fixture->getGrandTotal();
+        foreach ($orderIds as $num => $orderId) {
             $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
             $orderPage->open();
             $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
             $this->assertContains(
-                $fixture->getGrandTotal(),
+                $grandTotals[$num],
                 Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
                 'Incorrect grand total value for the order #' . $orderId
             );
