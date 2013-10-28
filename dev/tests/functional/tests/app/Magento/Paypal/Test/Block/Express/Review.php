@@ -11,11 +11,13 @@
 
 namespace Magento\Paypal\Test\Block\Express;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Paypal\Test\Block\Express;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Shipping\Test\Fixture\Method;
+use Magento\Customer\Test\Fixture\Address;
 
 /**
  * Class Review
@@ -23,7 +25,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Paypal\Test\Block\Express
  */
-class Review extends Block
+class Review extends Form
 {
     /**
      * 'Place Order' button
@@ -108,20 +110,37 @@ class Review extends Block
         //TODO assert constraints
         $this->getBillingBlock()->verify($fixture->getBillingAddress());
         $shippingAddresses = $fixture->getShippingAddress();
-        foreach ($shippingAddresses as $shippingAddress)
+        foreach ($shippingAddresses as $shippingAddress) {
             $this->getShippingBlock()->verify($shippingAddress);
         }
+    }
 
     /**
      * Select shipping method
      *
-     * @param Checkout $fixture
+     * @param Method $fixture
      */
-    public function selectShippingMethod(Checkout $fixture)
+    public function selectShippingMethod(Method $fixture)
     {
-        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $shippingMethod = $fixture->getData('fields');
         $this->_rootElement->find($this->shippingMethod, Locator::SELECTOR_CSS, 'select')
             ->setOptionGroupValue($shippingMethod['shipping_service'], $shippingMethod['shipping_method']);
+    }
+
+    /**
+     * Set telephone to form
+     *
+     * @param Address $fixture
+     */
+    public function fillTelephone(Address $fixture)
+    {
+        $data = array(array(
+            'selector'  => 'shipping:telephone',
+            'strategy'  => Locator::SELECTOR_ID,
+            'value'     => $fixture->getData('fields/telephone/value'),
+            'input'     => null
+        ));
+        $this->_fill($data);
     }
 
     /**

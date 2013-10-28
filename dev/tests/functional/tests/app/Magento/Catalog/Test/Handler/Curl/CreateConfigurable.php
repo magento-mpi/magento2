@@ -12,13 +12,13 @@
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
 use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class Create Configurable Product
@@ -140,7 +140,7 @@ class CreateConfigurable extends Curl
         }
         return $curlData;
     }
-
+    
     /**
      * Create configurable product
      *
@@ -157,7 +157,6 @@ class CreateConfigurable extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
         $response = $curl->read();
         $curl->close();
-
         return $response;
     }
 }

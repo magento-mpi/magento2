@@ -64,23 +64,45 @@ class PaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('free_shipping')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_disabled_all_methods')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_express')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('default_tax_config')->persist();
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('free_shipping');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_disabled_all_methods');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_express');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('default_tax_config');
+        $coreConfig->persist();
+
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple');
         $simple->persist();
+
         $this->products = array(
             $simple
         );
+
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoPaypalCustomer()->switchData('address_US_1');
-        $this->shippingAddresses = Factory::getFixtureFactory()->getMagentoPaypalCustomer()->switchData('address_US_1');
-        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('free_shipping');
-        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer()->switchData('customer_US');
-        $this->telephoneNumber = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1')
-            ->getTelephone();
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->billingAddress->switchData('address_US_1');
+
+        $this->shippingAddresses = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->shippingAddresses->switchData('address_US_1');
+
+        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $this->shippingMethods->switchData('free_shipping');
+
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
+
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_US_1');
+        $this->telephoneNumber = $customerAddress->getTelephone();
+
         //Verification data
         $this->_data = array(
             'totals' => array(

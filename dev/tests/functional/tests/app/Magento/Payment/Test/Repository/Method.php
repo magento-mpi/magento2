@@ -34,6 +34,7 @@ class Method extends AbstractRepository
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['paypal_express'] = $this->_getPayPalExpress();
         $this->_data['paypal_direct'] = $this->_getPayPalDirect();
+        $this->_data['paypal_payflow_pro'] = $this->_getPayPalPayflowPro();
     }
 
     protected function _getAuthorizeNet()
@@ -70,6 +71,25 @@ class Method extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'paypal_direct'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides Credit Card Data for PayPal Payflow Pro Method
+     *
+     * @return array
+     */
+    protected function _getPayPalPayflowPro()
+    {
+        return array(
+            'config' => array(
+                'payment_form_class' => '\\Magento\\Payment\\Test\\Block\\Form\\Cc',
+            ),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'verisign'
                 ),
             )
         );

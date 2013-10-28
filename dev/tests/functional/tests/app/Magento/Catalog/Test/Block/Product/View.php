@@ -78,8 +78,17 @@ class View extends Block
      */
     public function addToCart(Product $product)
     {
-        if ($this->getBundleBlock()->isVisible()) {
-            $this->getBundleBlock()->fillBundleOptions($product);
+        $configureButton = $this->_rootElement->find('.action.primary.customize');
+        $configureSection = $this->_rootElement->find('.product.options.configure');
+
+        if ($configureButton->isVisible()) {
+            $configureButton->click();
+            $bundleOptions = $product->getSelectionData();
+            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
+        }
+        if ($configureSection->isVisible()) {
+            $productOptions = $product->getProductOptions();
+            $this->getBundleBlock()->fillProductOptions($productOptions);
         }
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
@@ -140,6 +149,20 @@ class View extends Block
             $price['price_to'] = $priceTo->find('.price')->getText();
         }
         return $price;
+    }
+
+    /**
+     * Return configurable product options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        for ($i =2; $i<=3; $i++) {
+            $options[] = $this->_rootElement
+                ->find(".super-attribute-select option:nth-child($i)")->getText();
+        }
+        return $options;
     }
 
     /**

@@ -112,8 +112,11 @@ abstract class Grid extends Block
     public function search(array $filter)
     {
         $this->resetFilter();
+        sleep(2);
         $this->_prepareForSearch($filter);
+        sleep(2);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
+        sleep(2);
         $this->_templateBlock->waitLoader();
     }
 

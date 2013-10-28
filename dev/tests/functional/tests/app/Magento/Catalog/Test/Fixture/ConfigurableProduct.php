@@ -28,6 +28,11 @@ class ConfigurableProduct extends Product
     const GROUP_VARIATIONS = 'product_info_tabs_super_config_content';
 
     /**
+     * @var array
+     */
+    protected $attributes = array();
+
+    /**
      * Custom constructor to create configurable product with attribute
      *
      * @param Config $configuration
@@ -42,15 +47,47 @@ class ConfigurableProduct extends Product
     }
 
     /**
-     * Persists prepared data into application
+     * Create category
      *
-     * @return $this|ConfigurableProduct
+     * @return string
      */
-    public function persist()
+    protected function categoryProvider()
     {
-        Factory::getApp()->magentoCatalogCreateConfigurable($this);
+        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+        $category->switchData('subcategory');
+        $category->persist();
+        return $category->getCategoryName();
+    }
 
-        return $this;
+    /**
+     * @param string $code
+     * @return array
+     */
+    protected function getConfigurableAttributeData($code)
+    {
+        $attribute = $this->getAttribute($code);
+        return array(
+            $attribute->getAttributeId() => array(
+                'label'  => $attribute->getAttributeLabel(),
+                'values' => $this->getOptionFixtures($attribute->getAttributeOptionIds())
+            )
+        );
+    }
+
+    /**
+     * Returns attribute & create it if is needed
+     *
+     * @param string $code
+     * @return \Magento\Catalog\Test\Fixture\ProductAttribute
+     */
+    public function getAttribute($code)
+    {
+        if (!isset($this->attributes[$code])) {
+            $attribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
+            $attribute->switchData('configurable_attribute');
+            $this->attributes[$code] = $attribute->persist();
+        }
+        return $this->attributes[$code];
     }
 
     /**
@@ -74,6 +111,23 @@ class ConfigurableProduct extends Product
         $this->_applyPlaceholders($this->_data, $placeholders);
 
         return $attribute->getAttributeLabel();
+    }
+    
+    /**
+     * @param array $optionIds
+     * @return array
+     */
+    protected function getOptionFixtures($optionIds)
+    {
+        $data = array();
+        foreach ($optionIds as $num => $id) {
+            $data[$id] = array(
+                'pricing_value' => ($num + 1) * 1,
+                'is_percent'    => 0,
+                'include'       => 1
+            );
+        }
+        return $data;
     }
 
     /**
@@ -107,6 +161,18 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Create product
+     *
+     * @return $this|ConfigurableProduct
+     */
+    public function persist()
+    {
+        Factory::getApp()->magentoCatalogCreateConfigurable($this);
+
+        return $this;
+    }
+
+    /**
      * Get configurable product options
      *
      * @return array
@@ -121,7 +187,6 @@ class ConfigurableProduct extends Product
                 }
             }
         }
-
         return $options;
     }
 
@@ -151,7 +216,8 @@ class ConfigurableProduct extends Product
                 ),
                 'tax_class_id' => array(
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
+                    'input_value' => '2',
                 ),
                 'weight' => array(
                     'group' => static::GROUP_PRODUCT_DETAILS
@@ -242,5 +308,21 @@ class ConfigurableProduct extends Product
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogConfigurableProduct($this->_dataConfig, $this->_data);
+    }
+
+    /**
+     * Get configurable options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        $selections = $this->getData('checkout/selections');
+        $options = array();
+        foreach ($selections as $attributeCode => $value) {
+            $attributeLabel = $this->getAttribute($attributeCode)->getAttributeLabel();
+            $options[$attributeLabel] = $value;
+        }
+        return $options;
     }
 }
