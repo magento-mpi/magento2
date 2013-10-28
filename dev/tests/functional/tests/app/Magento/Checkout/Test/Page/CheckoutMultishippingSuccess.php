@@ -44,7 +44,7 @@ class CheckoutMultishippingSuccess extends Page
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
 
         $this->successBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingSuccess(
-            $this->_browser->find('.col-main', Locator::SELECTOR_CSS));
+            $this->_browser->find('.multicheckout.success', Locator::SELECTOR_CSS));
     }
 
     /**
