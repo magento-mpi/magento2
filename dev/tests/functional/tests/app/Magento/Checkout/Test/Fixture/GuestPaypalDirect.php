@@ -43,28 +43,25 @@ class GuestPaypalDirect extends Checkout
     public function persist()
     {
         //Configuration
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('flat_rate');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('authorizenet_disable');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_direct');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('default_tax_config');
-        $coreConfig->persist();
-
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_direct',
+            'default_tax_config',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable');
+        $configurable->switchData('configurable_default_category');
 
         $simple->persist();
         $bundle->persist();
@@ -76,7 +73,7 @@ class GuestPaypalDirect extends Checkout
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress->switchData('address_US_3');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');

@@ -43,24 +43,27 @@ class GuestAuthorizenet extends Checkout
     public function persist()
     {
         //Configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('flat_rate');
-        $configFixture->persist();
-        $configFixture->switchData('authorizenet');
-        $configFixture->persist();
-        $configFixture->switchData('us_tax_config');
-        $configFixture->persist();
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'authorizenet',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simpleProduct->switchData('simple');
         $simpleProduct->persist();
 
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable');
+        $configurableProduct->switchData('configurable_default_category');
         $configurableProduct->persist();
 
         $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundleProduct->switchData('bundle');
         $bundleProduct->persist();
 
         $this->products = array(
@@ -70,7 +73,7 @@ class GuestAuthorizenet extends Checkout
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress->switchData('address_US_3');
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();

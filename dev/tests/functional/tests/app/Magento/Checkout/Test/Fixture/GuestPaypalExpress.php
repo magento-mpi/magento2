@@ -46,25 +46,18 @@ class GuestPaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('flat_rate');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_express');
-        $coreConfig->persist();
-
-        Factory::getFixtureFactory()->getMagentoTaxTaxClass()->persist();
-        Factory::getFixtureFactory()->getMagentoTaxTaxRate()->persist();
-        Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
-
-        $coreConfig->switchData('us_tax_config');
-        $coreConfig->persist();
-
-
-
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_express',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
@@ -84,7 +77,7 @@ class GuestPaypalExpress extends Checkout
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress->switchData('address_US_3');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');
