@@ -64,6 +64,7 @@ class GuestPaypalDirect extends Checkout
         $simple->switchData('simple');
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable');
 
         $simple->persist();
         $bundle->persist();

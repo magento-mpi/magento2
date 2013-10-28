@@ -92,7 +92,7 @@ class PaypalPayflowPro extends Checkout
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_default');
 
-        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->customer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->customer->switchData('customer_US');
     }
 }
