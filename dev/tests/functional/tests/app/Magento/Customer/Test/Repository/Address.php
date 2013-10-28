@@ -34,7 +34,6 @@ class Address extends AbstractRepository
         $this->_data['address_US_1'] = $this->_getUS1();
         $this->_data['address_US_2'] = $this->_getUS2();
         $this->_data['address_data_US_1'] = $this->_getDataUS1();
-        $this->_data['address_US_3'] = $this->_getDataUS3();
     }
 
     protected function _getUS1()
@@ -143,12 +142,5 @@ class Address extends AbstractRepository
                 )
             )
         );
-    }
-
-    protected function _getDataUS3()
-    {
-        $address = $this->_getUS1();
-        $address['data']['fields']['postcode']['value'] = '90210';
-        return $address;
     }
 }

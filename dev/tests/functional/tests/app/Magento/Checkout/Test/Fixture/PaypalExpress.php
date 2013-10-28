@@ -64,19 +64,19 @@ class PaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('free_shipping');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_express');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('default_tax_config');
-        $coreConfig->persist();
-
+        $this->_persistConfiguration(array(
+            'free_shipping',
+            'paypal_disabled_all_methods',
+            'paypal_express',
+            'default_tax_config',
+            'display_price',
+            'display_shopping_cart'
+        ));
+        //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');

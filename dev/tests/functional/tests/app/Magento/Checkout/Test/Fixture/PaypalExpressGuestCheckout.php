@@ -27,8 +27,8 @@ class PaypalExpressGuestCheckout extends DataFixture
     {
         $this->_data = array(
             'totals' => array(
-                'grand_total'       => '10',
-                'authorized_amount' => '10',
+                'grand_total'       => '10.83',
+                'authorized_amount' => '10.83',
                 'comment_history'   => '',
             )
         );

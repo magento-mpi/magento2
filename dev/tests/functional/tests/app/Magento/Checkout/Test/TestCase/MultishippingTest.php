@@ -15,6 +15,12 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 
+/**
+ * Class MultishippingCheckoutTest
+ * Test multiple address page checkout with different configurations
+ *
+ * @package Scenarios\Test\TestCase\Checkout
+ */
 class MultishippingCheckoutTest extends Functional
 {
     /**
@@ -37,13 +43,15 @@ class MultishippingCheckoutTest extends Functional
 
         //Proceed to checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        //Multishipping checkout
         $checkoutCartPage->getCartBlock()->getMultishippingLinkBlock()->multipleAddressesCheckout();
 
-        //Multishipping checkout
         //Register new customer
         Factory::getPageFactory()->getCheckoutMultishippingLogin()->getLoginBlock()->registerCustomer();
-        Factory::getPageFactory()->getCheckoutMultishippingRegister()->getRegisterBlock()
-            ->registerCustomer($fixture->getCustomer());
+        $multishippingRegisterPage = Factory::getPageFactory()->getCheckoutMultishippingRegister();
+        //Hack. Opening of this page must be removed when https://jira.corp.x.com/browse/MAGETWO-16318 will be fixed
+        $multishippingRegisterPage->open();
+        $multishippingRegisterPage->getRegisterBlock()->registerCustomer($fixture->getCustomer());
 
         //Mapping products and shipping addresses
         if ($fixture->getNewShippingAddresses()) {
@@ -65,12 +73,13 @@ class MultishippingCheckoutTest extends Functional
         $orderIds = Factory::getPageFactory()->getCheckoutMultishippingSuccess()->getSuccessBlock()
             ->getOrderIds($fixture);
         Factory::getApp()->magentoBackendLoginUser();
-        foreach ($orderIds as $orderId) {
+        $grandTotals = $fixture->getGrandTotal();
+        foreach ($orderIds as $num => $orderId) {
             $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
             $orderPage->open();
             $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
             $this->assertContains(
-                $fixture->getGrandTotal(),
+                $grandTotals[$num],
                 Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
                 'Incorrect grand total value for the order #' . $orderId
             );

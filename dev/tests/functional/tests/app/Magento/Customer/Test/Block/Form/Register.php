@@ -60,6 +60,6 @@ class Register extends Form
     {
         $this->fill($fixture);
         $this->fill($fixture->getDefaultAddress());
-        $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find('//button[@class="action submit"]', Locator::SELECTOR_XPATH)->click();
     }
 }

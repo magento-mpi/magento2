@@ -32,7 +32,7 @@ class GuestAuthorizenet extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$166.72'
+                'grand_total' => '$167.63'
             )
         );
     }
@@ -43,24 +43,28 @@ class GuestAuthorizenet extends Checkout
     public function persist()
     {
         //Configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('flat_rate');
-        $configFixture->persist();
-        $configFixture->switchData('authorizenet');
-        $configFixture->persist();
-        $configFixture->switchData('us_tax_config');
-        $configFixture->persist();
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'authorizenet',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simpleProduct->switchData('simple');
         $simpleProduct->persist();
 
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable');
+        $configurableProduct->switchData('configurable_default_category');
         $configurableProduct->persist();
 
         $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundleProduct->switchData('bundle');
         $bundleProduct->persist();
 
         $this->products = array(

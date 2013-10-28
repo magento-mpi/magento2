@@ -46,7 +46,7 @@ class Edit extends Form
             'postcode' => '#zip',
             'country' => '#country',
         );
-        $this->saveAddress = '.buttons-set button';
+        $this->saveAddress = '.action.submit';
     }
 
     /**
