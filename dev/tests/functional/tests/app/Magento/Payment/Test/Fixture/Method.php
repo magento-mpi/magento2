@@ -11,6 +11,7 @@
 
 namespace Magento\Payment\Test\Fixture;
 
+use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
 /**

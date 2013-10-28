@@ -49,10 +49,11 @@ class Success extends Block
      */
     protected function _init()
     {
+        parent::_init();
         //Elements
         $this->continue = '.button-set button';
         $this->orderId = 'a[href*="view/order_id"]';
-        $this->orderIdGuest = '//div[@class="col-main"]/p[1]';
+        $this->orderIdGuest = '//div[contains(@class, "column main")]//p[1]';
     }
 
     /**
@@ -79,5 +80,17 @@ class Success extends Block
             preg_match('/[\d]+/', $orderString, $orderId);
             return end($orderId);
         }
+    }
+
+    /**
+     * Get Id of placed order for gust checkout
+     *
+     * @return string
+     */
+    public function getGuestOrderId()
+    {
+        $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
+        preg_match('/[\d]+/', $orderString, $orderId);
+        return end($orderId);
     }
 }

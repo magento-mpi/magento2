@@ -14,6 +14,7 @@ namespace Magento\Catalog\Test\Block\Product\View;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
 /**
@@ -70,4 +71,24 @@ class Options extends Block
         }
         return $options;
     }
+
+    /**
+     * Fill configurable product options
+     *
+     * @param array $productOptions
+     */
+    public function fillProductOptions($productOptions)
+    {
+        foreach ($productOptions as $attributeLabel => $attributeValue) {
+            $select = $this->_rootElement->find(
+                '//*[*[@class="product options configure"]//span[text()="' .
+                $attributeLabel .
+                '"]]//select',
+                Locator::SELECTOR_XPATH,
+                'select'
+            );
+            $select->setValue($attributeValue);
+        }
+    }
+
 }

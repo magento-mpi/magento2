@@ -40,7 +40,7 @@ class Cart extends Block
     protected function _init()
     {
         $this->onepageLinkBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageLink(
-            $this->_rootElement->find('[class*="btn-proceed-checkout"]'));
+            $this->_rootElement->find('.action.primary.checkout'));
         $this->multishippingLinkBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingLink(
             $this->_rootElement->find('[title="Checkout with Multiple Addresses"]'));
     }
@@ -70,6 +70,6 @@ class Cart extends Block
      */
     public function waitForProductAdded()
     {
-        $this->waitForElementVisible('[data-ui-id="messages-message-success"]');
+        $this->waitForElementVisible('//span[@data-ui-id="messages-message-success"]', Locator::SELECTOR_XPATH);
     }
 }

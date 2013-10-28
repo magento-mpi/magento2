@@ -29,30 +29,61 @@ class GuestPaypalDirect extends Checkout
      */
     protected function _initData()
     {
-        //Configuration
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('flat_rate')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_disabled_all_methods')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_direct')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('default_tax_config')->persist();
-        //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple1->persist();
-        $simple2->persist();
-        $this->products = array(
-            $simple1,
-            $simple2
-        );
-        //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
-        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate');
-        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('paypal_direct');
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_direct');
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 30
+                'grand_total' => '$166.72'
             )
         );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
+        //Configuration
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('flat_rate');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_disabled_all_methods');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('authorizenet_disable');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_direct');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('default_tax_config');
+        $coreConfig->persist();
+
+        //Products
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple');
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+
+        $simple->persist();
+        $bundle->persist();
+        $configurable->persist();
+        $this->products = array(
+            $simple,
+            $bundle,
+            $configurable
+        );
+        //Checkout data
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->billingAddress->switchData('address_US_1');
+
+        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $this->shippingMethods->switchData('flat_rate');
+
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_direct');
+
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
     }
 }

@@ -44,7 +44,7 @@ class CheckoutOnepageSuccess extends Page
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
 
         $this->successBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
-            $this->_browser->find('.col-main', Locator::SELECTOR_CSS));
+            $this->_browser->find('//div[contains(@class, "column main")]', Locator::SELECTOR_XPATH));
     }
 
     /**

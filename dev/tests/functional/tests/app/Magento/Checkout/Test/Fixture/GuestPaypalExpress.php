@@ -12,7 +12,6 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class GuestPaypalExpress
@@ -47,29 +46,64 @@ class GuestPaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('flat_rate')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_disabled_all_methods')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('paypal_express')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('default_tax_config')->persist();
+        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $coreConfig->switchData('flat_rate');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_disabled_all_methods');
+        $coreConfig->persist();
+
+        $coreConfig->switchData('paypal_express');
+        $coreConfig->persist();
+
+        Factory::getFixtureFactory()->getMagentoTaxTaxClass()->persist();
+        Factory::getFixtureFactory()->getMagentoTaxTaxRate()->persist();
+        Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
+
+        $coreConfig->switchData('us_tax_config');
+        $coreConfig->persist();
+
+
+
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple1->persist();
-        $simple2->persist();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple');
+
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();;
+
+        $simple->persist();
+        $configurable->persist();
+        $bundle->persist();
+
         $this->products = array(
-            $simple1,
-            $simple2
+            $simple,
+            $configurable,
+            $bundle
         );
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
-        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate');
-        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('paypal_express');
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_direct');
-        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer()->switchData('customer_US');
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->billingAddress->switchData('address_US_1');
+
+        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $this->shippingMethods->switchData('flat_rate');
+
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_express');
+
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
+
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
+
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 30
+                'grand_total' => '$166.72',
+                'authorized_amount' => '$166.72',
+                'comment_history'   => 'Authorized amount of $166.72',
             )
         );
     }

@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Fixture;
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Mtf\Client\Driver\Selenium\Browser;
+
 /**
  * Class Product
  *
@@ -39,6 +39,13 @@ class Product extends DataFixture
     const VISIBILITY_BOTH = 'Catalog, Search';
 
     /**
+     * List of categories fixtures
+     *
+     * @var array
+     */
+    protected $_categories = array();
+
+    /**
      * Custom constructor to create product with assigned category
      *
      * @param Config $configuration
@@ -48,7 +55,8 @@ class Product extends DataFixture
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['category'] = array($this, 'categoryProvider');
+        $this->_placeholders['category::getCategoryName'] = array($this, '_categoryProvider');
+        $this->_placeholders['category::getCategoryId'] = array($this, '_categoryProvider');
     }
 
     /**
@@ -63,16 +71,33 @@ class Product extends DataFixture
     }
 
     /**
-     * Create new category
+     * Retrieve specify data from category.
      *
-     * @return string
+     * @param string $placeholder
+     * @return mixed
      */
-    protected function categoryProvider()
+    protected function _categoryProvider($placeholder)
     {
-        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-        $category->switchData('subcategory');
-        $category->persist();
-        return $category->getCategoryName();
+        list($key, $method) = explode('::', $placeholder);
+        $product = $this->_getCategory($key);
+        return is_callable(array($product, $method)) ? $product->$method() : null;
+    }
+
+    /**
+     * Create a new category and retrieve category fixture
+     *
+     * @param string $key
+     * @return mixed
+     */
+    protected function _getCategory($key)
+    {
+        if (!isset($this->_categories[$key])) {
+            $product = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+            $product->switchData('subcategory');
+            $product->persist();
+            $this->_categories[$key] = $product;
+        }
+        return $this->_categories[$key];
     }
 
     /**
@@ -153,7 +178,6 @@ class Product extends DataFixture
         return $this;
     }
 
-
     /**
      * Get Url params
      *
@@ -170,21 +194,6 @@ class Product extends DataFixture
             }
         }
         return implode('/', $params);
-    }
-
-    /**
-     * Returns data for curl POST params
-     *
-     * @return array
-     */
-    public function getPostParams()
-    {
-        $fields = $this->getData('fields');
-        $params = array();
-        foreach ($fields as $fieldId => $fieldData) {
-            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
-        }
-        return $params;
     }
 
     /**
@@ -207,68 +216,64 @@ class Product extends DataFixture
             'create_url_params' => array(
                 'type' => 'simple',
                 'set'  => 4,
-            )
+            ),
+            'input_prefix' => 'product'
         );
 
         $this->_data = array(
             'fields' => array(
                 'name'   => array(
                     'value' => 'Simple Product %isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS,
-                    'curl'  => 'product[name]'
+                    'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'sku'    => array(
                     'value' => 'simple_sku_%isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS,
-                    'curl'  => 'product[sku]'
+                    'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'price'  => array(
                     'value' => '10',
-                    'group' => static::GROUP_PRODUCT_DETAILS,
-                    'curl'  => 'product[price]'
+                    'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'tax_class_id' => array(
                     'value' => 'Taxable Goods',
+                    'input_value' => '2',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select',
-                    'curl'  => 'product[tax_class_id]'
+                    'input' => 'select'
                 ),
                 'qty'    => array(
                     'value' => 1000,
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'curl'  => 'product[quantity_and_stock_status][qty]'
+                    'input_name'  => 'product[quantity_and_stock_status][qty]'
                 ),
                 'weight' => array(
                     'value' => '1',
-                    'group' => static::GROUP_PRODUCT_DETAILS,
-                    'curl'  => 'product[weight]'
+                    'group' => static::GROUP_PRODUCT_DETAILS
                 ),
                 'meta_title' => array(
                     'value' => 'Meta Title',
-                    'group' => static::GROUP_ADVANCED_SEO,
-                    'curl'  => 'product[meta_title]'
+                    'group' => static::GROUP_ADVANCED_SEO
                 ),
                 'meta_keyword' => array(
                     'value' => 'Meta Keyword',
-                    'group' => static::GROUP_ADVANCED_SEO,
-                    'curl'  => 'product[meta_keyword]'
+                    'group' => static::GROUP_ADVANCED_SEO
                 ),
                 'meta_description' => array(
                     'value' => 'Meta Description',
-                    'group' => static::GROUP_ADVANCED_SEO,
-                    'curl'  => 'product[meta_description]'
+                    'group' => static::GROUP_ADVANCED_SEO
                 ),
                 'product_website_1' => array(
                     'value' => 'Yes',
+                    'input_value' => 1,
                     'group' => static::GROUP_PRODUCT_WEBSITE,
                     'input' => 'checkbox',
-                    'curl'  => 'product[website_ids][]'
+                    'input_name'  => 'product[website_ids][]'
                 ),
                 'inventory_manage_stock' => array(
                     'value' => 'No',
+                    'input_value' => '0',
                     'group' => static::GROUP_PRODUCT_INVENTORY,
                     'input' => 'checkbox',
-                    'curl'  => 'product[stock_data][manage_stock]'
+                    'input_name'  => 'product[stock_data][manage_stock]'
                 )
             )
         );

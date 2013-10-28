@@ -29,29 +29,53 @@ class GuestAuthorizenet extends Checkout
      */
     protected function _initData()
     {
-        //Configuration
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('flat_rate')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('authorizenet')->persist();
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('default_tax_config')->persist();
-        //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
-        $simple1->persist();
-        $simple2->persist();
-        $this->products = array(
-            $simple1,
-            $simple2
-        );
-        //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
-        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate');
-        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('authorizenet');
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_authorizenet');
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 30
+                'grand_total' => '$166.72'
             )
         );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
+        //Configuration
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $configFixture->switchData('flat_rate');
+        $configFixture->persist();
+        $configFixture->switchData('authorizenet');
+        $configFixture->persist();
+        $configFixture->switchData('us_tax_config');
+        $configFixture->persist();
+        //Products
+        $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct->switchData('simple');
+        $simpleProduct->persist();
+
+        $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurableProduct->switchData('configurable');
+        $configurableProduct->persist();
+
+        $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundleProduct->switchData('bundle');
+        $bundleProduct->persist();
+
+        $this->products = array(
+            $simpleProduct,
+            $bundleProduct,
+            $configurableProduct
+        );
+        //Checkout data
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->billingAddress->switchData('address_US_1');
+        $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $this->shippingMethods->switchData('flat_rate');
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('authorizenet');
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_authorizenet');
     }
 }

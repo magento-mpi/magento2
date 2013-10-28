@@ -20,7 +20,7 @@ use Mtf\Repository\AbstractRepository;
  */
 class ConfigurableProduct extends AbstractRepository
 {
-    function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -29,6 +29,10 @@ class ConfigurableProduct extends AbstractRepository
 
         $this->_data['configurable'] = $this->_data['default'];
         $this->_data['configurable'] = array_replace_recursive($this->_data['configurable'], $this->_getConfigurable());
+        
+        $this->_data['configurable_default_category'] = $this->_data['default'];
+        $this->_data['configurable_default_category']['data']['category_name'] = '%category%';
+        $this->_data['configurable2'] = $this->_getConfigurable2();
     }
 
     protected function _getConfigurable()
@@ -135,5 +139,12 @@ class ConfigurableProduct extends AbstractRepository
                 'affect_configurable_product_attributes' => 'Template %isolation%'
             )
         );
+    }
+
+    protected function _getConfigurable2()
+    {
+        $data = $this->_data['default'];
+        $data['data']['fields']['price']['value'] = 10;
+        return $data;
     }
 }
