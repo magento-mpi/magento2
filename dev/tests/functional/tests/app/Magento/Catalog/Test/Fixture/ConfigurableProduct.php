@@ -60,37 +60,6 @@ class ConfigurableProduct extends Product
     }
 
     /**
-     * @param string $code
-     * @return array
-     */
-    protected function getConfigurableAttributeData($code)
-    {
-        $attribute = $this->getAttribute($code);
-        return array(
-            $attribute->getAttributeId() => array(
-                'label'  => $attribute->getAttributeLabel(),
-                'values' => $this->getOptionFixtures($attribute->getAttributeOptionIds())
-            )
-        );
-    }
-
-    /**
-     * Returns attribute & create it if is needed
-     *
-     * @param string $code
-     * @return \Magento\Catalog\Test\Fixture\ProductAttribute
-     */
-    public function getAttribute($code)
-    {
-        if (!isset($this->attributes[$code])) {
-            $attribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
-            $attribute->switchData('configurable_attribute');
-            $this->attributes[$code] = $attribute->persist();
-        }
-        return $this->attributes[$code];
-    }
-
-    /**
      * Create new configurable attribute and add it to product
      *
      * @return string
@@ -106,28 +75,12 @@ class ConfigurableProduct extends Product
 
         $options = $attribute->getOptionLabels();
         $placeholders['attribute_code_1'] = $attribute->getAttributeCode();
+        $placeholders['attribute_1_name'] = $attribute->getAttributeLabel();
         $placeholders['attribute_1_option_label_1'] = $options[0];
         $placeholders['attribute_1_option_label_2'] = $options[1];
         $this->_applyPlaceholders($this->_data, $placeholders);
 
         return $attribute->getAttributeLabel();
-    }
-    
-    /**
-     * @param array $optionIds
-     * @return array
-     */
-    protected function getOptionFixtures($optionIds)
-    {
-        $data = array();
-        foreach ($optionIds as $num => $id) {
-            $data[$id] = array(
-                'pricing_value' => ($num + 1) * 1,
-                'is_percent'    => 0,
-                'include'       => 1
-            );
-        }
-        return $data;
     }
 
     /**
@@ -302,6 +255,14 @@ class ConfigurableProduct extends Product
                         )
                     ),
                     'group' => static::GROUP_VARIATIONS
+                ),
+            ),
+            'checkout' => array(
+                'selections' => array(
+                    '0' => array(
+                        'attribute_name' => '%attribute_1_name%',
+                        'option_name' => '%attribute_1_option_label_1%'
+                    )
                 )
             )
         );
@@ -319,9 +280,8 @@ class ConfigurableProduct extends Product
     {
         $selections = $this->getData('checkout/selections');
         $options = array();
-        foreach ($selections as $attributeCode => $value) {
-            $attributeLabel = $this->getAttribute($attributeCode)->getAttributeLabel();
-            $options[$attributeLabel] = $value;
+        foreach ($selections as $selection) {
+            $options[$selection['attribute_name']] = $selection['option_name'];
         }
         return $options;
     }
