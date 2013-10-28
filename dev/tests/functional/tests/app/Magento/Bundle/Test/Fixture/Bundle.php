@@ -269,7 +269,7 @@ class Bundle extends Product
                     'price_to' => '120'
                 ),
                 'selection' => array(
-                    'bundle_item_0' => 'assigned_product_1'
+                    'bundle_item_0' => 'assigned_product_0'
                 )
             )
         );
