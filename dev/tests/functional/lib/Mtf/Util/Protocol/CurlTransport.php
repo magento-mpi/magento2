@@ -9,6 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Mtf\Util\Protocol;
 
 use Mtf\Util\Protocol\CurlInterface;
