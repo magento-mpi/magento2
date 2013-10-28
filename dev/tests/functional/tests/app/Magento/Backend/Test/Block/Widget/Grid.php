@@ -77,7 +77,7 @@ abstract class Grid extends Block
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
         $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find('/ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
+            $this->_rootElement->find('./ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
     }
 
     /**
@@ -112,11 +112,8 @@ abstract class Grid extends Block
     public function search(array $filter)
     {
         $this->resetFilter();
-        sleep(2);
         $this->_prepareForSearch($filter);
-        sleep(2);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-        sleep(2);
         $this->_templateBlock->waitLoader();
     }
 
