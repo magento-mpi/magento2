@@ -27,6 +27,6 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             'baseController' => 'Magento\Backend\Controller\AbstractAction',
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Controller\Router\DefaultRouter', $options);
+            ->create('Magento\Backend\App\Router\DefaultRouter', $options);
     }
 }

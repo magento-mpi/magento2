@@ -24,13 +24,12 @@ class Link extends \Magento\Sales\Block\Order\Link
     protected $_collectionFactory;
 
     /**
-     * Constructor
-     * 
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param array $data
      */
     public function __construct(
@@ -39,11 +38,12 @@ class Link extends \Magento\Sales\Block\Order\Link
         \Magento\Rma\Helper\Data $rmaHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\App\DefaultPathInterface $defaultPath,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_rmaHelper = $rmaHelper;
-        parent::__construct($context, $registry, $coreData, $data);
+        parent::__construct($context, $registry, $coreData, $defaultPath, $data);
     }
 
     /**
