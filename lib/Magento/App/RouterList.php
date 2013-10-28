@@ -25,13 +25,6 @@ class RouterList implements RouterListInterface
     protected $_routerList;
 
     /**
-     * List of active routers objects
-     *
-     * @var array
-     */
-    protected $_activeRouters = array();
-
-    /**
      * @param \Magento\ObjectManager $objectManager
      * @param array $routerList
      */
@@ -146,7 +139,7 @@ class RouterList implements RouterListInterface
     public function getRouterByRoute($routeId)
     {
         // empty route supplied - return base url
-        if (empty($routeId)) {
+        if (empty($routeId) && isset($this->_routerList['standard'])) {
             return $this->_getRouterInstance('standard');
         }
 
@@ -183,7 +176,7 @@ class RouterList implements RouterListInterface
     public function getRouterByFrontName($frontName)
     {
         // empty route supplied - return base url
-        if (empty($frontName)) {
+        if (empty($frontName) && isset($this->_routerList['standard'])) {
             return $this->_getRouterInstance('standard');
         }
 

@@ -9,9 +9,8 @@
  */
 namespace Magento\App;
 
-use Magento\App\Config as Options;
 use Magento\App\Dir;
-use Magento\ObjectManager\Config\Config;
+use Magento\ObjectManager\Config\Config as OMConfig;
 use Magento\ObjectManager\Factory\Factory;
 use Magento\ObjectManager\ObjectManager;
 
@@ -117,12 +116,12 @@ abstract class AbstractEntryPoint
 
         \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(Dir::GENERATION)));
 
-        $options = new Options(
+        $options = new Config(
             $this->_parameters,
-            new Options\Loader(
+            new Config\Loader(
                 $directories,
-                isset($this->_parameters[Options\Loader::PARAM_CUSTOM_FILE])
-                    ? $this->_parameters[Options\Loader::PARAM_CUSTOM_FILE]
+                isset($this->_parameters[Config\Loader::PARAM_CUSTOM_FILE])
+                    ? $this->_parameters[Config\Loader::PARAM_CUSTOM_FILE]
                     : null
             )
         );
@@ -135,7 +134,7 @@ abstract class AbstractEntryPoint
 
         $definitions = $definitionFactory->createClassDefinition($options->get('definitions'));
         $relations = $definitionFactory->createRelations();
-        $diConfig = new Config($relations, $definitions);
+        $diConfig = new OMConfig($relations, $definitions);
         $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
         $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
         try {

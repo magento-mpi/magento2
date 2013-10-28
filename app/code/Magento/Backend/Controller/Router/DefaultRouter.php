@@ -17,7 +17,7 @@ namespace Magento\Backend\Controller\Router;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
+class DefaultRouter extends \Magento\Core\App\Router\Base
 {
     /**
      * List of required request parameters
