@@ -51,7 +51,7 @@ class TaxRate extends AbstractRepository
                         'value' => '8.25'
                     ),
                     'tax_postcode' => array(
-                        'value' => '90210'
+                        'value' => '90230'
                     ),
                     'tax_region_id' => array(
                         'value' => '12' // California

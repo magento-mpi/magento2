@@ -73,6 +73,7 @@ class PaypalExpress extends Checkout
             'display_shopping_cart'
         ));
         //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
@@ -99,7 +100,7 @@ class PaypalExpress extends Checkout
         $this->paypalCustomer->switchData('customer_US');
 
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $customerAddress->switchData('address_US_3');
+        $customerAddress->switchData('address_US_1');
         $this->telephoneNumber = $customerAddress->getTelephone();
 
         //Verification data

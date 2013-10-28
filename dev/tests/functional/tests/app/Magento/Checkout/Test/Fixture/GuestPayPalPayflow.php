@@ -35,6 +35,7 @@ class GuestPayPalPayflow extends Checkout
             'display_shopping_cart'
         ));
 
+        Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
@@ -58,7 +59,7 @@ class GuestPayPalPayflow extends Checkout
 
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_3');
+        $this->billingAddress->switchData('address_US_1');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate_2');
