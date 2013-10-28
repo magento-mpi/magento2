@@ -38,6 +38,12 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertSelectCount('form[id="co-billing-form"][action=""]', 1, $html);
     }
 
+    public function testShippingMethodAction()
+    {
+        $this->dispatch('checkout/onepage/shippingmethod');
+        $this->assertContains('no quotes are available', $this->getResponse()->getBody());
+    }
+
     public function testReviewAction()
     {
         $this->dispatch('checkout/onepage/review');
