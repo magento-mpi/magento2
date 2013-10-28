@@ -16,8 +16,6 @@
  */
 /* @var $this \Magento\Rma\Block\Form\Renderer\Image */
 ?>
-<div class="input-box">
-    <a href="<?php echo $this->getImageUrl() ?>" target="_blank" >
-        <img height="15" class="small-image-preview v-middle" src="<?php echo $this->getImageUrl() ?>" title="View Full Size" alt="View Full Size">
-    </a>
-</div>
+<a href="<?php echo $this->getImageUrl() ?>" target="_blank" class="product photo">
+    <img class="product photo preview" src="<?php echo $this->getImageUrl() ?>" title="<?php echo __('View Full Size') ?>" alt="<?php echo __('View Full Size') ?>">
+</a>

@@ -3,74 +3,67 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 
 <?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
-<div class="block block-gr-search">
-    <div class="block-title">
-        <strong><span><?php echo __('Gift Registry Search') ?></span></strong>
-    </div>
-    <div class="block-content">
-        <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post">
-            <ul class="form-alt">
-                <li>
-                    <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params-firstname" class="required"><?php echo __('First Name') ?> <em>*</em></label>
-                    <div class="input-box">
-                        <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-firstname" name="params[firstname]" />
-                    </div>
-                </li>
-                <li>
-                    <label for="params-lastname" class="required"><?php echo __('Last Name') ?> <em>*</em></label>
-                    <div class="input-box">
-                        <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-lastname" name="params[lastname]" />
-                    </div>
-                    <p class="note"><em>*</em> <?php echo __('Please enter at least two letters of the name.') ?></p>
-                </li>
-                <li>
-                    <label class="required"><?php echo __('Type') ?></label>
-                    <div class="input-box"><?php echo $this->getTypeSelectHtml() ?></div>
-                </li>
-            </ul>
-            <div class="actions">
-                <input type="hidden" name="params[search]" value="type" />
-                <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+<div class="block giftregistry search">
+    <div class="title"> <strong><?php echo __('Gift Registry Search') ?></strong></div>
+    <div class="content">
+        <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry search">
+            <div class="field name required">
+                <?php echo $this->getBlockHtml('formkey')?>
+                <label for="params-firstname" class="label"><span><?php echo __('First Name') ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-firstname" name="params[firstname]">
                 </div>
-        </form>
-
-        <form id="gr-quick-search-email-form" action="<?php echo $this->getActionUrl() ?>" method="post">
-            <ul class="form-alt">
-                <li>
-                    <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params_email" class="required"><?php echo __('Recipient Email') ?> <em>*</em></label>
-                    <div class="input-box">
-                        <input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" />
-                    </div>
-                </li>
-            </ul>
+            </div>
+            <div class="field lastname required">
+                <label for="params-lastname" class="label"><span><?php echo __('Last Name') ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-lastname" name="params[lastname]">
+                    <div class="note">* <?php echo __('Please enter at least two letters of the name.') ?></div>
+                </div>
+            </div>
+            <div class="field type required">
+                <label class="label"><span><?php echo __('Type') ?></span></label>
+                <div class="control"><?php echo $this->getTypeSelectHtml() ?></div>
+            </div>
             <div class="actions">
-                <input type="hidden" name="params[search]" value="email" />
-                <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+                <input type="hidden" name="params[search]" value="type">
+                <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
 
-        <form id="gr-quick-search-id-form" action="<?php echo $this->getActionUrl() ?>" method="post">
-            <ul class="form-alt">
-                <li>
-                    <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params_id" class="required"><?php echo __('Gift Registry ID') ?> <em>*</em></label>
-                    <div class="input-box">
-                        <input type="text" class="input-text required-entry" id="params_id" name="params[id]" />
-                    </div>
-                </li>
-            </ul>
+        <form id="gr-quick-search-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry search">
+
+            <div class="field email required">
+                <?php echo $this->getBlockHtml('formkey')?>
+                <label for="params_email" class="label"><span><?php echo __('Recipient Email') ?></span></label>
+                <div class="control">
+                    <input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" />
+                </div>
+            </div>
+
             <div class="actions">
-                <input type="hidden" name="params[search]" value="id" />
-                <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+                <input type="hidden" name="params[search]" value="email">
+                <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
+            </div>
+        </form>
+
+        <form id="gr-quick-search-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry search">
+            <div class="field id required">
+                <?php echo $this->getBlockHtml('formkey')?>
+                <label for="params_id" class="label"><span><?php echo __('Gift Registry ID') ?></span></label>
+                <div class="input-box">
+                    <input type="text" class="input-text required-entry" id="params_id" name="params[id]" />
+                </div>
+            </div>
+            <div class="actions">
+                <input type="hidden" name="params[search]" value="id">
+                <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
     </div>
