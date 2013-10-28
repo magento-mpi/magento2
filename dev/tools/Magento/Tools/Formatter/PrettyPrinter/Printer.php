@@ -17,6 +17,7 @@ use Magento\Tools\Formatter\Tree\TreeNode;
  * This class is used to control pretty printing of a block of code.
  * Class Printer
  * @package Magento\Tools\Formatter\PrettyPrinter
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Printer
 {
@@ -39,7 +40,8 @@ class Printer
      * This method returns the lexer data member
      * @return array|\Magento\Tools\Formatter\ParserLexer
      */
-    public static function getLexer() {
+    public static function getLexer()
+    {
         return self::$lexer;
     }
 
@@ -67,7 +69,8 @@ class Printer
      * formatter.
      * @param $commentMap
      */
-    public function displayRemovedComments($commentMap) {
+    public function displayRemovedComments($commentMap)
+    {
         if (isset($commentMap)) {
             if (count($commentMap) > 0) {
                 echo "REMOVED COMMENTS\n";

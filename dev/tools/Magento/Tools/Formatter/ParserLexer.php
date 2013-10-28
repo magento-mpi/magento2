@@ -46,7 +46,8 @@ class ParserLexer extends PHPParser_Lexer
      * This method returns the comment map.
      * @return mixed
      */
-    public function getCommentMap() {
+    public function getCommentMap()
+    {
         return $this->commentMap;
     }
 
