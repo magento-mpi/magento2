@@ -80,15 +80,9 @@ class DefinitionFactory
             $autoloader = new \Magento\Autoload\IncludePath();
             $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
             $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
-            $generationDir = $this->_generationDir;
-            spl_autoload_register(function($className) use ($generator, $generationDir) {
-                if (!class_exists($className) && preg_match('/.*Factory|Proxy|Interceptor$/', $className)) {
-                    $generator->generateClass($className);
-                    $path = implode(DIRECTORY_SEPARATOR, preg_split('/\\_/', $className));
-                    include $generationDir . DIRECTORY_SEPARATOR . $path . '.php';
-                }
-            });
-
+            $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+            spl_autoload_register(array($autoloader, 'load'), true, false);
+            
             $result =  new \Magento\ObjectManager\Definition\Runtime();
         }
         return $result;
