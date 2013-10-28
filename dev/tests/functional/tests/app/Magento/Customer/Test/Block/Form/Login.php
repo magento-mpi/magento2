@@ -49,8 +49,8 @@ class Login extends Form
             'password' => '#pass'
         );
         //Elements
-        $this->loginButton = 'send2';
-        $this->registerButton = '.new-users button';
+        $this->loginButton = '.action.login';
+        $this->registerButton = '.action.create';
     }
 
     /**
@@ -84,7 +84,7 @@ class Login extends Form
      */
     public function submit()
     {
-        $this->_rootElement->find($this->loginButton, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->loginButton, Locator::SELECTOR_CSS)->click();
     }
 
     /**
@@ -92,6 +92,7 @@ class Login extends Form
      */
     public function registerCustomer()
     {
-        $this->_rootElement->find($this->registerButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find('//a[@class="action create"]', Locator::SELECTOR_XPATH)->click();
+
     }
 }

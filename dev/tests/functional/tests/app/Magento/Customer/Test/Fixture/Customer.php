@@ -26,7 +26,9 @@ class Customer extends DataFixture
      */
     public function getDefaultAddress()
     {
-        return Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_data_US_1');
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_data_US_1');
+        return $customerAddress;
     }
 
     /**
@@ -34,7 +36,9 @@ class Customer extends DataFixture
      */
     public function getDefaultShippingAddress()
     {
-        return Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_US_1');
+        return $customerAddress;
     }
 
     /**
@@ -42,7 +46,9 @@ class Customer extends DataFixture
      */
     public function getSecondShippingAddress()
     {
-        return Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_2');
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_US_2');
+        return $customerAddress;
     }
 
     /**
@@ -50,7 +56,9 @@ class Customer extends DataFixture
      */
     public function getDefaultBillingAddress()
     {
-        return Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_US_1');
+        return $customerAddress;
     }
 
     /**
@@ -70,7 +78,6 @@ class Customer extends DataFixture
     {
         return $this->getData('fields/email/value');
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * {inheritdoc}

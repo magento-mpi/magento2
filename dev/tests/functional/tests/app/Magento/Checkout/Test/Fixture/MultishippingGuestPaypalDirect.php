@@ -60,15 +60,23 @@ class MultishippingGuestPaypalDirect extends Checkout
             $address1,
             $address2
         );
-        $this->newShippingAddresses = array(
-            Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_2')
-        );
+
+        $newShippingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $newShippingAddress->switchData('address_US_2');
+        $this->newShippingAddresses = array($newShippingAddress);
+
+        $shippingMethod1 = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $shippingMethod1->switchData('flat_rate');
+        $shippingMethod2 = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $shippingMethod2->switchData('flat_rate');
         $this->shippingMethods = array(
-            Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate'),
-            Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate')
+            $shippingMethod1,
+            $shippingMethod2
         );
-        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('paypal_direct');
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_direct');
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_direct');
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
         $this->bindings = array(
             $simple1->getProductName() => $address1->getOneLineAddress(),
             $simple2->getProductName() => $address2->getOneLineAddress()
