@@ -76,7 +76,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
-                'action'    => $this->getUrl('adminhtml/*/save', array(
+                'action'    => $this->getUrl('catalog/*/save', array(
                     'id' => $this->getRequest()->getParam('id'),
                     'ret' => $this->_coreRegistry->registry('ret')
                 )),
