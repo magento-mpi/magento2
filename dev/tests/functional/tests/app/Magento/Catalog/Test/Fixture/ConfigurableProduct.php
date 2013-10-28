@@ -224,7 +224,7 @@ class ConfigurableProduct extends Product
                             'configurable_attribute' => array(
                                 '0' => array(
                                     'attribute_label' => '%attribute_code_1%',
-                                    'attribute_option' => '%attribute_1_option_label_2%'
+                                    'attribute_option' => '%attribute_1_option_label_1%'
                                 )
                             ),
                             'value' => array(
