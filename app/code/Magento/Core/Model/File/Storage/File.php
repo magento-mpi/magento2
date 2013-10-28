@@ -47,14 +47,13 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     protected $_logger;
 
     /**
-     * Class construct
-     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\File\Storage\File $resource
-     * @param \Magento\Data\Collection\Db|null $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -62,11 +61,12 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\File\Storage\File $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $date, $resource, $resourceCollection, $data);
         $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
         $this->_logger = $logger;
     }

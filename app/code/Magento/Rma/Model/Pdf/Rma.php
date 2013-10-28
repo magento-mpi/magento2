@@ -47,21 +47,18 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
-     * @param \Magento\Rma\Helper\Eav $rmaEav
-     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\App\Dir $dirs
+     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
-     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -69,16 +66,18 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Rma\Helper\Eav $rmaEav,
-        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\App\Dir $dirs,
+        \Magento\App\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
-        \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
@@ -87,8 +86,10 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_rmaData = $rmaData;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
-            $totalFactory);
+
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate,
+            $coreDir, $shippingConfig, $pdfConfig, $pdfTotalFactory, $pdfItemsFactory, $data
+        );
     }
 
     /**

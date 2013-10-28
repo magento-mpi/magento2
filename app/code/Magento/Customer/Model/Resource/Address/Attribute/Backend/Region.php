@@ -29,15 +29,13 @@ class Region
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
-        array $data = array()
+        \Magento\Directory\Model\RegionFactory $regionFactory
     ) {
         $this->_regionFactory = $regionFactory;
-        parent::__construct($logger, $data);
+        parent::__construct($logger);
     }
 
     /**

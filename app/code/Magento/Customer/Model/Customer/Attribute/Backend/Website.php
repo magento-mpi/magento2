@@ -28,15 +28,13 @@ class Website
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        array $data = array()
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($logger, $data);
+        parent::__construct($logger);
     }
 
     /**
