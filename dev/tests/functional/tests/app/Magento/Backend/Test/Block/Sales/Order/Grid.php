@@ -31,7 +31,9 @@ class Grid extends GridInterface
     {
         parent::_init();
         $this->filters = array(
-            'id' => '#sales_order_grid_filter_real_order_id'
+            'id' => array(
+                'selector' => '#sales_order_grid_filter_real_order_id'
+            )
         );
     }
 }

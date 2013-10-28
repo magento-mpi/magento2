@@ -53,7 +53,7 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -77,7 +77,7 @@ class Observer
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Logging\Model\Processor $processor
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
      */
     public function __construct(
@@ -88,7 +88,7 @@ class Observer
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Logging\Model\Processor $processor,
         \Magento\Core\Model\Config $coreConfig,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Logging\Model\FlagFactory $flagFactory
     ) {
         $this->eventFactory = $eventFactory;
@@ -111,7 +111,7 @@ class Observer
     {
         /* @var $action \Magento\Core\Controller\Varien\Action */
         $action = $observer->getEvent()->getControllerAction();
-        /* @var $request \Magento\Core\Controller\Request\Http */
+        /* @var $request \Magento\App\RequestInterface */
         $request = $observer->getEvent()->getControllerAction()->getRequest();
 
         $beforeForwardInfo = $request->getBeforeForwardInfo();

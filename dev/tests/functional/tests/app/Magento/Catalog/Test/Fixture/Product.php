@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Fixture;
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Mtf\Client\Driver\Selenium\Browser;
+
 /**
  * Class Product
  *
@@ -99,7 +99,6 @@ class Product extends DataFixture
         }
         return $this->_categories[$key];
     }
-
 
     /**
      * Get product name

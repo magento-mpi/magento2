@@ -11,15 +11,11 @@
 
 namespace Magento\Catalog\Test\Page;
 
-use Magento\Catalog\Test\Block\Backend\ProductForm;
-use Mtf\Client\Element\Locator;
+use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Mtf\Page\Page;
-use Magento\Catalog\Test\Block\Product\Configurable\Tab\Variations\Variations;
-use Magento\Catalog\Test\Block\Product\Configurable\Tab\Variations\VariationsForm;
-use Magento\Catalog\Test\Block\Product\Configurable\Tab\Variations\AffectedAttributeSetChooser;
-use Magento\Catalog\Test\Block\Product\Configurable\Tab\Variations\CurrentVariations;
+use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Block\Backend\ProductForm;
 
 /**
  * Class AdminCatalogProductNew
@@ -40,34 +36,6 @@ class AdminCatalogProductNew extends Page
     private $productFormBlock;
 
     /**
-     * Add variations block
-     *
-     * @var Variations
-     */
-    private $variationsBlock;
-
-    /**
-     * Add variations form
-     *
-     * @var VariationsForm
-     */
-    private $variationsForm;
-
-    /**
-     * Choose attribute set in pop-up
-     *
-     * @var AffectedAttributeSetChooser
-     */
-    private $attributeSetChoice;
-
-    /**
-     * Add current variation block
-     *
-     * @var CurrentVariations
-     */
-    private $currentVariations;
-
-    /**
      * Custom constructor
      */
     protected function _init()
@@ -77,23 +45,6 @@ class AdminCatalogProductNew extends Page
         $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
             $this->_browser->find('body', Locator::SELECTOR_CSS)
         );
-        $this->variationsBlock = Factory::getBlockFactory()->
-            getMagentoCatalogProductConfigurableTabVariationsVariations(
-                $this->_browser->find('#product_info_tabs_super_config_content'));
-        $this->variationsForm = Factory::getBlockFactory()->
-            getMagentoCatalogProductConfigurableTabVariationsVariationsForm(
-                $this->_browser->find('#configurable-attributes-container'));
-        $this->attributeSetChoice = Factory::getBlockFactory()->
-            getMagentoCatalogProductConfigurableTabVariationsAffectedAttributeSetChooser(
-                $this->_browser->find(
-                    "//*[@id='affected-attribute-set-form']/ancestor::*"
-                    . "[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]",
-                    Locator::SELECTOR_XPATH
-                )
-            );
-        $this->currentVariations = Factory::getBlockFactory()->
-            getMagentoCatalogProductConfigurableTabVariationsCurrentVariations(
-                $this->_browser->find('#product-variations-matrix'));
     }
 
     /**
@@ -187,45 +138,5 @@ class AdminCatalogProductNew extends Page
                 return $productSavedMessage->isVisible() ? true : null;
             }
         );
-    }
-
-    /**
-     * Get the backend catalog variations block
-     *
-     * @return Variations
-     */
-    public function getVariationsBlock()
-    {
-        return $this->variationsBlock;
-    }
-
-    /**
-     * Get the backend catalog variations form
-     *
-     * @return VariationsForm
-     */
-    public function getVariationsForm()
-    {
-        return $this->variationsForm;
-    }
-
-    /**
-     * Get the backend attribute set chooser popup
-     *
-     * @return AffectedAttributeSetChooser
-     */
-    public function getAffectedAttributeSetChooser()
-    {
-        return $this->attributeSetChoice;
-    }
-
-    /**
-     * Get the backend catalog current variations block
-     *
-     * @return CurrentVariations
-     */
-    public function getCurrentVariations()
-    {
-        return $this->currentVariations;
     }
 }

@@ -9,6 +9,8 @@
  */
 namespace Magento\Interception\PluginList;
 
+use Zend\Soap\Exception\InvalidArgumentException;
+
 class PluginList
     extends \Magento\Config\Data\Scoped
     implements \Magento\Interception\PluginList
@@ -123,6 +125,9 @@ class PluginList
                         continue;
                     }
                     $pluginType = $this->_omConfig->getInstanceType($plugin['instance']);
+                    if (!class_exists($pluginType)) {
+                        throw new InvalidArgumentException('Plugin class ' . $pluginType . ' doesn\'t exist');
+                    }
                     foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod) {
                         $this->_data['processed'][$type][$pluginMethod][] = $plugin['instance'];
                     }

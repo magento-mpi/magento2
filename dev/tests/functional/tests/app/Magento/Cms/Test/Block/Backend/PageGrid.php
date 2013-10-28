@@ -30,7 +30,9 @@ class PageGrid extends Grid
     {
         parent::_init();
         $this->filters = array(
-            'page_title' => '#cmsPageGrid_filter_title',
+            'page_title' => array(
+                'selector' => '#cmsPageGrid_filter_title'
+            ),
         );
     }
 

@@ -38,8 +38,12 @@ class Grid extends GridInterface
     {
         parent::_init();
         $this->filters = array(
-            'name' => 'input[name=name]',
-            'sku' => 'input[name=sku]',
+            'name' => array(
+                'selector' => 'input[name=name]'
+            ),
+            'sku' => array(
+                'selector' => 'input[name=sku]'
+            ),
         );
         $this->addProducts = 'button.add';
         $this->selectItem = 'tbody tr .col-id';

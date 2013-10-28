@@ -28,9 +28,7 @@ class ProductAttribute extends AbstractRepository
         );
 
         $this->_data['configurable_attribute'] = $this->_data['default'];
-        $this->_data['configurable_attribute']['data']['fields']['option[order][option_0]']['value'] = 1;
-        $this->_data['configurable_attribute']['data']['fields']['option[order][option_1]']['value'] = 1;
-        $this->_data['configurable_attribute']['data']['fields']['option[value][option_0][0]']['value'] = 'one';
-        $this->_data['configurable_attribute']['data']['fields']['option[value][option_1][0]']['value'] = 'two';
+        $this->_data['configurable_attribute']['data']['fields']['option[value][option_0][0]']['value'] = 'option1';
+        $this->_data['configurable_attribute']['data']['fields']['option[value][option_1][0]']['value'] = 'option2';
     }
 }

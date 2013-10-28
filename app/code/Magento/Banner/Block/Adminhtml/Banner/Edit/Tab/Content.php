@@ -40,7 +40,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @var \Magento\Core\Model\App
      */
-    protected $_app;
+    protected $_storeManager;
 
     /**
      * @param \Magento\Data\Form\Factory $formFactory
@@ -61,7 +61,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
-        $this->_app = $app;
+        $this->_storeManager = $app;
 
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -128,13 +128,13 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldsetHtmlClass = 'fieldset-wide';
         $fieldset = $this->_createDefaultContentFieldset($form, $fieldsetHtmlClass);
 
-        if ($this->_app->isSingleStoreMode() == false) {
+        if ($this->_storeManager->isSingleStoreMode() == false) {
             $this->_createDefaultContentForStoresField($fieldset, $form, $model);
         }
 
         $this->_createStoreDefaultContentField($fieldset, $model, $form);
 
-        if ($this->_app->isSingleStoreMode() == false) {
+        if ($this->_storeManager->isSingleStoreMode() == false) {
             $this->_createStoresContentFieldset($form, $model);
 
         }
@@ -255,7 +255,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
         $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
         $this->_getWysiwygConfig()->setUseContainer(true);
-        foreach ($this->_app->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label' => $website->getName(),
                 'fieldset_html_class' => 'website',

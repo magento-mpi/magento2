@@ -1,8 +1,8 @@
 {
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.scm.corp.ebay.com/mtf/mtf.git"
+            "type": "git",
+            "url": "git://github.scm.corp.ebay.com/mtf/mtf.git"
         }
     ],
     "require": {

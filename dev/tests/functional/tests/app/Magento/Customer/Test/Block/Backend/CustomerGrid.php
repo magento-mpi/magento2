@@ -30,7 +30,9 @@ class CustomerGrid extends Grid
     {
         parent::_init();
         $this->filters = array(
-            'email' => '#customerGrid_filter_email',
+            'email' => array(
+                'selector' => '#customerGrid_filter_email'
+            ),
         );
     }
 

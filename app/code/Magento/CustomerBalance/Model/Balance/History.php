@@ -45,7 +45,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Design package instance
      *
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design = null;
 
@@ -75,7 +75,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -89,7 +89,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
