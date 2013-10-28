@@ -95,9 +95,9 @@ class GuestPaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$167.63',
-                'authorized_amount' => '$167.63',
-                'comment_history'   => 'Authorized amount of $167.63',
+                'grand_total' => '$156.81',
+                'authorized_amount' => '$156.81',
+                'comment_history'   => 'Authorized amount of $156.81',
             )
         );
     }

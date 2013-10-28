@@ -154,7 +154,7 @@ class Config extends AbstractRepository
                                     'cctypes' => array( //Card Types
                                         'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
                                     ),
-                                    'usecvv' => array( //Credit Card Verification
+                                    'useccv' => array( //Credit Card Verification
                                         'value' => 1 //Yes
                                     ),
                                     'centinel' => array( //3D Secure Card Validation
@@ -446,7 +446,7 @@ class Config extends AbstractRepository
                             'paypaluk_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => 1
                                     )
                                 )
                             )

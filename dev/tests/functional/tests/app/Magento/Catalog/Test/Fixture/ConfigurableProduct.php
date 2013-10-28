@@ -191,7 +191,7 @@ class ConfigurableProduct extends Product
                                         'value' => '%attribute_1_option_label_1%'
                                     ),
                                     'pricing_value' => array(
-                                        'value' => '11'
+                                        'value' => '1'
                                     ),
                                     'is_percent' => array(
                                         'value' => 'No'
@@ -205,7 +205,7 @@ class ConfigurableProduct extends Product
                                         'value' => '%attribute_1_option_label_2%'
                                     ),
                                     'pricing_value' => array(
-                                        'value' => '12'
+                                        'value' => '2'
                                     ),
                                     'is_percent' => array(
                                         'value' => 'No'

@@ -72,4 +72,12 @@ class Cart extends Block
     {
         $this->waitForElementVisible('//span[@data-ui-id="messages-message-success"]', Locator::SELECTOR_XPATH);
     }
+
+    /**
+     * Press 'Check out with PayPal' button
+     */
+    public function paypalCheckout()
+    {
+        $this->_rootElement->find('[data-action=checkout-form-submit]', Locator::SELECTOR_CSS)->click();
+    }
 }

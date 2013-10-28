@@ -92,7 +92,7 @@ class MultishippingGuestPaypalDirect extends Checkout
             'totals' => array(
                 'grand_total' => array(
                     '$15.83', //simple
-                    '$27.76' //configurable
+                    '$16.92' //configurable
                 )
             )
         );

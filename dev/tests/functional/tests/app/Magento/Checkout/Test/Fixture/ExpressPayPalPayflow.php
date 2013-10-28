@@ -18,8 +18,25 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class GuestPayPalPayflow extends Checkout
+class ExpressPayPalPayflow extends Checkout
 {
+    /**
+     * Paypal customer buyer
+     *
+     * @var \Magento\Paypal\Test\Fixture\Customer
+     */
+    private $paypalCustomer;
+
+    /**
+     * Get Paypal buyer account
+     *
+     * @return \Magento\Paypal\Test\Fixture\Customer
+     */
+    public function getPaypalCustomer()
+    {
+        return $this->paypalCustomer;
+    }
+
     /**
      * Create required data
      */
@@ -62,13 +79,16 @@ class GuestPayPalPayflow extends Checkout
         $this->billingAddress->switchData('address_US_1');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
-        $this->shippingMethods->switchData('flat_rate_2');
+        $this->shippingMethods->switchData('flat_rate');
 
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
-        $this->paymentMethod->switchData('paypal_payflow_pro');
+        $this->paymentMethod->switchData('paypal_express');
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_default');
+        $this->creditCard->switchData('visa_direct');
+
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
     }
 
     /**
@@ -78,9 +98,7 @@ class GuestPayPalPayflow extends Checkout
     {
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81',
-                'authorized_amount' => '$156.81',
-                'comment_history' => 'We will authorize $156.81'
+                'grand_total' => '$156.81'
             )
         );
     }
