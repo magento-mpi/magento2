@@ -18,4 +18,14 @@
             </value>
         </param>
     </type>
+    <virtualType name="Magento\Reports\Model\Session" type="Magento\Core\Model\Session\Generic">
+        <param name="sessionNamespace">
+            <value>reports</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Reports\Model\Product\Index\AbstractIndex">
+        <param name="reportSession">
+            <instance type="Magento\Reports\Model\Session" />
+        </param>
+    </type>
 </config>
