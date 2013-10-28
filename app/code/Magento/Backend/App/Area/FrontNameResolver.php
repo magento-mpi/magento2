@@ -14,14 +14,6 @@ class FrontNameResolver implements \Magento\App\Area\FrontNameResolverInterface
 
     const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
 
-
-    /**
-     * Area front name
-     *
-     * @var string
-     */
-    protected $_areaFrontName;
-
     /**
      * @var string
      */
@@ -49,15 +41,10 @@ class FrontNameResolver implements \Magento\App\Area\FrontNameResolverInterface
      */
     public function getFrontName()
     {
-        if (null === $this->_areaFrontName) {
-            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
-
-            if ($isCustomPathUsed) {
-                $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
-            } else {
-                $this->_areaFrontName = $this->_defaultFrontName;
-            }
+        $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
+        if ($isCustomPathUsed) {
+            return (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
         }
-        return $this->_areaFrontName;
+        return $this->_defaultFrontName;
     }
 }

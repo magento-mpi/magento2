@@ -37,10 +37,9 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Widget\Model\Widget $widget
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\View\LayoutFactory $layoutFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,

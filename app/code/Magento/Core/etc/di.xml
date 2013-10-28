@@ -17,7 +17,6 @@
     <preference for="Magento\Core\Model\Session\AbstractSession" type="Magento\Core\Model\Session" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\Core\Model\Page\Asset\MergeStrategyInterface" type="Magento\Core\Model\Page\Asset\MergeStrategy\Direct" />
-    <preference for="Twig_LoaderInterface" type="Magento\Core\Model\TemplateEngine\Twig\FullFileName" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\Core\Model\ConfigInterface" type="Magento\Core\Model\Config" />
     <preference for="Magento\Core\Model\Config\DataInterface" type="Magento\Core\Model\Config\Data" />
@@ -392,6 +391,14 @@
     <type name="Magento\Core\Model\View\Service">
         <param name="design">
             <instance type="Magento\Core\Model\View\Design\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\TemplateEngine\Factory">
+        <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+        <param name="engines">
+            <value>
+                <phtml>Magento\Core\Model\TemplateEngine\Php</phtml>
+            </value>
         </param>
     </type>
 </config>

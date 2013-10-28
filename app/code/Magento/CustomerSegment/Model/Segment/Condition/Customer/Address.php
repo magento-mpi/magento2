@@ -52,7 +52,7 @@ class Address
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination'),
             ),
-            $this->_conditionFactory->create('Customer\Address\Default')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Customer\Address\DefaultAddress')->getNewChildSelectOptions(),
             $this->_conditionFactory->create('Customer\Address\Attributes')->getNewChildSelectOptions(),
         ));
         return $result;

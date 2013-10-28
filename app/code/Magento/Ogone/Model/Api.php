@@ -417,9 +417,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _getOgonePaymentOperation()
     {
         $value = $this->getPaymentAction();
-        if ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE) {
+        if ($value == \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE) {
             $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_ACTION;
-        } elseif ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
+        } elseif ($value == \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
             $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
         return $value;

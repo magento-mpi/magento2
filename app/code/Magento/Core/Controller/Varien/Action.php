@@ -388,8 +388,6 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_eventManager->dispatch('controller_action_layout_render_before');
         $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
 
-        $this->getLayout()->setDirectOutput(false);
-
         $output = $this->getLayout()->getOutput();
         $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
         $this->getResponse()->appendBody($output);

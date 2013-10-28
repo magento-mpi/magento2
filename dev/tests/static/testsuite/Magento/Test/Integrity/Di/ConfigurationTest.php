@@ -38,9 +38,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $data = $this->_mapper->convert($dom);
 
         foreach ($data as $instanceName => $parameters) {
-            if (!isset($parameters['parameters'])
-                || empty($parameters['parameters'])
-            ) {
+            if (!isset($parameters['parameters']) || empty($parameters['parameters'])) {
                 continue;
             }
 
@@ -49,10 +47,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             }
             $parameters = $parameters['parameters'];
 
-            $path = \Magento\Autoload\IncludePath::getFilePath($instanceName);
-            if (class_exists($instanceName)) {
-                require_once $path;
-            } else {
+            if (!class_exists($instanceName)) {
                 $this->fail('Non existed class: ' . $instanceName);
             }
 

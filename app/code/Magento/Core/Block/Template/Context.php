@@ -38,9 +38,9 @@ class Context extends \Magento\Core\Block\Context
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Factory
+     * @var \Magento\Core\Model\TemplateEngine\Pool
      */
-    protected $_engineFactory;
+    protected $_enginePool;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -61,7 +61,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
+     * @param \Magento\Core\Model\TemplateEngine\Pool $enginePool
      * @param \Magento\Core\Model\App $app
      */
     public function __construct(
@@ -83,7 +83,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
+        \Magento\Core\Model\TemplateEngine\Pool $enginePool,
         \Magento\Core\Model\App $app
     ) {
         parent::__construct(
@@ -95,7 +95,7 @@ class Context extends \Magento\Core\Block\Context
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_engineFactory = $engineFactory;
+        $this->_enginePool = $enginePool;
     }
 
     /**
@@ -138,12 +138,12 @@ class Context extends \Magento\Core\Block\Context
     }
 
     /**
-     * Get the template engine factory instance
+     * Get the template engine pool instance
      *
-     * @return \Magento\Core\Model\TemplateEngine\Factory
+     * @return \Magento\Core\Model\TemplateEngine\Pool
      */
-    public function getEngineFactory()
+    public function getEnginePool()
     {
-        return $this->_engineFactory;
+        return $this->_enginePool;
     }
 }
