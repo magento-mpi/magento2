@@ -12,11 +12,11 @@
 namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
 
 use Mtf\Block\Block;
-use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option as BundleOption;
+use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection;
+use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid;
 
 /**
  * Class Option
@@ -29,14 +29,14 @@ class Option extends Block
     /**
      * Grid to assign products to bundle option
      *
-     * @var BundleOption\Search\Grid
+     * @var Grid
      */
     private $searchGridBlock;
 
     /**
      * Added product row
      *
-     * @var BundleOption\Selection
+     * @var Selection
      */
     private $selectionBlock;
 
@@ -104,7 +104,7 @@ class Option extends Block
      * Get grid for assigning products for bundle option
      *
      * @param Element $context
-     * @return BundleOption\Search\Grid
+     * @return Grid
      */
     private function getSearchGridBlock(Element $context = null)
     {
@@ -120,7 +120,7 @@ class Option extends Block
      * Get product row assigned to bundle option
      *
      * @param Element $context
-     * @return BundleOption\Selection
+     * @return Selection
      */
     private function getSelectionBlock(Element $context = null)
     {
