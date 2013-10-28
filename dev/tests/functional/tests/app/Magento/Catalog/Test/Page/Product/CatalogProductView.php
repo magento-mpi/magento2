@@ -15,7 +15,6 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Block\Product;
 
 /**
  * Class CatalogProductView
@@ -33,14 +32,14 @@ class CatalogProductView extends Page
     /**
      * Product View block
      *
-     * @var Product\View
+     * @var \Magento\Catalog\Test\Block\Product\View
      */
     private $viewBlock;
 
     /**
      * Product options block
      *
-     * @var Product\View\Options
+     * @var \Magento\Catalog\Test\Block\Product\View\Options
      */
     private $optionsBlock;
 
@@ -81,7 +80,7 @@ class CatalogProductView extends Page
     /**
      * Get product options block
      *
-     * @return Product\View\Options
+     * @return \Magento\Catalog\Test\Block\Product\View\Options
      */
     public function getOptionsBlock()
     {

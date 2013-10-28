@@ -14,7 +14,6 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Block\Onepage;
 
 /**
  * Class CheckoutCart
@@ -30,32 +29,32 @@ class CheckoutOnepage extends Page
     const MCA = 'checkout/onepage';
 
     /**
-     * @var Onepage\Login
+     * @var \Magento\Checkout\Test\Block\Onepage\Login
      */
     private $loginBlock;
 
     /**
-     * @var Onepage\Billing
+     * @var \Magento\Checkout\Test\Block\Onepage\Billing
      */
     private $billingBlock;
 
     /**
-     * @var Onepage\Shipping
+     * @var \Magento\Checkout\Test\Block\Onepage\Shipping
      */
     private $shippingBlock;
 
     /**
-     * @var Onepage\Shipping\Method
+     * @var \Magento\Checkout\Test\Block\Onepage\Shipping\Method
      */
     private $shippingMethodBlock;
 
     /**
-     * @var Onepage\Payment\Methods
+     * @var \Magento\Checkout\Test\Block\Onepage\Payment\Methods
      */
     private $paymentMethodsBlock;
 
     /**
-     * @var Onepage\Review
+     * @var \Magento\Checkout\Test\Block\Onepage\Review
      */
     private $reviewBlock;
 
@@ -106,7 +105,7 @@ class CheckoutOnepage extends Page
     }
 
     /**
-     * @return Onepage\Shipping\Method
+     * @return \Magento\Checkout\Test\Block\Onepage\Shipping\Method
      */
     public function getShippingMethodBlock()
     {
