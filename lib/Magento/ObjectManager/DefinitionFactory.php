@@ -84,7 +84,7 @@ class DefinitionFactory
             spl_autoload_register(function($className) use ($generator, $generationDir) {
                 if (!class_exists($className) && preg_match('/.*Factory|Proxy|Interceptor$/', $className)) {
                     $generator->generateClass($className);
-                    $path = implode(DIRECTORY_SEPARATOR, explode('\\', $className));
+                    $path = implode(DIRECTORY_SEPARATOR, preg_split('/\\_/', $className));
                     include $generationDir . DIRECTORY_SEPARATOR . $path . '.php';
                 }
             });
