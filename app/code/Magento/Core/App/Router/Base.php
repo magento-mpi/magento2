@@ -238,30 +238,19 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _getNotFoundControllerInstance($currentModuleName, \Magento\App\RequestInterface $request)
     {
-        $controllerInstance = null;
-
-        if ($this->_noRouteShouldBeApplied()) {
-            $controller = 'index';
-            $action = 'noroute';
-
-            $controllerClassName = $this->getControllerClassName($currentModuleName, $controller);
-            if (false == $controllerClassName) {
-                return null;
-            }
-
-            if (false == method_exists($controllerClassName, $action . 'Action')) {
-                return null;
-            }
-
-            // instantiate controller class
-            $controllerInstance = $this->_actionFactory->createController($controllerClassName,
-                array('request' => $request)
-            );
-        } else {
+        if (!$this->_noRouteShouldBeApplied()) {
             return null;
         }
 
-        return $controllerInstance;
+        $controllerClassName = $this->getControllerClassName($currentModuleName, 'index');
+        if (!$controllerClassName || !method_exists($controllerClassName, 'norouteAction')) {
+            return null;
+        }
+
+        // instantiate controller class
+        return $this->_actionFactory->createController($controllerClassName,
+            array('request' => $request)
+        );
     }
 
     /**
