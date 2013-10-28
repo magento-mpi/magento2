@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+?>
+<div class="widget widget-banner-inline">
+    <?php $bannersContent =  $this->getBannersContent() ?>
+    <ul>
+    <?php foreach ($bannersContent as $bannerId => $content): ?>
+        <li><?php echo $content?></li>
+    <?php endforeach; ?>
+    </ul>
+</div>

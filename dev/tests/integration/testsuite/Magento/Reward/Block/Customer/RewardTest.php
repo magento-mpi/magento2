@@ -33,8 +33,8 @@ class RewardTest extends \PHPUnit_Framework_TestCase
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('customer.reward');
 
-        $format = '%A<div class="box info-box">%A<table id="reward-history" class="data-table">%A'
-            . 'id="subscribe_updates"%A';
+        $format = '%A<div class="block reward info">%A<table class="data table reward history">%A'
+            . 'class="form reward settings"%A';
         $this->assertStringMatchesFormat($format, $layout->getOutput());
     }
 }

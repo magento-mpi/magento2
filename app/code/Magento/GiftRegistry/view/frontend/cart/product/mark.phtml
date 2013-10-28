@@ -3,13 +3,12 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 <?php if ($this->getEnabled()): ?>
-<p class="gift-registry-name">
-    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>"><?php echo $this->truncateString($this->getGiftregistryTitle(), 50) ?></a>
-</p>
+<div class="gift registry name">
+    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>" class="action gift registry"><span><?php echo $this->truncateString($this->getGiftregistryTitle(), 50) ?></span></a>
+</div>
 <?php endif; ?>
