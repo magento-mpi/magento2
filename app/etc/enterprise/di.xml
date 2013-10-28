@@ -34,17 +34,7 @@
             <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
-    <type name="Magento\HTTP\Handler\Composite">
-        <param name="handlers">
-            <value>
-                <fpc>
-                    <sortOrder>25</sortOrder>
-                    <class>Magento\FullPageCache\Model\Http\Handler</class>
-                </fpc>
-            </value>
-        </param>
-    </type>
-    <type name="Magento\FullPageCache\Model\Http\Handler">
+    <type name="Magento\FullPageCache\App\FrontController\Plugin">
         <param name="requestProcessors">
             <value>
                 <ee>

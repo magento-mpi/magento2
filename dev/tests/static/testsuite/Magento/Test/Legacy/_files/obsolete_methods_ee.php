@@ -104,6 +104,7 @@ return array(
     array('getUseInviterGroup', '\Magento\Invitation\Helper\Data'),
     array('isInvitationMessageAllowed', '\Magento\Invitation\Helper\Data'),
     array('isEnabled', '\Magento\Invitation\Helper\Data'),
+    array('checkMessages', '\Magento\FullPageCache\Model\Observer'),
     array('appendGiftcardAdditionalData', 'Magento\GiftCard\Model\Observer'),
     array('_getResource', 'Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount'),
     array('getNode', 'Magento\Logging\Model\Config'),

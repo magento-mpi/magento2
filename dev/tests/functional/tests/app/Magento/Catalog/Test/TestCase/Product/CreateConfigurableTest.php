@@ -11,15 +11,13 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Catalog\Test\Fixture\ProductAttribute;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Util\FixtureIterator;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
- * Class CreateTest
- * Test product creation
+ * Class CreateConfigurableTest
+ * Configurable product
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
@@ -34,87 +32,80 @@ class CreateConfigurableTest extends Functional
     }
 
     /**
-     * Test product create
+     * Creating configurable product and assigning it to category
      *
+     * @ZephyrId MAGETWO-12620
      */
     public function testCreateConfigurableProduct()
     {
-        $fixtureAttribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
-        $fixtureAttribute->switchData('configurable_attribute');
-        $fixtureAttribute->persist();
+        //Data
         $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $product ->switchData('configurable_default_category');
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $product->switchData('configurable');
+        //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $productBlockForm = $createProductPage->getProductBlockForm();
-        $variations = $product->getVariations();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('configurable');
-
         $productBlockForm->fill($product);
-        $variationsBlock = $createProductPage->getVariationsBlock();
-
-        $attributeData = $fixtureAttribute->getData('fields');
-        $variationsBlock->selectAttribute($attributeData['attribute_label']['value']);
-
-        $variationsForm = $createProductPage->getVariationsForm();
-
-        $variationsForm->fillFormPrice($variations);
-        $variationsBlock->generateVariations();
-
-        $currentVariations = $createProductPage->getCurrentVariations();
-        $currentVariations->fillFormQty($variations);
-
         $productBlockForm->save($product);
-        $affectedAttributeSetChooser = $createProductPage->getAffectedAttributeSetChooser();
-        $affectedAttributeSetChooser->chooseNewAndConfirm(uniqid(true));
         //Verifying
         $createProductPage->assertProductSaveResult($product);
-        $this->assertOnGrid($product, $attributeData);
-        $this->assertOnCategory($product, $attributeData);
+        $this->assertOnGrid($product);
+        $this->assertOnFrontend($product);
     }
 
     /**
      * Assert existing product on admin product grid
      *
      * @param ConfigurableProduct $product
-     * @param array $attributeData
      */
-    protected function assertOnGrid($product, $attributeData)
+    protected function assertOnGrid($product)
     {
+        //Search data
+        $configurableSearch = array(
+            'sku' => $product->getProductSku(),
+            'type' => 'Configurable Product'
+        );
+        $variationSkus = $product->getVariationSkus();
+        //Page & Block
         $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
+        /** @var \Magento\Catalog\Test\Block\Backend\ProductGrid */
         $gridBlock = $productGridPage->getProductGrid();
-        $sku1 = $product->getProductSku() . '-' . $attributeData['option[value][option_0][0]']['value'];
-        $sku2 = $product->getProductSku() . '-' . $attributeData['option[value][option_1][0]']['value'];
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $sku1)));
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $sku2)));
+        //Assertion
+        $this->assertTrue($gridBlock->isRowVisible($configurableSearch), 'Configurable product was not found.');
+        foreach ($variationSkus as $sku) {
+            $this->assertTrue(
+                $gridBlock->isRowVisible(array('sku' => $sku, 'type' => 'Simple Product')),
+                'Variation with sku "' . $sku . '" was not found.'
+            );
+        }
     }
 
     /**
+     * Assert configurable product on Frontend
+     *
      * @param ConfigurableProduct $product
-     * @param array $attributeData
      */
-    protected function assertOnCategory($product, $attributeData)
+    protected function assertOnFrontend(ConfigurableProduct $product)
     {
-        //Pages
+        //Pages & Blocks
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
-        //Steps
-        $categoryPage->openCategory($product->getCategoryName());
-        //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-        $productListBlock->openProductViewPage($product->getProductName());
-        //Verification on product detail page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
-        $array = array('0' => $attributeData['option[value][option_0][0]']['value'] . ' +$1.00',
-            '1' => $attributeData['option[value][option_1][0]']['value'] . ' +$2.00');
-        $this->assertEquals($array, $productViewBlock->getProductOptions());
+        //Assert product on category page
+        $categoryPage->openCategory($product->getCategoryName());
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
+            'Product is absent on category page.');
+        //Assert product on product page
+        $productListBlock->openProductViewPage($product->getProductName());
+        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
+            'Product name does not correspond to specified.');
+        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice(),
+            'Product price does not correspond to specified.');
+        $this->assertTrue($productViewBlock->verifyProductOptions($product), 'Added configurable options are absent');
     }
 }

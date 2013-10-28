@@ -1,0 +1,9 @@
+selenium:
+    browser: 'Mozilla Firefox'
+    browserName: '{{selenium_browser}}'
+    host: '{{selenium_host}}'
+    port: {{selenium_port}}
+    seleniumServerRequestsTimeout: {{selenium_timeout}}
+    sessionStrategy: shared
+    desiredCapabilities:
+        platform: ANY

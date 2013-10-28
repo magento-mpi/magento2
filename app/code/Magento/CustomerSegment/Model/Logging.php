@@ -23,17 +23,17 @@ class Logging
     protected $_resourceModel = null;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http|null
+     * @var \Magento\App\RequestInterface|null
      */
     protected $_request = null;
 
     /**
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceModel
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\CustomerSegment\Model\Resource\Segment $resourceModel,
-        \Magento\Core\Controller\Request\Http $request
+        \Magento\App\RequestInterface $request
     ) {
         $this->_resourceModel = $resourceModel;
         $this->_request = $request;

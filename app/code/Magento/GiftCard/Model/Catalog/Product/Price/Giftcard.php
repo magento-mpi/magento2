@@ -36,14 +36,14 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);

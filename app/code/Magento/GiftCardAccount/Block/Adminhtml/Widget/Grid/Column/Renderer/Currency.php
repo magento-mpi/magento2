@@ -20,16 +20,21 @@ class Currency
      */
     protected $_storeManager;
 
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
+     * @param array $data
+     */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
-        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $app, $locale, $currencyLocator, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($context, $storeManager, $locale, $currencyLocator, $data);
     }
 
 

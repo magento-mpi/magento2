@@ -55,12 +55,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\Core\Model\View\Url'),
                 $objectManager->get('Magento\Core\Model\View\FileSystem'),
-                $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+                $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
-                $objectManager->get('Magento\Core\Model\Dir'),
+                $objectManager->get('Magento\App\Dir'),
                 $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             )
         );
