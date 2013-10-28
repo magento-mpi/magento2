@@ -12,12 +12,10 @@
         <block class="Magento\Sales\Block\Order\Email\Items\DefaultItems" as="default" template="email/items/invoice/default.phtml"/>
         <block class="Magento\Sales\Block\Order\Email\Items\Order\Grouped" as="grouped" template="email/items/invoice/default.phtml"/>
         <block class="Magento\Sales\Block\Order\Invoice\Totals" name="invoice_totals" template="order/totals.phtml">
-            <action method="setLabelProperties">
-                <argument name="value" xsi:type="string">colspan="3" align="right" style="padding:3px 9px"</argument>
-            </action>
-            <action method="setValueProperties">
-                <argument name="value" xsi:type="string">align="right" style="padding:3px 9px"</argument>
-            </action>
+            <arguments>
+                <argument name="label_properties" xsi:type="string">colspan="3" align="right" style="padding:3px 9px"</argument>
+                <argument name="value_properties" xsi:type="string">align="right" style="padding:3px 9px"</argument>
+            </arguments>
             <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
         </block>
     </block>

@@ -8,145 +8,123 @@
  * @license     {license_link}
  */
 ?>
-<div class="page-title">
-    <h1><?php echo $this->getFormHeader() ?></h1>
-</div>
-<span id="gr-please-wait" class="please-wait" style="display:none;">
-    <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo __('Please wait, loading...') ?>
+<span id="gr-please-wait" class="please-wait load indicator" style="display:none;">
+    <span><?php echo __('Please wait, loading...') ?></span>
 </span>
-
-<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-form">
-    <div class="fieldset">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-form" class="form giftregistry search" data-hasrequired="* <?php echo __('Required Fields') ?>">
+    <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
-        <h2 class="legend"><?php echo __('Search Options') ?></h2>
-        <ul class="form-list">
-            <li>
-                <label for="params-type-id"><?php echo __('Gift Registry Type') ?></label>
-                <div class="input-box">
-                    <?php echo $this->getTypeSelectHtml() ?>
-                </div>
-                <p class="note"><?php echo __('For better search results, first choose a gift registry type. By default, we search all registry types.') ?></p>
-            </li>
-            <li class="fields">
-                <div class="field">
-                    <label for="params_firstname" class="required"><em>*</em><?php echo __('First Name') ?></label>
-                     <div class="input-box">
-                        <input name="params[firstname]" id="params_firstname" type="text" value="<?php echo $this->getFormData('firstname') ?>" class="input-text required-entry" />
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="params_lastname" class="required"><em>*</em><?php echo __('Last Name') ?></label>
-                    <div class="input-box">
-                        <input name="params[lastname]" id="params_lastname" type="text" value="<?php echo $this->getFormData('lastname') ?>" class="input-text required-entry" />
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+        <legend class="legend"><span><?php echo __('Search Options') ?></span></legend><br>
+        <div class="field type">
+            <label for="params-type-id" class="label"><span><?php echo __('Gift Registry Type') ?></span></label>
+            <div class="control">
+                <?php echo $this->getTypeSelectHtml() ?>
+                <div class="note"><?php echo __('For better search results, first choose a gift registry type. By default, we search all registry types.') ?></div>
+            </div>
+        </div>
+        <div class="field name required">
+            <label for="params_firstname" class="label"><span><?php echo __('First Name') ?></span></label>
+             <div class="control">
+                <input name="params[firstname]" id="params_firstname" type="text" value="<?php echo $this->getFormData('firstname') ?>" class="input-text required-entry" />
+            </div>
+        </div>
+        <div class="field lastname required">
+            <label for="params_lastname" class="label"><span><?php echo __('Last Name') ?></span></label>
+            <div class="control">
+                <input name="params[lastname]" id="params_lastname" type="text" value="<?php echo $this->getFormData('lastname') ?>" class="input-text required-entry" />
+            </div>
+        </div>
+    </fieldset>
 
-    <div class="fieldset" id="gr-type-specific-fieldset" style="display:none;">
-        <h2 class="legend"><?php echo __('Type Specific Options') ?></h2>
-        <ul class="form-list">
-            <li class="fields" id="gr-type-specific-options">
-            </li>
-        </ul>
-    </div>
+    <fieldset class="fieldset" id="gr-type-specific-fieldset" style="display:none;">
+        <legend class="legend"><span><?php echo __('Type Specific Options') ?></span></legend><br>
+        <div class="field" id="gr-type-specific-options"></div>
+    </fieldset>
 
-    <div class="buttons-set form-buttons">
+    <div class="actions">
         <input type="hidden" name="params[search]" value="type" />
-        <button type="submit" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+        <button type="submit" class="action search"><span><?php echo __('Search') ?></span></button>
     </div>
-    <p class="required"><?php echo __('* Required Fields') ?></p>
 </form>
 
-<div class="divider"></div>
-
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-email-form">
-    <div class="fieldset">
-        <ul class="form-list">
-            <li>
-                 <label for="params_email" class="required"><em>*</em><?php echo __('Recipient Email') ?></label>
-                 <div class="input-box">
-                     <input name="params[email]" id="params_email" type="text" value="<?php echo $this->getFormData('email') ?>" class="input-text required-entry validate-email" />
-                 </div>
-            </li>
-        </ul>
-    </div>
-    <div class="buttons-set form-buttons">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-email-form" class="form giftregistry search" data-hasrequired="* <?php echo __('Required Fields') ?>">
+    <fieldset class="fieldset">
+        <div class="field email required">
+             <label for="params_email" class="label"><span><?php echo __('Recipient Email') ?></span></label>
+             <div class="control">
+                 <input name="params[email]" id="params_email" type="text" value="<?php echo $this->getFormData('email') ?>" class="input-text required-entry validate-email" />
+             </div>
+        </div>
+    </fieldset>
+    <div class="actions">
         <input type="hidden" name="params[search]" value="email" />
-        <button type="submit" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+        <button type="submit" class="action search"><span><?php echo __('Search') ?></span></button>
     </div>
-    <p class="required"><?php echo __('* Required Fields') ?></p>
 </form>
 
-<div class="divider"></div>
-
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-id-form">
-    <div class="fieldset">
-        <ul class="form-list">
-            <li>
-                 <label for="params_id" class="required"><em>*</em><?php echo __('Gift Registry ID') ?></label>
-                 <div class="input-box">
-                     <input name="params[id]" id="params_id" type="text" value="<?php echo $this->getFormData('id') ?>" class="input-text required-entry" />
-                 </div>
-            </li>
-        </ul>
-    </div>
-    <div class="buttons-set form-buttons">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-id-form" class="form giftregistry search" data-hasrequired="* <?php echo __('Required Fields') ?>">
+    <fieldset class="fieldset">
+        <div class="field id required">
+             <label for="params_id" class="label"><span><?php echo __('Gift Registry ID') ?></span></label>
+             <div class="control">
+                 <input name="params[id]" id="params_id" type="text" value="<?php echo $this->getFormData('id') ?>" class="input-text required-entry" />
+             </div>
+        </div>
+    </fieldset>
+    <div class="actions">
         <input type="hidden" name="params[search]" value="id" />
-        <button type="submit" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+        <button type="submit" class="action search"><span><?php echo __('Search') ?></span></button>
     </div>
-    <p class="required"><?php echo __('* Required Fields') ?></p>
 </form>
 
 <script type="text/javascript">
-                (function($) {
-                    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-                        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-                        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-                        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-                        "<?php echo $this->getViewFileUrl('Magento_GiftRegistry::advanced-search.js')?>", function() {
-                            $('form[id^="gr-search"]').validation();
-                            $('#params-type-id').advancedSearch({
-                                url: '<?php echo $this->getAdvancedUrl() ?>',
-                                selectedOption: '<?php echo ($this->getFormData('type_id') ? $this->getFormData('type_id') : null); ?>'
-                            });
-                        });
-                })(jQuery);
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('Magento_GiftRegistry::advanced-search.js')?>", function() {
+                $('form[id^="gr-search"]').validation();
+                $('#params-type-id').advancedSearch({
+                    url: '<?php echo $this->getAdvancedUrl() ?>',
+                    selectedOption: '<?php echo ($this->getFormData('type_id') ? $this->getFormData('type_id') : null); ?>'
+                });
+            });
+    })(jQuery);
 </script>
 
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>
-<div class="fieldset">
-    <h2 class="legend"><?php echo __('Search Results') ?></h2>
+<div class="block giftregistry results">
+    <div class="title"><strong><?php echo __('Search Results') ?></strong></div>
+    <div class="content">
+        <div class="toolbar"><?php echo $this->getChildHtml('pager') ?></div>
+        <table class="data table" id="giftregistry-search-results">
+            <thead>
+                <tr>
+                    <th class="col name"><?php echo __('Name') ?></th>
+                    <th class="col location"><?php echo __('Location') ?></th>
+                    <th class="col event"><?php echo __('Event') ?></th>
+                    <th class="col type"><?php echo __('Type') ?></th>
+                    <th class="col date"><?php echo __('Event Date') ?></th>
+                    <th class="col actions"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->getSearchResults() as $item): ?>
+                <tr>
+                    <td class="col name"><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
+                    <td class="col location"><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
+                    <td class="col event"><?php echo $this->escapeHtml($item->getTitle()) ?></td>
+                    <td class="col type"><?php echo $this->escapeHtml($item->getType()) ?></td>
+                    <td class="col date"><?php echo $this->getFormattedDate($item) ?></td>
+                    <td class="col actions"><a href="<?php echo $this->getRegistryLink($item) ?>" class="action view"><span><?php echo __('View') ?></span></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="toolbar"><?php echo $this->getChildHtml('pager') ?></div>
+    </div>
 </div>
-<?php echo $this->getChildHtml('pager') ?>
-<table class="data-table" id="giftregistry-search-results">
-    <thead>
-        <tr>
-            <th><?php echo __('Name') ?></th>
-            <th><?php echo __('Location') ?></th>
-            <th class="a-center"><?php echo __('Event') ?></th>
-            <th class="a-center"><?php echo __('Type') ?></th>
-            <th class="a-center"><?php echo __('Event Date') ?></th>
-            <th class="a-center"></th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach($this->getSearchResults() as $item): ?>
-        <tr>
-            <td><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getTitle()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getType()) ?></td>
-            <td><?php echo $this->getFormattedDate($item) ?></td>
-            <td><a href="<?php echo $this->getRegistryLink($item) ?>"><?php echo __('View') ?></a></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-<script type="text/javascript">(function($) {$('#giftregistry-search-results').decorate('table')})(jQuery)</script>
-<?php echo $this->getChildHtml('pager') ?>
 <?php elseif ($this->getSearchResults()): ?>
     <?php echo __('Your search returned no results.') ?>
 <?php endif; ?>
