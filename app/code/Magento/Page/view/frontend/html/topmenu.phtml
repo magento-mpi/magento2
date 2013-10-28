@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    design
  * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
@@ -15,18 +15,12 @@
  * @see \Magento\Page\Block\Html\Topmenu
  */
 ?>
-<?php $_menu = $this->getHtml('level-top') ?>
+<?php $columnsLimit = $this->getColumnsLimit() ? : 0; ?>
+<?php $_menu = $this->getHtml('level-top','submenu', $columnsLimit) ?>
 <?php if ($_menu): ?>
-<div class="nav-container">
-    <ul id="nav">
-        <?php echo $_menu ?>
+<nav class="navigation" role="navigation">
+    <ul>
+        <?php echo $_menu; ?>
     </ul>
-</div>
-<script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Page::js/menu.js') ?>", function() {
-            $('#nav .parent').menu();
-        });
-    })(jQuery);
-</script>
-<?php endif ?>
+</nav>
+<?php endif; ?>
