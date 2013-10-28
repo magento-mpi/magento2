@@ -77,7 +77,7 @@ abstract class Grid extends Block
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
         $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find('/ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
+            $this->_rootElement->find('./ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
     }
 
     /**
