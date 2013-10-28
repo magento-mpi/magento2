@@ -34,7 +34,7 @@ class ApplyConfig extends Direct
     {
         $objectManager = new \Magento\Core\Model\ObjectManager(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
 
-        $objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope('adminhtml');
+        $objectManager->get('Magento\Config\Scope')->setCurrentScope('adminhtml');
 
         $objectManager->configure(
             $objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('adminhtml')
