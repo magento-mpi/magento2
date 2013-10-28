@@ -1,5 +1,6 @@
 <?php
 /**
+ * Default application path for backend area
  *
  * {license_notice}
  *
@@ -15,6 +16,9 @@ class DefaultPath implements \Magento\App\DefaultPathInterface
      */
     protected $_parts;
 
+    /**
+     * @param \Magento\Core\Model\Config $config
+     */
     public function __construct(\Magento\Core\Model\Config $config)
     {
         $pathParts = explode('/', $config->getValue('web/default/admin', 'default'));
@@ -28,6 +32,8 @@ class DefaultPath implements \Magento\App\DefaultPathInterface
     }
 
     /**
+     * Retrieve default path part by code
+     *
      * @param string $code
      * @return string
      */

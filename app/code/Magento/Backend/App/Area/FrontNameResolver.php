@@ -1,5 +1,7 @@
 <?php
 /**
+ * Backend area front name resolver. Reads front name from configuration
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

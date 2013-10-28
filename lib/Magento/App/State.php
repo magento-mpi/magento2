@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
 
 class State
@@ -71,6 +70,7 @@ class State
             default:
                 throw new \InvalidArgumentException("Unknown application mode: {$mode}");
         }
+        $this->_appMode = self::MODE_DEVELOPER;
     }
 
     /**

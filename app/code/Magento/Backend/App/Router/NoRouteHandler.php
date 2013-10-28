@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\App\Router;
 
 class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
