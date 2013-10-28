@@ -15,6 +15,7 @@ class State
      * Application run code
      */
     const PARAM_MODE = 'MAGE_MODE';
+
     /**
      * Application mode
      *
@@ -70,7 +71,6 @@ class State
             default:
                 throw new \InvalidArgumentException("Unknown application mode: {$mode}");
         }
-        $this->_appMode = self::MODE_DEVELOPER;
     }
 
     /**
