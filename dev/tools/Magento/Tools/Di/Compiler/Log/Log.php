@@ -13,6 +13,7 @@ class Log
     const GENERATION_ERROR = 1;
     const GENERATION_SUCCESS = 2;
     const COMPILATION_ERROR = 3;
+    const CONFIGURATION_ERROR = 4;
 
     /**
      * Log writer
@@ -43,7 +44,12 @@ class Log
     {
         $this->_writer = $writer;
         $this->_allowedTypes = empty($allowedTypes)
-            ? array(self::GENERATION_ERROR, self::COMPILATION_ERROR, self::GENERATION_SUCCESS)
+            ? array(
+                self::GENERATION_ERROR,
+                self::COMPILATION_ERROR,
+                self::GENERATION_SUCCESS,
+                self::CONFIGURATION_ERROR
+            )
             : $allowedTypes;
     }
 

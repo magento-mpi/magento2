@@ -17,7 +17,8 @@ class Console implements WriterInterface
     protected $_messages = array(
         Log::GENERATION_SUCCESS => 'Generated classes:',
         Log::GENERATION_ERROR => 'Errors during class generation:',
-        Log::COMPILATION_ERROR => 'Errors during compilation:'
+        Log::COMPILATION_ERROR => 'Errors during compilation:',
+        Log::CONFIGURATION_ERROR => 'Errors during configuration scanning:'
     );
 
     /**

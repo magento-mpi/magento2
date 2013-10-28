@@ -18,17 +18,14 @@ use Magento\Tools\Di\Compiler\Log\Log,
 
 $filePatterns = array(
     'php' => '/.*\.php$/',
-    'etc' => '/\/app\/etc\/[a-z0-9\.]*\.xml$/',
     'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/',
-    'view' => '/\/view\/[a-z0-9A-Z\/\.]*\.xml$/',
-    'design' => '/\/app\/design\/[a-z0-9A-Z\/\._]*\.xml$/',
 );
 $codeScanDir = realpath($rootDir . '/app');
 try {
     $opt = new Zend_Console_Getopt(array(
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
         'verbose|v' => 'output report after tool run',
-        'log|l=s' => 'log level (all|error) default = all',
+        'log|l=s' => 'log level (all|error) default = error',
         'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
         'generation=s' => 'absolute path to generated classes, <magento_root>/var/generation by default',
         'di=s' => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
@@ -50,9 +47,9 @@ try {
     );
 
     $writer = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
-    $allowedLogTypes = $opt->getOption('log') == 'error' ?
-        array(Log::COMPILATION_ERROR, Log::GENERATION_ERROR)
-        : array();
+    $allowedLogTypes = $opt->getOption('log') == 'all'
+        ? array()
+        : array(Log::COMPILATION_ERROR, Log::GENERATION_ERROR, Log::CONFIGURATION_ERROR);
     $log = new Log($writer, $allowedLogTypes);
     $serializer = ($opt->getOption('serializer') == 'binary') ? new Serializer\Igbinary() : new Serializer\Standard();
 
@@ -64,11 +61,8 @@ try {
     $entities = array();
 
     $scanner = new Scanner\CompositeScanner();
-    $scanner->addChild(new Scanner\PhpScanner(), 'php');
-    $scanner->addChild(new Scanner\XmlScanner(), 'etc');
-    $scanner->addChild(new Scanner\XmlScanner(), 'di');
-    $scanner->addChild(new Scanner\XmlScanner(), 'view');
-    $scanner->addChild(new Scanner\XmlScanner(), 'design');
+    $scanner->addChild(new Scanner\PhpScanner($log), 'php');
+    $scanner->addChild(new Scanner\XmlScanner($log), 'di');
     $scanner->addChild(new Scanner\ArrayScanner(), 'additional');
     $entities = $scanner->collectEntities($files);
 

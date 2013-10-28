@@ -234,4 +234,24 @@ class Proxy extends \Magento\Code\Generator\EntityAbstract
         }
         return 'return $this->_getSubject()->' . $methodCall . ';';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _validateData()
+    {
+        $result = parent::_validateData();
+        if ($result) {
+            $sourceClassName = $this->_getSourceClassName();
+            $resultClassName = $this->_getResultClassName();
+
+            if ($resultClassName !== $sourceClassName . '\\Proxy') {
+                $this->_addError('Invalid Proxy class name ['
+                    . $resultClassName . ']. Use ' . $sourceClassName . '\\Proxy'
+                );
+                $result = false;
+            }
+        }
+        return $result;
+    }
 }
