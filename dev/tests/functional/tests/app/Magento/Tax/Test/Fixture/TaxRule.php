@@ -81,7 +81,7 @@ class TaxRule extends DataFixture
      */
     public function persist()
     {
-        //Factory::getApp()->magentoTaxCreateTaxRule($this);
+        Factory::getApp()->magentoTaxCreateTaxRule($this);
         return $this;
     }
 
