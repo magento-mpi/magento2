@@ -68,7 +68,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         if ($this->_registry
             ->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)[Integration::DATA_INTEGRATION_ID]
         ) {
-            return $this->escapeHtml($this->_registry->registry('current_integration')->getName());
+            return $this->escapeHtml(
+                $this->_registry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)->getName()
+            );
         } else {
             return __('New Integration');
         }

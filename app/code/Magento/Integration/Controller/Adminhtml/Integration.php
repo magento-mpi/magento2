@@ -20,6 +20,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
      */
     const DATA_INTEGRATION_ID = 'integration_id';
     const DATA_NAME = 'name';
+    const DATA_AUTHENTICATION = 'authentication';
     /**#@-*/
 
     /** Keys used for registering data into the registry */
@@ -95,14 +96,11 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
             if (!$integrationData[self::DATA_INTEGRATION_ID]) {
-                $this->_getSession()
-                    ->addError(__('This integration no longer exists.'));
+                $this->_getSession()->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
-            if (!$this->_registry->registry(self::REGISTRY_KEY_CURRENT_INTEGRATION)) {
-                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            }
+            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         }
         $this->loadLayout();
         $this->renderLayout();
@@ -131,24 +129,17 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             //Merge Post-ed data
             $integrationData = array_merge($integrationData, $data);
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!$integrationData[self::DATA_INTEGRATION_ID]) {
+            if (!isset($integrationData[self::DATA_INTEGRATION_ID])) {
                 $this->_integrationService->create($integrationData);
             } else {
                 $this->_integrationService->update($integrationData);
             }
-            $this->_getSession()->addSuccess(
-                __(
-                    'The integration \'%1\' has been saved.',
-                    $integrationData[self::DATA_NAME]
-                )
-            );
+            $this->_getSession()->addSuccess(__('The integration \'%1\' has been saved.',
+                    $integrationData[self::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect(
-                '*/*/edit',
-                array('id' => $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID))
-            );
+            $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID)));
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');

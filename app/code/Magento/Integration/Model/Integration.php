@@ -8,12 +8,7 @@
 
 /**
  * Integration model
- * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method \Magento\Integration\Model\Resource\Integration _getResource()
- * @method \Magento\Integration\Model\Resource\Integration getResource()
- * @method \Magento\Integration\Model\Resource\Integration\Collection getCollection()
- * @method \Magento\Integration\Model\Resource\Integration\Collection getResourceCollection()
  * @method string getName()
  * @method \Magento\Integration\Model\Integration setName(string $name)
  * @method string getEmail()
@@ -41,6 +36,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
      */
     const AUTHENTICATION_OAUTH = 1;
     const AUTHENTICATION_MANUAL = 2;
+
     /**#@-*/
 
     /**
@@ -52,5 +48,32 @@ class Integration extends \Magento\Core\Model\AbstractModel
     {
         parent::_construct();
         $this->_init('Magento\Integration\Model\Resource\Integration');
+    }
+
+    /**
+     * Prepare data to be saved to database
+     *
+     * @return \Magento\Core\Model\AbstractModel
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt($this->_getResource()->formatDate(true));
+        } elseif ($this->getId()) {
+            $this->setUpdatedAt($this->_getResource()->formatDate(true));
+        }
+        return $this;
+    }
+
+    /**
+     * Load Integration by name.
+     *
+     * @param string $name
+     * @return \Magento\Integration\Model\Integration
+     */
+    public function loadByName($name)
+    {
+        return $this->load($name, 'name');
     }
 }

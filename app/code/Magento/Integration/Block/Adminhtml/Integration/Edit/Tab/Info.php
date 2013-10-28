@@ -17,14 +17,14 @@ use \Magento\Integration\Controller\Adminhtml\Integration;
  *
  * @category   Magento
  * @package    Magento_Integration
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Info extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -53,15 +53,9 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $htmlIdPrefix = 'integration_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
-        $fieldset = $form->addFieldset('base_fieldset');
-        if ($integrationData[Integration::DATA_INTEGRATION_ID]) {
-            $fieldset->addField(
-                Integration::DATA_INTEGRATION_ID,
-                'hidden',
-                array(
-                    'name' => 'id',
-                )
-            );
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Integration')));
+        if (isset($integrationData[Integration::DATA_INTEGRATION_ID])) {
+            $fieldset->addField(Integration::DATA_INTEGRATION_ID, 'hidden', array('name' => 'id'));
         }
         $fieldset->addField(
             'name',
@@ -70,7 +64,8 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Integration Name'),
                 'name' => 'name',
                 'required' => true,
-                'disabled' => false
+                'disabled' => false,
+                'maxlength' => '255'
             )
         );
         $fieldset->addField(
@@ -82,6 +77,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'required' => true,
                 'disabled' => false,
                 'class' => 'validate-email',
+                'maxlength' => '254',
             )
         );
         $fieldset->addField(
@@ -90,7 +86,6 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             array(
                 'label' => __('Authentication'),
                 'name' => 'authentication',
-                'required' => true,
                 'disabled' => false,
                 'options' => array(
                     \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH => __('OAuth'),
@@ -101,12 +96,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'endpoint',
             'text',
-            array(
-                'label' => __('Endpoint URL'),
-                'name' => 'endpoint',
-                'required' => true,
-                'disabled' => false
-            )
+            array('label' => __('Endpoint URL'), 'name' => 'endpoint', 'disabled' => false)
         );
         $form->setValues($integrationData);
         $this->setForm($form);
