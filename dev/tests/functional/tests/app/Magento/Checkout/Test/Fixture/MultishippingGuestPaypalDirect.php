@@ -30,15 +30,19 @@ class MultishippingGuestPaypalDirect extends Checkout
     protected function _initData()
     {
         //Configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('flat_rate');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_disabled_all_methods');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_direct');
-        $configFixture->persist();
-        $configFixture->switchData('default_tax_config');
-        $configFixture->persist();
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_direct',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple1->switchData('simple');
@@ -87,8 +91,8 @@ class MultishippingGuestPaypalDirect extends Checkout
         $this->_data = array(
             'totals' => array(
                 'grand_total' => array(
-                    '$15.00', //simple
-                    '$26.00' //configurable
+                    '$16.24', //simple
+                    '$28.18' //configurable
                 )
             )
         );
