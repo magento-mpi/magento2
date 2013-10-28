@@ -24,22 +24,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class Shipping extends Block
 {
     /**
-     * Continue checkout button
-     *
-     * @var string
-     */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->continue = '.buttons-set button';
-    }
-
-    /**
      * Select shipping methods
      *
      * @param Checkout $fixture
@@ -48,14 +32,14 @@ class Shipping extends Block
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
         $shippingMethods = $fixture->getShippingMethods();
-        $count = 1;
+        $count = 2;
         foreach ($shippingMethods as $shipping) {
             $method = $shipping->getData('fields');
-            $selector = '//div[' . $count++ . '][@class="col2-set"]//dt[text()="'
+            $selector = '//div[' . $count++ . '][@class="block shipping"]//dt[text()="'
                 . $method['shipping_service'] . '"]/following-sibling::*//*[contains(text(), "'
                 . $method['shipping_method'] . '")]';
             $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         }
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find('//button[@class="action continue"]', Locator::SELECTOR_XPATH)->click();
     }
 }

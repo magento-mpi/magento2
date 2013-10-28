@@ -44,7 +44,7 @@ class CheckoutMultishippingRegister extends Page
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
         $this->registerBlock = Factory::getBlockFactory()->getMagentoCustomerFormRegister(
-            $this->_browser->find('.account-create', Locator::SELECTOR_CSS)
+            $this->_browser->find('#form-validate', Locator::SELECTOR_CSS)
         );
     }
 

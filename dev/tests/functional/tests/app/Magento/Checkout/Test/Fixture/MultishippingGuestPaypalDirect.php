@@ -30,28 +30,34 @@ class MultishippingGuestPaypalDirect extends Checkout
     protected function _initData()
     {
         //Configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('flat_rate');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_disabled_all_methods');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_direct');
-        $configFixture->persist();
-        $configFixture->switchData('default_tax_config');
-        $configFixture->persist();
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_direct',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple1->switchData('simple');
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple2->switchData('simple');
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+
         $simple1->persist();
-        $simple2->persist();
+        $configurable->persist();
+
         $this->products = array(
             $simple1,
-            $simple2
+            $configurable
         );
         //Checkout data
-        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer()->switchData('customer_US_1');
+        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $this->customer->switchData('customer_US_1');
         $address1 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $address1->switchData('address_US_1');
         $address2 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -60,23 +66,34 @@ class MultishippingGuestPaypalDirect extends Checkout
             $address1,
             $address2
         );
-        $this->newShippingAddresses = array(
-            Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_2')
-        );
+
+        $newShippingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $newShippingAddress->switchData('address_US_2');
+        $this->newShippingAddresses = array($newShippingAddress);
+
+        $shippingMethod1 = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $shippingMethod1->switchData('flat_rate');
+        $shippingMethod2 = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $shippingMethod2->switchData('flat_rate');
         $this->shippingMethods = array(
-            Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate'),
-            Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate')
+            $shippingMethod1,
+            $shippingMethod2
         );
-        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('paypal_direct');
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_direct');
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_direct');
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
         $this->bindings = array(
             $simple1->getProductName() => $address1->getOneLineAddress(),
-            $simple2->getProductName() => $address2->getOneLineAddress()
+            $configurable->getProductName() => $address2->getOneLineAddress()
         );
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 15
+                'grand_total' => array(
+                    '$16.24', //simple
+                    '$28.18' //configurable
+                )
             )
         );
     }
