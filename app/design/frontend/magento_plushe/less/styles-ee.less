@@ -1338,13 +1338,14 @@
 }
 .form.addbysku {
     .fields {
+        position: relative;
+        zoom: 1;
         display: block;
         padding-bottom:10px;
         .label { display: none; }
         .action.remove {
             .iconAfter(@content: @icon-collapse, @size: 16px, @font: 'icons');
             .iconHideText(16px);
-            float:right;
             color: @primary5;
             &:hover,
             &:active,
@@ -1356,6 +1357,10 @@
             margin-top: 5px;
             background: none;
             border:0;
+            padding:0;
+            position: absolute;
+            top:3px;
+            right:0;
         }
         &:first-child {
             .label {
@@ -1415,17 +1420,26 @@
             }
         }
         .action.add {
-            span {
             .iconAfter(@content: @icon-expand, @size: 16px, @font: 'icons');
             .iconHideText(16px);
                 width:32px;
-            }
-            height:29px;
-            padding:1px 0 0;
+                padding:0;
+                height:28px;
         }
 
         .actions {
             width:auto;
+        }
+    }
+    .column.main & {
+        .actions {
+            .secondary {
+                margin-right: 15px;
+                float:right;
+            }
+            .action.tocart {
+                padding:9px 11px;
+            }
         }
     }
 }

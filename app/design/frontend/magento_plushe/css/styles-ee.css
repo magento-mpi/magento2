@@ -13296,6 +13296,8 @@ body.account .column.main .block.event .item {
   margin-top: 15px;
 }
 .form.addbysku .fields {
+  position: relative;
+  zoom: 1;
   display: block;
   padding-bottom: 10px;
 }
@@ -13310,11 +13312,14 @@ body.account .column.main .block.event .item {
   vertical-align: middle;
   text-align: center;
   text-indent: -999em;
-  float: right;
   color: #837d75;
   margin-top: 5px;
   background: none;
   border: 0;
+  padding: 0;
+  position: absolute;
+  top: 3px;
+  right: 0;
 }
 .form.addbysku .fields .action.remove:after {
   font-family: "icons";
@@ -13503,10 +13508,6 @@ body.account .column.main .block.event .item {
   width: 30%;
 }
 .sidebar .form.addbysku .action.add {
-  height: 29px;
-  padding: 1px 0 0;
-}
-.sidebar .form.addbysku .action.add span {
   width: 16px;
   display: block;
   line-height: 0;
@@ -13515,8 +13516,10 @@ body.account .column.main .block.event .item {
   text-align: center;
   text-indent: -999em;
   width: 32px;
+  padding: 0;
+  height: 28px;
 }
-.sidebar .form.addbysku .action.add span:after {
+.sidebar .form.addbysku .action.add:after {
   font-family: "icons";
   font-size: 16px;
   line-height: 16px;
@@ -13532,14 +13535,21 @@ body.account .column.main .block.event .item {
   vertical-align: middle;
   text-align: center;
 }
-.sidebar .form.addbysku .action.add span:active {
+.sidebar .form.addbysku .action.add:active {
   outline: 0;
 }
-.sidebar .form.addbysku .action.add span:after {
+.sidebar .form.addbysku .action.add:after {
   text-indent: 0;
   display: block;
   margin: 0;
 }
 .sidebar .form.addbysku .actions {
   width: auto;
+}
+.column.main .form.addbysku .actions .secondary {
+  margin-right: 15px;
+  float: right;
+}
+.column.main .form.addbysku .actions .action.tocart {
+  padding: 9px 11px;
 }
