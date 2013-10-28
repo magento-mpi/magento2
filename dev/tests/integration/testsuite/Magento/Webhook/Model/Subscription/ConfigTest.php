@@ -52,13 +52,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $fileResolver = $this->_objectManager->create(
-            'Magento\App\Module\Declaration\FileResolver', array('applicationDirs' => $dirs)
+            'Magento\Module\Declaration\FileResolver', array('applicationDirs' => $dirs)
         );
-        $filesystemReader = $this->_objectManager->create('Magento\App\Module\Declaration\Reader\Filesystem',
+        $filesystemReader = $this->_objectManager->create('Magento\Module\Declaration\Reader\Filesystem',
             array('fileResolver' => $fileResolver)
         );
         $moduleList = $this->_objectManager->create(
-            'Magento\App\ModuleList',
+            'Magento\Module\ModuleList',
             array('reader' => $filesystemReader, 'cache' => $this->getMock('Magento\Config\CacheInterface'))
         );
 

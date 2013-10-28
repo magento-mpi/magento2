@@ -423,7 +423,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+            \Magento\App\Dir::PARAM_APP_DIRS => array(
                 \Magento\App\Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
@@ -513,7 +513,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+            \Magento\App\Dir::PARAM_APP_DIRS => array(
                 \Magento\App\Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
@@ -560,7 +560,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected function _initTestTheme($allowDuplication = null)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+            \Magento\App\Dir::PARAM_APP_DIRS => array(
                 \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
@@ -596,7 +596,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     public function testCssWithBase64Data()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+            \Magento\App\Dir::PARAM_APP_DIRS => array(
                 \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));

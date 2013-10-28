@@ -147,7 +147,7 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
     $exception = new \Exception($errorMessage);
     $errorMessage .= $exception->getTraceAsString();
-    $appState = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\App\State');
+    $appState = \Magento\App\ObjectManager::getInstance()->get('Magento\App\State');
     if ($appState == \Magento\App\State::MODE_DEVELOPER) {
         throw $exception;
     } else {

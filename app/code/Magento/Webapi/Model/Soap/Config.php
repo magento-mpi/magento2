@@ -29,7 +29,7 @@ class Config
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
 
-    /** @var \Magento\Core\Model\ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
     /**
@@ -48,13 +48,13 @@ class Config
     protected $_soapOperations;
 
     /**
-     * @param \Magento\Core\Model\ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Model\ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config

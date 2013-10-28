@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Module\Declaration\Reader;
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Module\Declaration\Reader\Filesystem
+     * @var \Magento\Module\Declaration\Reader\Filesystem
      */
     protected $_model;
 
@@ -29,13 +29,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                         $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
                 ),
             )));
-        $fileResolver = new \Magento\App\Module\Declaration\FileResolver($applicationDirs);
-        $converter = new \Magento\App\Module\Declaration\Converter\Dom();
+        $fileResolver = new \Magento\Module\Declaration\FileResolver($applicationDirs);
+        $converter = new \Magento\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock(
-            'Magento\App\Module\Declaration\SchemaLocator', array(), array(), '', false
+            'Magento\Module\Declaration\SchemaLocator', array(), array(), '', false
         );
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
-        $this->_model = new \Magento\App\Module\Declaration\Reader\Filesystem(
+        $this->_model = new \Magento\Module\Declaration\Reader\Filesystem(
             $fileResolver, $converter, $schemaLocatorMock, $validationStateMock
         );
     }

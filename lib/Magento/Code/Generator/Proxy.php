@@ -94,7 +94,7 @@ class Proxy extends \Magento\Code\Generator\EntityAbstract
         );
         $methods[] = array(
             'name'     => '__wakeup',
-            'body'     => '$this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();',
+            'body'     => '$this->_objectManager = \Magento\App\ObjectManager::getInstance();',
             'docblock' => array(
                 'shortDescription' => 'Retrieve ObjectManager from global scope',
             ),

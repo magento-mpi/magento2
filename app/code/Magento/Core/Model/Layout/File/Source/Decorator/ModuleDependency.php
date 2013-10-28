@@ -20,7 +20,7 @@ class ModuleDependency
     private $_subject;
 
     /**
-     * @var \Magento\App\ModuleListInterface
+     * @var \Magento\Module\ModuleListInterface
      */
     private $_moduleList;
 
@@ -33,11 +33,11 @@ class ModuleDependency
 
     /**
      * @param \Magento\Core\Model\Layout\File\SourceInterface $subject
-     * @param \Magento\App\ModuleListInterface $listInterface
+     * @param \Magento\Module\ModuleListInterface $listInterface
      */
     public function __construct(
         \Magento\Core\Model\Layout\File\SourceInterface $subject,
-        \Magento\App\ModuleListInterface $listInterface
+        \Magento\Module\ModuleListInterface $listInterface
     ) {
         $this->_subject = $subject;
         $this->_moduleList = $listInterface;

@@ -13,7 +13,7 @@ class Primary implements \Magento\Core\Model\Config\ResourceInterface
 {
     protected $_resourceList;
 
-    public function __construct(\Magento\Core\Model\Config\Local $configLocal)
+    public function __construct(\Magento\App\Config $configLocal)
     {
         $this->_resourceList = $configLocal->getResources();
     }

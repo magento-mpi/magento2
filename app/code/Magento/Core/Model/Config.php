@@ -60,13 +60,6 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_storage;
 
     /**
-     * Configuration data container
-     *
-     * @var \Magento\Core\Model\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Module configuration reader
      *
      * @var \Magento\Core\Model\Config\Modules\Reader
@@ -79,7 +72,7 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_configScope;
 
     /**
-     * @var \Magento\App\ModuleListInterface
+     * @var \Magento\Module\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -94,42 +87,33 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_storeCollection;
 
     /**
-     * @param \Magento\Core\Model\ObjectManager           $objectManager
-     * @param \Magento\Core\Model\Config\StorageInterface $storage
+     * List of module namespaces
+     *
+     * @var array
+     */
+    protected $_moduleNamespaces;
+
+    /**
+     * @param \Magento\ObjectManager                      $objectManager
      * @param \Magento\Core\Model\Config\Modules\Reader   $moduleReader
-     * @param \Magento\App\ModuleListInterface     $moduleList
+     * @param \Magento\Module\ModuleListInterface         $moduleList
      * @param \Magento\Config\ScopeInterface              $configScope
      * @param \Magento\Core\Model\Config\SectionPool      $sectionPool
      */
     public function __construct(
-        \Magento\Core\Model\ObjectManager $objectManager,
-        \Magento\Core\Model\Config\StorageInterface $storage,
+        \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Config\Modules\Reader $moduleReader,
-        \Magento\App\ModuleListInterface $moduleList,
+        \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Core\Model\Config\SectionPool $sectionPool
     ) {
         \Magento\Profiler::start('config_load');
         $this->_objectManager = $objectManager;
-        $this->_storage = $storage;
-        $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
         $this->_moduleList = $moduleList;
         $this->_configScope = $configScope;
         $this->_sectionPool = $sectionPool;
         \Magento\Profiler::stop('config_load');
-    }
-
-    /**
-     * Returns node found by the $path and scope info
-     *
-     * @param   string $path
-     * @return \Magento\Core\Model\Config\Element
-     * @deprecated
-     */
-    public function getNode($path = null)
-    {
-        return $this->_config->getNode($path);
     }
 
     /**
@@ -156,6 +140,18 @@ class Config implements \Magento\Core\Model\ConfigInterface
     public function setValue($path, $value, $scope = 'default', $scopeCode = null)
     {
         $this->_sectionPool->getSection($scope, $scopeCode)->setValue($path, $value);
+    }
+
+    /**
+     *
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getNode($key)
+    {
+        // TODO: Sasha, my boy, come and take Me.
+        return '';
     }
 
     /**
@@ -313,23 +309,5 @@ class Config implements \Magento\Core\Model\ConfigInterface
     public function reinit()
     {
         $this->_sectionPool->clean();
-    }
-
-    /**
-     * Remove configuration cache
-     */
-    public function removeCache()
-    {
-        $this->_storage->removeCache();
-    }
-
-    /**
-     * Reload xml configuration data
-     * @deprecated must be removed after Installation logic is removed from application
-     */
-    public function reloadConfig()
-    {
-        $this->_storage->removeCache();
-        $this->_config = $this->_storage->getConfiguration();
     }
 }

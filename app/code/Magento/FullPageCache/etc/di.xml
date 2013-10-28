@@ -54,4 +54,27 @@
             <instance type="Magento\FullPageCache\Model\Cookie\Proxy" />
         </param>
     </type>
+    <type name="Magento\FullPageCache\Model\Validator">
+        <param name="changeDependencies">
+            <value>
+                <catalog_product>Magento\Catalog\Model\Product</catalog_product>
+                <catalog_category>Magento\Catalog\Model\Category</catalog_category>
+                <catalog_eav_attribute>Magento\Catalog\Model\Resource\Eav\Attribute</catalog_eav_attribute>
+                <review>Magento\Review\Model\Review</review>
+                <cms_hierarchy_node>Magento\VersionsCms\Model\Hierarchy\Node</cms_hierarchy_node>
+                <banner>Magento\Banner\Model\Banner</banner>
+                <core_store_group>Magento\Core\Model\Store\Group</core_store_group>
+            </value>
+        </param>
+        <param name="deleteDependencies">
+            <value>
+                <catalog_category>Magento\Catalog\Model\Category</catalog_category>
+                <catalog_eav_attribute>Magento\Catalog\Model\Resource\Eav\Attribute</catalog_eav_attribute>
+                <review>Magento\Review\Model\Review</review>
+                <cms_hierarchy_node>Magento\VersionsCms\Model\Hierarchy\Node</cms_hierarchy_node>
+                <banner>Magento\Banner\Model\Banner</banner>
+                <core_store_group>Magento\Core\Model\Store\Group</core_store_group>
+            </value>
+        </param>
+    </type>
 </config>

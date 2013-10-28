@@ -21,11 +21,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_pageHelpUrl;
 
     /**
-     * @var \Magento\Core\Model\Config\Primary
-     */
-    protected $_primaryConfig;
-
-    /**
      * @var \Magento\App\RouterList
      */
     protected $_routerList;
@@ -60,7 +55,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Backend\Model\Url $backendUrl
@@ -70,7 +64,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\App\RouterList $routerList,
         \Magento\Core\Model\App $app,
         \Magento\Backend\Model\Url $backendUrl,
@@ -79,7 +72,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
-        $this->_primaryConfig = $primaryConfig;
         $this->_routerList = $routerList;
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;

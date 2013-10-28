@@ -10,7 +10,7 @@
  */
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-    \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+    \Magento\App\Dir::PARAM_APP_DIRS => array(
         \Magento\App\Dir::THEMES => dirname(__DIR__) . '/design'
     )
 ));

@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\EntryPoint;
 
-class Media extends \Magento\Core\Model\AbstractEntryPoint
+class Media extends \Magento\App\AbstractEntryPoint
 {
     /**
      * @var \Magento\Core\Model\File\Storage\Request

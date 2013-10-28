@@ -252,7 +252,7 @@ return array(
     array('cleanVarSubFolders', '',
         'glob() on \Magento\App\Dir::getBaseDir(\Magento\Core\Model\App\Dir::VAR_DIR)'),
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
-    array('collectRoutes', 'Magento\Backend\Controller\Router\DefaultRouter'),
+    array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
     array('collectRoutes', 'Magento\Core\Controller\Varien\Router\Base'),
     array('composeLocaleHierarchy', 'Magento\Core\Helper\Translate'),
     array('convertOldTaxData', 'Magento\Tax\Model\Resource\Setup'),

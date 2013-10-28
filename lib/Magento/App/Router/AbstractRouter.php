@@ -10,10 +10,9 @@
 namespace Magento\App\Router;
 
 use \Magento\App\FrontControllerInterface,
-    \Magento\App\ActionFactory,
-    \Magento\App\RequestInterface;
+    \Magento\App\ActionFactory;
 
-abstract class AbstractRouter
+abstract class AbstractRouter implements \Magento\App\RouterInterface
 {
     /**
      * @var \Magento\App\FrontController
@@ -23,36 +22,14 @@ abstract class AbstractRouter
     /**
      * @var \Magento\App\ActionFactory
      */
-    protected $_controllerFactory;
+    protected $_actionFactory;
 
     /**
-     * @param \Magento\App\ActionFactory $controllerFactory
+     * @param \Magento\App\ActionFactory $actionFactory
      */
-    public function __construct(ActionFactory $controllerFactory)
+    public function __construct(ActionFactory $actionFactory)
     {
-        $this->_controllerFactory = $controllerFactory;
-    }
-
-    /**
-     * Assign front controller instance
-     *
-     * @param $front FrontControllerInterface
-     * @return AbstractRouter
-     */
-    public function setFront(FrontControllerInterface $front)
-    {
-        $this->_front = $front;
-        return $this;
-    }
-
-    /**
-     * Retrieve front controller instance
-     *
-     * @return FrontControllerInterface
-     */
-    public function getFront()
-    {
-        return $this->_front;
+        $this->_actionFactory = $actionFactory;
     }
 
     /**
@@ -76,12 +53,4 @@ abstract class AbstractRouter
     {
         return $frontName;
     }
-
-    /**
-     * Match controller by request
-     *
-     * @param RequestInterface $request
-     * @return \Magento\App\Action\AbstractAction
-     */
-    abstract public function match(RequestInterface $request);
 }

@@ -195,7 +195,7 @@ class AbstractSession extends \Magento\Object
             case 'db':
                 ini_set('session.save_handler', 'user');
                 /* @var $sessionResource \Magento\Core\Model\Resource\Session */
-                $sessionResource = \Magento\Core\Model\ObjectManager::getInstance()
+                $sessionResource = \Magento\App\ObjectManager::getInstance()
                     ->get('Magento\Core\Model\Resource\Session');
                 $sessionResource->setSaveHandler();
                 break;

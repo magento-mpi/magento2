@@ -37,30 +37,6 @@ class App implements \Magento\Core\Model\AppInterface
      */
     const VERSION = '2.0.0.0-dev48';
 
-    /**
-     * Custom application dirs
-     */
-    const PARAM_APP_DIRS = 'app_dirs';
-
-    /**
-     * Custom application uris
-     */
-    const PARAM_APP_URIS = 'app_uris';
-
-    /**
-     * Custom local configuration file name
-     */
-    const PARAM_CUSTOM_LOCAL_FILE = 'custom_local_xml';
-
-    /**
-     * Custom local configuration
-     */
-    const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
-
-    /**
-     * Application run code
-     */
-    const PARAM_MODE = 'MAGE_MODE';
 
     /**
      * Application run code

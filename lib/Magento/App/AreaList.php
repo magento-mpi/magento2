@@ -31,7 +31,7 @@ class AreaList
      * @param array $areas
      * @param string $default
      */
-    public function __construct(\Magento\App\Area\FrontNameResolverFactory $resolverFactory, array $areas, $default)
+    public function __construct(Area\FrontNameResolverFactory $resolverFactory, array $areas, $default)
     {
         $this->_resolverFactory = $resolverFactory;
         $this->_areas = $areas;

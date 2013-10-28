@@ -10,10 +10,12 @@
 
 namespace Magento\App;
 
-use Zend\Soap\Exception\InvalidArgumentException;
-
 class State
 {
+    /**
+     * Application run code
+     */
+    const PARAM_MODE = 'MAGE_MODE';
     /**
      * Application mode
      *

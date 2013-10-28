@@ -13,7 +13,7 @@ namespace Magento\Core\Model\Design\FileResolution;
 class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -39,7 +39,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\App\ObjectManager', array(), array(), '', false);
         $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
 
         $this->_dirs = new \Magento\App\Dir('base_dir');

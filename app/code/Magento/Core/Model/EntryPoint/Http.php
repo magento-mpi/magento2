@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\EntryPoint;
 
-class Http extends \Magento\Core\Model\AbstractEntryPoint
+class Http extends \Magento\App\AbstractEntryPoint
 {
     /**
      * Process http request, output html page or proper information about an exception (if any)
@@ -43,7 +43,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
         $areaCode = $areas->getCodeByFrontName($request->getFrontName());
         $this->_objectManager->get('Magento\Config\Scope')->setCurrentScope($areaCode);
         $this->_objectManager->configure(
-            $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load($areaCode)
+            $this->_objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load($areaCode)
         );
         $frontController = $this->_objectManager->get('Magento\App\FrontControllerInterface');
         $frontController->dispatch($request);

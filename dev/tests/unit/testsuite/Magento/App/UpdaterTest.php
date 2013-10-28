@@ -43,8 +43,8 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_factoryMock = $this->getMock('Magento\App\Updater\SetupFactory', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
-        $this->_resourceResolver = $this->getMock('Magento\App\Module\ResourceResolverInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
+        $this->_resourceResolver = $this->getMock('Magento\Module\ResourceResolverInterface');
         $this->_resourceSetupMock = $this->getMock('Magento\Catalog\Model\Resource\Setup', array(), array(), '', false);
 
         $moduleList = array('Test_Module' => array());

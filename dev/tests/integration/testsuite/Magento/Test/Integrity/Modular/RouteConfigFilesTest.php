@@ -12,7 +12,7 @@ class RouteConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules
-     * copied from original class \Magento\Core\Model\Route\Config\Reader
+     * copied from original class \Magento\App\Route\Config\Reader
      * @var array
      */
     protected $_idAttributes = array(

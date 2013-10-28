@@ -46,12 +46,12 @@ class Updater implements \Magento\App\UpdaterInterface
     protected $_resourceList;
 
     /**
-     * @var \Magento\App\ModuleListInterface
+     * @var \Magento\Module\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\App\Module\ResourceResolverInterface
+     * @var \Magento\Module\ResourceResolverInterface
      */
     protected $_resourceResolver;
 
@@ -63,15 +63,15 @@ class Updater implements \Magento\App\UpdaterInterface
     /**
      * @param Updater\SetupFactory $setupFactory
      * @param State $appState
-     * @param ModuleListInterface $moduleList
-     * @param Module\ResourceResolverInterface $resourceResolver
+     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param \Magento\Module\ResourceResolverInterface $resourceResolver
      * @param bool $skipModuleUpdate
      */
     public function __construct(
         \Magento\App\Updater\SetupFactory $setupFactory,
         \Magento\App\State $appState,
-        \Magento\App\ModuleListInterface $moduleList,
-        \Magento\App\Module\ResourceResolverInterface $resourceResolver,
+        \Magento\Module\ModuleListInterface $moduleList,
+        \Magento\Module\ResourceResolverInterface $resourceResolver,
         $skipModuleUpdate = false
     ) {
         $this->_appState = $appState;

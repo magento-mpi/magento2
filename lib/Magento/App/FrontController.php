@@ -17,7 +17,7 @@ class FrontController implements FrontControllerInterface
     protected $_defaults = array();
 
     /**
-     * @var \Magento\App\RouterList
+     * @var \Magento\App\RouterInterface[]
      */
     protected $_routerList;
 
@@ -140,11 +140,7 @@ class FrontController implements FrontControllerInterface
         \Magento\Profiler::start('routers_match');
         $routingCycleCounter = 0;
         while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
-            /** @var $router \Magento\App\Router\AbstractRouter */
-            foreach ($this->_routerList->getRouters() as $router) {
-                $router->setFront($this);
-
-                /** @var $controllerInstance \Magento\App\ActionInterface */
+            foreach ($this->_routerList as $router) {
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
                     $controllerInstance->dispatch($request->getActionName());

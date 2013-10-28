@@ -294,7 +294,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        \Magento\Core\Model\ObjectManager::setInstance($mockObjectManager);
+        \Magento\App\ObjectManager::setInstance($mockObjectManager);
 
         return $mockObjectManager;
     }

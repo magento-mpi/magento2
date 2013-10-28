@@ -35,12 +35,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $verification = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
         $cache = $this->getMock('Magento\Core\Model\CacheInterface');
-        $configLoader = $this->getMock('Magento\Core\Model\ObjectManager\ConfigLoader', array(), array(), '', false);
+        $configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
         $configLoader->expects($this->once())->method('load')->will($this->returnValue(array()));
-        $configCache = $this->getMock('Magento\Core\Model\ObjectManager\ConfigCache', array(), array(), '', false);
+        $configCache = $this->getMock('Magento\App\ObjectManager\ConfigCache', array(), array(), '', false);
         $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
         $primaryLoaderMock = $this->getMock(
-            'Magento\Core\Model\ObjectManager\ConfigLoader\Primary', array(), array(), '', false
+            'Magento\App\ObjectManager\ConfigLoader\Primary', array(), array(), '', false
         );
 
         $model = new \Magento\TestFramework\ObjectManager(
@@ -48,8 +48,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             array(
                 'Magento\App\Dir\Verification' => $verification,
                 'Magento\Core\Model\Cache\Type\Config' => $cache,
-                'Magento\Core\Model\ObjectManager\ConfigLoader' => $configLoader,
-                'Magento\Core\Model\ObjectManager\ConfigCache' => $configCache,
+                'Magento\App\ObjectManager\ConfigLoader' => $configLoader,
+                'Magento\App\ObjectManager\ConfigCache' => $configCache,
                 'Magento\Config\ReaderInterface' => $this->getMock('Magento\Config\ReaderInterface'),
                 'Magento\Config\ScopeInterface' => $this->getMock('Magento\Config\ScopeInterface'),
                 'Magento\Config\CacheInterface' => $this->getMock('Magento\Config\CacheInterface'),

@@ -22,12 +22,4 @@
             <instance type="Magento\Cron\Model\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento\Cron\Model\Observer">
-        <param name="objectManager">
-            <instance type="Magento\Core\Model\ObjectManager" />
-        </param>
-        <param name="app">
-            <instance type="Magento\Core\Model\App" />
-        </param>
-    </type>
 </config>

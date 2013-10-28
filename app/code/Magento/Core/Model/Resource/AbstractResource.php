@@ -224,7 +224,7 @@ abstract class AbstractResource
     {
         $type = strtolower($type);
         if ($type == 'decimal' || $type == 'numeric' || $type == 'float') {
-            $value = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\LocaleInterface')
+            $value = \Magento\App\ObjectManager::getInstance()->get('Magento\Core\Model\LocaleInterface')
                 ->getNumber($value);
         }
         return $value;

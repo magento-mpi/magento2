@@ -49,7 +49,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
-        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
+        \Magento\App\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**

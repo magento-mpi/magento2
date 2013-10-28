@@ -175,7 +175,7 @@ class Application
     protected function _bootstrap()
     {
         if (!$this->_objectManager) {
-            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
+            $this->_objectManager = new \Magento\App\ObjectManager(
                 new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
             );
         }

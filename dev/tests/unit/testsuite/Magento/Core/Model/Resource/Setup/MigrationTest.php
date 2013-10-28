@@ -135,7 +135,7 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testAppendClassAliasReplace()
     {
-        $moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
+        $moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
         $moduleListMock->expects($this->once())
             ->method('getModule')
             ->will($this->returnValue(array()));
@@ -224,7 +224,7 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
-            $this->getMock('Magento\App\ModuleListInterface'),
+            $this->getMock('Magento\Module\ModuleListInterface'),
             $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Resource\Resource', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Resource\Theme\CollectionFactory', array(), array(), '', false),

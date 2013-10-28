@@ -9,16 +9,8 @@
  */
 namespace Magento\App;
 
-interface RouterListInterface
+interface RouterListInterface extends \Iterator
 {
-    /**
-     * Get list of active routers
-     * sorted by sortOrder
-     *
-     * @return array
-     */
-    public function getRouters();
-
     /**
      * Get router by route
      *

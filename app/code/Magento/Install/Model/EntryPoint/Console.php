@@ -9,7 +9,7 @@
  */
 namespace Magento\Install\Model\EntryPoint;
 
-class Console extends \Magento\Core\Model\AbstractEntryPoint
+class Console extends \Magento\App\AbstractEntryPoint
 {
     /**
      * Application params
@@ -49,11 +49,11 @@ class Console extends \Magento\Core\Model\AbstractEntryPoint
     protected function _buildInitParams(array $args)
     {
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
-            $args[\Magento\Core\Model\App::PARAM_APP_URIS] =
+            $args[\Magento\App\Dir::PARAM_APP_URIS] =
                 unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
         }
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
-            $args[\Magento\Core\Model\App::PARAM_APP_DIRS] =
+            $args[\Magento\App\Dir::PARAM_APP_DIRS] =
                 unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
         }
         return $args;

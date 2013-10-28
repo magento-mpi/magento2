@@ -494,7 +494,7 @@ class Action extends \Magento\App\Action\AbstractAction
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
                     if (isset($_GET[$session->getSessionIdQueryParam()])
-                        && $this->_objectManager->get('Magento\Core\Model\App')->getUseSessionInUrl()
+                        && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
                         && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
@@ -515,7 +515,8 @@ class Action extends \Magento\App\Action\AbstractAction
     protected function _initDesign()
     {
         $area = $this->_objectManager->get('Magento\Core\Model\App')->getArea($this->getLayout()->getArea());
-        $area->load();
+        $area->load(\Magento\Core\Model\App\Area::PART_DESIGN);
+        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         $area->detectDesign($this->getRequest());
         return $this;
     }
@@ -539,10 +540,6 @@ class Action extends \Magento\App\Action\AbstractAction
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
         if ($this->_objectManager->get('Magento\App\State') && !$storeManager->getStore()->getIsActive()) {
             $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
-        }
-
-        if ($this->_rewrite()) {
-            return;
         }
 
         // Start session
@@ -758,7 +755,7 @@ class Action extends \Magento\App\Action\AbstractAction
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
         if ($session->getCookieShouldBeReceived()
-            && $this->_objectManager->get('Magento\Core\Model\App')->getUseSessionInUrl()
+            && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
             && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(

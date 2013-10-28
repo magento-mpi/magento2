@@ -93,7 +93,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock(
-            'Magento\Core\Controller\Varien\Router\Base', array(), array(), '', false
+            'Magento\Core\App\Router\Base', array(), array(), '', false
         );
         $matchedRouter->expects($this->once())
             ->method('match')
@@ -102,7 +102,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
         // method "match" will not be invoked for this router because controller will be found by first router
         $notMatchedRouter = $this->getMock(
-            'Magento\Core\Controller\Varien\Router\Base', array(), array(), '', false
+            'Magento\Core\App\Router\Base', array(), array(), '', false
         );
         $notMatchedRouter->expects($this->never())
             ->method('match');
@@ -210,7 +210,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $objectManager,
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false),
+            $this->getMock('Magento\App\Route\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),

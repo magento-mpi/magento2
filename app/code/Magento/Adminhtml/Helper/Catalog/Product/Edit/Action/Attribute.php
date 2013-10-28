@@ -54,7 +54,6 @@ class Attribute extends \Magento\Backend\Helper\Data
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
      * @param \Magento\Core\Model\App\Proxy $app
      * @param \Magento\Backend\Model\Url $backendUrl
@@ -67,7 +66,6 @@ class Attribute extends \Magento\Backend\Helper\Data
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\App\RouterList $routerList,
         \Magento\Core\Model\App\Proxy $app,
         \Magento\Backend\Model\Url $backendUrl,
@@ -82,7 +80,7 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
-            $context, $coreData, $primaryConfig, $routerList, $app, $backendUrl, $auth, $frontNameResolver
+            $context, $coreData, $routerList, $app, $backendUrl, $auth, $frontNameResolver
         );
     }
 

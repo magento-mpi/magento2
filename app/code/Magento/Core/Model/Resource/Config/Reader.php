@@ -21,7 +21,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
     );
 
     /**
-     * @var \Magento\Core\Model\Config\Local
+     * @var \Magento\App\Config
      */
     protected $_configLocal;
 
@@ -30,7 +30,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      * @param \Magento\Core\Model\Resource\Config\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
-     * @param \Magento\Core\Model\Config\Local $configLocal
+     * @param \Magento\App\Config $configLocal
      * @param string $fileName
      */
     public function __construct(
@@ -38,7 +38,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
         \Magento\Core\Model\Resource\Config\Converter $converter,
         \Magento\Core\Model\Resource\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
-        \Magento\Core\Model\Config\Local $configLocal,
+        \Magento\App\Config $configLocal,
         $fileName = 'resources.xml'
     ) {
         $this->_configLocal = $configLocal;

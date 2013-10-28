@@ -10,6 +10,8 @@
  */
 
 namespace Magento\TestFramework;
+use Magento\App\State;
+use Magento\App\State;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -118,7 +120,7 @@ class Application
 
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
-            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+            \Magento\App\Dir::PARAM_APP_DIRS => array(
                 \Magento\App\Dir::CONFIG      => $this->_installEtcDir,
                 \Magento\App\Dir::VAR_DIR     => $installDir,
                 \Magento\App\Dir::MEDIA       => "$installDir/media",
@@ -126,7 +128,7 @@ class Application
                 \Magento\App\Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
                 \Magento\App\Dir::GENERATION => $generationDir,
             ),
-            \Magento\Core\Model\App::PARAM_MODE => $appMode
+            State::PARAM_MODE => $appMode
         );
     }
 
@@ -176,14 +178,14 @@ class Application
     public function initialize($overriddenParams = array())
     {
         $overriddenParams['base_dir'] = BP;
-        $overriddenParams[\Magento\Core\Model\App::PARAM_MODE] = $this->_appMode;
+        $overriddenParams[State::PARAM_MODE] = $this->_appMode;
         $config = new \Magento\Core\Model\Config\Primary(BP, $this->_customizeParams($overriddenParams));
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
             $objectManager = new \Magento\TestFramework\ObjectManager(
                 $config,
                 new \Magento\TestFramework\ObjectManager\Config()
             );
-            $primaryLoader = new \Magento\Core\Model\ObjectManager\ConfigLoader\Primary($config->getDirectories());
+            $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
         } else {
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -191,7 +193,7 @@ class Application
             $config->configure($objectManager);
 
             $objectManager->getFactory()->setArguments(array_replace(
-                $objectManager->get('Magento\Core\Model\Config\Local')->getParams(),
+                $objectManager->get('Magento\App\Config')->getParams(),
                 $config->getParams()
             ));
 
@@ -206,7 +208,7 @@ class Application
             $verification = $objectManager->get('Magento\App\Dir\Verification');
             $verification->createAndVerifyDirectories();
             $objectManager->configure(
-                $objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global')
+                $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
             );
             $objectManager->configure(array(
                 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(

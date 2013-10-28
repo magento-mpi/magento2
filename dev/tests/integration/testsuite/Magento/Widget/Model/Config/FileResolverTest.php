@@ -25,7 +25,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $moduleListMock = $this->getMockBuilder('Magento\App\ModuleListInterface')
+        $moduleListMock = $this->getMockBuilder('Magento\Module\ModuleListInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $moduleListMock->expects($this->any())

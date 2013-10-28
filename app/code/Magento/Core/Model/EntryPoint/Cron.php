@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\EntryPoint;
 
-class Cron extends \Magento\Core\Model\AbstractEntryPoint
+class Cron extends \Magento\App\AbstractEntryPoint
 {
     /**
      * Process request to application

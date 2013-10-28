@@ -19,8 +19,6 @@ namespace Magento\Core\Helper;
 
 class Http extends \Magento\Core\Helper\AbstractHelper
 {
-    const XML_NODE_REMOTE_ADDR_HEADERS  = 'global/remote_addr_headers';
-
     /**
      * Remote address cache
      *
@@ -41,15 +39,25 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     protected $_coreConfig;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Core\Helper\Context $context
+     * List of remote address headers
+     *
+     * @var array
+     */
+    protected $_remoteAddrHeaders;
+
+    /**
+     * @param String $coreString
+     * @param Context $context
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param array $remoteAddrHeaders
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        $remoteAddrHeaders = array()
     ) {
+        $this->_remoteAddrHeaders = $remoteAddrHeaders;
         $this->_coreString = $coreString;
         $this->_coreConfig = $coreConfig;
         parent::__construct($context);
@@ -119,15 +127,7 @@ class Http extends \Magento\Core\Helper\AbstractHelper
      */
     public function getRemoteAddrHeaders()
     {
-        $headers = array();
-        $element = $this->_coreConfig->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
-        if ($element instanceof \Magento\Core\Model\Config\Element) {
-            foreach ($element->children() as $node) {
-                $headers[] = (string)$node;
-            }
-        }
-
-        return $headers;
+        return $this->_remoteAddrHeaders;
     }
 
     /**

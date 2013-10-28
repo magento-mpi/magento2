@@ -30,7 +30,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\App\ModuleListInterface
+     * @var \Magento\Module\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -59,7 +59,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param \Magento\App\ModuleListInterface $moduleList
+     * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Resource\Resource $resourceResource
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
@@ -70,7 +70,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        \Magento\App\ModuleListInterface $moduleList,
+        \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Core\Model\Resource\Resource $resourceResource,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
@@ -104,7 +104,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\App\ModuleListInterface
+     * @return \Magento\Module\ModuleListInterface
      */
     public function getModuleList()
     {

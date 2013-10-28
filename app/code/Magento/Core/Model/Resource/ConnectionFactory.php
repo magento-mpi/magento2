@@ -17,15 +17,15 @@ class ConnectionFactory
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Config\Local
+     * @var \Magento\App\Config
      */
     protected $_localConfig;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Config\Local $localConfig
+     * @param \Magento\App\Config $localConfig
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config\Local $localConfig)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\App\Config $localConfig)
     {
         $this->_objectManager = $objectManager;
         $this->_localConfig = $localConfig;

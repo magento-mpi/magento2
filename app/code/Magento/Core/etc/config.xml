@@ -43,6 +43,9 @@
             </js>
         </dev>
         <system>
+            <filesystem>
+                <media>{{media_dir}}</media>
+            </filesystem>
             <smtp>
                 <disable>0</disable>
                 <host>localhost</host>

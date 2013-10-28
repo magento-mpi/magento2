@@ -30,7 +30,7 @@
     <preference for="Magento\Config\FileResolverInterface" type="Magento\Core\Model\Config\FileResolver" />
     <preference for="Magento\Config\CacheInterface" type="Magento\Core\Model\Cache\Type\Config" />
     <preference for="Magento\Config\ValidationStateInterface" type="Magento\Core\Model\Config\ValidationState" />
-    <preference for="Magento\App\ModuleListInterface" type="Magento\App\ModuleList" />
+    <preference for="Magento\Module\ModuleListInterface" type="Magento\Module\ModuleList" />
     <preference for="Magento\Event\ConfigInterface" type="Magento\Event\Config" />
     <preference for="Magento\Event\InvokerInterface" type="Magento\Event\Invoker\InvokerDefault" />
     <preference for="Magento\Interception\PluginList" type="Magento\Interception\PluginList\PluginList" />
@@ -42,28 +42,25 @@
             <value type="argument">Magento\App\State::PARAM_INSTALL_DATE</value>
         </param>
         <param name="mode">
-            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
+            <value type="argument">Magento\App\State::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Magento\Core\App\FrontController\Plugin\Install">
+    <type name="Magento\App\FrontController\Plugin\Install">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Config" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\ValidationState">
         <param name="appMode">
-            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
+            <value type="argument">Magento\App\State::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Config\Loader\Local">
+    <type name="Magento\App\Config\Loader">
         <param name="customFile">
-            <value type="argument">Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_FILE</value>
-        </param>
-        <param name="customConfig">
-            <value type="argument">Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_CONFIG</value>
+            <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>
         </param>
     </type>
-    <type name="Magento\App\Module\Declaration\Reader\Filesystem">
+    <type name="Magento\Module\Declaration\Reader\Filesystem">
         <param name="allowedModules">
             <value type="argument">Magento\Core\Model\App::PARAM_ALLOWED_MODULES</value>
         </param>
@@ -71,6 +68,16 @@
     <type name="Magento\Core\Model\Cache\Frontend\Factory">
         <param name="enforcedOptions">
             <value type="argument">Magento\Core\Model\App::PARAM_CACHE_OPTIONS</value>
+        </param>
+        <param name="decorators">
+            <value>
+                <tag>
+                    <class>Magento\Cache\Frontend\Decorator\TagScope</class>
+                    <parameters>
+                        <tag>MAGE</tag>
+                    </parameters>
+                </tag>
+            </value>
         </param>
     </type>
     <type name="Magento\Core\Model\Cache\State">
@@ -131,12 +138,12 @@
         </param>
     </type>
     <type name="Magento\Acl" shared="false" />
-    <type name="Magento\Core\Model\ObjectManager\ConfigLoader">
+    <type name="Magento\App\ObjectManager\ConfigLoader">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Config"/>
         </param>
     </type>
-    <type name="Magento\Core\Model\ObjectManager\ConfigCache">
+    <type name="Magento\App\ObjectManager\ConfigCache">
         <param name="cacheFrontend">
             <instance type="Magento\Core\Model\Cache\Type\Config"/>
         </param>
@@ -198,5 +205,13 @@
         <param name="session">
             <instance type="Magento\Core\Model\Session\Proxy" />
         </param>
+    </type>
+    <type name="Magento\App\Request\Http">
+        <param name="routerList">
+            <instance type="Magento\App\RouterListProxy" />
+        </param>
+    </type>
+    <type name="Magento\App\FrontController">
+        <plugin name="install" type="Magento\App\FrontController\Plugin\Install" sortOrder="40"/>
     </type>
 </config>

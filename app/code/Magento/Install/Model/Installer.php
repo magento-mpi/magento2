@@ -67,13 +67,6 @@ class Installer extends \Magento\Object
     protected $_setupFactory;
 
     /**
-     * Core Primary config
-     *
-     * @var \Magento\Core\Model\Config\Primary
-     */
-    protected $_primaryConfig;
-
-    /**
      * Install installer pear
      *
      * @var \Magento\Install\Model\Installer\Pear
@@ -144,8 +137,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\App\Updater\SetupFactory $setupFactory
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\Core\Model\Config\Local $localConfig
+     * @param \Magento\App\Config $localConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -165,8 +157,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\App\Updater\SetupFactory $setupFactory,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\Core\Model\Config\Local $localConfig,
+        \Magento\App\Config $localConfig,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -186,7 +177,6 @@ class Installer extends \Magento\Object
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
         parent::__construct($data);
-        $this->_primaryConfig = $primaryConfig;
         $this->_localConfig = $localConfig;
         $this->_app = $app;
         $this->_appState = $appState;
@@ -298,10 +288,9 @@ class Installer extends \Magento\Object
             ->setConfigData($data)
             ->install();
 
-        $this->_primaryConfig->reinit();
         $this->_localConfig->reload();
 
-        $this->_config->reloadConfig();
+        $this->_config->reinit();
 
         return $this;
     }
@@ -456,11 +445,9 @@ class Installer extends \Magento\Object
     {
         $this->_installerConfig->replaceTmpInstallDate();
 
-        $this->_primaryConfig->reinit();
-
         $this->_refreshConfig();
 
-        $this->_config->reloadConfig();
+        $this->_config->reinit();
 
         /* Enable all cache types */
         foreach (array_keys($this->_cacheTypeList->getTypes()) as $cacheTypeCode) {

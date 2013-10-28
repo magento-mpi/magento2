@@ -30,24 +30,24 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\App\Module\Declaration\FileResolver $modulesDeclarations */
+        /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
-            'Magento\App\Module\Declaration\FileResolver', array(
+            'Magento\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
             )
         );
 
 
-        /** @var \Magento\App\Module\Declaration\Reader\Filesystem $filesystemReader */
+        /** @var \Magento\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $objectManager->create(
-            'Magento\App\Module\Declaration\Reader\Filesystem', array(
+            'Magento\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
-        /** @var \Magento\App\ModuleList $modulesList */
+        /** @var \Magento\Module\ModuleList $modulesList */
         $modulesList = $objectManager->create(
-            'Magento\App\ModuleList', array(
+            'Magento\Module\ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );

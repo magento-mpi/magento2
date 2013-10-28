@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Route;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Route\Config
+     * @var \Magento\App\Route\Config
      */
     protected $_config;
 
@@ -26,9 +26,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\Core\Model\Route\Config\Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\App\Route\Config\Reader', array(), array(), '', false);
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
-        $this->_config = new \Magento\Core\Model\Route\Config(
+        $this->_config = new \Magento\App\Route\Config(
             $this->_readerMock,
             $this->_cacheMock
         );
