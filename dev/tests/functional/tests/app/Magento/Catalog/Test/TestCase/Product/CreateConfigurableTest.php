@@ -97,6 +97,7 @@ class CreateConfigurableTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         //Assert product on category page
+        $categoryPage->open();
         $categoryPage->openCategory($product->getCategoryName());
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
             'Product is absent on category page.');
