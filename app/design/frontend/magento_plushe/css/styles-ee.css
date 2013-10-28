@@ -8498,6 +8498,10 @@ body {
   float: left;
   margin-right: 15px;
 }
+.product.info.main .product.alert {
+  font-size: 12px;
+  margin: 5px 0;
+}
 .product.main.info .product.options.wrapper .field {
   margin: 0 0 10px;
   -moz-box-sizing: border-box;
@@ -9458,6 +9462,15 @@ img[align="right"] {
   padding-top: 7px;
   padding-right: 10px;
   text-align: right;
+}
+.form.login .field.persistent .link.tip,
+.step.login .field.persistent .link.tip {
+  display: inline-block;
+  padding-top: 7px;
+}
+.form.login .field.persistent .checkbox,
+.step.login .field.persistent .checkbox {
+  margin-top: 10px;
 }
 .action.reload {
   border: none;
@@ -11604,6 +11617,9 @@ img[align="right"] {
 .popup .title {
   font-size: 18px;
   margin: 0 0 30px;
+}
+.popup .title strong {
+  font-weight: 400;
 }
 /*
     GiftCard Form
