@@ -28,4 +28,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Rma\Model\Rma">
+        <param name="translate">
+            <instance type="\Magento\Core\Model\Translate\Proxy" />
+        </param>
+    </type>
 </config>

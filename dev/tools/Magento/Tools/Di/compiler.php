@@ -67,12 +67,41 @@ try {
     $entities = $scanner->collectEntities($files);
 
     $interceptorScanner = new Scanner\XmlInterceptorScanner();
-    $entities = array_merge($entities, $interceptorScanner->collectEntities($files['di']));
+    $entities['di'] = array_merge($entities['di'], $interceptorScanner->collectEntities($files['di']));
 
-    // 1.2 Generation
+    // 1.2 Generation of Factory and Additional Classes
     $generatorIo = new \Magento\Code\Generator\Io(null, null, $generationDir);
     $generator = new \Magento\Code\Generator(null, null, $generatorIo);
-    foreach ($entities as $entityName) {
+    foreach (array('php', 'additional') as $type) {
+        foreach ($entities[$type] as $entityName) {
+            switch ($generator->generateClass($entityName)) {
+                case \Magento\Code\Generator::GENERATION_SUCCESS:
+                    $log->add(Log::GENERATION_SUCCESS, $entityName);
+                    break;
+
+                case \Magento\Code\Generator::GENERATION_ERROR:
+                    $log->add(Log::GENERATION_ERROR, $entityName);
+                    break;
+
+                case \Magento\Code\Generator::GENERATION_SKIP:
+                default:
+                    //no log
+                    break;
+            }
+        }
+    }
+
+    // 2. Compilation
+    // 2.1 Code scan
+    $directoryCompiler = new Directory($log);
+    foreach ($compilationDirs as $path) {
+        if (is_readable($path)) {
+            $directoryCompiler->compile($path);
+        }
+    }
+
+    // 2.1.1 Generation of Proxy and Interceptor Classes
+    foreach ($entities['di'] as $entityName) {
         switch ($generator->generateClass($entityName)) {
             case \Magento\Code\Generator::GENERATION_SUCCESS:
                 $log->add(Log::GENERATION_SUCCESS, $entityName);
@@ -89,14 +118,9 @@ try {
         }
     }
 
-    // 2. Compilation
-    // 2.1 Code scan
-    $directoryCompiler = new Directory($log);
-    foreach ($compilationDirs as $path) {
-        if (is_readable($path)) {
-            $directoryCompiler->compile($path);
-        }
-    }
+    //2.1.2 Compile definitions for Proxy/Interceptor classes
+    $directoryCompiler->compile($generationDir);
+
     list($definitions, $relations) = $directoryCompiler->getResult();
 
     // 2.2 Compression
@@ -111,13 +135,18 @@ try {
     file_put_contents($relationsFile, $serializer->serialize($relations));
 
 
+
     // 3. Plugin Definition Compilation
     $pluginScanner = new Scanner\CompositeScanner();
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
     $pluginDefinitions = array();
-    foreach ($pluginScanner->collectEntities($files) as $entity) {
-        $pluginDefinitions[$entity] = get_class_methods($entity);
+    $pluginList = $pluginScanner->collectEntities($files);
+    foreach ($pluginList as $type => $entityList) {
+        foreach ($entityList as $entity) {
+            $pluginDefinitions[$entity] = get_class_methods($entity);
+        }
     }
+
     $output = $serializer->serialize($pluginDefinitions);
 
     if (!file_exists(dirname($pluginDefFile))) {

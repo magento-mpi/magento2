@@ -12,7 +12,6 @@ namespace Magento\App;
 use Magento\App\Dir;
 use Magento\ObjectManager\Config\Config as OMConfig;
 use Magento\ObjectManager\Factory\Factory;
-use Magento\ObjectManager\ObjectManager;
 
 abstract class AbstractEntryPoint
 {
@@ -40,12 +39,12 @@ abstract class AbstractEntryPoint
     /**
      * @param string $rootDir
      * @param array $parameters
-     * @param ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         $rootDir,
         $parameters,
-        ObjectManager $objectManager = null
+        \Magento\ObjectManager $objectManager = null
     ) {
         $this->_rootDir = $rootDir;
         $this->_parameters = $parameters;
