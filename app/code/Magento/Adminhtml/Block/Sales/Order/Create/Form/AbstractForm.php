@@ -22,7 +22,7 @@ abstract class AbstractForm
     extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -34,7 +34,7 @@ abstract class AbstractForm
     protected $_form;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
@@ -42,7 +42,7 @@ abstract class AbstractForm
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,

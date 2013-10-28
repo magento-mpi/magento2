@@ -10,15 +10,15 @@
 <config>
     <type name="Magento\Rma\Helper\Data">
         <param name="customerSession">
-            <instance type="Magento\Customer\Model\SessionProxy" />
+            <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
         <param name="authSession">
-            <instance type="Magento\Backend\Model\Auth\SessionProxy" />
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
     </type>
     <type name="Magento\Rma\Model\Rma\Status\History">
         <param name="translate">
-            <instance type="Magento\Core\Model\TranslateProxy" />
+            <instance type="Magento\Core\Model\Translate\Proxy" />
         </param>
     </type>
     <type name="Magento\App\Updater\SetupFactory">

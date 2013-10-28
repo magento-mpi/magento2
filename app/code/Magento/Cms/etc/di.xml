@@ -56,7 +56,7 @@
     </type>
     <type name="Magento\Core\Helper\Data">
         <param name="config">
-            <instance type="Magento\Core\Model\ConfigProxy" />
+            <instance type="Magento\Core\Model\Config\Proxy" />
         </param>
     </type>
     <type name="Magento\App\Updater\SetupFactory">

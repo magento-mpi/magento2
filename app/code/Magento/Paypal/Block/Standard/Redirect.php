@@ -19,7 +19,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     protected $_coreData;
 
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -34,7 +34,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     protected $_paypalStandardFactory;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Context $context
@@ -42,7 +42,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Context $context,

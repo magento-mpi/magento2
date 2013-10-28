@@ -27,7 +27,9 @@ class XmlScannerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Tools\Di\Code\Scanner\XmlScanner();
+        $this->_model = new \Magento\Tools\Di\Code\Scanner\XmlScanner(
+            $this->getMock('\Magento\Tools\Di\Compiler\Log\Log', array(), array(), '', false)
+        );
         $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles =  array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',

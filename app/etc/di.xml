@@ -198,7 +198,7 @@
             <value>global</value>
         </param>
         <param name="areaList">
-            <instance type="Magento\App\AreaListProxy" />
+            <instance type="Magento\App\AreaList\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Url">
@@ -208,7 +208,7 @@
     </type>
     <type name="Magento\App\Request\Http">
         <param name="routerList">
-            <instance type="Magento\App\RouterListProxy" />
+            <instance type="Magento\App\RouterList\Proxy" />
         </param>
     </type>
     <type name="Magento\App\FrontController">

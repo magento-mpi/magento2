@@ -27,7 +27,7 @@ class AbstractTest
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $arguments = array(
-            $objectManager->get('Magento\Data\Form\Factory'),
+            $objectManager->get('Magento\Data\FormFactory'),
             $objectManager->get('Magento\Adminhtml\Model\Session\Quote'),
             $objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create'),
             $objectManager->get('Magento\Core\Helper\Data'),
@@ -42,8 +42,8 @@ class AbstractTest
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        /** @var $formFactory \Magento\Data\Form\Factory */
-        $formFactory = $objectManager->get('Magento\Data\Form\Factory');
+        /** @var $formFactory \Magento\Data\FormFactory */
+        $formFactory = $objectManager->get('Magento\Data\FormFactory');
         $form = $formFactory->create();
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(

@@ -20,7 +20,7 @@ namespace Magento\CurrencySymbol\Helper;
 class Data extends \Magento\Core\Helper\Data
 {
     /**
-     * @var \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory
+     * @var \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory
      */
     protected $_symbolFactory;
 
@@ -35,7 +35,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
-     * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory
+     * @param \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         \Magento\Core\Model\Encryption $encryptor,
-        \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
+        \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory,
         $dbCompatibleMode = true
     )
     {

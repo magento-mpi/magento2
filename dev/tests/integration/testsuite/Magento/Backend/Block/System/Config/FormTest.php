@@ -22,14 +22,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_formFactory = $this->_objectManager->create('Magento\Data\Form\Factory');
+        $this->_formFactory = $this->_objectManager->create('Magento\Data\FormFactory');
     }
 
     public function testDependenceHtml()

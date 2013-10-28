@@ -39,7 +39,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
     protected $_linkResource;
 
     /**
-     * @var \Magento\Downloadable\Model\Resource\Link\Collection\Factory
+     * @var \Magento\Downloadable\Model\Resource\Link\CollectionFactory
      */
     protected $_linksFactory;
 
@@ -74,7 +74,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory
      * @param \Magento\Downloadable\Model\Resource\Link $linkResource
-     * @param \Magento\Downloadable\Model\Resource\Link\Collection\Factory $linksFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\CollectionFactory $linksFactory
      * @param \Magento\Downloadable\Model\Resource\Sample\CollectionFactory $samplesFactory
      * @param \Magento\Downloadable\Model\SampleFactory $sampleFactory
      * @param \Magento\Downloadable\Model\LinkFactory $linkFactory
@@ -94,7 +94,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
         \Magento\Core\Model\Logger $logger,
         \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory,
         \Magento\Downloadable\Model\Resource\Link $linkResource,
-        \Magento\Downloadable\Model\Resource\Link\Collection\Factory $linksFactory,
+        \Magento\Downloadable\Model\Resource\Link\CollectionFactory $linksFactory,
         \Magento\Downloadable\Model\Resource\Sample\CollectionFactory $samplesFactory,
         \Magento\Downloadable\Model\SampleFactory $sampleFactory,
         \Magento\Downloadable\Model\LinkFactory $linkFactory,
