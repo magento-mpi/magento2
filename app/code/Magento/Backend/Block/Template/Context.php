@@ -30,6 +30,11 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_storeManager;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
@@ -56,7 +61,8 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * 
+     * @param \Magento\Math\Random $mathRandom
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -85,7 +91,8 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Math\Random $mathRandom
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
@@ -96,6 +103,7 @@ class Context extends \Magento\Core\Block\Template\Context
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
         $this->_locale = $locale;
+        $this->mathRandom = $mathRandom;
     }
 
     /**
@@ -132,5 +140,13 @@ class Context extends \Magento\Core\Block\Template\Context
     public function getLocale()
     {
         return $this->_locale;
+    }
+
+    /**
+     * @return \Magento\Math\Random
+     */
+    public function getMathRandom()
+    {
+        return $this->mathRandom;
     }
 }

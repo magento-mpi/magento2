@@ -51,6 +51,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_frontNameResolver;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
@@ -58,6 +63,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -66,7 +72,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\App $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
-        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
+        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
+        \Magento\Math\Random $mathRandom
     ) {
         parent::__construct($context);
         $this->_primaryConfig = $primaryConfig;
@@ -75,6 +82,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
         $this->_frontNameResolver = $frontNameResolver;
+        $this->mathRandom = $mathRandom;
     }
 
     public function getPageHelpUrl()
@@ -165,7 +173,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

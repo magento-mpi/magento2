@@ -59,7 +59,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = \Magento\Math\Random::getUniqueHash($element->getId());
+        $uniqId = $this->mathRandom->getUniqueHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')

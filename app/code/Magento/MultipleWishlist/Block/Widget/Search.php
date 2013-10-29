@@ -31,20 +31,28 @@ class Search extends \Magento\Core\Block\Template
     protected $_configSourceSearch;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_configSourceSearch = $configSourceSearch;
+        $this->mathRandom = $mathRandom;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -144,7 +152,7 @@ class Search extends \Magento\Core\Block\Template
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', \Magento\Math\Random::getUniqueHash());
+            $this->setData('id', $this->mathRandom->getUniqueHash());
         }
         return $this->getData('id');
     }

@@ -46,7 +46,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_oauthHelper = new \Magento\Oauth\Helper\Service(
             $this->_coreContextMock,
-            $this->_storeConfigMock
+            $this->_storeConfigMock,
+            new \Magento\Math\Random
         );
     }
 

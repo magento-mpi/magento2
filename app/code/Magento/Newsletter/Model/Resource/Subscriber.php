@@ -56,18 +56,25 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_date;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Date $date
-     * @internal param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Date $date
+        \Magento\Core\Model\Date $date,
+        \Magento\Math\Random $mathRandom
     ) {
-        parent::__construct($resource);
         $this->_date = $date;
+        $this->mathRandom = $mathRandom;
+        parent::__construct($resource);
     }
 
     /**
@@ -152,7 +159,7 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _generateRandomCode()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

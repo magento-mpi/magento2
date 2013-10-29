@@ -103,6 +103,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $_productFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
@@ -115,8 +120,8 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
-     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -131,6 +136,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -141,6 +147,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         $this->_wishlistItemFactory = $wishlistItemFactory;
         $this->_wishlistCollFactory = $wishlistCollFactory;
         $this->_productFactory = $productFactory;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -217,7 +224,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSharingRandomCode()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

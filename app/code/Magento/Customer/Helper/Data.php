@@ -143,6 +143,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_escaper;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
@@ -153,6 +158,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -164,7 +170,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
-        \Magento\Escaper $escaper
+        \Magento\Escaper $escaper,
+        \Magento\Math\Random $mathRandom
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
@@ -175,6 +182,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_groupFactory = $groupFactory;
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context);
     }
 
@@ -501,7 +509,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

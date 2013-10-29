@@ -177,6 +177,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_encryptor;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
@@ -194,6 +199,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
@@ -215,6 +221,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Math\Random $mathRandom,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -232,6 +239,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_groupFactory = $groupFactory;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -484,7 +492,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function generatePassword($length = 6)
     {
-        return \Magento\Math\Random::getRandomString($length);
+        return $this->mathRandom->getRandomString($length);
     }
 
     /**

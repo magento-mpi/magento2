@@ -85,6 +85,11 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -94,11 +99,11 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Widget\Model\Config\Reader $reader
      * @param \Magento\Widget\Model\Widget $widgetModel
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
-     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Escaper $escaper,
@@ -110,6 +115,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Math\Random $mathRandom,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
@@ -123,6 +129,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -515,7 +522,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = \Magento\Math\Random::getUniqueHash();
+        $hash = $this->mathRandom->getUniqueHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {

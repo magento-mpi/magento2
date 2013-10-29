@@ -27,10 +27,16 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     protected $_paypalStandardFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Core\Block\Context $context
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
@@ -38,11 +44,13 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Core\Block\Context $context,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
         $this->_elementFactory = $elementFactory;
         $this->_paypalStandardFactory = $paypalStandardFactory;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
     }
 
@@ -62,7 +70,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
         foreach ($standard->getStandardCheckoutFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
-        $idSuffix = \Magento\Math\Random::getUniqueHash();
+        $idSuffix = $this->mathRandom->getUniqueHash();
         $submitButton = $this->_elementFactory->create('submit', array('attributes' => array(
             'value' => __('Click here if you are not redirected within 10 seconds.'),
         )));

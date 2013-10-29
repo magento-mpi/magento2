@@ -318,6 +318,11 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     );
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -329,6 +334,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
@@ -336,8 +342,10 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Directory\Model\CountryFactory $countryFactory
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Math\Random $mathRandom
     ) {
+        $this->mathRandom = $mathRandom;
         parent::__construct($customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $countryFactory);
     }
 
@@ -481,7 +489,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * Catch success calls and collect warnings
      *
      * @param array
-     * @return bool| success flag
+     * @return bool success flag
      */
     protected function _isCallSuccessful($response)
     {
@@ -534,7 +542,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      */
     protected function getRequestId()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

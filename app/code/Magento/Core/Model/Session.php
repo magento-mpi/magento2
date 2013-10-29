@@ -23,16 +23,24 @@ namespace Magento\Core\Model;
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      * @param string|null $sessionName
      * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Math\Random $mathRandom,
         array $data = array(),
         $sessionName = null
     ) {
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
         $this->init('core', $sessionName);
     }
@@ -45,7 +53,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function getFormKey()
     {
         if (!$this->getData('_form_key')) {
-            $this->setData('_form_key', \Magento\Math\Random::getRandomString(16));
+            $this->setData('_form_key', $this->mathRandom->getRandomString(16));
         }
         return $this->getData('_form_key');
     }

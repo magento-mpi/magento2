@@ -23,12 +23,20 @@ class Minsaleqty
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Math\Random $mathRandom
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->mathRandom = $mathRandom;
     }
 
     /**
@@ -118,7 +126,7 @@ class Minsaleqty
     {
         $result = array();
         foreach ($value as $groupId => $qty) {
-            $_id = \Magento\Math\Random::getUniqueHash('_');
+            $_id = $this->mathRandom->getUniqueHash('_');
             $result[$_id] = array(
                 'customer_group_id' => $groupId,
                 'min_sale_qty' => $this->_fixQty($qty),

@@ -101,6 +101,11 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $_templateFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -110,6 +115,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -123,6 +129,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Math\Random $mathRandom,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -133,6 +140,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->_historyFactory = $historyFactory;
         $this->_customerFactory = $customerFactory;
         $this->_templateFactory = $templateFactory;
+        $this->mathRandom = $mathRandom;
     }
 
     /**
@@ -188,7 +196,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => \Magento\Math\Random::getUniqueHash(),
+                'protection_code' => $this->mathRandom->getUniqueHash(),
                 'status'          => self::STATUS_NEW,
                 'invitation_date' => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),

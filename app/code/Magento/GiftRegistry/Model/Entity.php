@@ -188,6 +188,11 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -210,6 +215,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Math\Random $mathRandom
      * @param Resource\Entity $resource
      * @param Resource\Entity\Collection $resourceCollection
      * @param array $data
@@ -237,6 +243,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
         \Magento\App\RequestInterface $request,
         \Magento\Escaper $escaper,
+        \Magento\Math\Random $mathRandom,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
@@ -262,6 +269,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $this->request = $request;
         $this->storeManager = $storeManager;
         $this->_escaper = $escaper;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -970,7 +978,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function getGenerateKeyId()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

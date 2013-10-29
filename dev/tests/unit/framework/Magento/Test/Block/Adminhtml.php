@@ -74,6 +74,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\LocaleInterface */
     protected $_localeMock;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Math\Random */
+    protected $_mathMock;
+
     protected function setUp()
     {
         // These mocks are accessed via context
@@ -104,6 +107,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $filterManagerMock          = $this->_makeMock('Magento\Filter\FilterManager');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
+        $this->_mathMock            = $this->_makeMock('Magento\Math\Random');
 
         $this->_translatorMock
             ->expects($this->any())
@@ -136,7 +140,8 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $escaperMock,
             $filterManagerMock,
             $backendSessionMock,
-            $this->_localeMock
+            $this->_localeMock,
+            $this->_mathMock
         );
     }
 

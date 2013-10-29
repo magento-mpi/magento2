@@ -132,12 +132,18 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $mockMathRandom = $this->getMockBuilder('Magento\Math\Random')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_userFactory = new \Magento\Webhook\Model\Webapi\User\Factory(
             $mockRuleFactory,
             $mockUserFactory,
+
             $mockRoleFactory,
             $this->_mockAuthConfig,
-            $mockAclCache
+            $mockAclCache,
+            $mockMathRandom
         );
     }
 

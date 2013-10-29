@@ -43,7 +43,7 @@ class Random
      * @param null|string $chars
      * @return string
      */
-    public static function getRandomString($length, $chars = null)
+    public function getRandomString($length, $chars = null)
     {
         if (is_null($chars)) {
             $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
@@ -61,7 +61,7 @@ class Random
      * @param string $prefix
      * @return string
      */
-    public static function getUniqueHash($prefix = '')
+    public function getUniqueHash($prefix = '')
     {
         return $prefix . md5(uniqid(microtime() . mt_rand(), true));
     }

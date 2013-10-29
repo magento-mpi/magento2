@@ -19,7 +19,8 @@ class RandomTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRandomString($length, $chars = null)
     {
-        $string = \Magento\Math\Random::getRandomString($length, $chars);
+        $mathRandom = new \Magento\Math\Random;
+        $string = $mathRandom->getRandomString($length, $chars);
 
         $this->assertEquals($length, strlen($string));
         if ($chars !== null) {
@@ -50,8 +51,9 @@ class RandomTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUniqueHash()
     {
-        $hashOne = \Magento\Math\Random::getUniqueHash();
-        $hashTwo = \Magento\Math\Random::getUniqueHash();
+        $mathRandom = new \Magento\Math\Random;
+        $hashOne = $mathRandom->getUniqueHash();
+        $hashTwo = $mathRandom->getUniqueHash();
         $this->assertTrue(is_string($hashOne));
         $this->assertTrue(is_string($hashTwo));
         $this->assertNotEquals($hashOne, $hashTwo);

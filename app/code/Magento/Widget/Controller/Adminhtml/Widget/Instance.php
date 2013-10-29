@@ -33,20 +33,28 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     protected $_logger;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Logger $logger
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Math\Random $mathRandom
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetFactory = $widgetFactory;
         $this->_logger = $logger;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context);
     }
 
@@ -246,7 +254,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $chooser = $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
             ->setUseMassaction(true)
-            ->setId(\Magento\Math\Random::getUniqueHash('categories'))
+            ->setId($this->mathRandom->getUniqueHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -262,7 +270,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
-            ->setName(\Magento\Math\Random::getUniqueHash('products_grid_'))
+            ->setName($this->mathRandom->getUniqueHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));

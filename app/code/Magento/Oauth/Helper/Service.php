@@ -41,16 +41,24 @@ class Service extends \Magento\Core\Helper\AbstractHelper
     protected $_storeConfig;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Math\Random $mathRandom
      * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Math\Random $mathRandom
     ) {
         parent::__construct($context);
         $this->_storeConfig = $storeConfig;
+        $this->mathRandom = $mathRandom;
     }
 
     /**
@@ -68,7 +76,7 @@ class Service extends \Magento\Core\Helper\AbstractHelper
             $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
         } else {
             // fallback to mt_rand() if openssl is not installed
-            $randomString = \Magento\Math\Random::getRandomString(
+            $randomString = $this->mathRandom->getRandomString(
                 $length,
                 \Magento\Math\Random::CHARS_DIGITS . \Magento\Math\Random::CHARS_LOWERS
             );

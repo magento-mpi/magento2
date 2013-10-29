@@ -142,6 +142,11 @@ class Installer extends \Magento\Object
     protected $_encryptor;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\App\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
@@ -160,6 +165,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
@@ -181,6 +187,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -190,6 +197,7 @@ class Installer extends \Magento\Object
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
         $this->_encryptor = $encryptor;
+        $this->mathRandom = $mathRandom;
         parent::__construct($data);
         $this->_primaryConfig = $primaryConfig;
         $this->_localConfig = $localConfig;
@@ -448,7 +456,7 @@ class Installer extends \Magento\Object
     public function getValidEncryptionKey($key = null)
     {
         if (!$key) {
-            $key = md5(\Magento\Math\Random::getRandomString(10));
+            $key = md5($this->mathRandom->getRandomString(10));
         }
         $this->_encryptor->validateKey($key);
         return $key;

@@ -55,11 +55,11 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -72,6 +72,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
+        \Magento\Math\Random $mathRandom,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
@@ -87,6 +88,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
             $centinelService,
             $storeManager,
             $configFactory,
+            $mathRandom,
             $data
         );
     }

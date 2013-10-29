@@ -134,6 +134,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -142,7 +143,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -155,6 +155,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
+        \Magento\Math\Random $mathRandom,
         \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -178,6 +179,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $centinelService,
             $storeManager,
             $configFactory,
+            $mathRandom,
             $data
         );
     }
@@ -555,7 +557,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _generateSecureTokenId()
     {
-        return \Magento\Math\Random::getUniqueHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**
@@ -610,7 +612,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5(\Magento\Math\Random::getRandomString(10));
+        $secureHash = md5($this->mathRandom->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }

@@ -43,17 +43,25 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_formFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Backend\Block\Context $context,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
     }
 
@@ -69,7 +77,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
             return '';
         }
 
-        $idSuffix = \Magento\Math\Random::getUniqueHash();
+        $idSuffix = $this->mathRandom->getUniqueHash();
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $dateFields = array(

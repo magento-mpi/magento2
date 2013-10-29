@@ -38,23 +38,31 @@ class Factory
     protected $_cache;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Webapi\Model\Acl\Rule\Factory $ruleFactory
      * @param \Magento\Webapi\Model\Acl\User\Factory $userFactory
      * @param \Magento\Webapi\Model\Acl\Role\Factory $roleFactory
      * @param \Magento\Webapi\Model\Acl\Resource\Provider $resourceProvider
      * @param \Magento\Webapi\Model\Acl\Cache $cache
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Webapi\Model\Acl\Rule\Factory $ruleFactory,
         \Magento\Webapi\Model\Acl\User\Factory $userFactory,
         \Magento\Webapi\Model\Acl\Role\Factory $roleFactory,
         \Magento\Webapi\Model\Acl\Resource\Provider $resourceProvider,
-        \Magento\Webapi\Model\Acl\Cache $cache
+        \Magento\Webapi\Model\Acl\Cache $cache,
+        \Magento\Math\Random $mathRandom
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_userFactory = $userFactory;
         $this->_roleFactory = $roleFactory;
         $this->_cache = $cache;
+        $this->mathRandom = $mathRandom;
         $this->_initVirtualResourceMapping($resourceProvider);
     }
 
@@ -100,7 +108,7 @@ class Factory
 
         // Check if a role with this name already exists, we need a new role with a unique name
         if ($role->getId()) {
-            $uniqString = \Magento\Math\Random::getUniqueHash();
+            $uniqString = $this->mathRandom->getUniqueHash();
             $roleName   = $this->_createRoleName($email, $company, $uniqString);
         }
 

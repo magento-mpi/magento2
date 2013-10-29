@@ -28,18 +28,23 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_widgetFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @internal param \Magento\Core\Helper\Data $coreHelper
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
@@ -48,12 +53,14 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Config $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
+        \Magento\Math\Random $mathRandom,
         $resourceName,
         $moduleName = 'Magento_Banner',
         $connectionName = ''
     ) {
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
+        $this->mathRandom = $mathRandom;
         parent::__construct(
             $context,
             $cache,
@@ -87,5 +94,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getWidgetInstance()
     {
         return $this->_widgetFactory->create();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqueHash()
+    {
+        return $this->mathRandom->getUniqueHash();
     }
 }

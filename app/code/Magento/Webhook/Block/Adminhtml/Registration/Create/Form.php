@@ -97,7 +97,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     private function _generateRandomString($length)
     {
-        return \Magento\Math\Random::getRandomString(
+        return $this->mathRandom->getRandomString(
             $length, \Magento\Math\Random::CHARS_DIGITS . \Magento\Math\Random::CHARS_LOWERS
         );
     }
