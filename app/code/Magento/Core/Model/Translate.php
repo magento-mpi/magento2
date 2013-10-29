@@ -138,7 +138,7 @@ class Translate
     private $_cache;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -177,7 +177,7 @@ class Translate
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\App\ModuleList $moduleList
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
@@ -193,7 +193,7 @@ class Translate
         \Magento\Core\Model\Locale\Hierarchy\Config $config,
         \Magento\Core\Model\Translate\Factory $translateFactory,
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\View\FileSystem $viewFileSystem,
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
         \Magento\App\ModuleList $moduleList,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,

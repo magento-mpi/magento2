@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,12 +10,12 @@
 /**
  * Test for view filesystem model
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,7 +25,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_strategyPool;
 
     /**
-     * @var \Magento\Core\Model\View\Service|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Service|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewService;
 
@@ -37,11 +35,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_strategyPool = $this->getMock('Magento\View\Design\FileResolution\StrategyPool', array(),
             array(), '', false
         );
-        $this->_viewService = $this->getMock('Magento\Core\Model\View\Service',
+        $this->_viewService = $this->getMock('Magento\View\Service',
             array('extractScope', 'updateDesignParams'), array(), '', false
         );
 
-        $this->_model = new \Magento\Core\Model\View\FileSystem($this->_strategyPool, $this->_viewService);
+        $this->_model = new \Magento\View\FileSystem($this->_strategyPool, $this->_viewService);
     }
 
     public function testGetFilename()
@@ -49,7 +47,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $params = array(
             'area'       => 'some_area',
             'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
-            'module'     => 'Some_Module'   //It should be set in \Magento\Core\Model\View\Service::extractScope
+            'module'     => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
                                             // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
@@ -106,7 +104,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             'area'       => 'some_area',
             'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
             'locale'     => 'some_locale',
-            'module'     => 'Some_Module'   //It should be set in \Magento\Core\Model\View\Service::extractScope
+            'module'     => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
                                             // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';

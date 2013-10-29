@@ -117,7 +117,7 @@ class ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
+            $destDir = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -193,13 +193,13 @@ class ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(\Magento\View\Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
+                    $relPath = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],
                         $file, $module
                     );

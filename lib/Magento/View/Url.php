@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Builds URLs for publicly accessible files
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class Url
 {
@@ -31,17 +29,17 @@ class Url
     protected $_dirs;
 
     /**
-     * @var \Magento\Core\Model\View\Service
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
-     * @var \Magento\Core\Model\View\Publisher
+     * @var \Magento\View\Publisher
      */
     protected $_publisher;
 
     /**
-     * @var \Magento\Core\Model\View\DeployedFilesManager
+     * @var \Magento\View\DeployedFilesManager
      */
     protected $_deployedFileManager;
 
@@ -57,17 +55,17 @@ class Url
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\View\Service $viewService
-     * @param \Magento\Core\Model\View\Publisher $publisher
-     * @param \Magento\Core\Model\View\DeployedFilesManager $deployedFileManager
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Publisher $publisher
+     * @param \Magento\View\DeployedFilesManager $deployedFileManager
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dirs,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\View\Service $viewService,
-        \Magento\Core\Model\View\Publisher $publisher,
-        \Magento\Core\Model\View\DeployedFilesManager $deployedFileManager
+        \Magento\View\Service $viewService,
+        \Magento\View\Publisher $publisher,
+        \Magento\View\DeployedFilesManager $deployedFileManager
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
@@ -161,7 +159,7 @@ class Url
     /**
      * Get files manager that is able to return file public path
      *
-     * @return \Magento\Core\Model\View\PublicFilesManagerInterface
+     * @return \Magento\View\PublicFilesManagerInterface
      */
     protected function _getFilesManager()
     {

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,8 +59,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($store));
 
         // 5. Get viewService model
-        /** @var $viewService \Magento\Core\Model\View\Service|PHPUnit_Framework_MockObject_MockObject */
-        $viewService = $this->getMock('Magento\Core\Model\View\Service',
+        /** @var $viewService \Magento\View\Service|PHPUnit_Framework_MockObject_MockObject */
+        $viewService = $this->getMock('Magento\View\Service',
             array('updateDesignParams', 'extractScope', 'isViewFileOperationAllowed'), array(), '', false
         );
         $viewService->expects($this->any())
@@ -75,21 +73,21 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('updateDesignParams');
 
         // 6. Get publisher model
-        /** @var $publisher \Magento\Core\Model\View\Publisher|PHPUnit_Framework_MockObject_MockObject */
-        $publisher = $this->getMock('Magento\Core\Model\View\Publisher', array(), array(), '', false);
+        /** @var $publisher \Magento\View\Publisher|PHPUnit_Framework_MockObject_MockObject */
+        $publisher = $this->getMock('Magento\View\Publisher', array(), array(), '', false);
         $publisher->expects($this->any())
             ->method('getPublicFilePath')
             ->will($this->returnValue(str_replace('/', DIRECTORY_SEPARATOR, 'some_dir/public_dir/a/t/m/file.js')));
 
         // 7. Get deployed file manager
-        /** @var $dFManager \Magento\Core\Model\View\DeployedFilesManager|PHPUnit_Framework_MockObject_MockObject */
-        $dFManager = $this->getMock('Magento\Core\Model\View\DeployedFilesManager', array(), array(), '',
+        /** @var $dFManager \Magento\View\DeployedFilesManager|PHPUnit_Framework_MockObject_MockObject */
+        $dFManager = $this->getMock('Magento\View\DeployedFilesManager', array(), array(), '',
             false
         );
 
         // Create model to be tested
-        /** @var $model \Magento\Core\Model\View\Url|PHPUnit_Framework_MockObject_MockObject */
-        $model = new \Magento\Core\Model\View\Url(
+        /** @var $model \Magento\View\Url|PHPUnit_Framework_MockObject_MockObject */
+        $model = new \Magento\View\Url(
             $filesystem, $dirs, $storeManager, $viewService, $publisher, $dFManager
         );
 

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Model that finds file paths by their fileId
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class FileSystem
 {
@@ -23,7 +21,7 @@ class FileSystem
     protected $_resolutionPool = null;
 
     /**
-     * @var \Magento\Core\Model\View\Service
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
@@ -31,11 +29,11 @@ class FileSystem
      * View files system model
      *
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
-     * @param \Magento\Core\Model\View\Service $viewService
+     * @param \Magento\View\Service $viewService
      */
     public function __construct(
         \Magento\View\Design\FileResolution\StrategyPool $resolutionPool,
-        \Magento\Core\Model\View\Service $viewService
+        \Magento\View\Service $viewService
     ) {
         $this->_resolutionPool = $resolutionPool;
         $this->_viewService = $viewService;

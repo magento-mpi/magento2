@@ -68,7 +68,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_helperFactory;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -106,7 +106,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Logger $logger
@@ -125,7 +125,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Logger $logger,
@@ -239,7 +239,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\View\Url
+     * @return \Magento\View\Url
      */
     public function getViewUrl()
     {

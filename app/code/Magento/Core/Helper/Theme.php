@@ -37,7 +37,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     protected $_themeCollection;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -46,14 +46,14 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\App\Dir $dirs
      * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\App\Dir $dirs,
         \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem
+        \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->_dirs = $dirs;
         $this->_layoutProcessorFactory = $layoutProcessorFactory;

@@ -19,28 +19,28 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\View\Service
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_fileSystem;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
     protected function setUp()
     {
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Service');
+            ->create('Magento\View\Service');
         $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\FileSystem');
+            ->create('Magento\View\FileSystem');
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Url');
+            ->create('Magento\View\Url');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\DesignInterface');
     }
@@ -324,7 +324,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $actualCssContent = file_get_contents($expectedCssFile);
 
         $this->assertNotRegExp(
-            '/url\(.*?' . \Magento\Core\Model\View\Service::SCOPE_SEPARATOR . '.*?\)/',
+            '/url\(.*?' . \Magento\View\Service::SCOPE_SEPARATOR . '.*?\)/',
             $actualCssContent,
             'Published CSS file must not contain scope separators in URLs.'
         );
@@ -433,11 +433,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Service');
+            ->create('Magento\View\Service');
         $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\FileSystem');
+            ->create('Magento\View\FileSystem');
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Url');
+            ->create('Magento\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -523,11 +523,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Service');
+            ->create('Magento\View\Service');
         $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\FileSystem');
+            ->create('Magento\View\FileSystem');
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Url');
+            ->create('Magento\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -568,10 +568,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         if ($allowDuplication !== null) {
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             $publisher = $objectManager->create(
-                'Magento\Core\Model\View\Publisher',
+                'Magento\View\Publisher',
                 array('allowFilesDuplication' => $allowDuplication)
             );
-            $objectManager->addSharedInstance($publisher, 'Magento\Core\Model\View\Publisher');
+            $objectManager->addSharedInstance($publisher, 'Magento\View\Publisher');
         }
 
         // Reinit model with new directories
@@ -580,11 +580,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Service');
+            ->create('Magento\View\Service');
         $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\FileSystem');
+            ->create('Magento\View\FileSystem');
         $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\Url');
+            ->create('Magento\View\Url');
     }
 
     /**

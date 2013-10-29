@@ -42,7 +42,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     protected $_fileConfig;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -50,7 +50,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Core\Model\View\UrlFactory $coreViewUrlFactory
+     * @param \Magento\View\UrlFactory $coreViewUrlFactory
      * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\File\Size $fileConfig
@@ -60,7 +60,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Core\Model\View\UrlFactory $coreViewUrlFactory,
+        \Magento\View\UrlFactory $coreViewUrlFactory,
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\File\Size $fileConfig,

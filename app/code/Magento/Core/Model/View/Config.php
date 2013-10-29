@@ -35,14 +35,14 @@ class Config implements \Magento\View\ConfigInterface
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\View\Service
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
      * View file system model
      *
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -51,14 +51,14 @@ class Config implements \Magento\View\ConfigInterface
      *
      * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\View\Service $viewService
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Core\Model\Config\Modules\Reader $moduleReader,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\View\Service $viewService,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem
+        \Magento\View\Service $viewService,
+        \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;

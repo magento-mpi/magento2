@@ -32,7 +32,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -44,7 +44,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,

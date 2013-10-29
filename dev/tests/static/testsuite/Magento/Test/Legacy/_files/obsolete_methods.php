@@ -641,7 +641,7 @@ return array(
     array('processRequest', 'Magento\Core\Model\Cache'),
     array('processSubst', 'Magento\Core\Model\Store'),
     array('productEventAggregate'),
-    array('publishRelatedViewFile', 'Magento\Core\Model\View\Publisher', '_publishRelatedViewFile'),
+    array('publishRelatedViewFile', 'Magento\View\Publisher', '_publishRelatedViewFile'),
     array('push', 'Magento\Catalog\Model\Product\Image'),
     array('rebuildCategoryLevels', 'Magento\Catalog\Model\Resource\Setup'),
     array('refundOrderItem', 'Magento\CatalogInventory\Model\Observer'),

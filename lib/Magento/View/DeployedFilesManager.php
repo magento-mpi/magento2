@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,21 +10,21 @@
 /**
  * Builds path for files deployed into public directory in advance
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
-class DeployedFilesManager implements \Magento\Core\Model\View\PublicFilesManagerInterface
+class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
 {
     /**
-     * @var \Magento\Core\Model\View\Service
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
      * Deployed view files manager
      *
-     * @param \Magento\Core\Model\View\Service $viewService
+     * @param \Magento\View\Service $viewService
      */
-    public function __construct(\Magento\Core\Model\View\Service $viewService)
+    public function __construct(\Magento\View\Service $viewService)
     {
         $this->_viewService = $viewService;
     }

@@ -29,7 +29,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected $_templateEngine;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewFileSystem;
 
@@ -42,7 +42,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $dirs->expects($this->any())->method('getDir')->will($this->returnValueMap($dirMap));
 
-        $this->_viewFileSystem = $this->getMock('\Magento\Core\Model\View\FileSystem', array(), array(), '', false);
+        $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', array(), array(), '', false);
 
         $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
 

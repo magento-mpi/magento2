@@ -299,7 +299,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Model\View\Publisher">
+    <type name="Magento\View\Publisher">
         <param name="allowFilesDuplication">
             <value type="bool">true</value>
         </param>
@@ -398,7 +398,7 @@
             <instance type="Magento\Core\Model\File\Storage\File\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\View\Service">
+    <type name="Magento\View\Service">
         <param name="design">
             <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Design service model
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class Service
 {

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +22,7 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildDeployedFilePath($area, $themePath, $locale, $file, $module, $expected)
     {
-        $actual = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
+        $actual = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
             $area, $themePath, $locale, $file, $module, $expected
         );
         $this->assertEquals($expected, $actual);

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 /**
  * Handles file publication
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
-class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
+class Publisher implements \Magento\View\PublicFilesManagerInterface
 {
     /**#@+
      * Extensions group for static files
@@ -51,12 +49,12 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     protected $_cssHelper;
 
     /**
-     * @var \Magento\Core\Model\View\Service
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -88,8 +86,8 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Css $cssHelper
-     * @param \Magento\Core\Model\View\Service $viewService
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param $allowFilesDuplication
@@ -98,8 +96,8 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
         \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\Css $cssHelper,
-        \Magento\Core\Model\View\Service $viewService,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\View\Service $viewService,
+        \Magento\View\FileSystem $viewFileSystem,
         \Magento\App\Dir $dir,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         $allowFilesDuplication
@@ -368,7 +366,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
      */
     protected function _getRelatedViewFile($fileId, $parentFilePath, $parentFileName, &$params)
     {
-        if (strpos($fileId, \Magento\Core\Model\View\Service::SCOPE_SEPARATOR)) {
+        if (strpos($fileId, \Magento\View\Service::SCOPE_SEPARATOR)) {
             $filePath = $this->_viewService->extractScope($fileId, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */

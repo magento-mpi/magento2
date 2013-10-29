@@ -17,7 +17,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
     protected $_widgetModelMock;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewFileSystemMock;
 
@@ -45,7 +45,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_viewFileSystemMock = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')
+        $this->_viewFileSystemMock = $this->getMockBuilder('Magento\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_coreConfigMock = $this->getMockBuilder('Magento\Core\Model\Config')

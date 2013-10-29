@@ -66,7 +66,7 @@ class Direct implements \Magento\Core\Model\Page\Asset\MergeStrategyInterface
     protected function _composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
-        $isCss = $contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS;
+        $isCss = $contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS;
 
         foreach ($publicFiles as $file) {
             if (!$this->_filesystem->has($file)) {

@@ -18,7 +18,7 @@ namespace Magento\Core\Model\View;
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_model = null;
 
@@ -30,7 +30,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             )
         ));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\View\FileSystem');
+            ->create('Magento\View\FileSystem');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\DesignInterface')
             ->setDesignTheme('test_default');

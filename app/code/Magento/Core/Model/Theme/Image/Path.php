@@ -31,7 +31,7 @@ class Path
     protected $_dir;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -44,12 +44,12 @@ class Path
      * Initialize dependencies
      *
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\App\Dir $dir,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_dir = $dir;

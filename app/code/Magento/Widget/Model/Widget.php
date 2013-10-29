@@ -30,12 +30,12 @@ class Widget
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -52,15 +52,15 @@ class Widget
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Widget\Model\Config\Data $dataStorage
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Widget\Model\Config\Data $dataStorage,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem
+        \Magento\View\Url $viewUrl,
+        \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->_coreData = $coreData;
         $this->_dataStorage = $dataStorage;
