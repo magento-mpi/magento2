@@ -46,6 +46,10 @@ class CreateTest extends Functional
         $createProductPage->open();
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushCacheStorage();
         //Verifying
         $createProductPage->assertProductSaveResult($product);
         $this->assertOnGrid($product);
@@ -73,9 +77,6 @@ class CreateTest extends Functional
     {
         //Steps
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        sleep(5);
-        $categoryPage->open();
-        sleep(5);
         $categoryPage->openCategory($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();

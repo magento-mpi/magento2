@@ -50,6 +50,10 @@ class CreateConfigurableTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('configurable');
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushCacheStorage();
         //Verifying
         $createProductPage->assertProductSaveResult($product);
         $this->assertOnGrid($product);
@@ -97,7 +101,6 @@ class CreateConfigurableTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         //Assert product on category page
-        $categoryPage->open();
         $categoryPage->openCategory($product->getCategoryName());
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
             'Product is absent on category page.');

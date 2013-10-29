@@ -49,6 +49,10 @@ class BundleTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushCacheStorage();
         //Verification
         $createProductPage->assertProductSaveResult($bundle);
         $this->assertOnGrid($bundle);
@@ -76,7 +80,6 @@ class BundleTest extends Functional
     {
         //Steps
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $categoryPage->open();
         $categoryPage->openCategory($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
