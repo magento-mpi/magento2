@@ -35,24 +35,32 @@ class RequestPreprocessor
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\ResponseFactory $responseFactory
+     * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\State $appState,
         \Magento\Core\Model\Url $url,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\App\ResponseFactory $responseFactory
+        \Magento\App\ResponseFactory $responseFactory,
+        \Magento\App\Dir $dir
     ) {
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_url = $url;
         $this->_storeConfig = $storeConfig;
         $this->_responseFactory = $responseFactory;
+        $this->_dir = $dir;
     }
 
     /**
@@ -65,10 +73,17 @@ class RequestPreprocessor
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         $request = $arguments[0];
-        // If pre-configured, check equality of base URL and requested URL
-        $this->_checkBaseUrl($request);
-        $request->setDispatched(false);
-        return $invocationChain->proceed($arguments);
+        try {
+            // If pre-configured, check equality of base URL and requested URL
+            $this->_checkBaseUrl($request);
+            $request->setDispatched(false);
+
+            return $invocationChain->proceed($arguments);
+        } catch (\Magento\Core\Model\Session\Exception $e) {
+            header('Location: ' . $this->_storeManager->getStore()->getBaseUrl());
+        } catch (\Magento\Core\Model\Store\Exception $e) {
+            require $this->_dir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . '404.php';
+        }
     }
 
     /**

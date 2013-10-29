@@ -1,20 +1,24 @@
 <?php
 /**
- * Abstract application entry point
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App;
+namespace Magento\App\EntryPoint;
 
-use Magento\App\Dir;
-use Magento\ObjectManager\Config\Config as ObjectManagerConfig;
-use Magento\ObjectManager\Factory\Factory;
-use Magento\ObjectManager;
+use Magento\App\Dir,
+    Magento\App\Config,
+    Magento\App\State,
+    Magento\ObjectManager\Config\Config as ObjectManagerConfig,
+    Magento\ObjectManager\Factory\Factory,
+    Magento\ObjectManager,
+    Magento\App\EntryPointInterface,
+    Magento\Profiler;
 
-abstract class AbstractEntryPoint
+
+class EntryPoint implements EntryPointInterface
 {
     /**
      * Application root directory
@@ -35,7 +39,7 @@ abstract class AbstractEntryPoint
      *
      * @var ObjectManager
      */
-    protected $_objectManager;
+    protected $_locator;
 
     /**
      * @param string $rootDir
@@ -49,16 +53,7 @@ abstract class AbstractEntryPoint
     ) {
         $this->_rootDir = $rootDir;
         $this->_parameters = $parameters;
-        $this->_objectManager = $objectManager;
-    }
-
-    /**
-     * Process request by the application
-     */
-    public function processRequest()
-    {
-        $this->_init();
-        $this->_processRequest();
+        $this->_locator = $objectManager;
     }
 
     /**
@@ -66,16 +61,15 @@ abstract class AbstractEntryPoint
      *
      * @param \Exception $exception
      */
-    public function processException(\Exception $exception)
+    protected function _processException(\Exception $exception)
     {
-        $this->_init();
-        $appMode = $this->_objectManager->get('Magento\App\State')->getMode();
-        if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        if ($this->_parameters[State::PARAM_MODE] == State::MODE_DEVELOPER) {
             print '<pre>';
             print $exception->getMessage() . "\n\n";
             print $exception->getTraceAsString();
             print '</pre>';
-        } else {
+        } else if ($this->_locator) {
             $reportData = array($exception->getMessage(), $exception->getTraceAsString());
 
             // retrieve server data
@@ -90,24 +84,25 @@ abstract class AbstractEntryPoint
 
             // attempt to specify store as a skin
             try {
-                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+                $storeManager = $this->_locator->get('Magento\Core\Model\StoreManager');
                 $reportData['skin'] = $storeManager->getStore()->getCode();
+                $modelDir = $this->_locator->get('Magento\App\Dir');
+                require_once ($modelDir->getDir(Dir::PUB) . DS . 'errors' . DS . 'report.php');
             } catch (\Exception $exception) {
+                echo "Unknown error happened.";
             }
-
-            $modelDir = $this->_objectManager->get('Magento\App\Dir');
-            require_once($modelDir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+        } else {
+            echo "Exception happened during application bootstrap.";
         }
     }
 
     /**
-     * Initializes the entry point, so a Magento application is ready to be used
+     * Initialize application
+     * 
+     * @throws \Magento\BootstrapException
      */
-    protected function _init()
+    protected function _initialize()
     {
-        if ($this->_objectManager) {
-            return ;
-        }
         $directories = new Dir(
             $this->_rootDir,
             isset($this->_parameters[Dir::PARAM_APP_DIRS]) ? $this->_parameters[Dir::PARAM_APP_DIRS] : array(),
@@ -126,7 +121,7 @@ abstract class AbstractEntryPoint
             )
         );
 
-        $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
+        $definitionFactory = new ObjectManager\DefinitionFactory(
             $directories->getDir(DIR::DI),
             $directories->getDir(DIR::GENERATION),
             $options->get('definition.format', 'serialized')
@@ -149,51 +144,63 @@ abstract class AbstractEntryPoint
 
         $factory = new Factory($diConfig, null, $definitions, $options->get());
 
-        $this->_objectManager = new ObjectManager\ObjectManager($factory, $diConfig, array(
+        $locator = new ObjectManager\ObjectManager($factory, $diConfig, array(
             'Magento\App\Config' => $options,
             'Magento\App\Dir' => $directories
         ));
-        \Magento\App\ObjectManager::setInstance($this->_objectManager);
+        \Magento\App\ObjectManager::setInstance($locator);
 
-        $verification = $this->_objectManager->get('Magento\App\Dir\Verification');
+        $verification = $locator->get('Magento\App\Dir\Verification');
         $verification->createAndVerifyDirectories();
 
-        $diConfig->setCache($this->_objectManager->get('Magento\App\ObjectManager\ConfigCache'));
-        $this->_objectManager->configure(
-            $this->_objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
+        $diConfig->setCache($locator->get('Magento\App\ObjectManager\ConfigCache'));
+        $locator->configure(
+            $locator->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
 
         $relations = $definitionFactory->createRelations();
 
-        $interceptionConfig = $this->_objectManager->create('Magento\Interception\Config\Config', array(
+        $interceptionConfig = $locator->create('Magento\Interception\Config\Config', array(
             'relations' => $relations,
             'omConfig' => $diConfig,
-            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
+            'classDefinitions' => $definitions instanceof ObjectManager\Definition\Compiled
                     ? $definitions
                     : null,
         ));
 
-        $pluginList = $this->_objectManager->create('Magento\Interception\PluginList\PluginList', array(
+        $pluginList = $locator->create('Magento\Interception\PluginList\PluginList', array(
             'relations' => $relations,
             'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $diConfig,
-            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
+            'classDefinitions' => $definitions instanceof ObjectManager\Definition\Compiled
                     ? $definitions
                     : null,
         ));
-        $factory = $this->_objectManager->create('Magento\Interception\FactoryDecorator', array(
+        $factory = $locator->create('Magento\Interception\FactoryDecorator', array(
             'factory' => $factory,
             'config' => $interceptionConfig,
             'pluginList' => $pluginList
         ));
-        $this->_objectManager->setFactory($factory);
-        $this->_objectManager->get('Magento\Core\Model\Resource')
-            ->setConfig($this->_objectManager->get('Magento\Core\Model\Config\Resource'));
+        $locator->setFactory($factory);
+        $locator->get('Magento\Core\Model\Resource')
+            ->setConfig($locator->get('Magento\Core\Model\Config\Resource'));
+        return $locator;
     }
 
     /**
-     * Template method to process request according to the actual entry point rules
+     * Run application
+     *
+     * @param string $applicationName
+     * @return int
      */
-    protected abstract function _processRequest();
+    public function run($applicationName)
+    {
+        try {
+            $this->_locator = $this->_locator ?: $this->_initialize();
+            return $this->_locator->get($applicationName)->execute();
+        } catch (\Exception $e) {
+            $this->_processException($e);
+            return -1;
+        }
+    }
 }
-
