@@ -21,6 +21,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->fail('Need to be fixed');
         $dirVerification = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
 
         $cacheFrontend = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');

@@ -52,6 +52,7 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRoutes()
     {
+        $this->fail('Need to be fixed');
         $expectedResult = array(
             'defaultRouter'  => new DefaultClass(),
             'frontendRouter' => new FrontClass(),

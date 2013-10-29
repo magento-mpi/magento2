@@ -53,6 +53,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->fail('Need to be fixed');
         $this->_configMock = $this->getMockBuilder('Magento\Logging\Model\Config')
             ->setMethods(array('getEventByFullActionName', 'isEventGroupLogged', 'getEventGroupConfig'))
             ->disableOriginalConstructor()
