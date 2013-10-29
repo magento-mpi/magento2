@@ -123,7 +123,7 @@ class Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_viewDesign;
 
@@ -148,7 +148,7 @@ class Translate
     protected $_placeholderRender;
 
     /**
-     * @var \Magento\Core\Model\ModuleList
+     * @var \Magento\App\ModuleList
      */
     protected $_moduleList;
 
@@ -173,13 +173,13 @@ class Translate
     protected $_app;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
-     * @param \Magento\Core\Model\ModuleList $moduleList
+     * @param \Magento\App\ModuleList $moduleList
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -189,13 +189,13 @@ class Translate
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Locale\Hierarchy\Config $config,
         \Magento\Core\Model\Translate\Factory $translateFactory,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
-        \Magento\Core\Model\ModuleList $moduleList,
+        \Magento\App\ModuleList $moduleList,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -458,7 +458,7 @@ class Translate
      */
     protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = $this->_modulesReader->getModuleDir(\Magento\Core\Model\Dir::LOCALE, $moduleName);
+        $file = $this->_modulesReader->getModuleDir(\Magento\App\Dir::LOCALE, $moduleName);
         $file .= DS . $locale . '.csv';
         return $file;
     }
@@ -471,7 +471,7 @@ class Translate
      */
     protected function _getThemeTranslationFile($locale)
     {
-        return $this->_viewFileSystem->getFilename(\Magento\Core\Model\Dir::LOCALE . DS . $locale . '.csv');
+        return $this->_viewFileSystem->getFilename(\Magento\App\Dir::LOCALE . DS . $locale . '.csv');
     }
 
     /**

@@ -61,7 +61,6 @@ class Routine
         'less'  => array('*.less'),
         'flex'  => array('*.as'),
         'sql'   => array('*.sql'),
-        'twig'  => array('*.twig'),
     );
 
     /**

@@ -13,49 +13,54 @@ namespace Magento\Test\Integrity\Theme;
 
 class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
-    /**
-     * @param string $area
-     * @param string $themeId
-     * @param string $file
-     * @dataProvider viewFilesFromThemesDataProvider
-     * @throws \PHPUnit_Framework_AssertionFailedError|Exception
-     */
-    public function testViewFilesFromThemes($area, $themeId, $file)
+    public function testViewFilesFromThemes()
     {
-        $this->_markTestIncompleteDueToBug($area, $file);
-        try {
-            $params = array('area' => $area, 'themeId' => $themeId);
-            $viewFile = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
-                ->get('Magento\Core\Model\View\FileSystem')
-                ->getViewFile($file, $params);
-            $this->assertFileExists($viewFile);
-
-            $fileParts = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $file);
-            if (count($fileParts) > 1) {
-                $params['module'] = $fileParts[0];
-            }
-            if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
-                $errors = array();
-                $content = file_get_contents($viewFile);
-                preg_match_all(\Magento\Core\Helper\Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
-                foreach ($matches[1] as $relativePath) {
-                    $path = $this->_addCssDirectory($relativePath, $file);
-                    $pathFile = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            /**
+             * @param string $area
+             * @param string $themeId
+             * @param string $file
+             * @throws \PHPUnit_Framework_AssertionFailedError|Exception
+             */
+            function ($area, $themeId, $file) {
+                $this->_markTestIncompleteDueToBug($area, $file);
+                try {
+                    $params = array('area' => $area, 'themeId' => $themeId);
+                    $viewFile = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
                         ->get('Magento\Core\Model\View\FileSystem')
-                        ->getViewFile($path, $params);
-                    if (!is_file($pathFile)) {
-                        $errors[] = $relativePath;
+                        ->getViewFile($file, $params);
+                    $this->assertFileExists($viewFile);
+
+                    $fileParts = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $file);
+                    if (count($fileParts) > 1) {
+                        $params['module'] = $fileParts[0];
                     }
+                    if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
+                        $errors = array();
+                        $content = file_get_contents($viewFile);
+                        preg_match_all(\Magento\Core\Helper\Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                        foreach ($matches[1] as $relativePath) {
+                            $path = $this->_addCssDirectory($relativePath, $file);
+                            $pathFile = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+                                ->get('Magento\Core\Model\View\FileSystem')
+                                ->getViewFile($path, $params);
+                            if (!is_file($pathFile)) {
+                                $errors[] = $relativePath;
+                            }
+                        }
+                        if (!empty($errors)) {
+                            $this->fail('Cannot find file(s): ' . implode(', ', $errors));
+                        }
+                    }
+                } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+                    throw $e;
+                } catch (\Exception $e) {
+                    $this->fail($e->getMessage());
                 }
-                if (!empty($errors)) {
-                    $this->fail('Cannot find file(s): ' . implode(', ', $errors));
-                }
-            }
-        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            $this->fail($e->getMessage());
-        }
+            },
+            $this->viewFilesFromThemesDataProvider()
+        );
     }
 
     /**
@@ -66,10 +71,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     protected function _markTestIncompleteDueToBug($area, $file)
     {
-        if (($area === 'frontend' && in_array($file, array(
-            'css/styles.css', 'js/head.js', 'mui/reset.css', 'js/jquery.dropdowns.js', 'js/tabs.js',
-            'js/selectivizr-min.js',
-        ))) || ($area === 'adminhtml' && in_array($file, array('mui/reset.css')))) {
+        if ($area === 'frontend' && in_array($file, array('js/selectivizr-min.js', 'css/styles.css'))
+            || $area === 'adminhtml' && in_array($file, array('mui/reset.css'))
+        ) {
             $this->markTestIncomplete('MAGETWO-9806, MAGETWO-12325');
         }
     }
@@ -114,14 +118,14 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 
         // Find files, declared in views
         $files = array();
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themes as $theme) {
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 
         // Populate data provider in correspondence of themes to view files
         $result = array();
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themes as $theme) {
             if (!isset($files[$theme->getId()])) {
                 continue;
@@ -136,7 +140,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     /**
      * Collect getViewUrl() from theme templates
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param array &$files
      */
     protected function _collectGetViewUrlInvokes($theme, &$files)
@@ -157,9 +161,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         }
 
         // Collect "addCss" and "addJs" from theme layout
-        /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
+        /** @var \Magento\View\Layout\ProcessorInterface $layoutUpdate */
         $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            ->create('Magento\View\Layout\ProcessorInterface', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath(
             '//block[@class="Magento\Page\Block\Html\Head\Css" or @class="Magento\Page\Block\Html\Head\Script"]'
@@ -231,7 +235,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
         $this->assertFileExists(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('jslib')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir('jslib')
                 . DIRECTORY_SEPARATOR . $file
         );
     }

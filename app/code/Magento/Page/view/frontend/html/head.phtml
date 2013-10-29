@@ -3,12 +3,9 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/** @var $this \Magento\Page\Block\Html\Head */
 ?>
 <meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>"/>
 <title><?php echo $this->getTitle() ?></title>
@@ -17,7 +14,6 @@
 <meta name="robots" content="<?php echo $this->escapeHtml($this->getRobots())?>"/>
 <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
 <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
-<link rel="stylesheet" href="<?php echo $this->getViewFileUrl('Magento_Page::css/validate.css') ?>" type="text/css" media="all"/>
 <?php echo $this->getCssJsHtml() ?>
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->getIncludes() ?>
