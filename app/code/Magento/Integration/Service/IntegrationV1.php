@@ -41,7 +41,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     }
 
     /**
-     * Update a Integration.
+     * Update an Integration.
      *
      * @param array $integrationData
      * @return array Integration data
@@ -50,6 +50,10 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     public function update(array $integrationData)
     {
         $integration = $this->_loadIntegrationById($integrationData['integration_id']);
+        //If name has been updated check if it conflicts with an existing integration
+        if ($integration->getName() != $integrationData['name']) {
+            $this->_checkIntegrationByName($integrationData['name']);
+        }
         $integration->addData($integrationData);
         $this->_validateIntegration($integration);
         $integration->save();
@@ -70,7 +74,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     }
 
     /**
-     * Validates an integration
+     * Validate an integration
      *
      * @param \Magento\Integration\Model\Integration $integration
      * @throws \Magento\Integration\Exception

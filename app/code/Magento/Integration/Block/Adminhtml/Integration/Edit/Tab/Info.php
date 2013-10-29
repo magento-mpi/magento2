@@ -13,7 +13,7 @@ namespace Magento\Integration\Block\Adminhtml\Integration\Edit\Tab;
 use \Magento\Integration\Controller\Adminhtml\Integration;
 
 /**
- * Main Integration properties edit form
+ * Main Integration info edit form
  *
  * @category   Magento
  * @package    Magento_Integration
@@ -42,7 +42,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * Set form id prefix, declare fields for integration properties
+     * Set form id prefix, declare fields for integration info
      *
      * @return \Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info
      */
@@ -96,7 +96,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'endpoint',
             'text',
-            array('label' => __('Endpoint URL'), 'name' => 'endpoint', 'disabled' => false)
+            array('label' => __('Endpoint URL'), 'name' => 'endpoint', 'required' => true, 'disabled' => false)
         );
         $form->setValues($integrationData);
         $this->setForm($form);
@@ -110,7 +110,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getTabLabel()
     {
-        return __('Integration Properties');
+        return __('Integration Info');
     }
 
     /**
@@ -141,5 +141,34 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Get additional script for tabs block
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $oauth = \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH;
+        $script = <<<HTML
+jQuery(function ($) {
+    var jqAuthSel = $('#integration_properties_authentication'),
+        jqEndpoint = $('#integration_properties_endpoint'),
+        authFunction = function () {
+            var isOauth = jqAuthSel.val() === '$oauth'
+            $('.field-endpoint').children().toggle(isOauth);
+            jqEndpoint.toggleClass('required-entry', isOauth);
+        }
+    authFunction();
+    jqAuthSel.on('change', authFunction);
+    $('form').on('submit', function () {
+        if (jqAuthSel.val() !== '$oauth') {
+            $('#integration_properties_endpoint').val('');
+        }
+    });
+});
+HTML;
+        return parent::_toHtml() . sprintf('<script type="text/javascript">%s</script>', $script);
     }
 }
