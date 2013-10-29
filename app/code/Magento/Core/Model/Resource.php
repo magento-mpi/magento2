@@ -105,6 +105,17 @@ class Resource
     }
 
     /**
+     * Set table prefix
+     * Added for console installation
+     *
+     * @param string $tablePrefix
+     */
+    public function setTablePrefix($tablePrefix)
+    {
+        $this->_tablePrefix = $tablePrefix;
+    }
+
+    /**
      * Retrieve connection to resource specified by $resourceName
      *
      * @param string $resourceName

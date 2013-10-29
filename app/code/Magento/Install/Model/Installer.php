@@ -129,6 +129,9 @@ class Installer extends \Magento\Object
      */
     protected $_session;
 
+    /** @var \Magento\Core\Model\Resource */
+    protected $_resource;
+
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
@@ -147,6 +150,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Install\Model\Installer\Db $installerDb
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Core\Model\Resource $resource
      * @param array $data
      */
     public function __construct(
@@ -167,6 +171,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
+        \Magento\Core\Model\Resource $resource,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -187,6 +192,7 @@ class Installer extends \Magento\Object
         $this->_installerDb = $installerDb;
         $this->_installerConfig = $installerConfig;
         $this->_session = $session;
+        $this->_resource = $resource;
     }
 
     /**
@@ -289,6 +295,7 @@ class Installer extends \Magento\Object
             ->install();
 
         $this->_localConfig->reload();
+        $this->_resource->setTablePrefix($data['db_prefix']);
 
         $this->_config->reinit();
 
