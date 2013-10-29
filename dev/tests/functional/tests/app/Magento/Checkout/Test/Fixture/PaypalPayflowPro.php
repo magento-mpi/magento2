@@ -32,7 +32,7 @@ class PaypalPayflowPro extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$166.72'
+                'grand_total' => '$156.81'
             )
         );
     }
@@ -43,32 +43,23 @@ class PaypalPayflowPro extends Checkout
     public function persist()
     {
         //Configuration
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('flat_rate');
-        $coreConfig->persist();
-
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
-
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('paypal_payflow_pro');
-        $coreConfig->persist();
-
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('display_price');
-        $coreConfig->persist();
-
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('display_shopping_cart');
-        $coreConfig->persist();
-
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_payflow_pro',
+            'display_price',
+            'display_shopping_cart'
+        ));
+        //Tax
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable');
+        $configurable->switchData('configurable_default_category');
 
         $simple->persist();
         $configurable->persist();

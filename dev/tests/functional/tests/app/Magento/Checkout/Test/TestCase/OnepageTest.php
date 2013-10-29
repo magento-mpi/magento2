@@ -71,8 +71,13 @@ class OnepageTest extends Functional
             $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
         }
 
-        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount();
-        $this->assertContains($expectedAuthorizedAmount, $actualAuthorizedAmount, 'Incorrect authorized amount value for the order #' . $orderId);
+        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()
+            ->getOrderHistoryBlock()->getAuthorizedAmount();
+        $this->assertContains(
+            $expectedAuthorizedAmount,
+            $actualAuthorizedAmount,
+            'Incorrect authorized amount value for the order #' . $orderId
+        );
     }
 
     /**
@@ -83,7 +88,6 @@ class OnepageTest extends Functional
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutPaypalPayflowPro()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow())
         );
     }

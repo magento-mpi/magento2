@@ -46,25 +46,19 @@ class GuestPaypalExpress extends Checkout
     protected function _initData()
     {
         //Configuration
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('flat_rate');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('paypal_express');
-        $coreConfig->persist();
-
-        Factory::getFixtureFactory()->getMagentoTaxTaxClass()->persist();
-        Factory::getFixtureFactory()->getMagentoTaxTaxRate()->persist();
-        Factory::getFixtureFactory()->getMagentoTaxTaxRule()->persist();
-
-        $coreConfig->switchData('us_tax_config');
-        $coreConfig->persist();
-
-
-
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_express',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
@@ -101,9 +95,9 @@ class GuestPaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$166.72',
-                'authorized_amount' => '$166.72',
-                'comment_history'   => 'Authorized amount of $166.72',
+                'grand_total' => '$156.81',
+                'authorized_amount' => '$156.81',
+                'comment_history'   => 'Authorized amount of $156.81',
             )
         );
     }

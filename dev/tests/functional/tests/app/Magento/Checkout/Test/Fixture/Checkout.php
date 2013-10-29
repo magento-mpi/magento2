@@ -12,6 +12,7 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Fixture\DataFixture;
+use Mtf\Factory\Factory;
 
 /**
  * Class Checkout
@@ -188,5 +189,19 @@ class Checkout extends DataFixture
     public function getGrandTotal()
     {
         return $this->getData('totals/grand_total');
+    }
+
+    /**
+     * Setup a set of configurations
+     *
+     * @param array $dataSets
+     */
+    protected function _persistConfiguration(array $dataSets)
+    {
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        foreach ($dataSets as $dataSet) {
+            $configFixture->switchData($dataSet);
+            $configFixture->persist();
+        }
     }
 }

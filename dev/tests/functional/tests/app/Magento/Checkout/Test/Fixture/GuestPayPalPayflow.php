@@ -25,19 +25,17 @@ class GuestPayPalPayflow extends Checkout
      */
     public function persist()
     {
-        $coreConfig = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $coreConfig->switchData('paypal_disabled_all_methods');
-        $coreConfig->persist();
+        //Configuration
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_payflow_pro',
+            'default_tax_config',
+            'display_price',
+            'display_shopping_cart'
+        ));
 
-        $coreConfig->switchData('paypal_payflow_pro');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('flat_rate');
-        $coreConfig->persist();
-
-        $coreConfig->switchData('default_tax_config');
-        $coreConfig->persist();
-
+        Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
@@ -47,11 +45,10 @@ class GuestPayPalPayflow extends Checkout
         $simpleProduct->persist();
 
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable');
+        $configurableProduct->switchData('configurable_default_category');
         $configurableProduct->persist();
 
         $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundleProduct->switchData('bundle_option_price');
         $bundleProduct->persist();
 
         $this->products = array(
@@ -62,7 +59,7 @@ class GuestPayPalPayflow extends Checkout
 
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_3');
+        $this->billingAddress->switchData('address_US_1');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate_2');
@@ -81,8 +78,8 @@ class GuestPayPalPayflow extends Checkout
     {
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '156.81',
-                'authorized_amount' => '156.81',
+                'grand_total' => '$156.81',
+                'authorized_amount' => '$156.81',
                 'comment_history' => 'We will authorize $156.81'
             )
         );

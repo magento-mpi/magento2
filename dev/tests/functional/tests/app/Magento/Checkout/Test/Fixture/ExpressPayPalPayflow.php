@@ -12,17 +12,13 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class PaypalExpress
- * PayPal Express Method
- * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
+ * Guest checkout with taxes, PayPal Payflow Edition payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-12415
  * @package Magento\Checkout\Test\Fixture
  */
-class PaypalExpress extends Checkout
+class ExpressPayPalPayflow extends Checkout
 {
     /**
      * Paypal customer buyer
@@ -30,13 +26,6 @@ class PaypalExpress extends Checkout
      * @var \Magento\Paypal\Test\Fixture\Customer
      */
     private $paypalCustomer;
-
-    /**
-     * Customer telephone number
-     *
-     * @var string
-     */
-    private $telephoneNumber;
 
     /**
      * Get Paypal buyer account
@@ -49,64 +38,67 @@ class PaypalExpress extends Checkout
     }
 
     /**
-     * Get telephone number for billing/shipping address
-     *
-     * @return string
+     * Create required data
      */
-    public function getTelephoneNumber()
-    {
-        return $this->telephoneNumber;
-    }
-
-    /**
-     * Prepare data for guest checkout using "Checkout with PayPal" button on product page
-     */
-    protected function _initData()
+    public function persist()
     {
         //Configuration
         $this->_persistConfiguration(array(
-            'free_shipping',
+            'flat_rate',
             'paypal_disabled_all_methods',
-            'paypal_express',
+            'paypal_payflow_pro',
             'default_tax_config',
             'display_price',
             'display_shopping_cart'
         ));
-        //Tax
+
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
-        //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
-        $simple->persist();
+
+        $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct->switchData('simple');
+        $simpleProduct->persist();
+
+        $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurableProduct->switchData('configurable_default_category');
+        $configurableProduct->persist();
+
+        $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundleProduct->persist();
 
         $this->products = array(
-            $simple
+            $simpleProduct,
+            $bundleProduct,
+            $configurableProduct
         );
 
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->billingAddress->switchData('address_US_1');
 
-        $this->shippingAddresses = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
-        $this->shippingAddresses->switchData('address_US_1');
-
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
-        $this->shippingMethods->switchData('free_shipping');
+        $this->shippingMethods->switchData('flat_rate');
+
+        $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
+        $this->paymentMethod->switchData('paypal_express');
+
+        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
+        $this->creditCard->switchData('visa_direct');
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
+    }
 
-        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $customerAddress->switchData('address_US_1');
-        $this->telephoneNumber = $customerAddress->getTelephone();
-
-        //Verification data
+    /**
+     * Prepare Authorize.Net data
+     */
+    protected function _initData()
+    {
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 10
+                'grand_total' => '$156.81'
             )
         );
     }

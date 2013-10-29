@@ -46,7 +46,7 @@ class Review extends Form
      *
      * @var string
      */
-    private $shippingMethod;
+    protected  $shippingMethod;
 
     /**
      * Billing address block

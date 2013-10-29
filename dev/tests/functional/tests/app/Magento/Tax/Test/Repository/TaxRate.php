@@ -35,6 +35,7 @@ class TaxRate extends AbstractRepository
 
         $this->_data['us_ca_rate_8_25'] = array_replace_recursive($this->_data['default'], $this->_getRateUSCA());
         $this->_data['us_ny_rate_8_375'] = array_replace_recursive($this->_data['default'], $this->_getRateUSNY());
+        $this->_data['paypal_rate_8_25'] = array_replace_recursive($this->_data['default'], $this->_getRatePayPal());
     }
 
     /**
@@ -51,7 +52,31 @@ class TaxRate extends AbstractRepository
                         'value' => '8.25'
                     ),
                     'tax_postcode' => array(
-                        'value' => '90210'
+                        'value' => '90230'
+                    ),
+                    'tax_region_id' => array(
+                        'value' => '12' // California
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Rate US CA with 8.25%
+     *
+     * @return array
+     */
+    protected function _getRatePayPal()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'rate' => array(
+                        'value' => '8.25'
+                    ),
+                    'tax_postcode' => array(
+                        'value' => '95131'
                     ),
                     'tax_region_id' => array(
                         'value' => '12' // California

@@ -30,15 +30,19 @@ class MultishippingGuestPaypalDirect extends Checkout
     protected function _initData()
     {
         //Configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('flat_rate');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_disabled_all_methods');
-        $configFixture->persist();
-        $configFixture->switchData('paypal_direct');
-        $configFixture->persist();
-        $configFixture->switchData('default_tax_config');
-        $configFixture->persist();
+        $this->_persistConfiguration(array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_direct',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        ));
+        //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
         //Products
         $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple1->switchData('simple');
@@ -52,7 +56,8 @@ class MultishippingGuestPaypalDirect extends Checkout
             $configurable
         );
         //Checkout data
-        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer()->switchData('customer_US_1');
+        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $this->customer->switchData('customer_US_1');
         $address1 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $address1->switchData('address_US_1');
         $address2 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -85,7 +90,10 @@ class MultishippingGuestPaypalDirect extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 15
+                'grand_total' => array(
+                    '$15.83', //simple
+                    '$16.92' //configurable
+                )
             )
         );
     }

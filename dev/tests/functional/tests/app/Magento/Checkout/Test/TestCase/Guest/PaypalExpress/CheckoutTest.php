@@ -137,9 +137,10 @@ class CheckoutTest extends Functional
 
     protected function _processTaxes()
     {
-        $this->_taxClassFixture->persist();
-        $this->_taxRateFixture->persist();
-        $this->_taxRuleFixture->persist();
+        Factory::getApp()->magentoTaxRemoveTaxRule();
+        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
+        $taxRule->switchData('custom_rule');
+        $taxRule->persist();
     }
 
     /**

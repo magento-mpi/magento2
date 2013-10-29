@@ -52,6 +52,9 @@ class TaxRule extends AbstractRepository
                     'tax_rate[1]' => array(
                         'value' => '%us_ny_rate_8_375%'
                     ),
+                    'tax_rate[2]' => array(
+                        'value' => '%paypal_rate_8_25%'
+                    ),
                 )
             )
         );
