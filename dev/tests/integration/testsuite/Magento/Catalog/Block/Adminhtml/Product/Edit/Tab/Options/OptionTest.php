@@ -18,7 +18,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetOptionValuesCaching()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Option');
         /** @var $productWithOptions \Magento\Catalog\Model\Product */
         $productWithOptions = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

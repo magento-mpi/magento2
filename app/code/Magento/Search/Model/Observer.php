@@ -79,7 +79,7 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -95,7 +95,7 @@ class Observer
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Search\Model\Source\Weight $sourceWeight
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory,
@@ -107,7 +107,7 @@ class Observer
         \Magento\Search\Helper\Data $searchData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Search\Model\Source\Weight $sourceWeight,
-        \Magento\Core\Controller\Request\Http $request
+        \Magento\App\RequestInterface $request
     ) {
         $this->_eavEntityAttributeOptionCollFactory = $eavEntityAttributeOptionCollFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;

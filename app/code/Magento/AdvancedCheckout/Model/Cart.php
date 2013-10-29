@@ -111,7 +111,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -174,7 +174,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Core\Model\Message $coreMessage
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
@@ -190,7 +190,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Core\Model\Message $coreMessage,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,

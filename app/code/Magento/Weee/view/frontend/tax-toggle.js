@@ -1,8 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    Varien
- * @package     js
+ * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */

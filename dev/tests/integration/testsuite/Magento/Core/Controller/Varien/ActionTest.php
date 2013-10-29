@@ -26,18 +26,18 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+        $this->_objectManager->get('Magento\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
-        $request = $objectManager->get('Magento\TestFramework\Request');
+        $request = $objectManager->get('Magento\App\RequestInterface');
         $arguments = array(
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
         );
-        $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+        $this->_objectManager->get('Magento\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
@@ -98,7 +98,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea($expectedArea);
 
-        $this->_objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope($expectedArea);
+        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $controller = $this->_objectManager->create($controllerClass);
         $this->assertInstanceOf('Magento\Core\Model\Layout', $controller->getLayout());
@@ -274,7 +274,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Controller\Front\Action',
             array('context'  => $context)
         );
-        $this->_objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope('frontend');
+        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('frontend');
         $this->_object->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());
@@ -329,7 +329,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
-        $design = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
+        $design = $this->_objectManager->get('Magento\View\DesignInterface');
 
         $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

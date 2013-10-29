@@ -101,7 +101,7 @@ class Observer
      */
     public function addBySku(\Magento\Event\Observer $observer)
     {
-        /* @var $request \Magento\Core\Controller\Request\Http */
+        /* @var $request \Magento\App\RequestInterface */
         $request = $observer->getRequestModel();
         $cart = $this->_getBackendCart($observer);
 

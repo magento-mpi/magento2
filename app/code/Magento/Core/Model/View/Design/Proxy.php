@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\View\Design;
 
-class Proxy implements \Magento\Core\Model\View\DesignInterface
+class Proxy implements \Magento\View\DesignInterface
 {
     /**
      * @var \Magento\ObjectManager
@@ -48,7 +48,7 @@ class Proxy implements \Magento\Core\Model\View\DesignInterface
      * Set package area
      *
      * @param string $area
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\View\DesignInterface
      */
     public function setArea($area)
     {
@@ -70,7 +70,7 @@ class Proxy implements \Magento\Core\Model\View\DesignInterface
      *
      * @param \Magento\Core\Model\Theme|int|string $theme
      * @param string $area
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\View\DesignInterface
      */
     public function setDesignTheme($theme, $area = null)
     {
@@ -92,7 +92,7 @@ class Proxy implements \Magento\Core\Model\View\DesignInterface
     /**
      * Set default design theme
      *
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\View\DesignInterface
      */
     public function setDefaultDesignTheme()
     {

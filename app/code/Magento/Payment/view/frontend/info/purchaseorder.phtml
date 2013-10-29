@@ -3,10 +3,14 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<p><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></p>
-<p><strong><?php echo __('Purchase Order Number:') ?></strong> <span class="nobr"><?php echo $this->escapeHtml($this->getInfo()->getPoNumber()) ?></span></p>
+<dl class="payment method purchase order">
+    <dt class="title"><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></dt>
+    <dd class="content">
+        <strong><?php echo __('Purchase Order Number') ?></strong>
+        <span class="number"><?php echo $this->escapeHtml($this->getInfo()->getPoNumber()) ?></span>
+    </dd>
+</dl>

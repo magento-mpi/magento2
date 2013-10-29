@@ -28,7 +28,7 @@ class Ordersnumber
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
-        parent::__construct($conditionFactory, $resourceSegment, $conditionFactory, $context, $data);
+        parent::__construct($conditionFactory, $resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber');
         $this->setValue(null);
     }

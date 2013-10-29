@@ -24,7 +24,7 @@ class Image
     /**
      * Dir model
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -38,12 +38,12 @@ class Image
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
      */
     public function __construct(
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
     ) {
@@ -78,7 +78,7 @@ class Image
         } catch (\Exception $e){
             return $this;
         }
-        $uploader->save($this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . '/catalog/product');
+        $uploader->save($this->_dir->getDir(\Magento\App\Dir::MEDIA) . '/catalog/product');
 
         $fileName = $uploader->getUploadedFileName();
         if ($fileName) {

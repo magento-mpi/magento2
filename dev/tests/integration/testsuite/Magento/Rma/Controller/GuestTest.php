@@ -41,8 +41,8 @@ class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/guest/addlabel', '<td>CarrierTitle</td>'),
-            array('rma/guest/dellabel', '<td>CarrierTitle</td>'),
+            array('rma/guest/addlabel', '<td class="col carrier">CarrierTitle</td>'),
+            array('rma/guest/dellabel', '<td class="col carrier">CarrierTitle</td>'),
         );
     }
 }

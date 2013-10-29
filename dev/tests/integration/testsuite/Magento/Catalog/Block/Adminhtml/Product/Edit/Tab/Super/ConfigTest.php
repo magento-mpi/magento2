@@ -26,7 +26,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', $objectManager->create('Magento\Catalog\Model\Product'));
         /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config */
-        $block = $objectManager->get('Magento\Core\Model\Layout')
+        $block = $objectManager->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
     }
@@ -41,14 +41,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', $objectManager->create('Magento\Catalog\Model\Product')->load(1));
-        $objectManager->get('Magento\Core\Model\Layout')->createBlock('Magento\Core\Block\Text', 'head');
+        $objectManager->get('Magento\View\LayoutInterface')->createBlock('Magento\Core\Block\Text', 'head');
         $usedAttribute = $objectManager->get('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
                 ->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
         /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config */
-        $block = $objectManager->get('Magento\Core\Model\Layout')
+        $block = $objectManager->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config');
         $selectedAttributes = $block->getSelectedAttributes();
         $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));
