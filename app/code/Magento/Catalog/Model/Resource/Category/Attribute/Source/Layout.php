@@ -46,7 +46,7 @@ class Layout
     {
         if (!$this->_options) {
             $layouts = array();
-            foreach ($this->_coreConfig->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
+            foreach ($this->_coreConfig->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {//@TODO Fix getNode() usages
                 $this->_options[] = array(
                    'value'=>$layoutName,
                    'label'=>(string)$layoutConfig->label

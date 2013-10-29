@@ -68,7 +68,7 @@ class CacheControlFactory
      */
     public function getCacheControls()
     {
-        $controls = $this->_config->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);
+        $controls = $this->_config->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);//@TODO Fix getNode() usages
         return $controls instanceof \Magento\Simplexml\Element ? $controls->asCanonicalArray() : array();
     }
 

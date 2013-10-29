@@ -38,16 +38,27 @@ class Logger
     protected $_fileSystem;
 
     /**
+     * @var string
+     */
+    protected $_writerModel;
+
+    /**
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Io\File $fileSystem
      * @param string $defaultFile
+     * @param string $writerModel
      */
-    public function __construct(\Magento\App\Dir $dirs, \Magento\Io\File $fileSystem, $defaultFile = '')
-    {
+    public function __construct(
+        \Magento\App\Dir $dirs,
+        \Magento\Io\File $fileSystem,
+        $defaultFile = '',
+        $writerModel = ''
+    ) {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;
         $this->addStreamLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM, $defaultFile)
             ->addStreamLog(\Magento\Core\Model\Logger::LOGGER_EXCEPTION, $defaultFile);
+        $this->_writerModel = $writerModel;
     }
 
     /**
@@ -85,15 +96,17 @@ class Logger
      * Reset all loggers and initialize them according to store configuration
      *
      * @param \Magento\Core\Model\Store $store
-     * @param \Magento\Core\Model\ConfigInterface $config
      */
-    public function initForStore(\Magento\Core\Model\Store $store, \Magento\Core\Model\ConfigInterface $config)
+    public function initForStore(\Magento\Core\Model\Store $store)
     {
         $this->_loggers = array();
         if ($store->getConfig('dev/log/active')) {
-            $writer = (string)$config->getNode('global/log/core/writer_model');
-            $this->addStreamLog(self::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $writer);
-            $this->addStreamLog(self::LOGGER_EXCEPTION, $store->getConfig('dev/log/exception_file'), $writer);
+            $this->addStreamLog(self::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $this->_writerModel);
+            $this->addStreamLog(
+                self::LOGGER_EXCEPTION,
+                $store->getConfig('dev/log/exception_file'),
+                $this->_writerModel
+            );
         }
     }
 

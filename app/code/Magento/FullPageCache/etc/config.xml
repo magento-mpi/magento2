@@ -10,23 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <cache>
-            <requests>
-                <cms>Magento\FullPageCache\Model\Processor\DefaultProcessor</cms>
-                <catalog>
-                    <category>
-                        <view>Magento\FullPageCache\Model\Processor\Category</view>
-                    </category>
-                </catalog>
-                <catalog>
-                    <product>
-                        <view>Magento\FullPageCache\Model\Processor\Product</view>
-                    </product>
-                </catalog>
-            </requests>
-        </cache>
-    </frontend>
     <default>
         <system>
             <page_cache>

@@ -46,7 +46,7 @@ class Hook implements \Magento\Core\Model\Option\ArrayInterface
         if (!$this->_options) {
             $this->_options = array();
 
-            $configElement = $this->_config->getNode(self::XML_PATH_WEBHOOK);
+            $configElement = $this->_config->getNode(self::XML_PATH_WEBHOOK);//@TODO Fix getNode() usages
             if ($configElement) {
                 $this->_options = $configElement->asArray();
             }

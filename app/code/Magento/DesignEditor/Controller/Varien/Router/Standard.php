@@ -94,9 +94,6 @@ class Standard extends \Magento\Core\App\Router\Base
             return null;
         }
 
-        // override VDE configuration
-        $this->_overrideConfiguration();
-
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
 
@@ -154,18 +151,5 @@ class Standard extends \Magento\Core\App\Router\Base
             }
         }
         return $routers;
-    }
-
-    /**
-     * Override frontend configuration with VDE area data
-     */
-    protected function _overrideConfiguration()
-    {
-        $vdeNode = $this->_objectManager->get('Magento\Core\Model\Config')
-            ->getNode(\Magento\DesignEditor\Model\Area::AREA_VDE);
-        if ($vdeNode) {
-            $this->_objectManager->get('Magento\Core\Model\Config')->getNode(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-                ->extend($vdeNode, true);
-        }
     }
 }

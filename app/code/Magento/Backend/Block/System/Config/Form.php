@@ -450,10 +450,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getConfigValue($path)
     {
         return $this->_config->getValue($path, $this->getScope(), $this->getScopeCode());
-        if (empty($this->_configRoot)) {
-            $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
-        }
-        return $this->_configRoot;
     }
 
     /**

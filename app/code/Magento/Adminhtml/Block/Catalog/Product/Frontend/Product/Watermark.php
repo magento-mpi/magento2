@@ -44,11 +44,16 @@ class Watermark
     protected $_watermarkPosition;
 
     /**
+     * @var array
+     */
+    protected $_imageTypes;
+
+    /**
      * @param \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition
      * @param \Magento\Backend\Block\System\Config\Form\Field $formField
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param array $imageTypes
      * @param array $data
      */
     public function __construct(
@@ -56,22 +61,20 @@ class Watermark
         \Magento\Backend\Block\System\Config\Form\Field $formField,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        array $imageTypes = array(),
         array $data = array()
     ) {
         $this->_watermarkPosition = $watermarkPosition;
         $this->_formField = $formField;
         $this->_elementFactory = $elementFactory;
-        $this->_coreConfig = $coreConfig;
+        $this->_imageTypes = $imageTypes;
         parent::__construct($context, $data);
     }
 
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
-        $attributes = $this->_coreConfig->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
-
-        foreach ($attributes as $key => $attribute) {
+        foreach ($this->_imageTypes as $key => $attribute) {
             /**
              * Watermark size field
              */

@@ -876,65 +876,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Support for controllers rewrites
-     *
-     * Example of configuration:
-     * <global>
-     *   <routers>
-     *     <core_module>
-     *       <rewrite>
-     *         <core_controller>
-     *           <to>new_route/new_controller</to>
-     *           <override_actions>true</override_actions>
-     *           <actions>
-     *             <core_action><to>new_module/new_controller/new_action</core_action>
-     *           </actions>
-     *         <core_controller>
-     *       </rewrite>
-     *     </core_module>
-     *   </routers>
-     * </global>
-     *
-     * This will override:
-     * 1. core_module/core_controller/core_action to new_module/new_controller/new_action
-     * 2. all other actions of core_module/core_controller to new_module/new_controller
-     *
-     * @return boolean true if rewrite happened
-     */
-    protected function _rewrite()
-    {
-        $route = $this->getRequest()->getRouteName();
-        $controller = $this->getRequest()->getControllerName();
-        $action = $this->getRequest()->getActionName();
-
-        $rewrite = $this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
-        if (!$rewrite) {
-            return false;
-        }
-
-        if (!($rewrite->actions && $rewrite->actions->$action) || $rewrite->is('override_actions')) {
-            $rewriteTo = explode('/', (string)$rewrite->to);
-            if (sizeof($rewriteTo) !== 2 || empty($rewriteTo[0]) || empty($rewriteTo[1])) {
-                return false;
-            }
-            $rewriteTo[2] = $action;
-        } else {
-            $rewriteTo = explode('/', (string)$rewrite->actions->$action->to);
-            if (sizeof($rewriteTo) !== 3 || empty($rewriteTo[0]) || empty($rewriteTo[1]) || empty($rewriteTo[2])) {
-                return false;
-            }
-        }
-
-        $this->_forward(
-            $rewriteTo[2] === '*' ? $action : $rewriteTo[2],
-            $rewriteTo[1] === '*' ? $controller : $rewriteTo[1],
-            $rewriteTo[0] === '*' ? $route : $rewriteTo[0]
-        );
-
-        return true;
-    }
-
-    /**
      * Validate Form Key
      *
      * @return bool

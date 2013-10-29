@@ -44,11 +44,6 @@ class StorageFactory
     protected $_log;
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * @var \Magento\Core\Model\AppInterface
      */
     protected $_app;
@@ -62,7 +57,6 @@ class StorageFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Logger $log
-     * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\App\State $appState
      * @param string $defaultStorageClassName
@@ -72,7 +66,6 @@ class StorageFactory
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Logger $log,
-        \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\AppInterface $app,
         \Magento\App\State $appState,
         $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
@@ -84,7 +77,6 @@ class StorageFactory
         $this->_eventManager = $eventManager;
         $this->_log = $log;
         $this->_appState = $appState;
-        $this->_config = $config;
         $this->_app = $app;
     }
 
@@ -119,7 +111,7 @@ class StorageFactory
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
-                $this->_log->initForStore($instance->getStore(true), $this->_config);
+                $this->_log->initForStore($instance->getStore(true));
             }
         }
         return $this->_cache[$className];

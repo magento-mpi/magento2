@@ -123,7 +123,7 @@ class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getSupportedTopics()
     {
-        $node = $this->_coreConfig->getNode(\Magento\Webhook\Model\Source\Hook::XML_PATH_WEBHOOK);
+        $node = $this->_coreConfig->getNode(\Magento\Webhook\Model\Source\Hook::XML_PATH_WEBHOOK);//@TODO Fix getNode() usages
         $availableHooks = array();
         if (!$node) {
             return $availableHooks;

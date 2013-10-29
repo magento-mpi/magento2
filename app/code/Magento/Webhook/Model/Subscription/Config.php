@@ -53,7 +53,7 @@ class Config
      */
     public function updateSubscriptionCollection()
     {
-        $subscriptionConfig = $this->_mageConfig->getNode(self::XML_PATH_SUBSCRIPTIONS);
+        $subscriptionConfig = $this->_mageConfig->getNode(self::XML_PATH_SUBSCRIPTIONS);//@TODO Fix getNode() usages
 
         if (!empty($subscriptionConfig)) {
             $subscriptionConfig = $subscriptionConfig->asArray();

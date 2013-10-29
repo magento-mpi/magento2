@@ -24,6 +24,19 @@
         <param name="requestIdentifier">
             <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
         </param>
+        <param name="allowedCache">
+            <value>
+                <cms>Magento\FullPageCache\Model\Processor\DefaultProcessor</cms>
+                <catalog>
+                    <category>
+                        <view>Magento\FullPageCache\Model\Processor\Category</view>
+                    </category>
+                    <product>
+                        <view>Magento\FullPageCache\Model\Processor\Product</view>
+                    </product>
+                </catalog>
+            </value>
+        </param>
     </type>
     <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
         <param name="designChange">
