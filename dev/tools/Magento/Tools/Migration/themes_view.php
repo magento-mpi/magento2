@@ -10,7 +10,7 @@
 require_once __DIR__ . '/../../../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../..');
 try {
-    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($rootDir, array());
+    $entryPoint = new \Magento\App\EntryPoint\EntryPoint($rootDir, array());
 
     $objectManager = new \Magento\App\ObjectManager($config);
     /** @var $configModel \Magento\Core\Model\Config */

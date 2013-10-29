@@ -1064,4 +1064,5 @@ return array(
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),
+    array('Magento\Core\Model\EntryPoint\Cron', 'Magento\App\Cron'),
 );

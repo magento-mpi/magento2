@@ -9,20 +9,20 @@
  */
 namespace Magento\Cron\App\Cron\Plugin;
 
-use \Magento\Core\Model\App;
+use \Magento\Core\Model\AppInterface;
 
 class ApplicationInitializer
 {
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Core\Model\AppInterface
      */
     protected $_application;
 
     /**
-     * @param App $application
+     * @param AppInterface $application
      */
     public function __construct(
-        App $application
+        AppInterface $application
     ) {
         $this->_application = $application;
     }
