@@ -46,7 +46,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_generationDir =  $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
         $this->_command = 'php ' . $basePath
-            . '/dev/tools/Magento/Tools/Di/compiler.php --l=%s --generation=%s --di=%s --v';
+            . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
     }
 
     protected function tearDown()
@@ -58,11 +58,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testCompiler()
     {
         try {
-            $output = $this->_shell->execute(
+            $this->_shell->execute(
                 $this->_command,
-                array('error', $this->_generationDir, $this->_compilationDir)
+                array($this->_generationDir, $this->_compilationDir)
             );
-            $this->assertEmpty($output, $output);
         } catch (\Magento\Exception $exception) {
             $this->fail($exception->getPrevious()->getMessage());
         }

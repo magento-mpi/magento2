@@ -29,10 +29,13 @@ class Console implements WriterInterface
     public function write(array $data)
     {
         foreach ($data as $type => $classes) {
+            if (!count($classes)) {
+                continue;
+            }
             echo $this->_messages[$type] . "\n";
             foreach ($classes as $className => $messages) {
-                echo "\t" . $className . "\n";
                 if (count($messages)) {
+                    echo "\t" . $className . "\n";
                     foreach ($messages as $message) {
                         if ($message) {
                             echo "\t\t - " . $message . "\n";

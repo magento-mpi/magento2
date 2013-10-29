@@ -25,7 +25,6 @@ try {
     $opt = new Zend_Console_Getopt(array(
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
         'verbose|v' => 'output report after tool run',
-        'log|l=s' => 'log level (all|error) default = error',
         'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
         'generation=s' => 'absolute path to generated classes, <magento_root>/var/generation by default',
         'di=s' => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
@@ -46,11 +45,13 @@ try {
         $generationDir,
     );
 
-    $writer = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
-    $allowedLogTypes = $opt->getOption('log') == 'all'
-        ? array()
-        : array(Log::COMPILATION_ERROR, Log::GENERATION_ERROR, Log::CONFIGURATION_ERROR);
-    $log = new Log($writer, $allowedLogTypes);
+    /** @var Writer\WriterInterface $logWriter Writer model for success messages */
+    $logWriter   = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
+
+    /** @var Writer\WriterInterface $logWriter Writer model for error messages */
+    $errorWriter = new Writer\Console();
+
+    $log = new Log($logWriter, $errorWriter);
     $serializer = ($opt->getOption('serializer') == 'binary') ? new Serializer\Igbinary() : new Serializer\Standard();
 
     // 1 Code generation
@@ -134,8 +135,6 @@ try {
     file_put_contents($compiledFile, $output);
     file_put_contents($relationsFile, $serializer->serialize($relations));
 
-
-
     // 3. Plugin Definition Compilation
     $pluginScanner = new Scanner\CompositeScanner();
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
@@ -154,8 +153,14 @@ try {
     }
 
     file_put_contents($pluginDefFile, $output);
+
     //Reporter
     $log->report();
+
+    if ($log->hasError()) {
+        exit(1);
+    }
+
 } catch (Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();
     echo 'Please, use quotes(") for wrapping strings.' . "\n";
