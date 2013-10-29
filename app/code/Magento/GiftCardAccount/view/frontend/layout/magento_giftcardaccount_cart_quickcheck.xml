@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\GiftCardAccount\Block\Check" output="1" template="check.phtml"/>
+    <block class="Magento\GiftCardAccount\Block\Check" name="root" output="1" template="check.phtml"/>
 </layout>
