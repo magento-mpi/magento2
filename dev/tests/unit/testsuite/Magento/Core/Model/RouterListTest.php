@@ -52,20 +52,18 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRoutes()
     {
-        $expectedResult = array(
-            'defaultRouter'  => new DefaultClass(),
-            'frontendRouter' => new FrontClass(),
-        );
+        $router = $this->getMock('Magento\App\RouterInterface', array('getFrontNameByRoute', 'match'));
 
+        $expectedClass = new FrontClass();
         $this->_objectManagerMock
             ->expects($this->at(0))
             ->method('create')
-            ->will($this->returnValue(new DefaultClass()));
+            ->will($this->returnValue($router));
         $this->_objectManagerMock
             ->expects($this->at(1))
             ->method('create')
-            ->will($this->returnValue(new FrontClass()));
+            ->will($this->returnValue($expectedClass));
 
-        $this->assertEquals($expectedResult, $this->_model->getRouterByRoute('adminRouter'));
+        $this->assertEquals($expectedClass, $this->_model->getRouterByRoute('frontendRouter'));
     }
 }
