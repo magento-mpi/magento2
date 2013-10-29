@@ -45,6 +45,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
      */
     protected function _processRequest()
     {
+        /** @var $request \Magento\App\Request\Http */
         $request = $this->_objectManager->get('Magento\App\RequestInterface');
         $areas = $this->_objectManager->get('Magento\App\AreaList');
         $areaCode = $areas->getCodeByFrontName($request->getFrontName());
@@ -52,6 +53,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
         $this->_objectManager->configure(
             $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load($areaCode)
         );
+        /** @var \Magento\Webapi\Controller\Rest|\Magento\App\FrontController\Interceptor $frontController */
         $frontController = $this->_objectManager->get('Magento\App\FrontControllerInterface');
         $frontController->dispatch($request);
     }

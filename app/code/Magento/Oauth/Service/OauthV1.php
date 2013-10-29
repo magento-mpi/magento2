@@ -74,10 +74,10 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
      * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
-     * @param \Magento\Core\Model\StoreManagerInterface
-     * @param \Magento\HTTP\ZendClient
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\HTTP\ZendClient $httpClient
      * @param \Zend_Oauth_Http_Utility $httpUtility
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\DateProxy $date
      */
     public function __construct(
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
@@ -86,7 +86,7 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\HTTP\ZendClient $httpClient,
         \Zend_Oauth_Http_Utility $httpUtility,
-        \Magento\Core\Model\Date $date
+        \Magento\Core\Model\DateProxy $date
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
