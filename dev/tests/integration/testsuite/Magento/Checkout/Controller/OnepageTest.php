@@ -38,6 +38,32 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertSelectCount('form[id="co-billing-form"][action=""]', 1, $html);
     }
 
+    /**
+     * Covers app/code/Magento/Checkout/Block/Onepage/Payment/Info.php
+     */
+    public function testProgressAction()
+    {
+        $steps = array(
+            'payment' => array('is_show' => true, 'complete' => true),
+            'billing' => array('is_show' => true),
+            'shipping' => array('is_show' => true),
+            'shipping_method' => array('is_show' => true),
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
+            ->setSteps($steps);
+
+        $this->dispatch('checkout/onepage/progress');
+        $html = $this->getResponse()->getBody();
+        $this->assertContains('Checkout', $html);
+        $methodTitle = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Checkout\Model\Session')
+            ->getQuote()
+            ->getPayment()
+            ->getMethodInstance()
+            ->getTitle();
+        $this->assertContains('<p>' . $methodTitle . '</p>', $html);
+    }
+
     public function testShippingMethodAction()
     {
         $this->dispatch('checkout/onepage/shippingmethod');
