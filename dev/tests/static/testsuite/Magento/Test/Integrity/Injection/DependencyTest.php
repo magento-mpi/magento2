@@ -30,7 +30,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        include_once __DIR__ . "/../../../../../../../../app/code/Magento/Core/Model/Option/ArrayInterface.php";
+        include_once __DIR__ . '/../../../../../../../../app/code/Magento/Core/Model/Option/ArrayInterface.php';
     }
 
     /**
