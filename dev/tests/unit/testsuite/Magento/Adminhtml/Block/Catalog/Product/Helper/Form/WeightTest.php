@@ -29,11 +29,10 @@ class WeightTest extends \PHPUnit_Framework_TestCase
     {
         $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new \Magento\Data\Form($session, $factory, $collectionFactory);
+        $form = new \Magento\Data\Form($factory, $collectionFactory);
 
         $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false

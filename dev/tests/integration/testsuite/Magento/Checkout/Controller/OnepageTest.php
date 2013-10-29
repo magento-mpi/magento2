@@ -61,7 +61,7 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
             ->getPayment()
             ->getMethodInstance()
             ->getTitle();
-        $this->assertContains('<p>' . $methodTitle . '</p>', $html);
+        $this->assertContains('<dt class="title">' . $methodTitle . '</dt>', $html);
     }
 
     public function testShippingMethodAction()

@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +12,11 @@
  * @see \Magento\Payment\Block\Catalog\Product\View\Profile
  */
 ?>
-<dl>
+<dl class="payment product schedule">
 <?php foreach($this->getScheduleInfo() as $term => $definitions): ?>
-    <dt><?php echo $this->escapeHtml($term); ?></dt>
-<?php foreach ($definitions as $definition):?>
-    <dd><?php echo $this->escapeHtml($definition)?></dd>
-<?php endforeach;?>
+    <dt class="title"><?php echo $this->escapeHtml($term); ?></dt>
+    <?php foreach ($definitions as $definition):?>
+        <dd class="content"><?php echo $this->escapeHtml($definition)?></dd>
+    <?php endforeach;?>
 <?php endforeach;?>
 </dl>
