@@ -14,7 +14,8 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetExactDivision($dividend, $divisor, $expected)
     {
-        $remainder = \Magento\Math\Division::getExactDivision($dividend, $divisor);
+        $mathDivision = new \Magento\Math\Division;
+        $remainder = $mathDivision->getExactDivision($dividend, $divisor);
         $this->assertEquals($expected, $remainder);
     }
 

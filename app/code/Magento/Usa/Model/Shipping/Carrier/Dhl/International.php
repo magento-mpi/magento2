@@ -170,6 +170,11 @@ class International
     protected $_configReader;
 
     /**
+     * @var \Magento\Math\Division
+     */
+    protected $mathDivision;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
@@ -193,6 +198,7 @@ class International
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Math\Division $mathDivision
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -216,6 +222,7 @@ class International
         \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Stdlib\String $string,
+        \Magento\Math\Division $mathDivision,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
@@ -224,6 +231,7 @@ class International
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         $this->string = $string;
+        $this->mathDivision = $mathDivision;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
             $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
@@ -682,7 +690,7 @@ class International
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = \Magento\Math\Division::getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = $this->mathDivision->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }

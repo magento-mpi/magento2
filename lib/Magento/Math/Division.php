@@ -24,7 +24,7 @@ class Division
      * @param float|int $divisor
      * @return float|int
      */
-    public static function getExactDivision($dividend, $divisor)
+    public function getExactDivision($dividend, $divisor)
     {
         $epsilon = $divisor / self::DIVIDE_EPSILON;
 

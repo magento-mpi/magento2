@@ -170,6 +170,11 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_customerSession;
 
     /**
+     * @var \Magento\Math\Division
+     */
+    protected $mathDivision;
+
+    /**
      * Construct
      *
      * @param \Magento\Customer\Model\Session $customerSession
@@ -182,6 +187,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -197,6 +203,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Math\Division $mathDivision,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -211,6 +218,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
+        $this->mathDivision = $mathDivision;
     }
 
     /**
@@ -724,7 +732,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $qtyIncrements = $this->getDefaultQtyIncrements();
         }
 
-        if ($qtyIncrements && (\Magento\Math\Division::getExactDivision($qty, $qtyIncrements) != 0)) {
+        if ($qtyIncrements && ($this->mathDivision->getExactDivision($qty, $qtyIncrements) != 0)) {
             $result->setHasError(true)
                 ->setQuoteMessage(
                     __('Please correct the quantity for some products.')

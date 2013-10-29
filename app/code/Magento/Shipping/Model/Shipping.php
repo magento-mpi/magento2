@@ -87,6 +87,11 @@ class Shipping
     protected $_regionFactory;
 
     /**
+     * @var \Magento\Math\Division
+     */
+    protected $mathDivision;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -95,6 +100,7 @@ class Shipping
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Math\Division $mathDivision
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -104,7 +110,8 @@ class Shipping
         \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
-        \Magento\Directory\Model\RegionFactory $regionFactory
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Math\Division $mathDivision
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_shippingConfig = $shippingConfig;
@@ -114,6 +121,7 @@ class Shipping
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_regionFactory = $regionFactory;
+        $this->mathDivision = $mathDivision;
     }
 
     /**
@@ -329,7 +337,7 @@ class Shipping
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = \Magento\Math\Division::getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = $this->mathDivision->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
