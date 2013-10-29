@@ -26,23 +26,6 @@ class Datetime
      */
     const END_OF_DAY_IN_SECONDS = 86399;
 
-    /**
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Math\Random $mathRandom
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
-        \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Math\Random $mathRandom,
-        array $data = array()
-    ) {
-        parent::__construct($resourceHelper, $context, $locale, $mathRandom, $data);
-    }
-
     public function getValue($index = null)
     {
         if ($index) {

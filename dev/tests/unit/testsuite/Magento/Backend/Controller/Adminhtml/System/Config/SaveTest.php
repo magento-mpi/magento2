@@ -113,7 +113,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 $configStructureMock,
                 $this->_configFactoryMock,
                 $this->_cacheMock,
-                null,
+                new \Magento\Stdlib\String,
             )
         );
     }

@@ -27,14 +27,15 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $string
+     * @param string $testString
      * @param string $expected
      *
      * @dataProvider upperCaseWordsDataProvider
      */
-    public function testUpperCaseWords($string, $expected)
+    public function testUpperCaseWords($testString, $expected)
     {
-        $actual = \Magento\Stdlib\String::upperCaseWords($string);
+        $string = new \Magento\Stdlib\String;
+        $actual = $string->upperCaseWords($testString);
         $this->assertEquals($expected, $actual);
     }
 
@@ -60,16 +61,17 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $string
+     * @param string $testString
      * @param string $sourceSeparator
      * @param string $destinationSeparator
      * @param string $expected
      *
      * @dataProvider upperCaseWordsWithSeparatorsDataProvider
      */
-    public function testUpperCaseWordsWithSeparators($string, $sourceSeparator, $destinationSeparator, $expected)
+    public function testUpperCaseWordsWithSeparators($testString, $sourceSeparator, $destinationSeparator, $expected)
     {
-        $actual = \Magento\Stdlib\String::upperCaseWords($string, $sourceSeparator, $destinationSeparator);
+        $string = new \Magento\Stdlib\String;
+        $actual = $string->upperCaseWords($testString, $sourceSeparator, $destinationSeparator);
         $this->assertEquals($expected, $actual);
     }
 

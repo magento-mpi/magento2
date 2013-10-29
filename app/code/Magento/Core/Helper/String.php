@@ -16,14 +16,6 @@ namespace Magento\Core\Helper;
 class String extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @param \Magento\Core\Helper\Context $context
-     */
-    public function __construct(\Magento\Core\Helper\Context $context)
-    {
-        parent::__construct($context);
-    }
-
-    /**
      * Builds namespace + classname out of the parts array
      *
      * Split every part into pieces by _ and \ and uppercase every piece
@@ -35,11 +27,9 @@ class String extends \Magento\Core\Helper\AbstractHelper
     public static function buildClassName($parts)
     {
         $separator = \Magento\Autoload\IncludePath::NS_SEPARATOR;
-
         $string = join($separator, $parts);
         $string = str_replace('_', $separator, $string);
-        $className = \Magento\Stdlib\String::upperCaseWords($string, $separator, $separator);
-
+        $className = str_replace(' ', $separator, ucwords(str_replace($separator, ' ', $string)));
         return $className;
     }
 }

@@ -116,6 +116,11 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_coreDir;
 
     /**
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
      * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
@@ -127,6 +132,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -143,6 +149,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -156,6 +163,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $this->_schedOperFactory = $schedOperFactory;
         $this->_storeManager = $storeManager;
         $this->_coreDir = $coreDir;
+        $this->string = $string;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
@@ -516,7 +524,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation */
         $operation = $this->_schedOperFactory->create(
             'Magento\ScheduledImportExport\Model\\'
-                . \Magento\Stdlib\String::upperCaseWords($this->getOperationType())
+                . $this->string->upperCaseWords($this->getOperationType())
         );
 
         $operation->initialize($this);
