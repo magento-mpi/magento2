@@ -7,10 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\HTTP;
 
 /**
- * Helper for working with HTTP headers
+ * Library for working with HTTP headers
  */
 class Header
 {

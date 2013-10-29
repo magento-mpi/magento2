@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\HTTP\PhpEnvironment;
 
 /**
- * Helper for working with client ip address
- *
+ * Library for working with client ip address
  */
 class RemoteAddress
 {

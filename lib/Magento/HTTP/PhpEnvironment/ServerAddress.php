@@ -7,10 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\HTTP\PhpEnvironment;
 
 /**
- * Helper for working with server ip address
+ * Library for working with server ip address
  */
 class ServerAddress
 {
