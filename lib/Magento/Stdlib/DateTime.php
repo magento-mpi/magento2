@@ -27,21 +27,6 @@ class DateTime
     /**#@-*/
 
     /**
-     * Convert value by dictionary
-     *
-     * @param string $value
-     * @param array $dictionary
-     * @return string
-     */
-    protected static function _convert($value, $dictionary)
-    {
-        foreach ($dictionary as $search => $replace) {
-            $value = preg_replace('/(^|[^%])' . $search . '/', '$1' . $replace, $value);
-        }
-        return $value;
-    }
-
-    /**
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *
@@ -76,7 +61,7 @@ class DateTime
     /**
      * Format date to internal format
      *
-     * @param string|Zend_Date|bool|null $date
+     * @param string|\Zend_Date|bool|null $date
      * @param boolean $includeTime
      * @return string|null
      */

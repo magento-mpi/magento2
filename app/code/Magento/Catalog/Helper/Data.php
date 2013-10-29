@@ -59,12 +59,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     protected $_storeId = null;
 
-    /** Core registry
+    /**
+     * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Catalog product
      *
@@ -88,7 +89,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @var string
      */
     protected $_templateFilterModel;
-    
+
     /**
      * Catalog session
      *

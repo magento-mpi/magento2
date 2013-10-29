@@ -65,16 +65,14 @@ class Authentication
         if (isset($server['PHP_AUTH_USER']) && isset($server['PHP_AUTH_PW'])) {
             $user = $server['PHP_AUTH_USER'];
             $pass = $server['PHP_AUTH_PW'];
-        }
-        /**
-         * IIS Note: for HTTP authentication to work with IIS,
-         * the PHP directive cgi.rfc2616_headers must be set to 0 (the default value).
-         */
-        elseif (!empty($server['HTTP_AUTHORIZATION'])) {
+        } elseif (!empty($server['HTTP_AUTHORIZATION'])) {
+            /**
+             * IIS Note: for HTTP authentication to work with IIS,
+             * the PHP directive cgi.rfc2616_headers must be set to 0 (the default value).
+             */
             $auth = $server['HTTP_AUTHORIZATION'];
             list($user, $pass) = explode(':', base64_decode(substr($auth, strpos($auth, " ") + 1)));
-        }
-        elseif (!empty($server['Authorization'])) {
+        } elseif (!empty($server['Authorization'])) {
             $auth = $server['Authorization'];
             list($user, $pass) = explode(':', base64_decode(substr($auth, strpos($auth, " ") + 1)));
         }

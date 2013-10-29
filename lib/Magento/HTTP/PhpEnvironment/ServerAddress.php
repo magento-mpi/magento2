@@ -11,7 +11,6 @@ namespace Magento\HTTP\PhpEnvironment;
 
 /**
  * Helper for working with server ip address
- *
  */
 class ServerAddress
 {

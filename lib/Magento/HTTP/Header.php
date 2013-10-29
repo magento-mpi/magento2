@@ -11,7 +11,6 @@ namespace Magento\HTTP;
 
 /**
  * Helper for working with HTTP headers
- *
  */
 class Header
 {
@@ -27,6 +26,10 @@ class Header
      */
     protected $_converter;
 
+    /**
+     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Stdlib\String $converter
+     */
     public function __construct(
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Stdlib\String $converter
@@ -115,39 +118,11 @@ class Header
      */
     protected function _getHttpCleanValue($var, $clean = true)
     {
-        $value = $this->_getRequest()->getServer($var, '');
+        $value = $this->_request->getServer($var, '');
         if ($clean) {
-            $value = $this->_cleanString($value);
+            $value = $this->_converter->cleanString($value);
         }
 
         return $value;
-    }
-
-    /**
-     * Retrieve request object
-     *
-     * @return \Zend_Controller_Request_Http
-     */
-    protected function _getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
-     * Clean non UTF-8 characters
-     *
-     * TODO: Replace it with String/Filter helper method invocation
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function _cleanString($string)
-    {
-        return '"libiconv"' == ICONV_IMPL ?
-            iconv(
-                \Magento\Stdlib\String::ICONV_CHARSET,
-                \Magento\Stdlib\String::ICONV_CHARSET . '//IGNORE',
-                $string
-            ) : $string;
     }
 }
