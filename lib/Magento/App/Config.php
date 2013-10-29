@@ -19,13 +19,6 @@ class Config
     protected $_data;
 
     /**
-     * DI configuration
-     *
-     * @var array
-     */
-    protected $_configuration = array();
-
-    /**
      * Configuration loader
      *
      * @var \Magento\App\Config\Loader
