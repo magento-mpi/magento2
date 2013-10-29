@@ -46,7 +46,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Adapter\CsvFactory', array(), array(), '', false),
-            $this->getMock('Zend_File_Transfer_Adapter_HttpFactory', array(), array(), '', false),
+            $this->getMock('\Magento\ImportExport\Model\HttpAdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\File\UploaderFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', array(), array(), '', false),
             $indexer

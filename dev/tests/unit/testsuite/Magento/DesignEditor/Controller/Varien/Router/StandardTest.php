@@ -193,7 +193,18 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
         $frontControllerMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $rewriteServiceMock = $this->getMock('Magento\Core\App\Request\RewriteService', array(), array(), '', false);
-        $routerListMock = $this->getMock('Magento\App\RouterListInterface');
+        $routerListMock = $this->getMock('Magento\App\RouterListInterface',
+            array(
+                'getRouters',
+                'getRouterByFrontName',
+                'getRouterByRoute',
+                'current',
+                'next',
+                'key',
+                'valid',
+                'rewind'
+            )
+        );
 
         if ($isVde && $isLoggedIn) {
             $rewriteServiceMock->expects($this->once())
@@ -205,24 +216,21 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         }
 
         $router = new \Magento\DesignEditor\Controller\Varien\Router\Standard(
-            $routerListMock,
             $this->getMock('Magento\App\ActionFactory', array(), array(), '', false),
-            $objectManager,
-            $this->getMock('Magento\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $this->getMock('Magento\App\DefaultPathInterface'),
+            $this->getMock('Magento\App\ResponseFactory', array(), array(), '', false),
             $this->getMock('Magento\App\Route\Config', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Url', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
             $this->getMock('Magento\App\State', array(), array(), '', false),
+            $this->getMock('Magento\UrlInterface'),
+            $this->getMock('Magento\Core\Model\StoreManagerInterface'),
+            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
+            $routerListMock,
+            $objectManager,
             $rewriteServiceMock,
-            'frontend',
-            'Magento\Core\Controller\Varien\Action',
-            'vde'
+            'frontend'
         );
-        $router->setFront($frontControllerMock);
+//        $router->set($frontControllerMock);
         return $router;
     }
 

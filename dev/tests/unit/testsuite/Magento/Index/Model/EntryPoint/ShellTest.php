@@ -38,7 +38,11 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Shell(
-            'indexer.php', $this->_shellErrorHandler, $this->_objectManager
+            'indexer.php',
+            $this->_shellErrorHandler,
+            'baseDir',
+            'parameters',
+            $this->_objectManager
         );
     }
 

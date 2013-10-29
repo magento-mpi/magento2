@@ -78,7 +78,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_logMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
         $this->_appMock
-            = $this->getMock('Magento\Core\Model\App\Proxy', array('setUseSessionInUrl'), array(), '', false);
+            = $this->getMock('\Magento\Core\Model\AppInterface');
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
 

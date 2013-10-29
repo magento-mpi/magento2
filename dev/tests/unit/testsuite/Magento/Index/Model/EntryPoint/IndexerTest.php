@@ -38,7 +38,11 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Indexer(
-            $this->_reportDir, $this->_filesystem, $this->_objectManager
+            'baseDir',
+            'parameters',
+            $this->_reportDir,
+            $this->_filesystem,
+            $this->_objectManager
         );
     }
 

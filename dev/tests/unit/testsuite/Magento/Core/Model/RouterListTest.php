@@ -39,7 +39,7 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
                 'disable'   => false,
                 'sortOrder' => 10
             ),
-            'defaultRouter' => array(
+            'default' => array(
                 'instance'     => 'DefaultClass',
                 'disable'   => false,
                 'sortOrder' => 5
@@ -52,7 +52,6 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRoutes()
     {
-        $this->fail('Need to be fixed');
         $expectedResult = array(
             'defaultRouter'  => new DefaultClass(),
             'frontendRouter' => new FrontClass(),
@@ -67,6 +66,6 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue(new FrontClass()));
 
-        $this->assertEquals($this->_model->getRouters(), $expectedResult);
+        $this->assertEquals($expectedResult, $this->_model->getRouterByRoute('adminRouter'));
     }
 }
