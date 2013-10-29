@@ -27,6 +27,27 @@ class StandardTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
+     * @magentoDataFixture Magento/Sales/_files/order.php
+     */
+    public function testRedirectActionIsContentGenerated()
+    {
+        $this->_order->load('100000001', 'increment_id');
+        $this->_order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
+        $this->_order->save();
+        $this->_order->load('100000001', 'increment_id');
+
+        $this->_session->setLastRealOrderId($this->_order->getRealOrderId())
+            ->setLastQuoteId($this->_order->getQuoteId());
+
+        $this->dispatch('paypal/standard/redirect');
+        $this->assertContains(
+            '<form action="https://www.paypal.com/cgi-bin/webscr" id="paypal_standard_checkout"'
+            . ' name="paypal_standard_checkout" method="POST">',
+            $this->getResponse()->getBody()
+        );
+    }
+
+    /**
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_standard.php
      * @magentoConfigFixture current_store payment/paypal_standard/active 1
      * @magentoConfigFixture current_store paypal/general/business_account merchant_2012050718_biz@example.com
