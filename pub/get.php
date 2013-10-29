@@ -64,8 +64,16 @@ if (empty($mediaDirectory)) {
     $params[\Magento\Core\Model\App::PARAM_CACHE_OPTIONS]['frontend_options']['disable_save'] = true;
 }
 
-$entryPoint = new \Magento\Core\Model\EntryPoint\Media(
-    dirname(__DIR__), $params, $config, $request, $isAllowed,
-    __DIR__, $mediaDirectory, $configCacheFile, $relativeFilename
-);
-$entryPoint->processRequest();
+// @todo temporary workaround for media application run (omitting entry point run call)
+$entryPoint = new \Magento\App\EntryPoint\EntryPoint(dirname(__DIR__), $params);
+$objectManager = Magento\App\ObjectManager::getInstance();
+/** @var $application \Magento\Core\App\Media */
+$application = $objectManager->create('Magento\Core\App\Media', array(
+    'request' => $request,
+    'workingDirectory' => __DIR__,
+    'mediaDirectory' => $mediaDirectory,
+    'configCacheFile' => $configCacheFile,
+    'isAllowed' => $isAllowed,
+    'relativeFileName' => $relativeFilename,
+));
+$application->execute();
