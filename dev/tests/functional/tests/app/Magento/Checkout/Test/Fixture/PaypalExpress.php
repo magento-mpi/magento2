@@ -49,7 +49,7 @@ class PaypalExpress extends Checkout
     }
 
     /**
-     * Get telephone number for billing/shipping address
+     * Get telephone number
      *
      * @return string
      */
@@ -63,6 +63,19 @@ class PaypalExpress extends Checkout
      */
     protected function _initData()
     {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => 10
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
         //Configuration
         $this->_persistConfiguration(array(
             'free_shipping',
@@ -72,14 +85,16 @@ class PaypalExpress extends Checkout
             'display_price',
             'display_shopping_cart'
         ));
+
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
+
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
+        $simple->switchData('simple_required');
         $simple->persist();
 
         $this->products = array(
@@ -102,12 +117,5 @@ class PaypalExpress extends Checkout
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $customerAddress->switchData('address_US_1');
         $this->telephoneNumber = $customerAddress->getTelephone();
-
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => 10
-            )
-        );
     }
 }

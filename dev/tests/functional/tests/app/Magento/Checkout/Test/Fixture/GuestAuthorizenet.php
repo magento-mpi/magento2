@@ -50,35 +50,40 @@ class GuestAuthorizenet extends Checkout
             'display_shopping_cart',
             'default_tax_config'
         ));
+
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
+
         //Products
-        $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simpleProduct->switchData('simple');
-        $simpleProduct->persist();
-
-        $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable_default_category');
-        $configurableProduct->persist();
-
-        $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundleProduct->persist();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple_required');
+        $simple->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable');
+        $configurable->persist();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle->switchData('bundle_fixed_required');
+        $bundle->persist();
 
         $this->products = array(
-            $simpleProduct,
-            $bundleProduct,
-            $configurableProduct
+            $simple,
+            $configurable,
+            $bundle
         );
+
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->billingAddress->switchData('address_US_1');
+
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');
+
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
         $this->paymentMethod->switchData('authorizenet');
+
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_authorizenet');
     }

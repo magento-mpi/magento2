@@ -40,7 +40,7 @@ class CreateConfigurableTest extends Functional
     {
         //Data
         $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $product->switchData('configurable_default_category');
+        $product->switchData('configurable');
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();

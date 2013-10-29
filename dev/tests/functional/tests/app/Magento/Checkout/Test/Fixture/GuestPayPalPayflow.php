@@ -21,6 +21,19 @@ use Mtf\Factory\Factory;
 class GuestPayPalPayflow extends Checkout
 {
     /**
+     * Prepare for PayPal Payflow Edition
+     */
+    protected function _initData()
+    {
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => '$156.81',
+                'comment_history' => 'We will authorize $156.81'
+            )
+        );
+    }
+
+    /**
      * Create required data
      */
     public function persist()
@@ -35,26 +48,27 @@ class GuestPayPalPayflow extends Checkout
             'display_shopping_cart'
         ));
 
+        //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
 
-        $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simpleProduct->switchData('simple');
-        $simpleProduct->persist();
-
-        $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable_default_category');
-        $configurableProduct->persist();
-
-        $bundleProduct = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundleProduct->persist();
+        //Products
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple_required');
+        $simple->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
+        $configurable->persist();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle->switchData('bundle_fixed_required');
+        $bundle->persist();
 
         $this->products = array(
-            $simpleProduct,
-            $bundleProduct,
-            $configurableProduct
+            $simple,
+            $configurable,
+            $bundle
         );
 
         //Checkout data
@@ -69,19 +83,5 @@ class GuestPayPalPayflow extends Checkout
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_default');
-    }
-
-    /**
-     * Prepare Authorize.Net data
-     */
-    protected function _initData()
-    {
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$156.81',
-                'authorized_amount' => '$156.81',
-                'comment_history' => 'We will authorize $156.81'
-            )
-        );
     }
 }

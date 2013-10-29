@@ -45,6 +45,20 @@ class GuestPaypalExpress extends Checkout
      */
     protected function _initData()
     {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => '$156.81',
+                'comment_history'   => 'Authorized amount of $156.81',
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
+    {
         //Configuration
         $this->_persistConfiguration(array(
             'flat_rate',
@@ -54,21 +68,22 @@ class GuestPaypalExpress extends Checkout
             'display_shopping_cart',
             'default_tax_config'
         ));
+
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
+
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
-
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();;
-
+        $simple->switchData('simple_required');
         $simple->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
         $configurable->persist();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();;
+        $bundle->switchData('bundle_fixed_required');
         $bundle->persist();
 
         $this->products = array(
@@ -76,6 +91,7 @@ class GuestPaypalExpress extends Checkout
             $configurable,
             $bundle
         );
+
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->billingAddress->switchData('address_US_1');
@@ -91,14 +107,5 @@ class GuestPaypalExpress extends Checkout
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
-
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$156.81',
-                'authorized_amount' => '$156.81',
-                'comment_history'   => 'Authorized amount of $156.81',
-            )
-        );
     }
 }
