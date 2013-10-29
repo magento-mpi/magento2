@@ -11,7 +11,7 @@
 /**
  * Theme Image Uploader
  */
-namespace Magento\Core\Model\Theme\Image;
+namespace Magento\View\Design\Theme\Image;
 
 class Uploader
 {
@@ -61,7 +61,7 @@ class Uploader
      * @param string $scope the request key for file
      * @param string $destinationPath path to upload directory
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Exception
      */
     public function uploadPreviewImage($scope, $destinationPath)
     {
@@ -69,7 +69,7 @@ class Uploader
             return false;
         }
         if (!$this->_transferAdapter->isValid($scope)) {
-            throw new \Magento\Core\Exception(__('Uploaded image is not valid'));
+            throw new \Magento\Exception(__('Uploaded image is not valid'));
         }
         $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
         $upload->setAllowCreateFolders(true);
@@ -78,10 +78,10 @@ class Uploader
         $upload->setFilesDispersion(false);
 
         if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
-            throw new \Magento\Core\Exception(__('Invalid image file type.'));
+            throw new \Magento\Exception(__('Invalid image file type.'));
         }
         if (!$upload->save($destinationPath)) {
-            throw new \Magento\Core\Exception(__('Image can not be saved.'));
+            throw new \Magento\Exception(__('Image can not be saved.'));
         }
         return $destinationPath . DIRECTORY_SEPARATOR . $upload->getUploadedFileName();
     }

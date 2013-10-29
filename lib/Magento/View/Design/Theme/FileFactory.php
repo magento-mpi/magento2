@@ -11,7 +11,7 @@
 /**
  * Factory for \Magento\Core\Model\Theme\File
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class FileFactory
 {
@@ -40,6 +40,6 @@ class FileFactory
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento\Core\Model\Theme\File', $data);
+        return $this->_objectManager->create('Magento\View\Design\Theme\FileInterface', $data);
     }
 }

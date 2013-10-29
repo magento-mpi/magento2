@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class Validator
 {

@@ -119,7 +119,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
 
         $customization->expects($this->once())
             ->method('getFilesByType')
-            ->with(\Magento\Core\Model\Theme\Customization\File\Js::TYPE)
+            ->with(\Magento\View\Design\Theme\Customization\File\Js::TYPE)
             ->will($this->returnValue(array()));
         $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_model->expects($this->once())->method('helper')->with('Magento\Core\Helper\Data')

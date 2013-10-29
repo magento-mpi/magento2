@@ -25,7 +25,14 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
     {
         $themeStaging = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false);
 
-        $theme = $this->getMock('Magento\Core\Model\Theme', array('getStagingVersion'), array(), '', false, false);
+        $theme = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('__wakeup', 'getStagingVersion'),
+            array(),
+            '',
+            false,
+            false
+        );
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue($themeStaging));
 
         $themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false);
@@ -51,7 +58,14 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStagingThemeNew()
     {
-        $theme = $this->getMock('Magento\Core\Model\Theme', array('getStagingVersion'), array(), '', false, false);
+        $theme = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('__wakeup', 'getStagingVersion'),
+            array(),
+            '',
+            false,
+            false
+        );
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue(null));
         /** @var $theme \Magento\Object */
         $theme->setData(array(
@@ -64,7 +78,14 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             'type'                  => \Magento\Core\Model\Theme::TYPE_VIRTUAL
         ));
 
-        $themeStaging = $this->getMock('Magento\Core\Model\Theme', array('setData', 'save'), array(), '', false, false);
+        $themeStaging = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('__wakeup', 'setData', 'save'),
+            array(),
+            '',
+            false,
+            false
+        );
         $themeStaging->expects($this->at(0))->method('setData')->with(array(
             'parent_id'             => 'fixture_theme_id',
             'theme_path'            => null,
@@ -103,8 +124,14 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
         $customizationConfig = $this->getMock(
             'Magento\Theme\Model\Config\Customization', array('isThemeAssignedToStore'), array(), '', false
         );
-        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('getCollection', 'getId'), array(), '', false,
-            false);
+        $themeMock = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('__wakeup', 'getCollection', 'getId'),
+            array(),
+            '',
+            false,
+            false
+        );
         $customizationConfig->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
             ->with($themeMock)
             ->will($this->returnValue(true));

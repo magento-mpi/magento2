@@ -75,7 +75,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Domain\Factory
+     * @var \Magento\View\Design\Theme\Domain\Factory
      */
     protected $_domainFactory;
 
@@ -85,7 +85,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_imageFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Validator
+     * @var \Magento\View\Design\Theme\Validator
      */
     protected $_validator;
 
@@ -116,9 +116,9 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\Core\Model\Theme\Domain\Factory $domainFactory
+     * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
      * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
-     * @param \Magento\Core\Model\Theme\Validator $validator
+     * @param \Magento\View\Design\Theme\Validator $validator
      * @param \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory
      * @param \Magento\Core\Model\Resource\Theme $resource
      * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
@@ -130,9 +130,9 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
-        \Magento\Core\Model\Theme\Domain\Factory $domainFactory,
+        \Magento\View\Design\Theme\Domain\Factory $domainFactory,
         \Magento\Core\Model\Theme\ImageFactory $imageFactory,
-        \Magento\Core\Model\Theme\Validator $validator,
+        \Magento\View\Design\Theme\Validator $validator,
         \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,

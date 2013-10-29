@@ -136,7 +136,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
                 $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
                 $theme->save();
                 $customization = $theme->getCustomization();
-                $customization->reorder(\Magento\Core\Model\Theme\Customization\File\Js::TYPE, $reorderJsFiles);
+                $customization->reorder(\Magento\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles);
                 $customization->delete($removeJsFiles);
                 $singleFile->update($theme, $customCssData);
                 $this->_getSession()->addSuccess(__('You saved the theme.'));
@@ -218,7 +218,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
         /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
         $themeFactory = $this->_objectManager->get('Magento\Core\Model\Theme\FlyweightFactory');
-        /** @var $jsService \Magento\Core\Model\Theme\Customization\File\Js */
+        /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
         $jsService = $this->_objectManager->get('Magento\Core\Model\Theme\Customization\File\Js');
         try {
             $theme = $themeFactory->create($themeId);
@@ -235,7 +235,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             /** @var $customization \Magento\Core\Model\Theme\Customization */
             $customization = $this->_objectManager->create('Magento\Core\Model\Theme\Customization',
                 array('theme' => $theme));
-            $customJsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
+            $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
         } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -263,7 +263,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $customCssFiles = $theme->getCustomization()->getFilesByType(
                 \Magento\Theme\Model\Theme\Customization\File\CustomCss::TYPE
             );
-            /** @var $customCssFile \Magento\Core\Model\Theme\FileInterface */
+            /** @var $customCssFile \Magento\View\Design\Theme\FileInterface */
             $customCssFile = reset($customCssFiles);
             if ($customCssFile && $customCssFile->getContent()) {
                 $this->_prepareDownloadResponse(

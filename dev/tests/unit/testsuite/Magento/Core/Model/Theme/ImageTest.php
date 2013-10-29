@@ -32,7 +32,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     protected $_imageMock;
 
     /**
-     * @var \Magento\Core\Model\Theme\Image\Uploader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\Theme\Image\Uploader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_uploaderMock;
 
@@ -48,9 +48,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
-        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false, false);
-        $this->_uploaderMock = $this->getMock('Magento\Core\Model\Theme\Image\Uploader',
-            array(), array(), 'UploaderProxy', false, false);
+        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false, false);
+        $this->_uploaderMock = $this->getMock(
+            'Magento\View\Design\Theme\Image\Uploader',
+            array(),
+            array(),
+            'UploaderProxy',
+            false,
+            false
+        );
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false, false);
 
         $this->_model = new \Magento\Core\Model\Theme\Image(
@@ -73,11 +79,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Theme\Image\Path
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design\Theme\Image\Path
      */
     protected function _getImagePathMock()
     {
-        $imagePathMock = $this->getMock('Magento\Core\Model\Theme\Image\Path', array(), array(), '', false);
+        $imagePathMock = $this->getMock('Magento\View\Design\Theme\Image\Path', array(), array(), '', false);
         $testBaseUrl = 'http://localhost/media_path/';
         $imagePathMock->expects($this->any())->method('getPreviewImageDirectoryUrl')
             ->will($this->returnValue($testBaseUrl));

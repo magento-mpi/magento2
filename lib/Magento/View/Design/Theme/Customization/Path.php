@@ -11,7 +11,7 @@
 /**
  * Theme Customization Path
  */
-namespace Magento\Core\Model\Theme\Customization;
+namespace Magento\View\Design\Theme\Customization;
 
 class Path
 {

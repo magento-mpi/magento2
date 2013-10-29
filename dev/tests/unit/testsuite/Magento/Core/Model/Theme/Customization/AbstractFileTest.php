@@ -38,10 +38,15 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',
-            array(), array(), '', false);
+        $this->_customizationPath = $this->getMock(
+            'Magento\View\Design\Theme\Customization\Path',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_fileFactory = $this->getMock(
-            'Magento\Core\Model\Theme\FileFactory',
+            'Magento\View\Design\Theme\FileFactory',
             array('create'),
             array(),
             '',
@@ -49,7 +54,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         );
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $this->_modelBuilder = $this->getMockBuilder('Magento\Core\Model\Theme\Customization\AbstractFile')
+        $this->_modelBuilder = $this->getMockBuilder('Magento\View\Design\Theme\Customization\AbstractFile')
             ->setMethods(array('getType', 'getContentType'))
             ->setConstructorArgs(array($this->_customizationPath, $this->_fileFactory, $this->_filesystem));
     }
@@ -72,7 +77,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
         $file->expects($this->once())->method('setCustomizationService')->with($model);
         $this->_fileFactory->expects($this->once())->method('create')->will($this->returnValue($file));
-        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
+        /** @var $model \Magento\View\Design\Theme\Customization\AbstractFile */
         $this->assertEquals($file, $model->create());
     }
 
@@ -91,7 +96,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $this->_customizationPath->expects($this->once())->method('getCustomizationPath')
             ->will($this->returnValue('/path'));
 
-        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
+        /** @var $model \Magento\View\Design\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $this->assertEquals('/path' . DIRECTORY_SEPARATOR . 'file.path', $model->getFullPath($file));
     }
@@ -111,7 +116,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
 
         $files = array();
         foreach ($existedFiles as $fileData) {
-            $file = $this->getMock('Magento\Core\Model\Theme\File', array('save'), array(), '', false);
+            $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup', 'save'), array(), '', false);
             $file->setData($fileData);
             $files[] = $file;
         }
@@ -122,11 +127,17 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
-        $file = $this->getMock('Magento\Core\Model\Theme\File', array('getTheme', 'save'), array(), '', false);
+        $file = $this->getMock(
+            'Magento\Core\Model\Theme\File',
+            array('__wakeup', 'getTheme', 'save'),
+            array(),
+            '',
+            false
+        );
         $file->expects($this->any())->method('getTheme')->will($this->returnValue($theme));
         $file->setData($fileContent);
 
-        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
+        /** @var $model \Magento\View\Design\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $model->prepareFile($file);
         $this->assertEquals($expectedContent, $file->getData());
@@ -220,7 +231,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->_modelBuilder->setMethods(array('getFullPath', 'getType', 'getContentType'))->getMock();
 
-        $file = $this->getMock('Magento\Core\Model\Theme\File', null, array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup'), array(), '', false);
         $file->setData(array(
             'file_type'  => 'js',
             'file_name'  => 'test_3.js',
@@ -233,7 +244,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())->method('setIsAllowCreateDirectories')->with(true)
             ->will($this->returnSelf());
         $this->_filesystem->expects($this->once())->method('write')->with('test_path', 'test content');
-        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
+        /** @var $model \Magento\View\Design\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $model->save($file);
     }
@@ -245,7 +256,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
     public function testDelete()
     {
         $model = $this->_modelBuilder->setMethods(array('getFullPath', 'getType', 'getContentType'))->getMock();
-        $file = $this->getMock('Magento\Core\Model\Theme\File', null, array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup'), array(), '', false);
         $file->setData(array(
             'file_type'  => 'js',
             'file_name'  => 'test_3.js',
@@ -256,7 +267,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())->method('has')->with('test_path')->will($this->returnValue(true));
         $this->_filesystem->expects($this->once())->method('delete')->with('test_path');
         $model->expects($this->once())->method('getFullPath')->with($file)->will($this->returnValue('test_path'));
-        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
+        /** @var $model \Magento\View\Design\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $model->delete($file);
     }

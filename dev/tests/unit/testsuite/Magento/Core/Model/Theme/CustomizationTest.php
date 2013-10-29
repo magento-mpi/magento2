@@ -43,9 +43,20 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
         $collectionFactory = $this->getMock('Magento\Core\Model\Resource\Theme\File\CollectionFactory',
             array('create'), array(), '', false);
         $collectionFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileCollection));
-        $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',
-            array(), array(), '', false);
-        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('save', 'load'), array(), '', false);
+        $this->_customizationPath = $this->getMock(
+            'Magento\View\Design\Theme\Customization\Path',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_theme = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('__wakeup', 'save', 'load'),
+            array(),
+            '',
+            false
+        );
 
         $this->_modelBuilder = $this->getMockBuilder('Magento\Core\Model\Theme\Customization')
             ->setConstructorArgs(array($collectionFactory, $this->_customizationPath, $this->_theme))
@@ -92,7 +103,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerationOfFileInfo()
     {
-        $file = $this->getMock('Magento\Core\Model\Theme\File', array('getFileInfo'), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup', 'getFileInfo'), array(), '', false);
         $file->expects($this->once())->method('getFileInfo')->will($this->returnValue(array('sample-generation')));
         $this->assertEquals(
             array(array('sample-generation')),
@@ -159,7 +170,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     {
         $files = array();
         foreach ($filesContent as $fileContent) {
-            $file = $this->getMock('Magento\Core\Model\Theme\File', array('save'), array(), '', false);
+            $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup', 'save'), array(), '', false);
             $file->expects($fileContent['isCalled'])->method('save')->will($this->returnSelf());
             $file->setData($fileContent['content']);
             $files[] = $file;
@@ -218,7 +229,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete()
     {
-        $file = $this->getMock('Magento\Core\Model\Theme\File', array('delete'), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup', 'delete'), array(), '', false);
         $file->expects($this->once())->method('delete')->will($this->returnSelf());
         $file->setData(array(
             'id'         => 1,

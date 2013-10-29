@@ -17,7 +17,7 @@ namespace Magento\Core\Model\Theme\Customization;
 class PathTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Theme\Customization\Path
+     * @var \Magento\View\Design\Theme\Customization\Path
      */
     protected $_model;
 
@@ -33,9 +33,9 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_theme = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false);
         $this->_dir = $this->getMock('Magento\App\Dir', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Theme\Customization\Path($this->_dir);
+        $this->_model = new \Magento\View\Design\Theme\Customization\Path($this->_dir);
     }
 
     protected function tearDown()
@@ -55,7 +55,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/media_dir'));
         $expectedPath = implode(
             DIRECTORY_SEPARATOR,
-            array('/media_dir', \Magento\Core\Model\Theme\Customization\Path::DIR_NAME, '123')
+            array('/media_dir', \Magento\View\Design\Theme\Customization\Path::DIR_NAME, '123')
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomizationPath($this->_theme->setId(123)));
         $this->assertNull($this->_model->getCustomizationPath($this->_theme->setId(null)));
@@ -89,7 +89,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/media_dir'));
         $expectedPath = implode(
             DIRECTORY_SEPARATOR,
-            array('/media_dir', \Magento\Core\Model\Theme\Customization\Path::DIR_NAME, '123',
+            array('/media_dir', \Magento\View\Design\Theme\Customization\Path::DIR_NAME, '123',
                 \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG)
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomViewConfigPath($this->_theme->setId(123)));

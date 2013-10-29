@@ -36,12 +36,12 @@ class Image
     protected $_imageFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Image\UploaderProxy
+     * @var \Magento\View\Design\Theme\Image\Uploader
      */
     protected $_uploader;
 
     /**
-     * @var \Magento\Core\Model\Theme\Image\Path
+     * @var \Magento\View\Design\Theme\Image\Path
      */
     protected $_themeImagePath;
 
@@ -60,16 +60,16 @@ class Image
      *
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Image\Factory $imageFactory
-     * @param \Magento\Core\Model\Theme\Image\Uploader $uploader
-     * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
+     * @param \Magento\View\Design\Theme\Image\Uploader $uploader
+     * @param \Magento\View\Design\Theme\Image\Path $themeImagePath
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\View\Design\ThemeInterface $theme
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Image\Factory $imageFactory,
-        \Magento\Core\Model\Theme\Image\Uploader $uploader,
-        \Magento\Core\Model\Theme\Image\Path $themeImagePath,
+        \Magento\View\Design\Theme\Image\Uploader $uploader,
+        \Magento\View\Design\Theme\Image\Path $themeImagePath,
         \Magento\Core\Model\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {

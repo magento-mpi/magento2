@@ -11,7 +11,7 @@
 /**
  * Theme customization files factory
  */
-namespace Magento\Core\Model\Theme\Customization;
+namespace Magento\View\Design\Theme\Customization;
 
 class FileServiceFactory
 {
@@ -26,11 +26,6 @@ class FileServiceFactory
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config;
-
-    /**
      * @var array
      */
     protected $_types = array();
@@ -42,7 +37,6 @@ class FileServiceFactory
     public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config $config)
     {
         $this->_objectManager = $objectManager;
-        $this->_config = $config;
 
         $convertNode = $config->getValue(self::XML_PATH_CUSTOM_FILES, 'default');
         if ($convertNode) {
@@ -57,7 +51,7 @@ class FileServiceFactory
      *
      * @param $type
      * @param array $data
-     * @return \Magento\Core\Model\Theme\Customization\FileInterface
+     * @return \Magento\View\Design\Theme\Customization\FileInterface
      * @throws \InvalidArgumentException
      */
     public function create($type, array $data = array())
@@ -66,7 +60,7 @@ class FileServiceFactory
             throw new \InvalidArgumentException('Unsupported file type');
         }
         $fileService = $this->_objectManager->get($this->_types[$type], array($data));
-        if (!$fileService instanceof \Magento\Core\Model\Theme\Customization\FileInterface) {
+        if (!$fileService instanceof \Magento\View\Design\Theme\Customization\FileInterface) {
             throw new \InvalidArgumentException('Service don\'t implement interface');
         }
         return $fileService;

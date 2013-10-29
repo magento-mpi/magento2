@@ -11,22 +11,22 @@
 /**
  * Theme file interface
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 interface FileInterface
 {
     /**
      * Set customization service model
      *
-     * @param \Magento\Core\Model\Theme\Customization\FileInterface $service
+     * @param \Magento\View\Design\Theme\Customization\FileInterface $service
      * @return $this
      */
-    public function setCustomizationService(\Magento\Core\Model\Theme\Customization\FileInterface $service);
+    public function setCustomizationService(Customization\FileInterface $service);
 
     /**
      * Get customization service model
      *
-     * @return \Magento\Core\Model\Theme\Customization\FileInterface
+     * @return \Magento\View\Design\Theme\Customization\FileInterface
      */
     public function getCustomizationService();
 

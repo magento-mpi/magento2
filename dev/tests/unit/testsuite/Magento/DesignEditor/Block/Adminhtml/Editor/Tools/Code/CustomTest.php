@@ -103,7 +103,7 @@ class CustomTest extends \PHPUnit_Framework_TestCase
         $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
-        /** @var $cssFile \Magento\Core\Model\Theme\Customization\File\Css */
+        /** @var $cssFile \Magento\View\Design\Theme\Customization\File\Css */
         $cssFile = $this->getMock(
             'Magento\Core\Model\Theme\Customization\File', array('getContent'), array(), '', false
         );

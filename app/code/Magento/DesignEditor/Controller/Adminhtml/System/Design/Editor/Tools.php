@@ -103,7 +103,7 @@ class Tools extends \Magento\Adminhtml\Controller\Action
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $customization = $editableTheme->getCustomization();
-            $customJsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
+            $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         } catch (\Exception $e) {
@@ -118,7 +118,7 @@ class Tools extends \Magento\Adminhtml\Controller\Action
     {
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
-        /** @var $jsService \Magento\Core\Model\Theme\Customization\File\Js */
+        /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
         $jsService = $this->_objectManager->create('Magento\Core\Model\Theme\Customization\File\Js');
         try {
             $themeContext = $this->_initContext();
@@ -168,7 +168,7 @@ class Tools extends \Magento\Adminhtml\Controller\Action
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $editableTheme->getCustomization()->reorder(
-                \Magento\Core\Model\Theme\Customization\File\Js::TYPE, $reorderJsFiles
+                \Magento\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles
             );
             $result = array('success' => true);
         } catch (\Magento\Core\Exception $e) {

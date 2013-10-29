@@ -11,7 +11,7 @@
 /**
  * Theme asset file interface
  */
-namespace Magento\Core\Model\Theme\Customization;
+namespace Magento\View\Design\Theme\Customization;
 
 interface FileAssetInterface
 {

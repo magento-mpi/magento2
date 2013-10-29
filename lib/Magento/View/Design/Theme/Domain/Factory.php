@@ -11,7 +11,7 @@
 /**
  * Theme domain model class
  */
-namespace Magento\Core\Model\Theme\Domain;
+namespace Magento\View\Design\Theme\Domain;
 
 class Factory
 {
@@ -42,12 +42,12 @@ class Factory
      *
      * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\Core\Model\Theme\Domain\Virtual|\Magento\Core\Model\Theme\Domain\Staging
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Exception
      */
     public function create(\Magento\View\Design\ThemeInterface $theme)
     {
         if (!isset($this->_types[$theme->getType()])) {
-            throw new \Magento\Core\Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
+            throw new \Magento\Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
         }
         $class = $this->_types[$theme->getType()];
         return $this->_objectManager->create($class, array('theme' => $theme));

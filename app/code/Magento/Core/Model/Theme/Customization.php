@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme;
 
-class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
+class Customization implements \Magento\View\Design\Theme\CustomizationInterface
 {
     /**
      * @var \Magento\Core\Model\Resource\Theme\File\CollectionFactory
@@ -21,7 +21,7 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Customization\Path
+     * @var \Magento\View\Design\Theme\Customization\Path
      */
     protected $_customizationPath;
 
@@ -42,12 +42,12 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
 
     /**
      * @param \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory
-     * @param \Magento\Core\Model\Theme\Customization\Path $customizationPath
+     * @param \Magento\View\Design\Theme\Customization\Path $customizationPath
      * @param \Magento\View\Design\ThemeInterface $theme
      */
     public function __construct(
         \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory,
-        \Magento\Core\Model\Theme\Customization\Path $customizationPath,
+        \Magento\View\Design\Theme\Customization\Path $customizationPath,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_fileFactory = $fileFactory;
@@ -58,7 +58,7 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
     /**
      * Retrieve list of files which belong to a theme
      *
-     * @return \Magento\Core\Model\Theme\FileInterface[]
+     * @return \Magento\View\Design\Theme\FileInterface[]
      */
     public function getFiles()
     {
@@ -74,7 +74,7 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
      * Retrieve list of files which belong to a theme only by type
      *
      * @param string $type
-     * @return \Magento\Core\Model\Theme\FileInterface[]
+     * @return \Magento\View\Design\Theme\FileInterface[]
      */
     public function getFilesByType($type)
     {
@@ -91,15 +91,15 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
     /**
      * Get short file information
      *
-     * @param \Magento\Core\Model\Theme\FileInterface[] $files
+     * @param \Magento\View\Design\Theme\FileInterface[] $files
      * @return array
      */
     public function generateFileInfo(array $files)
     {
         $filesInfo = array();
-        /** @var $file \Magento\Core\Model\Theme\FileInterface */
+        /** @var $file \Magento\View\Design\Theme\FileInterface */
         foreach ($files as $file) {
-            if ($file instanceof \Magento\Core\Model\Theme\FileInterface) {
+            if ($file instanceof \Magento\View\Design\Theme\FileInterface) {
                 $filesInfo[] = $file->getFileInfo();
             }
         }
@@ -142,7 +142,7 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
     public function reorder($type, array $sequence)
     {
         $sortOrderSequence = array_flip(array_values($sequence));
-        /** @var $file \Magento\Core\Model\Theme\FileInterface */
+        /** @var $file \Magento\View\Design\Theme\FileInterface */
         foreach ($this->getFilesByType($type) as $file) {
             if (isset($sortOrderSequence[$file->getId()])) {
                 $prevSortOrder = $file->getData('sort_order');
@@ -164,7 +164,7 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
      */
     public function delete(array $fileIds)
     {
-        /** @var $file \Magento\Core\Model\Theme\FileInterface */
+        /** @var $file \Magento\View\Design\Theme\FileInterface */
         foreach ($this->getFiles() as $file) {
             if (in_array($file->getId(), $fileIds)) {
                 $file->delete();
