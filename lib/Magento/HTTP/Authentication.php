@@ -11,7 +11,6 @@ namespace Magento\HTTP;
 
 /**
  * Helper for working with HTTP authentication
- *
  */
 class Authentication
 {
@@ -20,12 +19,25 @@ class Authentication
      *
      * @var \Magento\App\RequestInterface
      */
-    protected $_request;
+    protected $request;
 
+    /**
+     * Response object
+     *
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $response;
+
+    /**
+     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\App\ResponseInterface $httpResponse
+     */
     public function __construct(
-        \Magento\App\RequestInterface $httpRequest
+        \Magento\App\RequestInterface $httpRequest,
+        \Magento\App\ResponseInterface $httpResponse
     ) {
-        $this->_request = $httpRequest;
+        $this->request = $httpRequest;
+        $this->response = $httpResponse;
     }
 
     /**
@@ -33,12 +45,11 @@ class Authentication
      *
      * Returns plain array with 2 items: login and password respectively
      *
-     * @param \Magento\App\RequestInterface $request
      * @return array
      */
-    public static function getCredentials(\Magento\App\RequestInterface $request)
+    public function getCredentials()
     {
-        $server = $request->getServer();
+        $server = $this->request->getServer();
         $user = '';
         $pass = '';
 
@@ -74,14 +85,12 @@ class Authentication
     /**
      * Set "auth failed" headers to the specified response object
      *
-     * @param \Magento\App\ResponseInterface $response
      * @param string $realm
      */
-    public static function setAuthenticationFailed(\Magento\App\ResponseInterface $response, $realm)
+    public function setAuthenticationFailed($realm)
     {
-        $response->setHeader('HTTP/1.1', '401 Unauthorized')
+        $this->response->setHeader('HTTP/1.1', '401 Unauthorized')
             ->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
-            ->setBody('<h1>401 Unauthorized</h1>')
-        ;
+            ->setBody('<h1>401 Unauthorized</h1>');
     }
 }

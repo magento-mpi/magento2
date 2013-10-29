@@ -66,7 +66,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
 
         // Try to login using HTTP-authentication
         if (!$session->isLoggedIn()) {
-            list($login, $password) = \Magento\HTTP\Authentication::getCredentials($this->getRequest());
+            list($login, $password) = $this->authentication->getCredentials();
             try {
                 $auth->login($login, $password);
             } catch (\Magento\Backend\Model\Auth\Exception $e) {
@@ -78,7 +78,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
         /** @var \Magento\AuthorizationInterface $authorization */
         $authorization = $this->_objectManager->get('Magento\AuthorizationInterface');
         if (!$session->isLoggedIn() || !$authorization->isAllowed($aclResource)) {
-            \Magento\HTTP\Authentication::setAuthenticationFailed($this->getResponse(), 'RSS Feeds');
+            $this->authentication->setAuthenticationFailed('RSS Feeds');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }

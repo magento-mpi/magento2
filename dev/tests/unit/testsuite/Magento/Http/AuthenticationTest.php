@@ -23,7 +23,9 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->once())->method('getServer')->will($this->returnValue($server));
-        $this->assertSame(array($expectedLogin, $expectedPass), \Magento\HTTP\Authentication::getCredentials($request));
+        $response = $this->getMock('\Magento\App\Response\Http', array(), array(), '', false);
+        $authentication = new \Magento\HTTP\Authentication($request, $response);
+        $this->assertSame(array($expectedLogin, $expectedPass), $authentication->getCredentials());
     }
 
     /**
@@ -65,10 +67,12 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAuthenticationFailed()
     {
+        $request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);;
         $response = new \Magento\App\Response\Http();
+        $authentication = new \Magento\HTTP\Authentication($request, $response);
         $realm = uniqid();
         $response->headersSentThrowsException = false;
-        \Magento\HTTP\Authentication::setAuthenticationFailed($response, $realm);
+        $authentication->setAuthenticationFailed($realm);
         $headers = $response->getHeaders();
         $this->assertArrayHasKey(0, $headers);
         $this->assertEquals('401 Unauthorized', $headers[0]['value']);

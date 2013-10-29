@@ -54,6 +54,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
+     * @var \Magento\HTTP\Authentication
+     */
+    protected $authentication;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -61,6 +66,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\HTTP\Authentication $authentication
      * @param bool $isRenderInherited
      */
     public function __construct(
@@ -71,6 +77,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\FrontController $frontController,
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
+        \Magento\HTTP\Authentication $authentication,
         $isRenderInherited
     ) {
         $this->_request           = $request;
@@ -81,6 +88,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_eventManager      = $eventManager;
         $this->_isRenderInherited = $isRenderInherited;
         $this->_logger            = $logger;
+        $this->authentication     = $authentication;
     }
 
     /**
@@ -147,5 +155,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getLogger()
     {
         return $this->_logger;
+    }
+
+    /**
+     * @return \Magento\HTTP\Authentication
+     */
+    public function getAuthentication()
+    {
+        return $this->authentication;
     }
 }
