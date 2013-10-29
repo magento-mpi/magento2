@@ -15,9 +15,9 @@ class CastDoubleOperator extends AbstractCastOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '(double) ';
     }
-    /* 'Expr_Cast_Double'      => array( 1,  1), */
 }

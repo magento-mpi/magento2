@@ -15,10 +15,12 @@ class PlusOperator extends AbstractMathOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '+';
     }
+
     /* 'Expr_Plus'             => array( 5, -1), */
     public function precedence()
     {

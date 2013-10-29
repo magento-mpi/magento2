@@ -15,9 +15,9 @@ class CastObjectOperator extends AbstractCastOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '(object) ';
     }
-    /* 'Expr_Cast_Object'         => array( 1,  1), */
 }

@@ -30,13 +30,6 @@ class ExpressionReference extends AbstractVariableReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        if ($node->name instanceof PHPParser_Node_Expr) {
-            return '${' . $this->p($node->name) . '}';
-        } else {
-            return '$' . $node->name;
-        }
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the expression to the end of the current line

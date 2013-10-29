@@ -29,9 +29,6 @@ class ExitReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'die' . (null !== $node->expr ? '(' . $this->p($node->expr) . ')' : '');
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the exit

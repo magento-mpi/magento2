@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-
 abstract class AbstractCastOperator extends AbstractPrefixOperator
 {
     /**
@@ -18,6 +17,7 @@ abstract class AbstractCastOperator extends AbstractPrefixOperator
     {
         return 1;
     }
+
     /**
      * All cast operators have the same precedence
      * @return int

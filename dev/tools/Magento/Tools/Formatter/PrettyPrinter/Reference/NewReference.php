@@ -30,9 +30,6 @@ class NewReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'new ' . $this->p($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the new statement

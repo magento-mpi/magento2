@@ -15,9 +15,9 @@ class AssignConcatOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '.=';
     }
-    /* 'Expr_AssignConcat'     => array(15,  1), */
 }

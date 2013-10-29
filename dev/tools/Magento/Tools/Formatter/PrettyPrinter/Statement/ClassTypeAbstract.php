@@ -49,6 +49,7 @@ abstract class ClassTypeAbstract extends AbstractStatement
         // always return the originating node
         return $originatingNode;
     }
+
     /**
      * We should trim these comments
      * @return bool

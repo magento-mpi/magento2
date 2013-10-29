@@ -45,19 +45,23 @@ class TernaryOperator extends AbstractLeftAssocOperator
         }
         $line->add(': ');
     }
+
     public function operator()
     {
         // This should never be called because we have overridden resolve
         throw new \Exception('Ternary is not a normal operator, so this method does not apply');
     }
+
     public function left()
     {
         return $this->node->cond;
     }
+
     public function right()
     {
         return $this->node->else;
     }
+
     /* 'Expr_Ternary'          => array(14, -1), */
     public function precedence()
     {

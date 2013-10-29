@@ -15,7 +15,7 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_PropertyFetch;
 
-class PropertyCall extends AbstractReference
+class PropertyCall extends AbstractPropertyReference
 {
     /**
      * This method constructs a new statement based on the specify class node
@@ -33,13 +33,11 @@ class PropertyCall extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name);
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add the expression to the end of the current line
-        $this->resolveNode($this->node->var, $treeNode);
+        // add the variable
+        $this->resolveVariable($this->node->var, $treeNode);
+        // add the dereference
         $line->add(new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');
         // if the name is an expression, then use the framework to resolve
         if ($this->node->name instanceof PHPParser_Node_Expr) {

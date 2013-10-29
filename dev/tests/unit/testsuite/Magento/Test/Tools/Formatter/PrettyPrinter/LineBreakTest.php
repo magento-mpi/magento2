@@ -309,7 +309,6 @@ class LineBreakTest extends TestBase
             'function ',
             'gamma',
             '(',
-            $lineBreak,
             ')',
             $lineBreak,
             '{',

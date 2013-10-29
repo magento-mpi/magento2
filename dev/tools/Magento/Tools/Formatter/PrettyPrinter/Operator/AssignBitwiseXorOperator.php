@@ -15,9 +15,9 @@ class AssignBitwiseXorOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '^=';
     }
-    /* 'Expr_AssignBitwiseXor' => array(15,  1), */
 }

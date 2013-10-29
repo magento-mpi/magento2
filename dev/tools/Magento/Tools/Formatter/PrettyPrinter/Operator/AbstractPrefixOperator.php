@@ -26,6 +26,7 @@ abstract class AbstractPrefixOperator extends AbstractOperator
         $line->add($this->operator());
         $this->resolvePrecedence($this->expr(), $treeNode, 1);
     }
+
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
@@ -35,6 +36,7 @@ abstract class AbstractPrefixOperator extends AbstractOperator
         parent::resolve($treeNode);
         $this->resolvePrefixOperator($treeNode);
     }
+
     public function expr()
     {
         return $this->node->expr;

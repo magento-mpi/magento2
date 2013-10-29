@@ -15,10 +15,12 @@ class LogicalAndOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return 'and';
     }
+
     /* 'Expr_LogicalAnd'       => array(16, -1), */
     public function precedence()
     {

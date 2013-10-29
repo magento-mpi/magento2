@@ -122,11 +122,10 @@ class LineResolver extends NodeVisitorAbstract
                 }
             }
             // Process the last comment as it may need to be removed too.
-            if (preg_match('/^\s*\n$/', $comments[$numComments-1])) {
+            if (preg_match('/^\s*\n$/', $comments[$numComments - 1])) {
                 // Remove it
                 array_pop($comments);
             }
-
         }
     }
 }

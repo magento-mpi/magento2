@@ -15,9 +15,9 @@ class AssignShiftRightOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '>>=';
     }
-    /* 'Expr_AssignShiftRight' => array(15,  1), */
 }

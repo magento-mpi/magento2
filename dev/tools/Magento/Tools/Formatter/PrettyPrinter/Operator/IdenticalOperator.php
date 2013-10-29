@@ -15,10 +15,12 @@ class IdenticalOperator extends AbstractInfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '===';
     }
+
     /* 'Expr_Identical'            => array( 8,  0), */
     public function associativity()
     {

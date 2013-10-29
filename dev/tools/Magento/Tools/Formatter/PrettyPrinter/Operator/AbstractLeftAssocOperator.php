@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-
 abstract class AbstractLeftAssocOperator extends AbstractInfixOperator
 {
     /**

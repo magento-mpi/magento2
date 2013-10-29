@@ -15,10 +15,12 @@ class SmallerOperator extends AbstractInfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '<';
     }
+
     /* 'Expr_Smaller'          => array( 7,  0), */
     public function associativity()
     {

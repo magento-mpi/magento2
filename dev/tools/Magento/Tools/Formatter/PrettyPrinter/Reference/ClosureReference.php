@@ -32,13 +32,6 @@ class ClosureReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Pretty Printer Reference
-        return ($node->static ? 'static ' : '')
-             . 'function ' . ($node->byRef ? '&' : '')
-             . '(' . $this->pCommaSeparated($node->params) . ')'
-             . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')': '')
-             . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in static, if specified

@@ -15,15 +15,18 @@ class UnaryMinusOperator extends AbstractPrefixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '-';
     }
+
     /* 'Expr_UnaryMinus'        => array( 1,  1), */
     public function associativity()
     {
         return 1;
     }
+
     public function precedence()
     {
         return 1;

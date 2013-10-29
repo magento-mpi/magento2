@@ -15,9 +15,9 @@ class CastBoolOperator extends AbstractCastOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '(bool) ';
     }
-    /* 'Expr_Cast_Bool'        => array( 1,  1), */
 }

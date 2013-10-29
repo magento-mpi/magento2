@@ -15,10 +15,12 @@ class BooleanOrOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '||';
     }
+
     /* 'Expr_BooleanOr'        => array(13, -1), */
     public function precedence()
     {

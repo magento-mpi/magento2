@@ -15,10 +15,12 @@ class GreaterOrEqualOperator extends AbstractInfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '>=';
     }
+
     /* 'Expr_GreaterOrEqual'   => array( 7,  0), */
     public function associativity()
     {

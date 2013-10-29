@@ -15,10 +15,12 @@ class EqualOperator extends AbstractInfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '==';
     }
+
     /* 'Expr_Equal'            => array( 8,  0), */
     public function associativity()
     {

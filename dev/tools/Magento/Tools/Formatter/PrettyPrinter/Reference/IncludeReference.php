@@ -5,32 +5,20 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Include;
 
-class IncludeStatement extends AbstractStatement
+class IncludeReference extends AbstractReference
 {
-    /*
-    public function pExpr_Include(PHPParser_Node_Expr_Include $node) {
-        static $map = array(
-            PHPParser_Node_Expr_Include::TYPE_INCLUDE      => 'include',
-            PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE => 'include_once',
-            PHPParser_Node_Expr_Include::TYPE_REQUIRE      => 'require',
-            PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE => 'require_once',
-        );
-
-        return $map[$node->type] . ' ' . $this->p($node->expr);
-    }
-    */
     public static $map = array(
-        PHPParser_Node_Expr_Include::TYPE_INCLUDE      => 'include',
+        PHPParser_Node_Expr_Include::TYPE_INCLUDE => 'include',
         PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE => 'include_once',
-        PHPParser_Node_Expr_Include::TYPE_REQUIRE      => 'require',
-        PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE => 'require_once',
+        PHPParser_Node_Expr_Include::TYPE_REQUIRE => 'require',
+        PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE => 'require_once'
     );
 
     /**
@@ -55,7 +43,5 @@ class IncludeStatement extends AbstractStatement
         $line->add(self::$map[$this->node->type])->add(' ');
         // Resolve expr
         $this->resolveNode($this->node->expr, $treeNode);
-        // Add line termination
-        $line->add(';')->add(new HardLineBreak());
     }
 }

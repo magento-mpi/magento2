@@ -29,10 +29,6 @@ class PropertyReference extends AbstractVariableReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return '$' . $node->name
-             . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the variable reference

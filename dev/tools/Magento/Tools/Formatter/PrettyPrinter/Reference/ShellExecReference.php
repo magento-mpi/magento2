@@ -31,9 +31,6 @@ class ShellExecReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return '`' . $this->pEncapsList($node->parts, '`') . '`';;
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $line->add('`');

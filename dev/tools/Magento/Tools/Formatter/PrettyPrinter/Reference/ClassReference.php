@@ -36,6 +36,6 @@ class ClassReference extends AbstractReference
             $line->add('\\');
         }
         // add the name to the end of the current line
-        $line->add((string)$this->node);
+        $line->add((string) $this->node);
     }
 }

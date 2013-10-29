@@ -15,10 +15,12 @@ class LogicalOrOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return 'or';
     }
+
     /* 'Expr_LogicalOr'        => array(18, -1), */
     public function precedence()
     {

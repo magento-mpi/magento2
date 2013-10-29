@@ -34,5 +34,4 @@ class WrapperLineBreak extends ConditionalLineBreak
     {
         return 1;
     }
-
 }

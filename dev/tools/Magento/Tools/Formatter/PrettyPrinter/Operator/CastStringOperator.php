@@ -15,9 +15,9 @@ class CastStringOperator extends AbstractCastOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '(string) ';
     }
-    /* 'Expr_Cast_String'      => array( 1,  1), */
 }

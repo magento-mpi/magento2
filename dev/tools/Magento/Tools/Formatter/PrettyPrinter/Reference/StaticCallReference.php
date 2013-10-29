@@ -33,23 +33,17 @@ class StaticCallReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $this->p($node->class) . '::'
-            . ($node->name instanceof PHPParser_Node_Expr
-              ? $node->name instanceof PHPParser_Node_Expr_Variable ||
-                $node->name instanceof PHPParser_Node_Expr_ArrayDimFetch
-                ? $this->p($node->name)
-                : '{' . $this->p($node->name) . '}'
-              : $node->name)
-            . '(' . $this->getParametersForCall($node->args) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $this->resolveNode($this->node->class, $treeNode);
         $line->add('::');
         if ($this->node->name instanceof PHPParser_Node_Expr) {
-            if ($this->node->name instanceof PHPParser_Node_Expr_Variable ||
-                $this->node->name instanceof PHPParser_Node_Expr_ArrayDimFetch) {
+            if (
+                $this->node->name instanceof
+                PHPParser_Node_Expr_Variable ||
+                $this->node->name instanceof
+                PHPParser_Node_Expr_ArrayDimFetch
+            ) {
                 // add in the value as a node
                 $this->resolveNode($this->node->name, $treeNode);
             } else {

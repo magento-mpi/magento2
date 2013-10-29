@@ -15,10 +15,12 @@ class BitwiseAndOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '&';
     }
+
     /* 'Expr_BitwiseAnd'       => array( 9, -1), */
     public function precedence()
     {

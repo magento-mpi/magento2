@@ -29,9 +29,6 @@ class ClassConstant extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $node->name . ' = ' . $this->p($node->value);
-         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the name to the end of the current line

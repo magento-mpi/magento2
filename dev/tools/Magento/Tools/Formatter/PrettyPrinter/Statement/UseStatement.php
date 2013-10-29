@@ -31,14 +31,6 @@ class UseStatement extends AbstractStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        $result = '';
-        // loop through and place each use on a line
-        foreach ($node->uses as $use) {
-            $result .= 'use ' . $this->p($use) . ';' . self::EOL;
-        }
-        return $result;
-         */
         // loop through and place each use on a line
         foreach ($this->node->uses as $use) {
             // add the line to the tree

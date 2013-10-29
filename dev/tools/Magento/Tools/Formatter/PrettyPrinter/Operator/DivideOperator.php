@@ -15,9 +15,9 @@ class DivideOperator extends AbstractMathOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '/';
     }
-    /* 'Expr_Div'              => array( 4, -1), */
 }

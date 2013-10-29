@@ -15,10 +15,12 @@ class BitwiseXorOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '^';
     }
+
     /* 'Expr_BitwiseXor'       => array(10, -1), */
     public function precedence()
     {

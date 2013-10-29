@@ -31,13 +31,6 @@ class TryCatchStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'try {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}'
-             . $this->pImplode($node->catches)
-             . ($node->finallyStmts !== null
-                ? ' finally {' . "\n" . $this->pStmts($node->finallyStmts) . "\n" . '}'
-                : '');
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the try line

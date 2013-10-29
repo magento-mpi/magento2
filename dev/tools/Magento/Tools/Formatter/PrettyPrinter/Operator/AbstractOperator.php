@@ -18,9 +18,13 @@ use PHPParser_Node;
 abstract class AbstractOperator extends AbstractSyntax
 {
     protected $terminate = false;
+
     abstract public function operator();
+
     abstract public function associativity();
+
     abstract public function precedence();
+
     /**
      * Prints an expression node with the least amount of parentheses necessary to preserve the meaning.
      *
@@ -56,8 +60,13 @@ abstract class AbstractOperator extends AbstractSyntax
             $childPrecedence = $child->precedence();
             $parentPrecedence = $this->precedence();
             $parentAssociativity = $this->associativity();
-            if ($childPrecedence > $parentPrecedence
-                || ($parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition)
+            if (
+                $childPrecedence >
+                $parentPrecedence ||
+                $parentPrecedence ==
+                $childPrecedence &&
+                $parentAssociativity !=
+                $childPosition
             ) {
                 $lineBreak = new WrapperLineBreak();
                 $treeNode->getData()->line->add('(')->add($lineBreak);

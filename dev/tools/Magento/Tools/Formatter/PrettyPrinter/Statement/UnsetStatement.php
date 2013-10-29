@@ -31,9 +31,6 @@ class UnsetStatement extends AbstractStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'unset(' . $this->pCommaSeparated($node->vars) . ');';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the class line

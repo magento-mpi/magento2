@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-
 use Magento\Tools\Formatter\PrettyPrinter\Operator\AbstractInfixOperator;
 
 class InfixOperatorLineBreak extends ConditionalLineBreak
@@ -16,11 +15,13 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
      * @var AbstractInfixOperator
      */
     private $operator;
+
     public function __construct(AbstractInfixOperator $operator)
     {
-        parent::__construct(array(array(' '),array(new HardIndentLineBreak())));
+        parent::__construct(array(array(' '), array(new HardIndentLineBreak())));
         $this->operator = $operator;
     }
+
     /**
      * @return AbstractInfixOperator
      */
@@ -36,7 +37,7 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
      */
     public function getSortOrder()
     {
-        return 2; // TODO add inverse precedence to sort order
+        // TODO add inverse precedence to sort order
+        return 2;
     }
-
 }

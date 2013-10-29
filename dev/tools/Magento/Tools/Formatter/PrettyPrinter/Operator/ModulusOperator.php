@@ -15,9 +15,9 @@ class ModulusOperator extends AbstractMathOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '%';
     }
-    /* 'Expr_Mod'              => array( 4, -1), */
 }

@@ -15,10 +15,12 @@ class ShiftRightOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '>>';
     }
+
     /* 'Expr_ShiftRight'        => array( 6, -1), */
     public function precedence()
     {

@@ -9,9 +9,10 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_StaticPropertyFetch;
 
-class StaticPropertyReference extends AbstractReference
+class StaticPropertyReference extends AbstractPropertyReference
 {
     /**
      * This method constructs a new reference based on the specified constant.
@@ -29,9 +30,6 @@ class StaticPropertyReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-                return $this->p($node->class) . '::$' . $this->pObjectProperty($node->name);
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the class reference

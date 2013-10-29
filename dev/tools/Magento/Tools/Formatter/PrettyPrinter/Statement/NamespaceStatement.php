@@ -22,6 +22,7 @@ class NamespaceStatement extends AbstractStatement
     {
         parent::__construct($node);
     }
+
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
@@ -54,6 +55,7 @@ class NamespaceStatement extends AbstractStatement
         // this is called to add the use and class lines
         return $originatingNode->addSibling($newNode);
     }
+
     /**
      * We should trim these comments
      * @return bool

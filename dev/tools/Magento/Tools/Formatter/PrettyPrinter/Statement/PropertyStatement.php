@@ -31,9 +31,6 @@ class PropertyStatement extends ClassMemberAbstract
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $this->pModifiers($node->type) . $this->pCommaSeparated($node->props) . ';';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the property line

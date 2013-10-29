@@ -30,10 +30,6 @@ class CaseStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return (null !== $node->cond ? 'case ' . $this->p($node->cond) : 'default') . ':'
-             . ($node->stmts ? "\n" . $this->pStmts($node->stmts) : '');
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the control word

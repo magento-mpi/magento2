@@ -31,9 +31,6 @@ class EchoStatement extends AbstractStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'echo ' . $this->pCommaSeparated($node->exprs) . ';';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the class line

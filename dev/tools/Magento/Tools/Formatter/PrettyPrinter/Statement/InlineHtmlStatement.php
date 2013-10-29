@@ -29,9 +29,6 @@ class InlineHtmlStatement extends AbstractStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
-         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $line->add($this->node->value);

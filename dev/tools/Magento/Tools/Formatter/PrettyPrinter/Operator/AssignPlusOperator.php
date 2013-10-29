@@ -15,9 +15,9 @@ class AssignPlusOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '+=';
     }
-    /* 'Expr_AssignPlus'       => array(15,  1), */
 }

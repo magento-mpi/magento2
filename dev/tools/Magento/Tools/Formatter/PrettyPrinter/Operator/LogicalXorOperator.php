@@ -15,10 +15,12 @@ class LogicalXorOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return 'xor';
     }
+
     /* 'Expr_LogicalXor'       => array(17, -1), */
     public function precedence()
     {

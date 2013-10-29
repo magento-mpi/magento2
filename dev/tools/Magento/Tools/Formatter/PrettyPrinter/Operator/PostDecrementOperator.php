@@ -15,15 +15,18 @@ class PostDecrementOperator extends AbstractPostfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '--';
     }
+
     /* 'Expr_PostDec'          => array( 1, -1), */
     public function associativity()
     {
         return 1;
     }
+
     public function precedence()
     {
         return 1;

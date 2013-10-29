@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\Tree\Node;
@@ -15,11 +14,6 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 class NodeLeveler extends LevelNodeVisitor
 {
     const MAX_LINE_LENGTH = 120;
-
-    /**
-     * This member holds what is being used as a prefix to the line (i.e. 4 spaces).
-     */
-    const PREFIX = '    ';
 
     /**
      * This method is called when first visiting a node.
@@ -73,7 +67,7 @@ class NodeLeveler extends LevelNodeVisitor
      */
     protected function checkLine(Line $line, TreeNode $treeNode)
     {
-        $requiresMoreProcessing = false;
+        $invalid = false;
         // split the lines at the 0th level to check for length
         $currentLines = $line->splitLine(0);
         switch (sizeof($currentLines)) {
@@ -83,13 +77,13 @@ class NodeLeveler extends LevelNodeVisitor
                     $line->setTokens(current($currentLines));
                 } else {
                     // otherwise, it needs more processing
-                    $requiresMoreProcessing = true;
+                    $invalid = true;
                 }
                 break;
             default:
                 $fits = true;
                 $level = $this->level;
-                foreach($currentLines as $currentLine) {
+                foreach ($currentLines as $currentLine) {
                     if (!$this->fitsOnLine($currentLine)) {
                         $fits = false;
                         break;
@@ -103,10 +97,10 @@ class NodeLeveler extends LevelNodeVisitor
                     $this->splitNode($line, $currentLines, $treeNode);
                 } else {
                     // otherwise, it needs more processing
-                    $requiresMoreProcessing = true;
+                    $invalid = true;
                 }
         }
-        return $requiresMoreProcessing;
+        return $invalid;
     }
 
     /**
@@ -114,7 +108,8 @@ class NodeLeveler extends LevelNodeVisitor
      * @param mixed $children Array of children or single child to copy.
      * @param TreeNode $target Node to copy to.
      */
-    protected function copyChildren($children, TreeNode $target) {
+    protected function copyChildren($children, TreeNode $target)
+    {
         if (null !== $children) {
             if (is_array($children)) {
                 foreach ($children as $child) {
@@ -131,7 +126,8 @@ class NodeLeveler extends LevelNodeVisitor
      * @param TreeNode $source Node containing the children to copy
      * @param TreeNode $target Node to copy to.
      */
-    protected function copyChildrenFromNode(TreeNode $source, TreeNode $target) {
+    protected function copyChildrenFromNode(TreeNode $source, TreeNode $target)
+    {
         if ($source->hasChildren()) {
             $this->copyChildren($source->getChildren(), $target);
         }
@@ -142,7 +138,8 @@ class NodeLeveler extends LevelNodeVisitor
      * @param TreeNode $source Node to copy from.
      * @param TreeNode $target Node to copy to.
      */
-    protected function copyContents(TreeNode $source, TreeNode $target) {
+    protected function copyContents(TreeNode $source, TreeNode $target)
+    {
         // replace the line contents
         $target->getData()->line = $source->getData()->line;
         // move children from one node to the other
@@ -160,7 +157,7 @@ class NodeLeveler extends LevelNodeVisitor
         // determine the length of the resulting line
         $lineLength = strlen($line[Line::ATTRIBUTE_LINE]);
         if (!array_key_exists(Line::ATTRIBUTE_NO_INDENT, $line)) {
-            $lineLength += $this->level * strlen(self::PREFIX);
+            $lineLength += $this->level * strlen(NodePrinter::PREFIX);
         }
         // check to see if it fits
         return self::MAX_LINE_LENGTH >= $lineLength;
@@ -171,7 +168,8 @@ class NodeLeveler extends LevelNodeVisitor
      * @param Line $line Line to check.
      * @return Tree Best looking sub-tree representing the given line.
      */
-    protected function getLineTree(Line $line) {
+    protected function getLineTree(Line $line)
+    {
         $sortOrders = $line->getSortedLineBreaks();
         // determine which sort order produces the best results
         foreach ($sortOrders as $sortOrder) {
@@ -195,7 +193,8 @@ class NodeLeveler extends LevelNodeVisitor
      * @param int $sortOrder Sort order indicator to use to split the line.
      * @param Node $treeNode Node to append the lines to.
      */
-    protected function getLineTreeForSortOrder(Line $line, $sortOrder, Node $treeNode) {
+    protected function getLineTreeForSortOrder(Line $line, $sortOrder, Node $treeNode)
+    {
         $currentLines = $line->splitLineBySortOrder($sortOrder);
         $lastTerminator = new HardLineBreak();
         foreach ($currentLines as $currentLine) {

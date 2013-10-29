@@ -82,16 +82,19 @@ class ParameterLineBreak extends ConditionalLineBreak
             }
         } else {
             // otherwise, there are no parameters, so treat all levels the same
-            switch ($index) {
-                case 0:
-                    $result = '';
-                    break;
-                default:
-                    $result = new HardLineBreak();
-                    break;
-            }
+            $result = new HardLineBreak();
         }
 
         return $result;
+    }
+
+    /**
+     * This method returns a flag indicating that when placed in a list, an additional instance is
+     * required after the list.
+     * @return bool
+     */
+    public function isAfterListRequired()
+    {
+        return true;
     }
 }

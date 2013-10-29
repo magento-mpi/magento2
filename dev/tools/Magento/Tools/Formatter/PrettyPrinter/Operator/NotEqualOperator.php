@@ -15,10 +15,12 @@ class NotEqualOperator extends AbstractInfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '!=';
     }
+
     /* 'Expr_NotEqual'         => array( 8,  0), */
     public function associativity()
     {

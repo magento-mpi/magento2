@@ -30,11 +30,6 @@ class ThrowStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        public function pStmt_Throw(PHPParser_Node_Stmt_Throw $node) {
-            return 'throw ' . $this->p($node->expr) . ';';
-        }
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the class line

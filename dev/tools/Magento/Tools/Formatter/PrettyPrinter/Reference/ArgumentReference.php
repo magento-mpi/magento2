@@ -29,9 +29,6 @@ class ArgumentReference extends AbstractVariableReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return ($node->byRef ? '&' : '') . $this->p($node->value);
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the reference, if needed

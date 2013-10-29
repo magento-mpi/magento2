@@ -29,10 +29,6 @@ class UseReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $this->p($node->name)
-             . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
-         */
         // process the name
         $this->resolveNode($this->node->name, $treeNode);
         // process the alias, if needed

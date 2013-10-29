@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
 /**
@@ -16,10 +15,15 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 class Line
 {
     const ATTRIBUTE_INDEX = 'index';
+
     const ATTRIBUTE_LINE = 'line';
+
     const ATTRIBUTE_NO_INDENT = 'noindent';
+
     const ATTRIBUTE_SORT_ORDER = 'sortOrder';
+
     const ATTRIBUTE_TERMINATOR = 'terminator';
+
     const ATTRIBUTE_TOTAL = 'total';
 
     /**
@@ -127,7 +131,8 @@ class Line
     /**
      * This method returns the array of tokens that make up the line.
      */
-    public function getTokens() {
+    public function getTokens()
+    {
         return $this->tokens;
     }
 
@@ -181,8 +186,11 @@ class Line
     protected function resetLineBreakIndex()
     {
         // reset the index information for the line breaks
-        foreach ($this->lineBreakTokens as $key => $lineBreakToken) {
-            $this->lineBreakTokens[$key][self::ATTRIBUTE_INDEX] = 0;
+        $lineBreakToken = reset($this->lineBreakTokens);
+        while ($lineBreakToken) {
+            // reset the index directly in the item in memory
+            $this->lineBreakTokens[key($this->lineBreakTokens)][self::ATTRIBUTE_INDEX] = 0;
+            $lineBreakToken = next($this->lineBreakTokens);
         }
     }
 
@@ -190,7 +198,8 @@ class Line
      * This method saves information about a newly added token that happens to be a line break.
      * @param LineBreak $lineBreak Token being placed in the string.
      */
-    protected function saveLineBreakToken(LineBreak $lineBreak) {
+    protected function saveLineBreakToken(LineBreak $lineBreak)
+    {
         // determine how the line break information is going to be saved (called the id)
         $lineBreakId = $lineBreak->getGroupingId();
         // if the key doesn't exist in the array, then add an array so the next part will work
@@ -227,14 +236,16 @@ class Line
                 $groupingId = $token->getGroupingId();
                 $resolvedToken = $token->getValue(
                     $level,
-                    $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
-                    $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
+                    $this
+                    ->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
+                    $this
+                    ->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
                 );
                 if ($resolvedToken instanceof HardLineBreak) {
                     $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $resolvedToken;
                     $index++;
                 } else {
-                    $currentLines[$index][self::ATTRIBUTE_LINE] .= (string)$resolvedToken;
+                    $currentLines[$index][self::ATTRIBUTE_LINE] .= (string) $resolvedToken;
                 }
             } elseif ($token instanceof IndentConsumer) {
                 // if there is the special flag in the line, then note it in the resulting line
@@ -265,8 +276,10 @@ class Line
                 if ($this->lineBreakTokens[$groupingId][self::ATTRIBUTE_SORT_ORDER] <= $sortOrder) {
                     $token = $token->getValue(
                         1,
-                        $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
-                        $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
+                        $this
+                        ->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
+                        $this
+                        ->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
                     );
                 }
             }

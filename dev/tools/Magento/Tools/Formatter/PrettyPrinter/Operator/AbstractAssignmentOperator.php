@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
@@ -17,10 +16,12 @@ abstract class AbstractAssignmentOperator extends AbstractInfixOperator
     {
         return $this->node->var;
     }
+
     public function right()
     {
         return $this->node->expr;
     }
+
     /**
      * We override this from the base class as Assignment operators should not have the conditional line break
      * like the other infix operators.
@@ -29,10 +30,9 @@ abstract class AbstractAssignmentOperator extends AbstractInfixOperator
     {
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        $line->add(' ')
-            ->add($this->operator())
-            ->add(' ');
+        $line->add(' ')->add($this->operator())->add(' ');
     }
+
     /**
      * Most Assignment operators have an associativity of 1
      *
@@ -42,6 +42,7 @@ abstract class AbstractAssignmentOperator extends AbstractInfixOperator
     {
         return 1;
     }
+
     /**
      * Most Assignment operators have an associativity of 15
      *

@@ -15,9 +15,9 @@ class CastIntOperator extends AbstractCastOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '(int) ';
     }
-    /* 'Expr_Cast_Int'         => array( 1,  1), */
 }

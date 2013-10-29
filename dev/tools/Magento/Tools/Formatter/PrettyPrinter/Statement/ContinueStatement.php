@@ -30,9 +30,6 @@ class ContinueStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'continue' . ($node->num !== null ? ' ' . $this->p($node->num) : '') . ';';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the const line

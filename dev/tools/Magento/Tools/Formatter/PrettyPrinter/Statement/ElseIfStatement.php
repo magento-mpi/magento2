@@ -30,10 +30,6 @@ class ElseIfStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return ' elseif (' . $this->p($node->cond) . ') {'
-             . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the if line

@@ -29,9 +29,6 @@ class PrintReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'print ' . $this->p($node->expr);
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the empty statement

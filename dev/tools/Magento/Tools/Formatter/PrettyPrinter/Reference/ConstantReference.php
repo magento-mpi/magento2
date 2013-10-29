@@ -28,22 +28,15 @@ class ConstantReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Pretty Printer Reference
-        $result = $this->p($node->name);
-        if (strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 ||
-            strcasecmp('NULL', $result) === 0) {
-            $result = strtolower($result);
-        }
-        return $result;
-        */
         // get the node by name
         $this->resolveNode($this->node->name, $treeNode);
         // retrieve the tokens array
         $tokens = $treeNode->getData()->line->getTokens();
         // get the last item in the array
         $result = $tokens[sizeof($tokens) - 1];
-        if (strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 ||
-            strcasecmp('NULL', $result) === 0) {
+        if (
+            strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 || strcasecmp('NULL', $result) === 0
+        ) {
             $tokens[sizeof($tokens) - 1] = strtolower($result);
             // reset the last item in the array due to php's "copy-on-write" rule for arrays
             $treeNode->getData()->line->setTokens($tokens);

@@ -31,10 +31,6 @@ class SwitchStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'switch (' . $this->p($node->cond) . ') {'
-             . "\n" . $this->pStmts($node->cases) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the control word

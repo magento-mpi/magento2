@@ -15,9 +15,9 @@ class AssignRefOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '=&';
     }
-    /* 'Expr_AssignRef'        => array(15,  1), */
 }

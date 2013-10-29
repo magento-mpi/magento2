@@ -15,9 +15,9 @@ class AssignMinusOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '-=';
     }
-    /* 'Expr_AssignMinus'      => array(15,  1), */
 }

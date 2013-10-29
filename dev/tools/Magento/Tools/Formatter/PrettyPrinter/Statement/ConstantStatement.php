@@ -31,9 +31,6 @@ class ConstantStatement extends ClassMemberAbstract
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'const ' . $this->pCommaSeparated($node->consts) . ';';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the const line

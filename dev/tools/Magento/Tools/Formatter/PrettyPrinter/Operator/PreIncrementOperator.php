@@ -15,19 +15,23 @@ class PreIncrementOperator extends AbstractPrefixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '++';
     }
+
     /* 'Expr_PreInc'           => array( 1,  1), */
     public function associativity()
     {
         return 1;
     }
+
     public function precedence()
     {
         return 1;
     }
+
     public function expr()
     {
         return $this->node->var;

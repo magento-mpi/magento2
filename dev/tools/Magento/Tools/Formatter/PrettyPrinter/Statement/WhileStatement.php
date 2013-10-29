@@ -29,10 +29,6 @@ class WhileStatement extends AbstractLoopStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'while (' . $this->p($node->cond) . ') {'
-             . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the namespace line

@@ -32,11 +32,6 @@ class FunctionStatement extends AbstractScriptStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'function ' . ($node->byRef ? '&' : '') . $node->name
-             . '(' . $this->pCommaSeparated($node->params) . ')'
-             . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the function line
@@ -49,7 +44,6 @@ class FunctionStatement extends AbstractScriptStatement
         $line->add($this->node->name)->add('(');
         $lineBreak = new ParameterLineBreak();
         $this->processArgumentList($this->node->params, $treeNode, $line, $lineBreak);
-        $line->add($lineBreak);
         $line->add(')')->add($lineBreak)->add('{')->add(new HardLineBreak());
         // process content of the methods
         $this->processNodes($this->node->stmts, $treeNode);

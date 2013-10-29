@@ -29,9 +29,6 @@ class EmptyReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'empty(' . $this->p($node->expr) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the empty statement

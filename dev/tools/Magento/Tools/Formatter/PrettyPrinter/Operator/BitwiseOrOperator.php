@@ -15,10 +15,12 @@ class BitwiseOrOperator extends AbstractLeftAssocOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '|';
     }
+
     /* 'Expr_BitwiseOr'        => array(11, -1), */
     public function precedence()
     {

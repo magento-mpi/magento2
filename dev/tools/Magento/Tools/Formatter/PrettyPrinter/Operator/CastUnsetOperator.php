@@ -15,9 +15,9 @@ class CastUnsetOperator extends AbstractCastOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '(unset) ';
     }
-    /* 'Expr_Cast_Unset'       => array( 1,  1), */
 }

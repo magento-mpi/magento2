@@ -37,14 +37,11 @@ class MethodCall extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name)
-             . '(' . $this->pCommaSeparated($node->args) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
-        // add the expression to the end of the current line
-        $this->resolveNode($this->node->var, $treeNode);
+        // add the variable
+        $this->resolveVariable($this->node->var, $treeNode);
+        // add in the dereference
         $line->add(new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');
         // if the name is an expression, then use the framework to resolve
         if ($this->node->name instanceof PHPParser_Node_Expr) {

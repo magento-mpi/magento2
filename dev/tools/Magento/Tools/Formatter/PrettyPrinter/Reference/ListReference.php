@@ -22,6 +22,7 @@ class ListReference extends AbstractFunctionReference
     {
         parent::__construct($node);
     }
+
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
@@ -29,17 +30,6 @@ class ListReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        $pList = array();
-        foreach ($node->vars as $var) {
-            if (null === $var) {
-                $pList[] = '';
-            } else {
-                $pList[] = $this->p($var);
-            }
-        }
-        return 'list(' . implode(', ', $pList) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $line->add('list(');

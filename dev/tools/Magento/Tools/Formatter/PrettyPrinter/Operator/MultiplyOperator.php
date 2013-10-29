@@ -15,9 +15,9 @@ class MultiplyOperator extends AbstractMathOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '*';
     }
-    /* 'Expr_Mul'              => array( 4, -1), */
 }

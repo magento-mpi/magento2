@@ -15,9 +15,9 @@ class AssignDivideOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '/=';
     }
-    /* 'Expr_AssignDiv'        => array(15,  1), */
 }

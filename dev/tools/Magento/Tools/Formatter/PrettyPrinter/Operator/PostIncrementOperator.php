@@ -15,15 +15,18 @@ class PostIncrementOperator extends AbstractPostfixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '++';
     }
+
     /* 'Expr_PostInc'          => array( 1, -1), */
     public function associativity()
     {
         return -1;
     }
+
     public function precedence()
     {
         return 1;

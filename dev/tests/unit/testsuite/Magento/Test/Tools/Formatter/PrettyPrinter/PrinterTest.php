@@ -228,15 +228,6 @@ FORMATTEDCODESNIPPET
             ),
             array(<<<ORIGINALCODESNIPPET
 <?php
-/**
- * {license_notice}
- *
- * @category    Magento
- * @package     Errors
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
 require_once __DIR__.'processor.php';
 require __DIR__.'processor.php';
 require_once __FILE__.'processor.php';
@@ -258,15 +249,6 @@ require 'processor'.'.php';
 ORIGINALCODESNIPPET
             , <<<FORMATTEDCODESNIPPET
 <?php
-/**
- * {license_notice}
- *
- * @category    Magento
- * @package     Errors
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
 require_once __DIR__ . 'processor.php';
 require __DIR__ . 'processor.php';
 require_once __FILE__ . 'processor.php';

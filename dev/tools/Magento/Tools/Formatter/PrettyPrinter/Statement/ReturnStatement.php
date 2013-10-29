@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
@@ -31,9 +30,6 @@ class ReturnStatement extends AbstractStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'return' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '') . ';';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the return line

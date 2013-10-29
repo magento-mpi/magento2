@@ -30,20 +30,11 @@ class IntegerNumberReference extends AbstractScalarReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
-        if (null === $result) {
-            $result = parent::pScalar_LNumber($node);
-        }
-        return $result;
-
-        return (string) $node->value;
-         */
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {
             // otherwise, do the best guess at resolving it as a number
-            $stringValue = (string)$this->node->value;
+            $stringValue = (string) $this->node->value;
         }
         /** @var Line $line */
         $line = $treeNode->getData()->line;

@@ -30,12 +30,6 @@ class ForEachStatement extends AbstractLoopStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'foreach (' . $this->p($node->expr) . ' as '
-             . (null !== $node->keyVar ? $this->p($node->keyVar) . ' => ' : '')
-             . ($node->byRef ? '&' : '') . $this->p($node->valueVar) . ') {'
-             . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the namespace line

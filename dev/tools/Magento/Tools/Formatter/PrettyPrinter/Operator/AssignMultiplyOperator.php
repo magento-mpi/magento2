@@ -15,9 +15,9 @@ class AssignMultiplyOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '*=';
     }
-    /* 'Expr_AssignMul'        => array(15,  1), */
 }

@@ -31,9 +31,6 @@ class FunctionCall extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return $this->p($node->name) . '(' . $this->getParametersForCall($node->args) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         $this->resolveNode($this->node->name, $treeNode);

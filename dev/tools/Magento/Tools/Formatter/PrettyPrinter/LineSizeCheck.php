@@ -54,7 +54,7 @@ class LineSizeCheck extends LevelNodeVisitor
             // determine the length of the resulting line
             $lineLength = strlen($lineText);
             if (!array_key_exists(Line::ATTRIBUTE_NO_INDENT, current($currentLines))) {
-                $lineLength += $this->level * strlen(NodeLeveler::PREFIX);
+                $lineLength += $this->level * strlen(NodePrinter::PREFIX);
             }
             // check to see if it fits
             if (NodeLeveler::MAX_LINE_LENGTH >= $lineLength) {

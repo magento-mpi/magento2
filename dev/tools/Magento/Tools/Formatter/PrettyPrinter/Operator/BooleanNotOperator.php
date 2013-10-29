@@ -15,15 +15,18 @@ class BooleanNotOperator extends AbstractPrefixOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '!';
     }
+
     /* 'Expr_BooleanNot'       => array( 3,  1), */
     public function associativity()
     {
         return 1;
     }
+
     public function precedence()
     {
         return 3;

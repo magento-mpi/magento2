@@ -31,13 +31,6 @@ class ForStatement extends AbstractLoopStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'for ('
-             . $this->pCommaSeparated($node->init) . ';' . (!empty($node->cond) ? ' ' : '')
-             . $this->pCommaSeparated($node->cond) . ';' . (!empty($node->loop) ? ' ' : '')
-             . $this->pCommaSeparated($node->loop)
-             . ') {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the namespace line

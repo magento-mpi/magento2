@@ -32,12 +32,6 @@ class IfStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'if (' . $this->p($node->cond) . ') {'
-             . "\n" . $this->pStmts($node->stmts) . "\n" . '}'
-             . $this->pImplode($node->elseifs)
-             . (null !== $node->else ? $this->p($node->else) : '');
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the if line

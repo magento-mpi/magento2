@@ -5,14 +5,15 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
+use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node_Stmt_Class;
 use PHPParser_Node_Stmt_ClassMethod;
 
 class MethodStatement extends ClassMemberAbstract
@@ -33,28 +34,6 @@ class MethodStatement extends ClassMemberAbstract
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        // predetermine parameters for the function
-        $parameters = $this->getParametersForCall($node->params);
-        $result = $this->pModifiers($node->type) . 'function ';
-        if ($node->byRef) {
-            $result .= '&';
-        }
-        $result .= $node->name . '(' . $parameters . ')';
-        if (null !== $node->stmts) {
-            // if the parameter span multiple lines, then start block on the same line; otherwise, start on new line
-            if ($this->countNewlines($parameters) > 0) {
-                $result .= ' ';
-            } else {
-                $result .= self::EOL;
-            }
-            $result .= '{' . self::EOL . $this->pStmts($node->stmts) . self::EOL . '}';
-        } else {
-            $result .= ';';
-        }
-        $result .= self::EOL;
-        return $result;
-         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the class line
@@ -63,14 +42,15 @@ class MethodStatement extends ClassMemberAbstract
         if ($this->node->byRef) {
             $line->add('&');
         }
+        // note if method has statements
+        $hasStatements = null !== $this->node->stmts;
         // add in the parameters
-        $lineBreak = new ParameterLineBreak();
+        $lineBreak = $hasStatements ? new ParameterLineBreak() : new CallLineBreak();
         $line->add($this->node->name)->add('(');
         $this->processArgumentList($this->node->params, $treeNode, $line, $lineBreak);
-        $line->add($lineBreak);
         $line->add(')');
         // add in the optional statements
-        if (null !== $this->node->stmts) {
+        if ($hasStatements) {
             $line->add($lineBreak)->add('{')->add(new HardLineBreak());
             // process content of the methods
             $this->processNodes($this->node->stmts, $treeNode);

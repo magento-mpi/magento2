@@ -31,10 +31,6 @@ class DoStatement extends AbstractLoopStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'do {' . "\n" . $this->pStmts($node->stmts) . "\n"
-             . '} while (' . $this->p($node->cond) . ');';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the namespace line

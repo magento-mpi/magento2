@@ -30,23 +30,11 @@ class DecimalNumberReference extends AbstractScalarReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
-        if (null === $result) {
-            $result = parent::pScalar_DNumber($node);
-        }
-        return $result;
-
-        $stringValue = (string) $node->value;
-
-        // ensure that number is really printed as float
-        return ctype_digit($stringValue) ? $stringValue . '.0' : $stringValue;
-         */
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {
             // otherwise, do the best guess at resolving it as a number
-            $stringValue = (string)$this->node->value;
+            $stringValue = (string) $this->node->value;
             // ensure that number is really printed as decimal
             if (ctype_digit($stringValue)) {
                 $stringValue .= '.0';

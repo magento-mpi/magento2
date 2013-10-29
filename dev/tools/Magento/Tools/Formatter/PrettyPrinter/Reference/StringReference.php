@@ -32,24 +32,6 @@ class StringReference extends AbstractScalarReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
-        $heredocCloseTag = $node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
-        if (null !== $heredocCloseTag) {
-            $result = $this->processHeredoc($heredocCloseTag, $this->preventIndent($node->value));
-        } elseif (null === $result) {
-            // if nothing there, then use the base class version
-            $result = parent::pScalar_String($node);
-        }
-        return $result;
-
-        return '\'' . $this->pNoIndent(addcslashes($node->value, '\'\\')) . '\'';
-
-        $result = '<<<' . $heredocCloseTag . self::EOL . $this->noIndentToken;
-        $result .= $body;
-        $result .= self::EOL . $this->noIndentToken . $heredocCloseTag;
-        return $result;
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // if the original value exists, just use that so that the number representation does not change

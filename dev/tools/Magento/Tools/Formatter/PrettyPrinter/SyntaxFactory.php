@@ -83,6 +83,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\ExpressionReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FileConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FunctionCall;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\FunctionConstantReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\IncludeReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\IntegerNumberReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\IssetReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\LineConstantReference;
@@ -117,7 +118,6 @@ use Magento\Tools\Formatter\PrettyPrinter\Statement\ForStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\FunctionStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\GlobalVariableStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\IfStatement;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\IncludeStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\InlineHtmlStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\InterfaceStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\MethodStatement;
@@ -213,7 +213,7 @@ class SyntaxFactory
     protected function registerExprs()
     {
         $this->register('Expr_Isset', IssetReference::getType());
-        $this->register('Expr_Include', IncludeStatement::getType());
+        $this->register('Expr_Include', IncludeReference::getType());
         $this->register('Expr_Instanceof', InstanceofOperator::getType());
         $this->register('Expr_Cast_Int', CastIntOperator::getType());
         $this->register('Expr_Cast_Double', CastDoubleOperator::getType());

@@ -31,9 +31,6 @@ class StaticVariableStatement extends AbstractScriptStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'static ' . $this->pCommaSeparated($node->vars) . ';';
-         */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the function line

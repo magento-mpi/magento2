@@ -30,9 +30,6 @@ class IssetReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return 'isset(' . $this->pCommaSeparated($node->vars) . ')';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add in the empty statement

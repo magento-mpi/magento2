@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\Line;
@@ -71,12 +70,8 @@ abstract class AbstractSyntax
      * @param Line $line
      * @param LineBreak $lineBreak
      */
-    protected function processArgumentList(
-        array $arguments,
-        TreeNode $treeNode,
-        Line $line,
-        LineBreak $lineBreak
-    ) {
+    protected function processArgumentList(array $arguments, TreeNode $treeNode, Line $line, LineBreak $lineBreak)
+    {
         if (!empty($arguments)) {
             foreach ($arguments as $index => $argument) {
                 // add the line break prior to the argument

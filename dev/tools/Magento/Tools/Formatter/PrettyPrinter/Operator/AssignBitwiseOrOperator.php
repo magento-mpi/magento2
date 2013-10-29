@@ -15,9 +15,9 @@ class AssignBitwiseOrOperator extends AbstractAssignmentOperator
     {
         parent::__construct($node);
     }
+
     public function operator()
     {
         return '|=';
     }
-    /* 'Expr_AssignBitwiseOr'  => array(15,  1), */
 }

@@ -5,9 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
-
 
 class InstanceofOperator extends AbstractInfixOperator
 {
@@ -25,14 +23,17 @@ class InstanceofOperator extends AbstractInfixOperator
     {
         return 'instanceof';
     }
+
     public function left()
     {
         return $this->node->expr;
     }
+
     public function right()
     {
         return $this->node->class;
     }
+
     /* 'Expr_Instanceof'       => array( 2,  0), */
     public function associativity()
     {

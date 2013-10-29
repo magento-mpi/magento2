@@ -30,10 +30,6 @@ class CatchStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /* Reference
-        return ' catch (' . $this->p($node->type) . ' $' . $node->var . ') {'
-             . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        */
         /** @var Line $line */
         $line = $treeNode->getData()->line;
         // add the try line

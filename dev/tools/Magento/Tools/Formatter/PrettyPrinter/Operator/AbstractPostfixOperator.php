@@ -26,6 +26,7 @@ abstract class AbstractPostfixOperator extends AbstractOperator
         $this->resolvePrecedence($this->expr(), $treeNode, -1);
         $line->add($this->operator());
     }
+
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
@@ -35,6 +36,7 @@ abstract class AbstractPostfixOperator extends AbstractOperator
         parent::resolve($treeNode);
         $this->resolvePostfixOperator($treeNode);
     }
+
     public function expr()
     {
         return $this->node->var;
