@@ -9,9 +9,6 @@
 -->
 <config>
     <type name="Magento\DesignEditor\Controller\Varien\Router\Standard">
-        <param name="baseController">
-            <value>Magento\Core\Controller\Varien\Action</value>
-        </param>
         <param name="routerId">
             <value>vde</value>
         </param>

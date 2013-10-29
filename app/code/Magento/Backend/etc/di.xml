@@ -25,17 +25,8 @@
         </param>
     </type>
     <type name="Magento\Backend\App\Router\DefaultRouter">
-        <param name="controllerFactory">
-            <instance type="Magento\Backend\Controller\Factory" />
-        </param>
-        <param name="baseController">
-            <value>Magento\Backend\Controller\AbstractAction</value>
-        </param>
         <param name="routerId">
             <value>admin</value>
-        </param>
-        <param name="defaultRouteId">
-            <value>adminhtml</value>
         </param>
     </type>
     <type name="Magento\Backend\Controller\Adminhtml\System\Config\Save">

@@ -247,14 +247,8 @@
         </param>
     </type>
     <type name="Magento\Core\App\Router\Base">
-        <param name="baseController">
-            <value>Magento\Core\Controller\Varien\Action</value>
-        </param>
         <param name="routerId">
             <value>standard</value>
-        </param>
-        <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config" />
         </param>
     </type>
     <type name="Magento\App\Router\NoRouteHandlerList">
