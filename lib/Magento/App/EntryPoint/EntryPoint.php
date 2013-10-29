@@ -39,8 +39,8 @@ class EntryPoint implements EntryPointInterface
         ObjectManager $objectManager = null
     ) {
         $this->_parameters = $parameters;
-        \Magento\Profiler::start('locator');
         if (!$this->_locator) {
+            \Magento\Profiler::start('locator');
             try {
                 $locatorFactory = new ObjectManagerFactory();
                 $objectManager = $locatorFactory->create($rootDir, $parameters);
@@ -56,9 +56,10 @@ class EntryPoint implements EntryPointInterface
                 } else {
                     print "Exception happened during application bootstrap.";
                 }
+                exit;
             }
+            \Magento\Profiler::stop('locator');
         }
-        \Magento\Profiler::stop('locator');
         $this->_locator = $objectManager;
     }
 
@@ -108,12 +109,11 @@ class EntryPoint implements EntryPointInterface
      */
     public function run($applicationName)
     {
-        \Magento\Profiler::start('app');
         try {
             return $this->_locator->get($applicationName)->execute();
         } catch (\Exception $e) {
+            $this->_processException($e);
             return -1;
         }
-        \Magento\Profiler::stop('app');
     }
 }

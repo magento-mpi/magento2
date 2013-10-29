@@ -14,7 +14,6 @@ use Magento\App\Dir,
     Magento\App\Config,
     Magento\ObjectManager\Config\Config as ObjectManagerConfig,
     Magento\ObjectManager\Factory\Factory,
-    Magento\ObjectManager as ObjectManager,
     Magento\Profiler;
 
 class ObjectManagerFactory
@@ -47,7 +46,7 @@ class ObjectManagerFactory
             )
         );
 
-        $definitionFactory = new ObjectManager\DefinitionFactory(
+        $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
             $directories->getDir(DIR::DI),
             $directories->getDir(DIR::GENERATION),
             $options->get('definition.format', 'serialized')
@@ -70,7 +69,7 @@ class ObjectManagerFactory
 
         $factory = new Factory($diConfig, null, $definitions, $options->get());
 
-        $locator = new ObjectManager\ObjectManager($factory, $diConfig, array(
+        $locator = new \Magento\ObjectManager\ObjectManager($factory, $diConfig, array(
             'Magento\App\Config' => $options,
             'Magento\App\Dir' => $directories
         ));
@@ -90,7 +89,7 @@ class ObjectManagerFactory
         $interceptionConfig = $locator->create('Magento\Interception\Config\Config', array(
             'relations' => $relations,
             'omConfig' => $diConfig,
-            'classDefinitions' => $definitions instanceof ObjectManager\Definition\Compiled
+            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
                     ? $definitions
                     : null,
         ));
@@ -99,7 +98,7 @@ class ObjectManagerFactory
             'relations' => $relations,
             'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $diConfig,
-            'classDefinitions' => $definitions instanceof ObjectManager\Definition\Compiled
+            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
                     ? $definitions
                     : null,
         ));

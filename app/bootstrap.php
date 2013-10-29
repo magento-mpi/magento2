@@ -74,5 +74,6 @@ if (!defined('BARE_BOOTSTRAP')) {
         \Magento\Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
     }
 }
+\Magento\Profiler::applyConfig(1, dirname(__DIR__), !empty($_REQUEST['isAjax']));
 set_error_handler('mageCoreErrorHandler');
 date_default_timezone_set(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
