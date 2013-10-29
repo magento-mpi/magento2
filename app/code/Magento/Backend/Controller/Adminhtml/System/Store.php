@@ -41,7 +41,7 @@ class Store extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Init actions
      *
-     * @return \Magento\Adminhtml\Controller\Cms\Page
+     * @return \Magento\Cms\Controller\Adminhtml\Page
      */
     protected function _initAction()
     {

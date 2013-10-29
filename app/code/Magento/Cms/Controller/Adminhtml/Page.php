@@ -16,7 +16,7 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Cms;
+namespace Magento\Cms\Controller\Adminhtml;
 
 class Page extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -42,7 +42,7 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Init actions
      *
-     * @return \Magento\Adminhtml\Controller\Cms\Page
+     * @return \Magento\Cms\Controller\Adminhtml\Page
      */
     protected function _initAction()
     {
@@ -92,7 +92,7 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
             if (! $model->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This page no longer exists.'));
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('cms/*/');
                 return;
             }
         }
@@ -141,7 +141,7 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
 
             //validating
             if (!$this->_validatePostData($data)) {
-                $this->_redirect('adminhtml/*/edit', array('page_id' => $model->getId(), '_current' => true));
+                $this->_redirect('cms/*/edit', array('page_id' => $model->getId(), '_current' => true));
                 return;
             }
 
@@ -157,11 +157,11 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('adminhtml/*/edit', array('page_id' => $model->getId(), '_current'=>true));
+                    $this->_redirect('cms/*/edit', array('page_id' => $model->getId(), '_current'=>true));
                     return;
                 }
                 // go to grid
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('cms/*/');
                 return;
 
             } catch (\Magento\Core\Exception $e) {
@@ -172,10 +172,10 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
             }
 
             $this->_getSession()->setFormData($data);
-            $this->_redirect('adminhtml/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+            $this->_redirect('cms/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
             return;
         }
-        $this->_redirect('adminhtml/*/');
+        $this->_redirect('cms/*/');
     }
 
     /**
@@ -198,7 +198,7 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
                     __('The page has been deleted.'));
                 // go to grid
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('cms/*/');
                 return;
 
             } catch (\Exception $e) {
@@ -206,14 +206,14 @@ class Page extends \Magento\Backend\Controller\Adminhtml\Action
                 // display error message
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('adminhtml/*/edit', array('page_id' => $id));
+                $this->_redirect('cms/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a page to delete.'));
         // go to grid
-        $this->_redirect('adminhtml/*/');
+        $this->_redirect('cms/*/');
     }
 
     /**

@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Cms\Page;
+namespace Magento\Cms\Controller\Adminhtml\Page;
 
 class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 {

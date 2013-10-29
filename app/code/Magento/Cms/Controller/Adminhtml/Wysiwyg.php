@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Cms;
+namespace Magento\Cms\Controller\Adminhtml;
 
 class Wysiwyg extends \Magento\Backend\Controller\Adminhtml\Action
 {

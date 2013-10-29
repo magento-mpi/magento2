@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Cms\Wysiwyg;
+namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
 
 class Images extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -41,7 +41,7 @@ class Images extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Init storage
      *
-     * @return \Magento\Adminhtml\Controller\Cms\Wysiwyg\Images
+     * @return \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
      */
     protected function _initAction()
     {
@@ -217,7 +217,7 @@ class Images extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Save current path in session
      *
-     * @return \Magento\Adminhtml\Controller\Cms\Wysiwyg\Images
+     * @return \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
      */
     protected function _saveSessionCurrentPath()
     {
