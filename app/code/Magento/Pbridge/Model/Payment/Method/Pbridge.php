@@ -73,7 +73,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Request http
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -94,7 +94,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Url
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
@@ -108,29 +108,29 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory
-     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\App\RequestInterface $requestHttp
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\UrlInterface $url,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
-        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\App\RequestInterface $requestHttp,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -322,7 +322,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -377,7 +377,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Cancel payment
      *
      * @param   \Magento\Object $payment
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -390,7 +390,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -431,7 +431,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -477,7 +477,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Void payment
      *
      * @param   \Magento\Object $payment
-     * @return  \Magento\Payment\Model\AbstractModel
+     * @return  array
      * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)

@@ -63,7 +63,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_bannerTypesFilter                = array();
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     private $_eventManager;
 
@@ -88,14 +88,14 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Banner\Model\Config $bannerConfig
      * @param \Magento\Banner\Model\Resource\Salesrule\CollectionFactory $salesruleColFactory
      * @param \Magento\Banner\Model\Resource\Catalogrule\CollectionFactory $catRuleColFactory
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Banner\Model\Resource\Salesrule\CollectionFactory $salesruleColFactory,
         \Magento\Banner\Model\Resource\Catalogrule\CollectionFactory $catRuleColFactory

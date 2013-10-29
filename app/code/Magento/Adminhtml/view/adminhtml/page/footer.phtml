@@ -8,5 +8,5 @@
  * @license     {license_link}
  */
 ?>
-<?php echo __('Copyright &copy; %1 Magento Inc. All rights reserved.', date('Y')) ?> /
+<?php echo $this->getChildHtml('copyright');?> /
 <?php echo __('Magento ver. %1', \Magento\Core\Model\App::VERSION) ?>

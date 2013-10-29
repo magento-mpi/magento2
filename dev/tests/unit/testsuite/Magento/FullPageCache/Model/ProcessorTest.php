@@ -115,7 +115,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', array(
-            'eventManager' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            'eventManager' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             'restriction' => $this->_restrictionMock,
             'fpcCache' => $this->_fpcCacheMock,
             'subProcessorFactory' => $this->_subProcFactoryMock,

@@ -59,7 +59,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('save', 'generatePassword', 'getOrigData', 'sendNewAccountEmail', 'getConfirmation',
                 'getPrimaryAddress', 'getAddresses', 'getAdditionalAddresses', 'load', 'getId', 'changePassword',
                 'sendPasswordReminderEmail', 'addAddress', 'getAddressItemById', 'getAddressesCollection',
-                'hashPassword', 'changeResetPasswordLinkToken')
+                'hashPassword', 'changeResetPasswordLinkToken', '__wakeup')
             )
             ->disableOriginalConstructor()
             ->getMock();

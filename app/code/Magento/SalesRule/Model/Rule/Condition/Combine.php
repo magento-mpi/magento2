@@ -16,7 +16,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -26,13 +26,13 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     protected $_conditionAddress;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\SalesRule\Model\Rule\Condition\Address $conditionAddress
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\SalesRule\Model\Rule\Condition\Address $conditionAddress,
         array $data = array()

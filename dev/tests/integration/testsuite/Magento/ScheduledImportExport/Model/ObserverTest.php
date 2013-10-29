@@ -15,7 +15,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testScheduledLogClean()
     {
         $coreDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Dir');
+            ->get('Magento\App\Dir');
         $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\ScheduledImportExport\Model\Scheduled\OperationFactory');
         $emailInfoFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -30,9 +30,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $coreDir, $operationFactory, $emailInfoFactory, $templateMailer, $storeConfig, $storeManager
         );
         $model->scheduledLogClean('not_used', true);
-        /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
-        $this->assertFileExists($dirs->getDir(\Magento\Core\Model\Dir::LOG)
+        /** @var $dirs \Magento\App\Dir */
+        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
+        $this->assertFileExists($dirs->getDir(\Magento\App\Dir::LOG)
             . DIRECTORY_SEPARATOR
             . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );

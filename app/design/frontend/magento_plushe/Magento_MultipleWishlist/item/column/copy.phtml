@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+    $item = $this->getItem();
+    $wishlists = $this->getWishlists();
+?>
+<?php if ($this->isMultipleEnabled() && (count($wishlists) || $this->canCreateWishlists($wishlists))): ?>
+    <div class="split button" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
+        <span class="label"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'><?php echo __('Add to Wish List');?></span></span>
+        <span class="action change" data-toggle="dropdown"><span><?php echo __('Add to:') ?></span></span>
+        <ul class="items" data-target="dropdown">
+            <?php foreach ($wishlists as $wishlist): ?>
+                <li class="item"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
+            <?php endforeach;?>
+            <?php if ($this->canCreateWishlists($wishlists)): ?>
+                <li class="item new"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo __('Create New Wish List')?>"><?php echo __('Create New Wish List')?></span></li>
+            <?php endif;?>
+        </ul>
+    </div>
+<?php else: ?>
+    <a href="#" onclick="Event.stop(event); Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value)" class="action towishlist"><span><?php echo __('Add to Wish List');?></span></a>
+<?php endif; ?>

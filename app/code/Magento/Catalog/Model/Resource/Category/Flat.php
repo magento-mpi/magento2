@@ -92,7 +92,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -147,7 +147,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Catalog\Model\Category $catalogCategory
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
@@ -157,7 +157,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Catalog\Model\Category $catalogCategory,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper
     ) {
         $this->_categoryFactory = $categoryFactory;

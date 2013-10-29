@@ -58,7 +58,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
      * @param \Magento\Core\Model\Session $coreSession
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
@@ -68,7 +68,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
         \Magento\Core\Model\Session $coreSession,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\Catalog\Model\Session $catalogSession,
@@ -133,10 +133,10 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
 
     /**
      * Check if request can be cached
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return bool
      */
-    public function allowCache(\Zend_Controller_Request_Http $request)
+    public function allowCache(\Magento\App\RequestInterface $request)
     {
         $res = parent::allowCache($request);
         if ($res) {

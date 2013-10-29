@@ -13,6 +13,11 @@
             <argument name="template" xsi:type="string">2columns-right.phtml</argument>
         </action>
     </referenceBlock>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument name="title" translate="true" xsi:type="string">RSS Feeds</argument>
+        </action>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Rss\Block\ListBlock" name="rss.list" template="list.phtml"/>
     </referenceContainer>

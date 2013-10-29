@@ -8,7 +8,7 @@
  */
 /*jshint jquery:true browser:true */
 /*global FORM_KEY:true*/
-(function ($, console) {
+(function ($) {
     'use strict';
     $.ajaxSetup({
         /*
@@ -76,4 +76,4 @@
     };
 
     $(bootstrap);
-})(jQuery, console);
+})(jQuery);

@@ -66,7 +66,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Http-request, used to determine current store in multi-store mode
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -92,11 +92,11 @@ class Template extends \Magento\Core\Model\Template
     protected $_templateFactory;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
@@ -104,11 +104,11 @@ class Template extends \Magento\Core\Model\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,

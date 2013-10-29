@@ -130,7 +130,7 @@ class Index
             if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
                 $wishlist = null;
                 throw new \Magento\Core\Exception(
-                    __("The requested wish list doesn\'t exist.")
+                    __("The requested wish list doesn't exist.")
                 );
             }
 
@@ -760,7 +760,7 @@ class Index
 
         try {
             $info      = unserialize($option->getValue());
-            $filePath  = $this->_objectManager->get('Magento\Core\Model\Dir')->getDir() . $info['quote_path'];
+            $filePath  = $this->_objectManager->get('Magento\App\Dir')->getDir() . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 
             if ($secretKey == $info['secret_key']) {

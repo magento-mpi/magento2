@@ -26,15 +26,23 @@ class Observer
     protected $_app;
 
     /**
+     * @var \Magento\App\RequestInterface
+     */
+    protected $_request;
+
+    /**
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Model\App $app
+        \Magento\Core\Model\App $app,
+        \Magento\App\RequestInterface $request
     ) {
         $this->_backendSession = $backendSession;
         $this->_app = $app;
+        $this->_request = $request;
     }
 
     /**
@@ -62,12 +70,11 @@ class Observer
      */
     public function massactionPrepareKey()
     {
-        $request = $this->_app->getFrontController()->getRequest();
-        $key = $request->getPost('massaction_prepare_key');
+        $key = $this->_request->getPost('massaction_prepare_key');
         if ($key) {
-            $postData = $request->getPost($key);
+            $postData = $this->_request->getPost($key);
             $value = is_array($postData) ? $postData : explode(',', $postData);
-            $request->setPost($key, $value ? $value : null);
+            $this->_request->setPost($key, $value ? $value : null);
         }
         return $this;
     }

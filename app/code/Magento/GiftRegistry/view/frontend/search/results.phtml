@@ -3,49 +3,42 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>
-<div class="fieldset">
-    <h2 class="legend"><?php echo __('Search Results') ?></h2>
+<div class="block giftregistry results">
+    <div class="title"><strong><?php echo __('Search Results') ?></strong></div>
+    <div class="content">
+        <div class="toolbar"><?php echo $this->getChildHtml('pager') ?></div>
+        <table class="data table" id="giftregistry-search-results">
+            <thead>
+                <tr>
+                    <th class="col name"><?php echo __('Name') ?></th>
+                    <th class="col location"><?php echo __('Location') ?></th>
+                    <th class="col event"><?php echo __('Event') ?></th>
+                    <th class="col type"><?php echo __('Type') ?></th>
+                    <th class="col date"><?php echo __('Event Date') ?></th>
+                    <th class="col actions"><?php echo __('Actions') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->getSearchResults() as $item): ?>
+                <tr>
+                    <td class="col name"><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
+                    <td class="col location"><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
+                    <td class="col event"><?php echo $this->escapeHtml($item->getTitle()) ?></td>
+                    <td class="col type"><?php echo $this->escapeHtml($item->getType()) ?></td>
+                    <td class="col date"><?php echo $this->getFormattedDate($item) ?></td>
+                    <td class="col actions"><a href="<?php echo $this->getRegistryLink($item) ?>" title="<?php echo __('View') ?>"><?php echo __('View') ?></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="toolbar"><?php echo $this->getChildHtml('pager') ?></div>
+    </div>
 </div>
-<?php echo $this->getChildHtml('pager') ?>
-<table class="data-table" id="giftregistry-search-results">
-    <col />
-    <col />
-    <col />
-    <col width="1" />
-    <col width="1" />
-    <col width="1" />
-    <thead>
-        <tr>
-            <th><?php echo __('Name') ?></th>
-            <th><?php echo __('Location') ?></th>
-            <th><?php echo __('Event') ?></th>
-            <th><?php echo __('Type') ?></th>
-            <th><span class="nobr"><?php echo __('Event Date') ?></span></th>
-            <th><?php echo __('Actions') ?></th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach($this->getSearchResults() as $item): ?>
-        <tr>
-            <td><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getTitle()) ?></td>
-            <td><?php echo $this->escapeHtml($item->getType()) ?></td>
-            <td><span class="nobr"><?php echo $this->getFormattedDate($item) ?></span></td>
-            <td><a href="<?php echo $this->getRegistryLink($item) ?>" title="<?php echo __('View') ?>"><?php echo __('View') ?></a></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-<script type="text/javascript">(function($) {$('#giftregistry-search-results').decorate('table')})(jQuery)</script>
-<?php echo $this->getChildHtml('pager') ?>
 <?php else: ?>
-    <p class="error-msg"><?php echo __('Your search returned no results.') ?></p>
+    <div class="error-msg"><span><?php echo __('Your search returned no results.') ?></span></div>
 <?php endif; ?>

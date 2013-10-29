@@ -30,5 +30,4 @@
     <move element="checkout.cart.coupon" destination="cart.summary" />
     <move element="checkout.cart.totals" destination="cart.summary"/>
     <move element="checkout.cart.methods.bottom" destination="cart.summary"/>
-    <move element="checkout.cart.giftcardaccount" destination="cart.summary" after="checkout.cart.coupon" before="checkout.cart.totals"/>
 </layout>

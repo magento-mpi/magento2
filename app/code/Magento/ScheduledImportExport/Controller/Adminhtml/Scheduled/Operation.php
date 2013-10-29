@@ -336,7 +336,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 Add: After elimination of skins and refactoring of themes we can't just switch area,
                 cause we can't be sure that theme set for previous area exists in new one
             */
-            $design = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
+            $design = $this->_objectManager->get('Magento\View\DesignInterface');
             $area = $design->getArea();
             $theme = $design->getDesignTheme();
             $design->setDesignTheme(

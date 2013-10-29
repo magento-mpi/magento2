@@ -35,7 +35,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento\GiftRegistry\Model\Config\Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento\Core\Model\Config\Scope');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMockBuilder('Magento\Core\Model\Cache\Type\Config')
             ->disableOriginalConstructor()
             ->getMock();
