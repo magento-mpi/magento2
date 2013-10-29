@@ -77,9 +77,9 @@ class Review extends Form
 
         //Blocks
         $this->billingBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewBilling(
-            $this->_rootElement->find('#billing-address-form', Locator::SELECTOR_CSS));
+            $this->_rootElement->find('.fieldset.billing.address', Locator::SELECTOR_CSS));
         $this->shippingBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewShipping(
-            $this->_rootElement->find('#shipping-address-form', Locator::SELECTOR_CSS));
+            $this->_rootElement->find('.fieldset.shipping.address', Locator::SELECTOR_CSS));
     }
 
     /**

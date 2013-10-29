@@ -516,7 +516,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      */
     public function getWebsite($websiteId = null)
     {
-        if (is_null($websiteId)) {
+        if (empty($websiteId)) {
             $websiteId = $this->getStore()->getWebsiteId();
         } elseif ($websiteId instanceof \Magento\Core\Model\Website) {
             return $websiteId;

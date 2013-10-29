@@ -66,13 +66,13 @@ class PaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => 10
+                'grand_total' => '$10.83'
             )
         );
     }
 
     /**
-     * Setup fixture
+     * Persists prepared data into application
      */
     public function persist()
     {
