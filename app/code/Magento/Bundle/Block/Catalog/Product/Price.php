@@ -32,6 +32,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Tax\Model\Calculation $taxCalc
      * @param array $data
      */
@@ -43,11 +44,21 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Stdlib\String $string,
+        \Magento\Math\Random $mathRandom,
         \Magento\Tax\Model\Calculation $taxCalc,
         array $data = array()
-    )
-    {
-        parent::__construct($storeManager, $catalogData, $taxData, $coreData, $context, $registry, $string, $data);
+    ) {
+        parent::__construct(
+            $storeManager,
+            $catalogData,
+            $taxData,
+            $coreData,
+            $context,
+            $registry,
+            $string,
+            $mathRandom,
+            $data
+        );
         $this->_taxCalc = $taxCalc;
     }
 
