@@ -99,7 +99,6 @@ lib/Magento/File/Csv.php
 lib/Magento/File/CsvMulty.php
 lib/Magento/File/Transfer/Adapter/Http.php
 lib/Magento/File/Uploader.php
-lib/Magento/Filter
 lib/Magento/Gdata
 lib/Magento/HTTP/Adapter/Curl.php
 lib/Magento/HTTP/Client.php

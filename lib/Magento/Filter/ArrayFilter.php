@@ -8,7 +8,6 @@
  * @license    {license_link}
  */
 
-
 namespace Magento\Filter;
 
 class ArrayFilter extends \Zend_Filter
