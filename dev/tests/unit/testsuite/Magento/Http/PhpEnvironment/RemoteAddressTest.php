@@ -1,0 +1,101 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\HTTP\PhpEnvironment;
+
+use \Magento\TestFramework;
+
+class RemoteAddressTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Request\Http
+     */
+    protected $request;
+
+    /**
+     * @var TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
+
+    protected function setUp()
+    {
+        $this->request = $this->getMockBuilder('Magento\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getServer'))
+            ->getMock();
+
+        $this->objectManager = new TestFramework\Helper\ObjectManager($this);
+
+    }
+
+    /**
+     * @dataProvider getRemoteAddressProvider
+     */
+    public function testGetRemoteAddress($alternativeHeaders, $serverValueMap, $expected, $ipToLong)
+    {
+        $remoteAddress = $this->objectManager->getObject('Magento\HTTP\PhpEnvironment\RemoteAddress', array(
+            'httpRequest' => $this->request,
+            'alternativeHeaders' => $alternativeHeaders
+        ));
+        $this->request->expects($this->any())
+            ->method('getServer')
+            ->will($this->returnValueMap($serverValueMap));
+        $this->assertEquals($expected, $remoteAddress->getRemoteAddress($ipToLong));
+    }
+
+    /**
+     * @return array
+     */
+    public function getRemoteAddressProvider()
+    {
+        return array(
+            array(
+                'alternativeHeaders' => array(),
+                'serverValueMap' => array(array('REMOTE_ADDR', null, null)),
+                'expected' => false,
+                'ipToLong' => false
+            ),
+            array(
+                'alternativeHeaders' => array(),
+                'serverValueMap' => array(array('REMOTE_ADDR', null, '192.168.0.1')),
+                'expected' => '192.168.0.1',
+                'ipToLong' => false
+            ),
+            array(
+                'alternativeHeaders' => array(),
+                'serverValueMap' => array(array('REMOTE_ADDR', null, '192.168.1.1')),
+                'expected' => -1062731519,
+                'ipToLong' => true
+            ),
+            array(
+                'alternativeHeaders' => array('TEST_HEADER'),
+                'serverValueMap' => array(
+                    array('REMOTE_ADDR', null, '192.168.1.1'),
+                    array('TEST_HEADER', null, '192.168.0.1'),
+                    array('TEST_HEADER', false, '192.168.0.1')
+                ),
+                'expected' => '192.168.0.1',
+                'ipToLong' => false
+            ),
+            array(
+                'alternativeHeaders' => array('TEST_HEADER'),
+                'serverValueMap' => array(
+                    array('REMOTE_ADDR', null, '192.168.1.1'),
+                    array('TEST_HEADER', null, '192.168.0.1'),
+                    array('TEST_HEADER', false, '192.168.0.1')
+                ),
+                'expected' => -1062731775,
+                'ipToLong' => true
+            )
+        );
+    }
+}

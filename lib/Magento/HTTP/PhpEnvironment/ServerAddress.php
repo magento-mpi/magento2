@@ -20,12 +20,12 @@ class ServerAddress
      *
      * @var \Magento\App\RequestInterface
      */
-    protected $_request;
+    protected $request;
 
     public function __construct(
         \Magento\App\RequestInterface $httpRequest
     ) {
-        $this->_request = $httpRequest;
+        $this->request = $httpRequest;
     }
 
     /**
@@ -36,7 +36,7 @@ class ServerAddress
      */
     public function getServerAddress($ipToLong = false)
     {
-        $address = $this->_request->getServer('SERVER_ADDR');
+        $address = $this->request->getServer('SERVER_ADDR');
         if (!$address) {
             return false;
         }

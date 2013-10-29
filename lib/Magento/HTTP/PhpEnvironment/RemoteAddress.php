@@ -20,19 +20,19 @@ class RemoteAddress
      *
      * @var \Magento\App\RequestInterface
      */
-    protected $_request;
+    protected $request;
 
     /**
      * Remote address cache
      *
      * @var string
      */
-    protected $_remoteAddress;
+    protected $remoteAddress;
 
     /**
      * @var array
      */
-    protected $_alternativeHeaders;
+    protected $alternativeHeaders;
 
     /**
      * @param \Magento\App\RequestInterface $httpRequest
@@ -43,7 +43,7 @@ class RemoteAddress
         \Magento\App\RequestInterface $httpRequest,
         $alternativeHeaders = array()
     ) {
-        $this->_request = $httpRequest;
+        $this->request = $httpRequest;
 
         if (!is_array($alternativeHeaders)) {
             throw new \InvalidArgumentException(sprintf(
@@ -52,7 +52,7 @@ class RemoteAddress
             ));
         }
 
-        $this->_alternativeHeaders = $alternativeHeaders;
+        $this->alternativeHeaders = $alternativeHeaders;
     }
 
     /**
@@ -63,23 +63,23 @@ class RemoteAddress
      */
     public function getRemoteAddress($ipToLong = false)
     {
-        if (is_null($this->_remoteAddress)) {
-            foreach ($this->_alternativeHeaders as $var) {
-                if ($this->_request->getServer($var, false)) {
-                    $this->_remoteAddress = $_SERVER[$var];
+        if (is_null($this->remoteAddress)) {
+            foreach ($this->alternativeHeaders as $var) {
+                if ($this->request->getServer($var, false)) {
+                    $this->remoteAddress = $this->request->getServer($var);
                     break;
                 }
             }
 
-            if (!$this->_remoteAddress) {
-                $this->_remoteAddress = $this->_request->getServer('REMOTE_ADDR');
+            if (!$this->remoteAddress) {
+                $this->remoteAddress = $this->request->getServer('REMOTE_ADDR');
             }
         }
 
-        if (!$this->_remoteAddress) {
+        if (!$this->remoteAddress) {
             return false;
         }
 
-        return $ipToLong ? ip2long($this->_remoteAddress) : $this->_remoteAddress;
+        return $ipToLong ? ip2long($this->remoteAddress) : $this->remoteAddress;
     }
 }
