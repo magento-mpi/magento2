@@ -61,7 +61,7 @@ class Http implements \Magento\AppInterface
     }
 
     /**
-     * Execute applicaiton
+     * Execute application
      */
     public function execute()
     {
@@ -71,4 +71,4 @@ class Http implements \Magento\AppInterface
         $this->_objectManager->get('Magento\App\FrontControllerInterface')->dispatch($this->_request);
         return 0;
     }
-} 
+}
