@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Magento
+ * @package Magento_Rma
+ * @subpackage integration_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Rma\Controller;
@@ -58,8 +58,8 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/returns/addlabel', '<td>CarrierTitle</td>'),
-            array('rma/returns/dellabel', '<td>CarrierTitle</td>'),
+            array('rma/returns/addlabel', '<td class="col carrier">CarrierTitle</td>'),
+            array('rma/returns/dellabel', '<td class="col carrier">CarrierTitle</td>'),
         );
     }
 }

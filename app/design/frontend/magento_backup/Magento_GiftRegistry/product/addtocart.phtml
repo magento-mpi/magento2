@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_product = $this->getProduct() ?>
+<?php if ($_product->isSaleable()): ?>
+<div class="add-to-cart">
+    <?php if (!$_product->isGrouped()): ?>
+    <label for="qty"><?php echo __('Qty:') ?></label>
+    <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>"
+           title="<?php echo __('Qty') ?>" class="input-text qty"/>
+    <?php endif; ?>
+    <button type="submit" title="<?php echo __('Add to Gift Registry') ?>" class="button btn-cart btn-gr">
+        <span><span><?php echo __('Add to Gift Registry') ?></span></span></button>
+</div>
+<?php endif; ?>
+<script type="text/javascript">
+    (function ($) {
+        $.mage.extend('validation', 'validation',
+            '<?php echo $this->getViewFileUrl('Magento_Catalog::product/view/validation.js'); ?>');
+        $('#product_addtocart_form')
+            .mage('validation')
+            .prop('action', '<?php echo $this->getAddToGiftregistryUrl() ?>');
+    })(jQuery);
+</script>
+

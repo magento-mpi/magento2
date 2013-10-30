@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +11,6 @@
  * @var $this \Magento\Paypal\Block\Payflow\Advanced\Form
  */
 ?>
-<ul id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none" class="form-list">
-    <li>
+<div id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none" class="payflowadvanced items">
     <?php echo __('You will be required to enter your payment details after you place an order.') ?>
-    </li>
-</ul>
+</div>

@@ -466,7 +466,9 @@ input[type="button"],
 .form.contact .action,
 .data.table.wishlist + .actions .primary .action.share,
 .data.table.wishlist + .actions .primary .action.update,
+.recurring.order.details > .actions .primary .action,
 .form.giftcard.redeem .primary .action,
+.form.giftregistry.search .action.search,
 .invitations .action.send,
 .wishlist.block.management .action.add,
 .widget.block.wishlist.find .action.search,
@@ -478,6 +480,12 @@ input[type="button"],
 .form.add.invitations .action.save,
 .form.add.invitations .action.submit,
 .form.add.invitations .action.add,
+.form.create.return .action.save,
+.form.create.return .action.submit,
+.form.create.return .action.add,
+.form.giftregistry.search .action.save,
+.form.giftregistry.search .action.submit,
+.form.giftregistry.search .action.add,
 .action.myPrimary,
 input[type="submit"],
 input[type="button"],
@@ -539,7 +547,9 @@ input[type="button"],
 .form.contact .action,
 .data.table.wishlist + .actions .primary .action.share,
 .data.table.wishlist + .actions .primary .action.update,
+.recurring.order.details > .actions .primary .action,
 .form.giftcard.redeem .primary .action,
+.form.giftregistry.search .action.search,
 .invitations .action.send,
 .wishlist.block.management .action.add,
 .widget.block.wishlist.find .action.search,
@@ -550,7 +560,13 @@ input[type="button"],
 .form.reward.settings .action.add,
 .form.add.invitations .action.save,
 .form.add.invitations .action.submit,
-.form.add.invitations .action.add {
+.form.add.invitations .action.add,
+.form.create.return .action.save,
+.form.create.return .action.submit,
+.form.create.return .action.add,
+.form.giftregistry.search .action.save,
+.form.giftregistry.search .action.submit,
+.form.giftregistry.search .action.add {
   background-color: #da370a;
   color: #ffffff;
 }
@@ -740,9 +756,15 @@ input[type="button"]:hover,
 .data.table.wishlist + .actions .primary .action.update:focus,
 .data.table.wishlist + .actions .primary .action.update:active,
 .data.table.wishlist + .actions .primary .action.update:hover,
+.recurring.order.details > .actions .primary .action:focus,
+.recurring.order.details > .actions .primary .action:active,
+.recurring.order.details > .actions .primary .action:hover,
 .form.giftcard.redeem .primary .action:focus,
 .form.giftcard.redeem .primary .action:active,
 .form.giftcard.redeem .primary .action:hover,
+.form.giftregistry.search .action.search:focus,
+.form.giftregistry.search .action.search:active,
+.form.giftregistry.search .action.search:hover,
 .invitations .action.send:focus,
 .invitations .action.send:active,
 .invitations .action.send:hover,
@@ -775,7 +797,25 @@ input[type="button"]:hover,
 .form.add.invitations .action.submit:hover,
 .form.add.invitations .action.add:focus,
 .form.add.invitations .action.add:active,
-.form.add.invitations .action.add:hover {
+.form.add.invitations .action.add:hover,
+.form.create.return .action.save:focus,
+.form.create.return .action.save:active,
+.form.create.return .action.save:hover,
+.form.create.return .action.submit:focus,
+.form.create.return .action.submit:active,
+.form.create.return .action.submit:hover,
+.form.create.return .action.add:focus,
+.form.create.return .action.add:active,
+.form.create.return .action.add:hover,
+.form.giftregistry.search .action.save:focus,
+.form.giftregistry.search .action.save:active,
+.form.giftregistry.search .action.save:hover,
+.form.giftregistry.search .action.submit:focus,
+.form.giftregistry.search .action.submit:active,
+.form.giftregistry.search .action.submit:hover,
+.form.giftregistry.search .action.add:focus,
+.form.giftregistry.search .action.add:active,
+.form.giftregistry.search .action.add:hover {
   background-color: #a92b08;
 }
 .secondary.action,
@@ -793,9 +833,16 @@ input[type="reset"],
 .shipping-tracking-popup .action.close,
 .form.giftcard.redeem .secondary .action,
 .form.giftregistry .fieldset .action.add,
+.block.widget.giftregistry .action.search,
 .wishlist .actions .action.remove,
+.form.create.return .fieldset .actions .action.add,
+.returns .block.returns.tracking .data.table .action.details,
+.returns .data.table.returns.items .action.details,
+.returns.block.comments .action.submit,
 .form.reward.settings .actions > .primary .action.add,
 .form.add.invitations .actions > .primary .action.add,
+.form.create.return .actions > .primary .action.add,
+.form.giftregistry.search .actions > .primary .action.add,
 .action.mySecondary,
 input[type="reset"],
 .action.mySecondaryButton,
@@ -810,9 +857,16 @@ input[type="reset"],
 .shipping-tracking-popup .action.close,
 .form.giftcard.redeem .secondary .action,
 .form.giftregistry .fieldset .action.add,
+.block.widget.giftregistry .action.search,
 .wishlist .actions .action.remove,
+.form.create.return .fieldset .actions .action.add,
+.returns .block.returns.tracking .data.table .action.details,
+.returns .data.table.returns.items .action.details,
+.returns.block.comments .action.submit,
 .form.reward.settings .actions > .primary .action.add,
-.form.add.invitations .actions > .primary .action.add {
+.form.add.invitations .actions > .primary .action.add,
+.form.create.return .actions > .primary .action.add,
+.form.giftregistry.search .actions > .primary .action.add {
   background-color: #c2c2c2;
   color: #ffffff;
 }
@@ -861,15 +915,36 @@ input[type="reset"]:hover,
 .form.giftregistry .fieldset .action.add:focus,
 .form.giftregistry .fieldset .action.add:active,
 .form.giftregistry .fieldset .action.add:hover,
+.block.widget.giftregistry .action.search:focus,
+.block.widget.giftregistry .action.search:active,
+.block.widget.giftregistry .action.search:hover,
 .wishlist .actions .action.remove:focus,
 .wishlist .actions .action.remove:active,
 .wishlist .actions .action.remove:hover,
+.form.create.return .fieldset .actions .action.add:focus,
+.form.create.return .fieldset .actions .action.add:active,
+.form.create.return .fieldset .actions .action.add:hover,
+.returns .block.returns.tracking .data.table .action.details:focus,
+.returns .block.returns.tracking .data.table .action.details:active,
+.returns .block.returns.tracking .data.table .action.details:hover,
+.returns .data.table.returns.items .action.details:focus,
+.returns .data.table.returns.items .action.details:active,
+.returns .data.table.returns.items .action.details:hover,
+.returns.block.comments .action.submit:focus,
+.returns.block.comments .action.submit:active,
+.returns.block.comments .action.submit:hover,
 .form.reward.settings .actions > .primary .action.add:focus,
 .form.reward.settings .actions > .primary .action.add:active,
 .form.reward.settings .actions > .primary .action.add:hover,
 .form.add.invitations .actions > .primary .action.add:focus,
 .form.add.invitations .actions > .primary .action.add:active,
-.form.add.invitations .actions > .primary .action.add:hover {
+.form.add.invitations .actions > .primary .action.add:hover,
+.form.create.return .actions > .primary .action.add:focus,
+.form.create.return .actions > .primary .action.add:active,
+.form.create.return .actions > .primary .action.add:hover,
+.form.giftregistry.search .actions > .primary .action.add:focus,
+.form.giftregistry.search .actions > .primary .action.add:active,
+.form.giftregistry.search .actions > .primary .action.add:hover {
   background-color: #a9a9a9;
 }
 .button.link,
@@ -979,15 +1054,22 @@ input[type="reset"],
 .data.table.wishlist + .actions .primary .action.share,
 .data.table.wishlist + .actions .primary .action.update,
 .shipping-tracking-popup .action.close,
+.recurring.order.details > .actions .primary .action,
 .form.giftcard.redeem .primary .action,
 .form.giftcard.redeem .secondary .action,
 .form.giftregistry .fieldset .action.add,
+.form.giftregistry.search .action.search,
+.block.widget.giftregistry .action.search,
 .invitations .action.send,
 .wishlist.block.management .action.add,
 .wishlist .actions .action.remove,
 .widget.block.wishlist.find .action.search,
 .form.wishlist.find .action.search,
 .block.event .panel > .slider .item > .event.open .action.event,
+.form.create.return .fieldset .actions .action.add,
+.returns .block.returns.tracking .data.table .action.details,
+.returns .data.table.returns.items .action.details,
+.returns.block.comments .action.submit,
 .form.reward.settings .action.save,
 .form.reward.settings .action.submit,
 .form.reward.settings .action.add,
@@ -995,7 +1077,15 @@ input[type="reset"],
 .form.add.invitations .action.save,
 .form.add.invitations .action.submit,
 .form.add.invitations .action.add,
-.form.add.invitations .actions > .primary .action.add {
+.form.add.invitations .actions > .primary .action.add,
+.form.create.return .action.save,
+.form.create.return .action.submit,
+.form.create.return .action.add,
+.form.create.return .actions > .primary .action.add,
+.form.giftregistry.search .action.save,
+.form.giftregistry.search .action.submit,
+.form.giftregistry.search .action.add,
+.form.giftregistry.search .actions > .primary .action.add {
   border: none;
   border-radius: 0;
   font: 600 14px/16px;
@@ -4389,6 +4479,12 @@ body {
   font-size: 18px;
 }
 /*
+    Sidebar Paypal logo
+-------------------------------------- */
+.sidebar .paypal.acceptance {
+  margin-bottom: 45px;
+}
+/*
     Breadcrumbs
 -------------------------------------- */
 .breadcrumbs {
@@ -5014,12 +5110,12 @@ body {
   float: left;
   width: 200px;
 }
-.block.progress.onepage dt {
+.block.progress.onepage .content > dt {
   font-size: 16px;
   font-weight: 400;
   margin: 0 0 10px 0;
 }
-.block.progress.onepage dt a {
+.block.progress.onepage .content > dt a {
   font-size: 14px;
 }
 .block.progress.onepage dd.complete {
@@ -5028,6 +5124,38 @@ body {
 }
 .block.progress.onepage address {
   font-style: normal;
+}
+.block.progress.onepage .payment.method,
+.order.details .block.order .payment.method {
+  margin: 0;
+}
+.block.progress.onepage .payment.method .content,
+.order.details .block.order .payment.method .content {
+  margin: 5px 0;
+  padding: 0;
+}
+.block.progress.onepage .payment.method.purchase.order .content strong:after,
+.order.details .block.order .payment.method.purchase.order .content strong:after,
+.block.progress.onepage .payment.method.checkmemo .content strong:after,
+.order.details .block.order .payment.method.checkmemo .content strong:after {
+  content: ": ";
+}
+.block.progress.onepage .payment.method.purchase.order .content .number,
+.order.details .block.order .payment.method.purchase.order .content .number,
+.block.progress.onepage .payment.method.checkmemo .content .number,
+.order.details .block.order .payment.method.checkmemo .content .number {
+  white-space: nowrap;
+}
+.block.progress.onepage .payment.method .data.table th,
+.order.details .block.order .payment.method .data.table th {
+  font-size: 14px;
+  padding: 5px 0;
+  text-align: left;
+  width: 50%;
+}
+.block.progress.onepage .payment.method .data.table td,
+.order.details .block.order .payment.method .data.table td {
+  padding: 5px;
 }
 .opc.wrapper {
   float: right;
@@ -5085,6 +5213,7 @@ body {
   padding: 0;
   margin: 20px 0;
   border: 0;
+  position: relative;
 }
 .opc.wrapper .form:not(.login) .fieldset .field {
   display: inline-block;
@@ -5162,6 +5291,91 @@ body {
   letter-spacing: normal;
   word-spacing: normal;
   color: #da370a;
+}
+.opc.wrapper .form:not(.login) .field.date .nested {
+  display: inline-block;
+  margin-right: 5px;
+}
+.opc.wrapper .form:not(.login) .field.date select {
+  width: auto;
+}
+.opc.wrapper .tooltip {
+  background: #ffffff;
+  border: 1px solid #c2c2c2;
+  display: block;
+  cursor: default;
+  padding: 30px;
+  position: absolute;
+  left: 20px;
+  top: 10px;
+}
+.opc.wrapper .tooltip.hidden {
+  display: none;
+}
+.opc.wrapper .tooltip .action.close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.opc.wrapper .tooltip .action.close span {
+  width: 11px;
+  display: block;
+  line-height: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+}
+.opc.wrapper .tooltip .action.close span:after {
+  font-family: "icons";
+  font-size: 11px;
+  line-height: 11px;
+  height: 11px;
+  margin: 0;
+  overflow: hidden;
+  content: "\e012";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.opc.wrapper .tooltip .action.close span:active {
+  outline: 0;
+}
+.opc.wrapper .tooltip .action.close span:after {
+  text-indent: 0;
+  display: block;
+  margin: 0;
+}
+.opc.wrapper .check.payable {
+  margin: 0 0 0 20px;
+}
+.opc.wrapper .check.payable .title {
+  display: inline-block;
+  padding: 5px 0;
+  width: 30%;
+}
+.opc.wrapper .check.payable .content {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 0;
+  width: 68%;
+}
+.opc.wrapper .sp-methods .items,
+.opc.wrapper .sp-methods .fieldset.items {
+  margin: 0 0 0 6px;
+}
+.opc.wrapper .sp-methods .paypal.field.items {
+  padding: 0;
+  width: 100%;
+}
+.opc.wrapper .sp-methods .paypal.icon {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 .opc.loading .active {
   position: relative;
@@ -5509,6 +5723,15 @@ body {
   color: #da370a;
   font-size: 24px;
   font-weight: 700;
+}
+.multicheckout.overview .box.method .payment.method {
+  margin: 0;
+}
+.multicheckout.overview .box.method .title {
+  margin: 0 0 5px;
+}
+.multicheckout.overview .box.method .content {
+  margin: 0 0 0 10px;
 }
 .multicheckout.change.billing .box {
   -moz-box-sizing: border-box;
@@ -6897,6 +7120,9 @@ body {
   font-size: 14px;
   vertical-align: middle;
   margin: 0 5px;
+}
+.box.tocart .checkout.paypal {
+  margin-top: 10px;
 }
 .box.tocart .checkout.paypal.after:after {
   display: none;
@@ -8412,6 +8638,10 @@ body {
 .product.main.info .product.options.wrapper .fieldset .datetime-picker + .ui-datepicker-trigger {
   margin: 0 15px 0 7px;
 }
+.product.main.info .product.options.wrapper .fieldset .payment.product.options .content,
+.product.main.info .product.options.wrapper .fieldset .payment.product.schedule .content {
+  margin: 5px 0 0;
+}
 .action.primary.customize,
 .action.primary.tocart {
   line-height: 16px;
@@ -9011,6 +9241,10 @@ img[align="right"] {
   z-index: 1;
   cursor: pointer;
 }
+.customer.welcome .menu {
+  padding: 0;
+  margin: 0;
+}
 .customer.welcome .menu > ul {
   font-weight: 600;
   font-size: 12px;
@@ -9288,7 +9522,9 @@ img[align="right"] {
 .form.password.reset .fieldset,
 .form.paypal.review .fieldset,
 .form.reward.settings .fieldset,
-.form.add.invitations .fieldset {
+.form.add.invitations .fieldset,
+.form.create.return .fieldset,
+.form.giftregistry.search .fieldset {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -9317,7 +9553,9 @@ img[align="right"] {
 .form.password.reset .fieldset .field,
 .form.paypal.review .fieldset .field,
 .form.reward.settings .fieldset .field,
-.form.add.invitations .fieldset .field {
+.form.add.invitations .fieldset .field,
+.form.create.return .fieldset .field,
+.form.giftregistry.search .fieldset .field {
   display: inline-block;
   padding-right: 20px;
   vertical-align: top;
@@ -9335,7 +9573,9 @@ img[align="right"] {
 .form.password.reset .fieldset .nested .field,
 .form.paypal.review .fieldset .nested .field,
 .form.reward.settings .fieldset .nested .field,
-.form.add.invitations .fieldset .nested .field {
+.form.add.invitations .fieldset .nested .field,
+.form.create.return .fieldset .nested .field,
+.form.giftregistry.search .fieldset .nested .field {
   width: 100%;
 }
 .form.send.friend .fieldset .actions,
@@ -9350,7 +9590,9 @@ img[align="right"] {
 .form.password.reset .fieldset .actions,
 .form.paypal.review .fieldset .actions,
 .form.reward.settings .fieldset .actions,
-.form.add.invitations .fieldset .actions {
+.form.add.invitations .fieldset .actions,
+.form.create.return .fieldset .actions,
+.form.giftregistry.search .fieldset .actions {
   margin-right: 30px;
 }
 .form.send.friend .fieldset > *,
@@ -9365,7 +9607,9 @@ img[align="right"] {
 .form.password.reset .fieldset > *,
 .form.paypal.review .fieldset > *,
 .form.reward.settings .fieldset > *,
-.form.add.invitations .fieldset > * {
+.form.add.invitations .fieldset > *,
+.form.create.return .fieldset > *,
+.form.giftregistry.search .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -9381,7 +9625,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .legend,
 .form.paypal.review .fieldset > .legend,
 .form.reward.settings .fieldset > .legend,
-.form.add.invitations .fieldset > .legend {
+.form.add.invitations .fieldset > .legend,
+.form.create.return .fieldset > .legend,
+.form.giftregistry.search .fieldset > .legend {
   float: left;
   font: 400 20px/1.2 "sourcesanspro";
   margin: -30px 30px 50px -30px;
@@ -9399,7 +9645,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .legend + br,
 .form.paypal.review .fieldset > .legend + br,
 .form.reward.settings .fieldset > .legend + br,
-.form.add.invitations .fieldset > .legend + br {
+.form.add.invitations .fieldset > .legend + br,
+.form.create.return .fieldset > .legend + br,
+.form.giftregistry.search .fieldset > .legend + br {
   display: block;
   *zoom: 1;
 }
@@ -9428,7 +9676,11 @@ img[align="right"] {
 .form.reward.settings .fieldset > .legend + br:before,
 .form.reward.settings .fieldset > .legend + br:after,
 .form.add.invitations .fieldset > .legend + br:before,
-.form.add.invitations .fieldset > .legend + br:after {
+.form.add.invitations .fieldset > .legend + br:after,
+.form.create.return .fieldset > .legend + br:before,
+.form.create.return .fieldset > .legend + br:after,
+.form.giftregistry.search .fieldset > .legend + br:before,
+.form.giftregistry.search .fieldset > .legend + br:after {
   content: "";
   display: table;
 }
@@ -9444,7 +9696,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .legend + br:after,
 .form.paypal.review .fieldset > .legend + br:after,
 .form.reward.settings .fieldset > .legend + br:after,
-.form.add.invitations .fieldset > .legend + br:after {
+.form.add.invitations .fieldset > .legend + br:after,
+.form.create.return .fieldset > .legend + br:after,
+.form.giftregistry.search .fieldset > .legend + br:after {
   clear: both;
 }
 .form.send.friend .fieldset .legend,
@@ -9459,7 +9713,9 @@ img[align="right"] {
 .form.password.reset .fieldset .legend,
 .form.paypal.review .fieldset .legend,
 .form.reward.settings .fieldset .legend,
-.form.add.invitations .fieldset .legend {
+.form.add.invitations .fieldset .legend,
+.form.create.return .fieldset .legend,
+.form.giftregistry.search .fieldset .legend {
   float: left;
   line-height: 1.2;
   font-size: 20px;
@@ -9482,7 +9738,9 @@ img[align="right"] {
 .form.password.reset .fieldset .legend + br,
 .form.paypal.review .fieldset .legend + br,
 .form.reward.settings .fieldset .legend + br,
-.form.add.invitations .fieldset .legend + br {
+.form.add.invitations .fieldset .legend + br,
+.form.create.return .fieldset .legend + br,
+.form.giftregistry.search .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -9498,7 +9756,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field,
 .form.paypal.review .fieldset > .field,
 .form.reward.settings .fieldset > .field,
-.form.add.invitations .fieldset > .field {
+.form.add.invitations .fieldset > .field,
+.form.create.return .fieldset > .field,
+.form.giftregistry.search .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -9519,7 +9779,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field > .label,
 .form.paypal.review .fieldset > .field > .label,
 .form.reward.settings .fieldset > .field > .label,
-.form.add.invitations .fieldset > .field > .label {
+.form.add.invitations .fieldset > .field > .label,
+.form.create.return .fieldset > .field > .label,
+.form.giftregistry.search .fieldset > .field > .label {
   display: block;
   padding-bottom: 5px;
 }
@@ -9535,7 +9797,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field .nested .field,
 .form.paypal.review .fieldset > .field .nested .field,
 .form.reward.settings .fieldset > .field .nested .field,
-.form.add.invitations .fieldset > .field .nested .field {
+.form.add.invitations .fieldset > .field .nested .field,
+.form.create.return .fieldset > .field .nested .field,
+.form.giftregistry.search .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.send.friend .fieldset > .field.choice > .control,
@@ -9550,7 +9814,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field.choice > .control,
 .form.paypal.review .fieldset > .field.choice > .control,
 .form.reward.settings .fieldset > .field.choice > .control,
-.form.add.invitations .fieldset > .field.choice > .control {
+.form.add.invitations .fieldset > .field.choice > .control,
+.form.create.return .fieldset > .field.choice > .control,
+.form.giftregistry.search .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.send.friend .fieldset > .field.choice > .label,
@@ -9565,7 +9831,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field.choice > .label,
 .form.paypal.review .fieldset > .field.choice > .label,
 .form.reward.settings .fieldset > .field.choice > .label,
-.form.add.invitations .fieldset > .field.choice > .label {
+.form.add.invitations .fieldset > .field.choice > .label,
+.form.create.return .fieldset > .field.choice > .label,
+.form.giftregistry.search .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.send.friend .fieldset > .field.choice > input,
@@ -9580,7 +9848,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field.choice > input,
 .form.paypal.review .fieldset > .field.choice > input,
 .form.reward.settings .fieldset > .field.choice > input,
-.form.add.invitations .fieldset > .field.choice > input {
+.form.add.invitations .fieldset > .field.choice > input,
+.form.create.return .fieldset > .field.choice > input,
+.form.giftregistry.search .fieldset > .field.choice > input {
   vertical-align: top;
   margin-top: 2px;
   margin-right: 5px;
@@ -9597,7 +9867,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field.required > .label > span:first-child:after,
 .form.paypal.review .fieldset > .field.required > .label > span:first-child:after,
 .form.reward.settings .fieldset > .field.required > .label > span:first-child:after,
-.form.add.invitations .fieldset > .field.required > .label > span:first-child:after {
+.form.add.invitations .fieldset > .field.required > .label > span:first-child:after,
+.form.create.return .fieldset > .field.required > .label > span:first-child:after,
+.form.giftregistry.search .fieldset > .field.required > .label > span:first-child:after {
   content: '*';
   color: #da370a;
 }
@@ -9613,7 +9885,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field .addon,
 .form.paypal.review .fieldset > .field .addon,
 .form.reward.settings .fieldset > .field .addon,
-.form.add.invitations .fieldset > .field .addon {
+.form.add.invitations .fieldset > .field .addon,
+.form.create.return .fieldset > .field .addon,
+.form.giftregistry.search .fieldset > .field .addon {
   display: table;
   padding: 0;
   width: 100%;
@@ -9656,7 +9930,13 @@ img[align="right"] {
 .form.reward.settings .fieldset > .field .addon input,
 .form.add.invitations .fieldset > .field .addon textarea,
 .form.add.invitations .fieldset > .field .addon select,
-.form.add.invitations .fieldset > .field .addon input {
+.form.add.invitations .fieldset > .field .addon input,
+.form.create.return .fieldset > .field .addon textarea,
+.form.create.return .fieldset > .field .addon select,
+.form.create.return .fieldset > .field .addon input,
+.form.giftregistry.search .fieldset > .field .addon textarea,
+.form.giftregistry.search .fieldset > .field .addon select,
+.form.giftregistry.search .fieldset > .field .addon input {
   box-shadow: none;
   display: table-cell;
   margin: 0;
@@ -9687,7 +9967,11 @@ img[align="right"] {
 .form.reward.settings .fieldset > .field .addon .addbefore,
 .form.reward.settings .fieldset > .field .addon .addafter,
 .form.add.invitations .fieldset > .field .addon .addbefore,
-.form.add.invitations .fieldset > .field .addon .addafter {
+.form.add.invitations .fieldset > .field .addon .addafter,
+.form.create.return .fieldset > .field .addon .addbefore,
+.form.create.return .fieldset > .field .addon .addafter,
+.form.giftregistry.search .fieldset > .field .addon .addbefore,
+.form.giftregistry.search .fieldset > .field .addon .addafter {
   height: 0;
   white-space: nowrap;
   display: inline-block;
@@ -9735,7 +10019,11 @@ img[align="right"] {
 .form.reward.settings .fieldset > .field .addon .addbefore:focus,
 .form.reward.settings .fieldset > .field .addon .addafter:focus,
 .form.add.invitations .fieldset > .field .addon .addbefore:focus,
-.form.add.invitations .fieldset > .field .addon .addafter:focus {
+.form.add.invitations .fieldset > .field .addon .addafter:focus,
+.form.create.return .fieldset > .field .addon .addbefore:focus,
+.form.create.return .fieldset > .field .addon .addafter:focus,
+.form.giftregistry.search .fieldset > .field .addon .addbefore:focus,
+.form.giftregistry.search .fieldset > .field .addon .addafter:focus {
   border-color: #999999;
 }
 .control .form.send.friend .fieldset > .field .addon .addbefore,
@@ -9763,7 +10051,11 @@ img[align="right"] {
 .control .form.reward.settings .fieldset > .field .addon .addbefore,
 .control .form.reward.settings .fieldset > .field .addon .addafter,
 .control .form.add.invitations .fieldset > .field .addon .addbefore,
-.control .form.add.invitations .fieldset > .field .addon .addafter {
+.control .form.add.invitations .fieldset > .field .addon .addafter,
+.control .form.create.return .fieldset > .field .addon .addbefore,
+.control .form.create.return .fieldset > .field .addon .addafter,
+.control .form.giftregistry.search .fieldset > .field .addon .addbefore,
+.control .form.giftregistry.search .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:disabled,
@@ -9791,7 +10083,11 @@ img[align="right"] {
 .form.reward.settings .fieldset > .field .addon .addbefore:disabled,
 .form.reward.settings .fieldset > .field .addon .addafter:disabled,
 .form.add.invitations .fieldset > .field .addon .addbefore:disabled,
-.form.add.invitations .fieldset > .field .addon .addafter:disabled {
+.form.add.invitations .fieldset > .field .addon .addafter:disabled,
+.form.create.return .fieldset > .field .addon .addbefore:disabled,
+.form.create.return .fieldset > .field .addon .addafter:disabled,
+.form.giftregistry.search .fieldset > .field .addon .addbefore:disabled,
+.form.giftregistry.search .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.send.friend .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
@@ -9819,7 +10115,11 @@ img[align="right"] {
 .form.reward.settings .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.reward.settings .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.add.invitations .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
-.form.add.invitations .fieldset > .field .addon .addafter::-webkit-input-placeholder {
+.form.add.invitations .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.create.return .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.create.return .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.giftregistry.search .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.giftregistry.search .fieldset > .field .addon .addafter::-webkit-input-placeholder {
   line-height: 1.333;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:-ms-input-placeholder,
@@ -9847,7 +10147,11 @@ img[align="right"] {
 .form.reward.settings .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.reward.settings .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.add.invitations .fieldset > .field .addon .addbefore:-ms-input-placeholder,
-.form.add.invitations .fieldset > .field .addon .addafter:-ms-input-placeholder {
+.form.add.invitations .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.create.return .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.create.return .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.giftregistry.search .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.giftregistry.search .fieldset > .field .addon .addafter:-ms-input-placeholder {
   line-height: 1.333;
 }
 .eq-ie8 .form.send.friend .fieldset > .field .addon .addbefore,
@@ -9875,7 +10179,11 @@ img[align="right"] {
 .eq-ie8 .form.reward.settings .fieldset > .field .addon .addbefore,
 .eq-ie8 .form.reward.settings .fieldset > .field .addon .addafter,
 .eq-ie8 .form.add.invitations .fieldset > .field .addon .addbefore,
-.eq-ie8 .form.add.invitations .fieldset > .field .addon .addafter {
+.eq-ie8 .form.add.invitations .fieldset > .field .addon .addafter,
+.eq-ie8 .form.create.return .fieldset > .field .addon .addbefore,
+.eq-ie8 .form.create.return .fieldset > .field .addon .addafter,
+.eq-ie8 .form.giftregistry.search .fieldset > .field .addon .addbefore,
+.eq-ie8 .form.giftregistry.search .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
 .form.send.friend .fieldset > .field .note,
@@ -9890,7 +10198,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field .note,
 .form.paypal.review .fieldset > .field .note,
 .form.reward.settings .fieldset > .field .note,
-.form.add.invitations .fieldset > .field .note {
+.form.add.invitations .fieldset > .field .note,
+.form.create.return .fieldset > .field .note,
+.form.giftregistry.search .fieldset > .field .note {
   font-size: 12px;
   margin-top: 3px;
   padding-left: 15px;
@@ -9907,7 +10217,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field .note:before,
 .form.paypal.review .fieldset > .field .note:before,
 .form.reward.settings .fieldset > .field .note:before,
-.form.add.invitations .fieldset > .field .note:before {
+.form.add.invitations .fieldset > .field .note:before,
+.form.create.return .fieldset > .field .note:before,
+.form.giftregistry.search .fieldset > .field .note:before {
   border-bottom: 5px solid #675f55;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
@@ -9932,7 +10244,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field:last-child,
 .form.paypal.review .fieldset > .field:last-child,
 .form.reward.settings .fieldset > .field:last-child,
-.form.add.invitations .fieldset > .field:last-child {
+.form.add.invitations .fieldset > .field:last-child,
+.form.create.return .fieldset > .field:last-child,
+.form.giftregistry.search .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.send.friend .fieldset > .field .nested,
@@ -9947,7 +10261,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field .nested,
 .form.paypal.review .fieldset > .field .nested,
 .form.reward.settings .fieldset > .field .nested,
-.form.add.invitations .fieldset > .field .nested {
+.form.add.invitations .fieldset > .field .nested,
+.form.create.return .fieldset > .field .nested,
+.form.giftregistry.search .fieldset > .field .nested {
   padding: 0 0 0;
 }
 .form.send.friend .fieldset > .field .nested .field,
@@ -9962,7 +10278,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field .nested .field,
 .form.paypal.review .fieldset > .field .nested .field,
 .form.reward.settings .fieldset > .field .nested .field,
-.form.add.invitations .fieldset > .field .nested .field {
+.form.add.invitations .fieldset > .field .nested .field,
+.form.create.return .fieldset > .field .nested .field,
+.form.giftregistry.search .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.send.friend .fieldset > .field > .label,
@@ -9977,7 +10295,9 @@ img[align="right"] {
 .form.password.reset .fieldset > .field > .label,
 .form.paypal.review .fieldset > .field > .label,
 .form.reward.settings .fieldset > .field > .label,
-.form.add.invitations .fieldset > .field > .label {
+.form.add.invitations .fieldset > .field > .label,
+.form.create.return .fieldset > .field > .label,
+.form.giftregistry.search .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
@@ -10019,7 +10339,13 @@ img[align="right"] {
 .form.reward.settings .fieldset .field.choice.newsletter,
 .form.add.invitations .fieldset > .field.note,
 .form.add.invitations .fieldset .field.street,
-.form.add.invitations .fieldset .field.choice.newsletter {
+.form.add.invitations .fieldset .field.choice.newsletter,
+.form.create.return .fieldset > .field.note,
+.form.create.return .fieldset .field.street,
+.form.create.return .fieldset .field.choice.newsletter,
+.form.giftregistry.search .fieldset > .field.note,
+.form.giftregistry.search .fieldset .field.street,
+.form.giftregistry.search .fieldset .field.choice.newsletter {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname,
@@ -10034,7 +10360,9 @@ img[align="right"] {
 .form.password.reset .fieldset .field.fullname,
 .form.paypal.review .fieldset .field.fullname,
 .form.reward.settings .fieldset .field.fullname,
-.form.add.invitations .fieldset .field.fullname {
+.form.add.invitations .fieldset .field.fullname,
+.form.create.return .fieldset .field.fullname,
+.form.giftregistry.search .fieldset .field.fullname {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname .fields.group-5 .field,
@@ -10049,7 +10377,9 @@ img[align="right"] {
 .form.password.reset .fieldset .field.fullname .fields.group-5 .field,
 .form.paypal.review .fieldset .field.fullname .fields.group-5 .field,
 .form.reward.settings .fieldset .field.fullname .fields.group-5 .field,
-.form.add.invitations .fieldset .field.fullname .fields.group-5 .field {
+.form.add.invitations .fieldset .field.fullname .fields.group-5 .field,
+.form.create.return .fieldset .field.fullname .fields.group-5 .field,
+.form.giftregistry.search .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.send.friend .fieldset .field.dob .fields.group .field,
@@ -10064,7 +10394,9 @@ img[align="right"] {
 .form.password.reset .fieldset .field.dob .fields.group .field,
 .form.paypal.review .fieldset .field.dob .fields.group .field,
 .form.reward.settings .fieldset .field.dob .fields.group .field,
-.form.add.invitations .fieldset .field.dob .fields.group .field {
+.form.add.invitations .fieldset .field.dob .fields.group .field,
+.form.create.return .fieldset .field.dob .fields.group .field,
+.form.giftregistry.search .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
@@ -10081,7 +10413,9 @@ img[align="right"] {
 .form.password.reset .fieldset .field.dob .fields.group .field .label,
 .form.paypal.review .fieldset .field.dob .fields.group .field .label,
 .form.reward.settings .fieldset .field.dob .fields.group .field .label,
-.form.add.invitations .fieldset .field.dob .fields.group .field .label {
+.form.add.invitations .fieldset .field.dob .fields.group .field .label,
+.form.create.return .fieldset .field.dob .fields.group .field .label,
+.form.giftregistry.search .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
@@ -10099,7 +10433,9 @@ img[align="right"] {
 .form.password.reset .fieldset .field.dob .fields.group .field input,
 .form.paypal.review .fieldset .field.dob .fields.group .field input,
 .form.reward.settings .fieldset .field.dob .fields.group .field input,
-.form.add.invitations .fieldset .field.dob .fields.group .field input {
+.form.add.invitations .fieldset .field.dob .fields.group .field input,
+.form.create.return .fieldset .field.dob .fields.group .field input,
+.form.giftregistry.search .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
 .form.send.friend .actions,
@@ -10114,7 +10450,9 @@ img[align="right"] {
 .form.password.reset .actions,
 .form.paypal.review .actions,
 .form.reward.settings .actions,
-.form.add.invitations .actions {
+.form.add.invitations .actions,
+.form.create.return .actions,
+.form.giftregistry.search .actions {
   *zoom: 1;
   width: 690px;
 }
@@ -10143,7 +10481,11 @@ img[align="right"] {
 .form.reward.settings .actions:before,
 .form.reward.settings .actions:after,
 .form.add.invitations .actions:before,
-.form.add.invitations .actions:after {
+.form.add.invitations .actions:after,
+.form.create.return .actions:before,
+.form.create.return .actions:after,
+.form.giftregistry.search .actions:before,
+.form.giftregistry.search .actions:after {
   content: "";
   display: table;
 }
@@ -10159,7 +10501,9 @@ img[align="right"] {
 .form.password.reset .actions:after,
 .form.paypal.review .actions:after,
 .form.reward.settings .actions:after,
-.form.add.invitations .actions:after {
+.form.add.invitations .actions:after,
+.form.create.return .actions:after,
+.form.giftregistry.search .actions:after {
   clear: both;
 }
 .form.send.friend .actions .primary,
@@ -10174,7 +10518,9 @@ img[align="right"] {
 .form.password.reset .actions .primary,
 .form.paypal.review .actions .primary,
 .form.reward.settings .actions .primary,
-.form.add.invitations .actions .primary {
+.form.add.invitations .actions .primary,
+.form.create.return .actions .primary,
+.form.giftregistry.search .actions .primary {
   float: right;
 }
 .form.send.friend .actions .secondary,
@@ -10189,7 +10535,9 @@ img[align="right"] {
 .form.password.reset .actions .secondary,
 .form.paypal.review .actions .secondary,
 .form.reward.settings .actions .secondary,
-.form.add.invitations .actions .secondary {
+.form.add.invitations .actions .secondary,
+.form.create.return .actions .secondary,
+.form.giftregistry.search .actions .secondary {
   float: left;
 }
 .form.send.friend .fieldset.create.account:after,
@@ -10204,7 +10552,9 @@ img[align="right"] {
 .form.password.reset .fieldset.create.account:after,
 .form.paypal.review .fieldset.create.account:after,
 .form.reward.settings .fieldset.create.account:after,
-.form.add.invitations .fieldset.create.account:after {
+.form.add.invitations .fieldset.create.account:after,
+.form.create.return .fieldset.create.account:after,
+.form.giftregistry.search .fieldset.create.account:after {
   content: attr(data-hasrequired);
   display: block;
   position: absolute;
@@ -10217,7 +10567,9 @@ img[align="right"] {
 }
 .form.send.friend .fieldset.recipients .fields,
 .form.reward.settings .fieldset.recipients .fields,
-.form.add.invitations .fieldset.recipients .fields {
+.form.add.invitations .fieldset.recipients .fields,
+.form.create.return .fieldset.recipients .fields,
+.form.giftregistry.search .fieldset.recipients .fields {
   *zoom: 1;
   margin-bottom: 30px;
   position: relative;
@@ -10228,18 +10580,26 @@ img[align="right"] {
 .form.reward.settings .fieldset.recipients .fields:before,
 .form.reward.settings .fieldset.recipients .fields:after,
 .form.add.invitations .fieldset.recipients .fields:before,
-.form.add.invitations .fieldset.recipients .fields:after {
+.form.add.invitations .fieldset.recipients .fields:after,
+.form.create.return .fieldset.recipients .fields:before,
+.form.create.return .fieldset.recipients .fields:after,
+.form.giftregistry.search .fieldset.recipients .fields:before,
+.form.giftregistry.search .fieldset.recipients .fields:after {
   content: "";
   display: table;
 }
 .form.send.friend .fieldset.recipients .fields:after,
 .form.reward.settings .fieldset.recipients .fields:after,
-.form.add.invitations .fieldset.recipients .fields:after {
+.form.add.invitations .fieldset.recipients .fields:after,
+.form.create.return .fieldset.recipients .fields:after,
+.form.giftregistry.search .fieldset.recipients .fields:after {
   clear: both;
 }
 .form.send.friend .fieldset.recipients .fields .field,
 .form.reward.settings .fieldset.recipients .fields .field,
-.form.add.invitations .fieldset.recipients .fields .field {
+.form.add.invitations .fieldset.recipients .fields .field,
+.form.create.return .fieldset.recipients .fields .field,
+.form.giftregistry.search .fieldset.recipients .fields .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -10250,26 +10610,34 @@ img[align="right"] {
 }
 .form.send.friend .fieldset.recipients .fields .action.delete,
 .form.reward.settings .fieldset.recipients .fields .action.delete,
-.form.add.invitations .fieldset.recipients .fields .action.delete {
+.form.add.invitations .fieldset.recipients .fields .action.delete,
+.form.create.return .fieldset.recipients .fields .action.delete,
+.form.giftregistry.search .fieldset.recipients .fields .action.delete {
   position: absolute;
   right: 0;
   top: 50%;
 }
 .form.send.friend .actions > .primary,
 .form.reward.settings .actions > .primary,
-.form.add.invitations .actions > .primary {
+.form.add.invitations .actions > .primary,
+.form.create.return .actions > .primary,
+.form.giftregistry.search .actions > .primary {
   float: right;
   text-align: right;
 }
 .form.send.friend .actions > .primary .action.submit,
 .form.reward.settings .actions > .primary .action.submit,
-.form.add.invitations .actions > .primary .action.submit {
+.form.add.invitations .actions > .primary .action.submit,
+.form.create.return .actions > .primary .action.submit,
+.form.giftregistry.search .actions > .primary .action.submit {
   float: right;
   margin-left: 10px;
 }
 .form.send.friend .actions > .primary .limit,
 .form.reward.settings .actions > .primary .limit,
-.form.add.invitations .actions > .primary .limit {
+.form.add.invitations .actions > .primary .limit,
+.form.create.return .actions > .primary .limit,
+.form.giftregistry.search .actions > .primary .limit {
   margin: 0;
   display: inline-block;
 }
@@ -10383,6 +10751,9 @@ img[align="right"] {
 .paypal.review.view .actions .action.update {
   margin-left: 10px;
 }
+.paypal.review.view .paypal.review.items {
+  clear: left;
+}
 .paypal.review.view .data.table.paypal.review.items {
   width: 100%;
 }
@@ -10405,6 +10776,67 @@ img[align="right"] {
 .paypal.review.view .data.table.paypal.review.items tfoot tr:first-child td {
   border-top: 3px solid #e5e5e5;
   padding-top: 15px;
+}
+.paypal.review.view .block.shipping.information,
+.paypal.review.view .block.billing.information {
+  margin-bottom: 45px;
+}
+.paypal.review.view .block.shipping.information > .content,
+.paypal.review.view .block.billing.information > .content {
+  *zoom: 1;
+}
+.paypal.review.view .block.shipping.information > .content:before,
+.paypal.review.view .block.billing.information > .content:before,
+.paypal.review.view .block.shipping.information > .content:after,
+.paypal.review.view .block.billing.information > .content:after {
+  content: "";
+  display: table;
+}
+.paypal.review.view .block.shipping.information > .content:after,
+.paypal.review.view .block.billing.information > .content:after {
+  clear: both;
+}
+.paypal.review.view .block.shipping.information .box,
+.paypal.review.view .block.billing.information .box {
+  float: left;
+  padding-right: 2%;
+  width: 48%;
+}
+.paypal.review.view .block.shipping.information .box > .content,
+.paypal.review.view .block.billing.information .box > .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.paypal.review.view .block.shipping.information .box > .content .select,
+.paypal.review.view .block.billing.information .box > .content .select {
+  width: 100%;
+}
+.paypal.review.view .block.shipping.information .box > .content .actions,
+.paypal.review.view .block.billing.information .box > .content .actions {
+  margin: 25px 0 0;
+}
+.paypal.review.view .block.shipping.information address,
+.paypal.review.view .block.billing.information address {
+  font-style: normal;
+}
+.paypal.review.view .block.shipping.information .subtitle,
+.paypal.review.view .block.billing.information .subtitle {
+  display: block;
+  font-size: 18px;
+  font-weight: 200;
+  margin-bottom: 20px;
+}
+.paypal.review.view .block.shipping.information .subtitle .action,
+.paypal.review.view .block.billing.information .subtitle .action {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 20px;
+  text-decoration: underline;
+  text-transform: lowercase;
+}
+.paypal.iframe {
+  display: none;
 }
 /*
     MISC
@@ -10834,6 +11266,12 @@ img[align="right"] {
   background: #f8f8f8;
   padding: 30px;
 }
+.order.details .block.order p {
+  margin-top: 0;
+}
+.order.details .block.order p:last-child {
+  margin-bottom: 0;
+}
 .order.details .order.info {
   clear: both;
 }
@@ -10843,12 +11281,13 @@ img[align="right"] {
   font-size: 20px;
 }
 .order.details .order.info > dd {
-  margin: 10px 0 0 0;
-  background: #f8f8f8;
-  padding: 30px;
+  margin: 0;
 }
 .order.details .order.info > dd .items {
   *zoom: 1;
+  background: #f8f8f8;
+  margin: 10px 0 0 0;
+  padding: 30px;
 }
 .order.details .order.info > dd .items:before,
 .order.details .order.info > dd .items:after {
@@ -10904,7 +11343,7 @@ img[align="right"] {
   height: 12px;
   margin: 0;
   overflow: hidden;
-  content: "\e029";
+  content: "\e02c";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -10914,7 +11353,37 @@ img[align="right"] {
   text-align: center;
 }
 .order.details.items .action.show.expanded:after {
-  content: "\e02c";
+  content: "\e029";
+}
+.order.details.items .gift.message.details {
+  position: relative;
+}
+.order.details.items .gift.message {
+  margin: 0;
+}
+.order.details.items .action.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.order.details.items .action.close span:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  margin: 0;
+  overflow: hidden;
+  content: "\e012";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items + .order.details.view {
+  margin-top: 45px;
 }
 .shipping-tracking-popup .action.close {
   text-indent: 0;
@@ -11002,6 +11471,15 @@ img[align="right"] {
 .data.table.order.tracking .label {
   width: 40%;
 }
+.data.table.order .qty.summary {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  list-style-image: none;
+}
+.data.table.order .qty.summary .label:after {
+  content: ": ";
+}
 /*
     My Account -> Billing agreements
 -------------------------------------- */
@@ -11029,6 +11507,52 @@ img[align="right"] {
 .billing.agreements .form.new.agreement .action.create {
   padding-top: 7px;
   padding-bottom: 6px;
+}
+/*
+    My Account -> Recurring profiles
+-------------------------------------- */
+.recurring.order.details .block.view.info {
+  *zoom: 1;
+}
+.recurring.order.details .block.view.info:before,
+.recurring.order.details .block.view.info:after {
+  content: "";
+  display: table;
+}
+.recurring.order.details .block.view.info:after {
+  clear: both;
+}
+.recurring.order.details .block.view.info .box {
+  float: left;
+  padding-right: 2%;
+  width: 48%;
+}
+.recurring.order.details .block.view.info .box .subtitle {
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.2;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+.recurring.order.details .block.view.info .box .content {
+  background: #f8f8f8;
+  padding: 30px;
+  *zoom: 1;
+}
+.recurring.order.details .block.view.info .box .content:before,
+.recurring.order.details .block.view.info .box .content:after {
+  content: "";
+  display: table;
+}
+.recurring.order.details .block.view.info .box .content:after {
+  clear: both;
+}
+.recurring.order.details .block.view.info .box .data.table th,
+.recurring.order.details .block.view.info .box .data.table td {
+  padding: 4px 7px;
+}
+.recurring.order.details > .actions .primary {
+  text-align: right;
 }
 /*
     Overlay popup
@@ -11310,7 +11834,7 @@ img[align="right"] {
   width: 20%;
 }
 .data.table.giftregistry .col.actions,
-.data.table.giftregistry .col.qty-fulfilled {
+.data.table.giftregistry .col.fulfilled {
   text-align: center;
 }
 .data.table.giftregistry .product.options.list dt {
@@ -11372,6 +11896,11 @@ img[align="right"] {
   text-indent: 0;
   display: block;
   margin: 0;
+}
+.data.table.giftregistry.shared th {
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
 }
 .form.giftregistry .fieldset {
   margin: 0;
@@ -11458,6 +11987,58 @@ img[align="right"] {
   text-indent: 0;
   display: block;
   margin: 0;
+}
+.block.giftregistry.shared.items {
+  margin: 45px 0;
+}
+.block.giftregistry.shared.items .data.table {
+  width: 100%;
+}
+.block.giftregistry.shared.items .data.table th {
+  font-size: 16px;
+  font-weight: 400;
+}
+.block.giftregistry.shared.items .col.registered,
+.block.giftregistry.shared.items .col.fulfilled,
+.block.giftregistry.shared.items .col.remaining,
+.block.giftregistry.shared.items .col.price {
+  text-align: right;
+  width: 70px;
+}
+.block.giftregistry.shared.items .col.qty {
+  text-align: center;
+  width: 40px;
+}
+.block.giftregistry.shared.items .col.photo {
+  width: 75px;
+}
+.block.giftregistry.shared.items .item.message:before {
+  content: "*";
+}
+.form.giftregistry.search {
+  margin-bottom: 45px;
+}
+.form.giftregistry.search:after {
+  content: attr(data-hasrequired);
+  display: block;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: #da370a;
+}
+.block.giftregistry.results .data.table {
+  width: 100%;
+}
+.block.giftregistry.results .data.table th {
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+}
+.block.widget.giftregistry .form:after {
+  content: attr(data-hasrequired);
+  display: block;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: #da370a;
 }
 /*
     My Account -> My Invitations
@@ -12357,4 +12938,217 @@ body.account .column.main .block.event {
 }
 body.account .column.main .block.event .item {
   width: 187px;
+}
+/*
+    My Account -> RMA
+-------------------------------------- */
+.form.create.return .box {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0 0 20px;
+  padding-right: 20px;
+  vertical-align: top;
+  width: 50%;
+}
+.form.create.return .box.address address {
+  font-style: normal;
+}
+.form.create.return .box .subtitle {
+  font-size: 18px;
+  font-weight: 200;
+}
+.form.create.return .field {
+  margin: 0 0 20px;
+}
+.form.create.return .field.comment {
+  width: 100%;
+}
+.form.create.return .field.reason_other {
+  display: none;
+}
+.form.create.return .fields.additional {
+  letter-spacing: -0.31em;
+  word-spacing: -0.43em;
+}
+.form.create.return .fields.additional > * {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.form.create.return .fields.additional .field {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.form.create.return .fields.additional .note {
+  padding-top: 3px;
+}
+.form.create.return .fields.additional .note .qty.remaining:before {
+  content: ': ';
+}
+.form.create.return .fieldset .actions {
+  margin-right: 20px;
+  margin-bottom: 10px;
+  width: auto;
+}
+.form.create.return .fields.additional.row {
+  border-top: 1px solid #c2c2c2;
+  padding-top: 20px;
+}
+.form.create.return .field.item .nested {
+  margin-top: 10px;
+}
+.form.create.return .field.item .data.table .label.disabled {
+  color: #999999;
+}
+.form.create.return .field.item .data.table th {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+.form.create.return .field.item .data.table td {
+  padding: 5px 10px;
+  vertical-align: middle;
+}
+.form.create.return .field.item .data.table tr td:last-child {
+  padding-right: 0;
+}
+.form.create.return .field.item .data.table td.col.qty {
+  width: 50px;
+}
+.form.create.return .field.item .data.table .col.remaining.qty {
+  text-align: center;
+  width: 65px;
+}
+.form.create.return .reason_other {
+  display: inline-block;
+}
+.returns.details.view {
+  *zoom: 1;
+}
+.returns.details.view:before,
+.returns.details.view:after {
+  content: "";
+  display: table;
+}
+.returns.details.view:after {
+  clear: both;
+}
+.returns.details.view .block.returns.requested,
+.returns.details.view .block.returns.shipping {
+  float: left;
+  width: 48%;
+}
+.returns.details.view .block.returns.requested .content,
+.returns.details.view .block.returns.shipping .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.returns.details.view .block.returns.shipping {
+  float: right;
+}
+.returns .returns.status {
+  display: block;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+.returns .subtitle.caption strong,
+.returns.block.comments .title {
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.2;
+}
+.returns .block.returns.tracking .data.table,
+.returns .data.table.returns.items {
+  margin-bottom: 45px;
+  width: 100%;
+}
+.returns .block.returns.tracking .data.table th,
+.returns .data.table.returns.items th {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  text-align: left;
+}
+.returns .block.returns.tracking .data.table td,
+.returns .data.table.returns.items td {
+  padding: 10px;
+}
+.returns .block.returns.tracking .data.table .data.table th,
+.returns .data.table.returns.items .data.table th,
+.returns .block.returns.tracking .data.table .data.table td,
+.returns .data.table.returns.items .data.table td {
+  padding: 5px 10px;
+}
+.returns .block.returns.tracking .data.table .data.table .product.photo.preview,
+.returns .data.table.returns.items .data.table .product.photo.preview {
+  min-width: 20px;
+  max-width: 100%;
+  padding: 0;
+  width: auto;
+}
+.returns .block.returns.tracking .data.table .action.details,
+.returns .data.table.returns.items .action.details {
+  margin: 0;
+}
+.returns .col.sku {
+  white-space: nowrap;
+}
+.returns .items.data td.col.qty {
+  padding-top: 10px;
+  text-transform: none;
+}
+.returns .col.request.qty {
+  text-transform: none;
+}
+.returns .action.track {
+  margin-left: 10px;
+}
+.returns.tracking .title a {
+  margin-left: 10px;
+}
+.returns.tracking .col.actions {
+  width: 70px;
+}
+.returns.tracking .col.actions .action.add {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #332e29;
+}
+.returns.tracking .col.actions .action.add:hover {
+  color: #da370a;
+}
+.returns.block.comments .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.returns.block.comments .returns.comments {
+  margin: 20px 0 0;
+}
+.returns.block.comments .comment.text {
+  margin-bottom: 15px;
+}
+.returns.block.comments .comment.text:last-child {
+  margin-bottom: 0;
+}
+.returns.block.comments .comment.autor:before {
+  content: '\2013 ';
+}
+.returns.block.comments .actions {
+  margin-top: 30px;
+}
+.returns.order .title {
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.2;
 }

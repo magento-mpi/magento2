@@ -418,9 +418,7 @@ return array(
     array('getPackage', 'Magento\Widget\Model\Widget\Instance'),
     array('getPackageTheme', 'Magento\Widget\Model\Widget\Instance', 'getThemeId'),
     array('getPageHandleLabel', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
-    array('getPageHandleParents', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('getPageHandles', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
-    array('getPageHandlesHierarchy', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('getPageHandleType', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('getPageTemplateProcessor', 'Magento\Cms\Helper\Data'),
     array('getBlockTemplateProcessor', 'Magento\Cms\Helper\Data'),
@@ -863,4 +861,6 @@ return array(
     array('setModuleDir', 'Magento\Core\Model\Config'),
     array('getAreaConfig', 'Magento\Core\Model\Config'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
+    array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),
+    array('getEnginePool', '\Magento\Core\Block\Template\Context', 'getEngineFactory'),
 );
