@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Magento
+ * @package Magento_Checkout
+ * @subpackage integration_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Checkout\Controller;
@@ -77,3 +77,5 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains('checkout-review', $this->getResponse()->getBody());
     }
 }
+
+

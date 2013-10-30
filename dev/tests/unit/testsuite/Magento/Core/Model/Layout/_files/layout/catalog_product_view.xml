@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout label="Catalog Product View (Any)" type="page" parent="catalog_category_default">
+<layout label="Catalog Product View (Any)" type="page">
     <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
 </layout>

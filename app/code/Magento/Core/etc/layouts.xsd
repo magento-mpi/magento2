@@ -119,7 +119,6 @@
     <xs:simpleType name="handlePageType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="page"/>
-            <xs:enumeration value="fragment"/>
         </xs:restriction>
     </xs:simpleType>
 
