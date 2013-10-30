@@ -95,7 +95,7 @@ class OnepageTest extends Functional
         }
         $this->assertContains(
             $expectedAuthorizedAmount,
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount(),
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
             'Incorrect authorized amount value for the order #' . $orderId
         );
     }

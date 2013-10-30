@@ -120,7 +120,7 @@ class CheckoutOnepageTest extends Functional
             'Incorrect grand total value for the order #' . $orderId);
         $this->assertContains(
             $fixture->getGrandTotal(),
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount(),
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
             'Incorrect authorized amount value for the order #' . $orderId);
         $this->assertContains(
             $fixture->getCommentHistory(),

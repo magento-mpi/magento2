@@ -21,7 +21,7 @@ use Mtf\Fixture\DataFixture;
  *
  * @package Magento\Sales\Test\TestCase\
  */
-class CancelOrderTest extends Functional
+class CloseOrderTest extends Functional
 {
     /**
      * Cancel order placed by PayPal Express from product page
@@ -33,6 +33,7 @@ class CancelOrderTest extends Functional
      */
     public function testPayPalExpress(DataFixture $fixture)
     {
+        $fixture->persist();
         //Data
         $orderId = $fixture->getOrderId();
         $grandTotal = $fixture->getGrandTotal();
@@ -58,6 +59,12 @@ class CancelOrderTest extends Functional
             $orderPage->getMessagesBlock()->getSuccessMessages(),
             'The invoice has been created.',
             'No success message on invoice creation'
+        );
+
+        $this->assertContains(
+            $grandTotal,
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
+            'Incorrect captured amount value for the order #' . $orderId
         );
 
         $orderPage->getOrderActionsBlock()->ship();

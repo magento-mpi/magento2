@@ -76,7 +76,7 @@ class ProductPageTest extends Functional
 
         $this->assertContains(
             'Authorized amount of ' . $fixture->getGrandTotal(),
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount(),
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
             'Incorrect authorized amount value for the order #' . $orderId
         );
     }

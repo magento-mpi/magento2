@@ -59,11 +59,11 @@ class History extends Block
     }
 
     /**
-     * Get Authorized Amount
+     * Get last order comment
      *
      * @return string
      */
-    public function getAuthorizedAmount()
+    public function getLastOrderComment()
     {
         return $this->_rootElement->find($this->_authorizedAmount)->getText();
     }
