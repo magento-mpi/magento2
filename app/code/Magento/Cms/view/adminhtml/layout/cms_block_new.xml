@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_cms_page_edit"/>
+    <update handle="cms_block_edit"/>
 </layout>
