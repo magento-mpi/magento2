@@ -31,7 +31,7 @@ class Monitor extends \Magento\Adminhtml\Block\Template
         parent::_prepareLayout();
 
         if (!$this->_authorization->isAllowed('Magento_Banner::magento_banner')) {
-            /** @var $layout \Magento\Core\Model\Layout */
+            /** @var $layout \Magento\View\LayoutInterface */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {
                 /** @var $promoQuoteBlock \Magento\Adminhtml\Block\Widget\Tabs */

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Object
+ * @package    Magento_Object
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,7 +13,7 @@
  * Universal data container with array access implementation
  *
  * @category    Magento
- * @package     \Magento\Object
+ * @package     Magento_Object
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Date
+ * @package    Magento_Date
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,7 +13,7 @@
  * Internal dates
  *
  * @category Magento
- * @package  \Magento\Date
+ * @package  Magento_Date
  * @author   Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;

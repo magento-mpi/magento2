@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Pear
+ * @package    Magento_Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,7 +12,7 @@
  * Pear package routines
  * *
  * @category   Magento
- * @package    \Magento\Pear
+ * @package    Magento_Pear
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;
