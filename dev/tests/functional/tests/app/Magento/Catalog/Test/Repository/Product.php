@@ -40,5 +40,20 @@ class Product extends AbstractRepository
         $this->_data['simple_with_category']['data']['fields']['category_ids'] = array(
             'value' => array('%category::getCategoryId%')
         );
+
+        $this->_data['simple_advanced_inventory'] = $this->_data['simple_with_category'];
+        unset($this->_data['simple_advanced_inventory']['data']['fields']['qty']);
+        $this->_data['simple_advanced_inventory']['data']['fields']['inventory_manage_stock'] = array(
+            'value' => 'Yes',
+            'input_value' => '1',
+            'group' => 'product_info_tabs_advanced-inventory',
+            'input' => 'select',
+            'input_name' => '#inventory_manage_stock'
+        );
+        $this->_data['simple_advanced_inventory']['data']['fields']['inventory_qty'] = array(
+            'value' => 1,
+            'group' => 'product_info_tabs_advanced-inventory',
+            'input_name' => '#inventory_qty'
+        );
     }
 }

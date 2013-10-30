@@ -32,13 +32,17 @@ class CreateTest extends Functional
     }
 
     /**
-     * Test product create
+     * Product create
+     *
+     * @param string $productDataSet
+     * @dataProvider dataProviderTestCreateProduct
+     * @ZephyrId MAGETWO-12514, MAGETWO-12914
      */
-    public function testCreateProduct()
+    public function testCreateProduct($productDataSet)
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple_with_category');
         //Data
+        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product->switchData($productDataSet);
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $createProductPage->init($product);
         $productBlockForm = $createProductPage->getProductBlockForm();
@@ -87,5 +91,16 @@ class CreateTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderTestCreateProduct()
+    {
+        return array(
+            array('simple_with_category'),
+            array('simple_advanced_inventory')
+        );
     }
 }
