@@ -39,7 +39,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      * Customer initialization
      *
      * @param string $idFieldName
-     * @return \Magento\Customer\Controller\Adminhtml
+     * @return \Magento\Customer\Controller\Adminhtml\Customer
      */
     protected function _initCustomer($idFieldName = 'id')
     {
