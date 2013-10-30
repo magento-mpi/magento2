@@ -41,7 +41,7 @@ class AdminCustomerCreate extends Page
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
         $this->_newCustomerForm = Factory::getBlockFactory()->getMagentoCustomerBackendCustomerForm(
-            $this->_browser->find('#edit_form')
+            $this->_browser->find('[id="page:main-container"]')
         );
     }
 

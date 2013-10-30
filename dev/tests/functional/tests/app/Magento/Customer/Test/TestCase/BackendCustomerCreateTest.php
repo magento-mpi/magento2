@@ -20,13 +20,14 @@ class BackendCustomerCreateTest extends Functional
     {
         $customerViewPage = Factory::getPageFactory()->getAdminCustomer();
         $gridBlock = $customerViewPage->getCustomerGridBlock();
+        $pageActionsBlock = $customerViewPage->getPageActionsBlock();
         $customerCreatePage = Factory::getPageFactory()->getAdminCustomerNew();
         $newCustomerForm = $customerCreatePage->getNewCustomerForm();
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
 
         Factory::getApp()->magentoBackendLoginUser();
         $customerViewPage->open();
-        $gridBlock->createNewCustomer();
+        $pageActionsBlock->addNew();
 
         $newCustomerForm->fill($customerFixture);
         $newCustomerForm->saveContinue();
