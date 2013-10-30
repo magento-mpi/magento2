@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Adminhtml email template model
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Adminhtml\Model\Email;
+namespace Magento\Backend\Model\Email;
 
 class Template extends \Magento\Core\Model\Email\Template
 {

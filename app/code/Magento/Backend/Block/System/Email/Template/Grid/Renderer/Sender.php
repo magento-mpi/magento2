@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml system templates grid block sender item renderer
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
  

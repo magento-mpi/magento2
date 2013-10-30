@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml system template edit block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method array getTemplateOptions()
  */
@@ -356,7 +356,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getUsedDefaultForPaths($asJSON = true)
     {
-        /** @var $template \Magento\Adminhtml\Model\Email\Template */
+        /** @var $template \Magento\Backend\Model\Email\Template */
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
@@ -374,7 +374,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getUsedCurrentlyForPaths($asJSON = true)
     {
-        /** @var $template \Magento\Adminhtml\Model\Email\Template */
+        /** @var $template \Magento\Backend\Model\Email\Template */
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);

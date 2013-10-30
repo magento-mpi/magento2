@@ -205,14 +205,14 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
      * Load email template from request
      *
      * @param string $idFieldName
-     * @return \Magento\Adminhtml\Model\Email\Template $model
+     * @return \Magento\Backend\Model\Email\Template $model
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
         $this->_title(__('Email Templates'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = $this->_objectManager->create('Magento\Adminhtml\Model\Email\Template');
+        $model = $this->_objectManager->create('Magento\Backend\Model\Email\Template');
         if ($id) {
             $model->load($id);
         }

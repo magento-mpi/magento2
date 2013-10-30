@@ -131,7 +131,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_configStructureMock->expects($this->any())
             ->method('getElementByPathParts')->will($this->returnValueMap($map));
 
-        $templateMock = $this->getMock('Magento\Adminhtml\Model\Email\Template', array(), array(), '', false, false);
+        $templateMock = $this->getMock('Magento\Backend\Model\Email\Template', array(), array(), '', false, false);
         $templateMock->expects($this->once())
             ->method('getSystemConfigPathsWhereUsedCurrently')
             ->will($this->returnValue($this->_fixtureConfigPath));
