@@ -60,6 +60,7 @@ class PrinterReferenceTest extends TestBase
                 "<?php\nif (true) {\n    \$a = \"Is this {\$encapsed}\\n\";\n}\n"
             ),
             array("<?php \$a = 'Is this \$encapsed\\n';", "<?php\n\$a = 'Is this \$encapsed\\n';\n"),
+            array("<?php \$a = `ls -l \$dir`;", "<?php\n\$a = `ls -l {\$dir}`;\n"),
             array(
                 "<?php if (true) {\$a = 'Is this \$encapsed\\n';\nclone \$encapsed;}",
                 "<?php\nif (true) {\n    \$a = 'Is this \$encapsed\\n';\n    clone \$encapsed;\n}\n"
