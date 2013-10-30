@@ -51,8 +51,8 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        array $data = array(),
-        \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource
+        \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource,
+        array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_authTypeSource = $authTypeSource;
