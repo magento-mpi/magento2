@@ -33,68 +33,15 @@ class Reader
     protected $_modulesList;
 
     /**
-     * Base config factory
-     *
-     * @var \Magento\Core\Model\Config\BaseFactory
-     */
-    protected $_prototypeFactory;
-
-    /**
      * @param \Magento\App\Module\Dir $moduleDirs
-     * @param \Magento\Core\Model\Config\BaseFactory $prototypeFactory
      * @param \Magento\Module\ModuleListInterface $moduleList
      */
     public function __construct(
         \Magento\App\Module\Dir $moduleDirs,
-        \Magento\Core\Model\Config\BaseFactory $prototypeFactory,
         \Magento\Module\ModuleListInterface $moduleList
     ) {
         $this->_moduleDirs = $moduleDirs;
-        $this->_prototypeFactory = $prototypeFactory;
         $this->_modulesList = $moduleList;
-    }
-
-    /**
-     * Load configuration from single file
-     *
-     * @param string $configFile
-     * @param string $moduleName
-     * @param \Magento\Core\Model\Config\Base $mergeToObject
-     * @param \Magento\Core\Model\Config\Base $mergeModel
-     */
-    public function _loadFileConfig($configFile, $moduleName, $mergeToObject, $mergeModel)
-    {
-        $configFilePath = $this->getModuleDir('etc', $moduleName) . DS . $configFile;
-        if ($mergeModel->loadFile($configFilePath)) {
-            $mergeToObject->extend($mergeModel, true);
-        }
-    }
-
-    /**
-     * Iterate all active modules "etc" folders and combine data from
-     * specified xml file name to one object
-     *
-     * @param string $fileName
-     * @param \Magento\Core\Model\Config\Base|null $mergeToObject
-     * @param \Magento\Core\Model\Config\Base|null $mergeModel
-     * @return \Magento\Core\Model\Config\Base|null
-     */
-    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel = null)
-    {
-        $mergeToObject = null === $mergeToObject ? $this->_prototypeFactory->create('<config/>') : $mergeToObject;
-        $mergeModel = null === $mergeModel ? $mergeModel = $this->_prototypeFactory->create('<config/>'): $mergeModel;
-
-        /** @var $module \Magento\Core\Model\Config\Element */
-        foreach (array_keys($this->_modulesList->getModules()) as $moduleName) {
-            if (!is_array($fileName)) {
-                $fileName = array($fileName);
-            }
-            foreach ($fileName as $configFile) {
-                $this->_loadFileConfig($configFile, $moduleName, $mergeToObject, $mergeModel);
-            }
-
-        }
-        return $mergeToObject;
     }
 
     /**

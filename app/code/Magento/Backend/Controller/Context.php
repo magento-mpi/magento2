@@ -53,6 +53,11 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     protected $_locale;
 
     /**
+     * @var bool
+     */
+    protected $_canUseBaseUrl;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -60,7 +65,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param $isRenderInherited
+     * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\AuthorizationInterface $authorization
@@ -68,7 +73,8 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * 
+     * @param bool $canUseBaseUrl
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -86,7 +92,8 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\Core\Model\Translate $translator,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        $canUseBaseUrl = false
     ) {
         parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
             $isRenderInherited
@@ -154,5 +161,13 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     public function getLocale()
     {
         return $this->_locale;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCanUseBaseUrl()
+    {
+        return $this->_canUseBaseUrl;
     }
 }

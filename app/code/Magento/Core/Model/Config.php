@@ -10,12 +10,6 @@
 
 namespace Magento\Core\Model;
 
-/**
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.TooManyFields)
- */
 class Config implements \Magento\Core\Model\ConfigInterface
 {
     /**
@@ -39,74 +33,16 @@ class Config implements \Magento\Core\Model\ConfigInterface
     const SCOPE_WEBSITES = 'websites';
 
     /**
-     * Storage of validated secure urls
-     *
-     * @var array
-     */
-    protected $_secureUrlCache = array();
-
-    /**
-     * Object manager
-     *
-     * @var \Magento\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * Module configuration reader
-     *
-     * @var \Magento\Core\Model\Config\Modules\Reader
-     */
-    protected $_moduleReader;
-
-    /**
-     * @var \Magento\Config\ScopeInterface
-     */
-    protected $_configScope;
-
-    /**
-     * @var \Magento\Module\ModuleListInterface
-     */
-    protected $_moduleList;
-
-    /**
      * @var \Magento\Core\Model\Config\SectionPool
      */
     protected $_sectionPool;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Collection
+     * @param Config\SectionPool $sectionPool
      */
-    protected $_storeCollection;
-
-    /**
-     * List of module namespaces
-     *
-     * @var array
-     */
-    protected $_moduleNamespaces;
-
-    /**
-     * @param \Magento\ObjectManager                      $objectManager
-     * @param \Magento\Core\Model\Config\Modules\Reader   $moduleReader
-     * @param \Magento\Module\ModuleListInterface         $moduleList
-     * @param \Magento\Config\ScopeInterface              $configScope
-     * @param \Magento\Core\Model\Config\SectionPool      $sectionPool
-     */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Core\Model\Config\SectionPool $sectionPool
-    ) {
-        \Magento\Profiler::start('config_load');
-        $this->_objectManager = $objectManager;
-        $this->_moduleReader = $moduleReader;
-        $this->_moduleList = $moduleList;
-        $this->_configScope = $configScope;
+    public function __construct(\Magento\Core\Model\Config\SectionPool $sectionPool)
+    {
         $this->_sectionPool = $sectionPool;
-        \Magento\Profiler::stop('config_load');
     }
 
     /**
@@ -133,165 +69,6 @@ class Config implements \Magento\Core\Model\ConfigInterface
     public function setValue($path, $value, $scope = 'default', $scopeCode = null)
     {
         $this->_sectionPool->getSection($scope, $scopeCode)->setValue($path, $value);
-    }
-
-    /**
-     *
-     *
-     * @param string $key
-     * @return string
-     */
-    public function getNode($key)
-    {
-        // TODO: Sasha, my boy, come and take Me.
-        return '';
-    }
-
-    /**
-     * Create node by $path and set its value.
-     *
-     * @param string $path separated by slashes
-     * @param string $value
-     * @param bool $overwrite
-     */
-    public function setNode($path, $value, $overwrite = true)
-    {
-        $this->_config->setNode($path, $value, $overwrite);
-    }
-
-    /**
-     * Get allowed areas
-     *
-     * @return array
-     */
-    public function getAreas()
-    {
-        return $this->_allowedAreas;
-    }
-
-    /**
-     * Identify front name of the requested area. Return current area front name if area code is not specified.
-     *
-     * @param string|null $areaCode
-     * @return string
-     * @throws \LogicException If front name is not defined.
-     */
-    public function getAreaFrontName($areaCode = null)
-    {
-        $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
-        $areaConfig = $this->getAreaConfig($areaCode);
-        if (!isset($areaConfig['frontName'])) {
-            throw new \LogicException(sprintf(
-                'Area "%s" must have front name defined in the application config.',
-                $areaCode
-            ));
-        }
-        return $areaConfig['frontName'];
-    }
-
-    /**
-     * Get module directory by directory type
-     *
-     * @param   string $type
-     * @param   string $moduleName
-     * @return  string
-     */
-    public function getModuleDir($type, $moduleName)
-    {
-        return $this->_moduleReader->getModuleDir($type, $moduleName);
-    }
-
-    /**
-     * Retrieve store Ids for $path with checking
-     *
-     * if empty $allowValues then retrieve all stores values
-     *
-     * return array($storeId => $pathValue)
-     *
-     * @param string $path
-     * @param array $allowedValues
-     * @param string $keyAttribute
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    public function getStoresConfigByPath($path, $allowedValues = array(), $keyAttribute = 'id')
-    {
-        // @todo inject custom store collection that corresponds to the following requirements
-        if (is_null($this->_storeCollection)) {
-            $this->_storeCollection = $this->_objectManager->create('Magento\Core\Model\Resource\Store\Collection');
-            $this->_storeCollection->setLoadDefault(true);
-        }
-        $storeValues = array();
-        /** @var $store \Magento\Core\Model\Store */
-        foreach ($this->_storeCollection as $store) {
-            switch ($keyAttribute) {
-                case 'id':
-                    $key = $store->getId();
-                    break;
-                case 'code':
-                    $key = $store->getCode();
-                    break;
-                case 'name':
-                    $key = $store->getName();
-                    break;
-                default:
-                    throw new \InvalidArgumentException("'{$keyAttribute}' cannot be used as a key.");
-                    break;
-            }
-
-            $value = $this->getValue($path, 'store', $store->getCode());
-            if (empty($allowedValues)) {
-                $storeValues[$key] = $value;
-            } elseif (in_array($value, $allowedValues)) {
-                $storeValues[$key] = $value;
-            }
-        }
-        return $storeValues;
-    }
-
-    /**
-     * Determine whether provided name begins from any available modules, according to namespaces priority
-     * If matched, returns as the matched module "factory" name or a fully qualified module name
-     *
-     * @param string $name
-     * @param bool $asFullModuleName
-     * @return string
-     */
-    public function determineOmittedNamespace($name, $asFullModuleName = false)
-    {
-        if (null === $this->_moduleNamespaces) {
-            $this->_moduleNamespaces = array();
-            foreach ($this->_moduleList->getModules() as $module) {
-                $moduleName = $module['name'];
-                $module = strtolower($moduleName);
-                $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
-            }
-        }
-
-        $explodeString = (strpos($name, \Magento\Autoload\IncludePath::NS_SEPARATOR) === false) ?
-            '_' :  \Magento\Autoload\IncludePath::NS_SEPARATOR;
-        $name = explode($explodeString, strtolower($name));
-
-        $partsNum = count($name);
-        $defaultNamespaceFlag = false;
-        foreach ($this->_moduleNamespaces as $namespaceName => $namespace) {
-            // assume the namespace is omitted (default namespace only, which comes first)
-            if ($defaultNamespaceFlag === false) {
-                $defaultNamespaceFlag = true;
-                $defaultNS = $namespaceName . '_' . $name[0];
-                if (isset($namespace[$defaultNS])) {
-                    return $asFullModuleName ? $namespace[$defaultNS] : $name[0]; // return omitted as well
-                }
-            }
-            // assume namespace is qualified
-            if (isset($name[1])) {
-                $fullNS = $name[0] . '_' . $name[1];
-                if (2 <= $partsNum && isset($namespace[$fullNS])) {
-                    return $asFullModuleName ? $namespace[$fullNS] : $fullNS;
-                }
-            }
-        }
-        return '';
     }
 
     /**
