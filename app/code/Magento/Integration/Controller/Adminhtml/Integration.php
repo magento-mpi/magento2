@@ -7,6 +7,7 @@
  */
 namespace Magento\Integration\Controller\Adminhtml;
 
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
@@ -14,14 +15,6 @@ class Integration extends \Magento\Adminhtml\Controller\Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
-
-    /**#@+
-     * Data keys for extracting information from Integration data array.
-     */
-    const DATA_INTEGRATION_ID = 'integration_id';
-    const DATA_NAME = 'name';
-    const DATA_AUTHENTICATION = 'authentication';
-    /**#@-*/
 
     /** Keys used for registering data into the registry */
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
@@ -110,12 +103,12 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
             $restoredIntegration = $this->_getSession()->getIntegrationData();
-            if (isset($restoredIntegration[self::DATA_INTEGRATION_ID])
-                && $integrationId == $restoredIntegration[self::DATA_INTEGRATION_ID]
+            if (isset($restoredIntegration[info::DATA_INTEGRATION_ID])
+                && $integrationId == $restoredIntegration[info::DATA_INTEGRATION_ID]
             ) {
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
-            if (!$integrationData[self::DATA_INTEGRATION_ID]) {
+            if (!$integrationData[info::DATA_INTEGRATION_ID]) {
                 $this->_getSession()->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -130,10 +123,10 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(
-            __('Edit "%1" Integration', $integrationData[self::DATA_NAME]),
-            __('Edit "%1" Integration', $integrationData[self::DATA_NAME])
+            __('Edit "%1" Integration', $integrationData[info::DATA_NAME]),
+            __('Edit "%1" Integration', $integrationData[info::DATA_NAME])
         );
-        $this->_title(__('Edit "%1" Integration', $integrationData[self::DATA_NAME]));
+        $this->_title(__('Edit "%1" Integration', $integrationData[info::DATA_NAME]));
         $this->renderLayout();
     }
 
@@ -148,7 +141,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             $integrationData = array();
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
-                if (!$integrationData[self::DATA_INTEGRATION_ID]) {
+                if (!$integrationData[info::DATA_INTEGRATION_ID]) {
                     $this->_getSession()->addError(__('This integration no longer exists.'));
                     $this->_redirect('*/*/');
                     return;
@@ -159,13 +152,13 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             //Merge Post-ed data
             $integrationData = array_merge($integrationData, $data);
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!isset($integrationData[self::DATA_INTEGRATION_ID])) {
+            if (!isset($integrationData[info::DATA_INTEGRATION_ID])) {
                 $this->_integrationService->create($integrationData);
             } else {
                 $this->_integrationService->update($integrationData);
             }
             $this->_getSession()->addSuccess(__('The integration \'%1\' has been saved.',
-                    $integrationData[self::DATA_NAME]));
+                    $integrationData[info::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
