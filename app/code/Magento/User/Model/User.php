@@ -673,8 +673,8 @@ class User
 
         $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
-        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($this->dateTime->now());
-        $tokenTimestamp = \Magento\Stdlib\DateTime::toTimestamp($linkTokenCreatedAt);
+        $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
+        $tokenTimestamp = $this->dateTime->toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

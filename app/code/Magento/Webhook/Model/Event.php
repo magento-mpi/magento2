@@ -18,6 +18,31 @@ namespace Magento\Webhook\Model;
 class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\EventInterface
 {
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->dateTime = $dateTime;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize Model
      */
     public function _construct()
@@ -36,9 +61,9 @@ class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->setCreatedAt($this->_getResource()->formatDate(true));
+            $this->setCreatedAt($this->dateTime->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
-            $this->setUpdatedAt($this->_getResource()->formatDate(true));
+            $this->setUpdatedAt($this->dateTime->formatDate(true));
         }
         return $this;
     }

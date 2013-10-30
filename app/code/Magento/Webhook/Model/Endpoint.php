@@ -31,9 +31,15 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     private $_userFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Webhook\Model\User\Factory $userFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -42,13 +48,14 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Webhook\Model\User\Factory $userFactory,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
         $this->_userFactory = $userFactory;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -95,7 +102,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
         }
 
         if ($this->hasDataChanges()) {
-            $this->setUpdatedAt($this->_getResource()->formatDate(time()));
+            $this->setUpdatedAt($this->dateTime->formatDate(time()));
         }
 
         return $this;

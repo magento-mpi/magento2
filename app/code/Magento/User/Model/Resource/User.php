@@ -168,9 +168,9 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $user)
     {
         if ($user->isObjectNew()) {
-            $user->setCreated($this->formatDate(true));
+            $user->setCreated($this->dateTime->formatDate(true));
         }
-        $user->setModified($this->formatDate(true));
+        $user->setModified($this->dateTime->formatDate(true));
 
         return parent::_beforeSave($user);
     }

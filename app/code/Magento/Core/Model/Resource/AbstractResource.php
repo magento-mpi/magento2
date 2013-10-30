@@ -117,29 +117,6 @@ abstract class AbstractResource
     }
 
     /**
-     * Format date to internal format
-     *
-     * @param string|Zend_Date $date
-     * @param bool $includeTime
-     * @return string
-     */
-    public function formatDate($date, $includeTime=true)
-    {
-         return \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
-    }
-
-    /**
-     * Convert internal date to UNIX timestamp
-     *
-     * @param string $str
-     * @return int
-     */
-    public function mktime($str)
-    {
-        return \Magento\Stdlib\DateTime::toTimestamp($str);
-    }
-
-    /**
      * Serialize specified field in an object
      *
      * @param \Magento\Object $object

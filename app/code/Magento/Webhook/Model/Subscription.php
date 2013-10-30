@@ -49,6 +49,11 @@ class Subscription
     private $_endpoint = null;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Tracks whether or not we've already loaded endpoint data from the DB.
      *
      * @var bool
@@ -59,6 +64,7 @@ class Subscription
      * @param \Magento\Webhook\Model\Endpoint $endpoint
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -67,6 +73,7 @@ class Subscription
         \Magento\Webhook\Model\Endpoint $endpoint,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -76,7 +83,7 @@ class Subscription
             $data['status'] = \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE;
         }
         parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
-
+        $this->dateTime = $dateTime;
         $this->_endpoint = $endpoint;
     }
 
@@ -109,7 +116,7 @@ class Subscription
         }
 
         if ($this->hasDataChanges()) {
-            $this->setUpdatedAt($this->_getResource()->formatDate(time()));
+            $this->setUpdatedAt($this->dateTime->formatDate(time()));
         }
 
         return parent::_beforeSave();

@@ -54,6 +54,7 @@ class AssociatedProductsCollection
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      *
@@ -77,6 +78,7 @@ class AssociatedProductsCollection
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
@@ -84,7 +86,7 @@ class AssociatedProductsCollection
         $this->_config = $config;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
             $eavEntityFactory, $universalFactory, $storeManager, $catalogData, $catalogProductFlat, $coreStoreConfig,
-            $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper
+            $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper, $dateTime
         );
     }
 

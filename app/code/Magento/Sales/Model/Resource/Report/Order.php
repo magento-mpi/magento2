@@ -30,6 +30,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory
      * @param \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory $updateDatFactory
      */
@@ -38,10 +39,11 @@ class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory,
         \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory $updateDatFactory
     ) {
-        parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
+        parent::__construct($logger, $resource, $locale, $reportsFlagFactory, $dateTime);
         $this->_createDatFactory = $createDatFactory;
         $this->_updateDatFactory = $updateDatFactory;
     }

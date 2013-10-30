@@ -214,17 +214,25 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected $string;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $config
      */
     public function __construct(
         \Magento\App\Dir $dirs,
         \Magento\Stdlib\String $string,
+        \Magento\Stdlib\DateTime $dateTime,
         array $config = array()
     ) {
         $this->_dirs = $dirs;
         $this->string = $string;
+        $this->dateTime = $dateTime;
         parent::__construct($config);
     }
 
@@ -2597,7 +2605,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function formatDate($date, $includeTime = true)
     {
-        $date = \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
+        $date = $this->dateTime->formatDate($date, $includeTime);
 
         if ($date === null) {
             return new \Zend_Db_Expr('NULL');

@@ -91,7 +91,7 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _updateDiscountPercents($productCondition = null)
     {
-        $now     = \Magento\Stdlib\DateTime::toTimestamp($this->dateTime->now());
+        $now     = $this->dateTime->toTimestamp($this->dateTime->now());
         $adapter = $this->_getWriteAdapter();
 
         $select  = $this->_getReadAdapter()->select();

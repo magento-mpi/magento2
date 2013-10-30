@@ -201,13 +201,13 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
             'customer_id'   => $object->getCustomerId(),
             'store_id'      => $object->getStoreId(),
         );
-        $addedAt    = \Magento\Stdlib\DateTime::toTimestamp(true);
+        $addedAt    = $this->dateTime->toTimestamp(true);
         $data = array();
         foreach ($productIds as $productId) {
             $productId = (int) $productId;
             if ($productId) {
                 $row['product_id'] = $productId;
-                $row['added_at']   = \Magento\Stdlib\DateTime::formatDate($addedAt);
+                $row['added_at']   = $this->dateTime->formatDate($addedAt);
                 $data[] = $row;
             }
             $addedAt -= ($addedAt > 0) ? 1 : 0;

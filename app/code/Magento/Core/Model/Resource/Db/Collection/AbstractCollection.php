@@ -599,16 +599,4 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         }
         return $this;
     }
-
-    /**
-     * Format Date to internal database date format
-     *
-     * @param int|string|Zend_Date $date
-     * @param boolean $includeTime
-     * @return string
-     */
-    public function formatDate($date, $includeTime = true)
-    {
-        return \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
-    }
 }

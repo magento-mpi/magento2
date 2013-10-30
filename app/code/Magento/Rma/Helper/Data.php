@@ -105,6 +105,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_filterManager;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
@@ -118,6 +123,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Rma\Model\CarrierFactory $carrierFactory
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -132,7 +138,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Rma\Model\CarrierFactory $carrierFactory,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
@@ -146,6 +153,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_addressFactory = $addressFactory;
         $this->_carrierFactory = $carrierFactory;
         $this->_filterManager = $filterManager;
+        $this->dateTime = $dateTime;
         parent::__construct($context);
     }
 
@@ -534,7 +542,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getFormatedDate($date)
     {
         $storeDate = $this->_locale->storeDate(
-            $this->_storeManager->getStore(), \Magento\Stdlib\DateTime::toTimestamp($date), true
+            $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
         );
         return $this->_coreData->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }

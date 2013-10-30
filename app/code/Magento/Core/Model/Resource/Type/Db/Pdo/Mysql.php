@@ -23,6 +23,11 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     protected $string;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @var array
      */
     protected $_connectionConfig;
@@ -40,6 +45,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     /**
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param string $host
      * @param string $username
      * @param string $password
@@ -52,6 +58,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     public function __construct(
         \Magento\App\Dir $dirs,
         \Magento\Stdlib\String $string,
+        \Magento\Stdlib\DateTime $dateTime,
         $host,
         $username,
         $password,
@@ -63,6 +70,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     ) {
         $this->_dirs = $dirs;
         $this->string = $string;
+        $this->dateTime = $dateTime;
         $this->_connectionConfig = array(
             'host' => $host,
             'username' => $username,
@@ -112,7 +120,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     protected function _getDbAdapterInstance()
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->_dirs, $this->string, $this->_connectionConfig);
+        $adapter = new $className($this->_dirs, $this->string, $this->dateTime, $this->_connectionConfig);
         return $adapter;
     }
 

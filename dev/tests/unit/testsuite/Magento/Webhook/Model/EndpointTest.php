@@ -59,13 +59,15 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockWebhookUser));
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
         $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setConstructorArgs(array(
                 $this->_mockContext,
                 $coreRegistry,
-                $this->_mockUserFactory
+                $this->_mockUserFactory,
+                $dateTime
             ))
             ->setMethods(array('_init'))
             ->getMock();
@@ -115,6 +117,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockEventManager));
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
         $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
@@ -122,6 +125,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 $this->_mockContext,
                 $coreRegistry,
                 $this->_mockUserFactory,
+                $dateTime
             ))
             ->setMethods(
                 array('_init', '_getResource', 'hasAuthenticationType', 'setAuthenticationType', 'setUpdatedAt',

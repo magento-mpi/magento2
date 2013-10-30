@@ -106,6 +106,11 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -116,6 +121,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -130,6 +136,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -141,6 +148,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->_customerFactory = $customerFactory;
         $this->_templateFactory = $templateFactory;
         $this->mathRandom = $mathRandom;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -198,7 +206,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
             $this->addData(array(
                 'protection_code' => $this->mathRandom->getUniqueHash(),
                 'status'          => self::STATUS_NEW,
-                'invitation_date' => $this->getResource()->formatDate(time()),
+                'invitation_date' => $this->dateTime->formatDate(time()),
                 'store_id'        => $this->getStoreId(),
             ));
             $inviter = $this->getInviter();
@@ -453,7 +461,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->makeSureCanBeAccepted($websiteId);
         $this->setReferralId($referralId)
             ->setStatus(self::STATUS_ACCEPTED)
-            ->setSignupDate($this->getResource()->formatDate(time()))
+            ->setSignupDate($this->dateTime->formatDate(time()))
             ->save();
         $inviterId = $this->getCustomerId();
         if ($inviterId) {

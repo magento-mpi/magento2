@@ -64,6 +64,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Core\Model\Resource $resource
      */
@@ -85,16 +86,16 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Core\Model\Resource $resource
-    )
-    {
+    ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_resource = $resource;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
             $coreResource, $eavEntityFactory, $universalFactory, $storeManager, $catalogData,
             $catalogProductFlat, $coreStoreConfig, $productOptionFactory, $catalogUrl, $locale,
-            $customerSession, $resourceHelper
+            $customerSession, $resourceHelper, $dateTime
         );
     }
 

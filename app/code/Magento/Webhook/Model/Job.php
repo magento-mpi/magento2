@@ -31,6 +31,11 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
     /** @var \Magento\Webhook\Model\Subscription\Factory */
     protected $_subscriptionFactory;
 
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
     /** @var array */
     private $_retryTimeToAdd = array(
         1 => 1,
@@ -48,6 +53,7 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
      * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -57,12 +63,14 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
         $this->_subscriptionFactory = $subscriptionFactory;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
     }
 
@@ -93,9 +101,9 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->setCreatedAt($this->_getResource()->formatDate(true));
+            $this->setCreatedAt($this->dateTime->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
-            $this->setUpdatedAt($this->_getResource()->formatDate(true));
+            $this->setUpdatedAt($this->dateTime->formatDate(true));
         }
         return $this;
     }
@@ -166,8 +174,8 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         if ($retryCount < count($this->_retryTimeToAdd)) {
             $addedTimeInMinutes = $this->_retryTimeToAdd[$retryCount + 1] * 60 + time();
             $this->setRetryCount($retryCount + 1);
-            $this->setRetryAt(\Magento\Stdlib\DateTime::formatDate($addedTimeInMinutes));
-            $this->setUpdatedAt(\Magento\Stdlib\DateTime::formatDate(time(), true));
+            $this->setRetryAt($this->dateTime->formatDate($addedTimeInMinutes));
+            $this->setUpdatedAt($this->dateTime->formatDate(time(), true));
             $this->setStatus(\Magento\PubSub\JobInterface::STATUS_RETRY);
         } else {
             $this->setStatus(\Magento\PubSub\JobInterface::STATUS_FAILED);

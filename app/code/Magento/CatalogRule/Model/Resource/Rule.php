@@ -78,12 +78,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_storeManager;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
@@ -93,6 +99,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
@@ -101,6 +108,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $this->_eavConfig = $eavConfig;
         $this->_eventManager = $eventManager;
         $this->_catalogRuleData = $catalogRuleData;
+        $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
 
@@ -280,8 +288,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $write = $this->_getWriteAdapter();
         $conds = array();
-        $cond = $write->quoteInto('rule_date between ?', $this->formatDate($fromDate));
-        $cond = $write->quoteInto($cond.' and ?', $this->formatDate($toDate));
+        $cond = $write->quoteInto('rule_date between ?', $this->dateTime->formatDate($fromDate));
+        $cond = $write->quoteInto($cond.' and ?', $this->dateTime->formatDate($toDate));
         $conds[] = $cond;
         if (!is_null($productId)) {
             $conds[] = $write->quoteInto('product_id=?', $productId);
@@ -319,7 +327,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $write = $this->_getWriteAdapter();
         $conds = array();
-        $conds[] = $write->quoteInto('rule_date<?', $this->formatDate($date));
+        $conds[] = $write->quoteInto('rule_date<?', $this->dateTime->formatDate($date));
         if (!is_null($productId)) {
             $conds[] = $write->quoteInto('product_id=?', $productId);
         }
@@ -635,9 +643,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         try {
             foreach ($arrData as $key => $data) {
                 $productIds['product_id'] = $data['product_id'];
-                $arrData[$key]['rule_date'] = $this->formatDate($data['rule_date'], false);
-                $arrData[$key]['latest_start_date'] = $this->formatDate($data['latest_start_date'], false);
-                $arrData[$key]['earliest_end_date'] = $this->formatDate($data['earliest_end_date'], false);
+                $arrData[$key]['rule_date'] = $this->dateTime->formatDate($data['rule_date'], false);
+                $arrData[$key]['latest_start_date'] = $this->dateTime->formatDate($data['latest_start_date'], false);
+                $arrData[$key]['earliest_end_date'] = $this->dateTime->formatDate($data['earliest_end_date'], false);
             }
             $adapter->insertOnDuplicate($this->getTable('catalogrule_affected_product'), array_unique($productIds));
             $adapter->insertOnDuplicate($this->getTable('catalogrule_product_price'), $arrData);
@@ -689,7 +697,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getTable('catalogrule_product_price'), array('product_id', 'rule_price'))
-            ->where('rule_date = ?', $this->formatDate($date, false))
+            ->where('rule_date = ?', $this->dateTime->formatDate($date, false))
             ->where('website_id = ?', $websiteId)
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('product_id IN(?)', $productIds);
@@ -736,7 +744,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getTable('catalogrule_product_price'), '*')
-            ->where('rule_date=?', $this->formatDate($date, false))
+            ->where('rule_date=?', $this->dateTime->formatDate($date, false))
             ->where('website_id=?', $wId)
             ->where('product_id=?', $pId);
 

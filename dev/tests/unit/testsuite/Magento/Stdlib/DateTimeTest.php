@@ -29,12 +29,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     public function testToTimestamp()
     {
         $date = new \Zend_Date();
-        $this->assertEquals($date->getTimestamp(), \Magento\Stdlib\DateTime::toTimestamp($date));
+        $dateTime = new \Magento\Stdlib\DateTime;
+        $this->assertEquals($date->getTimestamp(), $dateTime->toTimestamp($date));
 
-        $this->assertEquals(time(), \Magento\Stdlib\DateTime::toTimestamp(true));
+        $this->assertEquals(time(), $dateTime->toTimestamp(true));
 
         $date = '2012-07-19 16:52';
-        $this->assertEquals(strtotime($date), \Magento\Stdlib\DateTime::toTimestamp($date));
+        $this->assertEquals(strtotime($date), $dateTime->toTimestamp($date));
     }
 
     public function testNow()
@@ -51,7 +52,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormatDate($date, $includeTime, $expectedFormat, $expectedResult = null)
     {
-        $actual = \Magento\Stdlib\DateTime::formatDate($date, $includeTime);
+        $dateTime = new \Magento\Stdlib\DateTime;
+        $actual = $dateTime->formatDate($date, $includeTime);
         if ($expectedFormat != '') {
             $expectedResult = date($expectedFormat);
         } else {

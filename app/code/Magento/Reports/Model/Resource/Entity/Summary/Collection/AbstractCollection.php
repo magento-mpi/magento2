@@ -28,6 +28,21 @@ class AbstractCollection extends \Magento\Data\Collection
     protected $_entityCollection;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     */
+    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\Core\Model\EntityFactory $entityFactory)
+    {
+        $this->dateTime = $dateTime;
+        parent::__construct($entityFactory);
+    }
+
+    /**
      * Filters the summaries by some period
      *
      * @param string $periodType
@@ -39,23 +54,23 @@ class AbstractCollection extends \Magento\Data\Collection
     {
         switch ($periodType) {
             case "24h":
-                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 86400;
-                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
+                $customStart = $this->dateTime->toTimestamp(true) - 86400;
+                $customEnd   = $this->dateTime->toTimestamp(true);
                 break;
 
             case "7d":
-                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 604800;
-                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
+                $customStart = $this->dateTime->toTimestamp(true) - 604800;
+                $customEnd   = $this->dateTime->toTimestamp(true);
                 break;
 
             case "30d":
-                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 2592000;
-                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
+                $customStart = $this->dateTime->toTimestamp(true) - 2592000;
+                $customEnd   = $this->dateTime->toTimestamp(true);
                 break;
 
             case "1y":
-                $customStart = \Magento\Stdlib\DateTime::toTimestamp(true) - 31536000;
-                $customEnd   = \Magento\Stdlib\DateTime::toTimestamp(true);
+                $customStart = $this->dateTime->toTimestamp(true) - 31536000;
+                $customEnd   = $this->dateTime->toTimestamp(true);
                 break;
 
             default:

@@ -43,21 +43,29 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_reportsFlagFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_logger = $logger;
         $this->_locale = $locale;
         $this->_reportsFlagFactory = $reportsFlagFactory;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -91,9 +99,9 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getFlag()->setFlagData($value);
         }
 
-        $time = \Magento\Stdlib\DateTime::toTimestamp(true);
+        $time = $this->dateTime->toTimestamp(true);
         // touch last_update
-        $this->_getFlag()->setLastUpdate($this->formatDate($time));
+        $this->_getFlag()->setLastUpdate($this->dateTime->formatDate($time));
 
         $this->_getFlag()->save();
 
@@ -343,11 +351,11 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _checkDates(&$dateFrom, &$dateTo)
     {
         if ($dateFrom !== null) {
-            $dateFrom = $this->formatDate($dateFrom);
+            $dateFrom = $this->dateTime->formatDate($dateFrom);
         }
 
         if ($dateTo !== null) {
-            $dateTo = $this->formatDate($dateTo);
+            $dateTo = $this->dateTime->formatDate($dateTo);
         }
 
         return $this;

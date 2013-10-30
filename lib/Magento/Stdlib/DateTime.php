@@ -33,7 +33,7 @@ class DateTime
      * @param \Zend_Date|string|bool $date
      * @return int
      */
-    public static function toTimestamp($date)
+    public function toTimestamp($date)
     {
         if ($date instanceof \Zend_Date) {
             return $date->getTimestamp();
@@ -65,7 +65,7 @@ class DateTime
      * @param boolean $includeTime
      * @return string|null
      */
-    public static function formatDate($date, $includeTime = true)
+    public function formatDate($date, $includeTime = true)
     {
         if ($date === true) {
             $self = new self;
@@ -85,7 +85,7 @@ class DateTime
         }
 
         if (!is_numeric($date)) {
-            $date = self::toTimestamp($date);
+            $date = $this->toTimestamp($date);
         }
 
         $format = $includeTime ? self::DATETIME_PHP_FORMAT : self::DATE_PHP_FORMAT;

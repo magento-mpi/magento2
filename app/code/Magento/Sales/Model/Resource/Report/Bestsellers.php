@@ -34,6 +34,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Sales\Model\Resource\Helper $salesResourceHelper
      */
@@ -42,10 +43,11 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Sales\Model\Resource\Helper $salesResourceHelper
     ) {
-        parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
+        parent::__construct($logger, $resource, $locale, $reportsFlagFactory, $dateTime);
         $this->_productResource = $productResource;
         $this->_salesResourceHelper = $salesResourceHelper;
     }
