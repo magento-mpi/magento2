@@ -105,12 +105,13 @@ class EntryPoint implements EntryPointInterface
      * Run application
      *
      * @param string $applicationName
+     * @param array $arguments
      * @return int
      */
-    public function run($applicationName)
+    public function run($applicationName, array $arguments = array())
     {
         try {
-            return $this->_locator->get($applicationName)->execute();
+            return $this->_locator->create($applicationName, $arguments)->execute();
         } catch (\Exception $e) {
             $this->_processException($e);
             return -1;

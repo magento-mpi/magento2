@@ -12,6 +12,7 @@ interface EntryPointInterface
 {
     /**
      * @param string $applicationName
+     * @param array $arguments
      */
-    public function run($applicationName);
-} 
+    public function run($applicationName, array $arguments = array());
+}
