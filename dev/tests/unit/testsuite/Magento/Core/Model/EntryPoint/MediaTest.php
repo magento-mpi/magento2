@@ -35,11 +35,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_dirVerificationMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_config;
-
-    /**
      * @var callable
      */
     protected $_closure;
@@ -92,6 +87,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\Core\Model\EntryPoint\Media(
+            'baseDir',
+            'params',
             $this->_requestMock,
             $this->_closure,
             'var',
@@ -120,7 +117,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
     {
         $this->_model = new \Magento\Core\Model\EntryPoint\Media(
-            $this->_config,
+            'baseDir',
+            'params',
             $this->_requestMock,
             $this->_closure,
             'var',
@@ -145,8 +143,16 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             return false;
         };
         $this->_model = new \Magento\Core\Model\EntryPoint\Media(
-            $this->_config, $this->_requestMock, $this->_closure, 'var', false, 'cacheFile', 'relativeFileName',
-                $this->_objectManagerMock, $this->_responseMock);
+            'baseDir',
+            'params',
+            $this->_requestMock,
+            $this->_closure,
+            'var',
+            false,
+            'cacheFile',
+            'relativeFileName',
+            $this->_objectManagerMock, $this->_responseMock
+        );
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_responseMock->expects($this->once())->method('sendNotFound');
         $this->_requestMock->expects($this->once())->method('getPathInfo');
