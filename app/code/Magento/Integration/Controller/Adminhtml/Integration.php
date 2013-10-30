@@ -103,12 +103,12 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
             $restoredIntegration = $this->_getSession()->getIntegrationData();
-            if (isset($restoredIntegration[info::DATA_INTEGRATION_ID])
-                && $integrationId == $restoredIntegration[info::DATA_INTEGRATION_ID]
+            if (isset($restoredIntegration[Info::DATA_INTEGRATION_ID])
+                && $integrationId == $restoredIntegration[Info::DATA_INTEGRATION_ID]
             ) {
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
-            if (!$integrationData[info::DATA_INTEGRATION_ID]) {
+            if (!$integrationData[Info::DATA_INTEGRATION_ID]) {
                 $this->_getSession()->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -123,10 +123,10 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(
-            __('Edit "%1" Integration', $integrationData[info::DATA_NAME]),
-            __('Edit "%1" Integration', $integrationData[info::DATA_NAME])
+            __('Edit "%1" Integration', $integrationData[Info::DATA_NAME]),
+            __('Edit "%1" Integration', $integrationData[Info::DATA_NAME])
         );
-        $this->_title(__('Edit "%1" Integration', $integrationData[info::DATA_NAME]));
+        $this->_title(__('Edit "%1" Integration', $integrationData[Info::DATA_NAME]));
         $this->renderLayout();
     }
 
@@ -141,7 +141,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             $integrationData = array();
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
-                if (!$integrationData[info::DATA_INTEGRATION_ID]) {
+                if (!$integrationData[Info::DATA_INTEGRATION_ID]) {
                     $this->_getSession()->addError(__('This integration no longer exists.'));
                     $this->_redirect('*/*/');
                     return;
@@ -152,13 +152,13 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             //Merge Post-ed data
             $integrationData = array_merge($integrationData, $data);
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!isset($integrationData[info::DATA_INTEGRATION_ID])) {
+            if (!isset($integrationData[Info::DATA_INTEGRATION_ID])) {
                 $this->_integrationService->create($integrationData);
             } else {
                 $this->_integrationService->update($integrationData);
             }
             $this->_getSession()->addSuccess(__('The integration \'%1\' has been saved.',
-                    $integrationData[info::DATA_NAME]));
+                    $integrationData[Info::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);

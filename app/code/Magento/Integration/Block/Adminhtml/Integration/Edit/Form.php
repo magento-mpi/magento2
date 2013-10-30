@@ -10,7 +10,7 @@
 
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit;
 
-use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;;
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Controller\Adminhtml\Integration;
 
 /**
