@@ -41,9 +41,9 @@ interface OauthInterface
     /**#@-*/
 
     /**
-     * Issue a pre-authorization request token to the caller
+     * Issue a pre-authorization request token to the caller.
      *
-     * @param array $params - Array containing parameters necessary for requesting Request Token
+     * @param array $params - Array containing parameters necessary for requesting Request Token.
      * <pre>
      * array (
      *         'oauth_version' => '1.0',
@@ -54,7 +54,7 @@ interface OauthInterface
      *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'
      * )
      * </pre>
-     * @param string $requestUrl - The request Url
+     * @param string $requestUrl - The request Url.
      * @param string $httpMethod - (default: 'POST')
      * @return array - The request token/secret pair.
      * <pre>
@@ -63,14 +63,14 @@ interface OauthInterface
      *         'oauth_token_secret' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf'
      * )
      * </pre>
-     * @throws \Magento\Oauth\Exception
+     * @throws \Magento\Oauth\Exception - Validation errors.
      */
     public function getRequestToken($params, $requestUrl, $httpMethod = 'POST');
 
     /**
-     * Get access token for a pre-authorized request token
+     * Get access token for a pre-authorized request token.
      *
-     * @param array $params - Array containing parameters necessary for requesting Access Token
+     * @param array $params - Array containing parameters necessary for requesting Access Token.
      * <pre>
      * array (
      *         'oauth_version' => '1.0',
@@ -83,7 +83,7 @@ interface OauthInterface
      *         'oauth_verifier' => 'a6aa81cc3e65e2960a487939244vvvvv'
      * )
      * </pre>
-     * @param string $requestUrl - The request Url
+     * @param string $requestUrl - The request Url.
      * @param string $httpMethod - (default: 'POST')
      * @return array - The access token/secret pair.
      * <pre>
@@ -97,9 +97,9 @@ interface OauthInterface
     public function getAccessToken($params, $requestUrl, $httpMethod = 'POST');
 
     /**
-     * Validate an access token request
+     * Validate an access token request.
      *
-     * @param array $params - Array containing parameters necessary for validating Access Token
+     * @param array $params - Array containing parameters necessary for validating Access Token.
      * <pre>
      * array (
      *         'oauth_version' => '1.0',
@@ -111,19 +111,19 @@ interface OauthInterface
      *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'
      * )
      * </pre>
-     * @param string $requestUrl - The request Url
+     * @param string $requestUrl - The request Url.
      * @param string $httpMethod - (default: 'POST')
-     * @return boolean true if the access token request is valid
-     * @throws \Magento\Oauth\Exception
+     * @return bool - True if the access token request is valid.
+     * @throws \Magento\Oauth\Exception - Validation errors.
      */
     public function validateAccessTokenRequest($params, $requestUrl, $httpMethod = 'POST');
 
     /**
      * Validate an access token string.
      *
-     * @param string $accessToken - The access token
-     * @return boolean true if requested access token exists, is associated with a consumer and is valid
-     * @throws \Magento\Oauth\Exception
+     * @param string $accessToken - The access token.
+     * @return bool - True if the access token is valid.
+     * @throws \Magento\Oauth\Exception - Validation errors.
      */
     public function validateAccessToken($accessToken);
 

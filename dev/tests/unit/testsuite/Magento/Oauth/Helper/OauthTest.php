@@ -68,10 +68,4 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $token = $this->_oauthHelper->generateConsumerSecret();
         $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Model\Consumer::SECRET_LENGTH);
     }
-
-    public function testGenerateNonce()
-    {
-        $nonce = $this->_oauthHelper->generateNonce();
-        $this->assertTrue(is_string($nonce) && strlen($nonce) === \Magento\Oauth\Model\Nonce::NONCE_LENGTH);
-    }
 }

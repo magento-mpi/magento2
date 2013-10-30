@@ -8,7 +8,7 @@
 
 /**
  * Application model
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  * @method \Magento\Oauth\Model\Resource\Consumer _getResource()
  * @method \Magento\Oauth\Model\Resource\Consumer getResource()
  * @method \Magento\Oauth\Model\Resource\Consumer\Collection getCollection()
@@ -29,7 +29,7 @@
  */
 namespace Magento\Oauth\Model;
 
-class Consumer extends \Magento\Core\Model\AbstractModel
+class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\ConsumerInterface
 {
     /**
      * Key hash length
@@ -101,10 +101,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Validate data
-     *
-     * @return array|bool
-     * @throws \Magento\Core\Exception|\Exception   Throw exception on fail validation
+     * {@inheritdoc}
      */
     public function validate()
     {
@@ -141,10 +138,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Load consumer by key.
-     *
-     * @param string $key
-     * @return \Magento\Oauth\Model\Consumer
+     * {@inheritdoc}
      */
     public function loadByKey($key)
     {
@@ -152,9 +146,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Get consumer key.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -162,9 +154,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Get consumer secret.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSecret()
     {
@@ -172,9 +162,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Get consumer callback URL.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCallBackUrl()
     {

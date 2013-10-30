@@ -1,11 +1,13 @@
 <?php
 /**
- * Oauth Nonce Model
- *
  * {license_notice}
  *
  * @copyright  {copyright}
  * @license    {license_link}
+ */
+
+/**
+ * Application model
  * @author Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
  * @method \Magento\Oauth\Model\Nonce setNonce() setNonce(string $nonce)

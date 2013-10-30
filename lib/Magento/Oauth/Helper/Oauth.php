@@ -38,7 +38,7 @@ class Oauth
      * @param int $length String length
      * @return string
      */
-    protected function _generateRandomString($length)
+    public function generateRandomString($length)
     {
         if (function_exists('openssl_random_pseudo_bytes')) {
             // use openssl lib if it is install. It provides a better randomness.
@@ -63,7 +63,7 @@ class Oauth
      */
     public function generateToken()
     {
-        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN);
+        return $this->generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN);
     }
 
     /**
@@ -73,7 +73,7 @@ class Oauth
      */
     public function generateTokenSecret()
     {
-        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_SECRET);
+        return $this->generateRandomString(\Magento\Oauth\Model\Token::LENGTH_SECRET);
     }
 
     /**
@@ -83,7 +83,7 @@ class Oauth
      */
     public function generateVerifier()
     {
-        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
+        return $this->generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
     }
 
     /**
@@ -93,7 +93,7 @@ class Oauth
      */
     public function generateConsumerKey()
     {
-        return $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
+        return $this->generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
     }
 
     /**
@@ -103,16 +103,6 @@ class Oauth
      */
     public function generateConsumerSecret()
     {
-        return $this->_generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
-    }
-
-    /**
-     * Generate random string for nonce
-     *
-     * @return string
-     */
-    public function generateNonce()
-    {
-        return $this->_generateRandomString(\Magento\Oauth\Model\Nonce::NONCE_LENGTH);
+        return $this->generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
     }
 }
