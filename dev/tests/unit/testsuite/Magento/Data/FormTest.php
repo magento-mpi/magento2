@@ -48,16 +48,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_form = new Form($this->_sessionMock, $this->_factoryElementMock, $this->_factoryCollectionMock);
     }
 
-    /**
-     * @expectedException \Magento\Exception
-     */
-    public function testRenderWithoutSetSession()
-    {
-        $this->_form->setUseContainer(true);
-        $this->_form->setMethod('post');
-        $this->_form->toHtml();
-    }
-
     public function testFormKeyUsing()
     {
         $formKey = 'form-key';
