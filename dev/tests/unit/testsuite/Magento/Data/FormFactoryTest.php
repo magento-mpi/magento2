@@ -18,20 +18,14 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManagerMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_sessionMock;
-
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array(), array(), '', false);
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
     }
 
     /**
      * @expectedException \Magento\Exception
-     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Data\Form
+     * @expectedExceptionMessage WrongClass doesn't extend \Magento\Data\Form
      */
     public function testWrongTypeException()
     {
@@ -40,7 +34,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
         $formMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
 
-        $formFactory = new FormFactory($this->_objectManagerMock, $this->_sessionMock, $className);
+        $formFactory = new FormFactory($this->_objectManagerMock, $className);
         $formFactory->create();
     }
 
@@ -52,11 +46,8 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($className)
             ->will($this->returnValue($formMock));
-        $formMock->expects($this->once())
-            ->method('setSession')
-            ->with($this->_sessionMock);
 
-        $formFactory = new FormFactory($this->_objectManagerMock, $this->_sessionMock, $className);
+        $formFactory = new FormFactory($this->_objectManagerMock, $className);
         $this->assertSame($formMock, $formFactory->create());
     }
 }

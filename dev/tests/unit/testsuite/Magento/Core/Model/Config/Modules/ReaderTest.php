@@ -49,45 +49,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Core\Model\Config\Modules\Reader(
             $this->_dirsMock,
-            $this->_protFactoryMock,
             $this->_moduleListMock
         );
-    }
-
-    public function testLoadModulesConfiguration()
-    {
-        $modulesConfig = array('mod1' => array());
-        $fileName = 'acl.xml';
-        $this->_protFactoryMock->expects($this->exactly(2))
-            ->method('create')
-            ->with($this->equalTo('<config/>'))
-            ->will($this->returnValue($this->_baseConfigMock));
-
-        $this->_moduleListMock->expects($this->once())
-            ->method('getModules')
-            ->will($this->returnValue($modulesConfig));
-
-        $result = $this->_model->loadModulesConfiguration($fileName, null, null, array());
-        $this->assertInstanceOf('Magento\Core\Model\Config\Base', $result);
-    }
-
-    public function testLoadModulesConfigurationMergeToObject()
-    {
-        $fileName = 'acl.xml';
-        $mergeToObject = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
-        $mergeModel = null;
-        $modulesConfig = array('mod1' => array());
-
-        $this->_moduleListMock->expects($this->once())
-            ->method('getModules')
-            ->will($this->returnValue($modulesConfig));
-
-        $this->_protFactoryMock->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo('<config/>'))
-            ->will($this->returnValue($mergeToObject));
-
-        $this->_model->loadModulesConfiguration($fileName, $mergeToObject, $mergeModel);
     }
 
     public function testGetModuleDir()
