@@ -9,11 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="order_items">
-        <action method="addColumnRender">
-            <argument name="column" xsi:type="string">name</argument>
-            <argument name="block" xsi:type="string">Magento\GiftCard\Block\Adminhtml\Sales\Items\Column\Name\Giftcard</argument>
-            <argument name="template" xsi:type="string">Magento_Adminhtml::sales/items/column/name.phtml</argument>
-            <argument name="type" xsi:type="string">giftcard</argument>
-        </action>
+        <block class="Magento\GiftCard\Block\Adminhtml\Sales\Items\Column\Name\Giftcard" name="column_name_giftcard" template="Magento_Adminhtml::sales/items/column/name.phtml" group="column"/>
     </referenceBlock>
 </layout>

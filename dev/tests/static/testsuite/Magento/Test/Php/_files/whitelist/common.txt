@@ -47,9 +47,6 @@ app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
 app/code/Magento/Core/Model/Design.php
-app/code/Magento/Core/Model/Design/FileResolution
-app/code/Magento/Core/Model/Design/Fallback
-app/code/Magento/Core/Model/Design/Source/Design.php
 app/code/Magento/Core/Model/Email/Template/Config
 app/code/Magento/Core/Model/Email/Template/Config.php
 app/code/Magento/Core/Model/EntryPoint
@@ -67,7 +64,6 @@ app/code/Magento/Core/Model/Resource/Theme.php
 app/code/Magento/Core/Model/Sender.php
 app/code/Magento/Core/Model/Session/Validator.php
 app/code/Magento/Core/Model/AbstractShell.php
-app/code/Magento/Core/Model/TemplateEngine
 app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/Url/SecurityInfo.php
@@ -155,3 +151,4 @@ lib/Magento/Convert
 lib/Magento/Date.php
 lib/Magento/Object.php
 lib/Magento/App
+lib/Magento/View

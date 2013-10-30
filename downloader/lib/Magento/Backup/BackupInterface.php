@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Interface for work with archives
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup;
@@ -33,7 +33,7 @@ interface BackupInterface
      */
     public function rollback();
 
-     /**
+    /**
      * Set Backup Extension
      *
      * @param string $backupExtension
@@ -58,10 +58,10 @@ interface BackupInterface
     public function setTime($time);
 
     /**
-    * Get Backup Type
-    *
-    * @return string
-    */
+     * Get Backup Type
+     *
+     * @return string
+     */
     public function getType();
 
     /**
