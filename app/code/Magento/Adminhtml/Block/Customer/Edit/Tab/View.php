@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
-/**
- * Customer account form block
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
+/**
+ * Customer account form block
+ */
 class View
     extends \Magento\Adminhtml\Block\Template
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var \Magento\Log\Model\Customer
+     */
     protected $_customer;
 
+    /**
+     * @var \Magento\Log\Model\Customer
+     */
     protected $_customerLog;
 
     /**
@@ -30,7 +32,7 @@ class View
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -49,12 +51,18 @@ class View
     protected $_logFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -64,15 +72,20 @@ class View
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
         $this->_groupFactory = $groupFactory;
         $this->_logFactory = $logFactory;
+        $this->dateTime = $dateTime;
         parent::__construct($coreData, $context, $data);
     }
 
+    /**
+     * @return \Magento\Log\Model\Customer
+     */
     public function getCustomer()
     {
         if (!$this->_customer) {
@@ -81,6 +94,9 @@ class View
         return $this->_customer;
     }
 
+    /**
+     * @return int
+     */
     public function getGroupName()
     {
         $groupId = $this->getCustomer()->getGroupId();
@@ -119,6 +135,9 @@ class View
         );
     }
 
+    /**
+     * @return string
+     */
     public function getStoreCreateDate()
     {
         $date = $this->_locale->storeDate(
@@ -129,6 +148,9 @@ class View
         return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
+    /**
+     * @return string
+     */
     public function getStoreCreateDateTimezone()
     {
         return $this->_storeConfig->getConfig(
@@ -155,6 +177,9 @@ class View
         return __('Never');
     }
 
+    /**
+     * @return string
+     */
     public function getStoreLastLoginDate()
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
@@ -169,6 +194,9 @@ class View
         return __('Never');
     }
 
+    /**
+     * @return string
+     */
     public function getStoreLastLoginDateTimezone()
     {
         return $this->_storeConfig->getConfig(
@@ -177,16 +205,24 @@ class View
         );
     }
 
+    /**
+     * @return string
+     */
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
         $interval = $this->_modelVisitor->getOnlineMinutesInterval();
-        if ($log->getLogoutAt() || (strtotime(\Magento\Stdlib\DateTime::now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
+        if ($log->getLogoutAt()
+            || (strtotime($this->dateTime->now()) - strtotime($log->getLastVisitAt()) > $interval * 60)
+        ) {
             return __('Offline');
         }
         return __('Online');
     }
 
+    /**
+     * @return string
+     */
     public function getIsConfirmedStatus()
     {
         $this->getCustomer();
@@ -199,11 +235,17 @@ class View
         return __('Not confirmed, can login');
     }
 
+    /**
+     * @return null|string
+     */
     public function getCreatedInStore()
     {
         return $this->_storeManager->getStore($this->getCustomer()->getStoreId())->getName();
     }
 
+    /**
+     * @return int
+     */
     public function getStoreId()
     {
         return $this->getCustomer()->getStoreId();
@@ -211,32 +253,48 @@ class View
 
     public function getBillingAddressHtml()
     {
-        if ($address = $this->getCustomer()->getPrimaryBillingAddress()) {
+        $address = $this->getCustomer()->getPrimaryBillingAddress();
+        if ($address) {
             return $address->format('html');
         }
         return __('The customer does not have default billing address.');
     }
 
+    /**
+     * @return string
+     */
     public function getAccordionHtml()
     {
         return $this->getChildHtml('accordion');
     }
 
+    /**
+     * @return string
+     */
     public function getSalesHtml()
     {
         return $this->getChildHtml('sales');
     }
 
+    /**
+     * @return string
+     */
     public function getTabLabel()
     {
         return __('Customer View');
     }
 
+    /**
+     * @return string
+     */
     public function getTabTitle()
     {
         return __('Customer View');
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         if ($this->_coreRegistry->registry('current_customer')->getId()) {
@@ -245,6 +303,9 @@ class View
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         if ($this->_coreRegistry->registry('current_customer')->getId()) {

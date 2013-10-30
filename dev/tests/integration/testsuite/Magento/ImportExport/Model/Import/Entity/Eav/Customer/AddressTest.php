@@ -218,12 +218,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $addressId = $objectManager->get('Magento\Core\Model\Resource\HelperPool')->get('Magento_ImportExport')
             ->getNextAutoincrement($tableName);
 
+        /** @var \Magento\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('\Magento\Stdlib\DateTime');
+
         $entityData = array(
             'entity_id'      => $addressId,
             'entity_type_id' => $addressModel->getEntityTypeId(),
             'parent_id'      => $customerId,
-            'created_at'     => \Magento\Stdlib\DateTime::now(),
-            'updated_at'     => \Magento\Stdlib\DateTime::now()
+            'created_at'     => $dateTime->now(),
+            'updated_at'     => $dateTime->now()
         );
 
         // invoke _saveAddressEntities

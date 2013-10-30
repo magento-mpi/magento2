@@ -485,6 +485,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory',
                 array(), array(), '', false
             ),
+            new \Magento\Stdlib\DateTime,
             $this->_getModelDependencies()
         );
 

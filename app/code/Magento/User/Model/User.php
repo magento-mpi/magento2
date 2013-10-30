@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model;
+
 /**
  * Admin user model
  *
@@ -35,11 +37,7 @@
  * @method \Magento\User\Model\User setIsActive(int $value)
  * @method string getExtra()
  * @method \Magento\User\Model\User setExtra(string $value)
- */
-
-namespace Magento\User\Model;
-
-/**
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -92,13 +90,6 @@ class User
     protected $_sender;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * User data
      *
      * @var \Magento\User\Helper\Data
@@ -118,7 +109,7 @@ class User
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
      * Factory for validator composite object
      *
@@ -146,11 +137,15 @@ class User
     protected $_encryptor;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\User\Helper\Data $userData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Sender $sender
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
@@ -158,6 +153,7 @@ class User
      * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -169,7 +165,6 @@ class User
         \Magento\Core\Model\Registry $registry,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\User\Helper\Data $userData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Sender $sender,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
@@ -177,11 +172,13 @@ class User
         \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_eventManager = $eventManager;
         $this->_userData = $userData;
@@ -244,7 +241,7 @@ class User
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
             'email'     => $this->getEmail(),
-            'modified'  => \Magento\Stdlib\DateTime::now(),
+            'modified'  => $this->dateTime->now(),
             'extra'     => serialize($this->getExtra())
         );
 
@@ -655,8 +652,7 @@ class User
             throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
         }
         $this->setRpToken($newToken);
-        $currentDate = \Magento\Stdlib\DateTime::now();
-        $this->setRpTokenCreatedAt($currentDate);
+        $this->setRpTokenCreatedAt($this->dateTime->now());
 
         return $this;
     }
@@ -677,8 +673,7 @@ class User
 
         $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = \Magento\Stdlib\DateTime::now();
-        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($currentDate);
+        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($this->dateTime->now());
         $tokenTimestamp = \Magento\Stdlib\DateTime::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;

@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Wishlist\Model;
 
 /**
  * Wishlist model
@@ -20,13 +21,7 @@
  * @method \Magento\Wishlist\Model\Wishlist setSharingCode(string $value)
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Model;
-
 class Wishlist extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -108,6 +103,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
@@ -121,6 +121,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -137,6 +138,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -148,6 +150,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         $this->_wishlistCollFactory = $wishlistCollFactory;
         $this->_productFactory = $productFactory;
         $this->mathRandom = $mathRandom;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -278,7 +281,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
             $item = $this->_wishlistItemFactory->create();
             $item->setProductId($product->getId())
                 ->setWishlistId($this->getId())
-                ->setAddedAt(\Magento\Stdlib\DateTime::now())
+                ->setAddedAt($this->dateTime->now())
                 ->setStoreId($storeId)
                 ->setOptions($product->getCustomOptions())
                 ->setProduct($product)

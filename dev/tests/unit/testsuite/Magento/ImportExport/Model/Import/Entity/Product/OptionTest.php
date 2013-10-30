@@ -324,6 +324,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                 array(), array(), '', false),
             $this->_catalogDataMock,
             $coreStoreConfig,
+            new \Magento\Stdlib\DateTime,
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
@@ -514,7 +515,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function getNewOptionMock()
     {
-        return $this->getMock('Magento\Catalog\Model\Product\Option', null, array(), '', false);
+        return $this->getMock('Magento\Catalog\Model\Product\Option', array('__wakeup'), array(), '', false);
     }
 
     /**

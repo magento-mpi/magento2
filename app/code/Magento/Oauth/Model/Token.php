@@ -6,12 +6,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Oauth\Model;
+
 /**
  * oAuth token model
  *
- * @category    Magento
- * @package     Magento_Oauth
- * @author      Magento Core Team <core@magentocommerce.com>
  * @method string getName() Consumer name (joined from consumer table)
  * @method \Magento\Oauth\Model\Resource\Token\Collection getCollection()
  * @method \Magento\Oauth\Model\Resource\Token\Collection getResourceCollection()
@@ -38,8 +37,6 @@
  * @method int getAuthorized()
  * @method \Magento\Oauth\Model\Token setAuthorized() setAuthorized(int $authorized)
  */
-namespace Magento\Oauth\Model;
-
 class Token extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
@@ -81,8 +78,14 @@ class Token extends \Magento\Core\Model\AbstractModel
     protected $keyLengthFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Helper\Service $oauthData
      * @param \Magento\Core\Model\Context $context
@@ -94,6 +97,7 @@ class Token extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Helper\Service $oauthData,
         \Magento\Core\Model\Context $context,
@@ -104,6 +108,7 @@ class Token extends \Magento\Core\Model\AbstractModel
     ) {
         $this->keyLengthFactory = $keyLengthFactory;
         $this->urlValidator = $urlValidator;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_consumerFactory = $consumerFactory;
         $this->_oauthData = $oauthData;
@@ -273,7 +278,7 @@ class Token extends \Magento\Core\Model\AbstractModel
         $this->validate();
 
         if ($this->isObjectNew() && null === $this->getCreatedAt()) {
-            $this->setCreatedAt(\Magento\Stdlib\DateTime::now());
+            $this->setCreatedAt($this->dateTime->now());
         }
         parent::_beforeSave();
         return $this;

@@ -8,17 +8,30 @@
  * @license     {license_link}
  */
 
-/**
- * Entity/Attribute/Model - attribute backend default
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Eav\Model\Entity\Attribute\Backend\Time;
 
+/**
+ * Entity/Attribute/Model - attribute backend default
+ */
 class Created extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Logger $logger
+     * @param \Magento\Stdlib\DateTime $dateTime
+     */
+    public function __construct(
+        \Magento\Logger $logger,
+        \Magento\Stdlib\DateTime $dateTime
+    ) {
+        $this->dateTime = $dateTime;
+        parent::__construct($logger);
+    }
+
     /**
      * Set created date
      *
@@ -29,7 +42,7 @@ class Created extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
         if ($object->isObjectNew() && is_null($object->getData($attributeCode))) {
-            $object->setData($attributeCode, \Magento\Stdlib\DateTime::now());
+            $object->setData($attributeCode, $this->dateTime->now());
         }
 
         return $this;

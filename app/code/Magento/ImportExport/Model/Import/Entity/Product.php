@@ -375,6 +375,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_locale;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
@@ -401,6 +406,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -430,6 +436,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -450,8 +457,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockResItemFac = $stockResItemFac;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_locale = $locale;
+        $this->dateTime = $dateTime;
         parent::__construct(
-            $coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $string
+            $coreData,
+            $importExportData,
+            $importData,
+            $config,
+            $resource,
+            $resourceHelper,
+            $string
         );
         $this->_optionEntity = isset($data['option_entity'])
             ? $data['option_entity']
@@ -1080,7 +1094,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     // 1. Entity phase
                     if (isset($this->_oldSku[$rowSku])) { // existing row
                         $entityRowsUp[] = array(
-                            'updated_at' => \Magento\Stdlib\DateTime::now(),
+                            'updated_at' => $this->dateTime->now(),
                             'entity_id'  => $this->_oldSku[$rowSku]['entity_id']
                         );
                     } else { // new row
@@ -1090,8 +1104,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                 'attribute_set_id' => $this->_newSku[$rowSku]['attr_set_id'],
                                 'type_id'          => $this->_newSku[$rowSku]['type_id'],
                                 'sku'              => $rowSku,
-                                'created_at'       => \Magento\Stdlib\DateTime::now(),
-                                'updated_at'       => \Magento\Stdlib\DateTime::now()
+                                'created_at'       => $this->dateTime->now(),
+                                'updated_at'       => $this->dateTime->now()
                             );
                             $productsQty++;
                         } else {

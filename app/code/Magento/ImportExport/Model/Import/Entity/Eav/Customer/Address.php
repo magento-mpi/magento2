@@ -8,18 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+
 /**
  * Import entity customer address model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @todo finish moving dependencies to constructor in the scope of
  * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
-
 class Address
     extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
@@ -209,6 +205,11 @@ class Address
     protected $_addressFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -224,6 +225,7 @@ class Address
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory
      * @param \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $attributesFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -242,12 +244,14 @@ class Address
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory,
         \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $attributesFactory,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
         $this->_eavConfig = $eavConfig;
         $this->_resourceHelper = $resourceHelper;
+        $this->dateTime = $dateTime;
 
         if (!isset($data['attribute_collection'])) {
             /** @var $attributeCollection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
@@ -475,8 +479,8 @@ class Address
             'entity_id'      => $addressId,
             'entity_type_id' => $this->getEntityTypeId(),
             'parent_id'      => $customerId,
-            'created_at'     => \Magento\Stdlib\DateTime::now(),
-            'updated_at'     => \Magento\Stdlib\DateTime::now()
+            'created_at'     => $this->dateTime->now(),
+            'updated_at'     => $this->dateTime->now()
         );
 
         // attribute values

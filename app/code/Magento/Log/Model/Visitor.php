@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Log\Model;
 
 /**
  * @method \Magento\Log\Model\Resource\Visitor _getResource()
@@ -20,13 +21,7 @@
  * @method \Magento\Log\Model\Visitor setLastUrlId(int $value)
  * @method int getStoreId()
  * @method \Magento\Log\Model\Visitor setStoreId(int $value)
- *
- * @category    Magento
- * @package     Magento_Log
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
 class Visitor extends \Magento\Core\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
@@ -105,6 +100,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_serverAddress;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -117,6 +117,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      * @param array $ignoredUserAgents
      * @param array $ignores
@@ -138,6 +139,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array(),
         array $ignoredUserAgents = array(),
         array $ignores = array(),
@@ -155,6 +157,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->_httpHeader = $httpHeader;
         $this->_remoteAddress = $remoteAddress;
         $this->_serverAddress = $serverAddress;
+        $this->dateTime = $dateTime;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_ignores = $ignores;
@@ -236,7 +239,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getFirstVisitAt()
     {
         if (!$this->hasData('first_visit_at')) {
-            $this->setData('first_visit_at', \Magento\Stdlib\DateTime::now());
+            $this->setData('first_visit_at', $this->dateTime->now());
         }
         return $this->getData('first_visit_at');
     }
@@ -244,7 +247,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getLastVisitAt()
     {
         if (!$this->hasData('last_visit_at')) {
-            $this->setData('last_visit_at', \Magento\Stdlib\DateTime::now());
+            $this->setData('last_visit_at', $this->dateTime->now());
         }
         return $this->getData('last_visit_at');
     }
@@ -267,7 +270,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->initServerData();
 
         if (!$this->getId()) {
-            $this->setFirstVisitAt(\Magento\Stdlib\DateTime::now());
+            $this->setFirstVisitAt($this->dateTime->now());
             $this->setIsNewVisitor(true);
             $this->save();
             $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
@@ -290,7 +293,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         }
 
         try {
-            $this->setLastVisitAt(\Magento\Stdlib\DateTime::now());
+            $this->setLastVisitAt($this->dateTime->now());
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
         } catch (\Exception $e) {

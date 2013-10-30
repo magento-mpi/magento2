@@ -8,20 +8,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Model;
+
 /**
  * Customer model
- *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method int getWebsiteId() getWebsiteId()
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
  * @method \Magento\Customer\Model\Resource\Customer _getResource()
  */
-namespace Magento\Customer\Model;
-
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -182,6 +178,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
@@ -200,6 +201,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
@@ -222,6 +224,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -240,6 +243,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -1202,8 +1206,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
         $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = \Magento\Stdlib\DateTime::now();
-        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($currentDate);
+        $currentTimestamp = \Magento\Stdlib\DateTime::toTimestamp($this->dateTime->now());
         $tokenTimestamp = \Magento\Stdlib\DateTime::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;

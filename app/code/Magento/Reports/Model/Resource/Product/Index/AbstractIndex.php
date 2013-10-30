@@ -8,29 +8,36 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reports\Model\Resource\Product\Index;
 
 /**
  * Reports Product Index Abstract Resource Model
- *
- * @category    Magento
- * @package     Magento_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Resource\Product\Index;
-
 abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
     /**
      * @var \Magento\Reports\Model\Resource\HelperFactory
      */
     protected $_helperFactory;
 
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Reports\Model\Resource\HelperFactory $helperFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
+     */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Reports\Model\Resource\HelperFactory $helperFactory
+        \Magento\Reports\Model\Resource\HelperFactory $helperFactory,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_helperFactory = $helperFactory;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -75,14 +82,14 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
                  $data  = array(
                      'visitor_id'    => $object->getVisitorId(),
                      'store_id'      => $object->getStoreId(),
-                     'added_at'      => \Magento\Stdlib\DateTime::now(),
+                     'added_at'      => $this->dateTime->now(),
                  );
             } else {
                 $where = array('index_id = ?' => $row['index_id']);
                 $data  = array(
                     'customer_id'   => $object->getCustomerId(),
                     'store_id'      => $object->getStoreId(),
-                    'added_at'      => \Magento\Stdlib\DateTime::now()
+                    'added_at'      => $this->dateTime->now()
                 );
             }
 
@@ -183,7 +190,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add information about product ids to visitor/customer
      *
      *
-     * @param \Magento\Reports\Model\Product\Index\AbstractIndex $object
+     * @param \Magento\Object|\Magento\Reports\Model\Product\Index\AbstractIndex $object
      * @param array $productIds
      * @return \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
      */
