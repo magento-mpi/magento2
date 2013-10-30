@@ -36,12 +36,8 @@ class LineResolver extends NodeVisitorAbstract
         // if the syntax has not been resolved, then try to resolve it
         if (null === $lineData->line) {
             // Handle Comments
-            // Only the syntax object has comments attached to it. So if there isn't one there are probably no comments
-            if ($lineData->syntax !== null) {
-                // Make sure we add the comments
-                $comments = $this->getComments($lineData->syntax);
-                $this->addCommentsBefore($comments, $treeNode);
-            }
+            $this->addCommentsBefore($lineData, $treeNode);
+            // Increment Statement Count
             $this->statementCount++;
             // let the syntax try to resolve to a line
             $treeNode = $lineData->syntax->resolve($treeNode);
@@ -60,22 +56,27 @@ class LineResolver extends NodeVisitorAbstract
      * This method adds any comments in the current node as prior siblings to the current node.
      * @param TreeNode $treeNode Node representing the current node.
      */
-    protected function addCommentsBefore($comments, TreeNode $treeNode)
+    protected function addCommentsBefore(LineData $lineData, TreeNode $treeNode)
     {
-        // only attempt to add comments if they are present
-        if ($comments !== null && is_array($comments)) {
-            // add individual lines of the comments to the tree
-            foreach ($comments as $comment) {
-                // Remove comment from map since it is being consumed
-                if ($comment instanceof PHPParser_Comment) {
-                    unset(Printer::$lexer->commentMap[$comment->getLine()]);
-                }
-                // split the lines so that they can be indented correctly
-                $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
-                foreach ($commentLines as $commentLine) {
-                    // add the line individually to the tree so that they can be indented correctly
-                    $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
-                    $treeNode->addSibling($newNode, false);
+        // Only the syntax object has comments attached to it. So if there isn't one there are probably no comments
+        if ($lineData->syntax !== null) {
+            // Make sure we add the comments
+            $comments = $this->getComments($lineData->syntax);
+            // only attempt to add comments if they are present
+            if ($comments !== null && is_array($comments)) {
+                // add individual lines of the comments to the tree
+                foreach ($comments as $comment) {
+                    // Remove comment from map since it is being consumed
+                    if ($comment instanceof PHPParser_Comment) {
+                        unset(Printer::$lexer->commentMap[$comment->getLine()]);
+                    }
+                    // split the lines so that they can be indented correctly
+                    $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
+                    foreach ($commentLines as $commentLine) {
+                        // add the line individually to the tree so that they can be indented correctly
+                        $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
+                        $treeNode->addSibling($newNode, false);
+                    }
                 }
             }
         }
