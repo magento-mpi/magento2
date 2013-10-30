@@ -176,7 +176,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      */
     protected function _getDefaultStore()
     {
-        if (empty($this->_store)) {
+        if (is_null($this->_store)) {
             $this->_store = $this->_storeFactory->create()
                 ->setId(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID)
                 ->setCode(\Magento\Core\Model\AppInterface::DISTRO_STORE_CODE);
