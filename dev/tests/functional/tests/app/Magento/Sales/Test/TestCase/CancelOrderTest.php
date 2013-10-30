@@ -13,7 +13,7 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Fixture\DataFixture;
 
 /**
  * Class CancelOrderTest
@@ -29,16 +29,19 @@ class CancelOrderTest extends Functional
      * @ZephyrId MAGETWO-12434
      * 
      * @dataProvider dataProviderOrder
-     * @param string|int $orderId
-     * @param string|int $grandTotal
+     * @param DataFixture $fixture
      */
-    public function testPayPalExpress($orderId, $grandTotal)
+    public function testPayPalExpress(DataFixture $fixture)
     {
+        //Data
+        $orderId = $fixture->getOrderId();
+        $grandTotal = $fixture->getGrandTotal();
         //Pages
         $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
         $newInvoicePage = Factory::getPageFactory()->getAdminSalesOrderInvoiceNew();
         $newShipmentPage = Factory::getPageFactory()->getAdminSalesOrderShipmentNew();
 
+        //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
@@ -94,12 +97,8 @@ class CancelOrderTest extends Functional
      */
     public function dataProviderOrder()
     {
-        $paypalExpressFixture = Factory::getFixtureFactory()->getMagentoCheckoutPaypalExpress();
         return array(
-                array(
-                    Factory::getApp()->magentoCheckoutCreatePaypalExpressOrder($paypalExpressFixture),
-                    $paypalExpressFixture->getGrandTotal()
-                )
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder())
         );
     }
 }

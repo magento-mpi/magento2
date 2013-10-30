@@ -41,6 +41,8 @@ class Select extends Form
      */
     public function fillOption(array $data)
     {
+        $this->waitForElementVisible($this->_mapping['value']);
+
         $select = $this->_rootElement->find($this->_mapping['value'], Locator::SELECTOR_CSS, 'select');
         $select->setValue($data['value']);
         $qtyField = $this->_rootElement->find($this->_mapping['qty'], Locator::SELECTOR_CSS);
