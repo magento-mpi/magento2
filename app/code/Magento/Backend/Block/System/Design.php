@@ -15,7 +15,7 @@ class Design extends \Magento\Adminhtml\Block\Template
 {
     protected function _prepareLayout()
     {
-        $this->setTemplate('Magento_Adminhtml::system/design/index.phtml');
+        $this->setTemplate('Magento_Backend::system/design/index.phtml');
 
         $this->addChild('add_new_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add Design Change'),

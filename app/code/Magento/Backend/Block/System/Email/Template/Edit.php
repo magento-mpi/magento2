@@ -45,7 +45,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      *
      * @var string
      */
-    protected $_template = 'Magento_Admnhtml::system/email/template/edit.phtml';
+    protected $_template = 'Magento_Backend::system/email/template/edit.phtml';
     
     /**
      * @param \Magento\Core\Helper\Data $coreData

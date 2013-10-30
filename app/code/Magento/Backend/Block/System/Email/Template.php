@@ -21,7 +21,7 @@ namespace Magento\Backend\Block\System\Email;
 class Template extends \Magento\Adminhtml\Block\Template
 {
 
-    protected $_template = 'Magento_Admnhtml::system/email/template/list.phtml';
+    protected $_template = 'Magento_Backend::system/email/template/list.phtml';
 
     /**
      * Create add button and grid blocks

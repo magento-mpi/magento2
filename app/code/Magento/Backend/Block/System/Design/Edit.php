@@ -13,7 +13,7 @@ namespace Magento\Backend\Block\System\Design;
 class Edit extends \Magento\Adminhtml\Block\Widget
 {
 
-    protected $_template = 'Magento_Adminhtml::system/design/edit.phtml';
+    protected $_template = 'Magento_Backend::system/design/edit.phtml';
 
     /**
      * Core registry

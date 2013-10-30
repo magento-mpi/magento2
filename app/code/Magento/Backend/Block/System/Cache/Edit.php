@@ -20,7 +20,7 @@ namespace Magento\Backend\Block\System\Cache;
 class Edit extends \Magento\Adminhtml\Block\Widget
 {
 
-    protected $_template = 'Magento_Admnhtml::system/cache/edit.phtml';
+    protected $_template = 'Magento_Backend::system/cache/edit.phtml';
 
     protected function _construct()
     {
