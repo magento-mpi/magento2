@@ -52,7 +52,7 @@ class DateTime
      * @param boolean $withoutTime day only flag
      * @return string
      */
-    public static function now($withoutTime = false)
+    public function now($withoutTime = false)
     {
         $format = $withoutTime ? self::DATE_PHP_FORMAT : self::DATETIME_PHP_FORMAT;
         return date($format);
@@ -68,7 +68,8 @@ class DateTime
     public static function formatDate($date, $includeTime = true)
     {
         if ($date === true) {
-            return self::now(!$includeTime);
+            $self = new self;
+            return $self->now(!$includeTime);
         }
 
         if ($date instanceof \Zend_Date) {

@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
+
 /**
  * ACL user resource
  */
-namespace Magento\User\Model\Resource;
-
 class User extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -26,20 +26,28 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_roleFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Acl\CacheInterface $aclCache
      * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
         \Magento\Acl\CacheInterface $aclCache,
-        \Magento\User\Model\RoleFactory $roleFactory
+        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_aclCache = $aclCache;
         $this->_roleFactory = $roleFactory;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -82,7 +90,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
 
         $data = array(
-            'logdate' => \Magento\Stdlib\DateTime::now(),
+            'logdate' => $this->dateTime->now(),
             'lognum'  => $user->getLognum() + 1
         );
 
@@ -126,7 +134,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (is_numeric($user)) {
             $userId = $user;
-        } else if ($user instanceof \Magento\Core\Model\AbstractModel) {
+        } elseif ($user instanceof \Magento\Core\Model\AbstractModel) {
             $userId = $user->getUserId();
         } else {
             return null;

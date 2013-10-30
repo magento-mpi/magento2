@@ -115,6 +115,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Model\AttributeFactory', array(), array(), '', false),
             $encryptor,
             new \Magento\Math\Random,
+            new \Magento\Stdlib\DateTime,
             $this->_collectionMock,
             array()
         );

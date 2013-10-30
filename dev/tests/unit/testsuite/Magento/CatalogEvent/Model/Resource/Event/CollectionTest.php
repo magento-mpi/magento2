@@ -128,7 +128,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             array(
                 'getReadConnection',
                 'getMainTable',
-                'getTable'
+                'getTable',
+                '__wakeup'
             )
         );
         $resource->expects($this->once())

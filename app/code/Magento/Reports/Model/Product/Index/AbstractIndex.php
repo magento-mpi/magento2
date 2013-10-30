@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reports\Model\Product\Index;
 
 /**
  * Reports Product Index Abstract Model
- *
- * @category   Magento
- * @package    Magento_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Product\Index;
-
 abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -53,6 +48,11 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     protected $_productVisibility;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -60,6 +60,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Session\Generic $reportSession
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -72,13 +73,14 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Session\Generic $reportSession,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
-
+        $this->dateTime = $dateTime;
         $this->_logVisitor = $logVisitor;
         $this->_customerSession = $customerSession;
         $this->_reportSession = $reportSession;
@@ -104,7 +106,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
             $this->setStoreId($this->getStoreId());
         }
         if (!$this->hasAddedAt()) {
-            $this->setAddedAt(\Magento\Stdlib\DateTime::now());
+            $this->setAddedAt($this->dateTime->now());
         }
 
         return $this;

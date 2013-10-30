@@ -175,6 +175,11 @@ class International
     protected $mathDivision;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
@@ -199,6 +204,7 @@ class International
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Division $mathDivision
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -223,6 +229,7 @@ class International
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
@@ -232,6 +239,7 @@ class International
         $this->_configReader = $configReader;
         $this->string = $string;
         $this->mathDivision = $mathDivision;
+        $this->dateTime = $dateTime;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
             $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
@@ -881,7 +889,7 @@ class International
 
         $nodeBkgDetails = $nodeGetQuote->addChild('BkgDetails');
         $nodeBkgDetails->addChild('PaymentCountryCode', $rawRequest->getOrigCountryId());
-        $nodeBkgDetails->addChild('Date', \Magento\Stdlib\DateTime::now(true));
+        $nodeBkgDetails->addChild('Date', $this->dateTime->now(true));
         $nodeBkgDetails->addChild('ReadyTime', 'PT' . (int)(string)$this->getConfigData('ready_time') . 'H00M');
 
         $nodeBkgDetails->addChild('DimensionUnit', $this->_getDimensionUnit());

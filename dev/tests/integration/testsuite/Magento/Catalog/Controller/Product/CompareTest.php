@@ -123,8 +123,10 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var $visitor \Magento\Log\Model\Visitor */
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
+        /** @var \Magento\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('\Magento\Stdlib\DateTime');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(\Magento\Stdlib\DateTime::now())
+            ->setLastVisitAt($dateTime->now())
             ->save();
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
         $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -141,8 +143,12 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var $visitor \Magento\Log\Model\Visitor */
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
+
+        /** @var \Magento\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('\Magento\Stdlib\DateTime');
+
         $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(\Magento\Stdlib\DateTime::now())
+            ->setLastVisitAt($dateTime->now())
             ->save();
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor')
@@ -156,8 +162,10 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var $visitor \Magento\Log\Model\Visitor */
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
+        /** @var \Magento\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('\Magento\Stdlib\DateTime');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(\Magento\Stdlib\DateTime::now())
+            ->setLastVisitAt($dateTime->now())
             ->save();
 
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
