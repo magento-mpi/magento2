@@ -47,7 +47,7 @@ class Config
      * @param array $input
      * @return array
      */
-    public function _parseParams(array $input)
+    protected function _parseParams(array $input)
     {
         $stack = $input;
         unset($stack['resource']);
