@@ -14,7 +14,7 @@ use PHPParser_Node_Param;
 class ParameterReference extends AbstractVariableReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified parameter.
      * @param PHPParser_Node_Param $node
      */
     public function __construct(PHPParser_Node_Param $node)

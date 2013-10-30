@@ -15,7 +15,7 @@ use PHPParser_Node_Stmt_Catch;
 class CatchStatement extends AbstractControlStatement
 {
     /**
-     * This method constructs a new statement based on the specify catch node.
+     * This method constructs a new statement based on the specified catch node.
      * @param PHPParser_Node_Stmt_Catch $node
      */
     public function __construct(PHPParser_Node_Stmt_Catch $node)

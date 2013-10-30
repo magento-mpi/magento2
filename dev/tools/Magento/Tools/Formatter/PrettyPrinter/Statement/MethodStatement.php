@@ -19,7 +19,7 @@ use PHPParser_Node_Stmt_ClassMethod;
 class MethodStatement extends ClassMemberAbstract
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified class method.
      * @param PHPParser_Node_Stmt_ClassMethod $node
      */
     public function __construct(PHPParser_Node_Stmt_ClassMethod $node)

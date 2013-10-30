@@ -15,7 +15,7 @@ use PHPParser_Node_Stmt_Break;
 class BreakStatement extends AbstractControlStatement
 {
     /**
-     * This method constructs a new statement based on the specify break node.
+     * This method constructs a new statement based on the specified break node.
      * @param PHPParser_Node_Stmt_Break $node
      */
     public function __construct(PHPParser_Node_Stmt_Break $node)

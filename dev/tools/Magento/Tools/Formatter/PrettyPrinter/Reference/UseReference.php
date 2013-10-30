@@ -14,7 +14,7 @@ use PHPParser_Node_Stmt_UseUse;
 class UseReference extends AbstractReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified expression.
      * @param PHPParser_Node_Stmt_UseUse $node
      */
     public function __construct(PHPParser_Node_Stmt_UseUse $node)

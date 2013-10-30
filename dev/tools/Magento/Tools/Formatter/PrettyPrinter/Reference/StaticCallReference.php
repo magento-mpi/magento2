@@ -18,7 +18,7 @@ use PHPParser_Node_Expr_Variable;
 class StaticCallReference extends AbstractFunctionReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified expression.
      * @param PHPParser_Node_Expr_StaticCall $node
      */
     public function __construct(PHPParser_Node_Expr_StaticCall $node)

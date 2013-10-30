@@ -16,7 +16,7 @@ use PHPParser_Node_Stmt_Interface;
 class InterfaceStatement extends ClassTypeAbstract
 {
     /**
-     * This method constructs a new statement based on the specify interface node
+     * This method constructs a new statement based on the specified interface.
      * @param PHPParser_Node_Stmt_Interface $node
      */
     public function __construct(PHPParser_Node_Stmt_Interface $node)

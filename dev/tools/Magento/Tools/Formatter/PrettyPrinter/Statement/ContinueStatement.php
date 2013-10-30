@@ -15,7 +15,7 @@ use PHPParser_Node_Stmt_Continue;
 class ContinueStatement extends AbstractControlStatement
 {
     /**
-     * This method constructs a new statement based on the specify break node.
+     * This method constructs a new statement based on the specified continue node.
      * @param PHPParser_Node_Stmt_Continue $node
      */
     public function __construct(PHPParser_Node_Stmt_Continue $node)

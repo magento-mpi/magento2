@@ -14,7 +14,7 @@ use PHPParser_Node_Expr_ClosureUse;
 class ClosureUseReference extends AbstractReference
 {
     /**
-     * This method constructs a new statement based on the specify expression
+     * This method constructs a new statement based on the specified expression.
      * @param PHPParser_Node_Expr_ClosureUse $node
      */
     public function __construct(PHPParser_Node_Expr_ClosureUse $node)

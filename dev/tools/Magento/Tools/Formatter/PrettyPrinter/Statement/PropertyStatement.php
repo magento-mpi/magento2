@@ -16,7 +16,7 @@ use PHPParser_Node_Stmt_Property;
 class PropertyStatement extends ClassMemberAbstract
 {
     /**
-     * This method constructs a new statement based on the specify property node
+     * This method constructs a new statement based on the specified property.
      * @param PHPParser_Node_Stmt_Property $node
      */
     public function __construct(PHPParser_Node_Stmt_Property $node)

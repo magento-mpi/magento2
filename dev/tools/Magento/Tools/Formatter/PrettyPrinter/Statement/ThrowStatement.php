@@ -15,7 +15,7 @@ use PHPParser_Node_Stmt_Throw;
 class ThrowStatement extends AbstractControlStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified throw.
      * @param PHPParser_Node_Stmt_Throw $node
      */
     public function __construct(PHPParser_Node_Stmt_Throw $node)

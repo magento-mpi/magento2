@@ -21,7 +21,7 @@ class AbstractScalarReference extends AbstractReference
     protected $result;
 
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified scalar.
      * @param PHPParser_Node_Scalar $node
      * @param mixed $result Optional value to return in resolve.
      */

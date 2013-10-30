@@ -31,7 +31,7 @@ abstract class AbstractSyntax
     protected $node;
 
     /**
-     * This method constructs a new statement based on the specify node.
+     * This method constructs a new statement based on the specified node.
      * @param PHPParser_Node $node
      */
     protected function __construct(PHPParser_Node $node)

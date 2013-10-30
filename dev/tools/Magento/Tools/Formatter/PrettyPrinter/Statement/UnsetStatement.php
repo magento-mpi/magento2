@@ -16,7 +16,7 @@ use PHPParser_Node_Stmt_Unset;
 class UnsetStatement extends AbstractStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified unset.
      * @param PHPParser_Node_Stmt_Unset $node
      */
     public function __construct(PHPParser_Node_Stmt_Unset $node)

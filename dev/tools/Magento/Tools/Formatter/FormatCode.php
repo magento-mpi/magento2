@@ -41,7 +41,7 @@ function moveFileSpecifications($sourceItems, &$destinationItems)
     }
 }
 /**
- * This method parses the arguments to passed into the program.
+ * This method parses the arguments passed into the program.
  */
 function parseArguments($arguments, &$fileItems, &$blacklistItems, &$rootDirectory, &$displayOnly, &$quiet)
 {

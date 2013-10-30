@@ -15,7 +15,7 @@ use PHPParser_Node_Expr_Array;
 class ArrayReference extends AbstractFunctionReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified expression.
      * @param PHPParser_Node_Expr_Array $node
      */
     public function __construct(PHPParser_Node_Expr_Array $node)

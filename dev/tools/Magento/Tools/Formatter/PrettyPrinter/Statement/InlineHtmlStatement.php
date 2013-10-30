@@ -14,7 +14,7 @@ use PHPParser_Node_Stmt_InlineHTML;
 class InlineHtmlStatement extends AbstractStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified statement.
      * @param PHPParser_Node_Stmt_InlineHTML $node
      */
     public function __construct(PHPParser_Node_Stmt_InlineHTML $node)

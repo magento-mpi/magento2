@@ -15,7 +15,7 @@ use PHPParser_Node_Stmt_Namespace;
 class NamespaceStatement extends AbstractStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified namespace.
      * @param PHPParser_Node_Stmt_Namespace $node
      */
     public function __construct(PHPParser_Node_Stmt_Namespace $node)

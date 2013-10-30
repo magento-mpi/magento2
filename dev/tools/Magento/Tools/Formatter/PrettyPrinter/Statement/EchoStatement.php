@@ -16,7 +16,7 @@ use PHPParser_Node_Stmt_Echo;
 class EchoStatement extends AbstractStatement
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified echo node
      * @param PHPParser_Node_Stmt_Echo $node
      */
     public function __construct(PHPParser_Node_Stmt_Echo $node)

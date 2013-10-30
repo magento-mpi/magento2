@@ -18,7 +18,7 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 class ClassStatement extends ClassTypeAbstract
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified class node.
      * @param \PHPParser_Node_Stmt_Class $node
      */
     public function __construct(\PHPParser_Node_Stmt_Class $node)

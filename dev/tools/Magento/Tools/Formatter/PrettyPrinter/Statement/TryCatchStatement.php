@@ -16,7 +16,7 @@ use PHPParser_Node_Stmt_TryCatch;
 class TryCatchStatement extends AbstractControlStatement
 {
     /**
-     * This method constructs a new statement based on the specify break node.
+     * This method constructs a new statement based on the specified try node.
      * @param PHPParser_Node_Stmt_TryCatch $node
      */
     public function __construct(PHPParser_Node_Stmt_TryCatch $node)

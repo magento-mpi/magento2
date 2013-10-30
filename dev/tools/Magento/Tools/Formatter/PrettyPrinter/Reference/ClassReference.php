@@ -14,7 +14,7 @@ use PHPParser_Node_Name;
 class ClassReference extends AbstractReference
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified name.
      * @param PHPParser_Node_Name $node
      */
     public function __construct(PHPParser_Node_Name $node)

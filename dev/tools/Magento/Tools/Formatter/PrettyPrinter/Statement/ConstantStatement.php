@@ -16,7 +16,7 @@ use PHPParser_Node_Stmt_ClassConst;
 class ConstantStatement extends ClassMemberAbstract
 {
     /**
-     * This method constructs a new statement based on the specify class node
+     * This method constructs a new statement based on the specified class constant.
      * @param PHPParser_Node_Stmt_ClassConst $node
      */
     public function __construct(PHPParser_Node_Stmt_ClassConst $node)

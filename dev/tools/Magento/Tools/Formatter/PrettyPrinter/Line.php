@@ -181,7 +181,7 @@ class Line
     }
 
     /**
-     * This method returns resets the index values for the line breaks.
+     * This method resets the index values for the line breaks.
      */
     protected function resetLineBreakIndex()
     {
