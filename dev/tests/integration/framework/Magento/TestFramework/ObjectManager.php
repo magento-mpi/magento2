@@ -67,18 +67,6 @@ class ObjectManager extends \Magento\App\ObjectManager
     }
 
     /**
-     * Load primary DI configuration
-     *
-     * @param array $configData
-     */
-    public function loadPrimaryConfig($configData)
-    {
-        if ($configData) {
-            $this->configure($configData);
-        }
-    }
-
-    /**
      * Set objectManager
      *
      * @param \Magento\ObjectManager $objectManager

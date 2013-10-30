@@ -401,4 +401,9 @@
             <instance type="Magento\Backend\Model\Url\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Model\App">
+        <param name="frontController">
+            <instance type="Magento\App\FrontController\Proxy" />
+        </param>
+    </type>
 </config>

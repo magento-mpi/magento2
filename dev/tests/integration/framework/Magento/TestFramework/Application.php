@@ -10,7 +10,8 @@
  */
 
 namespace Magento\TestFramework;
-use Magento\App\State;
+use Magento\App\State,
+    Magento\App\Dir;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -92,7 +93,7 @@ class Application
      *
      * @var array
      */
-    protected $_primaryConfig = array();
+    protected $_primaryConfigData = array();
 
     /**
      * Constructor
@@ -169,60 +170,35 @@ class Application
         return is_file($this->_installEtcDir . '/local.xml');
     }
 
-    /**
-     * Initialize an already installed application
-     *
-     * @param array $overriddenParams
-     */
     public function initialize($overriddenParams = array())
     {
         $overriddenParams['base_dir'] = BP;
         $overriddenParams[State::PARAM_MODE] = $this->_appMode;
+
+        $overriddenParams = $this->_customizeParams($overriddenParams);
+
+        $directories = new Dir(
+            BP,
+            isset($overriddenParams[Dir::PARAM_APP_URIS]) ? $overriddenParams[Dir::PARAM_APP_URIS] : array(),
+            isset($overriddenParams[Dir::PARAM_APP_DIRS]) ? $overriddenParams[Dir::PARAM_APP_DIRS] : array()
+        );
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
-            $objectManager = new \Magento\TestFramework\ObjectManager(
-                BP, $this->_customizeParams($overriddenParams),
-                new \Magento\TestFramework\ObjectManager\Config()
-            );
-            $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary();
-            $this->_primaryConfig = $primaryLoader->load();
+            $objectManager = $this->_initNewObjectManager($overriddenParams, $directories);
         } else {
-            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            \Magento\TestFramework\ObjectManager::setInstance($objectManager);
-
-            $objectManager->getFactory()->setArguments(array_replace(
-                $objectManager->get('Magento\App\Config')->getParams(),
-                $config->getParams()
-            ));
-
-            $objectManager->addSharedInstance($config->getDirectories(), 'Magento\App\Dir');
-            $objectManager->configure(array(
-                'preferences' => array(
-                    'Magento\Core\Model\Cookie' => 'Magento\TestFramework\Cookie'
-                )
-            ));
-            $objectManager->loadPrimaryConfig($this->_primaryConfig);
-            $verification = $objectManager->get('Magento\App\Dir\Verification');
-            $verification->createAndVerifyDirectories();
-            $objectManager->configure(
-                $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
+            $objectManager = $this->_restoreObjectManager(
+                $overriddenParams, $directories, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             );
-            $objectManager->configure(array(
-                'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
-                    'parameters' => array('canSaveMap' => false)
-                ),
-                'default_setup' => array(
-                    'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
-                ),
-                'preferences' => array(
-                    'Magento\Core\Model\Cookie' => 'Magento\TestFramework\Cookie',
-                    'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
-                    'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
-                ),
-            ));
         }
+
         \Magento\TestFramework\Helper\Bootstrap::setObjectManager($objectManager);
-        $objectManager->get('Magento\Core\Model\Resource')
-            ->setCache($objectManager->get('Magento\Core\Model\CacheInterface'));
+
+        /** @var \Magento\App\Dir\Verification $verification */
+        $verification = $objectManager->get('Magento\App\Dir\Verification');
+        $verification->createAndVerifyDirectories();
+
+        /** @var \Magento\Core\Model\Resource $resource */
+        $resource = $objectManager->get('Magento\Core\Model\Resource');
+        $resource->setCache($objectManager->get('Magento\Core\Model\CacheInterface'));
 
         /** Register event observer of Integration Framework */
         /** @var \Magento\Event\Config\Data $eventConfigData */
@@ -238,13 +214,93 @@ class Application
                 )
             )
         );
-        /** @var \Magento\App\Dir\Verification $verification */
-        $verification = $objectManager->get('Magento\App\Dir\Verification');
-        $verification->createAndVerifyDirectories();
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
 
         \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\Renderer\Placeholder'));
+    }
+
+    /**
+     * Initialize Object Manager instance
+     *
+     * @param array $overriddenParams
+     * @param Dir $directories
+     * @return ObjectManager
+     * @throws \Magento\BootstrapException
+     */
+    protected function _initNewObjectManager(array $overriddenParams, Dir $directories)
+    {
+        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(Dir::GENERATION)));
+
+        $options = new \Magento\App\Config(
+            $overriddenParams,
+            new \Magento\App\Config\Loader($directories)
+        );
+
+        $autoloader = new \Magento\Autoload\IncludePath();
+        $generatorIo = new \Magento\Code\Generator\Io(
+            new \Magento\Io\File(), $autoloader, $directories->getDir(DIR::GENERATION)
+        );
+        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
+        $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+        spl_autoload_register(array($autoloader, 'load'), true, false);
+
+
+        $diConfig = new \Magento\TestFramework\ObjectManager\Config();
+        $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
+        try {
+            $this->_primaryConfigData = $primaryLoader->load();
+        } catch (\Exception $e) {
+            throw new \Magento\BootstrapException($e->getMessage());
+        }
+
+        if ($this->_primaryConfigData) {
+            $diConfig->extend($this->_primaryConfigData);
+        }
+
+        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, null, null, $options->get());
+
+        $objectManager = new \Magento\TestFramework\ObjectManager($factory, $diConfig, array(
+            'Magento\App\Config' => $options,
+            'Magento\App\Dir' => $directories
+        ));
+        return $objectManager;
+    }
+
+    protected function _restoreObjectManager(
+        array $overriddenParams,
+        Dir $directories,
+        \Magento\TestFramework\ObjectManager $objectManager
+    ) {
+        \Magento\TestFramework\ObjectManager::setInstance($objectManager);
+        $objectManager->configure($this->_primaryConfigData);
+        $objectManager->addSharedInstance($directories, 'Magento\App\Dir');
+        $objectManager->configure(array(
+            'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
+                'parameters' => array('canSaveMap' => false)
+            ),
+            'default_setup' => array(
+                'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
+            ),
+            'preferences' => array(
+                'Magento\Core\Model\Cookie' => 'Magento\TestFramework\Cookie',
+                'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
+                'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
+            ),
+        ));
+
+        $options = new \Magento\App\Config(
+            $overriddenParams,
+            new \Magento\App\Config\Loader($directories)
+        );
+        $objectManager->addSharedInstance($options, 'Magento\App\Config');
+        $objectManager->getFactory()->setArguments($options->get());
+        $objectManager->configure(
+            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
+        );
+
+        return $objectManager;
     }
 
     /**
@@ -465,16 +521,29 @@ class Application
     /**
      * Load application area
      *
-     * @param $area
+     * @param $areaCode
      */
-    public function loadArea($area)
+    public function loadArea($areaCode)
     {
-        $this->_appArea = $area;
-        if ($area == \Magento\TestFramework\Application::DEFAULT_APP_AREA) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-                ->loadAreaPart($area, \Magento\Core\Model\App\Area::PART_CONFIG);
+        $this->_appArea = $areaCode;
+        /** @var \Magento\Core\Model\App $app */
+
+        $scope = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\Scope');
+        $scope->setCurrentScope($areaCode);
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\App\ObjectManager\ConfigLoader')->load($areaCode)
+        );
+
+        $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
+
+        if ($areaCode == \Magento\TestFramework\Application::DEFAULT_APP_AREA) {
+            /** @var \Magento\Config\Scope $scope */
+
+            $app->loadAreaPart($areaCode, \Magento\Core\Model\App\Area::PART_CONFIG);
         } else {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea($area);
+            $app->loadArea($areaCode);
         }
     }
 }
