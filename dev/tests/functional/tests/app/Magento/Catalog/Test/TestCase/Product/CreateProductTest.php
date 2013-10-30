@@ -16,11 +16,11 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Create simple product for BAT
+ * Create product
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class CreateTest extends Functional
+class CreateProductTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -31,14 +31,14 @@ class CreateTest extends Functional
     }
 
     /**
-     * Product create
+     * Create simple product with settings in advanced inventory tab
      *
-     * @ZephyrId MAGETWO-12514
+     * @ZephyrId MAGETWO-12914
      */
-    public function testCreateProduct()
+    public function testCreateProductAdvancedInventory()
     {
         $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple_with_category');
+        $product->switchData('simple_advanced_inventory');
         //Data
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $createProductPage->init($product);

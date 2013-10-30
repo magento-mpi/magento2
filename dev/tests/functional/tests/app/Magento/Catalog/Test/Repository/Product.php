@@ -47,13 +47,11 @@ class Product extends AbstractRepository
             'value' => 'Yes',
             'input_value' => '1',
             'group' => 'product_info_tabs_advanced-inventory',
-            'input' => 'select',
-            'input_name' => '#inventory_manage_stock'
+            'input' => 'select'
         );
         $this->_data['simple_advanced_inventory']['data']['fields']['inventory_qty'] = array(
             'value' => 1,
-            'group' => 'product_info_tabs_advanced-inventory',
-            'input_name' => '#inventory_qty'
+            'group' => 'product_info_tabs_advanced-inventory'
         );
     }
 }
