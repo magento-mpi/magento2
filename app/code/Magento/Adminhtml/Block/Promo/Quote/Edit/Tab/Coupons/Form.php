@@ -158,6 +158,6 @@ class Form
      */
     public function getGenerateUrl()
     {
-        return $this->getUrl('adminhtml/*/generate');
+        return $this->getUrl('catalog/*/generate');
     }
 }
