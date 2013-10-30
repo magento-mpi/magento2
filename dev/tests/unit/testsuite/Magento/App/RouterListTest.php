@@ -49,4 +49,5 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = new \Magento\App\RouterList($this->_objectManagerMock, $this->_routerList);
     }
+
 }

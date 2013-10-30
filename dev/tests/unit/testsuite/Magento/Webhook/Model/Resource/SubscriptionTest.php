@@ -50,6 +50,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->fail('need to fix');
         $this->_selectMock = $this->_makeMock('Magento\DB\Select');
         $this->_resourceMock = $this->_makeMock('Magento\Core\Model\Resource');
         $this->_adapterMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');

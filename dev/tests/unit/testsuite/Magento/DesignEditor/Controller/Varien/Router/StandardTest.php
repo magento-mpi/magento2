@@ -80,7 +80,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             'vde'   => 'vde router',
         );
 
-        $routerListMock = $this->getMock('Magento\App\RouterListInterface');
+        $routerListMock = $this->getMock('\Magento\App\Route\ConfigInterface');
 
         // test data to verify routers match logic
         $matchedRequest = $this->getMock('Magento\App\Request\Http',

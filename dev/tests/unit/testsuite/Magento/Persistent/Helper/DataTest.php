@@ -22,6 +22,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->fail('need to fix');
         $this->_configMock = $this->getMock('\Magento\Core\Model\Config', array(), array(), '', false);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManager->getObject('\Magento\Persistent\Helper\Data', array(

@@ -29,11 +29,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $_configScopeMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_areaList;
+
     protected function setUp()
     {
+        $this->fail('need to fix');
         $this->_readerMock = $this->getMock('Magento\App\Route\Config\Reader', array(), array(), '', false);
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
         $this->_configScopeMock = $this->getMock('\Magento\Config\ScopeInterface');
+        $this->_areaList = $this->getMock('\Magento\App\AreaList', array(), array(), '', false);
         $this->_configScopeMock
             ->expects($this->any())
             ->method('getCurrentScope')
@@ -41,7 +48,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_config = new \Magento\App\Route\Config(
             $this->_readerMock,
             $this->_cacheMock,
-            $this->_configScopeMock
+            $this->_configScopeMock,
+            $this->_areaList
         );
     }
 

@@ -33,7 +33,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'resource' => 'resource name',
             'connection' => 'connection name',
-            'other' => 'value',
+            'other' => 'other value',
         );
         $this->assertEquals($expected, $this->_model->load());
     }

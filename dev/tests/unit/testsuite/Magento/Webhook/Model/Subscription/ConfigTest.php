@@ -73,6 +73,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->fail("need to fix");
         $this->_mockSubscription = $this->_createMockSubscription();
     }
 
