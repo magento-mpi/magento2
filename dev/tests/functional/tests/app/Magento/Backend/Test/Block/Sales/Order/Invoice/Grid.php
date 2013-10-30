@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\Sales\Order;
+namespace Magento\Backend\Test\Block\Sales\Order\Invoice;
 
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
@@ -20,7 +20,7 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  * Class Grid
  * Sales order grid
  *
- * @package Magento\Backend\Test\Block\Sales\Order
+ * @package Magento\Backend\Test\Block\Sales\Order\Invoice
  */
 class Grid extends GridInterface
 {
@@ -32,12 +32,18 @@ class Grid extends GridInterface
         parent::_init();
         $this->filters = array(
             'id' => array(
-                'selector' => '#sales_order_grid_filter_real_order_id'
-            ),
-            'status' => array(
-                'selector' => '#sales_order_grid_filter_status',
-                'input' => 'select'
+                'selector' => '#order_invoices_filter_increment_id'
             )
         );
+    }
+
+    /**
+     * Get first invoice amount
+     *
+     * @return array|string
+     */
+    public function getInvoiceAmount()
+    {
+        return $this->_rootElement->find('td.col-qty.col-base_grand_total')->getText();
     }
 }

@@ -26,14 +26,20 @@ class CancelOrderTest extends Functional
     /**
      * Cancel order placed by PayPal Express from product page
      *
+     * @ZephyrId MAGETWO-12434
+     * 
      * @dataProvider dataProviderOrder
      * @param string|int $orderId
      * @param string|int $grandTotal
      */
     public function testPayPalExpress($orderId, $grandTotal)
     {
-        Factory::getApp()->magentoBackendLoginUser();
+        //Pages
         $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $newInvoicePage = Factory::getPageFactory()->getAdminSalesOrderInvoiceNew();
+        $newShipmentPage = Factory::getPageFactory()->getAdminSalesOrderShipmentNew();
+
+        Factory::getApp()->magentoBackendLoginUser();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $this->assertContains(
@@ -41,7 +47,44 @@ class CancelOrderTest extends Functional
             Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
-        //@TODO for MAGETWO-15505: Close this order here
+
+        $orderPage->getOrderActionsBlock()->invoice();
+        $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
+        $newInvoicePage->getInvoiceTotalsBlock()->submit();
+        $this->assertContains(
+            $orderPage->getMessagesBlock()->getSuccessMessages(),
+            'The invoice has been created.',
+            'No success message on invoice creation'
+        );
+
+        $orderPage->getOrderActionsBlock()->ship();
+        $newShipmentPage->getOrderGridBlock()->submit();
+        $this->assertContains(
+            $orderPage->getMessagesBlock()->getSuccessMessages(),
+            'The shipment has been created.',
+            'No success message on shipment creation'
+        );
+        $tabsWidget = $orderPage->getTabsWidget();
+
+        //Verification on invoice tab
+        $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
+        $this->assertContains(
+            $orderPage->getInvoicesGrid()->getInvoiceAmount(),
+            $grandTotal
+        );
+
+        //Verification on transaction tab
+        $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
+        $this->assertContains(
+            $orderPage->getTransactionsGrid()->getTransactionType(),
+            'Capture'
+        );
+        //Verification on order grid
+        $orderPage->open();
+        $this->assertTrue(
+            $orderPage->getOrderGridBlock()->isRowVisible(array('id' => $orderId, 'status' => 'Complete')),
+            "Order # $orderId in complete state was not found on the grid!"
+        );
     }
 
     /**

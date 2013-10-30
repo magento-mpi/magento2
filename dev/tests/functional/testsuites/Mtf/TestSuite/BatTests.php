@@ -21,9 +21,11 @@ class BatTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\CreateTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\OnepageTest');
+        $suite->addTestSuite('Magento\Sales\Test\TestCase\CancelOrderTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\ProductPageTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest');
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\PayflowProTest');
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\OnepageTest');
 
         return $suite;
     }

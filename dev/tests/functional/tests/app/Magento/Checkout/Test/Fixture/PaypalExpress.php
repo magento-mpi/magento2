@@ -51,7 +51,7 @@ class PaypalExpress extends Checkout
     /**
      * Get telephone number
      *
-     * @return string
+     * @return array
      */
     public function getTelephoneNumber()
     {

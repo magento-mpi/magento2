@@ -60,6 +60,6 @@ class Shipping extends Form
      */
     public function setTelephoneNumber($field)
     {
-        $this->_rootElement->find($this->_mapping['telephone'], Locator::SELECTOR_CSS)->setValue($field['value']);
+        $this->_rootElement->find($this->_mapping['telephone'], Locator::SELECTOR_CSS)->setValue($field['telephone']);
     }
 }
