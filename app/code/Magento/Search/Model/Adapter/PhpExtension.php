@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Solr search engine adapter
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Search\Model\Adapter;
 
+/**
+ * Solr search engine adapter
+ */
 class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     implements \Magento\Search\Model\AdapterInterface
 {
@@ -35,24 +31,24 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     protected $_ctlgInventData;
 
     /**
-     * @param \Magento\Customer\Model\Session                              $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price             $filterPrice
-     * @param \Magento\Search\Model\Resource\Index                         $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext               $resourceFulltext
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
+     * @param \Magento\Search\Model\Resource\Index $resourceIndex
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Logger                                   $logger
-     * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
-     * @param \Magento\Core\Model\CacheInterface                           $cache
-     * @param \Magento\Eav\Model\Config                                    $eavConfig
-     * @param \Magento\Search\Model\Factory\Factory                        $searchFactory
-     * @param \Magento\Search\Helper\ClientInterface                       $clientHelper
-     * @param \Magento\Core\Model\Registry                                 $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface                    $coreStoreConfig
-     * @param \Magento\CatalogInventory\Helper\Data                        $ctlgInventData
-     * @param array                                                       $options
+     * @param \Magento\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Search\Model\Factory\Factory $searchFactory
+     * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
+     * @param array $options
      *
      * @throws \Magento\Core\Exception
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -68,6 +64,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         $options = array()
     ) {
@@ -79,7 +76,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         parent::__construct(
             $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
             $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
-            $coreStoreConfig, $options
+            $coreStoreConfig, $dateTime, $options
         );
     }
 

@@ -8,18 +8,12 @@
  * @license     {license_link}
  */
 
- /**
- * Enterprise search helper
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-
 namespace Magento\Search\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
-    implements \Magento\Search\Helper\ClientInterface
+/**
+ * Enterprise search helper
+ */
+class Data extends \Magento\Core\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
@@ -71,7 +65,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
@@ -105,8 +99,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
@@ -114,6 +111,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -122,7 +120,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
@@ -130,11 +129,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_coreConfig = $coreConfig;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
+        $this->dateTime = $dateTime;
         parent::__construct($context);
     }
 
     /**
-     * Retrive text field types
+     * Retrieve text field types
      *
      * @return array
      */
@@ -144,7 +144,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrive supported by Solr languages including locale codes (language codes) that are specified in configuration
+     * Retrieve supported by Solr languages including locale codes (language codes) that are specified in configuration
      * Array(
      *      'language_code1' => 'locale_code',
      *      'language_code2' => Array('locale_code1', 'locale_code2')
@@ -358,13 +358,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
-                    if (!\Magento\Stdlib\DateTime::isEmptyDate($val)) {
+                    if (!$this->dateTime->isEmptyDate($val)) {
                         $date = new \Zend_Date($val, $format);
                         $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
-                if (!\Magento\Stdlib\DateTime::isEmptyDate($value)) {
+                if (!$this->dateTime->isEmptyDate($value)) {
                     $date = new \Zend_Date($value, $format);
                     $value = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }

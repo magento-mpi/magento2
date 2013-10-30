@@ -97,7 +97,7 @@ class DateTime
      * @param string $date
      * @return boolean
      */
-    public static function isEmptyDate($date)
+    public function isEmptyDate($date)
     {
         return preg_replace('#[ 0:-]#', '', $date) === '';
     }

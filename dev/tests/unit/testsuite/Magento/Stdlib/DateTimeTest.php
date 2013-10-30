@@ -16,6 +16,16 @@ namespace Magento\Stdlib;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    protected function setUp()
+    {
+        $this->dateTime = new \Magento\Stdlib\DateTime;
+    }
+
     public function testToTimestamp()
     {
         $date = new \Zend_Date();
@@ -80,10 +90,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmptyDate($date, $expected)
     {
-        $actual = \Magento\Stdlib\DateTime::isEmptyDate($date);
+        $actual = $this->dateTime->isEmptyDate($date);
         $this->assertEquals($actual, $expected);
     }
 
+    /**
+     * @return array
+     */
     public function isEmptyDateDataProvider()
     {
         return array(

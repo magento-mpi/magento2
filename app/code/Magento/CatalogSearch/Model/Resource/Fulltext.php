@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogSearch\Model\Resource;
 
 /**
  * CatalogSearch Fulltext Index resource model
- *
- * @category    Magento
- * @package     Magento_CatalogSearch
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource;
-
 class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -129,8 +124,11 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_engineProvider;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -143,6 +141,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
@@ -156,7 +155,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_catalogProductType = $catalogProductType;
         $this->_eavConfig = $eavConfig;
@@ -169,6 +169,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
         $this->_engineProvider = $engineProvider;
+        $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
 
@@ -897,7 +898,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_dates[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
 
-        if (!\Magento\Stdlib\DateTime::isEmptyDate($date)) {
+        if (!$this->dateTime->isEmptyDate($date)) {
             list($dateObj, $format) = $this->_dates[$storeId];
             $dateObj->setDate($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
