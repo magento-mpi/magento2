@@ -82,11 +82,6 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testInitForStore()
     {
-        $config = $this->getMock('Magento\Core\Model\Config', array('getNode'), array(), '', false);
-        $config->expects($this->atLeastOnce())
-            ->method('getNode')
-            ->with('global/log/core/writer_model')
-            ->will($this->returnValue('StdClass'));
         $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $store->expects($this->at(0))->method('getConfig')->with('dev/log/active')->will($this->returnValue(false));
         $store->expects($this->at(1))->method('getConfig')->with('dev/log/active')->will($this->returnValue(true));
@@ -94,10 +89,10 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $store->expects($this->at(3))->method('getConfig')->with('dev/log/exception_file')->will(
             $this->returnValue('')
         );
-        $this->_model->initForStore($store, $config);
+        $this->_model->initForStore($store);
         $this->assertFalse($this->_model->hasLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM));
         $this->assertFalse($this->_model->hasLog(\Magento\Core\Model\Logger::LOGGER_EXCEPTION));
-        $this->_model->initForStore($store, $config);
+        $this->_model->initForStore($store);
         $this->assertTrue($this->_model->hasLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM));
         $this->assertTrue($this->_model->hasLog(\Magento\Core\Model\Logger::LOGGER_EXCEPTION));
     }

@@ -170,9 +170,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $helperMock         = $this->_getHelperMock($isVde);
         $backendSessionMock = $this->_getBackendSessionMock($isVde, $isLoggedIn);
         $stateMock          = $this->_getStateModelMock($routers);
-        $configurationMock  = $this->_getConfigurationMock($isVde, $isLoggedIn, $isConfiguration);
 
-        $callback = function ($name) use ($helperMock, $backendSessionMock, $stateMock, $configurationMock) {
+        $callback = function ($name) use ($helperMock, $backendSessionMock, $stateMock) {
             switch ($name) {
                 case 'Magento\DesignEditor\Helper\Data':
                     return $helperMock;
@@ -180,8 +179,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                     return $backendSessionMock;
                 case 'Magento\DesignEditor\Model\State':
                     return $stateMock;
-                case 'Magento\Core\Model\Config':
-                    return $configurationMock;
                 default:
                     return null;
             }
@@ -191,7 +188,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnCallback($callback));
 
-        $frontControllerMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $rewriteServiceMock = $this->getMock('Magento\Core\App\Request\RewriteService', array(), array(), '', false);
         $routerListMock = $this->getMock('Magento\App\RouterListInterface',
             array(
@@ -277,40 +273,5 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         }
 
         return $stateModel;
-    }
-
-    /**
-     * @param bool $isVde
-     * @param bool $isLoggedIn
-     * @param bool $isConfiguration
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getConfigurationMock($isVde, $isLoggedIn, $isConfiguration)
-    {
-        $configuration = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-
-        if ($isVde && $isLoggedIn) {
-            $configurationData = null;
-            if ($isConfiguration) {
-                $configurationData = self::VDE_CONFIGURATION_DATA;
-            }
-            $configuration->expects($this->at(0))
-                ->method('getNode')
-                ->with(\Magento\DesignEditor\Model\Area::AREA_VDE)
-                ->will($this->returnValue($configurationData));
-
-            if ($isConfiguration) {
-                $elementMock = $this->getMock('stdClass', array('extend'), array(), '', false);
-                $elementMock->expects($this->once())
-                    ->method('extend')
-                    ->with(self::VDE_CONFIGURATION_DATA, true);
-
-                $configuration->expects($this->at(1))
-                    ->method('getNode')
-                    ->with(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-                    ->will($this->returnValue($elementMock));
-            }
-        }
-        return $configuration;
     }
 }
