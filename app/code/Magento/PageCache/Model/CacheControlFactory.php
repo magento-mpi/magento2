@@ -16,11 +16,6 @@ namespace Magento\PageCache\Model;
 class CacheControlFactory
 {
     /**
-     * Path to external cache controls
-     */
-    const XML_PATH_EXTERNAL_CACHE_CONTROLS = 'global/external_cache/controls';
-
-    /**
      * Paths to external cache config option
      */
     const XML_PATH_EXTERNAL_CACHE_CONTROL  = 'system/external_page_cache/control';
@@ -33,32 +28,30 @@ class CacheControlFactory
     protected $_objectManager;
 
     /**
-     * Config
-     *
-     * @var \Magento\Centinel\Model\Config
-     */
-    protected $_config;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
+
+    /**
+     * @var array
+     */
+    protected $_cacheControls;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param array $cacheControls
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\ConfigInterface $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $storeConfig,
+        array $cacheControls = array()
     ) {
         $this->_objectManager = $objectManager;
-        $this->_config = $config;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $storeConfig;
+        $this->_cacheControls = $cacheControls;
     }
 
     /**
@@ -68,8 +61,7 @@ class CacheControlFactory
      */
     public function getCacheControls()
     {
-        $controls = $this->_config->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);//@TODO Fix getNode() usages
-        return $controls instanceof \Magento\Simplexml\Element ? $controls->asCanonicalArray() : array();
+        return $this->_cacheControls;
     }
 
     /**
@@ -80,7 +72,7 @@ class CacheControlFactory
      */
     public function getCacheControlInstance()
     {
-        $usedControl = $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
+        $usedControl = $this->_storeConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
         if ($usedControl) {
             foreach ($this->getCacheControls() as $control => $info) {
                 if ($control == $usedControl && !empty($info['class'])) {
