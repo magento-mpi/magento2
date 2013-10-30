@@ -169,10 +169,9 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $endpointClassSel = '.field-' . self::DATA_ENDPOINT;
         $script = <<<HTML
         jQuery(function(){
-            jQuery('#integration_properties_authentication')
+            jQuery('$authFieldIdSelector')
                 .mage('integration', {"authType": $oauth, "formSelector": '#edit_form',
-                authFieldIdSelector: '$authFieldIdSelector', endpointIdSelector: '$endpointIdSelector',
-                endpointContainerClassSelector: '$endpointClassSel'});
+                endpointIdSelector: '$endpointIdSelector', endpointContainerClassSelector: '$endpointClassSel'});
         });
 HTML;
         return parent::_toHtml() . sprintf('<script type="text/javascript">%s</script>', $script);

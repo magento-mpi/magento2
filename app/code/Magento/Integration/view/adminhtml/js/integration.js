@@ -11,7 +11,6 @@
         options: {
             authType: null, // Auth type : Manual or Oauth
             formSelector: null,
-            authFieldIdSelector: null,
             endpointIdSelector: null,
             endpointContainerClassSelector: null,
             requiredClass: 'required-entry'
@@ -54,7 +53,7 @@
          * @private
          */
         _resetEndpoint: function() {
-            if (parseInt($(this.options.authFieldIdSelector).val()) !== this.options.authType) {
+            if (parseInt(this.element.val()) !== this.options.authType) {
                 $(this.options.endpointIdSelector).val('');
             }
         }
