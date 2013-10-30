@@ -1,15 +1,16 @@
 <?php
 /**
- * DefaultClass model test class
+ * FrontClass model test class
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+
+namespace Magento\App;
 
 
-class DefaultClass
+class FrontClass
 {
 }

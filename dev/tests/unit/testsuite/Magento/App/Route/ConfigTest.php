@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Route;
+namespace Magento\App\Route;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {

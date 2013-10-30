@@ -1018,6 +1018,7 @@ return array(
     array('Magento\Core\Model\Config\LoaderInterface'),
     array('Magento\Core\Model\Config\Primary'),
     array('Magento\Core\Model\Config\Storage'),
+    array('Magento\Core\Model\Config\StorageInterface'),
     array('Magento\Core\Model\Dir'),
     array('Magento\Core\Model\ModuleList'),
     array('Magento\Core\Model\ModuleListInterface'),
