@@ -21,6 +21,11 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
+    protected $throws = array();
+
+    /**
+     * @var array
+     */
     protected $tokens = array();
 
     /**
@@ -67,8 +72,9 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $this->tokens = token_get_all($fileReflection->getContents());
         $this->parseContent();
 
-        $this->checkInjectableDependencies($fileReflection);
-        $this->checkStaticCallDependencies($fileReflection);
+        //$this->checkInjectableDependencies($fileReflection);
+        //$this->checkStaticCallDependencies($fileReflection);
+        $this->checkThrowsDependencies($fileReflection);
 
         if ($this->hasErrors()) {
             $this->fail($this->getFailMessage());
@@ -165,14 +171,41 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     protected function checkStaticCallDependencies(FileReflection $fileReflection)
     {
-        if ($this->hasStaticCall()) {
-            foreach ($this->staticCalls as $staticCall) {
-                $class = $this->getClassByStaticCall($staticCall);
+        foreach ($this->staticCalls as $staticCall) {
+            $class = $this->getClassByStaticCall($staticCall);
+            if ($this->hasUses() && !$this->isGlobalClass($class)) {
+                $class = $this->prepareFullClassName($class);
+            } elseif (!$this->isMagentoClass($class)) {
+                continue;
+            }
+            try {
+                new ClassReflection($class);
+            } catch (\ReflectionException $e) {
+                $this->addError($e, $fileReflection->getFileName());
+            }
+        }
+    }
+
+    /**
+     * @param FileReflection $fileReflection
+     */
+    protected function checkThrowsDependencies(FileReflection $fileReflection)
+    {
+        foreach ($this->throws as $throw) {
+            $class = '';
+            if ($this->tokens[$throw + 2][0] == T_NEW) {
+                $step = 4;
+                while ($this->isString($this->tokens[$throw+$step][0])
+                    || $this->isNamespaceSeparator($this->tokens[$throw+$step][0])
+                ) {
+                    $class .= trim($this->tokens[$throw + $step][1]);
+                    $step++;
+                }
+
                 if ($this->hasUses() && !$this->isGlobalClass($class)) {
                     $class = $this->prepareFullClassName($class);
-                } elseif (!$this->isMagentoClass($class)) {
-                    continue;
                 }
+
                 try {
                     new ClassReflection($class);
                 } catch (\ReflectionException $e) {
@@ -258,6 +291,18 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         foreach ($this->tokens as $key => $token) {
             $this->parseUses($token);
             $this->parseStaticCall($token, $key);
+            $this->parseThrows($token, $key);
+        }
+    }
+
+    /**
+     * @param array|string $token
+     * @param $key
+     */
+    protected function parseThrows($token, $key)
+    {
+        if ($this->hasTokenCode($token) && $this->isThrow($token[0])) {
+            $this->throws[] = $key;
         }
     }
 
@@ -284,14 +329,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 }
             }
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function hasStaticCall()
-    {
-        return !empty($this->staticCalls);
     }
 
     /**
@@ -343,6 +380,15 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     protected function hasTokenCode($token)
     {
         return is_array($token);
+    }
+
+    /**
+     * @param int $code
+     * @return bool
+     */
+    protected function isThrow($code)
+    {
+        return $code == T_THROW;
     }
 
     /**
