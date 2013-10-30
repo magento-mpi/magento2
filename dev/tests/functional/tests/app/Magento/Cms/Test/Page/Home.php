@@ -11,12 +11,12 @@
 
 namespace Magento\Cms\Test\Page;
 
-use Magento\Core\Test\Block\Title;
-use Magento\Page\Test\Block\Html\Topmenu;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Search;
+use Magento\Page\Test\Block\Html\Title;
+use Magento\Page\Test\Block\Html\Topmenu;
 
 /**
  * Class Home
@@ -39,11 +39,15 @@ class Home extends Page
     private $searchBlock;
 
     /**
+     * Top menu navigation block
+     *
      * @var Topmenu
      */
     private $topmenuBlock;
 
     /**
+     * Page title block
+     *
      * @var Title
      */
     private $titleBlock;
@@ -55,12 +59,13 @@ class Home extends Page
     {
         $this->_url = $_ENV['app_frontend_url'];
         $this->searchBlock = Factory::getBlockFactory()->getMagentoCatalogSearch(
-            $this->_browser->find('search_mini_form', Locator::SELECTOR_ID));
-        $this->topmenuBlock = Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
-            $this->_browser->find('.navigation', Locator::SELECTOR_CSS)
+            $this->_browser->find('search_mini_form', Locator::SELECTOR_ID)
         );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoCoreTitle(
-            $this->_browser->find('h1.title span', Locator::SELECTOR_CSS)
+        $this->topmenuBlock = Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
+            $this->_browser->find('[role=navigation]', Locator::SELECTOR_CSS)
+        );
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+            $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
     }
 

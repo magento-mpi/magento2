@@ -62,7 +62,7 @@ class GuestAuthorizenet extends Checkout
         $simple->switchData('simple_required');
         $simple->persist();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable');
+        $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
         $bundle->switchData('bundle_fixed_required');

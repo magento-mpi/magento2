@@ -44,15 +44,16 @@ class MultishippingGuestPaypalDirect extends Checkout
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple1->switchData('simple_required');
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple_required');
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->
 
-        $simple1->persist();
+        $simple->persist();
         $configurable->persist();
 
         $this->products = array(
-            $simple1,
+            $simple,
             $configurable
         );
         //Checkout data
@@ -84,7 +85,7 @@ class MultishippingGuestPaypalDirect extends Checkout
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_direct');
         $this->bindings = array(
-            $simple1->getProductName() => $address1->getOneLineAddress(),
+            $simple->getProductName() => $address1->getOneLineAddress(),
             $configurable->getProductName() => $address2->getOneLineAddress()
         );
         //Verification data

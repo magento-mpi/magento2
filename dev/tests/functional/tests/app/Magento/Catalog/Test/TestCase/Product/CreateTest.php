@@ -32,7 +32,9 @@ class CreateTest extends Functional
     }
 
     /**
-     * Test product create
+     * Create product
+     *
+     * @ZephyrId MAGETWO-12514
      */
     public function testCreateProduct()
     {
@@ -67,22 +69,24 @@ class CreateTest extends Functional
     }
 
     /**
+     * Assert product data on category and product pages
+     *
      * @param Product $product
      */
     protected function assertOnCategory($product)
     {
-        //Steps
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        sleep(5);
-        $categoryPage->open();
-        sleep(5);
-        $categoryPage->openCategory($product->getCategoryName());
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());

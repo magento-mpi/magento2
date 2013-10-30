@@ -55,7 +55,7 @@ class PaypalExpress extends Checkout
      */
     public function getTelephoneNumber()
     {
-        return $this->telephoneNumber;
+        return array('telephone' => $this->telephoneNumber);
     }
 
     /**

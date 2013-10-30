@@ -65,8 +65,8 @@ class OnepageTest extends Functional
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow())
+//            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
+//            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow())
         );
     }
 

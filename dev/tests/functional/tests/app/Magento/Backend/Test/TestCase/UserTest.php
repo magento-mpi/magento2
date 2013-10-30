@@ -28,7 +28,7 @@ class UserTest extends Functional
      *
      * @param SuperAdmin $fixture injectable
      */
-    public function testloginUser(SuperAdmin $fixture)
+    public function testLoginUser(SuperAdmin $fixture)
     {
         //Page
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();

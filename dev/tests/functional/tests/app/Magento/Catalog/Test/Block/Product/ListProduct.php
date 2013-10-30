@@ -59,7 +59,7 @@ class ListProduct extends Block
     public function openProductViewPage($productName)
     {
         $this->_rootElement->find($this->productTitle, Locator::SELECTOR_CSS)
-            ->find('//*[@title="' . $productName .'"]', Locator::SELECTOR_XPATH)
+            ->find('//*[@title="' . $productName . '"]', Locator::SELECTOR_XPATH)
             ->click();
     }
 }

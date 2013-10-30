@@ -91,17 +91,19 @@ class CreateConfigurableTest extends Functional
      */
     protected function assertOnFrontend(ConfigurableProduct $product)
     {
-        //Pages & Blocks
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productListBlock = $categoryPage->getListProductBlock();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productViewBlock = $productPage->getViewBlock();
-        //Assert product on category page
-        $categoryPage->open();
-        $categoryPage->openCategory($product->getCategoryName());
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        //Verification on category product list
+        $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
             'Product is absent on category page.');
-        //Assert product on product page
+        //Verification on product detail page
+        $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
             'Product name does not correspond to specified.');

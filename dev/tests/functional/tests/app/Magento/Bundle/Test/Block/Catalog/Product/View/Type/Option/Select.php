@@ -41,13 +41,10 @@ class Select extends Form
      */
     public function fillOption(array $data)
     {
-        $this->waitForElementVisible($this->_mapping['value']);
-        $this->waitForElementVisible($this->_mapping['qty']);
-
         $select = $this->_rootElement->find($this->_mapping['value'], Locator::SELECTOR_CSS, 'select');
         $select->setValue($data['value']);
         $qtyField = $this->_rootElement->find($this->_mapping['qty'], Locator::SELECTOR_CSS);
-        if (!$qtyField->isDisabled()) {
+        if (!$qtyField->isDisabled()) { //TODO should be remove after fix qty field
             $qtyField->setValue($data['qty']);
         }
     }
