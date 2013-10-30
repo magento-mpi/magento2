@@ -176,7 +176,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      */
     protected function _getDefaultStore()
     {
-        if (is_null($this->_store)) {
+        if (empty($this->_store)) {
             $this->_store = $this->_storeFactory->create()
                 ->setId(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID)
                 ->setCode(\Magento\Core\Model\AppInterface::DISTRO_STORE_CODE);
@@ -516,7 +516,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      */
     public function getWebsite($websiteId = null)
     {
-        if (empty($websiteId)) {
+        if (is_null($websiteId)) {
             $websiteId = $this->getStore()->getWebsiteId();
         } elseif ($websiteId instanceof \Magento\Core\Model\Website) {
             return $websiteId;
