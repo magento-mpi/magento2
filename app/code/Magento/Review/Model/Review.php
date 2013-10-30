@@ -79,7 +79,7 @@ class Review extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlModel;
 
@@ -92,7 +92,7 @@ class Review extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Review\Model\Review\SummaryFactory $summaryModFactory
      * @param \Magento\Review\Model\Review\Summary $reviewSummary
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\UrlInterface $urlModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -106,7 +106,7 @@ class Review extends \Magento\Core\Model\AbstractModel
         \Magento\Review\Model\Review\SummaryFactory $summaryModFactory,
         \Magento\Review\Model\Review\Summary $reviewSummary,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\UrlInterface $urlModel,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

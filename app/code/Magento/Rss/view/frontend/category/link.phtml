@@ -1,0 +1,13 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if($this->isRssCatalogEnable() && $this->isTopCategory()): ?>
+    <a href="<?php echo $this->getRssLink() ?>" class="action link rss"><span><?php echo __('Subscribe to RSS Feed') ?></span></a>
+<?php endif; ?>

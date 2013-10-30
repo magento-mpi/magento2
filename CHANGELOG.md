@@ -1,9 +1,47 @@
+* Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
+* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
+* Eliminated dependency in Magento\Data\Form from Magento\Core module
+* Eliminated Magento\Media module
+* Fixed copyright information
+
+2.0.0.0-dev49
+=============
 * Various improvements:
-  * Added static legacy test for compilation of di definitions
+  * Unified Area configuration
+  * Moved EventManager to Magento\Event lib component
+  * Moved FrontController, Routers, Base Actions to Magento\App
+  * Created Magento\App component in library
+  * Declared public interfaces for View component into library
+  * Plushe theme is set as the default theme
+  * Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
+  * Removed JavaScript unit test TreeSuggestTest.prototype.testBind as obsolete
+  * Introduced ability to register a template engine to process template files having certain extension
+  * Removed support of the Twig template engine along with the corresponding component from the library
+  * Removed layout flag that forced template blocks to output rendered content directly to a browser bypassing the response object
+  * Moved out responsibility of rendering template debugging hints from the template block to the plugin and decorator for a template engine
 * Fixed bugs:
+  * Fixed inability to create product if multiple attributes are assigned to attribute set
+  * Fixed inability to create a new widget instance
+  * Fixed error on Customers Segments Conditions tab while the 'Number of Orders' condition is chosen
+  * Fixed blank page when placing order via Ogone
+  * Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
+  * Fixed static tests failing to verify themes files
+
+2.0.0.0-dev48
+=============
+* Various improvements:
+  * Added static integrity test for compilation of DI definitions
+  * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)
+* Fixed bugs:
+  * Fixed broken styles on front-end due to usage of nonexistent stylesheet
   * Fixed plugins configuration inheritance for proxy classes
-  * Fixed Oauth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
+  * Fixed OAuth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
   * Fixed Namespace class references
+  * Fixed error on creating shipment with bundle products
+  * Fixed uninstallation via console installer
+  * Fixed JavaScript error in bootstrap in IE8/9
+  * Fixed placing order within PayPal Payments Advanced and Payflow Link
+  * Fixed fatal error on placing order with Billing Agreement
 
 2.0.0.0-dev47
 =============

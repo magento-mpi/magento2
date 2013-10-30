@@ -74,7 +74,8 @@ class ErrorProcessor
                 $exception->getMessage(),
                 $exception->getCode(),
                 $httpCode,
-                $exception->getParameters()
+                $exception->getParameters(),
+                $exception->getName()
             );
         } else if ($exception instanceof \Magento\Webapi\Exception) {
             $maskedException = $exception;

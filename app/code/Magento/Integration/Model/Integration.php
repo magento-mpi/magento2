@@ -19,7 +19,7 @@
  * @method string getEmail()
  * @method \Magento\Integration\Model\Integration setEmail(string $email)
  * @method int getStatus()
- * @method \Magento\Integration\Model\Integration getStatus(int $value)
+ * @method \Magento\Integration\Model\Integration setStatus(int $value)
  * @method int getAuthentication()
  * @method \Magento\Integration\Model\Integration setAuthentication(int $value)
  * @method string getEndpoint()
@@ -44,39 +44,6 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**#@-*/
 
     /**
-     * Prefix of model events names.
-     *
-     * @var string
-     */
-    protected $_eventPrefix = 'integration';
-
-    /**
-     * @var \Magento\Core\Model\Url\Validator
-     */
-    protected $_urlValidator;
-
-    /**
-     * @param \Magento\Core\Model\Url\Validator $urlValidator
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    /*
-    public function __construct(
-        \Magento\Core\Model\Url\Validator $urlValidator,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_urlValidator = $urlValidator;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-    */
-    /**
      * Initialize resource model
      *
      * @return void
@@ -86,47 +53,4 @@ class Integration extends \Magento\Core\Model\AbstractModel
         parent::_construct();
         $this->_init('Magento\Integration\Model\Resource\Integration');
     }
-
-    /**
-     * Validate data
-     *
-     * @return array|bool
-     * @throw \Magento\Core\Exception|Exception   Throw exception on fail validation
-     */
-    public function validate()
-    {
-        /*
-        if ($this->getCallbackUrl() || $this->getRejectedCallbackUrl()) {
-            $this->setCallbackUrl(trim($this->getCallbackUrl()));
-            $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
-
-            if ($this->getCallbackUrl() && !$this->_urlValidator->isValid($this->getCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Callback URL'));
-            }
-            if ($this->getRejectedCallbackUrl() && !$this->_urlValidator->isValid($this->getRejectedCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Rejected Callback URL'));
-            }
-        }
-
-        /-** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength *-/
-        $validatorLength = $this->keyLengthFactory->create(
-            array('options' => array('length' => self::KEY_LENGTH))
-        );
-
-        $validatorLength->setName('Consumer Key');
-        if (!$validatorLength->isValid($this->getKey())) {
-            $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
-        }
-
-        $validatorLength->setLength(self::SECRET_LENGTH);
-        $validatorLength->setName('Consumer Secret');
-        if (!$validatorLength->isValid($this->getSecret())) {
-            $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
-        }
-        */
-        return true;
-    }
-
 }

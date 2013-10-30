@@ -12,6 +12,19 @@ namespace Magento\Integration\Controller\Adminhtml;
  */
 class Integration extends \Magento\Adminhtml\Controller\Action
 {
+    /** Param Key for extracting integration id from Request */
+    const PARAM_INTEGRATION_ID = 'id';
+
+    /**#@+
+     * Data keys for extracting information from Integration data array.
+     */
+    const DATA_INTEGRATION_ID = 'integration_id';
+    const DATA_NAME = 'name';
+    /**#@-*/
+
+    /** Keys used for registering data into the registry */
+    const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
+
     /**
      * Core registry
      *
@@ -19,15 +32,21 @@ class Integration extends \Magento\Adminhtml\Controller\Action
      */
     protected $_registry = null;
 
+    /** @var \Magento\Integration\Service\IntegrationV1Interface */
+    private $_integrationService;
+
     /**
      * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
+        \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         \Magento\Core\Model\Registry $registry
     ) {
         $this->_registry = $registry;
+        $this->_integrationService = $integrationService;
         parent::__construct($context);
     }
 
@@ -72,25 +91,68 @@ class Integration extends \Magento\Adminhtml\Controller\Action
 
     public function editAction()
     {
-        $integrationId = (int)$this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento\Integration\Model\Integration');
+        $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         if ($integrationId) {
-            $model->load($integrationId);
+            $integrationData = $this->_integrationService->get($integrationId);
+            if (!$integrationData[self::DATA_INTEGRATION_ID]) {
+                $this->_getSession()
+                    ->addError(__('This integration no longer exists.'));
+                $this->_redirect('*/*/');
+                return;
+            }
+            if (!$this->_registry->registry(self::REGISTRY_KEY_CURRENT_INTEGRATION)) {
+                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+            }
         }
-
-        if (!$this->_registry->registry('current_integration')) {
-            $this->_registry->register('current_integration', $model);
-        }
-
-        if (!$model->getId() && $integrationId) {
-            $this->_getSession()
-                ->addError(__('This integration no longer exists.'));
-            $this->_redirect('*/*/');
-            return;
-        }
-
         $this->loadLayout();
         $this->renderLayout();
+    }
+
+
+    /**
+     * Save integration action
+     */
+    public function saveAction()
+    {
+        try {
+            $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+            /** @var array $integrationData */
+            $integrationData = array();
+            if ($integrationId) {
+                $integrationData = $this->_integrationService->get($integrationId);
+                if (!$integrationData[self::DATA_INTEGRATION_ID]) {
+                    $this->_getSession()->addError(__('This integration no longer exists.'));
+                    $this->_redirect('*/*/');
+                    return;
+                }
+            }
+            /** @var array $data */
+            $data = $this->getRequest()->getPost();
+            //Merge Post-ed data
+            $integrationData = array_merge($integrationData, $data);
+            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+            if (!$integrationData[self::DATA_INTEGRATION_ID]) {
+                $this->_integrationService->create($integrationData);
+            } else {
+                $this->_integrationService->update($integrationData);
+            }
+            $this->_getSession()->addSuccess(
+                __(
+                    'The integration \'%1\' has been saved.',
+                    $integrationData[self::DATA_NAME]
+                )
+            );
+            $this->_redirect('*/*/');
+        } catch (\Magento\Integration\Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect(
+                '*/*/edit',
+                array('id' => $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID))
+            );
+        } catch (\Magento\Core\Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/');
+        }
     }
 
     public function consumerAction()

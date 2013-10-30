@@ -12,13 +12,21 @@
     <referenceContainer name="left">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Edit\Tabs" name="integration_edit_tabs">
             <block class="Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info" name="integration_edit_tab_info"/>
+            <block class="Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Webapi" name="integration_edit_tab_webapi"/>
             <action method="addTab">
                 <argument name="name" xsi:type="string">info_section</argument>
                 <argument name="block" xsi:type="string">integration_edit_tab_info</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">api_section</argument>
+                <argument name="block" xsi:type="string">integration_edit_tab_webapi</argument>
             </action>
         </block>
     </referenceContainer>
     <referenceContainer name="content">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Edit" name="integration_edit_content"/>
+    </referenceContainer>
+    <referenceContainer name="js">
+        <block class="Magento\Backend\Block\Template" name="adminhtml.integration.webapi.tree.js" template="Magento_Integration::js/roles_tree_js.phtml"/>
     </referenceContainer>
 </layout>

@@ -35,7 +35,7 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
     protected $_coreSession;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -52,14 +52,14 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
     /**
      * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
      * @param \Magento\Core\Model\Session $coreSession
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
         \Magento\Core\Model\Session $coreSession,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory
     ) {
@@ -73,10 +73,10 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
     /**
      * Check if request can be cached
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return bool
      */
-    public function allowCache(\Zend_Controller_Request_Http $request)
+    public function allowCache(\Magento\App\RequestInterface $request)
     {
         foreach ($this->_noCacheGetParams as $param) {
             if (!is_null($request->getParam($param, null))) {
@@ -125,10 +125,10 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
     /**
      * Prepare response body before caching
      *
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\ResponseInterface $response
      * @return string
      */
-    public function prepareContent(\Zend_Controller_Response_Http $response)
+    public function prepareContent(\Magento\App\ResponseInterface $response)
     {
         return $this->replaceContentToPlaceholderReplacer($response->getBody());
     }
@@ -146,7 +146,7 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
          * In developer mode blocks will be rendered separately
          * This should simplify debugging _renderBlock()
          */
-        if ($container && ($this->_appState->getMode() != \Magento\Core\Model\App\State::MODE_DEVELOPER)) {
+        if ($container && ($this->_appState->getMode() != \Magento\App\State::MODE_DEVELOPER)) {
             $container = $this->_containerFactory->create($container, array('placeholder' => $this->_placeholder));
             $container->setProcessor($this->_fpcProcessor);
             $blockContent = $matches[1];

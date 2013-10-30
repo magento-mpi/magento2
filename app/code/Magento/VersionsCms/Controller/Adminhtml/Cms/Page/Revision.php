@@ -17,7 +17,7 @@ class Revision
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope
+     * @var \Magento\Config\Scope
      */
     protected $_configScope;
 
@@ -44,7 +44,7 @@ class Revision
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Config\Scope $configScope
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -59,7 +59,7 @@ class Revision
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Config\Scope $configScope,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -351,14 +351,14 @@ class Revision
             $this->_locale->emulate($selectedStoreId);
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
-            $theme = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+            $theme = $this->_objectManager->get('Magento\View\DesignInterface')
                 ->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
-            $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')->setDesignTheme($theme, 'frontend');
+            $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = $this->_design->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
+                $this->_objectManager->get('Magento\View\DesignInterface')
                     ->setDesignTheme($designChange->getDesign());
             }
 

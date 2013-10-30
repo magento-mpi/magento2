@@ -46,7 +46,7 @@
                     <argument name="rowUrl" xsi:type="array">
                         <item name="path" xsi:type="string">*/*/edit</item>
                         <item name="extraParamsTemplate" xsi:type="array">
-                            <item name="integration_id" xsi:type="string">getId</item>
+                            <item name="id" xsi:type="string">getId</item>
                         </item>
                     </argument>
                     <argument name="empty_text" xsi:type="string" translate="true">No Integrations Found</argument>

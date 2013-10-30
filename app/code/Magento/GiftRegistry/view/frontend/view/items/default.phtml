@@ -10,25 +10,25 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
-    <td>
-        <h3 class="product-name">
+    <td class="col photo"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td class="col product">
+        <strong class="product name">
         <?php if ($this->hasProductUrl()):?>
             <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
         <?php else: ?>
             <?php echo $this->escapeHtml($this->getProductName()) ?>
         <?php endif; ?>
-        </h3>
+        </strong>
         <?php if ($_options = $this->getOptionList()):?>
 
-        <dl class="item-options">
+        <dl class="product options list">
             <?php foreach ($_options as $_option) : ?>
             <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
             <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated" data-mage-init="{truncateOptions:[]}"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
                 <?php if (isset($_formatedOptionValue['full_view'])): ?>
                 <div class="truncated_full_value">
-                    <dl class="item-options">
+                    <dl class="product options list">
                         <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                         <dd><?php echo $this->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
                     </dl>
@@ -40,20 +40,20 @@
         <?php endif;?>
         <?php if ($messages = $this->getMessages()): ?>
         <?php foreach ($messages as $message): ?>
-            <p class="item-msg <?php echo $message['type'] ?>">* <?php echo $message['text'] ?></p>
+            <p class="item message <?php echo $message['type'] ?>"><?php echo $message['text'] ?></p>
         <?php endforeach; ?>
         <?php endif; ?>
     </td>
-    <td class="a-center">
+    <td class="col registered">
         <?php echo $_item->getQty()*1 ?>
     </td>
-    <td class="a-center">
+    <td class="col fulfilled">
         <?php echo $_item->getQtyFulfilled()*1 ?>
     </td>
-    <td class="a-center">
+    <td class="col remaining">
         <?php echo ($_item->getRemainingQty())*1 ?>
     </td>
-    <td class="a-right">
+    <td class="col price">
         <span class="cart-price">
             <?php if ($_item->getCanApplyMsrp()): ?>
                 <?php echo $this->getMsrpHtml($_item); ?>
@@ -62,7 +62,7 @@
             <?php endif; ?>
         </span>
     </td>
-    <td class="a-center">
+    <td class="col qty">
         <?php if ($_item->getRemainingQty() < 1):?>
             <?php echo __('Fulfilled')?>
         <?php else:?>

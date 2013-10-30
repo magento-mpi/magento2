@@ -10,6 +10,8 @@
 
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
+use \Magento\Integration\Controller\Adminhtml\Integration;
+
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
@@ -43,7 +45,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         $this->_controller = 'adminhtml_integration';
         $this->_blockGroup = 'Magento_Integration';
-
         parent::_construct();
     }
 
@@ -53,7 +54,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getBannerId()
     {
-        return $this->_registry->registry('current_integration')->getIntegrationId();
+        return $this->_registry->registry(
+            Integration::REGISTRY_KEY_CURRENT_INTEGRATION
+        )[Integration::DATA_INTEGRATION_ID];
     }
 
     /**
@@ -62,7 +65,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if ($this->_registry->registry('current_integration')->getIntegrationId()) {
+        if ($this->_registry
+            ->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)[Integration::DATA_INTEGRATION_ID]
+        ) {
             return $this->escapeHtml($this->_registry->registry('current_integration')->getName());
         } else {
             return __('New Integration');

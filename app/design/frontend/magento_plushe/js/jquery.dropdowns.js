@@ -16,7 +16,7 @@
             activeClass: 'active'
         };
 
-        var options = $.extend({}, defaults, options);
+        var options = $.extend(defaults, options);
         var actionElem = $(this),
             self = this;
 
@@ -60,9 +60,15 @@
             });
         };
 
+        if (options.events) {
+            $.each(options.events, function(index, event) {
+                $(document).on(event.name, event.selector, event.action);
+            });
+        }
+
         return this.each(function() {
             var elem = $(this),
-                parent = elem.parent(),
+                parent = $(options.parent) || elem.parent(),
                 menu = $(options.menu, parent) || $('.dropdown-menu', parent);
 
             elem.on('click.toggleDropdown', function() {
