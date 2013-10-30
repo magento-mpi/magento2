@@ -1,13 +1,18 @@
 <?php
 /**
+ * Indexer application
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Index\Model\EntryPoint;
+namespace Magento\Index\App;
 
-class Indexer extends \Magento\App\AbstractEntryPoint
+use Magento\AppInterface,
+    Magento\Filesystem;
+
+class Indexer implements AppInterface
 {
     /**
      * Report directory
@@ -22,40 +27,45 @@ class Indexer extends \Magento\App\AbstractEntryPoint
     protected $_filesystem;
 
     /**
-     * @param string $baseDir
-     * @param array $parameters
-     * @param \Magento\ObjectManager\ObjectManager $reportDir
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\ObjectManager $objectManager
+     * @var Magento\Index\Model\IndexerFactory
+     */
+    protected $_indexerFactory;
+
+    /**
+     * @param string $reportDir
+     * @param Filesystem $filesystem
+     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
      */
     public function __construct(
-        $baseDir,
-        $parameters,
         $reportDir,
-        \Magento\Filesystem $filesystem,
-        \Magento\ObjectManager $objectManager = null
+        Filesystem $filesystem,
+        \Magento\Index\Model\IndexerFactory $indexerFactory
     ) {
-        parent::__construct($baseDir, $parameters, $objectManager);
         $this->_reportDir = $reportDir;
         $this->_filesystem = $filesystem;
+        $this->_indexerFactory = $indexerFactory;
     }
 
     /**
-     * Process request to application
+     * Run application
+     *
+     * @return int
      */
-    protected function _processRequest()
+    public function execute()
     {
         /* Clean reports */
         $this->_filesystem->delete($this->_reportDir, dirname($this->_reportDir));
 
         /* Run all indexer processes */
         /** @var $indexer \Magento\Index\Model\Indexer */
-        $indexer = $this->_objectManager->create('Magento\Index\Model\Indexer');
+        $indexer = $this->_indexerFactory->create();
         /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();
             }
         }
+        return 0;
     }
 }
+

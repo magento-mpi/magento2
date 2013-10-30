@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Index\Model\EntryPoint\Shell;
+namespace Magento\Index\App\Shell;
 
 class ErrorHandler
 {
