@@ -8,10 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\Statement\AbstractStatement;
-use Magento\Tools\Formatter\PrettyPrinter\Reference\AbstractReference;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassMemberAbstract;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\ClassTypeAbstract;
-use Magento\Tools\Formatter\PrettyPrinter\Statement\NamespaceStatement;
 use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Comment;

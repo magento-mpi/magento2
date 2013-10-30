@@ -7,11 +7,11 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use PHPParser_Node;
-use PHPParser_Parser;
 use Magento\Tools\Formatter\ParserLexer;
 use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
+use PHPParser_Node;
+use PHPParser_Parser;
 
 /**
  * This class is used to control pretty printing of a block of code.

@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\Tree\Tree;
-
 interface Node
 {
 }

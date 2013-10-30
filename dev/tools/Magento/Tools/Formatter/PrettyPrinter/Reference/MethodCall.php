@@ -13,10 +13,8 @@ use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
-use PHPParser_Node_Expr_Closure;
 use PHPParser_Node_Expr_MethodCall;
 
 class MethodCall extends AbstractFunctionReference
