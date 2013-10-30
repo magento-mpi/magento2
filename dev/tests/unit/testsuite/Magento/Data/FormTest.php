@@ -25,6 +25,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_factoryCollectionMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_sessionMock;
+
+    /**
      * @var \Magento\Data\Form
      */
     protected $_form;
@@ -36,8 +41,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_factoryCollectionMock = $this->getMock('Magento\Data\Form\Element\CollectionFactory',
             array('create'), array(), '', false);
         $this->_factoryCollectionMock->expects($this->any())->method('create')->will($this->returnValue(array()));
+        $this->_sessionMock = $this->getMock(
+            'Magento\Core\Model\Session\AbstractSession', array('getFormKey'), array(), '', false
+        );
 
-        $this->_form = new Form($this->_factoryElementMock, $this->_factoryCollectionMock);
+        $this->_form = new Form($this->_sessionMock, $this->_factoryElementMock, $this->_factoryCollectionMock);
     }
 
     /**
@@ -53,13 +61,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testFormKeyUsing()
     {
         $formKey = 'form-key';
-        $sessionMock = $this->getMock('Magento\Core\Model\Session\AbstractSession', array('getFormKey'), array(), '',
-            false);
-        $sessionMock->expects($this->once())->method('getFormKey')->will($this->returnValue($formKey));
+        $this->_sessionMock->expects($this->once())->method('getFormKey')->will($this->returnValue($formKey));
 
         $this->_form->setUseContainer(true);
         $this->_form->setMethod('post');
-        $this->_form->setSession($sessionMock);
         $this->assertContains($formKey, $this->_form->toHtml());
     }
 }

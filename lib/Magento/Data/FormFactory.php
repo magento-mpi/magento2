@@ -7,12 +7,12 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Form;
+namespace Magento\Data;
 
 /**
  * Form factory class
  */
-class Factory
+class FormFactory
 {
     /**
      * Object Manager instance
@@ -29,26 +29,16 @@ class Factory
     protected $_instanceName;
 
     /**
-     * Session instance
-     *
-     * @var \Magento\Core\Model\Session\AbstractSession
-     */
-    protected $_session;
-
-    /**
      * Factory construct
      *
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param string $instanceName
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Session\AbstractSession $session,
         $instanceName = 'Magento\Data\Form'
     ) {
         $this->_objectManager = $objectManager;
-        $this->_session = $session;
         $this->_instanceName = $instanceName;
     }
 
@@ -64,9 +54,8 @@ class Factory
         /** @var $form \Magento\Data\Form */
         $form = $this->_objectManager->create($this->_instanceName, $data);
         if (!$form instanceof \Magento\Data\Form) {
-            throw new \Magento\Exception($this->_instanceName . ' doesn\'t extends \Magento\Data\Form');
+            throw new \Magento\Exception($this->_instanceName . ' doesn\'t extend \Magento\Data\Form');
         }
-        $form->setSession($this->_session);
         return $form;
     }
 }

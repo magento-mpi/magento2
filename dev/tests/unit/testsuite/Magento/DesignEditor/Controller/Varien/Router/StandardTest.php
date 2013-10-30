@@ -192,8 +192,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $routerListMock = $this->getMock('Magento\App\RouterListInterface',
             array(
                 'getRouters',
-                'getRouterByFrontName',
-                'getRouterByRoute',
                 'current',
                 'next',
                 'key',

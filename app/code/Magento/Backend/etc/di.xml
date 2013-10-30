@@ -15,6 +15,7 @@
             <value>
                 <adminhtml>
                     <frontNameResolver>Magento\Backend\App\Area\FrontNameResolver</frontNameResolver>
+                    <router>admin</router>
                 </adminhtml>
             </value>
         </param>
@@ -71,6 +72,14 @@
     <type name="Magento\Backend\Model\Url">
         <param name="authSession">
             <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
+        </param>
+        <param name="areaCode">
+            <value>adminhtml</value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Url">
+        <param name="areaCode">
+            <value>frontend</value>
         </param>
     </type>
 </config>

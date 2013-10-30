@@ -37,6 +37,7 @@
     <preference for="Magento\Event\ManagerInterface" type="Magento\Event\Manager\Proxy" />
     <preference for="Magento\View\LayoutInterface" type="Magento\Core\Model\Layout" />
     <preference for="Magento\View\Layout\ProcessorInterface" type="Magento\Core\Model\Layout\Merge" />
+    <preference for="Magento\App\Route\ConfigInterface" type="Magento\App\Route\Config" />
     <type name="Magento\Data\Form\Factory">
         <param name="session">
             <instance type="Magento\Core\Model\Session" />

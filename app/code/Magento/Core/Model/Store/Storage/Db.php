@@ -124,9 +124,9 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Backend\Model\Url\Proxy
+     * @var \Magento\Backend\Model\Url
      */
-    protected $_proxy;
+    protected $_url;
 
     /**
      * @param \Magento\Core\Model\StoreFactory $storeFactory
@@ -135,7 +135,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\App\State $appState
-     * @param \Magento\Backend\Model\Url\Proxy $proxy
+     * @param \Magento\Backend\Model\Url $url
      * @param bool $isSingleStoreAllowed
      * @param string $scopeCode
      * @param string $scopeType
@@ -148,7 +148,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\App\State $appState,
-        \Magento\Backend\Model\Url\Proxy $proxy,
+        \Magento\Backend\Model\Url $url,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,
@@ -163,7 +163,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
-        $this->_proxy = $proxy;
+        $this->_url = $url;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -383,7 +383,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             }
 
             if (0 == $store->getId()) {
-                $store->setUrlModel($this->_proxy);
+                $store->setUrlModel($this->_url);
             }
         }
 

@@ -11,12 +11,30 @@ namespace Magento\App\Route;
 
 interface ConfigInterface
 {
+    /**
+     * Retrieve route front name
+     *
+     * @param string $routeId
+     * @param string $scope
+     * @return string
+     */
+    public function getRouteFrontName($routeId, $scope = null);
 
     /**
-     * Fetch routes from configs by area code and router id
+     * Get route id by route front name
      *
-     * @param string $routerId
+     * @param string $frontName
+     * @param string $scope
+     * @return string
+     */
+    public function getRouteByFrontName($frontName, $scope = null);
+
+    /**
+     * Retrieve list of moudles by route front name
+     *
+     * @param string $frontName
+     * @param string $scope
      * @return array
      */
-    public function getRoutes($routerId);
+    public function getModulesByFrontName($frontName, $scope = null);
 }

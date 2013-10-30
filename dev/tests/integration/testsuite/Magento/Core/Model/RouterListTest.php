@@ -25,36 +25,4 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento\App\RouterList');
     }
-
-    public function testGetRouterByRoute()
-    {
-        $this->assertInstanceOf(
-            'Magento\Core\App\Router\Base',
-            $this->_model->getRouterByRoute('')
-        );
-        $this->assertInstanceOf(
-            'Magento\Core\App\Router\Base',
-            $this->_model->getRouterByRoute('checkout')
-        );
-        $this->assertInstanceOf(
-            'Magento\App\Router\DefaultRouter',
-            $this->_model->getRouterByRoute('test')
-        );
-    }
-
-    public function testGetRouterByFrontName()
-    {
-        $this->assertInstanceOf(
-            'Magento\Core\App\Router\Base',
-            $this->_model->getRouterByFrontName('')
-        );
-        $this->assertInstanceOf(
-            'Magento\Core\App\Router\Base',
-            $this->_model->getRouterByFrontName('checkout')
-        );
-        $this->assertInstanceOf(
-            'Magento\App\Router\DefaultRouter',
-            $this->_model->getRouterByFrontName('test')
-        );
-    }
 }

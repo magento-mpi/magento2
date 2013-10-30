@@ -51,15 +51,18 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param AbstractSession $session
+     * @param Form\Element\Factory $factoryElement
+     * @param Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
+        AbstractSession $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
+        $this->_session = $session;
         parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
     }
@@ -84,9 +87,6 @@ class Form extends \Magento\Data\Form\AbstractForm
      */
     protected function _getSession()
     {
-        if (null == $this->_session) {
-            throw new \Magento\Exception('Session is not set');
-        }
         return $this->_session;
     }
 

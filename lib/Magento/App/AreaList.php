@@ -78,4 +78,15 @@ class AreaList
     {
         return array_keys($this->_areas);
     }
+
+    /**
+     * Retrieve default area router id
+     *
+     * @param string $areaCode
+     * @return string
+     */
+    public function getDefaultRouter($areaCode)
+    {
+        return isset($this->_areas[$areaCode]['router']) ? $this->_areas[$areaCode]['router'] : null;
+    }
 }

@@ -469,14 +469,8 @@ return array(
     array('getResourceTypeConfig', 'Magento\Core\Model\Config'),
     array('getResTreeJson', 'Magento\User\Block\Role\Tab\Edit', 'getTree'),
     array('getResTreeJson', 'Magento\Adminhtml\Block\Api\Tab\Rolesedit', 'getTree'),
-    array(
-        'getRouterByRoute',
-        'Magento\App\FrontController',
-        'Magento_Core_Model_RouterList::getRouterByFrontName'
-    ),
-    array('getRouterByFrontName', 'Magento\App\FrontController',
-        'Magento_Core_Model_RouterList::getRouterByFrontName'
-    ),
+    array('getRouterByRoute', 'Magento\App\FrontController'),
+    array('getRouterByFrontName', 'Magento\App\FrontController'),
     array('getRouters', 'Magento\Core\Model\Config'),
     array('getRowId', 'Magento\Adminhtml\Block\Sales\Order\Create\Customer\Grid'),
     array('getRowId', 'Magento\Adminhtml\Block\Widget\Grid'),

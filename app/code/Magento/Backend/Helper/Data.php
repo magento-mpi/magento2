@@ -21,9 +21,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_pageHelpUrl;
 
     /**
-     * @var \Magento\App\RouterList
+     * @var \Magento\App\Route\Config
      */
-    protected $_routerList;
+    protected $_routeConfig;
 
     /**
      * Core data
@@ -55,7 +55,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\RouterList $routerList
+     * @param \Magento\App\Route\Config $routeConfig
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
@@ -64,7 +64,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\RouterList $routerList,
+        \Magento\App\Route\Config $routeConfig,
         \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
@@ -72,7 +72,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
-        $this->_routerList = $routerList;
+        $this->_routeConfig = $routeConfig;
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
@@ -93,10 +93,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $request = $this->_app->getRequest();
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
-                $frontName = $request->getModuleName();
-                $router = $this->_routerList->getRouterByFrontName($frontName);
-
-                $frontModule = $router->getModulesByFrontName($frontName);
+                $frontModule = $this->_routeConfig->getModulesByFrontName($request->getModuleName());
                 if (empty($frontModule) === false) {
                     $frontModule = $frontModule[0];
                 } else {

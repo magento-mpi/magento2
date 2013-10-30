@@ -9,8 +9,7 @@
  */
 namespace Magento\App\Router;
 
-use \Magento\App\FrontControllerInterface,
-    \Magento\App\ActionFactory;
+use \Magento\App\ActionFactory;
 
 abstract class AbstractRouter implements \Magento\App\RouterInterface
 {
@@ -30,27 +29,5 @@ abstract class AbstractRouter implements \Magento\App\RouterInterface
     public function __construct(ActionFactory $actionFactory)
     {
         $this->_actionFactory = $actionFactory;
-    }
-
-    /**
-     * Retrieve front name by route
-     *
-     * @param string $routeId
-     * @return string
-     */
-    public function getFrontNameByRoute($routeId)
-    {
-        return $routeId;
-    }
-
-    /**
-     * Retrieve route by module front name
-     *
-     * @param string $frontName
-     * @return string
-     */
-    public function getRouteByFrontName($frontName)
-    {
-        return $frontName;
     }
 }

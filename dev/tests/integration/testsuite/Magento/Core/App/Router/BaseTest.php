@@ -65,18 +65,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->_model->match($request));
     }
 
-    /**
-     * @covers \Magento\Core\App\Router\Base::getModulesByFrontName
-     * @covers \Magento\Core\App\Router\Base::getRouteByFrontName
-     * @covers \Magento\Core\App\Router\Base::getFrontNameByRoute
-     */
-    public function testGetters()
-    {
-        $this->assertEquals(array('Magento_Catalog'), $this->_model->getModulesByFrontName('catalog'));
-        $this->assertEquals('cms', $this->_model->getRouteByFrontName('cms'));
-        $this->assertEquals('cms', $this->_model->getFrontNameByRoute('cms'));
-    }
-
     public function testGetControllerClassName()
     {
         $this->assertEquals(

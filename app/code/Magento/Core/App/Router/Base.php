@@ -33,9 +33,9 @@ class Base extends \Magento\App\Router\AbstractRouter
     );
 
     /**
-     * @var array
+     * @var \Magento\App\Route\ConfigInterface
      */
-    protected $_routes;
+    protected $_routeConfig;
 
     /**
      * Url security information.
@@ -87,7 +87,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      * @param \Magento\App\ActionFactory $actionFactory
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\App\ResponseFactory $responseFactory
-     * @param \Magento\App\Route\Config $routeConfig
+     * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
      * @param \Magento\Core\Model\StoreManager|\Magento\Core\Model\StoreManagerInterface $storeManager
@@ -100,7 +100,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         \Magento\App\ActionFactory $actionFactory,
         \Magento\App\DefaultPathInterface $defaultPath,
         \Magento\App\ResponseFactory $responseFactory,
-        \Magento\App\Route\Config $routeConfig,
+        \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -112,7 +112,7 @@ class Base extends \Magento\App\Router\AbstractRouter
 
         $this->_responseFactory = $responseFactory;
         $this->_defaultPath     = $defaultPath;
-        $this->_routes          = $routeConfig->getRoutes($routerId);
+        $this->_routeConfig     = $routeConfig;
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_storeConfig     = $storeConfig;
         $this->_url             = $url;
@@ -168,13 +168,11 @@ class Base extends \Magento\App\Router\AbstractRouter
         // get module name
         if ($request->getModuleName()) {
             $moduleFrontName = $request->getModuleName();
+        } else if (!empty($param)) {
+            $moduleFrontName = $param;
         } else {
-            if (!empty($param)) {
-                $moduleFrontName = $param;
-            } else {
-                $moduleFrontName = $this->_defaultPath->getPart('module');
-                $request->setAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
-            }
+            $moduleFrontName = $this->_defaultPath->getPart('module');
+            $request->setAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
         }
         if (!$moduleFrontName) {
             return null;
@@ -193,16 +191,14 @@ class Base extends \Magento\App\Router\AbstractRouter
     {
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();
+        } else if (!empty($param)) {
+            $controller = $param;
         } else {
-            if (!empty($param)) {
-                $controller = $param;
-            } else {
-                $controller = $this->_defaultPath->getPart('controller');
-                $request->setAlias(
-                    \Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS,
-                    ltrim($request->getOriginalPathInfo(), '/')
-                );
-            }
+            $controller = $this->_defaultPath->getPart('controller');
+            $request->setAlias(
+                \Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS,
+                ltrim($request->getOriginalPathInfo(), '/')
+            );
         }
         return $controller;
     }
@@ -216,12 +212,10 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _matchActionName(\Magento\App\RequestInterface $request, $param)
     {
-        if (empty($action)) {
-            if ($request->getActionName()) {
-                $action = $request->getActionName();
-            } else {
-                $action = !empty($param) ? $param : $this->_defaultPath->getPart('action');
-            }
+        if ($request->getActionName()) {
+            $action = $request->getActionName();
+        } else if (empty($param)) {
+            $action = $this->_defaultPath->getPart('action');
         } else {
             $action = $param;
         }
@@ -270,7 +264,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         /**
          * Searching router args by module name from route using it as key
          */
-        $modules = $this->getModulesByFrontName($moduleFrontName);
+        $modules = $this->_routeConfig->getModulesByFrontName($moduleFrontName);
 
         if (empty($modules) === true) {
             return null;
@@ -284,7 +278,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         $action = null;
         $controllerInstance = null;
 
-        $request->setRouteName($this->getRouteByFrontName($moduleFrontName));
+        $request->setRouteName($this->_routeConfig->getRouteByFrontName($moduleFrontName));
         $controller = $this->_matchControllerName($request, $params['controllerName']);
         $action = $this->_matchActionName($request, $params['actionName']);
         $this->_checkShouldBeSecure($request, '/' . $moduleFrontName . '/' . $controller . '/' . $action);
@@ -337,57 +331,6 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _noRouteShouldBeApplied()
     {
-        return false;
-    }
-
-    /**
-     * Retrieve list of modules subscribed to given frontName
-     *
-     * @param string $frontName
-     * @return array
-     */
-    public function getModulesByFrontName($frontName)
-    {
-        $modules = array();
-
-        foreach ($this->_routes as $routeData) {
-            if ($routeData['frontName'] == $frontName && isset($routeData['modules'])) {
-                $modules = $routeData['modules'];
-                break;
-            }
-        }
-
-        return array_unique($modules);
-    }
-
-    /**
-     * Get route frontName by id
-     * @param string $routeId
-     * @return string
-     */
-    public function getFrontNameByRoute($routeId)
-    {
-        if (isset($this->_routes[$routeId])) {
-            return $this->_routes[$routeId]['frontName'];
-        }
-
-        return false;
-    }
-
-    /**
-     * Get route Id by route frontName
-     *
-     * @param string $frontName
-     * @return string
-     */
-    public function getRouteByFrontName($frontName)
-    {
-        foreach ($this->_routes as $routeId => $routeData) {
-            if ($routeData['frontName'] == $frontName) {
-                return $routeId;
-            }
-        }
-
         return false;
     }
 

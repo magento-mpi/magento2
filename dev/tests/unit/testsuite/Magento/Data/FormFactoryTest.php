@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Data\Form;
+namespace Magento\Data;
 
 /**
  * Tests for \Magento\Data\Form\Factory
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FormFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -40,7 +40,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $formMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
 
-        $formFactory = new Factory($this->_objectManagerMock, $this->_sessionMock, $className);
+        $formFactory = new FormFactory($this->_objectManagerMock, $this->_sessionMock, $className);
         $formFactory->create();
     }
 
@@ -56,7 +56,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('setSession')
             ->with($this->_sessionMock);
 
-        $formFactory = new Factory($this->_objectManagerMock, $this->_sessionMock, $className);
+        $formFactory = new FormFactory($this->_objectManagerMock, $this->_sessionMock, $className);
         $this->assertSame($formMock, $formFactory->create());
     }
 }

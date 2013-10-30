@@ -18,6 +18,11 @@
     <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
     <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider" />
     <preference for="Magento\App\DefaultPathInterface" type="Magento\Backend\App\DefaultPath" />
+    <type name="Magento\Backend\Model\Auth\Session">
+        <param name="backendUrl">
+            <instance type="Magento\Backend\Model\Url\Proxy" />
+        </param>
+    </type>
     <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
         <param name="converter">
             <instance type="Magento\Acl\Resource\Config\Converter\Dom"/>
