@@ -53,7 +53,7 @@ class Details
         if ($this->getOrder()->getCustomerIsGuest()) {
             return false;
         }
-        return $this->getUrl('adminhtml/customer/edit', array('id' => $this->getOrder()->getCustomerId()));
+        return $this->getUrl('customer/customer/edit', array('id' => $this->getOrder()->getCustomerId()));
     }
 
     /**

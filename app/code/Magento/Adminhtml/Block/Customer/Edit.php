@@ -71,7 +71,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         }
 
         if ($customer && $customer->getId()) {
-            $url = $this->getUrl('adminhtml/*/resetPassword', array('customer_id' => $customer->getId()));
+            $url = $this->getUrl('customer/*/resetPassword', array('customer_id' => $customer->getId()));
             $this->_addButton('reset_password', array(
                 'label' => __('Reset Password'),
                 'onclick' => 'setLocation(\'' . $url . '\')',
@@ -115,7 +115,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
+        return $this->getUrl('customer/*/validate', array('_current' => true));
     }
 
     protected function _prepareLayout()
@@ -137,7 +137,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     protected function _getSaveAndContinueUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array(
+        return $this->getUrl('customer/*/save', array(
             '_current'  => true,
             'back'      => 'edit',
             'tab'       => '{{tab_id}}'

@@ -201,18 +201,18 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'    => __('Delete'),
-             'url'      => $this->getUrl('adminhtml/*/massDelete'),
+             'url'      => $this->getUrl('customer/*/massDelete'),
              'confirm'  => __('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
              'label'    => __('Subscribe to Newsletter'),
-             'url'      => $this->getUrl('adminhtml/*/massSubscribe')
+             'url'      => $this->getUrl('customer/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
              'label'    => __('Unsubscribe from Newsletter'),
-             'url'      => $this->getUrl('adminhtml/*/massUnsubscribe')
+             'url'      => $this->getUrl('customer/*/massUnsubscribe')
         ));
 
         $groups = $this->helper('Magento\Customer\Helper\Data')->getGroups()->toOptionArray();
@@ -220,7 +220,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(
              'label'        => __('Assign a Customer Group'),
-             'url'          => $this->getUrl('adminhtml/*/massAssignGroup'),
+             'url'          => $this->getUrl('customer/*/massAssignGroup'),
              'additional'   => array(
                 'visibility'    => array(
                      'name'     => 'group',
@@ -237,11 +237,11 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/grid', array('_current'=> true));
+        return $this->getUrl('customer/*/grid', array('_current'=> true));
     }
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/edit', array('id'=>$row->getId()));
+        return $this->getUrl('customer/*/edit', array('id'=>$row->getId()));
     }
 }

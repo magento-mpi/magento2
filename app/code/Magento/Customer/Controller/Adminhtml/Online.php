@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Adminhtml\Controller\Customer;
+namespace Magento\Customer\Controller\Adminhtml;
 
 class Online extends \Magento\Backend\Controller\Adminhtml\Action
 {

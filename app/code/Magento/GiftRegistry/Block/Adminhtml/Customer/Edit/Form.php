@@ -111,7 +111,7 @@ class Form
      */
     public function getOwnerUrl()
     {
-        return $this->getUrl('adminhtml/customer/edit', array('id' => $this->getEntity()->getCustomerId()));
+        return $this->getUrl('customer/customer/edit', array('id' => $this->getEntity()->getCustomerId()));
     }
 
     /**

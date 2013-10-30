@@ -189,7 +189,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/cart', array('_current'=>true, 'website_id' => $this->getWebsiteId()));
+        return $this->getUrl('customer/*/cart', array('_current'=>true, 'website_id' => $this->getWebsiteId()));
     }
 
     /**

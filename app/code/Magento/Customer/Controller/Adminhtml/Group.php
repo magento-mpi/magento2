@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Customer groups controller
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Customer;
+namespace Magento\Customer\Controller\Adminhtml;
 
 class Group extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -73,7 +73,7 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
-        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('adminhtml/customer_group'));
+        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
 
         $currentGroup = $this->_coreRegistry->registry('current_group');
 
@@ -122,12 +122,12 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
 
                 $customerGroup->setTaxClassId($taxClass)->save();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The customer group has been saved.'));
-                $this->getResponse()->setRedirect($this->getUrl('adminhtml/customer_group'));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCustomerGroupData($customerGroup->getData());
-                $this->getResponse()->setRedirect($this->getUrl('adminhtml/customer_group/edit', array('id' => $id)));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }
         } else {
@@ -145,22 +145,22 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
             $customerGroup = $this->_objectManager->create('Magento\Customer\Model\Group')->load($id);
             if (!$customerGroup->getId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('The customer group no longer exists.'));
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('customer/*/');
                 return;
             }
             try {
                 $customerGroup->delete();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The customer group has been deleted.'));
-                $this->getResponse()->setRedirect($this->getUrl('adminhtml/customer_group'));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->getResponse()->setRedirect($this->getUrl('adminhtml/customer_group/edit', array('id' => $id)));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }
         }
 
-        $this->_redirect('adminhtml/customer_group');
+        $this->_redirect('customer/customer_group');
     }
 
     protected function _isAllowed()

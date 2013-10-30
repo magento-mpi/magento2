@@ -10,7 +10,7 @@
  */
 
 
-namespace Magento\Adminhtml\Controller\Customer;
+namespace Magento\Customer\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -37,7 +37,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     public function testNewAction()
     {
-        $this->dispatch('backend/admin/customer_group/new');
+        $this->dispatch('backend/customer/group/new');
         $responseBody = $this->getResponse()->getBody();
         $this->assertRegExp('/<h1 class\="title">\s*New Customer Group\s*<\/h1>/', $responseBody);
     }
@@ -45,7 +45,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     public function testDeleteActionExistingGroup()
     {
         $this->getRequest()->setParam('id', self::$_customerGroupId);
-        $this->dispatch('backend/admin/customer_group/delete');
+        $this->dispatch('backend/customer/group/delete');
 
         /**
          * Check that success message is set
@@ -58,7 +58,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     public function testDeleteActionNonExistingGroupId()
     {
         $this->getRequest()->setParam('id', 10000);
-        $this->dispatch('backend/admin/customer_group/delete');
+        $this->dispatch('backend/customer/group/delete');
 
         /**
          * Check that error message is set

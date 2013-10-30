@@ -82,7 +82,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('Shopping cart management disabled for this customer.')
                 );
-                $this->_redirect('adminhtml/customer/edit', array('id' => $customer->getId()));
+                $this->_redirect('customer/customer/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
                 return $this;
             } else {
@@ -990,7 +990,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_initData();
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('adminhtml/customer');
+            $this->_redirect('customer/customer');
             $this->_redirectFlag = true;
         }
         if ($this->_redirectFlag) {

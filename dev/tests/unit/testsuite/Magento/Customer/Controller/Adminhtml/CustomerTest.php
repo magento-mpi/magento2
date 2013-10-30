@@ -12,7 +12,7 @@
 /**
  * Class \Magento\Adminhtml\Controller\CustomerTest
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Customer\Controller\Adminhtml;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Instance of mocked tested object
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Controller\Customer
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Controller\Adminhtml\Customer
      */
     protected $_testedObject;
 
@@ -125,7 +125,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $args = array('context' => $contextMock);
 
         $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_testedObject = $helperObjectManager->getObject('Magento\Adminhtml\Controller\Customer', $args);
+        $this->_testedObject = $helperObjectManager->getObject('Magento\Customer\Controller\Adminhtml\Customer', $args);
     }
 
     /**
@@ -141,7 +141,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_helper->expects($this->once())
             ->method('getUrl')
-            ->with($this->equalTo('adminhtml/customer'), $this->equalTo(array()))
+            ->with($this->equalTo('customer/customer'), $this->equalTo(array()))
             ->will($this->returnValue($redirectLink));
 
         $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectLink));
@@ -171,7 +171,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_helper->expects($this->any())
             ->method('getUrl')
-            ->with($this->equalTo('adminhtml/customer'), $this->equalTo(array()))
+            ->with($this->equalTo('customer/customer'), $this->equalTo(array()))
             ->will($this->returnValue($redirectLink));
 
         $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectLink));

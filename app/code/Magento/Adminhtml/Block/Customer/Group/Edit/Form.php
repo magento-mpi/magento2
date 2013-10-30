@@ -114,7 +114,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $form->setUseContainer(true);
         $form->setId('edit_form');
-        $form->setAction($this->getUrl('adminhtml/*/save'));
+        $form->setAction($this->getUrl('customer/*/save'));
         $this->setForm($form);
     }
 }

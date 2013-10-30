@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Catalog composite product configuration controller
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Customer\Cart\Product\Composite;
+namespace Magento\Customer\Controller\Adminhtml\Customer\Cart\Product\Composite;
 
 class Cart extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -43,7 +43,7 @@ class Cart extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Loads customer, quote and quote item by request params
      *
-     * @return \Magento\Adminhtml\Controller\Customer\Cart\Product\Composite\Cart
+     * @return \Magento\Customer\Controller\Adminhtml\Customer\Cart\Product\Composite\Cart
      */
     protected function _initData()
     {
@@ -73,7 +73,7 @@ class Cart extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Ajax handler to response configuration fieldset of composite product in customer's cart
      *
-     * @return \Magento\Adminhtml\Controller\Customer\Cart\Product\Composite\Cart
+     * @return \Magento\Customer\Controller\Adminhtml\Customer\Cart\Product\Composite\Cart
      */
     public function configureAction()
     {
@@ -107,7 +107,7 @@ class Cart extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * IFrame handler for submitted configuration for quote item
      *
-     * @return \Magento\Adminhtml\Controller\Customer\Cart\Product\Composite\Cart
+     * @return \Magento\Customer\Controller\Adminhtml\Customer\Cart\Product\Composite\Cart
      */
     public function updateAction()
     {

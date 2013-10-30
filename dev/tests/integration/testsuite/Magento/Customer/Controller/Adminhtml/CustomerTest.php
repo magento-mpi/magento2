@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Customer\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -26,7 +26,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
     protected function setUp()
     {
         parent::setUp();
-        $this->_baseControllerUrl = 'http://localhost/index.php/backend/admin/customer/';
+        $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/customer/';
     }
 
     protected function tearDown()
@@ -48,7 +48,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionWithEmptyPostData()
     {
         $this->getRequest()->setPost(array());
-        $this->dispatch('backend/admin/customer/save');
+        $this->dispatch('backend/customer/customer/save');
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
     }
 
@@ -61,7 +61,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             )
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/admin/customer/save');
+        $this->dispatch('backend/customer/customer/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -91,7 +91,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             'address' => array('_item1' => array()),
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/admin/customer/save');
+        $this->dispatch('backend/customer/customer/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -134,7 +134,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         );
         $this->getRequest()->setPost($post);
         $this->getRequest()->setParam('back', '1');
-        $this->dispatch('backend/admin/customer/save');
+        $this->dispatch('backend/customer/customer/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -166,7 +166,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/customer_sample.php
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
      */
     public function testSaveActionExistingCustomerAndExistingAddressData()
     {
@@ -217,7 +217,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         );
         $this->getRequest()->setPost($post);
         $this->getRequest()->setParam('customer_id', 1);
-        $this->dispatch('backend/admin/customer/save');
+        $this->dispatch('backend/customer/customer/save');
         /**
          * Check that success message is set
          */
@@ -257,7 +257,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/customer_sample.php
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
      */
     public function testSaveActionCoreException()
     {
@@ -273,7 +273,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             ),
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/admin/customer/save');
+        $this->dispatch('backend/customer/customer/save');
         /*
         * Check that error message is set
         */

@@ -161,9 +161,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     public function getBackUrl()
     {
         if ($this->_getCustomer() && $this->_getCustomer()->getId()) {
-            return $this->getUrl('adminhtml/customer/edit', array('id' => $this->_getCustomer()->getId()));
+            return $this->getUrl('customer/customer/edit', array('id' => $this->_getCustomer()->getId()));
         } else {
-            return $this->getUrl('adminhtml/customer');
+            return $this->getUrl('customer/customer');
         }
     }
 

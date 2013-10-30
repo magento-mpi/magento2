@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Customer\Controller\Adminhtml;
 
 class Customer extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -39,7 +39,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      * Customer initialization
      *
      * @param string $idFieldName
-     * @return \Magento\Adminhtml\Controller\Customer
+     * @return \Magento\Customer\Controller\Adminhtml
      */
     protected function _initCustomer($idFieldName = 'id')
     {
@@ -196,7 +196,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($exception->getMessage());
             }
         }
-        $this->_redirect('adminhtml/customer');
+        $this->_redirect('customer/customer');
     }
 
     /**
@@ -269,12 +269,12 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
 
         if ($returnToEdit) {
             if ($customerId) {
-                $this->_redirect('adminhtml/*/edit', array('id' => $customerId, '_current' => true));
+                $this->_redirect('customer/*/edit', array('id' => $customerId, '_current' => true));
             } else {
-                $this->_redirect('adminhtml/*/new', array('_current' => true));
+                $this->_redirect('customer/*/new', array('_current' => true));
             }
         } else {
-            $this->_redirect('adminhtml/customer');
+            $this->_redirect('customer/customer');
         }
     }
 
@@ -285,14 +285,14 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $customerId = (int)$this->getRequest()->getParam('customer_id', 0);
         if (!$customerId) {
-            return $this->_redirect('adminhtml/customer');
+            return $this->_redirect('customer/customer');
         }
 
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customer->load($customerId);
         if (!$customer->getId()) {
-            return $this->_redirect('adminhtml/customer');
+            return $this->_redirect('customer/customer');
         }
 
         try {
@@ -318,7 +318,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error occurred while resetting customer password.'));
         }
 
-        $this->_redirect('adminhtml/*/edit', array('id' => $customerId, '_current' => true));
+        $this->_redirect('customer/*/edit', array('id' => $customerId, '_current' => true));
     }
 
     /**
@@ -728,7 +728,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
             }
         }
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('customer/*/index');
     }
 
     /**
@@ -754,7 +754,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('customer/*/index');
     }
 
     /**
@@ -781,7 +781,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('customer/*/index');
     }
 
     /**
@@ -807,7 +807,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('customer/*/index');
     }
 
     /**

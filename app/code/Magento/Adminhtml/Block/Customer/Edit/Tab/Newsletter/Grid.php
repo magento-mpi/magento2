@@ -69,7 +69,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/newsletter', array('_current' => true));
+        return $this->getUrl('customer/*/newsletter', array('_current' => true));
     }
 
     protected function _prepareCollection()
