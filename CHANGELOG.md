@@ -4,6 +4,8 @@
   * Eliminated dependency in Magento\Data\Form from Magento\Core module
   * Eliminated Magento\Media module
   * Fixed copyright information
+  * Removed page type hierarchy
+  * Removed page fragment types
   * Global functions are called now from app\functions.php
   * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
   * Eliminated functions.php from Magento\Core module
@@ -15,6 +17,7 @@
   * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
+
 
 2.0.0.0-dev49
 =============
