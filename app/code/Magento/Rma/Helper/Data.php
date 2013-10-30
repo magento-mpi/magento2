@@ -100,9 +100,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_carrierFactory;
 
     /**
-     * @var \Magento\Filter\Template
+     * @var \Magento\Filter\FilterManager
      */
-    protected $_filterTemplate;
+    protected $_filterManager;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -117,7 +117,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Rma\Model\CarrierFactory $carrierFactory
-     * @param \Magento\Filter\Template $filterTemplate
+     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -132,7 +132,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Rma\Model\CarrierFactory $carrierFactory,
-        \Magento\Filter\Template $filterTemplate
+        \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
@@ -145,7 +145,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_authSession = $authSession;
         $this->_addressFactory = $addressFactory;
         $this->_carrierFactory = $carrierFactory;
-        $this->_filterTemplate = $filterTemplate;
+        $this->_filterManager = $filterManager;
         parent::__construct($context);
     }
 
@@ -252,8 +252,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $format = $this->_storeConfig->getConfig($path, $storeId);
         }
 
-        $this->_filterTemplate->setVariables($data);
-        return $this->_filterTemplate->filter($format);
+        return $this->_filterManager->template($format, $data);
     }
 
     /**
