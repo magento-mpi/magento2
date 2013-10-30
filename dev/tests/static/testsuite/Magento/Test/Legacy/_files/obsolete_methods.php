@@ -861,4 +861,6 @@ return array(
     array('setModuleDir', 'Magento\Core\Model\Config'),
     array('getAreaConfig', 'Magento\Core\Model\Config'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
+    array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),
+    array('getEnginePool', '\Magento\Core\Block\Template\Context', 'getEngineFactory'),
 );

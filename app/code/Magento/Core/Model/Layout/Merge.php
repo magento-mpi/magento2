@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge implements  \Magento\View\Layout\ProcessorInterface
+class Merge implements \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
      * Available item type names
@@ -72,7 +72,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     protected $_subst = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_fileSource;
 
@@ -106,7 +106,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
@@ -117,7 +117,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     public function __construct(
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+        \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,

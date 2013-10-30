@@ -56,14 +56,8 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
         parent::__construct(
-            $logger,
-            $coreData,
-            $viewUrl,
-            $coreStoreConfig,
-            $coreVariableFactory,
-            $storeManager,
-            $layout,
-            $layoutFactory
+            $logger, $coreData, $viewUrl, $coreStoreConfig, $coreVariableFactory, $storeManager, 
+            $layout, $layoutFactory
         );
     }
 
