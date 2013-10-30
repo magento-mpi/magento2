@@ -52,7 +52,7 @@ class BundleTest extends Functional
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
-        $cachePage->getActionsBlock()->flushCacheStorage();
+        $cachePage->getActionsBlock()->flushMagentoCache();
         //Verification
         $createProductPage->assertProductSaveResult($bundle);
         $this->assertOnGrid($bundle);

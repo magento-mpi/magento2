@@ -49,7 +49,7 @@ class CreateTest extends Functional
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
-        $cachePage->getActionsBlock()->flushCacheStorage();
+        $cachePage->getActionsBlock()->flushMagentoCache();
         //Verifying
         $createProductPage->assertProductSaveResult($product);
         $this->assertOnGrid($product);
