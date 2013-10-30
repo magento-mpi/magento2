@@ -12,7 +12,7 @@
         <param name="cacheControls">
             <value>
                 <zendPageCache>
-                    <class>Magento\PageCache\Model\Control\Zend</class>
+                    <instance>Magento\PageCache\Model\Control\Zend</instance>
                     <label>Zend Full Page Cache</label>
                 </zendPageCache>
             </value>

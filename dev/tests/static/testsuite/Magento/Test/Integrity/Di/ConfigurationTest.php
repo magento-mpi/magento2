@@ -48,7 +48,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             $parameters = $parameters['parameters'];
 
             if (!class_exists($instanceName)) {
-                $this->fail('Non existed class: ' . $instanceName);
+                $this->fail('Detected configuration of non existed class: ' . $instanceName . ' in file ' . $file);
             }
 
             $reflectionClass = new \ReflectionClass($instanceName);

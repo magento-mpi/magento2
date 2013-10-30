@@ -396,11 +396,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Url">
-        <param name="routerList">
-            <instance type="Magento\App\RouterList\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\Store\Storage\Db">
         <param name="url">
             <instance type="Magento\Backend\Model\Url\Proxy" />

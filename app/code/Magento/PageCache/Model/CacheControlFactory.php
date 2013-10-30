@@ -75,8 +75,8 @@ class CacheControlFactory
         $usedControl = $this->_storeConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
         if ($usedControl) {
             foreach ($this->getCacheControls() as $control => $info) {
-                if ($control == $usedControl && !empty($info['class'])) {
-                    return $this->_objectManager->get($info['class']);
+                if ($control == $usedControl && !empty($info['instance'])) {
+                    return $this->_objectManager->get($info['instance']);
                 }
             }
         }

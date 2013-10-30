@@ -78,7 +78,7 @@ class Updater implements \Magento\App\UpdaterInterface
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_setupFactory = $setupFactory;
-        $this->_skipModuleUpdate = (bool)$skipModuleUpdate;
+        $this->_skipModuleUpdate = $skipModuleUpdate;
     }
 
     /**
