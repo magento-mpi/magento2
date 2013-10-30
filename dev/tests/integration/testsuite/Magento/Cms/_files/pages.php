@@ -29,5 +29,5 @@ $page->setTitle('Cms Page Design Blank')
     ->setIsActive(1)
     ->setContent('<h1>Cms Page Design Blank Title</h1>')
     ->setRootTemplate('one_column')
-    ->setCustomTheme('magento_plushe')
+    ->setCustomTheme('magento_blank')
     ->save();

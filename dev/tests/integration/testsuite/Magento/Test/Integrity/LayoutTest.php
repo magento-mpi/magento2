@@ -27,46 +27,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         self::$_cachedFiles = array(); // Free memory
     }
 
-    public function testHandlesHierarchy()
-    {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
-        $invoker(
-            /**
-             * @param \Magento\View\Design\ThemeInterface $theme
-             */
-            function (\Magento\View\Design\ThemeInterface $theme) {
-                $xml = $this->_composeXml($theme);
-
-                /**
-                 * There could be used an xpath "/layouts/*[@type or @owner or @parent]", but it randomly produced bugs,
-                 * by selecting all nodes in depth. Thus it was refactored into manual nodes extraction.
-                 */
-                $handles = array();
-                foreach ($xml->children() as $handleNode) {
-                    if ($handleNode->getAttribute('type')
-                        || $handleNode->getAttribute('owner')
-                        || $handleNode->getAttribute('parent')
-                    ) {
-                        $handles[] = $handleNode;
-                    }
-                }
-
-                /** @var \Magento\View\Layout\Element $node */
-                $errors = array();
-                foreach ($handles as $node) {
-                    $this->_collectHierarchyErrors($node, $xml, $errors);
-                }
-
-                if ($errors) {
-                    $this->fail("There are errors while checking the page type and fragment types hierarchy at:\n"
-                        . var_export($errors, 1)
-                    );
-                }
-            },
-            $this->areasAndThemesDataProvider()
-        );
-    }
-
     /**
      * Composes full layout xml for designated parameters
      *
@@ -91,8 +51,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected function _collectHierarchyErrors($node, $xml, &$errors)
     {
         $name = $node->getName();
-        $refName = $node->getAttribute('type') == \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT
-            ? $node->getAttribute('owner') : $node->getAttribute('parent');
+        $refName = $node->getAttribute('type') == $node->getAttribute('parent');
         if ($refName) {
             $refNode = $xml->xpath("/layouts/{$refName}");
             if (!$refNode) {
@@ -100,8 +59,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     $this->markTestIncomplete('MAGETWO-9182');
                 }
                 $errors[$name][] = "Node '{$refName}', referenced in hierarchy, does not exist";
-            } elseif ($refNode[0]->getAttribute('type') == \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT) {
-                $errors[$name][] = "Page fragment type '{$refName}', cannot be an ancestor in a hierarchy";
             }
         }
     }
@@ -144,8 +101,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $xml = $this->_composeXml($theme);
 
                 $xpath = '/layouts/*['
-                    . '@type="' . \Magento\Core\Model\Layout\Merge::TYPE_PAGE . '"'
-                    . ' or @type="' . \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT . '"]';
+                    . '@type="' . \Magento\Core\Model\Layout\Merge::TYPE_PAGE  . '"]';
                 $handles = $xml->xpath($xpath) ?: array();
 
                 /** @var \Magento\View\Layout\Element $node */

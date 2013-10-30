@@ -54,7 +54,7 @@ $category->setId(5)
     ->setIsActive(true)
     ->setPosition(2)
     ->setCustomUseParentSettings(0)
-    ->setCustomDesign('magento_plushe')
+    ->setCustomDesign('magento_blank')
     ->save();
 
 $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
