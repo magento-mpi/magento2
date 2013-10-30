@@ -33,22 +33,22 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected $_oauthHelper;
 
     /**
-     * @param Rest\RequestProxy $request
-     * @param Rest\ResponseProxy $response
-     * @param Rest\RouterProxy $router
+     * @param Rest\Request $request
+     * @param Rest\Response $response
+     * @param Rest\Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
      * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Oauth\Helper\DataProxy $oauthHelper
+     * @param \Magento\Oauth\Helper\Data $oauthHelper
      */
     public function __construct(
-        \Magento\Webapi\Controller\Rest\RequestProxy $request,
-        \Magento\Webapi\Controller\Rest\ResponseProxy $response,
-        \Magento\Webapi\Controller\Rest\RouterProxy $router,
+        \Magento\Webapi\Controller\Rest\Request $request,
+        \Magento\Webapi\Controller\Rest\Response $response,
+        \Magento\Webapi\Controller\Rest\Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
         \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Oauth\Helper\DataProxy $oauthHelper
+        \Magento\Oauth\Helper\Data $oauthHelper
     ) {
         $this->_router = $router;
         $this->_request = $request;

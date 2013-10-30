@@ -40,7 +40,7 @@ class Factory
     /**
      * @var \Magento\Math\Random
      */
-    protected $mathRandom;
+    protected $_mathRandom;
 
     /**
      * @param \Magento\Webapi\Model\Acl\Rule\Factory $ruleFactory
@@ -62,7 +62,7 @@ class Factory
         $this->_userFactory = $userFactory;
         $this->_roleFactory = $roleFactory;
         $this->_cache = $cache;
-        $this->mathRandom = $mathRandom;
+        $this->_mathRandom = $mathRandom;
         $this->_initVirtualResourceMapping($resourceProvider);
     }
 
@@ -108,7 +108,7 @@ class Factory
 
         // Check if a role with this name already exists, we need a new role with a unique name
         if ($role->getId()) {
-            $uniqString = $this->mathRandom->getUniqueHash();
+            $uniqString = $this->_mathRandom->getUniqueHash();
             $roleName   = $this->_createRoleName($email, $company, $uniqString);
         }
 

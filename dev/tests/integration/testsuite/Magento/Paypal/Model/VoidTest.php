@@ -30,6 +30,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
+        $mathRandom = $objectManager->get('Magento\Math\Random');
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $objectManager->create('Magento\Sales\Model\Order');
@@ -47,7 +48,8 @@ class VoidTest extends \PHPUnit_Framework_TestCase
             $locale,
             $centinelService,
             $storeManager,
-            $configFactory
+            $configFactory,
+            $mathRandom
         ));
 
         $response = new \Magento\Object(array(

@@ -18,22 +18,22 @@ class RemoteAddressTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Request\Http
      */
-    protected $request;
+    protected $_request;
 
     /**
      * @var TestFramework\Helper\ObjectManager
      */
-    protected $objectManager;
+    protected $_objectManager;
 
 
     protected function setUp()
     {
-        $this->request = $this->getMockBuilder('Magento\App\Request\Http')
+        $this->_request = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods(array('getServer'))
             ->getMock();
 
-        $this->objectManager = new TestFramework\Helper\ObjectManager($this);
+        $this->_objectManager = new TestFramework\Helper\ObjectManager($this);
 
     }
 
@@ -42,11 +42,11 @@ class RemoteAddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRemoteAddress($alternativeHeaders, $serverValueMap, $expected, $ipToLong)
     {
-        $remoteAddress = $this->objectManager->getObject('Magento\HTTP\PhpEnvironment\RemoteAddress', array(
-            'httpRequest' => $this->request,
+        $remoteAddress = $this->_objectManager->getObject('Magento\HTTP\PhpEnvironment\RemoteAddress', array(
+            'httpRequest' => $this->_request,
             'alternativeHeaders' => $alternativeHeaders
         ));
-        $this->request->expects($this->any())
+        $this->_request->expects($this->any())
             ->method('getServer')
             ->will($this->returnValueMap($serverValueMap));
         $this->assertEquals($expected, $remoteAddress->getRemoteAddress($ipToLong));
@@ -73,7 +73,7 @@ class RemoteAddressTest extends \PHPUnit_Framework_TestCase
             array(
                 'alternativeHeaders' => array(),
                 'serverValueMap' => array(array('REMOTE_ADDR', null, '192.168.1.1')),
-                'expected' => -1062731519,
+                'expected' => ip2long('192.168.1.1'),
                 'ipToLong' => true
             ),
             array(
@@ -93,7 +93,7 @@ class RemoteAddressTest extends \PHPUnit_Framework_TestCase
                     array('TEST_HEADER', null, '192.168.0.1'),
                     array('TEST_HEADER', false, '192.168.0.1')
                 ),
-                'expected' => -1062731775,
+                'expected' => ip2long('192.168.0.1'),
                 'ipToLong' => true
             )
         );
