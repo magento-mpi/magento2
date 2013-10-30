@@ -13,19 +13,21 @@ namespace Magento\Webhook\Model\Resource;
 
 class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
-    /** @var  \Magento\Core\Model\ConfigInterface $_coreConfig */
-    private $_coreConfig;
+    /**
+     * @var \Magento\Webhook\Model\Config
+     */
+    private $_config;
 
     /**
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Webhook\Model\Config $config
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\ConfigInterface $config
+        \Magento\Webhook\Model\Config $config
     ) {
         parent::__construct($resource);
-        $this->_coreConfig = $config;
+        $this->_config = $config;
     }
 
     /**
@@ -117,24 +119,20 @@ class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Get list of webhook topics defined in config.xml
+     * Get list of webhook topics defined in webhook.xml
      *
      * @return string[]
      */
     protected function _getSupportedTopics()
     {
-        $node = $this->_coreConfig->getNode(\Magento\Webhook\Model\Source\Hook::XML_PATH_WEBHOOK);//@TODO Fix getNode() usages
         $availableHooks = array();
-        if (!$node) {
-            return $availableHooks;
-        }
-        foreach ($node->asArray() as $key => $hookNode) {
-            foreach ($hookNode as $name => $hook) {
+        foreach ($this->_config->getWebhooks() as $key => $configData) {
+            foreach ($configData as $name => $hook) {
                 if (is_array($hook)) {
                     $availableHooks[] = $key . '/' . $name;
                 }
             }
-            if (isset($hookNode['label'])) {
+            if (isset($configData['label'])) {
                 $availableHooks[] = $key;
             }
         }
