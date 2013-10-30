@@ -101,7 +101,7 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_title($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))
             ->_addJs($this->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Adminhtml::system/variable/js.phtml')
             )))

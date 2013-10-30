@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\System\Email\Template;
+namespace Magento\Backend\Block\System\Email\Template;
 
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Adminhtml\Block\System\Email\Template\Edit
+     * @var \Magento\Backend\Block\System\Email\Template\Edit
      */
     protected $_block;
 
@@ -80,7 +80,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             'emailConfig' => $this->_emailConfigMock,
         );
         $arguments = $objectManager->getConstructArguments(
-            'Magento\Adminhtml\Block\System\Email\Template\Edit',
+            'Magento\Backend\Block\System\Email\Template\Edit',
             $params
         );
 
@@ -91,7 +91,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
 
-        $this->_block = $objectManager->getObject('Magento\Adminhtml\Block\System\Email\Template\Edit', $arguments);
+        $this->_block = $objectManager->getObject('Magento\Backend\Block\System\Email\Template\Edit', $arguments);
     }
 
     public function testGetUsedCurrentlyForPaths()

@@ -69,8 +69,8 @@ class Design extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_coreRegistry->register('design', $design);
 
-        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Design\Edit'));
-        $this->_addLeft($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Design\Edit\Tabs', 'design_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
+        $this->_addLeft($this->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
 
         $this->renderLayout();
     }

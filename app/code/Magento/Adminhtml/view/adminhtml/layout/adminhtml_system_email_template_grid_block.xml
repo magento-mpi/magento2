@@ -67,8 +67,8 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Template Type</argument>
                         <argument name="index" xsi:type="string">template_type</argument>
-                        <argument name="filter" xsi:type="string">Magento\Adminhtml\Block\System\Email\Template\Grid\Filter\Type</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\System\Email\Template\Grid\Renderer\Type</argument>
+                        <argument name="filter" xsi:type="string">Magento\Backend\Block\System\Email\Template\Grid\Filter\Type</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Backend\Block\System\Email\Template\Grid\Renderer\Type</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
@@ -78,7 +78,7 @@
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="width" xsi:type="string">100px</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\System\Email\Template\Grid\Renderer\Action</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Backend\Block\System\Email\Template\Grid\Renderer\Action</argument>
                     </arguments>
                 </block>
             </block>
