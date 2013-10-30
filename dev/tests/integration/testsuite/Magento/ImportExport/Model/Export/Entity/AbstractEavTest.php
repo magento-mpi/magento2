@@ -14,7 +14,7 @@
  */
 namespace Magento\ImportExport\Model\Export\Entity;
 
-class EavAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractEavTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Skipped attribute codes
@@ -77,7 +77,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method _getExportAttrCodes()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_getExportAttrCodes
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_getExportAttributeCodes
      */
     public function testGetExportAttrCodes()
     {
