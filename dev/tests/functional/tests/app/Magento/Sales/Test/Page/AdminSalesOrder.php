@@ -11,6 +11,7 @@
 
 namespace Magento\Sales\Test\Page;
 
+use Magento\Backend\Test\Block\PageActions;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -37,6 +38,11 @@ class AdminSalesOrder extends Page
     private $orderGridBlock;
 
     /**
+     * @var PageActions
+     */
+    protected $_pageActionsBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -44,6 +50,9 @@ class AdminSalesOrder extends Page
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
         $this->orderGridBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderGrid(
             $this->_browser->find('#sales_order_grid', Locator::SELECTOR_CSS));
+        $this->_pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
+            $this->_browser->find('.page-actions')
+        );
     }
 
     /**
@@ -54,5 +63,15 @@ class AdminSalesOrder extends Page
     public function getOrderGridBlock()
     {
         return $this->orderGridBlock;
+    }
+
+    /**
+     * Getter for page actions block
+     *
+     * @return PageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return $this->_pageActionsBlock;
     }
 }
