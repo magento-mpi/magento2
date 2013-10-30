@@ -56,7 +56,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
-     * @param \Magento\Core\Model\App\Proxy $app
+     * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
@@ -69,7 +69,7 @@ class Attribute extends \Magento\Backend\Helper\Data
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\App\RouterList $routerList,
-        \Magento\Core\Model\App\Proxy $app,
+        \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
