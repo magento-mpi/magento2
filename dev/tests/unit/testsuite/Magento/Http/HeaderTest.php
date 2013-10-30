@@ -11,17 +11,15 @@
 
 namespace Magento\Http;
 
-use \Magento\TestFramework;
-
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var TestFramework\Helper\ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento\App\Request\Http
+     * @var \Magento\App\Request\Http
      */
     protected $_request;
 
@@ -32,7 +30,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = new TestFramework\Helper\ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_request = $this->getMock(
             'Magento\App\Request\Http',

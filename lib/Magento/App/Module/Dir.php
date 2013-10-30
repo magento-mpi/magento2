@@ -21,7 +21,7 @@ class Dir
     /**
      * @var \Magento\Stdlib\String
      */
-    protected $string;
+    protected $_string;
 
     /**
      * @param \Magento\App\Dir $applicationDirs
@@ -30,7 +30,7 @@ class Dir
     public function __construct(\Magento\App\Dir $applicationDirs, \Magento\Stdlib\String $string)
     {
         $this->_applicationDirs = $applicationDirs;
-        $this->string = $string;
+        $this->_string = $string;
     }
 
     /**
@@ -45,7 +45,7 @@ class Dir
     {
         $result = $this->_applicationDirs->getDir(\Magento\App\Dir::MODULES)
             . DIRECTORY_SEPARATOR
-            . $this->string->upperCaseWords($moduleName, '_', DIRECTORY_SEPARATOR);
+            . $this->_string->upperCaseWords($moduleName, '_', DIRECTORY_SEPARATOR);
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
                 throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
