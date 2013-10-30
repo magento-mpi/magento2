@@ -49,12 +49,12 @@ class BundleTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
+        $createProductPage->assertProductSaveResult($bundle);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
         //Verification
-        $createProductPage->assertProductSaveResult($bundle);
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);
     }

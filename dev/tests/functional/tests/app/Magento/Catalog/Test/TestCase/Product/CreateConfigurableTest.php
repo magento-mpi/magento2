@@ -50,12 +50,12 @@ class CreateConfigurableTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('configurable');
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        $createProductPage->assertProductSaveResult($product);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
         //Verifying
-        $createProductPage->assertProductSaveResult($product);
         $this->assertOnGrid($product);
         $this->assertOnFrontend($product);
     }

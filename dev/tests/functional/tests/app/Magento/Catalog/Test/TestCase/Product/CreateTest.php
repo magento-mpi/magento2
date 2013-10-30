@@ -46,12 +46,12 @@ class CreateTest extends Functional
         $createProductPage->open();
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        $createProductPage->assertProductSaveResult($product);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
         //Verifying
-        $createProductPage->assertProductSaveResult($product);
         $this->assertOnGrid($product);
         $this->assertOnCategory($product);
     }
