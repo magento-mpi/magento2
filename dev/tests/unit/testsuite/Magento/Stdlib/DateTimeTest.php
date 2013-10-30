@@ -19,11 +19,11 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     protected function setUp()
     {
-        $this->dateTime = new \Magento\Stdlib\DateTime;
+        $this->_dateTime = new \Magento\Stdlib\DateTime;
     }
 
     public function testToTimestamp()
@@ -90,7 +90,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmptyDate($date, $expected)
     {
-        $actual = $this->dateTime->isEmptyDate($date);
+        $actual = $this->_dateTime->isEmptyDate($date);
         $this->assertEquals($actual, $expected);
     }
 
