@@ -4,7 +4,7 @@
  *
  * @spi
  * @category    Magento
- * @package     Magento
+ * @package     Magento_Checkout
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
