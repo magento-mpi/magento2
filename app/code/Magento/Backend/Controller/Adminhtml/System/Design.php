@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\System;
+namespace Magento\Backend\Controller\Adminhtml\System;
 
 class Design extends \Magento\Backend\Controller\Adminhtml\Action
 {

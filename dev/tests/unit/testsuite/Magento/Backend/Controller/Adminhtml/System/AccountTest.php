@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for \Magento\Adminhtml\Controller\System\Account controller
+ * Unit test for \Magento\Backend\Controller\Adminhtml\System\Account controller
  *
  * {license_notice}
  *
@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\System;
+namespace Magento\Backend\Controller\Adminhtml\System;
 
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Adminhtml\Controller\System\Account */
+    /** @var \Magento\Backend\Controller\Adminhtml\System\Account */
     protected $_controller;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\RequestInterface */
@@ -122,7 +122,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $args = array('context' => $contextMock);
 
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_controller = $testHelper->getObject('Magento\Adminhtml\Controller\System\Account', $args);
+        $this->_controller = $testHelper->getObject('Magento\Backend\Controller\Adminhtml\System\Account', $args);
     }
 
     public function testSaveAction()

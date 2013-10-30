@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Custom Variables admin controller
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\System;
+namespace Magento\Backend\Controller\Adminhtml\System;
 
 class Variable extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -41,7 +41,7 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Initialize Layout and set breadcrumbs
      *
-     * @return \Magento\Adminhtml\Controller\System\Variable
+     * @return \Magento\Backend\Controller\Adminhtml\System\Variable
      */
     protected function _initLayout()
     {

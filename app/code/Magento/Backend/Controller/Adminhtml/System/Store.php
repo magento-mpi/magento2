@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Store controller
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\System;
+namespace Magento\Backend\Controller\Adminhtml\System;
 
 class Store extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -443,7 +443,7 @@ class Store extends \Magento\Backend\Controller\Adminhtml\Action
      *
      * @param string $failPath redirect path if backup failed
      * @param array $arguments
-     * @return \Magento\Adminhtml\Controller\System\Store
+     * @return \Magento\Backend\Controller\Adminhtml\System\Store
      */
     protected function _backupDatabase($failPath, $arguments=array())
     {
@@ -475,7 +475,7 @@ class Store extends \Magento\Backend\Controller\Adminhtml\Action
      * Add notification on deleting store / store view / website
      *
      * @param string $typeTitle
-     * @return \Magento\Adminhtml\Controller\System\Store
+     * @return \Magento\Backend\Controller\Adminhtml\System\Store
      */
     protected function _addDeletionNotice($typeTitle)
     {
