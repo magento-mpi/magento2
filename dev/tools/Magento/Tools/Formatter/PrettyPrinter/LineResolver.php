@@ -108,25 +108,14 @@ class LineResolver extends NodeVisitorAbstract
      */
     protected function trimComments(&$comments)
     {
-        // How many comments are there.
-        $numComments = sizeof($comments);
-        // We should make sure we have at least 1
-        if ($numComments > 0) {
-            // If we have more than one process the first one separately
-            // Else we only have one so it can be processed as the last one later
-            if ($numComments > 1) {
-                if (preg_match('/^\s*\n$/', $comments[0])) {
-                    // Remove it
-                    array_shift($comments);
-                    // Reduce the number of comments
-                    $numComments--;
-                }
-            }
-            // Process the last comment as it may need to be removed too.
-            if (preg_match('/^\s*\n$/', $comments[$numComments - 1])) {
-                // Remove it
-                array_pop($comments);
-            }
+        // reset and end will short circuit the loops when the array is empty
+        // Trim blank lines before the comment
+        while (reset($comments) && preg_match('/^\s*\n$/', reset($comments))) {
+            array_shift($comments);
+        }
+        // Trim blank lines at the end of the comment
+        while (end($comments) && preg_match('/^\s*\n$/', end($comments))) {
+            array_pop($comments);
         }
     }
 }

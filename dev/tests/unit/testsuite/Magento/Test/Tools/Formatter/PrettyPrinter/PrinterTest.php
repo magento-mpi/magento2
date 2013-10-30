@@ -342,6 +342,53 @@ FORMATTEDCODESNIPPET
   namespace Magento\\Test;
 
 
+
+/**
+ * Some stuff
+ */
+
+
+
+class Foo {
+    const ATTRIBUTE_COMMENTS = 'comments';
+
+    const ATTRIBUTE_COMMENTS = 'comments';
+
+    function x() {
+        echo 'y';
+
+        echo 'z';
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+/**
+ * Some stuff
+ */
+class Foo
+{
+    const ATTRIBUTE_COMMENTS = 'comments';
+
+    const ATTRIBUTE_COMMENTS = 'comments';
+
+    public function x()
+    {
+        echo 'y';
+
+        echo 'z';
+    }
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+
+
 class Foo {
     function x() {
         echo 'y';
