@@ -11,8 +11,6 @@
 
 namespace Magento\HTTP\PhpEnvironment;
 
-use \Magento\TestFramework;
-
 class ServerAddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -32,7 +30,7 @@ class ServerAddressTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getServer'))
             ->getMock();
 
-        $objectManager = new TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_serverAddress = $objectManager->getObject('Magento\HTTP\PhpEnvironment\ServerAddress', array(
             'httpRequest' => $this->_request
         ));
