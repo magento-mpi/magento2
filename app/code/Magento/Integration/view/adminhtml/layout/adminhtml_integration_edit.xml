@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="editor"/>
+    <referenceContainer name="left">
+        <block class="Magento\Integration\Block\Adminhtml\Integration\Edit\Tabs" name="integration_edit_tabs">
+            <block class="Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info" name="integration_edit_tab_info"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">info_section</argument>
+                <argument name="block" xsi:type="string">integration_edit_tab_info</argument>
+            </action>
+        </block>
+    </referenceContainer>
+    <referenceContainer name="content">
+        <block class="Magento\Integration\Block\Adminhtml\Integration\Edit" name="integration_edit_content"/>
+    </referenceContainer>
+</layout>

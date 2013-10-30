@@ -763,7 +763,8 @@ th.required:after {
 .adminhtml-tax-rate-index .col-1-layout,
 .adminhtml-system-currency-index .col-1-layout,
 .adminhtml-cache-index .col-1-layout,
-.adminhtml-sales-order-status-index .col-1-layout {
+.adminhtml-sales-order-status-index .col-1-layout,
+.adminhtml-integration-index .col-1-layout {
     padding: 0;
     background: transparent;
     border: 0;
@@ -825,7 +826,8 @@ th.required:after {
 .adminhtml-user-index .page-actions,
 .adminhtml-user-role-index .page-actions,
 .adminhtml-tax-rule-index .page-actions,
-.adminhtml-tax-rate-index .page-actions {
+.adminhtml-tax-rate-index .page-actions,
+.adminhtml-integration-index .page-actions {
     position: absolute;
     z-index: 2;
     margin-top: 8px;
@@ -883,7 +885,8 @@ th.required:after {
 .adminhtml-user-index .page-actions.fixed,
 .adminhtml-user-role-index .page-actions.fixed,
 .adminhtml-tax-rule-index .page-actions.fixed,
-.adminhtml-tax-rate-index .page-actions.fixed {
+.adminhtml-tax-rate-index .page-actions.fixed,
+.adminhtml-integration-index .page-actions.fixed {
     left: 0;
     margin: 0;
     padding: 0 21px;
@@ -940,7 +943,8 @@ th.required:after {
 .adminhtml-user-index .page-actions .add,
 .adminhtml-user-role-index .page-actions .add,
 .adminhtml-tax-rule-index .page-actions .add,
-.adminhtml-tax-rate-index .page-actions .add {
+.adminhtml-tax-rate-index .page-actions .add,
+.adminhtml-integration-index .page-actions .add {
     width: 32px;
     height: 32px;
     overflow: hidden;
@@ -1010,7 +1014,8 @@ th.required:after {
 .eq-ie8 .adminhtml-user-index .page-actions .add,
 .eq-ie8 .adminhtml-user-role-index .page-actions .add,
 .eq-ie8 .adminhtml-tax-rule-index .page-actions .add,
-.eq-ie8 .adminhtml-tax-rate-index .page-actions .add {
+.eq-ie8 .adminhtml-tax-rate-index .page-actions .add,
+.eq-ie8 .adminhtml-integration-index .page-actions .add {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58228', endColorstr='#f3731c',GradientType=0 );
 }
 
@@ -1064,7 +1069,8 @@ th.required:after {
 .adminhtml-user-index .page-actions .add:hover,
 .adminhtml-user-role-index .page-actions .add:hover,
 .adminhtml-tax-rule-index .page-actions .add:hover,
-.adminhtml-tax-rate-index .page-actions .add:hover {
+.adminhtml-tax-rate-index .page-actions .add:hover,
+.adminhtml-integration-index .page-actions .add:hover {
     border: 1px solid #e4731c;
     background: #e47821;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZjY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -1126,7 +1132,8 @@ th.required:after {
 .eq-ie8 .adminhtml-user-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-user-role-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-tax-rule-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-tax-rate-index .page-actions .add:hover {
+.eq-ie8 .adminhtml-tax-rate-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-integration-index .page-actions .add:hover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#df6817',GradientType=0 );
 }
 
@@ -1180,7 +1187,8 @@ th.required:after {
 .adminhtml-user-index .page-actions .add:active,
 .adminhtml-user-role-index .page-actions .add:active,
 .adminhtml-tax-rule-index .page-actions .add:active,
-.adminhtml-tax-rate-index .page-actions .add:active {
+.adminhtml-tax-rate-index .page-actions .add:active,
+.adminhtml-integration-index .page-actions .add:active {
     background: #e2701av;
     -webkit-box-shadow: inset 0px 1px 1px 1px rgba(185, 90, 19, 1);
     box-shadow: inset 0px 1px 1px 1px rgba(185, 90, 19, 1);
@@ -1238,7 +1246,8 @@ th.required:after {
 .adminhtml-user-index .page-actions .add > span,
 .adminhtml-user-role-index .page-actions .add > span,
 .adminhtml-tax-rule-index .page-actions .add > span,
-.adminhtml-tax-rate-index .page-actions .add > span {
+.adminhtml-tax-rate-index .page-actions .add > span,
+.adminhtml-integration-index .page-actions .add > span {
     text-indent: -999em;
     display: block;
     width: 32px;
@@ -1295,7 +1304,8 @@ th.required:after {
 .adminhtml-user-index .page-actions .add > span:before,
 .adminhtml-user-role-index .page-actions .add > span:before,
 .adminhtml-tax-rule-index .page-actions .add > span:before,
-.adminhtml-tax-rate-index .page-actions .add > span:before {
+.adminhtml-tax-rate-index .page-actions .add > span:before,
+.adminhtml-integration-index .page-actions .add > span:before {
     text-indent: 0;
     font-family: 'MUI-Icons';
     font-weight: normal;
@@ -1461,7 +1471,8 @@ th.required:after {
 .adminhtml-user-index .grid-actions,
 .adminhtml-user-role-index .grid-actions,
 .adminhtml-tax-rule-index .grid-actions,
-.adminhtml-tax-rate-index .grid-actions {
+.adminhtml-tax-rate-index .grid-actions,
+.adminhtml-integration-index .grid-actions {
     border-radius: 5px 5px 0 0;
     margin-top: 20px;
     padding-left: 100px;
