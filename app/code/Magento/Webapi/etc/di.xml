@@ -145,4 +145,18 @@
             <instance type="Magento\Oauth\Helper\DataProxy" />
         </param>
     </type>
+    <type name="Magento\Webapi\Controller\Soap">
+        <param name="soapServer">
+            <instance type="Magento\Webapi\Model\Soap\ServerProxy" />
+        </param>
+        <param name="errorProcessor">
+            <instance type="Magento\Webapi\Controller\ErrorProcessorProxy" />
+        </param>
+        <param name="application">
+            <instance type="Magento\Core\Model\AppProxy" />
+        </param>
+        <param name="oauthHelper">
+            <instance type="Magento\Oauth\Helper\ServiceProxy" />
+        </param>
+    </type>
 </config>
