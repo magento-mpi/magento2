@@ -11,8 +11,6 @@
 
 namespace Magento\HTTP\PhpEnvironment;
 
-use \Magento\TestFramework;
-
 class RemoteAddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,7 +31,7 @@ class RemoteAddressTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getServer'))
             ->getMock();
 
-        $this->_objectManager = new TestFramework\Helper\ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
     }
 
