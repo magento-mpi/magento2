@@ -32,7 +32,7 @@ class RouterList implements RouterListInterface
     {
         $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;
-        $this->_routerList = array_filter($routerList, function($item) {
+        $this->_routerList = array_filter($routerList, function ($item) {
             return (!isset($item['disable']) || !$item['disable']) && $item['instance'];
         });
         uasort($this->_routerList, array($this, '_compareRoutersSortOrder'));
@@ -113,17 +113,17 @@ class RouterList implements RouterListInterface
     /**
      * Compare routers sortOrder
      *
-     * @param array $routerData1
-     * @param array $routerData2
+     * @param array $routerDataFirst
+     * @param array $routerDataSecond
      * @return int
      */
-    protected function _compareRoutersSortOrder($routerData1, $routerData2)
+    protected function _compareRoutersSortOrder($routerDataFirst, $routerDataSecond)
     {
-        if ((int)$routerData1['sortOrder'] == (int)$routerData2['sortOrder']) {
+        if ((int)$routerDataFirst['sortOrder'] == (int)$routerDataSecond['sortOrder']) {
             return 0;
         }
 
-        if ((int)$routerData1['sortOrder'] < (int)$routerData2['sortOrder']) {
+        if ((int)$routerDataFirst['sortOrder'] < (int)$routerDataSecond['sortOrder']) {
             return -1;
         } else {
             return 1;

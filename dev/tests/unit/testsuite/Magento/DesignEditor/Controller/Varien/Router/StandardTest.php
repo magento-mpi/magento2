@@ -224,7 +224,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $rewriteServiceMock,
             'frontend'
         );
-//        $router->set($frontControllerMock);
         return $router;
     }
 

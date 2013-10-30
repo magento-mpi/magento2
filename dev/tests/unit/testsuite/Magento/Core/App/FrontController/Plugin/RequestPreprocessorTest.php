@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\App\FrontController\Plugin;
+
 class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -102,8 +103,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->never())->method('getRequestUri');
         $this->_model->aroundDispatch(array($this->_requestMock), $this->_invocationChainMock);
     }
-//
-//
+
     public function testAroundDispatchIfInstalledAndRedirectCodeExist()
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
@@ -111,7 +111,9 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfigMock
             ->expects($this->once())->method('getConfig')
             ->with('web/url/redirect_to_base')->will($this->returnValue(302));
-        $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
+        $this->_storeManagerMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
         $this->_storeMock->expects($this->once())->method('getBaseUrl');
         $this->_invocationChainMock->expects($this->once())->method('proceed')->with(array($this->_requestMock));
         $this->_requestMock->expects($this->never())->method('getRequestUri');
