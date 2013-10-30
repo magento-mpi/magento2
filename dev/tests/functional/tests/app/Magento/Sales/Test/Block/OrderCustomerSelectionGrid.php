@@ -24,7 +24,7 @@ class OrderCustomerSelectionGrid extends Grid
         parent::_init();
         $this->filters = array(
             'email' => array(
-                'selector' => '#customerGrid_filter_email'
+                'selector' => '#sales_order_create_customer_grid_filter_email'
             ),
         );
     }
