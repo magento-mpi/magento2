@@ -11,7 +11,7 @@
 
 namespace Magento\ImportExport\Model\Export\Entity;
 
-class EavAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractEavTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract eav export model
@@ -61,7 +61,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for methods _addAttributeValuesToRow()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_initAttrValues
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_initAttributeValues
      * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_addAttributeValuesToRow
      */
     public function testAddAttributeValuesToRow()
