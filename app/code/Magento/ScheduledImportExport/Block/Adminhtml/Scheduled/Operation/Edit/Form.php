@@ -55,11 +55,17 @@ abstract class Form
     protected $_optionArrayPool;
 
     /**
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
      * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -74,6 +80,7 @@ abstract class Form
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -85,6 +92,7 @@ abstract class Form
         $this->_emailIdentity = $emailIdentity;
         $this->_operationData = $operationData;
         $this->_sourceYesno = $sourceYesno;
+        $this->string = $string;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -166,7 +174,7 @@ abstract class Form
 
         $entities = $this->_optionArrayPool->get(
             'Magento\ImportExport\Model\Source\\'
-                . \Magento\Stdlib\String::upperCaseWords($operation->getOperationType()) . '\Entity'
+                . $this->string->upperCaseWords($operation->getOperationType()) . '\Entity'
         )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(

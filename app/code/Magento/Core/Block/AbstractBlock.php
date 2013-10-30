@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Block;
+
+use Magento\View\Element\BlockInterface;
 
 /**
  * Base Content Block class
@@ -15,15 +18,6 @@
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
  *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Block;
-
-use Magento\View\Element\BlockInterface;
-
-/**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -140,7 +134,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_storeManager;
+    protected $_app;
 
     /**
      * @var \Magento\Escaper
@@ -173,7 +167,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_storeManager    = $context->getApp();
+        $this->_app    = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
         parent::__construct($data);

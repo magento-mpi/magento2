@@ -209,14 +209,22 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected $_dirs;
 
     /**
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
      * @param \Magento\App\Dir $dirs
+     * @param \Magento\Stdlib\String $string
      * @param array $config
      */
     public function __construct(
         \Magento\App\Dir $dirs,
+        \Magento\Stdlib\String $string,
         array $config = array()
     ) {
         $this->_dirs = $dirs;
+        $this->string = $string;
         parent::__construct($config);
     }
 
@@ -1650,7 +1658,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $options['precision'] = $columnData['PRECISION'];
         }
 
-        $comment = \Magento\Stdlib\String::upperCaseWords($columnData['COLUMN_NAME'], '_', ' ');
+        $comment = $this->string->upperCaseWords($columnData['COLUMN_NAME'], '_', ' ');
 
         $result = array(
             'name'      => $columnData['COLUMN_NAME'],
@@ -1674,7 +1682,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     {
         $describe = $this->describeTable($tableName);
         $table = $this->newTable($newTableName)
-            ->setComment(\Magento\Stdlib\String::upperCaseWords($newTableName, '_', ' '));
+            ->setComment($this->string->upperCaseWords($newTableName, '_', ' '));
 
         foreach ($describe as $columnData) {
             $columnInfo = $this->getColumnCreateByDescribe($columnData);

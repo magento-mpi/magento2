@@ -91,6 +91,7 @@ class Filter extends \Magento\Filter\Template
     protected $_coreStoreConfig;
 
     /**
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\View\Url $viewUrl
@@ -101,6 +102,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\View\LayoutFactory $layoutFactory
      */
     public function __construct(
+        \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\View\Url $viewUrl,
@@ -119,6 +121,7 @@ class Filter extends \Magento\Filter\Template
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
         $this->_layoutFactory = $layoutFactory;
+        parent::__construct($string);
     }
 
     /**

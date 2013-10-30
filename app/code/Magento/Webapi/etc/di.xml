@@ -131,4 +131,18 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Webapi\Controller\Rest">
+        <param name="request">
+            <instance type="Magento\Webapi\Controller\Rest\RequestProxy" />
+        </param>
+        <param name="response">
+            <instance type="Magento\Webapi\Controller\Rest\ResponseProxy" />
+        </param>
+        <param name="router">
+            <instance type="Magento\Webapi\Controller\Rest\RouterProxy" />
+        </param>
+        <param name="oauthHelper">
+            <instance type="Magento\Oauth\Helper\DataProxy" />
+        </param>
+    </type>
 </config>

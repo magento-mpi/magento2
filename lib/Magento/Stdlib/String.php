@@ -28,7 +28,7 @@ class String
      * @param string $destinationSeparator
      * @return string
      */
-    public static function upperCaseWords($str, $sourceSeparator = '_', $destinationSeparator = '_')
+    public function upperCaseWords($str, $sourceSeparator = '_', $destinationSeparator = '_')
     {
         return str_replace(' ', $destinationSeparator, ucwords(str_replace($sourceSeparator, ' ', $str)));
     }
