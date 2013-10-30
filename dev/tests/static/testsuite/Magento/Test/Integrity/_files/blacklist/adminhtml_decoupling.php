@@ -35,7 +35,6 @@ return array(
 
     // Controllers
     'Controller/Checkout',
-    'Controller/Customer',
     'Controller/Newsletter',
     'Controller/Report',
     'Controller/Report',
@@ -75,7 +74,6 @@ return array(
 
     // Layouts
     'layout/adminhtml_cache',
-    'layout/adminhtml_customer',
     'layout/adminhtml_denied',
     'layout/adminhtml_newsletter',
     'layout/adminhtml_noroute',
