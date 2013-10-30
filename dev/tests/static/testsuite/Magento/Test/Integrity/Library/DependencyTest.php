@@ -72,8 +72,8 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $this->tokens = token_get_all($fileReflection->getContents());
         $this->parseContent();
 
-        //$this->checkInjectableDependencies($fileReflection);
-        //$this->checkStaticCallDependencies($fileReflection);
+        $this->checkInjectableDependencies($fileReflection);
+        $this->checkStaticCallDependencies($fileReflection);
         $this->checkThrowsDependencies($fileReflection);
 
         if ($this->hasErrors()) {
