@@ -2,24 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Fieldset;
+namespace Magento\Object\Copy;
 
 class Config
 {
     /**
-     * @var \Magento\Core\Model\Fieldset\Config\Data
+     * @var \Magento\Object\Copy\Config\Data
      */
     protected $_dataStorage;
 
     /**
-     * @param \Magento\Core\Model\Fieldset\Config\Data $dataStorage
+     * @param \Magento\Object\Copy\Config\Data $dataStorage
      */
-    public function __construct(\Magento\Core\Model\Fieldset\Config\Data $dataStorage)
+    public function __construct(\Magento\Object\Copy\Config\Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }

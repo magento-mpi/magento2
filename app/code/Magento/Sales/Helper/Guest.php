@@ -64,7 +64,6 @@ class Guest extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -83,7 +82,6 @@ class Guest extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -99,16 +97,16 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Session $coreSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_coreCookie = $coreCookie;
         $this->_coreApp = $coreApp;
         $this->_coreSession = $coreSession;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct(
+            $context, $coreHttp, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState, $encryptor,
+            $dbCompatibleMode
         );
     }
 

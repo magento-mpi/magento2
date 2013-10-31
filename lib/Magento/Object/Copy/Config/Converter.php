@@ -1,13 +1,11 @@
 <?php
 /**
- * Fieldset Configuration Converter
- *
  * {license_notice}
  *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-namespace Magento\Core\Model\Fieldset\Config;
+namespace Magento\Object\Copy\Config;
 
 class Converter implements \Magento\Config\ConverterInterface
 {

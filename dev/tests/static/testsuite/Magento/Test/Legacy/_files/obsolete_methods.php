@@ -861,4 +861,5 @@ return array(
     array('setModuleDir', 'Magento\Core\Model\Config'),
     array('getAreaConfig', 'Magento\Core\Model\Config'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
+    array('copyFieldsetToTarget', 'Magento\Core\Helper\Data', 'Magento\Object\Copy::copyFieldsetToTarget'),
 );

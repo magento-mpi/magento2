@@ -142,13 +142,6 @@ class Checkout
     protected $_taxData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Customer data
      *
      * @var \Magento\Customer\Helper\Data
@@ -211,11 +204,15 @@ class Checkout
     protected $_apiTypeFactory;
 
     /**
+     * @var \Magento\Object\Copy
+     */
+    protected $_objectCopyService;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -230,15 +227,13 @@ class Checkout
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
+     * @param \Magento\Object\Copy $objectCopyService
      * @param array $params
      * @throws \Exception
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
@@ -253,10 +248,10 @@ class Checkout
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
+        \Magento\Object\Copy $objectCopyService,
         $params = array()
     ) {
         $this->_customerData = $customerData;
-        $this->_coreData = $coreData;
         $this->_taxData = $taxData;
         $this->_checkoutData = $checkoutData;
         $this->_customerSession = $customerSession;
@@ -272,6 +267,7 @@ class Checkout
         $this->_serviceQuoteFactory = $serviceQuoteFactory;
         $this->_agreementFactory = $agreementFactory;
         $this->_apiTypeFactory = $apiTypeFactory;
+        $this->_objectCopyService = $objectCopyService;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -1044,7 +1040,7 @@ class Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        $this->_coreData->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        $this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());

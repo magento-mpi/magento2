@@ -47,11 +47,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_encryptorFactory;
 
     /**
-     * @var \Magento\Core\Model\Fieldset\Config
-     */
-    protected $_fieldsetConfig;
-
-    /**
      * @var \Magento\Core\Model\App
      */
     protected $_app;
@@ -68,7 +63,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
      * @param \Magento\Core\Model\EncryptionFactory $encryptorFactory
-     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\App $app
      * @param \Magento\UrlInterface $urlBuilder
@@ -80,7 +74,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Core\Model\Cache\Config $cacheConfig,
         \Magento\Core\Model\EncryptionFactory $encryptorFactory,
-        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\App $app,
         \Magento\UrlInterface $urlBuilder
@@ -90,7 +83,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
         $this->_encryptorFactory = $encryptorFactory;
-        $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
         $this->_app = $app;
@@ -161,14 +153,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         return $this->_eventManager;
     }
 
-    /**
-     * @return \Magento\Core\Model\Fieldset\Config
-     */
-    public function getFieldsetConfig()
-    {
-        return $this->_fieldsetConfig;
-    }
-    
     /**
      * @return \Magento\Core\Model\Logger
      */

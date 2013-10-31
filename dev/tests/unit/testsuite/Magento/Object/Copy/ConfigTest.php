@@ -1,37 +1,37 @@
 <?php
 /**
- * \Magento\Core\Model\Fieldset\Config
+ * \Magento\Object\Copy\Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Fieldset;
+namespace Magento\Object\Copy;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Fieldset\Config\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Object\Copy\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storageMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Object\Copy\Config
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_storageMock = $this->getMock(
-            'Magento\Core\Model\Fieldset\Config\Data',
+            'Magento\Object\Copy\Config\Data',
             array('get'),
             array(),
             '',
             false
         );
 
-        $this->_model = new \Magento\Core\Model\Fieldset\Config($this->_storageMock);
+        $this->_model = new \Magento\Object\Copy\Config($this->_storageMock);
     }
 
     public function testGetFieldsets()

@@ -21,7 +21,7 @@ namespace Magento\Customer\Model\Resource\Customer;
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
-     * @var \Magento\Core\Model\Fieldset\Config
+     * @var \Magento\Object\Copy\Config
      */
     protected $_fieldsetConfig;
 
@@ -35,7 +35,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Object\Copy\Config $fieldsetConfig
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -47,7 +47,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+        \Magento\Object\Copy\Config $fieldsetConfig
     ) {
         $this->_fieldsetConfig = $fieldsetConfig;
         parent::__construct(

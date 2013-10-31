@@ -1,24 +1,24 @@
 <?php
 /**
- * \Magento\Core\Model\Fieldset\Config\Converter
+ * \Magento\Object\Copy\Config\Converter
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Fieldset\Config;
+namespace Magento\Object\Copy\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config\Converter
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Object\Copy\Config\Converter
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new \Magento\Core\Model\Fieldset\Config\Converter();
+        $this->_model = new \Magento\Object\Copy\Config\Converter();
     }
 
     public function testConvert()

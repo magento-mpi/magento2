@@ -1030,4 +1030,9 @@ return array(
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),
+    array('Magento\Core\Model\Fieldset\Config', 'Magento\Object\Copy\Config'),
+    array('Magento\Core\Model\Fieldset\Config\Converter', 'Magento\Object\Copy\Config\Converter'),
+    array('Magento\Core\Model\Fieldset\Config\Data', 'Magento\Object\Copy\Config\Data'),
+    array('Magento\Core\Model\Fieldset\Config\Reader', 'Magento\Object\Copy\Config\Reader'),
+    array('Magento\Core\Model\Fieldset\Config\SchemaLocator', 'Magento\Object\Copy\Config\SchemaLocator'),
 );

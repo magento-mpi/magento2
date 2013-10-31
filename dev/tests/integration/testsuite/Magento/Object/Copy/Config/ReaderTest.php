@@ -1,13 +1,13 @@
 <?php
 /**
- * \Magento\Core\Model\Fieldset\Config\Reader
+ * \Magento\Object\Copy\Config\Reader
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Fieldset\Config;
+namespace Magento\Object\Copy\Config;
 
 /**
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
@@ -15,7 +15,7 @@ namespace Magento\Core\Model\Fieldset\Config;
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Fieldset\Config\Reader
+     * @var \Magento\Object\Copy\Config\Reader
      */
     protected $_model;
 
@@ -71,7 +71,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = $objectManager->create(
-            'Magento\Core\Model\Fieldset\Config\Reader', array(
+            'Magento\Object\Copy\Config\Reader', array(
                 'fileResolver' => $fileResolver,
             )
         );
@@ -99,9 +99,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('fieldset.xml'), $this->equalTo('global'))
             ->will($this->returnValue($fileList));
 
-        /** @var \Magento\Core\Model\Fieldset\Config\Reader $model */
+        /** @var \Magento\Object\Copy\Config\Reader $model */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Fieldset\Config\Reader', array(
+            'Magento\Object\Copy\Config\Reader', array(
                 'fileResolver' => $fileResolverMock,
             )
         );

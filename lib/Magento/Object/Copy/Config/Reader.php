@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Fieldset\Config;
+namespace Magento\Object\Copy\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
 {
@@ -25,7 +25,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
-     * @param \Magento\Core\Model\Fieldset\Config\Converter $converter
+     * @param \Magento\Object\Copy\Config\Converter $converter
      * @param \Magento\Config\SchemaLocatorInterface $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
@@ -34,7 +34,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        \Magento\Core\Model\Fieldset\Config\Converter $converter,
+        \Magento\Object\Copy\Config\Converter $converter,
         \Magento\Config\SchemaLocatorInterface $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'fieldset.xml',

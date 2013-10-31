@@ -76,13 +76,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreHttp = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Core\Model\Cache\Config
      */
     protected $_cacheConfig;
@@ -91,11 +84,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @var \Magento\Core\Model\EncryptionFactory
      */
     protected $_encryptorFactory;
-
-    /**
-     * @var \Magento\Core\Model\Fieldset\Config
-     */
-    protected $_fieldsetConfig;
 
     /**
      * Core store config
@@ -125,14 +113,18 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_appState;
 
     /**
+     * @var \Magento\Object\Copy
+     */
+    protected $_objectCopyService;
+
+    /**
      * @var boolean
      */
     protected $_dbCompatibleMode;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param Context $context
+     * @param Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -140,11 +132,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Object\Copy $objectCopyService
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -153,16 +145,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Object\Copy $objectCopyService,
         $dbCompatibleMode = true
     ) {
-        $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_objectCopyService = $objectCopyService;
         parent::__construct($context);
         $this->_config = $config;
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_encryptorFactory = $context->getEncryptorFactory();
-        $this->_fieldsetConfig = $context->getFieldsetConfig();
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_dateModel = $dateModel;
@@ -470,88 +462,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $types[$type] = $node['label'];
         }
         return $types;
-    }
-
-    /**
-     * Copy data from object|array to object|array containing fields
-     * from fieldset matching an aspect.
-     *
-     * Contents of $aspect are a field name in target object or array.
-     * If targetField attribute is not provided - will be used the same name as in the source object or array.
-     *
-     * @param string $fieldset
-     * @param string $aspect
-     * @param array|\Magento\Object $source
-     * @param array|\Magento\Object $target
-     * @param string $root
-     * @return array|\Magento\Object|null the value of $target
-     */
-    public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root='global')
-    {
-        if (!$this->_isFieldsetInputValid($source, $target)) {
-            return null;
-        }
-        $fields = $this->_fieldsetConfig->getFieldset($fieldset, $root);
-        if (is_null($fields)) {
-            return $target;
-        }
-        $targetIsArray = is_array($target);
-
-        foreach ($fields as $code => $node) {
-            if (empty($node[$aspect])) {
-                continue;
-            }
-
-            $value = $this->_getFieldsetFieldValue($source, $code);
-
-            $targetCode = (string)$node[$aspect];
-            $targetCode = $targetCode == '*' ? $code : $targetCode;
-
-            if ($targetIsArray) {
-                $target[$targetCode] = $value;
-            } else {
-                $target->setDataUsingMethod($targetCode, $value);
-            }
-        }
-
-        $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        $this->_eventManager->dispatch($eventName, array(
-            'target' => $target,
-            'source' => $source,
-            'root'   => $root
-        ));
-
-        return $target;
-    }
-
-    /**
-     * Check if source and target are valid input for converting using fieldset
-     *
-     * @param array|\Magento\Object $source
-     * @param array|\Magento\Object $target
-     * @return bool
-     */
-    private function _isFieldsetInputValid($source, $target)
-    {
-        return (is_array($source) || $source instanceof \Magento\Object)
-        && (is_array($target) || $target instanceof \Magento\Object);
-    }
-
-    /**
-     * Get value of source by code
-     *
-     * @param $source
-     * @param $code
-     * @return null
-     */
-    private function _getFieldsetFieldValue($source, $code)
-    {
-        if (is_array($source)) {
-            $value = isset($source[$code]) ? $source[$code] : null;
-        } else {
-            $value = $source->getDataUsingMethod($code);
-        }
-        return $value;
     }
 
     /**

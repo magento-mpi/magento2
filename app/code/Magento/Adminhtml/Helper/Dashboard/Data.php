@@ -52,8 +52,7 @@ class Data extends \Magento\Core\Helper\Data
         $installDate,
         $dbCompatibleMode = true
     ) {
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct($context, $coreHttp, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
         $this->_installDate = $installDate;
     }
