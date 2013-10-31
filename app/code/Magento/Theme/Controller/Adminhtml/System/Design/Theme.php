@@ -109,8 +109,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
         $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
 
-        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->get('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
         /** @var $cssService \Magento\Theme\Model\Theme\Customization\File\CustomCss */
         $cssService = $this->_objectManager->get('Magento\Theme\Model\Theme\Customization\File\CustomCss');
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
@@ -216,8 +216,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         $themeId = $this->getRequest()->getParam('id');
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
-        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->get('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
         /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
         $jsService = $this->_objectManager->get('Magento\Core\Model\Theme\Customization\File\Js');
         try {
@@ -253,8 +253,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
     {
         $themeId = $this->getRequest()->getParam('theme_id');
         try {
-            /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
-            $themeFactory = $this->_objectManager->create('Magento\Core\Model\Theme\FlyweightFactory');
+            /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
+            $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
                 throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));

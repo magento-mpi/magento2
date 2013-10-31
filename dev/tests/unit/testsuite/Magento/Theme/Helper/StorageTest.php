@@ -26,7 +26,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\Theme\FlyweightFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeFactory;
 
@@ -53,7 +53,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_session = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
-        $this->_themeFactory = $this->getMock('Magento\Core\Model\Theme\FlyweightFactory', array('create'), array(),
+        $this->_themeFactory = $this->getMock('Magento\View\Design\Theme\FlyweightFactory', array('create'), array(),
             '', false);
 
         $this->_storageHelper = $this->getMock('Magento\Theme\Helper\Storage',

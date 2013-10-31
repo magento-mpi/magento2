@@ -64,7 +64,7 @@ class Design implements \Magento\View\DesignInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_flyweightFactory;
 
@@ -90,7 +90,7 @@ class Design implements \Magento\View\DesignInterface
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory
+     * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
@@ -99,7 +99,7 @@ class Design implements \Magento\View\DesignInterface
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,

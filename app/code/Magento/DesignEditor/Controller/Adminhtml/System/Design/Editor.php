@@ -348,8 +348,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->create('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeId);
         if (empty($theme)) {
             throw new \Magento\Core\Exception(__('We can\'t find this theme.'));

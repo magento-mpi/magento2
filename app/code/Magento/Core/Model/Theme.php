@@ -70,7 +70,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_eventObject = 'theme';
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
@@ -115,7 +115,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
      * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
      * @param \Magento\View\Design\Theme\Validator $validator
@@ -129,7 +129,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Domain\Factory $domainFactory,
         \Magento\Core\Model\Theme\ImageFactory $imageFactory,
         \Magento\View\Design\Theme\Validator $validator,

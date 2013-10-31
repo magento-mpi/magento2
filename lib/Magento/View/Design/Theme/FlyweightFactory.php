@@ -11,33 +11,32 @@
 /**
  * Theme factory
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class FlyweightFactory
 {
     /**
-     * Object Manager
-     *
-     * @var \Magento\ObjectManager
+     * @var DataProviderInterface
      */
-    protected $_objectManager;
+    protected $dataProvider;
 
     /**
      * @var \Magento\View\Design\ThemeInterface[]
      */
-    protected $_themes = array();
+    protected $themes = array();
 
     /**
      * @var \Magento\View\Design\ThemeInterface[]
      */
-    protected $_themesByPath = array();
+    protected $themesByPath = array();
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param DataProviderInterface $dataProvider
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
+    public function __construct(
+        DataProviderInterface $dataProvider
+    ) {
+        $this->dataProvider = $dataProvider;
     }
 
     /**
@@ -72,14 +71,11 @@ class FlyweightFactory
      */
     protected function _loadById($themeId)
     {
-        if (isset($this->_themes[$themeId])) {
-            return $this->_themes[$themeId];
+        if (isset($this->themes[$themeId])) {
+            return $this->themes[$themeId];
         }
 
-        /** @var $themeModel \Magento\View\Design\ThemeInterface */
-        $themeModel = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
-        $themeModel->load($themeId);
-        return $themeModel;
+        return $this->dataProvider->getById($themeId);
     }
 
     /**
@@ -92,29 +88,26 @@ class FlyweightFactory
     protected function _loadByPath($themePath, $area)
     {
         $fullPath = $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themePath;
-        if (isset($this->_themesByPath[$fullPath])) {
-            return $this->_themesByPath[$fullPath];
+        if (isset($this->themesByPath[$fullPath])) {
+            return $this->themesByPath[$fullPath];
         }
 
-        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = $this->_objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
-        $themeModel = $themeCollection->getThemeByFullPath($fullPath);
-        return $themeModel;
+        return $this->dataProvider->getByFullPath($fullPath);
     }
 
     /**
      * Add theme to shared collection
      *
      * @param \Magento\View\Design\ThemeInterface $themeModel
-     * @return $this
+     * @return FlyweightFactory
      */
     protected function _addTheme(\Magento\View\Design\ThemeInterface $themeModel)
     {
         if ($themeModel->getId()) {
-            $this->_themes[$themeModel->getId()] = $themeModel;
+            $this->themes[$themeModel->getId()] = $themeModel;
             $themePath = $themeModel->getFullPath();
             if ($themePath) {
-                $this->_themesByPath[$themePath] = $themeModel;
+                $this->themesByPath[$themePath] = $themeModel;
             }
         }
         return $this;

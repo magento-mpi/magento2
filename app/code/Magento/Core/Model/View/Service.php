@@ -31,7 +31,7 @@ class Service
     private $_design;
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
@@ -43,13 +43,13 @@ class Service
     /**
      * @param \Magento\App\State $appState
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\App\State $appState,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\App\Dir $dir
     ) {
         $this->_appState = $appState;
