@@ -120,6 +120,8 @@ class Service
      *
      * @param array $params
      * @return $this
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function updateDesignParams(array &$params)
     {

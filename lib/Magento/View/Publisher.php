@@ -68,7 +68,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      *
      * @var bool
      */
-    protected $_allowFilesDuplication;
+    protected $_allowDuplication;
 
     /**
      * @var \Magento\App\Dir
@@ -90,7 +90,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param $allowFilesDuplication
+     * @param $allowDuplication
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -100,7 +100,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\App\Dir $dir,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        $allowFilesDuplication
+        $allowDuplication
     ) {
         $this->_filesystem = $filesystem;
         $this->_cssHelper = $cssHelper;
@@ -109,7 +109,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $this->_dir = $dir;
         $this->_modulesReader = $modulesReader;
         $this->_logger = $logger;
-        $this->_allowFilesDuplication = $allowFilesDuplication;
+        $this->_allowDuplication = $allowDuplication;
     }
 
     /**
@@ -214,7 +214,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
     {
         $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
-        if ($this->_allowFilesDuplication || $isCssFile) {
+        if ($this->_allowDuplication || $isCssFile) {
             $targetPath = $this->_buildPublicViewRedundantFilename($filePath, $params);
         } else {
             $targetPath = $this->_buildPublicViewSufficientFilename($sourcePath, $params);

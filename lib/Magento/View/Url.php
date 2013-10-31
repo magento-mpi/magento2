@@ -44,35 +44,52 @@ class Url
     protected $_deployedFileManager;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\UrlInterface
      */
-    protected $_storeManager;
+    protected $_urlBuilder;
 
+    /**
+     * @var \Magento\View\Url\ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * Map urls to app dirs
+     *
+     * @var array
+     */
+    protected $_fileUrlMap;
 
     /**
      * View files URL model
      *
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dirs
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\View\Service $viewService
-     * @param \Magento\View\Publisher $publisher
-     * @param \Magento\View\DeployedFilesManager $deployedFileManager
+     * @param \Magento\UrlInterface $urlBuilder
+     * @param Url\ConfigInterface $config
+     * @param Service $viewService
+     * @param Publisher $publisher
+     * @param DeployedFilesManager $deployedFileManager
+     * @param array $fileUrlMap
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dirs,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\UrlInterface $urlBuilder,
+        \Magento\View\Url\ConfigInterface $config,
         \Magento\View\Service $viewService,
         \Magento\View\Publisher $publisher,
-        \Magento\View\DeployedFilesManager $deployedFileManager
+        \Magento\View\DeployedFilesManager $deployedFileManager,
+        array $fileUrlMap = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
-        $this->_storeManager = $storeManager;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_config = $config;
         $this->_viewService = $viewService;
         $this->_publisher = $publisher;
         $this->_deployedFileManager = $deployedFileManager;
+        $this->_fileUrlMap = $fileUrlMap;
     }
 
     /**
@@ -121,18 +138,17 @@ class Url
      */
     public function getPublicFileUrl($publicFilePath, $isSecure = null)
     {
-        foreach (array(
-                \Magento\Core\Model\Store::URL_TYPE_LIB     => \Magento\App\Dir::PUB_LIB,
-                \Magento\Core\Model\Store::URL_TYPE_MEDIA   => \Magento\App\Dir::MEDIA,
-                \Magento\Core\Model\Store::URL_TYPE_STATIC  => \Magento\App\Dir::STATIC_VIEW,
-                \Magento\Core\Model\Store::URL_TYPE_CACHE   => \Magento\App\Dir::PUB_VIEW_CACHE,
-            ) as $urlType => $dirType
-        ) {
-            $dir = $this->_dirs->getDir($dirType);
+        foreach ($this->_fileUrlMap as $urlMap) {
+            $dir = $this->_dirs->getDir($urlMap['value']);
             if (strpos($publicFilePath, $dir) === 0) {
                 $relativePath = ltrim(substr($publicFilePath, strlen($dir)), '\\/');
                 $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
-                $url = $this->_storeManager->getStore()->getBaseUrl($urlType, $isSecure) . $relativePath;
+                $url = $this->_urlBuilder->getBaseUrl(
+                    array(
+                        '_type' => $urlMap['key'],
+                        '_secure' => $isSecure
+                    )
+                ) . $relativePath;
 
                 if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
                     $fileMTime = $this->_filesystem->getMTime($publicFilePath);
@@ -153,7 +169,7 @@ class Url
      */
     protected function _isStaticFilesSigned()
     {
-        return (bool)$this->_storeManager->getStore()->getConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
+        return (bool)$this->_config->getConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
 
     /**

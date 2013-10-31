@@ -37,6 +37,7 @@
     <preference for="Magento\Event\ManagerInterface" type="Magento\Event\Manager\Proxy" />
     <preference for="Magento\View\LayoutInterface" type="Magento\Core\Model\Layout" />
     <preference for="Magento\View\Layout\ProcessorInterface" type="Magento\Core\Model\Layout\Merge" />
+    <preference for="Magento\View\Url\ConfigInterface" type="Magento\Core\Model\View\Url\Config" />
     <type name="Magento\View\Layout\Structure" shared="false" />
     <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\Data\Form\Factory">
@@ -204,6 +205,28 @@
     <type name="Magento\Core\Model\Url">
         <param name="session">
             <instance type="Magento\Core\Model\Session\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\View\Url">
+        <param name="fileUrlMap">
+            <value>
+                <urlLib>
+                    <key type="const">Magento\Core\Model\Store::URL_TYPE_LIB</key>
+                    <value type="const">Magento\App\Dir::PUB_LIB</value>
+                </urlLib>
+                <urlMedia>
+                    <key type="const">Magento\Core\Model\Store::URL_TYPE_MEDIA</key>
+                    <value type="const">Magento\App\Dir::MEDIA</value>
+                </urlMedia>
+                <urlStatic>
+                    <key type="const">Magento\Core\Model\Store::URL_TYPE_STATIC</key>
+                    <value type="const">Magento\App\Dir::STATIC_VIEW</value>
+                </urlStatic>
+                <urlCache>
+                    <key type="const">Magento\Core\Model\Store::URL_TYPE_CACHE</key>
+                    <value type="const">Magento\App\Dir::PUB_VIEW_CACHE</value>
+                </urlCache>
+            </value>
         </param>
     </type>
 </config>

@@ -300,7 +300,7 @@
         </param>
     </type>
     <type name="Magento\View\Publisher">
-        <param name="allowFilesDuplication">
+        <param name="allowDuplication">
             <value type="bool">true</value>
         </param>
     </type>

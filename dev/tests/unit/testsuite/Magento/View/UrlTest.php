@@ -42,21 +42,17 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('getDir')
             ->will($this->returnValue('some_dir'));
 
-        // 3. Get store model
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $store->expects($this->any())
+        // 3. Get url model
+        $urlBuilder = $this->getMockBuilder('Magento\UrlInterface')->getMockForAbstractClass();
+        $urlBuilder->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://example.com/'));
-        $store->expects($this->any())
+
+        // 4. Get urlConfig model
+        $urlConfig = $this->getMockBuilder('Magento\View\Url\ConfigInterface')->getMockForAbstractClass();
+        $urlConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue($isSigned));
-
-        // 4. Get store manager
-        /** @var $storeManager \Magento\Core\Model\StoreManager|PHPUnit_Framework_MockObject_MockObject */
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($store));
 
         // 5. Get viewService model
         /** @var $viewService \Magento\View\Service|PHPUnit_Framework_MockObject_MockObject */
@@ -85,10 +81,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        // 8. Get default fake url map
+        $urlMap = array('fake' => array('key' => "some_key", 'value' => "some_value"));
+
         // Create model to be tested
         /** @var $model \Magento\View\Url|PHPUnit_Framework_MockObject_MockObject */
         $model = new \Magento\View\Url(
-            $filesystem, $dirs, $storeManager, $viewService, $publisher, $dFManager
+            $filesystem, $dirs, $urlBuilder, $urlConfig, $viewService, $publisher, $dFManager, $urlMap
         );
 
         // Test

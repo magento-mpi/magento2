@@ -120,7 +120,6 @@ class ThemeDeployment
             $destDir = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
-                $destinationContext['locale'],
                 '',
                 $destinationContext['module']
             );
@@ -200,8 +199,7 @@ class ThemeDeployment
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
                     $relPath = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
-                        $destContext['area'], $destContext['themePath'], $destContext['locale'],
-                        $file, $module
+                        $destContext['area'], $destContext['themePath'], $file, $module
                     );
 
                     $result = $destHomeDir . '/' . $relPath;

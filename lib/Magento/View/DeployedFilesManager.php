@@ -45,12 +45,11 @@ class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
      *
      * @param string $area
      * @param string $themePath
-     * @param string $locale
      * @param string $file
      * @param string|null $module
      * @return string
      */
-    public static function buildDeployedFilePath($area, $themePath, $locale, $file, $module = null)
+    public static function buildDeployedFilePath($area, $themePath, $file, $module = null)
     {
         return $area . DIRECTORY_SEPARATOR . $themePath . DIRECTORY_SEPARATOR
             . ($module ? $module . DIRECTORY_SEPARATOR : '') . $file;
@@ -73,7 +72,7 @@ class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
             $themeModel = $themeModel->getParentTheme();
         }
         $subPath = self::buildDeployedFilePath(
-            $params['area'], $themePath, $params['locale'], $filePath, $params['module']
+            $params['area'], $themePath, $filePath, $params['module']
         );
         $deployedFilePath = $this->_viewService->getPublicDir() . DIRECTORY_SEPARATOR . $subPath;
 
