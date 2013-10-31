@@ -53,7 +53,7 @@ class OrderCreateTest extends Functional
         $gridPageActionsBlock = $orderGridPage->getPageActionsBlock();
 
         $orderGridPage->open();
-        $gridPageActionsBlock->addNew();
+        $gridPageActionsBlock->clickAddNew();
     }
 
     /**
