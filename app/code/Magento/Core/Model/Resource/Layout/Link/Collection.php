@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Resource\Layout\Link;
+
 /**
  * Layout update collection model
  */
-namespace Magento\Core\Model\Resource\Layout\Link;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**

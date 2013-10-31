@@ -1,7 +1,5 @@
 <?php
 /**
- * Event resource Collection
- *
  * {license_notice}
  *
  * @category    Magento
@@ -9,8 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webhook\Model\Resource\Event;
 
+/**
+ * Event resource Collection
+ */
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -29,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -49,7 +51,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $timeoutIdling = null
     ) {
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_timeoutIdling = is_null($timeoutIdling) ?
             self::DEFAULT_TIMEOUT_IDLING_EVENTS : $timeoutIdling;
@@ -143,7 +145,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             /* if event is in progress state for less than hour we do nothing with it*/
             $okUpdatedTime = time() - $this->_timeoutIdling;
             $this->addFieldToFilter('status', \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => $this->dateTime->formatDate($okUpdatedTime),
+                ->addFieldToFilter('updated_at', array('to' => $this->_dateTime->formatDate($okUpdatedTime),
                     'datetime' => true));
             $idsToRevoke = $this->_getLoadedIds();
             if (count($idsToRevoke)) {

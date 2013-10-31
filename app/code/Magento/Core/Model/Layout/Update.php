@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Layout;
+
 /**
  * Layout Update model class
  *
@@ -23,14 +25,12 @@
  * @method \Magento\Core\Model\Layout\Update setUpdatedAt() setUpdatedAt(string $updateDateTime)
  * @method \Magento\Core\Model\Resource\Layout\Update\Collection getCollection()
  */
-namespace Magento\Core\Model\Layout;
-
 class Update extends \Magento\Core\Model\AbstractModel
 {
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -48,7 +48,7 @@ class Update extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -67,7 +67,7 @@ class Update extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->setUpdatedAt($this->dateTime->formatDate(time()));
+        $this->setUpdatedAt($this->_dateTime->formatDate(time()));
         return parent::_beforeSave();
     }
 }

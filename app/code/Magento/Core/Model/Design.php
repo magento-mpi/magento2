@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
 
 /**
  * Design settings change model
@@ -22,13 +23,7 @@
  * @method \Magento\Core\Model\Design setDateFrom(string $value)
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
-
 class Design extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -60,7 +55,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -82,7 +77,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_locale = $locale;
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
     }
 
     /**
@@ -103,7 +98,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = $this->dateTime->formatDate($this->_locale->storeTimeStamp($storeId), false);
+            $date = $this->_dateTime->formatDate($this->_locale->storeTimeStamp($storeId), false);
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);

@@ -1,26 +1,28 @@
 <?php
 /**
- * Stores event information in Magento database
- *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+namespace Magento\Webhook\Model;
+
+/**
+ * Stores event information in Magento database
  *
  * @method \Magento\Webhook\Model\Event setStatus()
  * @method \Magento\Webhook\Model\Event setUpdatedAt()
  * @method \Magento\Webhook\Model\Event setCreatedAt()
  */
-namespace Magento\Webhook\Model;
-
 class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\EventInterface
 {
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -38,7 +40,7 @@ class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -61,9 +63,9 @@ class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->setCreatedAt($this->dateTime->formatDate(true));
+            $this->setCreatedAt($this->_dateTime->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
-            $this->setUpdatedAt($this->dateTime->formatDate(true));
+            $this->setUpdatedAt($this->_dateTime->formatDate(true));
         }
         return $this;
     }

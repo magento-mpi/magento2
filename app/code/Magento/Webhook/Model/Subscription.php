@@ -1,13 +1,17 @@
 <?php
 /**
- * Represents a subscription to one or more topics
- *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+namespace Magento\Webhook\Model;
+
+/**
+ * Represents a subscription to one or more topics
  *
  * @method string getName()
  * @method \Magento\Webhook\Model\Subscription setName(string $value)
@@ -25,8 +29,6 @@
  * @method bool hasStatus()
  * @method int getSubscriptionId()
  */
-namespace Magento\Webhook\Model;
-
 class Subscription
     extends \Magento\Core\Model\AbstractModel
     implements \Magento\PubSub\SubscriptionInterface
@@ -51,7 +53,7 @@ class Subscription
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * Tracks whether or not we've already loaded endpoint data from the DB.
@@ -83,7 +85,7 @@ class Subscription
             $data['status'] = \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE;
         }
         parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
         $this->_endpoint = $endpoint;
     }
 
@@ -116,7 +118,7 @@ class Subscription
         }
 
         if ($this->hasDataChanges()) {
-            $this->setUpdatedAt($this->dateTime->formatDate(time()));
+            $this->setUpdatedAt($this->_dateTime->formatDate(time()));
         }
 
         return parent::_beforeSave();

@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Resource\Design;
 
 /**
  * Core Design resource collection
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Design;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -61,9 +56,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function joinStore()
     {
          return $this->join(
-            array('cs' => 'core_store'),
-            'cs.store_id = main_table.store_id',
-            array('cs.name'));
+             array('cs' => 'core_store'),
+             'cs.store_id = main_table.store_id',
+             array('cs.name')
+         );
     }
 
     /**

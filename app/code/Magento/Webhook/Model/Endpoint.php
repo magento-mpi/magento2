@@ -1,13 +1,17 @@
 <?php
 /**
- * Represents an endpoint to which messages can be sent
- *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+namespace Magento\Webhook\Model;
+
+/**
+ * Represents an endpoint to which messages can be sent
  *
  * @method string getName()
  * @method \Magento\Webhook\Model\Endpoint setName(string $value)
@@ -20,8 +24,6 @@
  * @method \Magento\Webhook\Model\Endpoint setAuthenticationType(string $value)
  * @method \Magento\Webhook\Model\Endpoint setTimeoutInSecs(string $value)
  */
-namespace Magento\Webhook\Model;
-
 class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Outbound\EndpointInterface
 {
     /**
@@ -33,7 +35,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -55,7 +57,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_userFactory = $userFactory;
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
     }
 
     /**
@@ -102,7 +104,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
         }
 
         if ($this->hasDataChanges()) {
-            $this->setUpdatedAt($this->dateTime->formatDate(time()));
+            $this->setUpdatedAt($this->_dateTime->formatDate(time()));
         }
 
         return $this;
