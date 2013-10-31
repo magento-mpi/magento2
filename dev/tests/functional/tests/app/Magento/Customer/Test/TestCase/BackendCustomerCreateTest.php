@@ -35,6 +35,7 @@ class BackendCustomerCreateTest extends Functional
         $customerCreatePage = Factory::getPageFactory()->getAdminCustomerNew();
         $newCustomerForm = $customerCreatePage->getNewCustomerForm();
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $customerFixture->switchData('backend_customer');
         $messagesBlock = $customerCreatePage->getMessageBlock();
 
         $customerViewPage->open();
