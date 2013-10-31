@@ -15,7 +15,6 @@ return array(
     'Block/Backup',
     'Block/Cache',
     'Block/Checkout',
-    'Block/Cms',
     'Block/Customer',
     'Block/Dashboard',
     'Block/Denied',
@@ -37,7 +36,6 @@ return array(
 
     // Controllers
     'Controller/Checkout',
-    'Controller/Cms',
     'Controller/Customer',
     'Controller/Newsletter',
     'Controller/Promo',
@@ -66,7 +64,6 @@ return array(
     // Views
     'view/adminhtml/admin',
     'view/adminhtml/backup',
-    'view/adminhtml/cms',
     'view/adminhtml/customer',
     'view/adminhtml/email',
     'view/adminhtml/images',
@@ -84,7 +81,6 @@ return array(
 
     // Layouts
     'layout/adminhtml_cache',
-    'layout/adminhtml_cms',
     'layout/adminhtml_customer',
     'layout/adminhtml_denied',
     'layout/adminhtml_newsletter',

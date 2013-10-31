@@ -129,7 +129,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
         if ($this->hasFormActionUrl()) {
             return $this->getData('form_action_url');
         }
-        return $this->getUrl('*/' . $this->_controller . '/save');
+        return $this->getUrl('*/*/save');
     }
 
     public function getFormHtml()

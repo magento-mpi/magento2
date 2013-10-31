@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Images manage controller for Cms WYSIWYG editor
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
@@ -71,7 +71,7 @@ class Images extends \Magento\Backend\Controller\Adminhtml\Action
         try {
             $this->_initAction();
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Tree')
+                $this->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
                     ->getTreeJson()
             );
         } catch (\Exception $e) {

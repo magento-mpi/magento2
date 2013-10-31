@@ -717,7 +717,8 @@ th.required:after {
 .adminhtml-newsletter-problem-index .col-1-layout,
 /* cms */
 .adminhtml-cms-page-index .col-1-layout,
-.adminhtml-cms-block-index .col-1-layout,
+.cms-page-index .col-1-layout,
+.cms-block-index .col-1-layout,
 .adminhtml-widget-instance-index .col-1-layout,
 .adminhtml-banner-index .col-1-layout,
 /* reports */
@@ -811,7 +812,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions,
 /* cms */
 .adminhtml-cms-page-index .page-actions,
-.adminhtml-cms-block-index .page-actions,
+.cms-page-index .page-actions,
+.cms-block-index .page-actions,
 .adminhtml-widget-instance-index .page-actions,
 .adminhtml-banner-index .page-actions,
 /* reports */
@@ -869,7 +871,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions.fixed,
 /* cms */
 .adminhtml-cms-page-index .page-actions.fixed,
-.adminhtml-cms-block-index .page-actions.fixed,
+.cms-page-index .page-actions.fixed,
+.cms-block-index .page-actions.fixed,
 .adminhtml-widget-instance-index .page-actions.fixed,
 .adminhtml-banner-index .page-actions.fixed,
 /* reports */
@@ -926,7 +929,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions .add,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add,
-.adminhtml-cms-block-index .page-actions .add,
+.cms-page-index .page-actions .add,
+.cms-block-index .page-actions .add,
 .adminhtml-widget-instance-index .page-actions .add,
 .adminhtml-banner-index .page-actions .add,
 /* reports */
@@ -996,7 +1000,8 @@ th.required:after {
 .eq-ie8 .adminhtml-newsletter-template-index .page-actions .add,
 /* cms */
 .eq-ie8 .adminhtml-cms-page-index .page-actions .add,
-.eq-ie8 .adminhtml-cms-block-index .page-actions .add,
+.eq-ie8 .cms-page-index .page-actions .add,
+.eq-ie8 .cms-block-index .page-actions .add,
 .eq-ie8 .adminhtml-widget-instance-index .page-actions .add,
 .eq-ie8 .adminhtml-banner-index .page-actions .add,
 /* reports */
@@ -1050,7 +1055,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions .add:hover,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add:hover,
-.adminhtml-cms-block-index .page-actions .add:hover,
+.cms-page-index .page-actions .add:hover,
+.cms-block-index .page-actions .add:hover,
 .adminhtml-widget-instance-index .page-actions .add:hover,
 .adminhtml-banner-index .page-actions .add:hover,
 /* reports */
@@ -1111,8 +1117,8 @@ th.required:after {
 /* newsletter */
 .eq-ie8 .adminhtml-newsletter-template-index .page-actions .add:hover,
 /* cms */
-.eq-ie8 .adminhtml-cms-page-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-cms-block-index .page-actions .add:hover,
+.eq-ie8 .cms-page-index .page-actions .add:hover,
+.eq-ie8 .cms-block-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-widget-instance-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-banner-index .page-actions .add:hover,
 /* reports */
@@ -1166,7 +1172,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions .add:active,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add:active,
-.adminhtml-cms-block-index .page-actions .add:active,
+.cms-page-index .page-actions .add:active,
+.cms-block-index .page-actions .add:active,
 .adminhtml-widget-instance-index .page-actions .add:active,
 .adminhtml-banner-index .page-actions .add:active,
 /* reports */
@@ -1224,7 +1231,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions .add > span,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add > span,
-.adminhtml-cms-block-index .page-actions .add > span,
+.cms-page-index .page-actions .add > span,
+.cms-block-index .page-actions .add > span,
 .adminhtml-widget-instance-index .page-actions .add > span,
 .adminhtml-banner-index .page-actions .add > span,
 /* reports */
@@ -1281,7 +1289,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .page-actions .add > span:before,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add > span:before,
-.adminhtml-cms-block-index .page-actions .add > span:before,
+.cms-page-index .page-actions .add > span:before,
+.cms-block-index .page-actions .add > span:before,
 .adminhtml-widget-instance-index .page-actions .add > span:before,
 .adminhtml-banner-index .page-actions .add > span:before,
 /* reports */
@@ -1447,7 +1456,8 @@ th.required:after {
 .adminhtml-newsletter-template-index .grid-actions,
 /* cms */
 .adminhtml-cms-page-index .grid-actions,
-.adminhtml-cms-block-index .grid-actions,
+.cms-page-index .grid-actions,
+.cms-block-index .grid-actions,
 .adminhtml-widget-instance-index .grid-actions,
 .adminhtml-banner-index .grid-actions,
 /* reports */

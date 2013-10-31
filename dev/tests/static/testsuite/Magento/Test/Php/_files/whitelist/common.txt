@@ -2,7 +2,7 @@
 # Glob patterns are supported
 #
 app/bootstrap.php
-app/code/Magento/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
+app/code/Magento/Cms/Block/Adminhtml/Page/Edit/Tab/Design.php
 app/code/Magento/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Magento/Adminhtml/Model/Observer.php
 app/code/Magento/Adminhtml/Block/Urlrewrite

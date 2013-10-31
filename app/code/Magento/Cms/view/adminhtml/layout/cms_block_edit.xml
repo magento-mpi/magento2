@@ -42,6 +42,6 @@
         </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Cms\Block\Edit" name="cms_block_edit"/>
+        <block class="Magento\Cms\Block\Adminhtml\Block\Edit" name="cms_block_edit"/>
     </referenceContainer>
 </layout>

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Wysiwyg controller for different purposes
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Cms\Controller\Adminhtml;

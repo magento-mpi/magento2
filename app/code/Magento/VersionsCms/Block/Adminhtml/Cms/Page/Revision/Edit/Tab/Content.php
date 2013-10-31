@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 class Content
-    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Content
+    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 {
     /**
      * Cms data
