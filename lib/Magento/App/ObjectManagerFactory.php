@@ -12,26 +12,39 @@ namespace Magento\App;
 
 use Magento\App\Dir,
     Magento\App\Config,
-    Magento\ObjectManager\Config\Config as ObjectManagerConfig,
     Magento\ObjectManager\Factory\Factory,
     Magento\Profiler;
 
 class ObjectManagerFactory
 {
     /**
+     * Locator class name
+     *
+     * @var string
+     */
+    protected $_locatorClassName = '\Magento\ObjectManager\ObjectManager';
+
+    /**
+     * Config class name
+     *
+     * @var string
+     */
+    protected $_configClassName = '\Magento\ObjectManager\Config\Config';
+
+    /**
      * Create object manager
      *
      * @param string $rootDir
      * @param array $arguments
-     * @return ObjectManager
+     * @return \Magento\ObjectManager\ObjectManager
      * @throws \Magento\BootstrapException
      */
     public function create($rootDir, array $arguments)
     {
         $directories = new Dir(
             $rootDir,
-            isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array(),
-            isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array()
+            isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array(),
+            isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array()
         );
 
         \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(Dir::GENERATION)));
@@ -54,14 +67,12 @@ class ObjectManagerFactory
 
         $definitions = $definitionFactory->createClassDefinition($options->get('definitions'));
         $relations = $definitionFactory->createRelations();
-        $diConfig = new ObjectManagerConfig($relations, $definitions);
+        $configClass = $this->_configClassName;
+        /** @var \Magento\ObjectManager\Config\Config $diConfig */
+        $diConfig = new $configClass($relations, $definitions);
         $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
-        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
-        try {
-            $configData = $primaryLoader->load();
-        } catch (\Exception $e) {
-            throw new \Magento\BootstrapException($e->getMessage());
-        }
+
+        $configData = $this->_loadPrimaryConfig($directories, $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
@@ -69,13 +80,16 @@ class ObjectManagerFactory
 
         $factory = new Factory($diConfig, null, $definitions, $options->get());
 
-        $locator = new \Magento\ObjectManager\ObjectManager($factory, $diConfig, array(
+        $className = $this->_locatorClassName;
+        /** @var \Magento\ObjectManager $locator */
+        $locator = new $className($factory, $diConfig, array(
             'Magento\App\Config' => $options,
             'Magento\App\Dir' => $directories
         ));
 
         \Magento\App\ObjectManager::setInstance($locator); 
 
+        /** @var \Magento\App\Dir\Verification $verification */
         $verification = $locator->get('Magento\App\Dir\Verification');
         $verification->createAndVerifyDirectories();
 
@@ -84,6 +98,8 @@ class ObjectManagerFactory
             $locator->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
         $locator->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
+        $locator->get('Magento\App\Resource')->setCache($locator->get('Magento\App\CacheInterface'));
+
         $locator->get('Magento\App\Resource')->setCache($locator->get('Magento\App\CacheInterface'));
 
         $relations = $definitionFactory->createRelations();
@@ -111,5 +127,25 @@ class ObjectManagerFactory
         ));
         $locator->setFactory($factory);
         return $locator;
+    }
+
+    /**
+     * Load primary config data
+     *
+     * @param Dir $directories
+     * @param string $appMode
+     * @return array
+     * @throws \Magento\BootstrapException
+     */
+    protected function _loadPrimaryConfig(Dir $directories, $appMode)
+    {
+        $configData = null;
+        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
+        try {
+            $configData = $primaryLoader->load();
+        } catch (\Exception $e) {
+            throw new \Magento\BootstrapException($e->getMessage());
+        }
+        return $configData;
     }
 }

@@ -38,9 +38,9 @@ class Config extends \Magento\Config\Data\Scoped
         $initialResources = array()
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
-        foreach($initialResources as $resourceName => $resourceData) {
+        foreach ($initialResources as $resourceName => $resourceData) {
             if (!isset($resourceData['connection'])) {
-                throw \InvalidArgumentException('Invalid initial resource configuration');
+                throw new \InvalidArgumentException('Invalid initial resource configuration');
             }
             $this->_connectionNames[$resourceName] = $resourceData['connection'];
         }
@@ -65,8 +65,9 @@ class Config extends \Magento\Config\Data\Scoped
                     $connectionName = $resourcesConfig[$pointerResourceName]['connection'];
                     $this->_connectionNames[$resourceName] = $connectionName;
                     break;
-                } elseif (isset($this->_connectionNames[$pointerResourceName])){
+                } elseif (isset($this->_connectionNames[$pointerResourceName])) {
                     $this->_connectionNames[$resourceName] = $this->_connectionNames[$pointerResourceName];
+                    break;
                 } elseif (isset($resourcesConfig[$pointerResourceName]['extends'])) {
                     $pointerResourceName = $resourcesConfig[$pointerResourceName]['extends'];
                 } else {
