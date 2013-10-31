@@ -24,7 +24,7 @@ class PageActions extends Block
     /**
      * Click "add new" button
      */
-    public function addNew()
+    public function clickAddNew()
     {
         $this->_rootElement->find('#add')->click();
     }
