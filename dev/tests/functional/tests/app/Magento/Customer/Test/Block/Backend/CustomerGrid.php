@@ -53,12 +53,4 @@ class CustomerGrid extends Grid
             ->click();
         $this->_rootElement->acceptAlert();
     }
-
-    /**
-     * Click create new customer button
-     */
-    public function createNewCustomer()
-    {
-        $this->_rootElement->find('#add')->click();
-    }
 }

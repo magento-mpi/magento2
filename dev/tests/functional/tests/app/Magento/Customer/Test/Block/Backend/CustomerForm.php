@@ -33,7 +33,7 @@ class CustomerForm extends FormTabs
     /**
      * Click save and continue button on form
      */
-    public function saveContinue()
+    public function clickSaveAndContinue()
     {
         $this->_rootElement->find('#save_and_continue')->click();
     }

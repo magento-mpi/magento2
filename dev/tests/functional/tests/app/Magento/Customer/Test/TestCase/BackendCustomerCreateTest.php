@@ -16,6 +16,17 @@ use Mtf\TestCase\Functional;
 
 class BackendCustomerCreateTest extends Functional
 {
+    /**
+     * Login into backend area before test
+     */
+    protected function setUp()
+    {
+        Factory::getApp()->magentoBackendLoginUser();
+    }
+
+    /**
+     * Test creation customer on backend
+     */
     public function testCreateCustomer()
     {
         $customerViewPage = Factory::getPageFactory()->getAdminCustomer();
@@ -25,12 +36,11 @@ class BackendCustomerCreateTest extends Functional
         $newCustomerForm = $customerCreatePage->getNewCustomerForm();
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
 
-        Factory::getApp()->magentoBackendLoginUser();
         $customerViewPage->open();
-        $pageActionsBlock->addNew();
+        $pageActionsBlock->clickAddNew();
 
         $newCustomerForm->fill($customerFixture);
-        $newCustomerForm->saveContinue();
+        $newCustomerForm->clickSaveAndContinue();
         $customerCreatePage->waitForCustomerSaveSuccess();
 
         //Check created customer
