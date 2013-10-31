@@ -41,6 +41,7 @@ class ClassReader
                 }
             }
         }
+
         return $result;
     }
 

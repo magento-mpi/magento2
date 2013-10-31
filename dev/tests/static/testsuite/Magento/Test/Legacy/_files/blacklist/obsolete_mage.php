@@ -14,4 +14,5 @@ return array(
     'downloader/app/Magento/Downloader/Model/Session.php',
     'downloader/lib/Magento/Backup/Db.php',
     'downloader/lib/Magento/Backup/Snapshot.php',
+    'dev/tests/static/testsuite/Magento/Test/Integrity/ClassesTest.php'
 );

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
