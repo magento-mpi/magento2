@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Magento
+ * @package Magento_Rma
+ * @subpackage integration_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Rma\Controller;

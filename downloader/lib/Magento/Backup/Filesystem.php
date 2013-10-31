@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Class to work with filesystem backups
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup;
@@ -180,8 +180,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
             if (!in_array($paths, $this->_ignorePaths)) {
                 $this->_ignorePaths[] = $paths;
             }
-        }
-        else if (is_array($paths)) {
+        } else if (is_array($paths)) {
             foreach ($paths as $path) {
                 $this->addIgnorePaths($path);
             }
@@ -203,7 +202,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Set directory where backups saved and add it to ignore paths
      *
-     * @see \Magento\Backup\AbstractBackupBackup::setBackupsDir()
+     * @see \Magento\Backup\AbstractBackup::setBackupsDir()
      * @param string $backupsDir
      * @return \Magento\Backup\Filesystem
      */

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      \Magento\Backup
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Filesystem rollback workers abstract class
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Filesystem\Rollback;

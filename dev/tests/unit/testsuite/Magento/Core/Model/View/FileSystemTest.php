@@ -22,7 +22,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategyPool;
 
@@ -34,7 +34,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_strategyPool = $this->getMock('Magento\Core\Model\Design\FileResolution\StrategyPool', array(),
+        $this->_strategyPool = $this->getMock('Magento\View\Design\FileResolution\StrategyPool', array(),
             array(), '', false
         );
         $this->_viewService = $this->getMock('Magento\Core\Model\View\Service',
@@ -55,7 +55,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento\Core\Model\Design\FileResolution\Strategy\FileInterface');
+        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\FileInterface');
         $strategyMock->expects($this->once())
             ->method('getFile')
             ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
@@ -85,7 +85,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento\Core\Model\Design\FileResolution\Strategy\LocaleInterface');
+        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\LocaleInterface');
         $strategyMock->expects($this->once())
             ->method('getLocaleFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext')
@@ -112,7 +112,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento\Core\Model\Design\FileResolution\Strategy\ViewInterface');
+        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\ViewInterface');
         $strategyMock->expects($this->once())
             ->method('getViewFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext', 'Some_Module')
