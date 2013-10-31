@@ -52,6 +52,11 @@ class CreateConfigurableTest extends Functional
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->assertProductSaveResult($product);
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushMagentoCache();
+        //Verifying
         $this->assertOnGrid($product);
         $this->assertOnFrontend($product);
     }
@@ -94,6 +99,7 @@ class CreateConfigurableTest extends Functional
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        $productListBlock = $categoryPage->getListProductBlock();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();

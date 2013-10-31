@@ -166,7 +166,9 @@
     Forms
 -------------------------------------- */
 .form.reward.settings,
-.form.add.invitations {
+.form.add.invitations,
+.form.create.return,
+.form.giftregistry.search {
     &:extend(.form.send.friend all);
 }
 
@@ -237,7 +239,7 @@
         width: 20%;
     }
     .col.actions,
-    .col.qty-fulfilled {
+    .col.fulfilled {
         text-align: center;
     }
     .product.options.list {
@@ -274,6 +276,11 @@
         vertical-align: top;
         border-left: none;
         color: @primary5;
+    }
+    &.shared th {
+        font-size: 16px;
+        font-weight: 400;
+        text-align: left;
     }
 }
 
@@ -331,7 +338,71 @@
         }
     }
 }
+.block.giftregistry.shared.items {
+    margin: 45px 0;
+    .data.table {
+        width: 100%;
+        th {
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+    .col.registered,
+    .col.fulfilled,
+    .col.remaining,
+    .col.price {
+        text-align: right;
+        width: 70px;
+    }
+    .col.qty {
+        text-align: center;
+        width: 40px;
+    }
+    .col.photo {
+        width: 75px;
+    }
+    .item.message:before {
+        content: "*";
+    }
+}
 
+.form.giftregistry.search {
+    margin-bottom: 45px;
+    &:after {
+        content: attr(data-hasrequired);
+        display: block;
+        letter-spacing: normal;
+        word-spacing: normal;
+        color: @secondary1;
+    }
+    .action.search {
+        &:extend(.primary.action all);
+    }
+}
+
+.block.giftregistry.results {
+    .data.table {
+        width: 100%;
+        th {
+            font-size: 16px;
+            font-weight: 400;
+            text-align: left;
+        }
+    }
+}
+
+.block.widget.giftregistry {
+    .form:after {
+        content: attr(data-hasrequired);
+        display: block;
+        letter-spacing: normal;
+        word-spacing: normal;
+        color: @secondary1;
+    }
+    .action.search {
+        &:extend(.secondary.action all);
+    }
+}
 /*
     My Account -> My Invitations
 -------------------------------------- */
@@ -1039,5 +1110,216 @@
         .item {
             width: 187px;
         }
+    }
+}
+
+
+/*
+    My Account -> RMA
+-------------------------------------- */
+.form.create.return {
+    .box {
+        .box-sizing();
+        display: inline-block;
+        margin: 0 0 20px;
+        padding-right: 20px;
+        vertical-align: top;
+        width: 50%;
+        &.address address {
+            font-style: normal;
+        }
+        .subtitle {
+            font-size: 18px;
+            font-weight: 200;
+        }
+    }
+    .field {
+        margin: 0 0 20px;
+    }
+    .field.comment {
+        width: 100%;
+    }
+    .field.reason_other {
+        display: none;
+    }
+    .fields.additional {
+        letter-spacing: -0.31em;
+        word-spacing: -0.43em;
+        > * {
+            letter-spacing: normal;
+            word-spacing: normal;
+        }
+        .field {
+            .box-sizing();
+        }
+        .note {
+            padding-top: 3px;
+            .qty.remaining:before {
+                content: ': ';
+            }
+        }
+    }
+    .fieldset .actions {
+        margin-right: 20px;
+        margin-bottom: 10px;
+        width: auto;
+        .action.add {
+            &:extend(.secondary.action all);
+        }
+    }
+    .fields.additional.row {
+        border-top: 1px solid @primary3;
+        padding-top: 20px;
+    }
+    .field.item {
+        .nested {
+            margin-top: 10px;
+        }
+        .data.table {
+            .label.disabled {
+                color: @primary4;
+            }
+            th {
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+            td {
+                padding: 5px 10px;
+                vertical-align: middle;
+            }
+            tr td:last-child {
+                padding-right: 0;
+            }
+            td.col.qty {
+                width: 50px;
+            }
+            .col.remaining.qty {
+                text-align: center;
+                width: 65px;
+            }
+        }
+    }
+    .reason_other  {
+        display: inline-block;
+    }
+}
+.returns {
+    &.details.view {
+        .clearfix();
+        .block.returns.requested,
+        .block.returns.shipping {
+            float: left;
+            width: 48%;
+            .content {
+                background: @primary1;
+                padding: 30px;
+            }
+        }
+        .block.returns.shipping {
+            float: right;
+        }
+    }
+    .returns.status {
+        display: block;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+    }
+    .subtitle.caption strong,
+    &.block.comments .title {
+        font-size: 20px;
+        font-weight: 200;
+        line-height: 1.2;
+    }
+    .block.returns.tracking .data.table,
+    .data.table.returns.items {
+        margin-bottom: 45px;
+        width: 100%;
+        th {
+            font-size: 16px;
+            font-weight: 400;
+            padding: 10px;
+            text-align: left;
+        }
+        td {
+            padding: 10px;
+        }
+        .data.table {
+            th,
+            td {
+                padding: 5px 10px;
+            }
+            .product.photo.preview {
+                min-width: 20px;
+                max-width: 100%;
+                padding: 0;
+                width: auto;
+            }
+        }
+        .action.details {
+            &:extend(.secondary.action all);
+            margin: 0;
+        }
+    }
+    .col.sku {
+        white-space: nowrap;
+    }
+    .items.data td.col.qty {
+        padding-top: 10px;
+        text-transform: none;
+    }
+    .col.request.qty {
+        text-transform: none;
+    }
+    .action.track {
+        margin-left: 10px;
+    }
+    &.tracking {
+        .title a {
+            margin-left: 10px;
+        }
+        .col.actions {
+            width: 70px;
+            .action.add {
+                .resetAction();
+                color: @link;
+                &:hover {
+                    color: @linkHover;
+                }
+            }
+        }
+    }
+    &.block.comments {
+        .content {
+            background: @primary1;
+            padding: 30px;
+        }
+        .returns.comments {
+            margin: 20px 0 0;
+        }
+        .comment.text {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .comment.autor {
+            &:before {
+                content: '\2013 ';
+            }
+        }
+        .action.submit {
+            &:extend(.secondary.action all);
+        }
+        .actions {
+            margin-top: 30px;
+        }
+    }
+
+    &.order .title {
+        font-size: 20px;
+        font-weight: 200;
+        line-height: 1.2;
     }
 }

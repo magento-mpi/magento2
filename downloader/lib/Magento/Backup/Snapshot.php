@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Class to work with full filesystem and database backups
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup;
@@ -27,9 +27,33 @@ class Snapshot extends \Magento\Backup\Filesystem
     protected $_dbBackupManager;
 
     /**
+     * Dirs instance
+     *
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dirs;
+
+    /**
+     * @var \Magento\Backup\Factory
+     */
+    protected $_backupFactory;
+
+    /**
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Backup\Factory $backupFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Backup\Factory $backupFactory
+    ) {
+        $this->_dirs = $dirs;
+        $this->_backupFactory = $backupFactory;
+    }
+
+    /**
      * Implementation Rollback functionality for Snapshot
      *
-     * @throws \Magento\Exception
+     * @throws \Exception
      * @return bool
      */
     public function rollback()
@@ -54,7 +78,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Implementation Create Backup functionality for Snapshot
      *
-     * @throws \Magento\Exception
+     * @throws \Exception
      * @return bool
      */
     public function create()
@@ -93,10 +117,10 @@ class Snapshot extends \Magento\Backup\Filesystem
      */
     protected function _createDbBackupInstance()
     {
-        return \Magento\Backup::getBackupInstance(\Magento\Backup\Helper\Data::TYPE_DB)
+        return $this->_backupFactory->create(\Magento\Backup\Helper\Data::TYPE_DB)
             ->setBackupExtension('gz')
             ->setTime($this->getTime())
-            ->setBackupsDir(\Mage::getBaseDir("var"))
+            ->setBackupsDir($this->_dirs->getDir('var'))
             ->setResourceModel($this->getResourceModel());
     }
 
@@ -141,7 +165,8 @@ class Snapshot extends \Magento\Backup\Filesystem
      *
      * @return \Magento\Backup\Snapshot
      */
-    protected function _removeDbBackup(){
+    protected function _removeDbBackup()
+    {
         @unlink($this->_getDbBackupManager()->getBackupPath());
         return $this;
     }

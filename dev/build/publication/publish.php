@@ -59,6 +59,7 @@ try {
     }
 
     $logFile = $targetDir . DIRECTORY_SEPARATOR . $changelogFile;
+    echo "Source log file is '$logFile'" . PHP_EOL;
     $targetLog = file_exists($logFile) ? file_get_contents($logFile) : '';
 
     // copy new & override existing files in the working tree and index from the source repository
@@ -81,9 +82,6 @@ try {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
-    if (empty($commitMsg)) {
-        throw new Exception("No commit message found in the changelog file '$logFile'.");
-    }
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
@@ -141,15 +139,19 @@ function execVerbose($command)
  *
  * @param string $contents
  * @return string
+ * @throws Exception
  * @link http://daringfireball.net/projects/markdown/syntax
  */
 function getTopMarkdownSection($contents)
 {
     $parts = preg_split('/^[=\-]+\s*$/m', $contents);
     if (!isset($parts[1])) {
-        return '';
+        throw new Exception("No commit message found in the changelog file.");
     }
     list($title, $body) = $parts;
+    if (!preg_match("/^\d(.\d+){3}[\w-.]*$/", $title)) {
+        throw new Exception("No version found on top of the changelog file.");
+    }
     $body = explode("\n", trim($body));
     array_pop($body);
     $body = implode("\n", $body);

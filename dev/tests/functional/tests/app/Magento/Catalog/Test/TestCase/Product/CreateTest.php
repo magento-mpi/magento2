@@ -50,6 +50,11 @@ class CreateTest extends Functional
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->assertProductSaveResult($product);
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushMagentoCache();
+        //Verifying
         $this->assertOnGrid($product);
         $this->assertOnCategory($product);
     }
@@ -87,6 +92,7 @@ class CreateTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());

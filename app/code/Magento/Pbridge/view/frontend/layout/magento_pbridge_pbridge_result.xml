@@ -7,8 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Payment Bridge Checkout Payment Result" type="fragment" owner="checkout_onepage_index">
-    <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento\Pbridge\Block\Checkout\Payment\Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml"/>
-    </block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <block class="Magento\Pbridge\Block\Checkout\Payment\Result" name="pbridge.checkout.payment.result" output="1" template="checkout/payment/result.phtml"/>
 </layout>

@@ -51,6 +51,11 @@ class BundleTest extends Functional
         $productBlockForm->save($bundle);
         //Verification
         $createProductPage->assertProductSaveResult($bundle);
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushMagentoCache();
+        //Verification
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);
     }
@@ -86,6 +91,7 @@ class BundleTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
 
