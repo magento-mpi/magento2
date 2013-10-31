@@ -103,6 +103,7 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
             $this->_appMock,
             $this->_storeManagerMock,
             $this->_sessionMock,
+            'string',
             $this->_testData
         );
         $this->_model->setRequest($this->_requestMock);

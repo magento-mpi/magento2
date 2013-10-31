@@ -73,13 +73,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testRead()
     {
-        $localConfig = array(
-            'defaultSetup' => array(
-                'name' => 'defaultSetup',
-                'connection' => 'defaultConnection'
-            )
-        );
-
         $modulesConfig = include ($this->_filePath . 'resources.php');
 
         $expectedResult = array(
@@ -93,13 +86,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ),
             'defaultSetup' => array(
                 'name' => 'defaultSetup',
-                'connection' => 'defaultConnection'
+                'connection' => 'customConnection'
             ),
         );
-
-        $this->_configLocalMock->expects($this->once())
-            ->method('getResources')
-            ->will($this->returnValue($localConfig));
 
         $this->_fileResolverMock->expects($this->once())
             ->method('get')

@@ -10,9 +10,9 @@ namespace Magento\App\Resource\Config;
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var string
      */
-    protected $_modulesReaderMock;
+    protected $_expected;
 
     /**
      * @var \Magento\App\Resource\Config\SchemaLocator
@@ -21,26 +21,17 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_modulesReaderMock = $this->getMock(
-            'Magento\Module\Dir\Reader', array(), array(), '', false
-        );
-
-        $this->_modulesReaderMock->expects($this->once())
-            ->method('getModuleDir')
-            ->with('etc', 'Magento_Core')
-            ->will($this->returnValue('some_path'));
-
-        $this->_model = new \Magento\App\Resource\Config\SchemaLocator($this->_modulesReaderMock);
+        $this->_expected = BP . str_replace('\\', DIRECTORY_SEPARATOR, '\lib\Magento\App\etc\resources.xsd');
+        $this->_model = new \Magento\App\Resource\Config\SchemaLocator();
     }
 
     public function testGetSchema()
     {
-        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'resources.xsd';
-        $this->assertEquals($expectedSchemaPath, $this->_model->getSchema());
+        $this->assertEquals($this->_expected, $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertNull($this->_model->getPerFileSchema());
+        $this->assertEquals($this->_expected, $this->_model->getPerFileSchema());
     }
 }

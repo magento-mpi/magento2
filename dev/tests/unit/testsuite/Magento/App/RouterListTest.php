@@ -50,4 +50,14 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\App\RouterList($this->_objectManagerMock, $this->_routerList);
     }
 
+    public function testGetRoutes()
+    {
+        $expectedClass = new FrontClass();
+        $this->_objectManagerMock
+            ->expects($this->at(0))
+            ->method('create')
+            ->will($this->returnValue($expectedClass));
+
+        $this->assertEquals($expectedClass, $this->_model->current('frontendRouter'));
+    }
 }
