@@ -23,12 +23,12 @@ class FlyweightFactory
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Theme[]
+     * @var \Magento\View\Design\ThemeInterface[]
      */
     protected $_themes = array();
 
     /**
-     * @var \Magento\Core\Model\Theme[]
+     * @var \Magento\View\Design\ThemeInterface[]
      */
     protected $_themesByPath = array();
 
@@ -45,7 +45,7 @@ class FlyweightFactory
      *
      * @param string|int $themeKey
      * @param string $area
-     * @return \Magento\Core\Model\Theme|null
+     * @return \Magento\View\Design\ThemeInterface|null
      * @throws \InvalidArgumentException
      */
     public function create($themeKey, $area = \Magento\View\DesignInterface::DEFAULT_AREA)
@@ -68,7 +68,7 @@ class FlyweightFactory
      * Load theme by id
      *
      * @param int $themeId
-     * @return \Magento\Core\Model\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     protected function _loadById($themeId)
     {
@@ -87,7 +87,7 @@ class FlyweightFactory
      *
      * @param string $themePath
      * @param string $area
-     * @return \Magento\Core\Model\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     protected function _loadByPath($themePath, $area)
     {

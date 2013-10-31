@@ -236,9 +236,11 @@ class Collection extends \Magento\Data\Collection
             $parentPathPieces = array_merge($pathPieces, $parentPathPieces);
         }
 
-        $themePath = implode(\Magento\Core\Model\Theme::PATH_SEPARATOR, $pathData['theme_path_pieces']);
-        $themeCode = implode(\Magento\Core\Model\Theme::CODE_SEPARATOR, $pathData['theme_path_pieces']);
-        $parentPath = $parentPathPieces ? implode(\Magento\Core\Model\Theme::PATH_SEPARATOR, $parentPathPieces) : null;
+        $themePath = implode(\Magento\View\Design\ThemeInterface::PATH_SEPARATOR, $pathData['theme_path_pieces']);
+        $themeCode = implode(\Magento\View\Design\ThemeInterface::CODE_SEPARATOR, $pathData['theme_path_pieces']);
+        $parentPath = $parentPathPieces
+            ? implode(\Magento\View\Design\ThemeInterface::PATH_SEPARATOR, $parentPathPieces)
+            : null;
 
         return array(
             'parent_id'         => null,
@@ -301,7 +303,7 @@ class Collection extends \Magento\Data\Collection
     /**
      * Retrieve item id
      *
-     * @param \Magento\Core\Model\Theme|\Magento\Object $item
+     * @param \Magento\View\Design\ThemeInterface|\Magento\Object $item
      * @return string
      */
     protected function _getItemId(\Magento\Object $item)

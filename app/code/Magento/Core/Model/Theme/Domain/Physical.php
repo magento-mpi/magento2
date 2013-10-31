@@ -18,7 +18,7 @@ class Physical
     /**
      * Physical theme model instance
      *
-     * @var \Magento\Core\Model\Theme
+     * @var \Magento\View\Design\ThemeInterface
      */
     protected $_theme;
 
@@ -59,7 +59,7 @@ class Physical
      * Create theme customization
      *
      * @param \Magento\View\Design\ThemeInterface $theme
-     * @return \Magento\Core\Model\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     public function createVirtualTheme($theme)
     {

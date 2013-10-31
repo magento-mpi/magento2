@@ -31,7 +31,7 @@ class File extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'file';
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var \Magento\View\Design\ThemeInterface
      */
     protected $_theme;
 

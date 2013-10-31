@@ -66,7 +66,7 @@ class Registration
      *
      * @param string $baseDir
      * @param string $pathPattern
-     * @return \Magento\Core\Model\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     public function register($baseDir = '', $pathPattern = '')
     {
@@ -150,7 +150,7 @@ class Registration
      * Get theme from DB by full path
      *
      * @param string $fullPath
-     * @return \Magento\Core\Model\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     public function getThemeFromDb($fullPath)
     {

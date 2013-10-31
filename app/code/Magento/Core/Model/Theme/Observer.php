@@ -62,7 +62,7 @@ class Observer
     public function cleanThemeRelatedContent(\Magento\Event\Observer $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme instanceof \Magento\Core\Model\Theme) {
+        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
             return;
         }
         /** @var $theme \Magento\View\Design\ThemeInterface */
@@ -81,7 +81,7 @@ class Observer
     public function checkThemeIsAssigned(\Magento\Event\Observer $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme instanceof \Magento\Core\Model\Theme) {
+        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
             /** @var $theme \Magento\View\Design\ThemeInterface */
             if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
                 $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));

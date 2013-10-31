@@ -26,7 +26,7 @@ class Customization implements \Magento\View\Design\Theme\CustomizationInterface
     protected $_customizationPath;
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var \Magento\View\Design\ThemeInterface
      */
     protected $_theme;
 
