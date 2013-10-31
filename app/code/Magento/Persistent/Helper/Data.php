@@ -51,10 +51,15 @@ class Data extends \Magento\Core\Helper\Data
     protected $_coreUrl;
 
     /**
+     * @var \Magento\Core\Model\Config\Modules\Reader
+     */
+    protected $_modulesReader;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -63,14 +68,14 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
-     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param Session $persistentSession
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -81,12 +86,12 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Persistent\Helper\Session $persistentSession,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
+        $this->_modulesReader = $modulesReader;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+        parent::__construct($context, $eventManager, $coreHttp, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
@@ -184,7 +189,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentConfigFilePath()
     {
-        return $this->_config->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_modulesReader->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**

@@ -12,8 +12,5 @@
         <param name="persistentSession">
             <instance type="Magento\Persistent\Helper\Session\Proxy" />
         </param>
-        <param name="config">
-            <instance type="Magento\Core\Model\Config\Proxy" />
-        </param>
     </type>
 </config>
