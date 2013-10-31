@@ -39,7 +39,7 @@ class BundleTest extends Functional
     {
         //Data
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundle->switchData('bundle_fixed_with_category');
+        $bundle->switchData('bundle_fixed');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
@@ -49,6 +49,7 @@ class BundleTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
+        //Verification
         $createProductPage->assertProductSaveResult($bundle);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -78,9 +79,13 @@ class BundleTest extends Functional
      */
     protected function assertOnCategory($product)
     {
-        //Steps
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $categoryPage->openCategory($product->getCategoryName());
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));

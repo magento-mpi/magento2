@@ -13,8 +13,12 @@ namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Sales\Order;
+use Magento\Backend\Test\Block\Sales\Order\Grid;
+use Magento\Backend\Test\Block\Sales\Order\Actions;
+use Magento\Core\Test\Block\Messages;
+use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid;
+use Magento\Backend\Test\Block\Sales\Order\Invoice\Grid as InvoiceGrid;
 
 /**
  * Class AdminSalesOrder
@@ -30,29 +34,76 @@ class AdminSalesOrder extends Page
     const MCA = 'admin/sales_order';
 
     /**
-     * Sales order grid
-     *
-     * @var Order\Grid
-     */
-    private $orderGridBlock;
-
-    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->orderGridBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderGrid(
-            $this->_browser->find('#sales_order_grid', Locator::SELECTOR_CSS));
     }
 
     /**
      * Get sales order grid
      *
-     * @return \Magento\Backend\Test\Block\Sales\Order\Grid
+     * @return Grid
      */
     public function getOrderGridBlock()
     {
-        return $this->orderGridBlock;
+        return Factory::getBlockFactory()->getMagentoBackendSalesOrderGrid($this->_browser->find('#sales_order_grid'));
+    }
+
+    /**
+     * Get order actions block
+     *
+     * @return Actions
+     */
+    public function getOrderActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendSalesOrderActions($this->_browser->find('.page-actions'));
+    }
+
+    /**
+     * Get messages block
+     *
+     * @return Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find('#messages'));
+    }
+
+    /**
+     * Get Order view tabs block
+     *
+     * @return FormTabs
+     */
+    public function getTabsWidget()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+            $this->_browser->find('#sales_order_view_tabs')
+        );
+    }
+
+    /**
+     * Get invoices grid
+     *
+     * @return InvoiceGrid
+     */
+    public function getInvoicesGrid()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendSalesOrderInvoiceGrid(
+            $this->_browser->find('#order_invoices')
+        );
+    }
+
+    /**
+     * Get transactions grid
+     *
+     * @return TransactionsGrid
+     */
+    public function getTransactionsGrid()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendSalesOrderTransactionsGrid(
+            $this->_browser->find('#order_transactions')
+        );
     }
 }

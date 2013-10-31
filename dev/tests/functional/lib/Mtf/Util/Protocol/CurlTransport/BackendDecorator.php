@@ -48,19 +48,20 @@ class BackendDecorator implements CurlInterface
      * @param Config $configuration
      */
     public function __construct(CurlTransport $transport, Config $configuration)
-   {
-       $this->_transport        = $transport;
-       $this->_configuration    = $configuration;
-       $this->_authorize();
-   }
+    {
+        $this->_transport = $transport;
+        $this->_configuration = $configuration;
+        $this->_authorize();
+    }
 
     /**
      * Authorize customer on backend
      */
     protected function _authorize()
     {
-        $credentials        = $this->_configuration->getConfigParam('application/backend_user_credentials');
-        $backendLoginUrl    = $_ENV['app_backend_url'] . $this->_configuration->getConfigParam('application/backend_login_url');
+        $credentials = $this->_configuration->getConfigParam('application/backend_user_credentials');
+        $backendLoginUrl = $_ENV['app_backend_url']
+            . $this->_configuration->getConfigParam('application/backend_login_url');
         $data = array(
             'login[username]' => $credentials['login'],
             'login[password]' => $credentials['password']

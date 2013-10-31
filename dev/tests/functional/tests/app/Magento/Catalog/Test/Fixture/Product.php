@@ -249,18 +249,6 @@ class Product extends DataFixture
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'meta_title' => array(
-                    'value' => 'Meta Title',
-                    'group' => static::GROUP_ADVANCED_SEO
-                ),
-                'meta_keyword' => array(
-                    'value' => 'Meta Keyword',
-                    'group' => static::GROUP_ADVANCED_SEO
-                ),
-                'meta_description' => array(
-                    'value' => 'Meta Description',
-                    'group' => static::GROUP_ADVANCED_SEO
-                ),
                 'product_website_1' => array(
                     'value' => 'Yes',
                     'input_value' => 1,

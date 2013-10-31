@@ -53,31 +53,9 @@ class OnepageTest extends Functional
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
-        //Verify order in Backend TODO assert constraints
+        //Verify order in Backend
         $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getOrderId($fixture);
-        Factory::getApp()->magentoBackendLoginUser();
-        $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
-        $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $this->assertContains(
-            $fixture->getGrandTotal(),
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
-            'Incorrect grand total value for the order #' . $orderId
-        );
-
-        if ($fixture->getData('totals/comment_history')) {
-            $expectedAuthorizedAmount = $fixture->getData('totals/comment_history');
-        } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
-        }
-
-        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()
-            ->getOrderHistoryBlock()->getAuthorizedAmount();
-        $this->assertContains(
-            $expectedAuthorizedAmount,
-            $actualAuthorizedAmount,
-            'Incorrect authorized amount value for the order #' . $orderId
-        );
+        $this->_verifyOrder($orderId, $fixture);
     }
 
     /**
@@ -89,6 +67,36 @@ class OnepageTest extends Functional
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow())
+        );
+    }
+
+    /**
+     * Verify order in Backend
+     *
+     * @param string $orderId
+     * @param Checkout $fixture
+     */
+    protected function _verifyOrder($orderId, Checkout $fixture)
+    {
+        Factory::getApp()->magentoBackendLoginUser();
+        $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $orderPage->open();
+        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $this->assertContains(
+            $fixture->getGrandTotal(),
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+            'Incorrect grand total value for the order #' . $orderId
+        );
+
+        if ($fixture->getCommentHistory()) {
+            $expectedAuthorizedAmount = $fixture->getCommentHistory();
+        } else {
+            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+        }
+        $this->assertContains(
+            $expectedAuthorizedAmount,
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
+            'Incorrect authorized amount value for the order #' . $orderId
         );
     }
 }

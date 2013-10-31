@@ -40,7 +40,7 @@ class CreateConfigurableTest extends Functional
     {
         //Data
         $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $product->switchData('configurable_default_category');
+        $product->switchData('configurable');
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
@@ -50,6 +50,7 @@ class CreateConfigurableTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('configurable');
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        //Verifying
         $createProductPage->assertProductSaveResult($product);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -95,16 +96,20 @@ class CreateConfigurableTest extends Functional
      */
     protected function assertOnFrontend(ConfigurableProduct $product)
     {
-        //Pages & Blocks
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productViewBlock = $productPage->getViewBlock();
-        //Assert product on category page
-        $categoryPage->openCategory($product->getCategoryName());
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        //Verification on category product list
+        $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
             'Product is absent on category page.');
-        //Assert product on product page
+        //Verification on product detail page
+        $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
             'Product name does not correspond to specified.');

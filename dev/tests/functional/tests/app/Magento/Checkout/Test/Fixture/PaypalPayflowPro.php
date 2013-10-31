@@ -25,7 +25,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class PaypalPayflowPro extends Checkout
 {
     /**
-     * Prepare data for guest checkout with PayPal Payments Pro Method
+     * Prepare data for guest checkout with PayPal Payflow Pro Method
      */
     protected function _initData()
     {
@@ -50,26 +50,30 @@ class PaypalPayflowPro extends Checkout
             'display_price',
             'display_shopping_cart'
         ));
+
         //Tax
+        Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
+
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable_default_category');
-
+        $simple->switchData('simple_required');
         $simple->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
         $configurable->persist();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle->switchData('bundle_fixed_required');
         $bundle->persist();
 
         $this->products = array(
             $simple,
-            $bundle,
-            $configurable
+            $configurable,
+            $bundle
         );
+
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->billingAddress->switchData('address_US_1');
