@@ -21,7 +21,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Functionality is not implemented yet');
         $this->_model = new Converter();
     }
 
