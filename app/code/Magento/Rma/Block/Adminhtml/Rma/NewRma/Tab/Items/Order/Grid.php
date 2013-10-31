@@ -295,7 +295,7 @@ class Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/addProductGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/addProductGrid', array('_current' => true));
     }
 
     /**

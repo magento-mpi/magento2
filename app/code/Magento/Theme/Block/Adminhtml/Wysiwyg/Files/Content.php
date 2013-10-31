@@ -64,7 +64,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getContentsUrl()
     {
-        return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
+        return $this->getUrl('adminhtml/*/contents', array('type' => $this->getRequest()->getParam('type'))
             + $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
@@ -101,7 +101,9 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getNewfolderUrl()
     {
-        return $this->getUrl('*/*/newFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl(
+            'adminhtml/*/newFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams()
+        );
     }
 
     /**
@@ -111,7 +113,9 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     protected function getDeletefolderUrl()
     {
-        return $this->getUrl('*/*/deleteFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl(
+            'adminhtml/*/deleteFolder', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams()
+        );
     }
 
     /**
@@ -121,7 +125,9 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getDeleteFilesUrl()
     {
-        return $this->getUrl('*/*/deleteFiles', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl(
+            'adminhtml/*/deleteFiles', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams()
+        );
     }
 
     /**
@@ -131,7 +137,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getOnInsertUrl()
     {
-        return $this->getUrl('*/*/onInsert', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl('adminhtml/*/onInsert', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**

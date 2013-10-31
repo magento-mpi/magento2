@@ -80,7 +80,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/sales_billing_agreement/grid', array('_current' => true));
+        return $this->getUrl('sales/billing_agreement/grid', array('_current' => true));
     }
 
     /**
@@ -91,7 +91,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getRowUrl($item)
     {
-        return $this->getUrl('*/sales_billing_agreement/view', array('agreement' => $item->getAgreementId()));
+        return $this->getUrl('sales/billing_agreement/view', array('agreement' => $item->getAgreementId()));
     }
 
     /**

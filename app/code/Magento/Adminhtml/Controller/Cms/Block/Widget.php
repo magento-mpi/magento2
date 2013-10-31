@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Controller\Cms\Block;
 
-class Widget extends \Magento\Adminhtml\Controller\Action
+class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Chooser Source action

@@ -11,8 +11,8 @@
 # Manage categories page and related pages
 
 manage_categories:
-    mca: catalog_category/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_category/')]
+    mca: catalog/category/
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog/category/')]
     title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: &categoryUimap
         form:
@@ -145,13 +145,13 @@ manage_categories:
             confirm_delete: Are you sure you want to delete this category?
 
 edit_manage_categories:
-    mca: catalog_category/edit/store/0/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
+    mca: catalog/category/edit/store/0/
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog/category/')]
     title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: *categoryUimap
 
 edit_category:
-    mca: catalog_category/edit/store/0/id/%id%/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
+    mca: catalog/category/edit/store/0/id/%id%/
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog/category/')]
     title: %elementTitle% / Categories / Inventory / Products / Magento Admin
     uimap: *categoryUimap
