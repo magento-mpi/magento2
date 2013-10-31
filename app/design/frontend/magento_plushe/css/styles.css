@@ -729,8 +729,8 @@ input[type="reset"],
 .action.mySecondaryButton,
 .popup .actions .action.cancel,
 .multicheckout .action.update,
-.cart.main.actions .action.update,
-.cart.main.actions .action.clear,
+.cart.actions .action.update,
+.cart.actions .action.clear,
 .block.compare .action.compare,
 .data.comparison .cell.remove .action.delete,
 .form.send.friend .actions > .primary .action.add,
@@ -741,8 +741,8 @@ input[type="reset"],
 .action.mySecondaryButton,
 .popup .actions .action.cancel,
 .multicheckout .action.update,
-.cart.main.actions .action.update,
-.cart.main.actions .action.clear,
+.cart.actions .action.update,
+.cart.actions .action.clear,
 .block.compare .action.compare,
 .data.comparison .cell.remove .action.delete,
 .form.send.friend .actions > .primary .action.add,
@@ -769,12 +769,12 @@ input[type="reset"]:hover,
 .multicheckout .action.update:focus,
 .multicheckout .action.update:active,
 .multicheckout .action.update:hover,
-.cart.main.actions .action.update:focus,
-.cart.main.actions .action.update:active,
-.cart.main.actions .action.update:hover,
-.cart.main.actions .action.clear:focus,
-.cart.main.actions .action.clear:active,
-.cart.main.actions .action.clear:hover,
+.cart.actions .action.update:focus,
+.cart.actions .action.update:active,
+.cart.actions .action.update:hover,
+.cart.actions .action.clear:focus,
+.cart.actions .action.clear:active,
+.cart.actions .action.clear:hover,
 .block.compare .action.compare:focus,
 .block.compare .action.compare:active,
 .block.compare .action.compare:hover,
@@ -842,8 +842,8 @@ input[type="reset"],
 .multicheckout .action.continue,
 .multicheckout .action.submit,
 .multicheckout .action.add,
-.cart.main.actions .action.update,
-.cart.main.actions .action.clear,
+.cart.actions .action.update,
+.cart.actions .action.clear,
 .cart.summary .block .action,
 .action.checkout,
 .form.newsletter.manage .action.save,
@@ -3913,7 +3913,7 @@ strong {
     Forms
 -------------------------------------- */
 .field.required > .label > span:first-child:after {
-  content: ' *';
+  content: '*';
   color: #da370a;
 }
 /*
@@ -4366,14 +4366,14 @@ body {
 }
 .footer .bugs {
   margin-top: 25px;
-  font-size: 11px;
+  font-size: 12px;
+}
+.footer .bugs span:after {
+  content: '\00a0\2014\00a0';
+  display: inline-block;
 }
 .footer .bugs a {
   font-weight: bold;
-}
-.footer .bugs a:before {
-  content: ' - ';
-  display: inline-block;
 }
 /*
     Switchers
@@ -5607,13 +5607,6 @@ body {
 .multicheckout .product.name {
   margin-bottom: 0;
 }
-.multicheckout .items.data td.col.address {
-  padding-top: 10px;
-}
-.multicheckout .items.data td.col.delete,
-.multicheckout .items.data td.col.product {
-  padding-top: 18px;
-}
 .multicheckout .items.data .col.item {
   padding-left: 0;
   text-align: left;
@@ -5675,7 +5668,10 @@ body {
   margin: 0 0 15px;
   padding: 10px;
 }
-.multicheckout.form.address .col.address select {
+.multicheckout.form.address .control.address {
+  margin-top: -6px;
+}
+.multicheckout.form.address .control.address select {
   max-width: 450px;
 }
 .checkout-multishipping-address-newshipping .form.address.edit,
@@ -5887,10 +5883,10 @@ body {
 .cart.container:after {
   clear: both;
 }
-.cart.main.actions {
+.cart.actions {
   padding: 20px 0;
 }
-.cart.main.actions .action.continue {
+.cart.actions .action.continue {
   position: absolute;
   text-decoration: underline;
   right: 0;
@@ -5902,16 +5898,18 @@ body {
 .items.data thead tr:last-child th {
   padding-bottom: 10px;
 }
+.items.data th > span {
+  white-space: nowrap;
+}
 .items.data th.col.item > span {
   display: none;
 }
 .items.data td.col.qty {
   width: 40px;
-  padding-top: 20px;
   text-align: center;
 }
-.review .items.data td.col.qty {
-  padding-top: 16px;
+.items.data td.col.qty .control {
+  margin-top: -6px;
 }
 .items.data th.col.qty {
   text-transform: uppercase;
@@ -5924,11 +5922,17 @@ body {
 .items.data td.col.subtotal {
   text-align: right;
 }
+.items.data .img.photo.container,
 .items.data .product.photo {
   padding-right: 20px;
   display: table-cell;
   width: 1%;
   vertical-align: top;
+}
+.items.data .product.photo .img.photo.container {
+  display: block;
+  padding: 0;
+  width: auto;
 }
 .items.data .product.details {
   display: table-cell;
@@ -6971,10 +6975,11 @@ body {
 }
 .block.reorder .actions {
   margin: 15px 0 0;
+  text-align: left;
 }
 .block.reorder .actions .primary,
 .block.reorder .actions .secondary {
-  margin-right: 5px;
+  margin: 0 10px 10px 0;
   display: inline-block;
   vertical-align: middle;
 }

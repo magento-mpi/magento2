@@ -34,10 +34,10 @@
                 </block>
             </container>
             <container name="checkout.cart.noitems" label="invisible" as="no-items">
-                <block class="Magento\Checkout\Block\Cart" name="checkout.cart.empty" template="cart/noItems.phtml"/>
+                <block class="Magento\Checkout\Block\Cart" name="checkout.cart.empty" before="-" template="cart/noItems.phtml"/>
                 <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
             </container>
         </block>
     </referenceContainer>
-    <container name="additional.product.info" label="Additional Product Info"/>
+    <!-- <container name="additional.product.info" label="Additional Product Info"/> -->
 </layout>

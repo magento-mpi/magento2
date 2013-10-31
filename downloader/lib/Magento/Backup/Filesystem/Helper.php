@@ -2,17 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Backup
+ * @category     Magento
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Filesystem helper for \Magento\Backup library
+ * Filesystem helper
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Filesystem;
@@ -105,6 +105,10 @@ class Helper
         $iterator = new \Magento\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipFiles);
 
         foreach ($iterator as $item) {
+            if ($item->isLink()) {
+                continue;
+            }
+
             if (($infoOptions & self::INFO_WRITABLE) && !$item->isWritable()) {
                 $info['writable'] = false;
             }
