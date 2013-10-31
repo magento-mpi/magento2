@@ -18,64 +18,76 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $_entryPoint;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Index\Model\IndexerFactory
      */
-    protected $_objectManager;
+    protected $_indexFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
-    /**
-     * @var string
-     */
-    protected $_reportDir;
-
     protected function setUp()
     {
-        $this->_reportDir = 'tmp' . DIRECTORY_SEPARATOR . 'reports';
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_indexFactoryMock = $this->getMock('Magento\Index\Model\IndexerFactory',
+            array('create'), array(), '', false);
         $this->_entryPoint = new \Magento\Index\App\Indexer(
-            'baseDir',
-            'parameters',
-            $this->_reportDir,
+            'reportDir',
             $this->_filesystem,
-            $this->_objectManager
+            $this->_indexFactoryMock
         );
     }
 
-    public function testProcessRequest()
+//    public function testExecuteIndexerIsVisible()
+//    {
+//        $process = $this->getMock('Magento\Index\Model\Process', array('getIndexer', 'reindexEverything'),
+//            array(), '', false);
+//        $indexer = $this->getMock('Magento\Index\Model\Indexer', array('getProcessesCollection'), array(), '', false);
+//        $indexerInterface = $this->getMock('Magento\Index\Model\IndexerInterface');
+//        $this->_indexFactoryMock->expects($this->once())->method('create')->will($this->returnValue($indexer));
+//        $indexer->expects($this->once())->method('getProcessesCollection')->will($this->returnValue(array($process)));
+//        $process->expects($this->any())->method('getIndexer')->will($this->returnValue($indexerInterface));
+//        $indexerInterface->expects($this->once())->method('isVisible')->will($this->returnValue(true));
+//        $process->expects($this->once())->method('reindexEverything');
+//        $this->assertEquals('0', $this->_entryPoint->execute());
+//    }
+
+    /**
+     * @param bool $value
+     * @dataProvider executeDataProvider
+     */
+    public function testExecute($value)
     {
-        $process = $this->getMock('Magento\Index\Model\Process', array(), array(), '', false);
-        $processIndexer = $this->getMockForAbstractClass(
-            'Magento\Index\Model\Indexer\AbstractIndexer',
-            array(),
-            '',
-            false
+        $process = $this->getMock('Magento\Index\Model\Process',
+            array('getIndexer', 'reindexEverything'), array(), '', false);
+        $indexer = $this->getMock('Magento\Index\Model\Indexer',
+            array('getProcessesCollection'), array(), '', false);
+        $indexerInterface = $this->getMock('Magento\Index\Model\IndexerInterface');
+        $this->_indexFactoryMock->expects($this->once())->method('create')->will($this->returnValue($indexer));
+        $indexer->expects($this->once())->method('getProcessesCollection')->will($this->returnValue(array($process)));
+        $process->expects($this->any())->method('getIndexer')->will($this->returnValue($indexerInterface));
+
+        if($value)
+        {
+            $indexerInterface->expects($this->once())->method('isVisible')->will($this->returnValue(true));
+            $process->expects($this->once())->method('reindexEverything');
+        }
+        else {
+            $indexerInterface->expects($this->once())->method('isVisible')->will($this->returnValue(false));
+            $process->expects($this->never())->method('reindexEverything');
+        }
+        $this->assertEquals('0', $this->_entryPoint->execute());
+    }
+
+    /**
+     * @return array
+     */
+    public function executeDataProvider()
+    {
+        return array(
+            array(true),
+            array(false)
         );
-        $processIndexer->expects($this->any())->method('isVisible')->will($this->returnValue(true));
-        $process->expects($this->any())->method('getIndexer')->will($this->returnValue($processIndexer));
-        $process->expects($this->once())->method('reindexEverything')->will($this->returnSelf());
-
-        $indexer = $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false);
-        $indexer->expects($this->once())
-            ->method('getProcessesCollection')
-            ->will($this->returnValue(array($process)));
-
-        $this->_objectManager->expects($this->any())
-            ->method('create')
-            ->will($this->returnValueMap(
-                array(
-                    array('Magento\Index\Model\Indexer', array(), $indexer),
-                )
-            ));
-        // check that report directory is cleaned
-        $this->_filesystem->expects($this->once())
-            ->method('delete')
-            ->with($this->_reportDir, dirname($this->_reportDir));
-
-        $this->_entryPoint->processRequest();
     }
 }

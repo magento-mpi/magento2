@@ -20,7 +20,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectManager;
+    protected $_shellFactory;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -29,9 +29,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_shellFactory = $this->getMock('Magento\Index\Model\ShellFactory', array('create'), array(), '', false);
         $this->_shellErrorHandler = $this->getMock(
-            'Magento\Index\Model\EntryPoint\Shell\ErrorHandler',
+            'Magento\Index\App\Shell\ErrorHandler',
             array(),
             array(),
             '',
@@ -39,10 +39,8 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         );
         $this->_entryPoint = new \Magento\Index\App\Shell(
             'indexer.php',
-            $this->_shellErrorHandler,
-            'baseDir',
-            'parameters',
-            $this->_objectManager
+            $this->_shellFactory,
+            $this->_shellErrorHandler
         );
     }
 
@@ -58,21 +56,17 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($shellHasErrors));
         $shell->expects($this->once())
             ->method('run');
-
         if ($shellHasErrors) {
             $this->_shellErrorHandler->expects($this->once())
                 ->method('terminate')
                 ->with(1);
         }
-        $this->_objectManager->expects($this->any())
+        $this->_shellFactory->expects($this->any())
             ->method('create')
-            ->will($this->returnValueMap(
-                array(
-                    array('Magento\Index\Model\Shell', array('entryPoint' => 'indexer.php'), $shell),
-                )
-            ));
+            ->will($this->returnValue($shell)
+            );
 
-        $this->_entryPoint->processRequest();
+        $this->_entryPoint->execute();
     }
 
     /**
