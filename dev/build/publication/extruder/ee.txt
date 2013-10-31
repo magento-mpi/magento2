@@ -30,6 +30,7 @@ app/design/frontend/magento_backup/Magento_Rma
 app/design/frontend/magento_backup/Magento_VersionsCms
 app/design/frontend/magento_backup/Magento_WebsiteRestriction
 app/design/frontend/magento_backup/Magento_Pbridge
+app/design/frontend/magento_backup/Magento_PersistentHistory
 app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
