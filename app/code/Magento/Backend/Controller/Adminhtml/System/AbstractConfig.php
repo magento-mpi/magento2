@@ -11,7 +11,7 @@
 /**
  * System Configuration Abstract Controller
  */
-namespace Magento\Backend\Controller\System;
+namespace Magento\Backend\Controller\Adminhtml\System;
 
 abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
 {

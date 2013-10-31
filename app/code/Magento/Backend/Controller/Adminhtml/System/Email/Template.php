@@ -173,7 +173,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
 
     public function previewAction()
     {
-        $this->loadLayout('systemPreview');
+        $this->loadLayout('adminhtml_system_preview');
         $this->renderLayout();
     }
 
