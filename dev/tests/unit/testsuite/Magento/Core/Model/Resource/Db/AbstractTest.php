@@ -61,7 +61,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $dir = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $string = $this->getMock('Magento\Stdlib\String', array(), array(), '', false);
-        $connection = new \Magento\DB\Adapter\Pdo\Mysql($dir, $string, array(
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
+        $connection = new \Magento\DB\Adapter\Pdo\Mysql($dir, $string, $dateTime, array(
             'dbname'   => 'test_dbname',
             'username' => 'test_username',
             'password' => 'test_password',
