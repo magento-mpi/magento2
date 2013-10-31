@@ -9,6 +9,9 @@
 * Fixed Impossible to add image using WYSIWYG
 * No direct code execution in layout: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
 * Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
+* Implemented SOAP faults declaration in WSDL
+* Web API config reader is refactored to use Magento\Config\Reader\Filesystem
+* Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
 
 2.0.0.0-dev49
 =============
