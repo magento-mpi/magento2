@@ -75,9 +75,8 @@ class Console implements \Magento\AppInterface
         }
         if (!$installer->hasErrors()) {
             if ($isUninstallMode) {
-                $msg = $result ?
-                    'Uninstalled successfully' :
-                    'Ignoring attempt to uninstall non-installed application';
+                $msg = $result ? 'Uninstalled successfully'
+                    : 'Ignoring attempt to uninstall non-installed application';
             } else {
                 $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
             }
@@ -89,6 +88,7 @@ class Console implements \Magento\AppInterface
 
     /**
      * Execute application
+     * @return int
      */
     public function execute()
     {
