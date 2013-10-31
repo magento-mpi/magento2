@@ -7,7 +7,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_IntegWebration
+ * @package     Magento_Integration
  * @copyright   {copyright}
  * @license     {license_link}
  */

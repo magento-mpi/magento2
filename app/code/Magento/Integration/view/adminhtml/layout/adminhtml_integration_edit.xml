@@ -26,7 +26,4 @@
     <referenceContainer name="content">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Edit" name="integration_edit_content"/>
     </referenceContainer>
-    <referenceContainer name="js">
-        <block class="Magento\Backend\Block\Template" name="adminhtml.integration.webapi.tree.js" template="Magento_Integration::js/roles_tree_js.phtml"/>
-    </referenceContainer>
 </layout>

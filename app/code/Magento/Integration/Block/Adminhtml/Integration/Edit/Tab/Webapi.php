@@ -13,11 +13,8 @@ namespace Magento\Integration\Block\Adminhtml\Integration\Edit\Tab;
 /**
  * Main Web API properties edit form
  *
- * @category   Magento
- * @package    Magento_Integration
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Webapi extends \Magento\Backend\Block\Widget\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
