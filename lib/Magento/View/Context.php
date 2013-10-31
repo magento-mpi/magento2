@@ -105,7 +105,7 @@ class Context
     protected $cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $logger;
 
