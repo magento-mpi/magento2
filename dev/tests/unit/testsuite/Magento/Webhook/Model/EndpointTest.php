@@ -117,7 +117,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockEventManager));
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', array('formatDate'), array(), '', true);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
         $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
@@ -152,7 +152,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
         if ($hasDataChanges) {
             $someFormattedTime = '2013-07-10 12:35:28';
-            $this->_mockResourceEndpnt->expects($this->once())
+            $dateTime->expects($this->once())
                 ->method('formatDate')
                 ->withAnyParameters() // impossible to predict what time() will be
                 ->will($this->returnValue($someFormattedTime));

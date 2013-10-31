@@ -73,7 +73,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
         $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array(), '', false, true,
-            true, array('getReadConnection', 'getMainTable', 'getTable'));
+            true, array('getReadConnection', 'getMainTable', 'getTable', '__wakeup'));
         $resource->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($connection));

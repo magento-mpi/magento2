@@ -26,7 +26,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $dateTime = new \Magento\Stdlib\DateTime;
         $mockDBAdapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
-            ->setMethods(array('_connect', '_quote'))
+            ->setMethods(array('_connect', '_quote', 'formatDate'))
             ->getMockForAbstractClass();
         $mockResourceEvent = $this->getMockBuilder('Magento\Webhook\Model\Resource\Job')
             ->disableOriginalConstructor()

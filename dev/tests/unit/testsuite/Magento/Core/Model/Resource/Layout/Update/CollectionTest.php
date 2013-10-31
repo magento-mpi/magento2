@@ -29,6 +29,7 @@ class CollectionTest
             $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface'),
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false),
+            $this->getMock('Magento\Stdlib\DateTime', array(), array(), '', false),
             $this->_getResource($select)
         );
     }
