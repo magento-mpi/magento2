@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\HTTP\PhpEnvironment;
+namespace Magento\Http\PhpEnvironment;
 
 class ServerAddressTest extends \PHPUnit_Framework_TestCase
 {

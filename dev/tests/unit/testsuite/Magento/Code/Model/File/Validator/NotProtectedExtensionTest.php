@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\File\Validator;
+namespace Magento\Code\Model\File\Validator;
 
 class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
 {

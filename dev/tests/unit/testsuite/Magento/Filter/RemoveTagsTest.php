@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Helper;
+namespace Magento\Filter;
 
 class RemoveTagsTest extends \PHPUnit_Framework_TestCase
 {
