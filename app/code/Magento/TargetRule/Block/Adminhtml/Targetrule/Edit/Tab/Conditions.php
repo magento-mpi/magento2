@@ -72,7 +72,7 @@ class Conditions
         $fieldset   = $form->addFieldset('conditions_fieldset', array(
             'legend' => __('Product Match Conditions (leave blank for matching all products)'))
         );
-        $newCondUrl = $this->getUrl('*/targetrule/newConditionHtml/', array(
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newConditionHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
         $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')

@@ -197,7 +197,7 @@ class Observer
     public function replaceSalesOrderRedirect(\Magento\Event\Observer $observer)
     {
         /**
-         * @var \Magento\Adminhtml\Controller\Action $controller
+         * @var \Magento\Backend\Controller\Adminhtml\Action $controller
          */
         $controller = $observer->getControllerAction();
         /**
@@ -217,9 +217,9 @@ class Observer
         $createdFromOrders = !empty($ids);
 
         if ($createdFromOrders) {
-            $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+            $response->setRedirect($controller->getUrl('adminhtml/sales_archive/orders'));
         } else {
-            $response->setRedirect($controller->getUrl('*/sales_archive/shipments'));
+            $response->setRedirect($controller->getUrl('adminhtml/sales_archive/shipments'));
         }
     }
 }

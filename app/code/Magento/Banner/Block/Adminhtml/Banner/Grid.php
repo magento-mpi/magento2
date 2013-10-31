@@ -147,7 +147,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->getMassactionBlock()->addItem('delete', array(
             'label'    => __('Delete'),
-            'url'      => $this->getUrl('*/*/massDelete'),
+            'url'      => $this->getUrl('adminhtml/*/massDelete'),
             'confirm'  =>
                 __('Are you sure you want to delete these banners?')
         ));
@@ -160,7 +160,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id' => $row->getBannerId()));
+        return $this->getUrl('adminhtml/*/edit', array('id' => $row->getBannerId()));
     }
 
     /**
@@ -168,7 +168,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/grid', array('_current'=>true));
     }
 
     /**

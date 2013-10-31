@@ -112,7 +112,7 @@ class Reward
             'open'        => false,
             'class'       => '',
             'ajax'        => true,
-            'content_url' => $this->getUrl('*/customer_reward/history', array('_current' => true))
+            'content_url' => $this->getUrl('adminhtml/customer_reward/history', array('_current' => true))
         ));
         $this->setChild('history_accordion', $accordion);
 
