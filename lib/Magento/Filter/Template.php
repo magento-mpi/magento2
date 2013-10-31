@@ -42,6 +42,11 @@ class Template implements \Zend_Filter_Interface
     protected $_includeProcessor = null;
 
     /**
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
      * @param \Magento\Stdlib\String $string
      * @param array $variables
      */

@@ -68,8 +68,7 @@ class DateTime
     public function formatDate($date, $includeTime = true)
     {
         if ($date === true) {
-            $self = new self;
-            return $self->now(!$includeTime);
+            return $this->now(!$includeTime);
         }
 
         if ($date instanceof \Zend_Date) {
