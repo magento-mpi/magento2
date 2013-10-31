@@ -93,6 +93,11 @@ class Context
     protected $viewUrl;
 
     /**
+     * @var \Magento\View\LayoutInterface
+     */
+    protected $layout;
+
+    /**
      * View config model
      *
      * @var \Magento\Core\Model\View\Config
