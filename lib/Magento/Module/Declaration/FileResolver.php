@@ -1,5 +1,7 @@
 <?php
 /**
+ * Module declaration file resolver. Reads list of module declaration files from module /etc directories.
+ *
  * {license_notice}
  *
  * @copyright {copyright}

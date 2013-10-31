@@ -536,7 +536,9 @@ class Action extends \Magento\App\Action\AbstractAction
 
         // Prohibit disabled store actions
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($this->_objectManager->get('Magento\App\State') && !$storeManager->getStore()->getIsActive()) {
+        if ($this->_objectManager->get('Magento\App\State')->isInstalled()
+            && !$storeManager->getStore()->getIsActive()
+        ) {
             $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
         }
 

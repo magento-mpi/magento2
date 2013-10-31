@@ -1,5 +1,7 @@
 <?php
 /**
+ * Module setup factory. Creates setups used during application install/upgrade.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

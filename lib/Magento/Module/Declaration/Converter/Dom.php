@@ -1,5 +1,7 @@
 <?php
 /**
+ * Module declaration xml converter. Converts declaration DOM Document to internal array representation.
+ *
  * {license_notice}
  *
  * @copyright {copyright}

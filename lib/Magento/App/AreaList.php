@@ -1,5 +1,7 @@
 <?php
 /**
+ * Application area list
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

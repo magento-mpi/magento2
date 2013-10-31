@@ -1,5 +1,6 @@
 <?php
 /**
+ * Application default url
  *
  * {license_notice}
  *

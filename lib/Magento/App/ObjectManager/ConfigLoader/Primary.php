@@ -1,5 +1,7 @@
 <?php
 /**
+ * Primary configuration loader for application object manager
+ *
  * {license_notice}
  * 
  * @copyright {copyright}

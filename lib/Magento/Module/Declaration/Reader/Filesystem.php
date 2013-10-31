@@ -1,5 +1,7 @@
 <?php
 /**
+ * Module declaration reader. Reads module.xml declaration files from module /etc directories.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Application module updater. Used to install/upgrade module schemas.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

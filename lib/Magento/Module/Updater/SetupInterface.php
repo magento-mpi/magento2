@@ -1,5 +1,7 @@
 <?php
 /**
+ * Module setup. Used to install/upgrade module schema.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

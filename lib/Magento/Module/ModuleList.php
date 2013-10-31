@@ -1,5 +1,7 @@
 <?php
 /**
+ * List of application active application modules.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

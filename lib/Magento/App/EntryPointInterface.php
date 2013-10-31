@@ -1,5 +1,6 @@
 <?php
 /**
+ * Application entry point. Bootstraps and runs application
  *
  * {license_notice}
  *

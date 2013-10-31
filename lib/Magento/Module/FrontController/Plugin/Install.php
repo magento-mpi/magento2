@@ -1,5 +1,7 @@
 <?php
 /**
+ * Application installation plugin. Should be used b applications that require module install/upgrade.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

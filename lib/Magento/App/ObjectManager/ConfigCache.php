@@ -1,5 +1,7 @@
 <?php
 /**
+ * Object manager configuration cache
+ *
  * {license_notice}
  * 
  * @copyright {copyright}
