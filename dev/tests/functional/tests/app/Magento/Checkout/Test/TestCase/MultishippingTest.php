@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Scenarios\Test\TestCase\Checkout;
+namespace Magento\Test\TestCase\Checkout;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -19,7 +19,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class MultishippingCheckoutTest
  * Test multiple address page checkout with different configurations
  *
- * @package Scenarios\Test\TestCase\Checkout
+ * @package Magento\Test\TestCase\Checkout
  */
 class MultishippingCheckoutTest extends Functional
 {
@@ -28,6 +28,7 @@ class MultishippingCheckoutTest extends Functional
      *
      * @param Checkout $fixture
      * @dataProvider dataProviderMultishippingCheckout
+     * @ZephyrId MAGETWO-12836
      */
     public function testMultishippingCheckout(Checkout $fixture)
     {

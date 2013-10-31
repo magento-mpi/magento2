@@ -52,6 +52,12 @@ class CreatePaypalExpressOrder extends Ui
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
         $checkoutReviewPage->getReviewBlock()->fillTelephone($fixture->getTelephoneNumber());
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
+
+        //Start of workaround for MAGETWO-16653
+        $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
+        $checkoutReviewPage->open();
+        //End of workaround for MAGETWO-16653
+
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();

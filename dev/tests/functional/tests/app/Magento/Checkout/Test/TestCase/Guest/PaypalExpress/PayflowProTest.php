@@ -51,6 +51,12 @@ class PayflowProTest extends Functional
 
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
+
+        //Start of workaround for MAGETWO-16653
+        $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
+        $checkoutReviewPage->open();
+        //End of workaround for MAGETWO-16653
+
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
