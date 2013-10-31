@@ -18,7 +18,7 @@ use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\Core\Model\Factory\Helper as FactoryHelper;
 use Magento\Core\Model\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
-use Magento\Core\Model\Logger;
+use Magento\Logger;
 use Magento\Core\Model\App;
 use Magento\App\State as AppState;
 

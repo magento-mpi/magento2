@@ -30,7 +30,7 @@ class DateTime
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *
-     * @param \Zend_Date|string|bool $date
+     * @param \Zend_Date|bool $date
      * @return int
      */
     public function toTimestamp($date)
