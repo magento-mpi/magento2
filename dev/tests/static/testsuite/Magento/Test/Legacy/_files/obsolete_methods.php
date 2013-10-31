@@ -920,4 +920,6 @@ return array(
     array('validateIpAddr', '\Magento\Core\Helper\Http', '\Zend_Validate_Ip::isValid'),
     array('getRemoteAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\RemoteAddress::getRemoteAddress'),
     array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
+    array('formatDate', 'Magento\Core\Model\Resource\AbstractResource', '\Magento\Stdlib\DateTime::formatDate'),
+    array('mktime', 'Magento\Core\Model\Resource\AbstractResource', '\Magento\Stdlib\DateTime::toTimestamp'),
 );
