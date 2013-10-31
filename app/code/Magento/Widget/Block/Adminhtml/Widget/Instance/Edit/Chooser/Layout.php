@@ -98,6 +98,7 @@ class Layout extends \Magento\Core\Block\Html\Select
      */
     protected function _addPageTypeOptions(array $pageTypes)
     {
+        $label = array();
         // Sort list of page types by label
         foreach ($pageTypes as $key => $row) {
             $label[$key]  = $row['label'];

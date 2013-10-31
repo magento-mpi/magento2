@@ -8,39 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pci\Model\Resource\Admin;
 
 /**
  * Admin user resource model
- *
- * @category    Magento
- * @package     Magento_Pci
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pci\Model\Resource\Admin;
-
 class User extends \Magento\User\Model\Resource\User
 {
-    /**
-     * @var \Magento\Stdlib\DateTime
-     */
-    protected $dateTime;
-
-    /**
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Acl\CacheInterface $aclCache
-     * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
-     */
-    public function __construct(
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Acl\CacheInterface $aclCache,
-        \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\Stdlib\DateTime $dateTime
-    ) {
-        $this->dateTime = $dateTime;
-        parent::__construct($resource, $aclCache, $roleFactory);
-    }
-
     /**
      * Unlock specified user record(s)
      *
