@@ -91,6 +91,11 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
@@ -108,6 +113,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_templateEngineFactory = $context->getEngineFactory();
         $this->_storeManager = $context->getApp();
+        $this->_appState = $context->getAppState();
         parent::__construct($context, $data);
     }
 
@@ -169,15 +175,13 @@ class Template extends \Magento\Core\Block\AbstractBlock
 
     /**
      * Get design area
+     *
+     * @deprecated
      * @return string
      */
     public function getArea()
     {
-        $result = $this->_getData('area');
-        if (!$result && $this->getLayout()) {
-            $result = $this->getLayout()->getArea();
-        }
-        return $result;
+        return $this->_appState->getAreaCode();
     }
 
     /**

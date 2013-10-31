@@ -288,6 +288,15 @@ class Instance extends \Magento\Adminhtml\Controller\Action
      */
     public function blocksAction()
     {
+        $this->_objectManager->get('Magento\App\State')
+            ->emulateAreaCode('frontend', array($this, 'renderPageContainers'));
+    }
+
+    /**
+     * Render page containers
+     */
+    public function renderPageContainers()
+    {
         /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');

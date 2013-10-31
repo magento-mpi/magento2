@@ -36,6 +36,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerFactory = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory');
         $this->_model = $this->_objectManager->create('Magento\Customer\Service\Customer');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
     }
 
     protected function tearDown()
@@ -64,6 +65,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($customerData)
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $this->_createdCustomer = $this->_model->create($customerData);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
@@ -397,6 +400,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAutoGeneratePassword()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $oldPasswordHash = $this->_customerFactory->create()
             ->load(1)
             ->getPasswordHash();

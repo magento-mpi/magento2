@@ -31,7 +31,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);

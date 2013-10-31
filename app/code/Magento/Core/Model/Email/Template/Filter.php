@@ -240,54 +240,6 @@ class Filter extends \Magento\Filter\Template
     }
 
     /**
-     * Retrieve layout html directive
-     *
-     * @param array $construction
-     * @return string
-     */
-    public function layoutDirective($construction)
-    {
-        $skipParams = array('handle', 'area');
-        $params = $this->_getIncludeParameters($construction[2]);
-        $layoutParams = array();
-        if (isset($params['area'])) {
-            $layoutParams['area'] = $params['area'];
-        }
-        /** @var $layout \Magento\View\LayoutInterface */
-        $layout = $this->_layoutFactory->create($layoutParams);
-        $layout->getUpdate()->addHandle($params['handle'])
-            ->load();
-
-        $layout->generateXml();
-        $layout->generateElements();
-
-        $rootBlock = false;
-        foreach ($layout->getAllBlocks() as $block) {
-            /* @var $block \Magento\Core\Block\AbstractBlock */
-            if (!$block->getParentBlock() && !$rootBlock) {
-                $rootBlock = $block;
-            }
-            foreach ($params as $k => $v) {
-                if (in_array($k, $skipParams)) {
-                    continue;
-                }
-                $block->setDataUsingMethod($k, $v);
-            }
-        }
-
-        /**
-         * Add root block to output
-         */
-        if ($rootBlock) {
-            $layout->addOutputElement($rootBlock->getNameInLayout());
-        }
-
-        $result = $layout->getOutput();
-        $layout->__destruct(); // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
-        return $result;
-    }
-
-    /**
      * Retrieve block parameters
      *
      * @param mixed $value

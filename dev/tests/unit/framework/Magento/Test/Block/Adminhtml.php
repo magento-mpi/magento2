@@ -102,6 +102,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $appMock                    = $this->_makeMock('Magento\Core\Model\App');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
+        $appState                   = $this->_makeMock('Magento\App\State');
+
+        $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
         $this->_translatorMock
             ->expects($this->any())
@@ -132,7 +135,8 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $authorizationMock,
             $appMock,
             $backendSessionMock,
-            $this->_localeMock
+            $this->_localeMock,
+            $appState
         );
     }
 

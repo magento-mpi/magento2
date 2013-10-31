@@ -32,6 +32,8 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testSetThemeId()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->setAreaCode('frontend');
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme()

@@ -363,7 +363,7 @@ class Base extends \Magento\App\Router\AbstractRouter
 
             // instantiate controller class
             $controllerInstance = $this->_controllerFactory->createController($controllerClassName,
-                array('request' => $request, 'areaCode' => $this->_areaCode)
+                array('request' => $request)
             );
         } else {
             return null;
@@ -678,5 +678,15 @@ class Base extends \Magento\App\Router\AbstractRouter
             || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
                 && substr($this->_coreStoreConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
+    }
+
+    /**
+     * Get area code
+     *
+     * @return string
+     */
+    public function getAreaCode()
+    {
+        return $this->_areaCode;
     }
 }

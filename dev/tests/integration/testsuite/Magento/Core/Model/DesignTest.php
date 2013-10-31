@@ -35,6 +35,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\DesignInterface');
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

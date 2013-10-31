@@ -183,13 +183,12 @@ class Config implements \Magento\Core\Model\ConfigInterface
     /**
      * Identify front name of the requested area. Return current area front name if area code is not specified.
      *
-     * @param string|null $areaCode
      * @return string
      * @throws \LogicException If front name is not defined.
      */
-    public function getAreaFrontName($areaCode = null)
+    public function getAreaFrontName()
     {
-        $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
+        $areaCode = $this->_objectManager->get('Magento\App\State')->getAreaCode();
         $areaConfig = $this->getAreaConfig($areaCode);
         if (!isset($areaConfig['frontName'])) {
             throw new \LogicException(sprintf(

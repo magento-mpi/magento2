@@ -77,6 +77,8 @@ abstract class AbstractFormTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForm()
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $this->assertEmpty($this->_block->getForm());
 
         $this->_urlBuilder->expects($this->once())

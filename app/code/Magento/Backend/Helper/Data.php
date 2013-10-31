@@ -16,7 +16,6 @@ namespace Magento\Backend\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
-    const BACKEND_AREA_CODE                     = 'adminhtml';
 
     protected $_pageHelpUrl;
 
@@ -186,16 +185,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getHomePageUrl()
     {
         return $this->_backendUrl->getRouteUrl('adminhtml');
-    }
-
-    /**
-     * Return Backend area code
-     *
-     * @return string
-     */
-    public function getAreaCode()
-    {
-        return self::BACKEND_AREA_CODE;
     }
 
     /**

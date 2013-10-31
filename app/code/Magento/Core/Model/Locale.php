@@ -702,7 +702,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
             ));
             $this->_localeCode = $this->_locale->toString();
 
-            $this->_translate->initTranslate($this->_localeCode, \Magento\Core\Model\App\Area::AREA_FRONTEND, true);
+            $this->_translate->initTranslate($this->_localeCode, true);
         } else {
             $this->_emulatedLocales[] = false;
         }
@@ -719,7 +719,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
 
-            $this->_translate->initTranslate($this->_localeCode, \Magento\Core\Model\App\Area::AREA_ADMINHTML, true);
+            $this->_translate->initTranslate($this->_localeCode, true);
         }
     }
 

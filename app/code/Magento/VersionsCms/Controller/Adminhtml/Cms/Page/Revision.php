@@ -295,6 +295,18 @@ class Revision
      */
     public function dropAction()
     {
+        $this->_objectManager->get('Magento\App\State')
+            ->emulateAreaCode('frontend', array($this, 'previewFrontendPage'));
+        return $this;
+    }
+
+    /**
+     * Generates preview of page. Assumed to be run in frontend area
+     *
+     * @return $this
+     */
+    public function previewFrontendPage()
+    {
         // check if data sent
         $data = $this->getRequest()->getPost();
         if (!empty($data) && isset($data['page_id'])) {
@@ -371,8 +383,6 @@ class Revision
         } else {
             $this->_forward('noRoute');
         }
-
-        return $this;
     }
 
     /**
@@ -436,16 +446,27 @@ class Revision
     }
 
     /**
-     * Controller predispatch method
+     * Init design in specific area
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
-    public function preDispatch()
+    protected function _initDesign()
     {
         if ($this->getRequest()->getActionName() == 'drop') {
-            $this->_configScope->setCurrentScope('frontend');
+            $this->_objectManager->get('Magento\App\State')
+                ->emulateAreaCode('frontend', array($this, 'initFrontendDesign'));
+        } else {
+            parent::_initDesign();
         }
-        parent::preDispatch();
+        return $this;
+    }
+
+    /**
+     * Callback for init design from outside (need to substitute area code)
+     */
+    public function initFrontendDesign()
+    {
+        parent::_initDesign();
     }
 
     /**

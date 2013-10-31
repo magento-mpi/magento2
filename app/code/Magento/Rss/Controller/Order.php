@@ -51,7 +51,7 @@ class Order extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         if ('new' === $this->getRequest()->getActionName()) {
-            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            $this->_configScope->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
             if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order', $this->_logger)) {
                 return;
             }

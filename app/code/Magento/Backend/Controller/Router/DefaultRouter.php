@@ -20,6 +20,11 @@ namespace Magento\Backend\Controller\Router;
 class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**
+     * Backend area code
+     */
+    const AREA_CODE = 'adminhtml';
+
+    /**
      * List of required request parameters
      * Order sensitive
      * @var array

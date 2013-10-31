@@ -56,7 +56,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
     public function authenticateAndAuthorizeAdmin($aclResource, $logger)
     {
         $this->_objectManager->get('Magento\Core\Model\App')
-            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+            ->loadAreaPart(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, \Magento\Core\Model\App\Area::PART_CONFIG);
 
         /** @var $auth \Magento\Backend\Model\Auth */
         $auth = $this->_objectManager->create('Magento\Backend\Model\Auth');

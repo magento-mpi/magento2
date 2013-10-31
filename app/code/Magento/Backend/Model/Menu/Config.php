@@ -56,6 +56,11 @@ class Config
     protected $_director;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Backend\Model\Menu\Builder $menuBuilder
      * @param \Magento\Backend\Model\Menu\AbstractDirector $menuDirector
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
@@ -64,6 +69,7 @@ class Config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Backend\Model\Menu\Builder $menuBuilder,
@@ -73,7 +79,8 @@ class Config
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\State $appState
     ) {
         $this->_menuBuilder = $menuBuilder;
         $this->_director = $menuDirector;
@@ -83,6 +90,7 @@ class Config
         $this->_menuFactory = $menuFactory;
         $this->_configReader = $configReader;
         $this->_storeManager = $storeManager;
+        $this->_appState = $appState;
     }
 
     /**
@@ -129,7 +137,7 @@ class Config
             }
 
             $this->_director->direct(
-                $this->_configReader->read(\Magento\Core\Model\App\Area::AREA_ADMINHTML),
+                $this->_configReader->read($this->_appState->getAreaCode()),
                 $this->_menuBuilder,
                 $this->_logger
             );

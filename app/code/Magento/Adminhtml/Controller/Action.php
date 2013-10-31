@@ -15,10 +15,4 @@ namespace Magento\Adminhtml\Controller;
 
 class Action extends \Magento\Backend\Controller\AbstractAction
 {
-    /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea = 'adminhtml';
 }

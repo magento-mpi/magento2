@@ -54,7 +54,8 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * 
+     * @param \Magento\App\State $appState
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -81,12 +82,13 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\App\State $appState
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
             $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
-            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app
+            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app, $appState
         );
         $this->_storeManager = $storeManager;
         $this->_authorization = $authorization;

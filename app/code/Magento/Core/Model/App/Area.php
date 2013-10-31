@@ -20,7 +20,6 @@ class Area
     const AREA_GLOBAL   = 'global';
     const AREA_FRONTEND = 'frontend';
     const AREA_ADMIN    = 'admin';
-    const AREA_ADMINHTML = 'adminhtml';
 
     const PART_CONFIG   = 'config';
     const PART_TRANSLATE= 'translate';
@@ -265,7 +264,7 @@ class Area
             'translate_object' => $this->_translator,
             'result' => $dispatchResult
         ));
-        $this->_translator->init($this->_code, $dispatchResult, false);
+        $this->_translator->init(null, $dispatchResult, false);
 
         \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
         return $this;

@@ -29,7 +29,7 @@
             <instance type="Magento\Backend\Controller\Factory" />
         </param>
         <param name="areaCode">
-            <value>adminhtml</value>
+            <value type="const">Magento\Backend\App\Area\FrontNameResolver::AREA_CODE</value>
         </param>
         <param name="baseController">
             <value>Magento\Backend\Controller\AbstractAction</value>
