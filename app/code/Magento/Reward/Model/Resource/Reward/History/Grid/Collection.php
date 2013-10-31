@@ -25,6 +25,7 @@ class Collection
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Helper\Data $helper
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -35,6 +36,7 @@ class Collection
         \Magento\Core\Model\Locale $locale,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Helper\Data $helper,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
@@ -45,6 +47,7 @@ class Collection
             $entityFactory,
             $locale,
             $customerFactory,
+            $dateTime,
             $resource
         );
     }
