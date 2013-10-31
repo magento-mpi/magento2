@@ -54,7 +54,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\TemplateEngine\Pool $enginePool
+     * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
@@ -85,7 +85,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\TemplateEngine\Pool $enginePool,
+        \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
@@ -95,9 +95,28 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Math\Random $mathRandom
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
-            $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
-            $dirs, $logger, $filesystem, $viewFileSystem, $enginePool, $app, $escaper, $filterManager
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $storeConfig,
+            $frontController,
+            $helperFactory,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $dirs,
+            $logger,
+            $filesystem,
+            $viewFileSystem,
+            $engineFactory,
+            $app,
+            $escaper,
+            $filterManager
         );
         $this->_storeManager = $storeManager;
         $this->_authorization = $authorization;

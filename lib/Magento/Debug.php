@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Debug
+ * @package     Magento_Debug
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Magento Debug methods
  *
  * @category    Magento
- * @package     \Magento\Debug
+ * @package     Magento_Debug
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;

@@ -1,4 +1,5 @@
 * Various improvements:
+  * View abstraction was moved into lib
   * Templates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
   * Templates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
   * Eliminated dependency in Magento\Data\Form from Magento\Core module
@@ -6,6 +7,9 @@
   * Fixed copyright information
   * Removed page type hierarchy
   * Removed page fragment types
+  * Fixed Impossible to add image using WYSIWYG
+  * No direct code execution in layout: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
+  * Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
   * Global functions are called now from app\functions.php
   * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
   * Eliminated functions.php from Magento\Core module
@@ -17,8 +21,7 @@
   * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
-
-
+  
 2.0.0.0-dev49
 =============
 * Various improvements:
