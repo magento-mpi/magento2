@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Index\Model\EntryPoint;
+namespace Magento\Index\App;
 
 class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Index\Model\EntryPoint\Indexer
+     * @var \Magento\Index\App\Indexer
      */
     protected $_entryPoint;
 
@@ -37,7 +37,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->_reportDir = 'tmp' . DIRECTORY_SEPARATOR . 'reports';
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Indexer(
+        $this->_entryPoint = new \Magento\Index\App\Indexer(
             'baseDir',
             'parameters',
             $this->_reportDir,

@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Index\Model\EntryPoint;
+namespace Magento\Index\App;
 
 class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Index\Model\EntryPoint\Shell
+     * @var \Magento\Index\App\Shell
      */
     protected $_entryPoint;
 
@@ -37,7 +37,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Shell(
+        $this->_entryPoint = new \Magento\Index\App\Shell(
             'indexer.php',
             $this->_shellErrorHandler,
             'baseDir',

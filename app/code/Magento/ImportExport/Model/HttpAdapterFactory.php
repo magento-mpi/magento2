@@ -1,11 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: okorshenko
- * Date: 28.10.13
- * Time: 17:00
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model;
 
 class HttpAdapterFactory
