@@ -69,35 +69,20 @@ class AbstractItems extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Init block
+     * Add column renderers
      *
-     */
-    protected function _construct()
-    {
-        $this->addColumnRender('qty', 'Magento\Sales\Block\Adminhtml\Items\Column\Qty', 'sales/items/column/qty.phtml');
-        $this->addColumnRender('name', 'Magento\Sales\Block\Adminhtml\Items\Column\Name', 'sales/items/column/name.phtml');
-        parent::_construct();
-    }
-
-    /**
-     * Add column renderer
-     *
-     * @param string $column
-     * @param string $block
-     * @param string $template
-     * @param string|null $type
+     * @param array $blocks
      * @return $this
      */
-    public function addColumnRender($column, $block, $template, $type = null)
+    public function setColumnRenders(array $blocks)
     {
-        if (isset($type)) {
-            $column .= '_' . $type;
+        foreach ($blocks as $blockName) {
+            $block = $this->getLayout()->getBlock($blockName);
+            if ($block->getRenderedBlock() === null) {
+                $block->setRenderedBlock($this);
+            }
+            $this->_columnRenders[$blockName] = $block;
         }
-        $this->_columnRenders[$column] = array(
-            'block'     => $block,
-            'template'  => $template,
-            'renderer'  => null
-        );
         return $this;
     }
 
@@ -110,17 +95,13 @@ class AbstractItems extends \Magento\Backend\Block\Template
      */
     public function getItemRenderer($type)
     {
+        /** @var $renderer \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
         $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
         if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
             throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
-        foreach ($this->_columnRenders as $columnType => $columnRenderer) {
-            $renderer->addColumnRender(
-                $columnType,
-                $columnRenderer['block'],
-                $columnRenderer['template']
-            );
-        }
+        $renderer->setColumnRenders($this->getLayout()->getGroupChildNames($this->getNameInLayout(), 'column'));
+
         return $renderer;
     }
 
@@ -131,21 +112,16 @@ class AbstractItems extends \Magento\Backend\Block\Template
      * @param string $compositePart
      * @return \Magento\Core\Block\AbstractBlock
      */
-    public function getColumnRenderer($column, $compositePart='')
+    public function getColumnRenderer($column, $compositePart = '')
     {
+        $column = 'column_' . $column;
         if (isset($this->_columnRenders[$column . '_' . $compositePart])) {
             $column .= '_' . $compositePart;
         }
         if (!isset($this->_columnRenders[$column])) {
             return false;
         }
-        if (is_null($this->_columnRenders[$column]['renderer'])) {
-            $this->_columnRenders[$column]['renderer'] = $this->getLayout()
-                ->createBlock($this->_columnRenders[$column]['block'])
-                ->setTemplate($this->_columnRenders[$column]['template'])
-                ->setRenderedBlock($this);
-        }
-        return $this->_columnRenders[$column]['renderer'];
+        return $this->_columnRenders[$column];
     }
 
     /**
@@ -223,6 +199,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     /**
      * Retrieve available order
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
@@ -275,7 +252,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     {
         if ($code == 'tax_amount' && $this->getOrder()->getRowTaxDisplayPrecision()) {
             return $this->displayRoundedPrices(
-                $this->getPriceDataObject()->getData('base_'.$code),
+                $this->getPriceDataObject()->getData('base_' . $code),
                 $this->getPriceDataObject()->getData($code),
                 $this->getOrder()->getRowTaxDisplayPrecision(),
                 $strong,
@@ -283,7 +260,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
             );
         } else {
             return $this->displayPrices(
-                $this->getPriceDataObject()->getData('base_'.$code),
+                $this->getPriceDataObject()->getData('base_' . $code),
                 $this->getPriceDataObject()->getData($code),
                 $strong,
                 $separator
@@ -319,13 +296,13 @@ class AbstractItems extends \Magento\Backend\Block\Template
     {
         if ($this->getOrder()->isCurrencyDifferent()) {
             $res = '';
-            $res.= $this->getOrder()->formatBasePricePrecision($basePrice, $precision);
-            $res.= $separator;
-            $res.= $this->getOrder()->formatPricePrecision($price, $precision, true);
+            $res .= $this->getOrder()->formatBasePricePrecision($basePrice, $precision);
+            $res .= $separator;
+            $res .= $this->getOrder()->formatPricePrecision($price, $precision, true);
         } else {
             $res = $this->getOrder()->formatPricePrecision($price, $precision);
             if ($strong) {
-                $res = '<strong>'.$res.'</strong>';
+                $res = '<strong>' . $res . '</strong>';
             }
         }
         return $res;
@@ -351,8 +328,8 @@ class AbstractItems extends \Magento\Backend\Block\Template
         $priceTax = 0;
 
         if (floatval($qty)) {
-            $basePriceTax = $item->getBasePrice()+$baseTax/$qty;
-            $priceTax = $item->getPrice()+$tax/$qty;
+            $basePriceTax = $item->getBasePrice() + $baseTax / $qty;
+            $priceTax = $item->getPrice() + $tax / $qty;
         }
 
         return $this->displayPrices(
@@ -377,8 +354,8 @@ class AbstractItems extends \Magento\Backend\Block\Template
             : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0);
 
         return $this->displayPrices(
-            $item->getBaseRowTotal()+$baseTax,
-            $item->getRowTotal()+$tax
+            $item->getBaseRowTotal() + $baseTax,
+            $item->getRowTotal() + $tax
         );
     }
 
@@ -392,7 +369,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     {
         if ($item->getTaxPercent() && $item->getTaxString() == '') {
             $percents = array($item->getTaxPercent());
-        } else if ($item->getTaxString()) {
+        } elseif ($item->getTaxString()) {
             $percents = explode(\Magento\Tax\Model\Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
         } else {
             return '0%';
@@ -441,6 +418,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     /**
      * Setter for flag _canEditQty
      *
+     * @param bool $value
      * @return \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      * @see self::_canEditQty
      * @see self::canEditQty
@@ -517,7 +495,8 @@ class AbstractItems extends \Magento\Backend\Block\Template
      * CREDITMEMO
      */
 
-    public function canReturnToStock() {
+    public function canReturnToStock()
+    {
         if ($this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
@@ -538,7 +517,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
                 $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
-                if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
+                if ($product->getId() && $product->getStockItem()->getManageStock()) {
                     $item->setCanReturnToStock(true);
                 } else {
                     $item->setCanReturnToStock(false);
@@ -560,10 +539,10 @@ class AbstractItems extends \Magento\Backend\Block\Template
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
         );
         if (!is_null($item)) {
-            if ( $item->getCreditmemo()->getOrder()->hasCanReturnToStock() ) {
+            if ($item->getCreditmemo()->getOrder()->hasCanReturnToStock()) {
                 $canReturnToStock = $item->getCreditmemo()->getOrder()->getCanReturnToStock();
             }
-        } elseif ( $this->getOrder()->hasCanReturnToStock() ) {
+        } elseif ($this->getOrder()->hasCanReturnToStock()) {
             $canReturnToStock = $this->getOrder()->getCanReturnToStock();
         }
         return $canReturnToStock;

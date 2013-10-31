@@ -27,7 +27,6 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Helper\File\Storage::getMaxFileSize
      * @backupStaticAttributes
      */
     public function testGetMaxFileSize()
@@ -37,7 +36,6 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Helper\File\Storage::convertSizeToInteger
      * @dataProvider getConvertSizeToIntegerDataProvider
      * @backupStaticAttributes
      * @param string $value

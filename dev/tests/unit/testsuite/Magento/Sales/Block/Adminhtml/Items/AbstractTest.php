@@ -19,15 +19,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItemRenderer()
     {
-        $renderer = $this->getMock('Magento\Core\Block\AbstractBlock', array('addColumnRender'), array(), '', false);
-        $renderer->expects($this->at(0))
-            ->method('addColumnRender')
-            ->with('qty', 'Magento\Sales\Block\Adminhtml\Items\Column\Qty', 'sales/items/column/qty.phtml');
-        $renderer->expects($this->at(1))
-            ->method('addColumnRender')
-            ->with('name', 'Magento\Sales\Block\Adminhtml\Items\Column\Name', 'sales/items/column/name.phtml');
+        $renderer = $this->getMock('Magento\Core\Block\AbstractBlock', array(), array(), '', false);
         $layout = $this->getMock('Magento\Core\Model\Layout', array(
-            'getChildName', 'getBlock'
+            'getChildName', 'getBlock', 'getGroupChildNames'
         ), array(), '', false);
         $layout->expects($this->at(0))
             ->method('getChildName')

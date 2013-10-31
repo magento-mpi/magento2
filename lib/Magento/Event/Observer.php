@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Event
+ * @package    Magento_Event
  * @copyright  {copyright}
  * @license    {license_link}
  */

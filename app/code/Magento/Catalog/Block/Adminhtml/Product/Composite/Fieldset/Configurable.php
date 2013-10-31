@@ -16,38 +16,6 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset;
 class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
 {
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Tax\Model\Calculation $taxCalculation,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        parent::__construct($storeManager, $catalogConfig, $taxCalculation, $coreRegistry, $catalogProduct, $taxData,
-            $catalogData, $coreData, $context, $data);
-    }
-
-    /**
      * Retrieve product
      *
      * @return \Magento\Catalog\Model\Product
