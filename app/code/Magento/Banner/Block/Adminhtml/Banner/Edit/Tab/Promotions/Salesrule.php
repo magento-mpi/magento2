@@ -153,7 +153,7 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/salesRuleGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/salesRuleGrid', array('_current' => true));
     }
 
     /**

@@ -112,9 +112,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
 
         if ($wrapping) {
-            $url = $this->getUrl('*/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
+            $url = $this->getUrl('adminhtml/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
         } else {
-            $url = $this->getUrl('*/*/save');
+            $url = $this->getUrl('adminhtml/*/save');
         }
         return $url;
     }
@@ -135,6 +135,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
             }
         }
 
-        return $this->getUrl('*/*/upload', $params);
+        return $this->getUrl('adminhtml/*/upload', $params);
     }
 }

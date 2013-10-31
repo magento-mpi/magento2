@@ -17,7 +17,7 @@
  */
 namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
 
-class Currency extends \Magento\Adminhtml\Controller\Action
+class Currency extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -98,7 +98,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
         catch (\Exception $e){
             $backendSession->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     public function saveRatesAction()
@@ -130,7 +130,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
             }
         }
 
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     protected function _isAllowed()

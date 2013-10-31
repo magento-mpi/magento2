@@ -111,7 +111,7 @@ class Form
      */
     public function getOwnerUrl()
     {
-        return $this->getUrl('*/customer/edit', array('id' => $this->getEntity()->getCustomerId()));
+        return $this->getUrl('adminhtml/customer/edit', array('id' => $this->getEntity()->getCustomerId()));
     }
 
     /**
@@ -196,6 +196,6 @@ class Form
      */
     public function getActionUrl()
     {
-        return $this->getUrl('*/*/update', array('_current' => true));
+        return $this->getUrl('adminhtml/*/update', array('_current' => true));
     }
 }

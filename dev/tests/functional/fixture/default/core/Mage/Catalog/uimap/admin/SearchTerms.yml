@@ -10,7 +10,7 @@
 #
 ---
 search_terms:
-    mca: catalog_search/
+    mca: catalog/search/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_search/')]
     title: Search Terms / SEO & Search / Marketing / Magento Admin
     uimap:
@@ -41,7 +41,7 @@ search_terms:
 
 # 'New Search Term' Page
 create_search_terms:
-    mca: catalog_search/new/
+    mca: catalog/search/new/
     title: New Search / Search Terms / SEO & Search / Marketing / Magento Admin
     uimap:
         form:

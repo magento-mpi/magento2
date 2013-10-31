@@ -74,7 +74,7 @@ class Edit
                                         'event' => 'preview',
                                         'target' => '#edit_form',
                                         'eventData' => array(
-                                            'action' => $this->getUrl('*/cms_page_revision/preview'),
+                                            'action' => $this->getUrl('adminhtml/cms_page_revision/preview'),
                                         )
                                     ),
                                 ),
