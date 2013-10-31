@@ -27,7 +27,15 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
                 $issues = array();
                 $node = simplexml_load_file($layoutFile);
                 $type = $node['type'];
+                $parent = $node['parent'];
+                $owner = $node['owner'];
                 $label = $node['label'];
+                if ($parent) {
+                    $issues[] = 'Attribute "parent" is not valid';
+                }
+                if ($owner) {
+                    $issues[] = 'Attribute "owner" is not valid';
+                }
                 if (!$type) {
                     if ($label) {
                         $issues[] = 'Attribute "label" is defined, but "type" is not';
