@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Inspection;
+namespace Magento\TestFramework\Inspection;
 
 class WordsFinderTest extends \PHPUnit_Framework_TestCase
 {

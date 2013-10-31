@@ -6,6 +6,9 @@
 * Fixed copyright information
 * Removed page type hierarchy
 * Removed page fragment types
+* Fixed Impossible to add image using WYSIWYG
+* No direct code execution in layout: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
+* Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
 
 2.0.0.0-dev49
 =============

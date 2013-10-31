@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Inspection\JsHint;
+namespace Magento\TestFramework\Inspection\JsHint;
 
 class CommandTest extends \PHPUnit_Framework_TestCase
 {
