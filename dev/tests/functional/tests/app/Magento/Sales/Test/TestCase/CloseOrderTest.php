@@ -63,7 +63,7 @@ class CloseOrderTest extends Functional
 
         $this->assertContains(
             $grandTotal,
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
+            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect captured amount value for the order #' . $orderId
         );
 

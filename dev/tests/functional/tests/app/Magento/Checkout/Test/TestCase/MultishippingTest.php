@@ -32,6 +32,7 @@ class MultishippingTest extends Functional
      */
     public function testMultishippingCheckout(Checkout $fixture)
     {
+        $fixture->persist();
         //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
@@ -44,7 +45,7 @@ class MultishippingTest extends Functional
 
         //Proceed to checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        //Multishipping checkout
+
         $checkoutCartPage->getCartBlock()->getMultishippingLinkBlock()->multipleAddressesCheckout();
 
         //Register new customer

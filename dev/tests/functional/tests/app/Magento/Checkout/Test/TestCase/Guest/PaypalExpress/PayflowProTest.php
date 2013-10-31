@@ -84,7 +84,7 @@ class PayflowProTest extends Functional
         $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
 
         $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()
-            ->getOrderHistoryBlock()->getLastOrderComment();
+            ->getOrderHistoryBlock()->getCommentsHistory();
         $this->assertContains(
             $expectedAuthorizedAmount,
             $actualAuthorizedAmount,
