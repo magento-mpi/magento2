@@ -81,7 +81,14 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
-            $context, $primaryConfig, $routerList, $app, $backendUrl, $auth, $frontNameResolver, $mathRandom
+            $context,
+            $primaryConfig,
+            $routerList,
+            $app,
+            $backendUrl,
+            $auth,
+            $frontNameResolver,
+            $mathRandom
         );
     }
 
