@@ -540,23 +540,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Add self to the specified group of parent block
-     *
-     * @param string $groupName
-     * @return \Magento\Core\Block\AbstractBlock|bool
-     */
-    public function addToParentGroup($groupName)
-    {
-        $layout = $this->getLayout();
-        if (!$layout) {
-            return false;
-        }
-        $layout->addToParentGroup($this->getNameInLayout(), $groupName);
-
-        return $this;
-    }
-
-    /**
      * Get a group of child blocks
      *
      * Returns an array of <alias> => <block>
