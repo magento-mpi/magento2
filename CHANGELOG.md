@@ -3,8 +3,8 @@
 * Fixed error on save of Google AdWords configuration
 * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
 * View abstraction was moved into lib
-* Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
-* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
+* Templates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
+* Templates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
 * Eliminated dependency in Magento\Data\Form from Magento\Core module
 * Eliminated Magento\Media module
 * Fixed copyright information
