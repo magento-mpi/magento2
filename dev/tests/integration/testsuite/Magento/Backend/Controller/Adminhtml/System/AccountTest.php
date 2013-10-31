@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\System;
+namespace Magento\Backend\Controller\Adminhtml\System;
 
 /**
  * @magentoAppArea adminhtml
