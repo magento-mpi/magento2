@@ -174,7 +174,6 @@ class Application
     {
         $overriddenParams['base_dir'] = BP;
         $overriddenParams[State::PARAM_MODE] = $this->_appMode;
-
         $overriddenParams = $this->_customizeParams($overriddenParams);
 
         $directories = new Dir(
@@ -216,7 +215,6 @@ class Application
         );
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
-
         \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\Renderer\Placeholder'));
     }
 

@@ -42,7 +42,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -51,10 +50,9 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Encryption $encryptor,
         \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_symbolFactory = $symbolFactory;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+        parent::__construct($context, $eventManager, $coreHttp, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
@@ -69,7 +67,7 @@ class Data extends \Magento\Core\Helper\Data
     {
         $currencyOptions = array();
         $currencySymbol = $this->_symbolFactory->create();
-        if($currencySymbol) {
+        if ($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);
 
             if ($customCurrencySymbol) {

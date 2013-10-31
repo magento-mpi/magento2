@@ -44,24 +44,6 @@ class ConstructorIntegrity
         /** Get parent class __construct arguments */
         $parentArguments = $this->_getConstructorArguments($parent, true);
 
-        /**
-         * Try to detect unused arguments
-         * Check whether count of passed parameters less or equal that count of count parent class arguments
-         */
-        if (count($callArguments) > count($parentArguments)) {
-            $extraParameters = array_slice($callArguments, count($parentArguments));
-            $names = array();
-            foreach ($extraParameters as $param) {
-                $names[] = '$' . $param['name'];
-            }
-
-            throw new \Magento\Code\ValidationException(
-                'Extra parameters passed to parent construct: '
-                . implode(', ', $names)
-                . '. File: ' . $class->getFileName()
-            );
-        }
-
         foreach ($parentArguments as $index => $requiredArgument) {
             if (isset($callArguments[$index])) {
                 $actualArgument = $callArguments[$index];
@@ -81,6 +63,24 @@ class ConstructorIntegrity
                     . '; File: ' . $class->getFileName()
                 );
             }
+        }
+
+        /**
+         * Try to detect unused arguments
+         * Check whether count of passed parameters less or equal that count of count parent class arguments
+         */
+        if (count($callArguments) > count($parentArguments)) {
+            $extraParameters = array_slice($callArguments, count($parentArguments));
+            $names = array();
+            foreach ($extraParameters as $param) {
+                $names[] = '$' . $param['name'];
+            }
+
+            throw new \Magento\Code\ValidationException(
+                'Extra parameters passed to parent construct: '
+                . implode(', ', $names)
+                . '. File: ' . $class->getFileName()
+            );
         }
         return true;
     }
@@ -137,7 +137,7 @@ class ConstructorIntegrity
         $content = implode('', array_slice($source, $start, $length));
         $pattern = '/parent::__construct\(([a-zA-Z0-9_$, \n]*)\);/';
 
-        if(!preg_match($pattern, $content, $matches)) {
+        if (!preg_match($pattern, $content, $matches)) {
             return null;
         }
 

@@ -24,7 +24,6 @@ class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -38,7 +37,6 @@ class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -47,10 +45,9 @@ class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
         \Magento\Core\Model\Encryption $encryptor,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_orderCollection = $orderCollection;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+        parent::__construct($context, $eventManager, $coreHttp, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
@@ -63,10 +60,10 @@ class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
 
         if ($this->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getParam('store'));
-        } else if ($this->getParam('website')){
+        } else if ($this->getParam('website')) {
             $storeIds = $this->_storeManger->getWebsite($this->getParam('website'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
-        } else if ($this->getParam('group')){
+        } else if ($this->getParam('group')) {
             $storeIds = $this->_storeManger->getGroup($this->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
         } elseif (!$this->_collection->isLive()) {
