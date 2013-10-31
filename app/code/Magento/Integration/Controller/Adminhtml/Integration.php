@@ -11,7 +11,7 @@ use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Adminhtml\Controller\Action
+class Integration extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
