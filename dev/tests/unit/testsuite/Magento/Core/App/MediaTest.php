@@ -55,11 +55,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_mediaDirectory = 'mediaDirectory';
 
     /**
-     * @var string
-     */
-    protected $_relativeFileName = 'relativeFileName';
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
