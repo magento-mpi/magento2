@@ -962,6 +962,8 @@ return array(
     array('Mage_Sales_Model_Order_Creditmemo_Api_V2'),
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
     array('Magento\ImportExport\Model\Config'),
+    array('Magento\Install\Model\EntryPoint\Console', 'Magento\Install\App\Console'),
+    array('Magento\Install\Model\EntryPoint\Output', 'Magento\Install\App\Output'),
     array('Magento\Data\Collection\Factory', 'Magento\Data\CollectionFactory'),
     array('Magento\Adminhtml\Block\Customer\System\Config\ValidatevatFactory'),
     array('Magento\Customer\Model\Attribute\Data'),

@@ -50,15 +50,6 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         return new \Magento\Install\App\Console($this->_installerFactoryMock, $params, $this->_outputMock);
     }
 
-    protected function tearDown()
-    {
-        unset($this->_model);
-        unset($this->_configMock);
-        unset($this->_installerMock);
-        unset($this->_installerFactoryMock);
-        unset($this->_dirVerifierMock);
-    }
-
     /**
      * @param string $param
      * @param string $method
