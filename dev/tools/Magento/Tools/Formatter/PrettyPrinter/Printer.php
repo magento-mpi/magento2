@@ -59,7 +59,7 @@ class Printer
         $statements = $parser->parse($this->originalCode);
         // convert the statements to text
         $this->resolveStatements($statements);
-        // Display list of probable removed comments
+        // Show comments that were not consumed(output) by the formatting process
         $this->displayRemovedComments(self::$lexer->getCommentMap());
     }
 
