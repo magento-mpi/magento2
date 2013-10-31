@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Controller\Adminhtml\Promo;
+namespace Magento\SalesRule\Controller\Adminhtml\Promo;
 
 class Quote extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -80,7 +80,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
             if (! $model->getRuleId()) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This rule no longer exists.'));
-                $this->_redirect('catalog/*');
+                $this->_redirect('sales_rule/*');
                 return;
             }
         }
@@ -99,7 +99,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_coreRegistry->register('current_promo_quote_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_quote_edit')
-             ->setData('action', $this->getUrl('catalog/*/save'));
+             ->setData('action', $this->getUrl('sales_rule/*/save'));
 
         $this
             ->_addBreadcrumb(
@@ -142,7 +142,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                         $session->addError($errorMessage);
                     }
                     $session->setPageData($data);
-                    $this->_redirect('catalog/*/edit', array('id'=>$model->getId()));
+                    $this->_redirect('sales_rule/*/edit', array('id'=>$model->getId()));
                     return;
                 }
 
@@ -169,18 +169,18 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                 $session->addSuccess(__('The rule has been saved.'));
                 $session->setPageData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('catalog/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('sales_rule/*/edit', array('id' => $model->getId()));
                     return;
                 }
-                $this->_redirect('catalog/*/');
+                $this->_redirect('sales_rule/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $id = (int)$this->getRequest()->getParam('rule_id');
                 if (!empty($id)) {
-                    $this->_redirect('catalog/*/edit', array('id' => $id));
+                    $this->_redirect('sales_rule/*/edit', array('id' => $id));
                 } else {
-                    $this->_redirect('catalog/*/new');
+                    $this->_redirect('sales_rule/*/new');
                 }
                 return;
 
@@ -189,11 +189,11 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                     __('An error occurred while saving the rule data. Please review the log and try again.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
-                $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('sales_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
         }
-        $this->_redirect('catalog/*/');
+        $this->_redirect('sales_rule/*/');
     }
 
     public function deleteAction()
@@ -206,7 +206,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->delete();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The rule has been deleted.'));
-                $this->_redirect('catalog/*/');
+                $this->_redirect('sales_rule/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -214,13 +214,13 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('sales_rule/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find a rule to delete.'));
-        $this->_redirect('catalog/*/');
+        $this->_redirect('sales_rule/*/');
     }
 
     public function newConditionHtmlAction()
@@ -302,7 +302,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                 ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
-            $this->_redirect('catalog/*/detail', array('_current' => true));
+            $this->_redirect('sales_rule/*/detail', array('_current' => true));
             return;
         }
     }
@@ -323,7 +323,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
                 ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
-            $this->_redirect('catalog/*/detail', array('_current' => true));
+            $this->_redirect('sales_rule/*/detail', array('_current' => true));
             return;
         }
     }
