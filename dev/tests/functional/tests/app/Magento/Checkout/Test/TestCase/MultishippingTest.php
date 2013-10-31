@@ -9,19 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\TestCase\Checkout;
+namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class MultishippingCheckoutTest
+ * Class MultishippingTest
  * Test multiple address page checkout with different configurations
  *
- * @package Magento\Test\TestCase\Checkout
+ * @package Magento\Checkout\Test\TestCase
  */
-class MultishippingCheckoutTest extends Functional
+class MultishippingTest extends Functional
 {
     /**
      * Place order on frontend via multishipping.

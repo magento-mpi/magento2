@@ -26,7 +26,7 @@ class BatTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\PayflowProTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\OnepageTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\MultishippingCheckoutTest');
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\MultishippingTest');
 
         return $suite;
     }
