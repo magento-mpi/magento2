@@ -9,11 +9,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block;
+namespace Magento\Sales\Test\Block\Backend\Order;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
-class AdminOrderProductsAddGrid extends Grid
+/**
+ * Grid for adding products for order in backend
+ *
+ * @package Magento\Sales\Test\Block\Backend\Order
+ */
+class ProductsAddGrid extends Grid
 {
     /**
      * Initialize block elements

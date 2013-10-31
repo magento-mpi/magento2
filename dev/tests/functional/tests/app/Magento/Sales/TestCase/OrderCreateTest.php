@@ -11,82 +11,82 @@
 
 namespace Magento\Sales\Test\TestCase;
 
+use Magento\Sales\Test\Fixture\Order;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
+/**
+ * Tests for creating order on backend
+ * @ZephyrId MAGETWO-12520
+ *
+ * @package Magento\Sales\Test\TestCase
+ */
 class OrderCreateTest extends Functional
 {
     /**
-     * Products for order
-     *
-     * @var array
+     * Login to backend as a precondition to test
      */
-    protected $_products;
+    protected function setUp()
+    {
+        Factory::getApp()->magentoBackendLoginUser();
+    }
 
+    /**
+     * Test for creating order on backend
+     */
     public function testCreateOrder()
     {
-        $this->_createPreconditions();
+        $orderFixture = Factory::getFixtureFactory()->getMagentoSalesOrder();
 
         $this->_proceedToOrderCreatePage();
 
-        $this->_fillOrderData();
-
-        //TODO: verify order on backend order page
-        //TODO: verify customer on backend customers page
+        $this->_fillOrderData($orderFixture);
     }
 
-    protected function _createPreconditions()
-    {
-        //Taxes
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('default_tax_config');
-        $configFixture->persist();
-        Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('custom_rule');
-        $taxRule->persist();
-
-        //Shipping
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData('flat_rate');
-        $configFixture->persist();
-
-        //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->persist();
-        $this->_products = array(
-            $simple
-        );
-    }
-
+    /**
+     * Test steps to go to create order page
+     */
     protected function _proceedToOrderCreatePage()
     {
         $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
         $gridPageActionsBlock = $orderGridPage->getPageActionsBlock();
 
-        Factory::getApp()->magentoBackendLoginUser();
         $orderGridPage->open();
         $gridPageActionsBlock->addNew();
     }
 
-    protected function _fillOrderData()
+    /**
+     * Filling the order data from fixture and save the order
+     *
+     * @param Order $fixture
+     */
+    protected function _fillOrderData(Order $fixture)
     {
-        $billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $billingAddress->switchData('backend_address_US_1');
         $orderCreatePage = Factory::getPageFactory()->getAdminSalesOrderCreateIndex();
         $customerSelectionGrid = $orderCreatePage->getOrderCustomerBlock();
+        $storeViewSelectionBlock = $orderCreatePage->getSelectStoreViewBlock();
         $itemsOrderedGrid = $orderCreatePage->getItemsOrderedGrid();
         $productsAddGrid = $orderCreatePage->getItemsAddGrid();
         $billingAddressForm = $orderCreatePage->getBillingAddressForm();
         $shippingAddressForm = $orderCreatePage->getShippingAddressForm();
+        $paymentMethodsBlock = $orderCreatePage->getPaymentMethodsBlock();
+        $shippingMethodsBlock = $orderCreatePage->getShippingMethodsBlock();
+        $orderSummaryBlock = $orderCreatePage->getOrderSummaryBlock();
+        $templateBlock = $orderCreatePage->getTemplateBlock();
 
-        //TODO: make possible to avoid creating new and select existing customer instead
-        $customerSelectionGrid->createNewCustomer();
+        $customerSelectionGrid->selectCustomer($fixture);
+
+        if ($storeViewSelectionBlock->isVisible())
+        {
+            $storeViewSelectionBlock->selectStoreView($fixture);
+            $templateBlock->waitLoader();
+        }
+
         $itemsOrderedGrid->addNewProduct();
 
         /** @var $product Product */
-        foreach ($this->_products as $product)
+        foreach ($fixture->getProducts() as $product)
         {
             $productsAddGrid->searchAndSelect(array(
                 'sku' => $product->getProductSku()
@@ -94,11 +94,17 @@ class OrderCreateTest extends Functional
         }
         $productsAddGrid->addSelectedProducts();
 
-        $billingAddressForm->fill($billingAddress);
+        $billingAddressForm->fill($fixture->getBillingAddress());
+        $templateBlock->waitLoader();
         $shippingAddressForm->setSameAsBillingShippingAddress();
+        $templateBlock->waitLoader();
 
-        //TODO: payment&shipping
+        $paymentMethodsBlock->selectPaymentMethod($fixture);
+        $templateBlock->waitLoader();
+        $shippingMethodsBlock->selectShippingMethod($fixture);
+        $templateBlock->waitLoader();
 
-        //TODO: submit order
+        $orderSummaryBlock->clickSaveOrder();
+        $templateBlock->waitLoader();
     }
 }

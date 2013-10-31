@@ -12,12 +12,16 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Magento\Sales\Test\Block\AdminOrderBillingAddress;
-use Magento\Sales\Test\Block\AdminOrderCreateSummary;
-use Magento\Sales\Test\Block\AdminOrderProductsAddGrid;
-use Magento\Sales\Test\Block\AdminOrderProductsOrderedGrid;
-use Magento\Sales\Test\Block\AdminOrderShippingAddress;
-use Magento\Sales\Test\Block\OrderCustomerSelectionGrid;
+use Magento\Backend\Test\Block\Template;
+use Magento\Sales\Test\Block\Backend\Order\BillingAddress;
+use Magento\Sales\Test\Block\Backend\Order\OrderCreationSummary;
+use Magento\Sales\Test\Block\Backend\Order\PaymentMethods;
+use Magento\Sales\Test\Block\Backend\Order\ProductsAddGrid;
+use Magento\Sales\Test\Block\Backend\Order\ProductsOrderedGrid;
+use Magento\Sales\Test\Block\Backend\Order\SelectStoreView;
+use Magento\Sales\Test\Block\Backend\Order\ShippingAddress;
+use Magento\Sales\Test\Block\Backend\Order\CustomerSelectionGrid;
+use Magento\Sales\Test\Block\Backend\Order\ShippingMethods;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
@@ -29,34 +33,56 @@ class AdminSalesOrderCreate extends Page
     const MCA = 'admin/sales_order_create/index';
 
     /**
-     * @var OrderCustomerSelectionGrid
+     * @var CustomerSelectionGrid
      */
     protected $_orderCustomerBlock;
 
     /**
-     * @var AdminOrderProductsOrderedGrid
+     * @var ProductsOrderedGrid
      */
     protected $_itemsOrderedGrid;
 
     /**
-     * @var AdminOrderProductsAddGrid
+     * @var ProductsAddGrid
      */
     protected $_itemsAddGrid;
 
     /**
-     * @var AdminOrderBillingAddress
+     * @var BillingAddress
      */
     protected $_billingAddressForm;
 
     /**
-     * @var AdminOrderShippingAddress
+     * @var ShippingAddress
      */
     protected $_shippingAddressForm;
 
     /**
-     * @var AdminOrderCreateSummary
+     * @var OrderCreationSummary
      */
     protected $_orderSummaryBlock;
+
+    /**
+     * @var SelectStoreView
+     */
+    protected $_selectStoreViewBlock;
+
+    /**
+     * @var PaymentMethods
+     */
+    protected $_paymentMethodsBlock;
+
+    /**
+     * @var ShippingMethods
+     */
+    protected $_shippingMethodsBlock;
+
+    /**
+     * Backend abstract block
+     *
+     * @var Template
+     */
+    protected $_templateBlock;
 
     /**
      * Custom constructor
@@ -64,30 +90,42 @@ class AdminSalesOrderCreate extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_orderCustomerBlock = Factory::getBlockFactory()->getMagentoSalesOrderCustomerSelectionGrid(
+        $this->_orderCustomerBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerSelectionGrid(
             $this->_browser->find('#order-customer-selector')
         );
-        $this->_itemsOrderedGrid = Factory::getBlockFactory()->getMagentoSalesAdminOrderProductsOrderedGrid(
+        $this->_itemsOrderedGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsOrderedGrid(
             $this->_browser->find('#order-items')
         );
-        $this->_itemsAddGrid = Factory::getBlockFactory()->getMagentoSalesAdminOrderProductsAddGrid(
+        $this->_itemsAddGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsAddGrid(
             $this->_browser->find('#order-search')
         );
-        $this->_billingAddressForm = Factory::getBlockFactory()->getMagentoSalesAdminOrderBillingAddress(
+        $this->_billingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderBillingAddress(
             $this->_browser->find('#order-billing_address')
         );
-        $this->_shippingAddressForm = Factory::getBlockFactory()->getMagentoSalesAdminOrderShippingAddress(
+        $this->_shippingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingAddress(
             $this->_browser->find('#order-shipping_address')
         );
-        $this->_orderSummaryBlock = Factory::getBlockFactory()->getMagentoSalesAdminOrderCreateSummary(
+        $this->_orderSummaryBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderOrderCreationSummary(
             $this->_browser->find('.order-summary')
+        );
+        $this->_selectStoreViewBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderSelectStoreView(
+            $this->_browser->find('#order-store-selector')
+        );
+        $this->_paymentMethodsBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderPaymentMethods(
+            $this->_browser->find('.order-billing-method')
+        );
+        $this->_shippingMethodsBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingMethods(
+            $this->_browser->find('.order-shipping-method')
+        );
+        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+            $this->_browser->find('#html-body')
         );
     }
 
     /**
      * Getter for customer selection grid
      *
-     * @return OrderCustomerSelectionGrid
+     * @return CustomerSelectionGrid
      */
     public function getOrderCustomerBlock()
     {
@@ -97,7 +135,7 @@ class AdminSalesOrderCreate extends Page
     /**
      * Getter for order selected products grid
      *
-     * @return AdminOrderProductsOrderedGrid
+     * @return ProductsOrderedGrid
      */
     public function getItemsOrderedGrid()
     {
@@ -107,7 +145,7 @@ class AdminSalesOrderCreate extends Page
     /**
      * Getter for order select products grid
      *
-     * @return AdminOrderProductsAddGrid
+     * @return ProductsAddGrid
      */
     public function getItemsAddGrid()
     {
@@ -117,7 +155,7 @@ class AdminSalesOrderCreate extends Page
     /**
      * Getter for customer order billing address form
      *
-     * @return AdminOrderBillingAddress
+     * @return BillingAddress
      */
     public function getBillingAddressForm()
     {
@@ -127,7 +165,7 @@ class AdminSalesOrderCreate extends Page
     /**
      * Getter for customer order shipping address form
      *
-     * @return AdminOrderShippingAddress
+     * @return ShippingAddress
      */
     public function getShippingAddressForm()
     {
@@ -135,12 +173,52 @@ class AdminSalesOrderCreate extends Page
     }
 
     /**
-     * Getter for customer order shipping address form
+     * Getter for order summary block
      *
-     * @return AdminOrderShippingAddress
+     * @return OrderCreationSummary
      */
     public function getOrderSummaryBlock()
     {
         return $this->_orderSummaryBlock;
+    }
+
+    /**
+     * Getter for store view selection
+     *
+     * @return SelectStoreView
+     */
+    public function getSelectStoreViewBlock()
+    {
+        return $this->_selectStoreViewBlock;
+    }
+
+    /**
+     * Getter for payment methods block
+     *
+     * @return PaymentMethods
+     */
+    public function getPaymentMethodsBlock()
+    {
+        return $this->_paymentMethodsBlock;
+    }
+
+    /**
+     * Getter for shipping methods block
+     *
+     * @return ShippingMethods
+     */
+    public function getShippingMethodsBlock()
+    {
+        return $this->_shippingMethodsBlock;
+    }
+
+    /**
+     * Get abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    public function getTemplateBlock()
+    {
+        return $this->_templateBlock;
     }
 }
