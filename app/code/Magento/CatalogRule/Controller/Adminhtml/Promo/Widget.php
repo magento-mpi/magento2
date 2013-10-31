@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Controller\Adminhtml\Promo;
+namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 
 class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 {

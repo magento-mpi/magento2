@@ -25,7 +25,7 @@ class Catalog extends \Magento\Backend\Block\Widget\Grid\Container
     {
         $this->_addButton('apply_rules', array(
             'label'     => __('Apply Rules'),
-            'onclick'   => "location.href='".$this->getUrl('catalog/*/applyRules')."'",
+            'onclick'   => "location.href='".$this->getUrl('catalog_rule/*/applyRules')."'",
             'class'     => 'apply',
         ));
 

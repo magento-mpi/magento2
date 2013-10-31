@@ -707,7 +707,7 @@ th.required:after {
 .adminhtml-giftregistry-index .col-1-layout,
 .adminhtml-invitation-index .col-1-layout,
 /* promotions */
-.catalog-promo-catalog-index .col-1-layout,
+.catalog-rule-promo-catalog-index .col-1-layout,
 .sales-rule-promo-quote-index .col-1-layout,
 .adminhtml-reminder-index .col-1-layout,
 /* newsletter */
@@ -805,7 +805,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions,
 .adminhtml-invitation-index .page-actions,
 /* promotions */
-.catalog-promo-catalog-index .page-actions,
+.catalog-rule-promo-catalog-index .page-actions,
 .sales-rule-promo-quote-index .page-actions,
 .adminhtml-reminder-index .page-actions,
 /* newsletter */
@@ -864,7 +864,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions.fixed,
 .adminhtml-invitation-index .page-actions.fixed,
 /* promotions */
-.catalog-promo-catalog-index .page-actions.fixed,
+.catalog-rule-promo-catalog-index .page-actions.fixed,
 .sales-rule-promo-quote-index .page-actions.fixed,
 .adminhtml-reminder-index .page-actions.fixed,
 /* newsletter */
@@ -922,7 +922,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions .add,
 .adminhtml-invitation-index .page-actions .add,
 /* promotions */
-.catalog-promo-catalog-index .page-actions .add,
+.catalog-rule-promo-catalog-index .page-actions .add,
 .sales-rule-promo-quote-index .page-actions .add,
 .adminhtml-reminder-index .page-actions .add,
 /* newsletter */
@@ -993,7 +993,7 @@ th.required:after {
 .eq-ie8 .adminhtml-giftregistry-index .page-actions .add,
 .eq-ie8 .adminhtml-invitation-index .page-actions .add,
 /* promotions */
-.eq-ie8 .catalog-promo-catalog-index .page-actions .add,
+.eq-ie8 .catalog-rule-promo-catalog-index .page-actions .add,
 .eq-ie8 .sales-rule-promo-quote-index .page-actions .add,
 .eq-ie8 .adminhtml-reminder-index .page-actions .add,
 /* newsletter */
@@ -1048,7 +1048,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions .add:hover,
 .adminhtml-invitation-index .page-actions .add:hover,
 /* promotions */
-.catalog-promo-catalog-index .page-actions .add:hover,
+.catalog-rule-promo-catalog-index .page-actions .add:hover,
 .sales-rule-promo-quote-index .page-actions .add:hover,
 .adminhtml-reminder-index .page-actions .add:hover,
 /* newsletter */
@@ -1111,7 +1111,7 @@ th.required:after {
 .eq-ie8 .adminhtml-giftregistry-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-invitation-index .page-actions .add:hover,
 /* promotions */
-.eq-ie8 .catalog-promo-catalog-index .page-actions .add:hover,
+.eq-ie8 .catalog-rule-promo-catalog-index .page-actions .add:hover,
 .eq-ie8 .sales-rule-promo-quote-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-reminder-index .page-actions .add:hover,
 /* newsletter */
@@ -1165,7 +1165,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions .add:active,
 .adminhtml-invitation-index .page-actions .add:active,
 /* promotions */
-.catalog-promo-catalog-index .page-actions .add:active,
+.catalog-rule-promo-catalog-index .page-actions .add:active,
 .sales-rule-promo-quote-index .page-actions .add:active,
 .adminhtml-reminder-index .page-actions .add:active,
 /* newsletter */
@@ -1224,7 +1224,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions .add > span,
 .adminhtml-invitation-index .page-actions .add > span,
 /* promotions */
-.catalog-promo-catalog-index .page-actions .add > span,
+.catalog-rule-promo-catalog-index .page-actions .add > span,
 .sales-rule-promo-quote-index .page-actions .add > span,
 .adminhtml-reminder-index .page-actions .add > span,
 /* newsletter */
@@ -1282,7 +1282,7 @@ th.required:after {
 .adminhtml-giftregistry-index .page-actions .add > span:before,
 .adminhtml-invitation-index .page-actions .add > span:before,
 /* promotions */
-.catalog-promo-catalog-index .page-actions .add > span:before,
+.catalog-rule-promo-catalog-index .page-actions .add > span:before,
 .sales-rule-promo-quote-index .page-actions .add > span:before,
 .adminhtml-reminder-index .page-actions .add > span:before,
 /* newsletter */
@@ -1449,7 +1449,7 @@ th.required:after {
 .adminhtml-giftregistry-index .grid-actions,
 .adminhtml-invitation-index .grid-actions,
 /* promotions */
-.catalog-promo-catalog-index .grid-actions,
+.catalog-rule-promo-catalog-index .grid-actions,
 .sales-rule-promo-quote-index .grid-actions,
 .adminhtml-reminder-index .grid-actions,
 /* newsletter */
@@ -1531,11 +1531,11 @@ th.required:after {
     padding-left: 80px;
 }
 
-.catalog-promo-catalog-index .grid-actions {
+.catalog-rule-promo-catalog-index .grid-actions {
     padding-left: 210px;
 }
 
-.catalog-promo-catalog-index .page-actions .apply {
+.catalog-rule-promo-catalog-index .page-actions .apply {
     float: right;
     margin: 3px 0 0 10px;
 }

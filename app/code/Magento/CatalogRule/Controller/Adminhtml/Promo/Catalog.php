@@ -15,12 +15,13 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller\Adminhtml\Promo;
+namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 
 class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Dirty rules notice message
+     *
      *
      * @var string
      */
