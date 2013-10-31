@@ -58,9 +58,7 @@ $table = $installer->getConnection()
         'endpoint',
         \Magento\DB\Ddl\Table::TYPE_TEXT,
         255,
-        array(
-            'nullable' => false,
-        ),
+        array(),
         'Endpoint for Oauth handshake'
     )
     ->addColumn(
@@ -74,6 +72,15 @@ $table = $installer->getConnection()
         'Integration status'
     )
     ->addColumn(
+        'consumer_id',
+        \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array(
+            'unsigned' => true
+        ),
+        'Oauth consumer'
+    )
+    ->addColumn(
         'created_at',
         \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
@@ -84,7 +91,7 @@ $table = $installer->getConnection()
         'updated_at',
         \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array('default' => \Magento\DB\Ddl\Table::TIMESTAMP_UPDATE),
+        array(),
         'Update Time'
     )
     ->addIndex(

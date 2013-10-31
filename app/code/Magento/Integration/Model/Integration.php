@@ -53,4 +53,19 @@ class Integration extends \Magento\Core\Model\AbstractModel
         parent::_construct();
         $this->_init('Magento\Integration\Model\Resource\Integration');
     }
+
+    /**
+     * BeforeSave actions
+     *
+     * @return \Magento\Integration\Model\Integration
+     */
+    protected function _beforeSave()
+    {
+        if (!$this->getId()) {
+            $this->setUpdatedAt(time());
+        }
+        $this->validate();
+        parent::_beforeSave();
+        return $this;
+    }
 }
