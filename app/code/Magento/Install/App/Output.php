@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Install\Model\EntryPoint;
+namespace Magento\Install\App;
 
 class Output
 {
