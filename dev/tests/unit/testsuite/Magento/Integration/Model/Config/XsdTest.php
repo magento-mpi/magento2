@@ -43,6 +43,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     public function exemplarXmlDataProvider()
     {
         return array(
+            /** Valid configurations */
             'valid' => array(
                 '<integrations>
                     <integration id="TestIntegration">
@@ -72,81 +73,17 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array()
             ),
+
+            /** Missing required elements */
             'empty root node' => array(
                 '<integrations/>',
                 array("Element 'integrations': Missing child element(s). Expected is ( integration ).")
-            ),
-            'irrelevant root node' => array(
-                '<integration name="TestIntegration"/>',
-                array("Element 'integration': No matching global declaration available for the validation root.")
-            ),
-            'irrelevant node in root' => array(
-                '<integrations>
-                    <integration id="TestIntegration1">
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                    <invalid/>
-                </integrations>',
-                array("Element 'invalid': This element is not expected. Expected is ( integration ).")
-            ),
-            'invalid attribute in root' => array(
-                '<integrations invalid="invalid">
-                    <integration id="TestIntegration1">
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array("Element 'integrations', attribute 'invalid': The attribute 'invalid' is not allowed.")
             ),
             'empty integration' => array(
                 '<integrations>
                     <integration id="TestIntegration" />
                 </integrations>',
                 array("Element 'integration': Missing child element(s). Expected is ( name ).")
-            ),
-            'irrelevant node in integration' => array(
-                '<integrations>
-                    <integration id="TestIntegration1">
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                        <invalid/>
-                    </integration>
-                </integrations>',
-                array("Element 'invalid': This element is not expected.")
-            ),
-            'invalid attribute in integration' => array(
-                '<integrations>
-                    <integration id="TestIntegration1" invalid="invalid">
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array("Element 'integration', attribute 'invalid': The attribute 'invalid' is not allowed.")
-            ),
-            'integration without id' => array(
-                '<integrations>
-                    <integration>
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array("Element 'integration': The attribute 'id' is required but missing.")
             ),
             'integration without name' => array(
                 '<integrations>
@@ -179,6 +116,50 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             </integrations>',
                 array("Element 'integration': Missing child element(s). Expected is ( authentication ).")
             ),
+
+            /** Empty nodes */
+            'empty name' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name></name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array(
+                    "Element 'name': [facet 'minLength'] The value has a length of '0';"
+                        . " this underruns the allowed minimum length of '2'.",
+                    "Element 'name': '' is not a valid value of the atomic type 'integrationNameType'."
+                )
+            ),
+            'empty email' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email></email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array(
+                    "Element 'email': [facet 'pattern'] The value '' is not "
+                        . "accepted by the pattern '[^@]+@[^\.]+\..+'.",
+                    "Element 'email': '' is not a valid value of the atomic type 'emailType'."
+                )
+            ),
+            'authentication is empty' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="manual"/>
+                    </integration>
+                </integrations>',
+                array()
+            ),
             'endpoint_url is empty' => array(
                 '<integrations>
                     <integration id="TestIntegration1">
@@ -191,21 +172,80 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array(
                     "Element 'endpoint_url': [facet 'minLength'] The value has a length of '0'; this underruns"
-                        . " the allowed minimum length of '4'.",
+                    . " the allowed minimum length of '4'.",
                     "Element 'endpoint_url': '' is not a valid value of the atomic type 'urlType'."
                 )
             ),
-            'invalid attribute in endpoint_url' => array(
+
+            /** Invalid structure */
+            'irrelevant root node' => array(
+                '<integration name="TestIntegration"/>',
+                array("Element 'integration': No matching global declaration available for the validation root.")
+            ),
+            'irrelevant node in root' => array(
                 '<integrations>
                     <integration id="TestIntegration1">
                         <name>Test Integration 1</name>
                         <email>test-integration1@magento.com</email>
                         <authentication type="oauth">
-                            <endpoint_url invalid="invalid">http://endpoint.url</endpoint_url>
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                    <invalid/>
+                </integrations>',
+                array("Element 'invalid': This element is not expected. Expected is ( integration ).")
+            ),
+            'irrelevant node in integration' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                        <invalid/>
+                    </integration>
+                </integrations>',
+                array("Element 'invalid': This element is not expected.")
+            ),
+            'irrelevant node in authentication' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                            <invalid/>
                         </authentication>
                     </integration>
                 </integrations>',
-                array("Element 'endpoint_url', attribute 'invalid': The attribute 'invalid' is not allowed.")
+                array("Element 'invalid': This element is not expected.")
+            ),
+
+            /** Excessive attributes */
+            'invalid attribute in root' => array(
+                '<integrations invalid="invalid">
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array("Element 'integrations', attribute 'invalid': The attribute 'invalid' is not allowed.")
+            ),
+            'invalid attribute in integration' => array(
+                '<integrations>
+                    <integration id="TestIntegration1" invalid="invalid">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array("Element 'integration', attribute 'invalid': The attribute 'invalid' is not allowed.")
             ),
             'invalid attribute in name' => array(
                 '<integrations>
@@ -243,6 +283,64 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array("Element 'authentication', attribute 'invalid': The attribute 'invalid' is not allowed.")
             ),
+            'invalid attribute in endpoint_url' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url invalid="invalid">http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array("Element 'endpoint_url', attribute 'invalid': The attribute 'invalid' is not allowed.")
+            ),
+
+            /** Missing or empty required attributes */
+            'integration without id' => array(
+                '<integrations>
+                    <integration>
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array("Element 'integration': The attribute 'id' is required but missing.")
+            ),
+            'integration with empty id' => array(
+                '<integrations>
+                    <integration id="">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication type="oauth">
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array
+                (
+                    "Element 'integration', attribute 'id': [facet 'minLength'] The value '' has a length of '0'; "
+                        . "this underruns the allowed minimum length of '2'.",
+                    "Element 'integration', attribute 'id': "
+                        . "'' is not a valid value of the atomic type 'integrationIdType'."
+                )
+            ),
+            'no authentication type' => array(
+                '<integrations>
+                    <integration id="TestIntegration1">
+                        <name>Test Integration 1</name>
+                        <email>test-integration1@magento.com</email>
+                        <authentication>
+                            <endpoint_url>http://endpoint.url</endpoint_url>
+                        </authentication>
+                    </integration>
+                </integrations>',
+                array("Element 'authentication': The attribute 'type' is required but missing.")
+            ),
+
+            /** Invalid values */
             'invalid authentication type' => array(
                 '<integrations>
                     <integration id="TestIntegration1">
@@ -261,51 +359,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                         . "is not a valid value of the atomic type 'authenticationTypeType'."
                 )
             ),
-            'irrelevant node in authentication' => array(
-                '<integrations>
-                    <integration id="TestIntegration1">
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                            <invalid/>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array("Element 'invalid': This element is not expected.")
-            ),
-            'empty name' => array(
-                '<integrations>
-                    <integration id="TestIntegration1">
-                        <name></name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array(
-                    "Element 'name': [facet 'minLength'] The value has a length of '0';"
-                        . " this underruns the allowed minimum length of '2'.",
-                    "Element 'name': '' is not a valid value of the atomic type 'integrationNameType'."
-                )
-            ),
-            'empty email' => array(
-                '<integrations>
-                    <integration id="TestIntegration1">
-                        <name>Test Integration 1</name>
-                        <email></email>
-                        <authentication type="oauth">
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array(
-                    "Element 'email': [facet 'pattern'] The value '' is not "
-                        . "accepted by the pattern '[^@]+@[^\.]+\..+'.",
-                    "Element 'email': '' is not a valid value of the atomic type 'emailType'."
-                )
-            ),
             'invalid email' => array(
                 '<integrations>
                     <integration id="TestIntegration1">
@@ -320,18 +373,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     . "is not accepted by the pattern '[^@]+@[^\.]+\..+'.",
                     "Element 'email': 'invalid' is not a valid value of the atomic type 'emailType'."
                 )
-            ),
-            'no authentication type' => array(
-                '<integrations>
-                    <integration id="TestIntegration1">
-                        <name>Test Integration 1</name>
-                        <email>test-integration1@magento.com</email>
-                        <authentication>
-                            <endpoint_url>http://endpoint.url</endpoint_url>
-                        </authentication>
-                    </integration>
-                </integrations>',
-                array("Element 'authentication': The attribute 'type' is required but missing.")
             ),
         );
     }
