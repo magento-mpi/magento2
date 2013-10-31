@@ -33,6 +33,8 @@ class CloseOrderTest extends Functional
      */
     public function testPayPalExpress(DataFixture $fixture)
     {
+        $this->markTestSkipped('MAGETWO-16653');
+        
         $fixture->persist();
         //Data
         $orderId = $fixture->getOrderId();

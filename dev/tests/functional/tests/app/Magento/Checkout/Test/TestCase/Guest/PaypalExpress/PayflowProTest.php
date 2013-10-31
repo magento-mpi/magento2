@@ -30,6 +30,7 @@ class PayflowProTest extends Functional
      */
     public function testPayflowProExpress()
     {
+        $this->markTestSkipped('MAGETWO-16653');
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutExpressPayPalPayflow();
         $fixture->persist();
 
@@ -51,11 +52,6 @@ class PayflowProTest extends Functional
 
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
-
-        //Start of workaround for MAGETWO-16653
-        $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
-        $checkoutReviewPage->open();
-        //End of workaround for MAGETWO-16653
 
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
