@@ -397,9 +397,6 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array( // Payflow Pro and Express Checkout
                                                         'fields' => array(
-                                                            'using_pbridge' => array( // Use via Payment Bridge
-                                                                'value' => 0
-                                                            ),
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),
@@ -614,9 +611,6 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array(
                                                         'fields' => array(
-                                                            'using_pbridge' => array(
-                                                                'value' => 0
-                                                            ),
                                                             'business_account' => array(
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),
