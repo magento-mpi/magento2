@@ -114,9 +114,9 @@ abstract class AbstractForm
     protected function _getAdditionalFormElementTypes()
     {
         return array(
-            'file'      => 'Magento\Adminhtml\Block\Customer\Form\Element\File',
-            'image'     => 'Magento\Adminhtml\Block\Customer\Form\Element\Image',
-            'boolean'   => 'Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
+            'file'      => 'Magento\Customer\Block\Adminhtml\Form\Element\File',
+            'image'     => 'Magento\Customer\Block\Adminhtml\Form\Element\Image',
+            'boolean'   => 'Magento\Customer\Block\Adminhtml\Form\Element\Boolean',
         );
     }
 
@@ -128,7 +128,7 @@ abstract class AbstractForm
     protected function _getAdditionalFormElementRenderers()
     {
         return array(
-            'region'    => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Renderer\Region'),
+            'region'    => $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Edit\Renderer\Region'),
         );
     }
 

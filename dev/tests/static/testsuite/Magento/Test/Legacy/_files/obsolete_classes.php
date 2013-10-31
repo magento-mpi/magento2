@@ -963,7 +963,7 @@ return array(
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
     array('Magento\ImportExport\Model\Config'),
     array('Magento\Data\Collection\Factory', 'Magento\Data\CollectionFactory'),
-    array('Magento\Adminhtml\Block\Customer\System\Config\ValidatevatFactory'),
+    array('Magento\Customer\Block\Adminhtml\System\Config\ValidatevatFactory'),
     array('Magento\Customer\Model\Attribute\Data'),
     array('Magento\Eav\Model\Attribute\Data'),
     array('Magento\Log\Model\Resource\Helper\Mysql4', 'Magento\Log\Model\Resource\Helper'),

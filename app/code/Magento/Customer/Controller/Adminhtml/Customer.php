@@ -78,7 +78,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
          * Append customers block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer', 'customer')
+            $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Customer', 'customer')
         );
 
         /**
@@ -445,7 +445,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
     public function exportCsvAction()
     {
         $fileName = 'customers.csv';
-        $content = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Grid')->getCsvFile();
+        $content = $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -456,7 +456,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
     public function exportXmlAction()
     {
         $fileName = 'customers.xml';
-        $content = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Grid')->getExcelFile();
+        $content = $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
 

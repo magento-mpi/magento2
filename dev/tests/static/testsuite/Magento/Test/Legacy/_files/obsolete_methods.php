@@ -430,7 +430,7 @@ return array(
     array('getPathVars', 'Magento\Core\Model\Config'),
     array('getParentProductIds', 'Magento\Catalog\Model\Resource\Product'),
     array('getPostMaxSize', 'Magento\Adminhtml\Block\Media\Uploader', 'Magento_File_Size::getPostMaxSize()'),
-    array('getPriceFormatted', 'Magento\Adminhtml\Block\Customer\Edit\Tab\View\Sales'),
+    array('getPriceFormatted', 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales'),
     array('getPrices', 'Magento\Bundle\Model\Product\Price'),
     array('getPricesDependingOnTax', 'Magento\Bundle\Model\Product\Price'),
     array('getPrintUrl', 'Magento\Checkout\Block\Onepage\Success'),

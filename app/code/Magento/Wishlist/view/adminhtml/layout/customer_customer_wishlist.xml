@@ -36,7 +36,7 @@
                     <argument name="header" xsi:type="string" translate="true">Product</argument>
                     <argument name="id" xsi:type="string">product_name</argument>
                     <argument name="index" xsi:type="string">product_name</argument>
-                    <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item</argument>
+                    <argument name="renderer" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer\Item</argument>
                 </arguments>
             </block>
             <block class="Magento\Backend\Block\Widget\Grid\Column" as="description">
@@ -44,7 +44,7 @@
                     <argument name="header" xsi:type="string" translate="true">User description</argument>
                     <argument name="index" xsi:type="string">description</argument>
                     <argument name="id" xsi:type="string">description</argument>
-                    <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Edit\Tab\Wishlist\Grid\Renderer\Description</argument>
+                    <argument name="renderer" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\Tab\Wishlist\Grid\Renderer\Description</argument>
                 </arguments>
             </block>
             <block class="Magento\Backend\Block\Widget\Grid\Column" as="qty">
@@ -85,7 +85,7 @@
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Action</argument>
                     <argument name="index" xsi:type="string">wishlist_item_id</argument>
-                    <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction</argument>
+                    <argument name="renderer" xsi:type="string">Magento\Customer\Block\Adminhtml\Grid\Renderer\Multiaction</argument>
                     <argument name="sortable" xsi:type="string">0</argument>
                     <argument name="filter" xsi:type="string">0</argument>
                     <argument name="actions" xsi:type="array">

@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
 
-class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
+class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
 {
     /**
      * @var \Magento\Core\Model\StoreManager
