@@ -12,7 +12,6 @@
 namespace Magento\Backend\Test\Block\Sales\Order\Shipment;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Totals

@@ -13,7 +13,6 @@ namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Sales\Order\Invoice\Totals;
 use Magento\Backend\Test\Block\Sales\Order\Invoice\Create\Form;
 

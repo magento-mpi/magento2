@@ -70,7 +70,7 @@ class AdminCatalogCategory extends Page
         $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_browser->find('#html-body', Locator::SELECTOR_CSS));
         $this->treeBlock = Factory::getBlockFactory()->getMagentoBackendCatalogCategoryTree(
-            $this->_browser->find('.categories-side-col', Locator::SELECTOR_CSS, 'Tree'), $this->getTemplateBlock());
+            $this->_browser->find('.categories-side-col', Locator::SELECTOR_CSS, 'tree'), $this->getTemplateBlock());
         $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('#messages', Locator::SELECTOR_CSS));
     }

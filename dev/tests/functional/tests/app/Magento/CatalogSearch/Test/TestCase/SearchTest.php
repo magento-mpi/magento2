@@ -30,10 +30,13 @@ class SearchTest extends Functional
     public function testSearchProductFromHomePage()
     {
         //Preconditions
-        Factory::getFixtureFactory()->getMagentoCoreConfig()->switchData('enable_mysql_search')->persist();
+        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $config->switchData('enable_mysql_search');
+        $config->persist();
 
         //Data
-        $productFixture = Factory::getFixtureFactory()->getMagentoCatalogProduct()->switchData('simple');
+        $productFixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $productFixture->switchData('simple');
         $productFixture->persist();
         $productName = $productFixture->getProductName();
         $productSku = $productFixture->getProductSku();

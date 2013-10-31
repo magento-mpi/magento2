@@ -15,6 +15,7 @@ namespace Magento\Backend\Test\Block\Catalog\Category;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Driver\Selenium\Element\TreeElement;
 
 /**
  * Class Tree
@@ -42,10 +43,10 @@ class Tree extends Block
      * Custom constructor
      *
      * @constructor
-     * @param Element $element
+     * @param TreeElement $element
      * @param $templateBlock
      */
-    public function __construct(Element $element, $templateBlock)
+    public function __construct(TreeElement $element, $templateBlock)
     {
         parent::__construct($element);
         $this->templateBlock = $templateBlock;

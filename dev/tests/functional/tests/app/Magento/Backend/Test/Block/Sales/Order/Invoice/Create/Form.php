@@ -22,7 +22,6 @@ use Mtf\Client\Element\Locator;
  */
 class Form extends Block
 {
-
     /**
      * Submit invoice selector
      *

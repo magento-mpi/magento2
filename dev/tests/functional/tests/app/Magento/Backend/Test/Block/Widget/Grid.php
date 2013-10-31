@@ -193,7 +193,7 @@ abstract class Grid extends Block
      * @param string $actionType
      * @param array $items
      */
-    protected function massaction($actionType, $items = array())
+    protected function massaction($actionType, array $items = array())
     {
         if ($items) {
             foreach ($items as $item) {

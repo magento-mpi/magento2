@@ -11,8 +11,6 @@
 
 namespace Magento\Backend\Test\Block\Sales\Order\Invoice;
 
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
