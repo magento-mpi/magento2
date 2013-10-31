@@ -43,10 +43,12 @@ class Template implements \Zend_Filter_Interface
 
     /**
      * @param \Magento\Stdlib\String $string
+     * @param array $variables
      */
-    public function __construct(\Magento\Stdlib\String $string)
+    public function __construct(\Magento\Stdlib\String $string, $variables = array())
     {
         $this->string = $string;
+        $this->setVariables($variables);
     }
 
     /**

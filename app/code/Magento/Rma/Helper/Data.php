@@ -260,7 +260,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $format = $this->_storeConfig->getConfig($path, $storeId);
         }
 
-        return $this->_filterManager->template($format, $data);
+        return $this->_filterManager->template($format, array('variables' => $data));
     }
 
     /**

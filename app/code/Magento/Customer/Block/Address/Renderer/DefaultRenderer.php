@@ -154,6 +154,6 @@ class DefaultRenderer
         }
         $format = !is_null($format) ? $format : $this->getFormat($address);
 
-        return $this->_filterManager->template($format, $data);
+        return $this->_filterManager->template($format, array('variables' => $data));
     }
 }

@@ -308,7 +308,7 @@ class Template extends \Magento\Core\Model\Template
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
-        return $this->_filterManager->template($this->getTemplateSubject(), $variables);
+        return $this->_filterManager->template($this->getTemplateSubject(), array('variables' => $variables));
     }
 
     /**
