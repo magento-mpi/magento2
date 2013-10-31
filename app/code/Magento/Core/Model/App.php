@@ -15,6 +15,8 @@
  */
 namespace Magento\Core\Model;
 
+use Magento\App\CacheInterface;
+
 class App implements \Magento\Core\Model\AppInterface
 {
     /**#@+
@@ -101,7 +103,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Cache object
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -144,7 +146,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Data base updater object
      *
-     * @var \Magento\App\UpdaterInterface
+     * @var \Magento\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -182,7 +184,7 @@ class App implements \Magento\Core\Model\AppInterface
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
@@ -343,7 +345,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Get core cache model
      *
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCacheInstance()
     {

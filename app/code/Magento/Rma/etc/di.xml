@@ -21,7 +21,7 @@
             <instance type="Magento\Core\Model\Translate\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <rma_setup>Magento\Rma\Model\Resource\Setup</rma_setup>

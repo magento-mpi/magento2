@@ -83,7 +83,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
      */
@@ -92,7 +92,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\Config $config,
         \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
     ) {

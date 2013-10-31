@@ -43,7 +43,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     /**
      * Cache
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -58,7 +58,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param array $data
      */
     public function __construct(
@@ -70,7 +70,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;

@@ -153,7 +153,7 @@ class Translate
     protected $_moduleList;
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -180,7 +180,7 @@ class Translate
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\Module\ModuleList $moduleList
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Resource\Translate $translate
@@ -196,7 +196,7 @@ class Translate
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
         \Magento\Module\ModuleList $moduleList,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\Translate $translate,

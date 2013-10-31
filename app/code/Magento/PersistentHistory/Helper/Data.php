@@ -30,7 +30,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_configFileName = 'persistent.xml';
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -41,12 +41,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {
         parent::__construct($context);

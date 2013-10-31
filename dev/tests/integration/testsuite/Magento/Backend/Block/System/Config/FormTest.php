@@ -154,7 +154,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
-        $configMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false);
+        $configMock = $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false, false);
         $configMock->expects($this->any())->method('getConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')

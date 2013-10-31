@@ -314,7 +314,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\App\Resource', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),

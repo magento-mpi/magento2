@@ -50,11 +50,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_resHelperFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
     ) {
         parent::__construct($resource);

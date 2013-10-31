@@ -49,7 +49,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     protected $_importFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resource;
 
@@ -110,7 +110,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $this->_stringHelper = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
 
         $this->_importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
-        $this->_resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
             'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
         );

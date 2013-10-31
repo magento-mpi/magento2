@@ -26,14 +26,14 @@ class Installer extends \Magento\Object
     /**
      * DB updated model
      *
-     * @var \Magento\App\UpdaterInterface
+     * @var \Magento\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
      * Application chache model
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -62,7 +62,7 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
-     * @var \Magento\App\Updater\SetupFactory
+     * @var \Magento\Module\Updater\SetupFactory
      */
     protected $_setupFactory;
 
@@ -129,17 +129,17 @@ class Installer extends \Magento\Object
      */
     protected $_session;
 
-    /** @var \Magento\Core\Model\Resource */
+    /** @var \Magento\App\Resource */
     protected $_resource;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\App\UpdaterInterface $dbUpdater
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\App\Updater\SetupFactory $setupFactory
+     * @param \Magento\Module\Updater\SetupFactory $setupFactory
      * @param \Magento\App\Config $localConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
@@ -150,17 +150,17 @@ class Installer extends \Magento\Object
      * @param \Magento\Install\Model\Installer\Db $installerDb
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
-        \Magento\App\UpdaterInterface $dbUpdater,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Module\UpdaterInterface $dbUpdater,
+        \Magento\App\CacheInterface $cache,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\App\Updater\SetupFactory $setupFactory,
+        \Magento\Module\Updater\SetupFactory $setupFactory,
         \Magento\App\Config $localConfig,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
@@ -171,7 +171,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

@@ -94,13 +94,13 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
      */
     public function __construct(
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
     ) {

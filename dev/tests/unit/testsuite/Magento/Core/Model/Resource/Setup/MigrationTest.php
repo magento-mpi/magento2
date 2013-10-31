@@ -147,14 +147,14 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false)));
         $contextMock->expects($this->once())
             ->method('getResourceModel')
-            ->will($this->returnValue($this->getMock('Magento\Core\Model\Resource', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento\App\Resource', array(), array(), '', false)));
         $contextMock->expects($this->once())
             ->method('getLogger')
             ->will($this->returnValue($this->getMock('Magento\Core\Model\Logger', array(), array(), '', false)));
         $contextMock->expects($this->once())
             ->method('getModulesReader')
             ->will($this->returnValue(
-                $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false)
+                $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false)
             ));
         $contextMock->expects($this->once())
             ->method('getModuleList')
@@ -217,7 +217,7 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         $tableRowsCount = count($tableData);
 
         $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
-            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
+            $this->getMock('Magento\App\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->getMock('Magento\App\Dir', array(), array(), '', false),
@@ -225,7 +225,7 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
             $this->getMock('Magento\Module\ModuleListInterface'),
-            $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false),
+            $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Resource\Resource', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Resource\Theme\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Theme\CollectionFactory', array(), array(), '', false),

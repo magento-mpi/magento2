@@ -87,13 +87,13 @@ class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      * 
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\CatalogInventory\Model\StockFactory $stockFactory

@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <preference for="Magento\App\UpdaterInterface" type="Magento\App\Updater" />
+    <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\Updater" />
     <type name="Magento\App\Config\Loader">
         <param name="customFile">
             <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>

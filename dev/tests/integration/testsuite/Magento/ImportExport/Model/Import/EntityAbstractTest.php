@@ -35,7 +35,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Core\Model\Store\Config'),
             $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
             $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
-            $objectManager->get('Magento\Core\Model\Resource'),
+            $objectManager->get('Magento\App\Resource'),
         ));
         $model->expects($this->any())
             ->method('validateRow')

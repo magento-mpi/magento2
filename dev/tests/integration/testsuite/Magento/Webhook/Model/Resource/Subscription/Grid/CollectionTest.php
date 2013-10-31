@@ -117,14 +117,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'cache' => $this->getMock('Magento\Config\CacheInterface')
         ));
 
-        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
-        $moduleReader = $objectManager->create('Magento\Core\Model\Config\Modules\Reader', array(
+        /** @var \Magento\Module\Dir\Reader $moduleReader */
+        $moduleReader = $objectManager->create('Magento\Module\Dir\Reader', array(
             'moduleList' => $moduleList
         ));
         $moduleReader->setModuleDir('Acme_Subscriber', 'etc', __DIR__ . '/_files/Acme/Subscriber/etc');
 
         $config = new \Magento\Core\Model\Config\Base('<config />');
-        $modulesLoader->load($config);
 
         /**
          * Mock is used to disable caching, as far as Integration Tests Framework loads main

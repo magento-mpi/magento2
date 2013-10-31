@@ -26,7 +26,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_helperFactory;
 
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Reports\Model\Resource\HelperFactory $helperFactory
     ) {
         parent::__construct($resource);

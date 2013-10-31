@@ -12,7 +12,7 @@ namespace Magento\Module;
 class ResourceResolver implements \Magento\Module\ResourceResolverInterface
 {
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_moduleReader;
 
@@ -24,9 +24,9 @@ class ResourceResolver implements \Magento\Module\ResourceResolverInterface
     protected $_moduleResources = array();
 
     /**
-     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Module\Dir\Reader $moduleReader
      */
-    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
+    public function __construct(Dir\Reader $moduleReader)
     {
         $this->_moduleReader = $moduleReader;
     }

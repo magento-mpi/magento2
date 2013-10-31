@@ -210,7 +210,7 @@ abstract class AbstractEntity
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
@@ -219,7 +219,7 @@ abstract class AbstractEntity
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\Eav\Model\Config $config,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper
     ) {
         $this->_coreString = $coreString;

@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Resource;
 
-class Setup implements \Magento\App\Updater\SetupInterface
+class Setup implements \Magento\Module\Updater\SetupInterface
 {
     /**
      * Setup resource name
@@ -53,14 +53,14 @@ class Setup implements \Magento\App\Updater\SetupInterface
     /**
      * Modules configuration
      *
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resourceModel;
 
     /**
      * Modules configuration reader
      *
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 

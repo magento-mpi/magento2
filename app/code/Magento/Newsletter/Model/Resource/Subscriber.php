@@ -65,12 +65,12 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Helper\Data $coreData
     ) {

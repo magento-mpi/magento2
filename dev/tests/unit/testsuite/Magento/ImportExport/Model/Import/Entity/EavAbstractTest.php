@@ -44,7 +44,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected $_importFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resource;
 
@@ -75,7 +75,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
         $this->_importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
-        $this->_resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
             'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
         );

@@ -345,7 +345,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_eventDispatcher = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Event\ManagerInterface');
         $this->_cacheManager    = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\CacheInterface');
+            ->get('Magento\App\CacheInterface');
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()

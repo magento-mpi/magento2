@@ -45,7 +45,7 @@ class Config
     /**
      * Module configuration reader
      *
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_moduleReader;
 
@@ -59,12 +59,12 @@ class Config
 
     /**
      * @param \Magento\Webapi\Model\Cache\Type $configCacheType
-     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Webapi\Model\Cache\Type $configCacheType,
-        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Module\Dir\Reader $moduleReader,
         \Magento\ObjectManager $objectManager
     ) {
         $this->_configCacheType = $configCacheType;

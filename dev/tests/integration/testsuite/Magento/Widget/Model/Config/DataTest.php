@@ -58,9 +58,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
+        /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento\Core\Model\Config\Modules\Reader', array(
+            'Magento\Module\Dir\Reader', array(
                 'moduleList' => $modulesList
             )
         );

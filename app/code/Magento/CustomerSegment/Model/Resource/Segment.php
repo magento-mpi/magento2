@@ -32,12 +32,12 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\Core\Model\Resource\HelperPool $resourceHelperPool
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Customer\Model\Config\Share $configShare
      */
     public function __construct(
         \Magento\Core\Model\Resource\HelperPool $resourceHelperPool,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Customer\Model\Config\Share $configShare
     ) {
         parent::__construct($resource);

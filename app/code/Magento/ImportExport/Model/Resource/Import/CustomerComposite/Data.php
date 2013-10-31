@@ -37,12 +37,12 @@ class Data
     /**
      * Class constructor
      *
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $arguments
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Helper\Data $coreHelper,
         array $arguments = array()
     ) {

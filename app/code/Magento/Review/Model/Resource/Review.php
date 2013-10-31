@@ -90,14 +90,14 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_ratingOptions;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rating\Model\RatingFactory $ratingFactory,

@@ -27,7 +27,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
 
     /**
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory
@@ -35,7 +35,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory,

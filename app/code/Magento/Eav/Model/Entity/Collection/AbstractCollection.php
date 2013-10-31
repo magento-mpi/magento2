@@ -100,7 +100,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resource;
 
@@ -125,7 +125,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\App\Resource $coreResource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
@@ -136,7 +136,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource $coreResource,
+        \Magento\App\Resource $coreResource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory

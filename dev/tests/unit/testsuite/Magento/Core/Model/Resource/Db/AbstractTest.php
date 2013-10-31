@@ -22,13 +22,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\Resource|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Resource|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Magento\Core\Model\Resource',
+        $this->_resource = $this->getMock('Magento\App\Resource',
             array('getConnection'), array(), '', false, false
         );
         $this->_model = $this->getMock(

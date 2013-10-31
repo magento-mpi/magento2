@@ -23,7 +23,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
     protected $_template = 'download.phtml';
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_moduleReader;
 
@@ -33,7 +33,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Core\Model\Session\Generic $session
-     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Module\Dir\Reader $moduleReader
      * @param array $data
      */
     public function __construct(
@@ -42,7 +42,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Core\Model\Session\Generic $session,
-        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Module\Dir\Reader $moduleReader,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);

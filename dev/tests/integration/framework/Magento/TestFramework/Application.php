@@ -376,8 +376,8 @@ class Application
         $this->initialize();
 
         /* Run all install and data-install scripts */
-        /** @var $updater \Magento\App\Updater */
-        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Updater');
+        /** @var $updater \Magento\Module\Updater */
+        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Module\Updater');
         $updater->updateScheme();
         $updater->updateData();
 
@@ -431,7 +431,7 @@ class Application
         $objectManager->clearCache();
 
         $resource = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_singleton/Magento\Core\Model\Resource');
+            ->registry('_singleton/Magento\App\Resource');
 
         \Magento\Data\Form::setElementRenderer(null);
         \Magento\Data\Form::setFieldsetRenderer(null);
@@ -440,7 +440,7 @@ class Application
 
         if ($resource) {
             $objectManager->get('Magento\Core\Model\Registry')
-                ->register('_singleton/Magento\Core\Model\Resource', $resource);
+                ->register('_singleton/Magento\App\Resource', $resource);
         }
     }
 

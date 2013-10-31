@@ -52,12 +52,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
     ) {
         $this->_coreString = $coreString;

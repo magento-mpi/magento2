@@ -84,7 +84,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -93,7 +93,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
-        \Magento\Core\Model\Resource $resource
+        \Magento\App\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;

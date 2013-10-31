@@ -254,7 +254,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_importFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resource;
 
@@ -280,7 +280,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
     /**
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Model\StoreManagerInterface $_storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -294,7 +294,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     public function __construct(
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Core\Model\StoreManagerInterface $_storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,

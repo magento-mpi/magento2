@@ -51,12 +51,12 @@ class Observer
     protected $_indexer;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_coreCache;
 
     /**
-     * @param \Magento\Core\Model\CacheInterface $coreCache
+     * @param \Magento\App\CacheInterface $coreCache
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
      * @param \Magento\Index\Model\Indexer $indexer
@@ -64,7 +64,7 @@ class Observer
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        \Magento\Core\Model\CacheInterface $coreCache,
+        \Magento\App\CacheInterface $coreCache,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory,
         \Magento\Index\Model\Indexer $indexer,

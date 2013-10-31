@@ -21,11 +21,11 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
     protected $_config;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $config
     ) {
         parent::__construct($resource);

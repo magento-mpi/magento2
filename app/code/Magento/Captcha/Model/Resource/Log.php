@@ -46,12 +46,12 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      */
     public function __construct(
         \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Resource $resource
+        \Magento\App\Resource $resource
     ) {
         $this->_coreDate = $coreDate;
         $this->_coreHttp = $coreHttp;

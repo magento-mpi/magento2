@@ -176,7 +176,7 @@ class International
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_configReader;
 
@@ -190,7 +190,7 @@ class International
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory
-     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Module\Dir\Reader $configReader
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
@@ -214,7 +214,7 @@ class International
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory,
-        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Module\Dir\Reader $configReader,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,

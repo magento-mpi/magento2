@@ -8,7 +8,7 @@
 namespace Magento\Core\Model\Resource\Type\Db\Pdo;
 
 class Mysql extends \Magento\Core\Model\Resource\Type\Db
-    implements \Magento\Core\Model\Resource\ConnectionAdapterInterface
+    implements \Magento\App\Resource\ConnectionAdapterInterface
 {
     /**
      * Dirs instance

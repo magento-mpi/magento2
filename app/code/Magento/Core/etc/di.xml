@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
-    <preference for="Magento\App\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
+    <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
     <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />

@@ -46,6 +46,7 @@ class NavigationMode extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Session $session
+     * @param string $areaCode
      * @param array $data
      */
     public function __construct(
@@ -58,6 +59,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Session $session,
+        $areaCode,
         array $data = array()
     ) {
         $this->_helper = $helper;
@@ -69,7 +71,8 @@ class NavigationMode extends \Magento\Core\Model\Url
             $this->_themeId = $data['themeId'];
         }
         parent::__construct(
-            $routeConfig, $request, $securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $session, $data
+            $routeConfig, $request, $securityInfo, $coreStoreConfig,
+            $coreData, $app, $storeManager, $session, $areaCode, $data
         );
     }
 

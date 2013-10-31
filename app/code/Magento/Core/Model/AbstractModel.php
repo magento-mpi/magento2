@@ -103,7 +103,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Application Cache Manager
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cacheManager;
 
@@ -182,7 +182,7 @@ abstract class AbstractModel extends \Magento\Object
     {
         $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->_eventDispatcher = $objectManager->get('Magento\Event\ManagerInterface');
-        $this->_cacheManager = $objectManager->get('Magento\Core\Model\CacheInterface');
+        $this->_cacheManager = $objectManager->get('Magento\App\CacheInterface');
         $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
     }
 

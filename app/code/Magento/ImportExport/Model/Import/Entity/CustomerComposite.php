@@ -128,7 +128,7 @@ class CustomerComposite
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Import\CustomerComposite\DataFactory $dataFactory
      * @param \Magento\ImportExport\Model\Import\Entity\Eav\CustomerFactory $customerFactory
      * @param \Magento\ImportExport\Model\Import\Entity\Eav\Customer\AddressFactory $addressFactory
@@ -142,7 +142,7 @@ class CustomerComposite
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Import\CustomerComposite\DataFactory $dataFactory,
         \Magento\ImportExport\Model\Import\Entity\Eav\CustomerFactory $customerFactory,
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer\AddressFactory $addressFactory,

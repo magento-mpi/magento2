@@ -78,7 +78,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     protected $_dir;
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -91,7 +91,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
      * @param \Magento\Core\Model\View\Service $viewService
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param $allowFilesDuplication
      */
     public function __construct(
@@ -101,7 +101,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
         \Magento\Core\Model\View\Service $viewService,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\App\Dir $dir,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Module\Dir\Reader $modulesReader,
         $allowFilesDuplication
     ) {
         $this->_filesystem = $filesystem;

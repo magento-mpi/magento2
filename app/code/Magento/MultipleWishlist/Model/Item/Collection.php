@@ -33,7 +33,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
-     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\App\Resource $coreResource
      * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory
@@ -53,7 +53,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\Core\Model\Date $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
-        \Magento\Core\Model\Resource $coreResource,
+        \Magento\App\Resource $coreResource,
         \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
         \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,

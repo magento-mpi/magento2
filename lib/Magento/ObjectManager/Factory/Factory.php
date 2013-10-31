@@ -19,6 +19,8 @@ class Factory implements \Magento\ObjectManager\Factory
      */
     protected $_config;
 
+    protected $_objects = array();
+
     /**
      * Definition list
      *
@@ -148,6 +150,10 @@ class Factory implements \Magento\ObjectManager\Factory
     {
         $type = $this->_config->getInstanceType($requestedType);
         $parameters = $this->_definitions->getParameters($type);
+        if (!isset($this->_instances[$type])) {
+            $this->_instances[$type] = 0;
+        }
+        $this->_instances[$type]++;
         if ($parameters == null) {
             return new $type();
         }

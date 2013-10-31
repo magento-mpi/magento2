@@ -20,12 +20,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resourceModel;
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -57,8 +57,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\App\Resource $resource
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Resource\Resource $resourceResource
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
@@ -68,8 +68,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\App\Resource $resource,
+        \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Core\Model\Resource\Resource $resourceResource,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
@@ -112,7 +112,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Config\Modules\Reader
+     * @return \Magento\Module\Dir\Reader
      */
     public function getModulesReader()
     {
@@ -120,7 +120,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Resource
+     * @return \Magento\App\Resource
      */
     public function getResourceModel()
     {

@@ -33,11 +33,11 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      *
      * @param \Magento\Checkout\Helper\Data $checkoutData
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      */
     public function __construct(
         \Magento\Checkout\Helper\Data $checkoutData,
-        \Magento\Core\Model\Resource $resource
+        \Magento\App\Resource $resource
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($resource);

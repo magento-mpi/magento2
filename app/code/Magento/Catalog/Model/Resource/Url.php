@@ -105,7 +105,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Catalog\Model\Category $catalogCategory
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -113,7 +113,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Catalog\Model\Category $catalogCategory,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Resource $resource
+        \Magento\App\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;

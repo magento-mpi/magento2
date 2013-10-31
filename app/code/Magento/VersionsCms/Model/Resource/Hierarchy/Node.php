@@ -63,11 +63,11 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
     ) {
         $this->_nodeFactory = $nodeFactory;

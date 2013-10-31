@@ -23,7 +23,7 @@ class ObjectManagerFactory
      *
      * @param string $rootDir
      * @param array $arguments
-     * @return ObjectManager\ObjectManager
+     * @return ObjectManager
      * @throws \Magento\BootstrapException
      */
     public function create($rootDir, array $arguments)
@@ -83,6 +83,8 @@ class ObjectManagerFactory
         $locator->configure(
             $locator->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
+        $locator->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
+        $locator->get('Magento\App\Resource')->setCache($locator->get('Magento\App\CacheInterface'));
 
         $relations = $definitionFactory->createRelations();
 
@@ -90,8 +92,8 @@ class ObjectManagerFactory
             'relations' => $relations,
             'omConfig' => $diConfig,
             'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
-                    ? $definitions
-                    : null,
+                ? $definitions
+                : null,
         ));
 
         $pluginList = $locator->create('Magento\Interception\PluginList\PluginList', array(
@@ -99,8 +101,8 @@ class ObjectManagerFactory
             'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $diConfig,
             'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
-                    ? $definitions
-                    : null,
+                ? $definitions
+                : null,
         ));
         $factory = $locator->create('Magento\Interception\FactoryDecorator', array(
             'factory' => $factory,
@@ -108,8 +110,6 @@ class ObjectManagerFactory
             'pluginList' => $pluginList
         ));
         $locator->setFactory($factory);
-        $locator->get('Magento\Core\Model\Resource')
-           ->setConfig($locator->get('Magento\Core\Model\Config\Resource'));
         return $locator;
     }
 }

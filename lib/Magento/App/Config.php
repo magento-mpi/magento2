@@ -100,16 +100,6 @@ class Config
     }
 
     /**
-     * Retrieve resources
-     *
-     * @return array
-     */
-    public function getResources()
-    {
-        return isset($this->_data['resource']) ? $this->_data['resource'] : array();
-    }
-
-    /**
      * Retrieve key
      *
      * @param string $key

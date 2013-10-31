@@ -100,7 +100,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -116,7 +116,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Resource $resource
+        \Magento\App\Resource $resource
     ) {
         $this->_indexPool = $indexPool;
         $this->_rule = $rule;

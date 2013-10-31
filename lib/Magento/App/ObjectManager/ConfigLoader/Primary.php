@@ -39,10 +39,10 @@ class Primary
     public function load()
     {
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
-            new \Magento\Core\Model\Config\FileResolver\Primary($this->_dirs),
+            new \Magento\App\Config\FileResolver\Primary($this->_dirs),
             new \Magento\ObjectManager\Config\Mapper\Dom(),
             new \Magento\ObjectManager\Config\SchemaLocator(),
-            new \Magento\Core\Model\Config\ValidationState($this->_appMode)
+            new \Magento\App\Config\ValidationState($this->_appMode)
         );
 
         return $reader->read('primary');

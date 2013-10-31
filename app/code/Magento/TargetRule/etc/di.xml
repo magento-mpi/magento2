@@ -13,7 +13,7 @@
             <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <targetrule_setup>Magento\TargetRule\Model\Resource\Setup</targetrule_setup>

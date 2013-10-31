@@ -50,14 +50,14 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Backend\Model\Config\Structure $structure

@@ -131,7 +131,7 @@ interface AppInterface extends \Magento\Core\Model\StoreManagerInterface
     /**
      * Get core cache model
      *
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCacheInstance();
 

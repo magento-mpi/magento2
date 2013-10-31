@@ -19,7 +19,7 @@
             <instance type="Magento\Authorization\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <versionscms_setup>Magento\VersionsCms\Model\Resource\Setup</versionscms_setup>

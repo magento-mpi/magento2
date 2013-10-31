@@ -37,12 +37,12 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\Resource $resource
+     * @param \Magento\App\CacheInterface $cache
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\CacheInterface $cache
+        \Magento\App\Resource $resource,
+        \Magento\App\CacheInterface $cache
     ) {
         parent::__construct($resource);
         $this->_cache = $cache->getFrontend();

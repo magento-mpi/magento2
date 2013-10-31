@@ -8,8 +8,8 @@
  */
 -->
 <config>
-    <preference for="Magento\App\UpdaterInterfaceTwo" type="Magento\App\UpdaterTwo" />
-    <preference for="Magento\App\UpdaterInterface" type="Magento\App\UpdaterOne" />
+    <preference for="Magento\Module\UpdaterInterfaceTwo" type="Magento\Module\UpdaterTwo" />
+    <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\UpdaterOne" />
     <type name="Magento\App\Config\Loader\Local" shared="false">
         <param name="customFile">
             <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>
