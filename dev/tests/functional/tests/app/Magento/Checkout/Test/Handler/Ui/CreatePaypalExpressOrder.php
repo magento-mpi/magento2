@@ -15,7 +15,6 @@ namespace Magento\Checkout\Test\Handler\Ui;
 use Mtf\Fixture;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class CreatePaypalExpressOrder
@@ -33,8 +32,6 @@ class CreatePaypalExpressOrder extends Ui
      */
     public function execute(Fixture $fixture = null)
     {
-        $fixture->persist();
-
         $products = $fixture->getProducts();
 
         foreach ($products as $product) {

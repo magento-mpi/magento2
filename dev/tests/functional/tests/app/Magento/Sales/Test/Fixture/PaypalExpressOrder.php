@@ -53,6 +53,7 @@ class PaypalExpressOrder extends Checkout
      */
     public function persist()
     {
+        $this->checkoutFixture->persist();
         $this->orderId = Factory::getApp()->magentoCheckoutCreatePaypalExpressOrder($this->checkoutFixture);
     }
 
