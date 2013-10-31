@@ -35,13 +35,14 @@ class BackendCustomerCreateTest extends Functional
         $customerCreatePage = Factory::getPageFactory()->getAdminCustomerNew();
         $newCustomerForm = $customerCreatePage->getNewCustomerForm();
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $messagesBlock = $customerCreatePage->getMessageBlock();
 
         $customerViewPage->open();
         $pageActionsBlock->clickAddNew();
 
         $newCustomerForm->fill($customerFixture);
         $newCustomerForm->clickSaveAndContinue();
-        $customerCreatePage->waitForCustomerSaveSuccess();
+        $messagesBlock->waitForSuccessMessage($customerFixture);
 
         //Check created customer
         $customerViewPage->open();

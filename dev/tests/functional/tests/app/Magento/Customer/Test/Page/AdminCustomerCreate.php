@@ -12,6 +12,7 @@
 
 namespace Magento\Customer\Test\Page;
 
+use Magento\Core\Test\Block\Messages;
 use Magento\Customer\Test\Block\Backend\CustomerForm;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
@@ -35,6 +36,11 @@ class AdminCustomerCreate extends Page
     protected $_newCustomerForm;
 
     /**
+     * @var Messages
+     */
+    protected $_messagesBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -43,23 +49,8 @@ class AdminCustomerCreate extends Page
         $this->_newCustomerForm = Factory::getBlockFactory()->getMagentoCustomerBackendCustomerForm(
             $this->_browser->find('[id="page:main-container"]')
         );
-    }
-
-    /**
-     * Check for success message
-     *
-     * @return bool
-     */
-    public function waitForCustomerSaveSuccess()
-    {
-        $browser = $this->_browser;
-        $selector = '//span[@data-ui-id="messages-message-success"]';
-        $strategy = Locator::SELECTOR_XPATH;
-        return $this->_browser->waitUntil(
-            function () use ($browser, $selector, $strategy) {
-                $customerSavedMessage = $browser->find($selector, $strategy);
-                return $customerSavedMessage->isVisible() ? true : null;
-            }
+        $this->_messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find('#messages')
         );
     }
 
@@ -71,5 +62,15 @@ class AdminCustomerCreate extends Page
     public function getNewCustomerForm()
     {
         return $this->_newCustomerForm;
+    }
+
+    /**
+     * Getter for global page message
+     *
+     * @return Messages
+     */
+    public function getMessageBlock()
+    {
+        return $this->_messagesBlock;
     }
 }
