@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 /**
  * Tests for the view layer fallback mechanism
@@ -26,7 +24,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design'
+                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/Core/Model/_files/design'
             )
         ));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

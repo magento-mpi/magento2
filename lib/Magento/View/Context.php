@@ -95,7 +95,7 @@ class Context
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $viewConfig;
 

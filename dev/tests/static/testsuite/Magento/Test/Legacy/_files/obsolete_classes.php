@@ -1068,4 +1068,11 @@ return array(
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),
+    array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\View\PublicFilesManagerInterface'),
+    array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\View\DeployedFilesManager'),
+    array('Magento\Core\Model\View\Publisher', 'Magento\View\Publisher'),
+    array('Magento\Core\Model\View\FileSystem', 'Magento\View\FileSystem'),
+    array('Magento\Core\Model\View\Service', 'Magento\View\Service'),
+    array('Magento\Core\Model\View\Url', 'Magento\View\Url'),
+    array('Magento\Core\Model\View\Config', 'Magento\View\Config')
 );

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class PublicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -561,7 +559,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/Core/Model/_files/design/'
             )
         ));
 
@@ -569,7 +567,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             $publisher = $objectManager->create(
                 'Magento\View\Publisher',
-                array('allowFilesDuplication' => $allowDuplication)
+                array('allowDuplication' => $allowDuplication)
             );
             $objectManager->addSharedInstance($publisher, 'Magento\View\Publisher');
         }
@@ -597,7 +595,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/Core/Model/_files/design/'
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
@@ -608,7 +606,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Theme\Collection');
-        $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/_files/design/')
+        $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/Core/Model/_files/design/')
             ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'vendor_default', 'theme.xml')))
             ->getFirstItem()
             ->save();

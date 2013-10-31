@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Helper;
+namespace Magento\View\Url;
 
-class CssTest extends \PHPUnit_Framework_TestCase
+class CssResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Helper\Css
+     * @var \Magento\View\Url\CssResolver
      */
     protected $_object;
 
@@ -19,7 +19,7 @@ class CssTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
         $dirs = new \Magento\App\Dir('/base_dir');
-        $this->_object = new \Magento\Core\Helper\Css($filesystem, $dirs);
+        $this->_object = new \Magento\View\Url\CssResolver($filesystem, $dirs);
     }
 
     /**

@@ -11,7 +11,7 @@
 /**
  * Handles theme view.xml files
  */
-namespace Magento\Core\Model\View;
+namespace Magento\View;
 
 class Config implements \Magento\View\ConfigInterface
 {
@@ -25,7 +25,7 @@ class Config implements \Magento\View\ConfigInterface
     /**
      * Module configuration reader
      *
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_moduleReader;
 
@@ -49,13 +49,13 @@ class Config implements \Magento\View\ConfigInterface
     /**
      * View config model
      *
-     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Config\FileResolverInterface $moduleReader
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\View\Service $viewService
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param Service $viewService
+     * @param FileSystem $viewFileSystem
      */
     public function __construct(
-        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Config\FileResolverInterface $moduleReader,
         \Magento\Filesystem $filesystem,
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem
@@ -82,7 +82,7 @@ class Config implements \Magento\View\ConfigInterface
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->getConfigurationFiles(\Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG);
+        $configFiles = $this->_moduleReader->get(\Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG, 'global');
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
             $themeConfigFile = $this->_viewFileSystem->getFilename(

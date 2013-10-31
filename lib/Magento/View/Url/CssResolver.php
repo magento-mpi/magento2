@@ -8,9 +8,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Core\Helper;
+namespace Magento\View\Url;
 
-class Css
+class CssResolver
 {
     /**
      * PCRE that matches non-absolute URLs in CSS content

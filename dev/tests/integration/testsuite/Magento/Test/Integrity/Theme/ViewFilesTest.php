@@ -39,7 +39,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                     if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
                         $errors = array();
                         $content = file_get_contents($viewFile);
-                        preg_match_all(\Magento\Core\Helper\Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                        preg_match_all(\Magento\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches);
                         foreach ($matches[1] as $relativePath) {
                             $path = $this->_addCssDirectory($relativePath, $file);
                             $pathFile = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()

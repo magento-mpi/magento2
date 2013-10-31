@@ -18,9 +18,9 @@ class ThemeDeployment
     /**
      * Helper to process CSS content and fix urls
      *
-     * @var \Magento\Core\Helper\Css
+     * @var \Magento\View\Url\CssResolver
      */
-    private $_cssHelper;
+    private $_cssUrlResolver;
 
     /**
      * Destination dir, where files will be copied to
@@ -55,7 +55,7 @@ class ThemeDeployment
     /**
      * Constructor
      *
-     * @param \Magento\Core\Helper\Css $cssHelper
+     * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -63,13 +63,13 @@ class ThemeDeployment
      * @throws \Magento\Exception
      */
     public function __construct(
-        \Magento\Core\Helper\Css $cssHelper,
+        \Magento\View\Url\CssResolver $cssUrlResolver,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
         $isDryRun = false
     ) {
-        $this->_cssHelper = $cssHelper;
+        $this->_cssUrlResolver = $cssUrlResolver;
         $this->_destinationHomeDir = $destinationHomeDir;
         $this->_isDryRun = $isDryRun;
         $this->_permitted = $this->_loadConfig($configPermitted);
@@ -211,7 +211,7 @@ class ThemeDeployment
 
             // Replace relative urls and write the modified content (if not dry run)
             $content = file_get_contents($fileSource);
-            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $fileSource, $fileDestination, $callback);
+            $content = $this->_cssUrlResolver->replaceCssRelativeUrls($content, $fileSource, $fileDestination, $callback);
             if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);
             }

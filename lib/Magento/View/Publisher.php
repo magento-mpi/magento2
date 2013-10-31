@@ -44,9 +44,9 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     /**
      * Helper to process css content
      *
-     * @var \Magento\Core\Helper\Css
+     * @var \Magento\View\Url\CssResolver
      */
-    protected $_cssHelper;
+    protected $_cssUrlResolver;
 
     /**
      * @var \Magento\View\Service
@@ -76,7 +76,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_dir;
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\App\Module\Dir
      */
     protected $_modulesReader;
 
@@ -85,29 +85,29 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Helper\Css $cssHelper
-     * @param \Magento\View\Service $viewService
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Url\CssResolver $cssUrlResolver
+     * @param Service $viewService
+     * @param FileSystem $viewFileSystem
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\App\Module\Dir $modulesDir
      * @param $allowDuplication
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Helper\Css $cssHelper,
+        Url\CssResolver $cssUrlResolver,
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\App\Dir $dir,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\App\Module\Dir $modulesDir,
         $allowDuplication
     ) {
         $this->_filesystem = $filesystem;
-        $this->_cssHelper = $cssHelper;
+        $this->_cssUrlResolver = $cssUrlResolver;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_dir = $dir;
-        $this->_modulesReader = $modulesReader;
+        $this->_modulesDir = $modulesDir;
         $this->_logger = $logger;
         $this->_allowDuplication = $allowDuplication;
     }
@@ -310,7 +310,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         } else {
             // modular file
             $module = $params['module'];
-            $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . DS;
+            $moduleDir = $this->_modulesDir->getDir($module, 'theme') . DS;
             $publicFile = substr($filename, strlen($moduleDir));
             $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
         }
@@ -337,7 +337,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             return $relatedPathPublic;
         };
         try {
-            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
+            $content = $this->_cssUrlResolver->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
         } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
         }
