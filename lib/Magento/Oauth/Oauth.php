@@ -56,7 +56,8 @@ class Oauth implements OauthInterface
     public function getRequestToken($params, $requestUrl, $httpMethod = 'POST')
     {
         $this->_validateVersionParam($params['oauth_version']);
-        $consumer = $this->_tokenProvider->validateConsumer($params['oauth_consumer_key']);
+        $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
+        $this->_tokenProvider->validateConsumer($consumer);
         $this->_nonceGenerator->validateNonce($consumer, $params['oauth_nonce'], $params['oauth_timestamp']);
 
         $this->_validateSignature(
@@ -85,19 +86,20 @@ class Oauth implements OauthInterface
         );
 
         $this->_validateProtocolParams($params, $required);
-        $secrets = $this->_tokenProvider->validateRequestToken(
-            $params['oauth_token'], $params['oauth_consumer_key'], $params['oauth_verifier']
+        $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
+        $tokenSecret = $this->_tokenProvider
+            ->validateRequestToken($params['oauth_token'], $consumer, $params['oauth_verifier']
         );
 
         $this->_validateSignature(
             $params,
-            $secrets['oauth_consumer_secret'],
+            $consumer->getSecret(),
             $httpMethod,
             $requestUrl,
-            $secrets['oauth_token_secret']
+            $tokenSecret
         );
 
-        return $this->_tokenProvider->getAccessToken($params['oauth_consumer_key']);
+        return $this->_tokenProvider->getAccessToken($consumer);
     }
 
     /**
@@ -115,15 +117,15 @@ class Oauth implements OauthInterface
         );
 
         $this->_validateProtocolParams($params, $required);
-        $secrets = $this->_tokenProvider
-            ->validateAccessTokenRequest($params['oauth_token'], $params['oauth_consumer_key']);
+        $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
+        $tokenSecret = $this->_tokenProvider->validateAccessTokenRequest($params['oauth_token'], $consumer);
 
         $this->_validateSignature(
             $params,
-            $secrets['oauth_consumer_secret'],
+            $consumer->getSecret(),
             $httpMethod,
             $requestUrl,
-            $secrets['oauth_token_secret']
+            $tokenSecret
         );
 
         return true;
@@ -184,7 +186,10 @@ class Oauth implements OauthInterface
     protected function _validateSignature($params, $consumerSecret, $httpMethod, $requestUrl, $tokenSecret = null)
     {
         if (!in_array($params['oauth_signature_method'], self::getSupportedSignatureMethods())) {
-            throw new Exception('', self::ERR_SIGNATURE_METHOD_REJECTED);
+            throw new Exception(
+                __('Signature method %1 is not supported', $params['oauth_signature_method']),
+                self::ERR_SIGNATURE_METHOD_REJECTED
+            );
         }
 
         $allowedSignParams = $params;
@@ -200,7 +205,7 @@ class Oauth implements OauthInterface
         );
 
         if ($calculatedSign != $params['oauth_signature']) {
-            throw new Exception('Invalid signature.', self::ERR_SIGNATURE_INVALID);
+            throw new Exception(__('Invalid signature'), self::ERR_SIGNATURE_INVALID);
         }
     }
 
@@ -214,7 +219,7 @@ class Oauth implements OauthInterface
     {
         // validate version if specified
         if ('1.0' != $version) {
-            throw new Exception('', self::ERR_VERSION_REJECTED);
+            throw new Exception(__('OAuth version %1 is not supported', $version), self::ERR_VERSION_REJECTED);
         }
     }
 
@@ -247,12 +252,15 @@ class Oauth implements OauthInterface
         if (isset($protocolParams['oauth_token']) &&
             !$this->_tokenProvider->validateOauthToken($protocolParams['oauth_token'])
         ) {
-            throw new Exception('', self::ERR_TOKEN_REJECTED);
+            throw new Exception(__('Token is not the correct length'), self::ERR_TOKEN_REJECTED);
         }
 
         // Validate signature method.
         if (!in_array($protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
-            throw new Exception('', self::ERR_SIGNATURE_METHOD_REJECTED);
+            throw new Exception(
+                __('Signature method %1 is not supported', $protocolParams['oauth_signature_method']),
+                self::ERR_SIGNATURE_METHOD_REJECTED
+            );
         }
 
         $consumer = $this->_tokenProvider->getConsumerByKey($protocolParams['oauth_consumer_key']);

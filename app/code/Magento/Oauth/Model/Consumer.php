@@ -6,8 +6,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Oauth\Model;
+
 /**
- * Application model
+ * Consumer model
+ *
  * @author Magento Core Team <core@magentocommerce.com>
  * @method \Magento\Oauth\Model\Resource\Consumer _getResource()
  * @method \Magento\Oauth\Model\Resource\Consumer getResource()
@@ -27,20 +30,8 @@
  * @method string getHttpPostUrl()
  * @method \Magento\Oauth\Model\Consumer setHttpPostUrl() setHttpPostUrl(string $httpPostUrl)
  */
-namespace Magento\Oauth\Model;
-
 class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\ConsumerInterface
 {
-    /**
-     * Key hash length
-     */
-    const KEY_LENGTH = 32;
-
-    /**
-     * Secret hash length
-     */
-    const SECRET_LENGTH = 32;
-
     /**
      * @var \Magento\Core\Model\Url\Validator
      */
@@ -119,7 +110,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oau
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
         $validatorLength = $this->_keyLengthFactory->create(
-            array('options' => array('length' => self::KEY_LENGTH))
+            array('options' => array('length' => \Magento\Oauth\Helper\Oauth::KEY_LENGTH))
         );
 
         $validatorLength->setName('Consumer Key');
@@ -128,7 +119,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oau
             throw new \Magento\Core\Exception(array_shift($messages));
         }
 
-        $validatorLength->setLength(self::SECRET_LENGTH);
+        $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::SECRET_LENGTH);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
@@ -138,7 +129,10 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oau
     }
 
     /**
-     * {@inheritdoc}
+     * Load consumer data by consumer key.
+     *
+     * @param string $key
+     * @return \Magento\Oauth\Model\Consumer
      */
     public function loadByKey($key)
     {
@@ -164,7 +158,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oau
     /**
      * {@inheritdoc}
      */
-    public function getCallBackUrl()
+    public function getCallbackUrl()
     {
         return $this->getData('callback_url');
     }

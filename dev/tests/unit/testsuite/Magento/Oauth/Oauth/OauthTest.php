@@ -137,9 +137,9 @@ class OauthTest extends \PHPUnit_Framework_TestCase
             $this->_httpUtilityMock
         );
 
-        $this->_oauthToken = $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN);
-        $this->_oauthSecret = $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_SECRET);
-        $this->_oauthVerifier = $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
+        $this->_oauthToken = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN);
+        $this->_oauthSecret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_SECRET);
+        $this->_oauthVerifier = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_VERIFIER);
     }
 
     public function tearDown()
@@ -158,7 +158,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     {
         $requiredParams = [
             'oauth_version' => '1.0',
-            'oauth_consumer_key' => $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH),
+            'oauth_consumer_key' => $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::KEY_LENGTH),
             'oauth_nonce' => '',
             'oauth_timestamp' => time(),
             'oauth_signature_method' => \Magento\Oauth\OauthInterface::SIGNATURE_SHA1,
@@ -680,10 +680,10 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * \Magento\Oauth\OauthInterface::ERR_PARAMETER_REJECTED
+     * \Magento\Oauth\OauthInterface::ERR_TOKEN_REJECTED
      *
      * @expectedException \Magento\Oauth\Exception
-     * @expectedExceptionCode 3
+     * @expectedExceptionCode 12
      */
     public function testValidateAccessTokenNoConsumer()
     {
@@ -801,12 +801,12 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     protected function _getAccessTokenRequiredParams($amendments = array())
     {
         $requiredParams = [
-            'oauth_consumer_key' => $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH),
+            'oauth_consumer_key' => $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::KEY_LENGTH),
             'oauth_signature' => '',
             'oauth_signature_method' => \Magento\Oauth\OauthInterface::SIGNATURE_SHA1,
             'oauth_nonce' => '',
             'oauth_timestamp' => (string)time(),
-            'oauth_token' => $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN),
+            'oauth_token' => $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN),
             'oauth_verifier' => $this->_oauthVerifier
         ];
 

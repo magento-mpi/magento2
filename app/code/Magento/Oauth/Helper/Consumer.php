@@ -90,7 +90,8 @@ class Consumer
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             if (!$consumer->getId()) {
-                throw new \Magento\Oauth\Exception('', OauthInterface::ERR_PARAMETER_REJECTED);
+                throw new \Magento\Oauth\Exception(
+                    __('A consumer with ID %1 does not exist', $consumerId), OauthInterface::ERR_PARAMETER_REJECTED);
             }
             $consumerData = $consumer->getData();
             $verifier = $this->_tokenFactory->create()->createVerifierToken($consumerId);
@@ -112,7 +113,7 @@ class Consumer
         } catch (\Magento\Core\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to post data to consumer.'));
+            throw new \Magento\Oauth\Exception(__('Unable to post data to consumer due to an unexpected error'));
         }
     }
 }

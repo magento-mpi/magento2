@@ -8,6 +8,15 @@
 
 namespace Magento\Oauth;
 
+/**
+ * Interface OauthInterface
+ *
+ * This interface provides methods consistent with implementing a 2-legged OAuth authentication mechanism. Methods
+ * include creating a request token, getting an access token, and performing certain validations on tokens and
+ * token requests. A method is also included for generating an OAuth header that can be used in an HTTP request.
+ *
+ * @package Magento\Oauth
+ */
 interface OauthInterface
 {
     /**#@+

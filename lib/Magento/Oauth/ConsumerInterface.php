@@ -8,6 +8,13 @@
 
 namespace Magento\Oauth;
 
+/**
+ * Interface ConsumerInterface
+ *
+ * This interface exposes minimal consumer functionality needed by the Oauth library.
+ *
+ * @package Magento\Oauth
+ */
 interface ConsumerInterface
 {
     /**
@@ -17,14 +24,6 @@ interface ConsumerInterface
      * @throws \Magento\Core\Exception|\Exception - Throws exception for validation errors.
      */
     public function validate();
-
-    /**
-     * Load consumer data by consumer key.
-     *
-     * @param string $key
-     * @return ConsumerInterface
-     */
-    public function loadByKey($key);
 
     /**
      * Get the consumer Id.
@@ -52,5 +51,5 @@ interface ConsumerInterface
      *
      * @return string
      */
-    public function getCallBackUrl();
+    public function getCallbackUrl();
 }

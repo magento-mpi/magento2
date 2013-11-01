@@ -98,8 +98,8 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateConsumer()
     {
-        $key = $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
-        $secret = $this->_generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
+        $key = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::KEY_LENGTH);
+        $secret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::SECRET_LENGTH);
 
         $consumerData = array(
             'name' => 'Integration Name',
@@ -125,9 +125,9 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $consumerId = 1;
 
-        $key = $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
-        $secret = $this->_generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
-        $oauthVerifier = $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
+        $key = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::KEY_LENGTH);
+        $secret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::SECRET_LENGTH);
+        $oauthVerifier = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_VERIFIER);
 
         $consumerData = array(
             'entity_id' => $consumerId,

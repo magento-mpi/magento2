@@ -6,8 +6,10 @@
  * @license    {license_link}
  */
 
+namespace Magento\Oauth\Model;
+
 /**
- * Application model
+ * Nonce model
  * @author Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
  * @method \Magento\Oauth\Model\Nonce setNonce() setNonce(string $nonce)
@@ -18,15 +20,8 @@
  * @method \Magento\Oauth\Model\Resource\Nonce getResource()
  * @method \Magento\Oauth\Model\Resource\Nonce _getResource()
  */
-namespace Magento\Oauth\Model;
-
 class Nonce extends \Magento\Core\Model\AbstractModel
 {
-    /**
-     * Nonce length
-     */
-    const NONCE_LENGTH = 32;
-
     /**
      * Oauth data
      *

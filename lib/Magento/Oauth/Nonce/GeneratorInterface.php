@@ -10,28 +10,39 @@ namespace Magento\Oauth\Nonce;
 
 use Magento\Oauth\ConsumerInterface;
 
+/**
+ * Interface GeneratorInterface
+ *
+ * This interface provides methods for generating a nonce for a consumer and validating a nonce to ensure that it
+ * is not already used by an existing consumer. Validation will persist the nonce if validation succeeds. A method
+ * for generating a current timestamp is also provided by this interface.
+ *
+ * @package Magento\Oauth\Nonce
+ */
 interface GeneratorInterface
 {
     /**
-     * Generate a new Nonce for the consumer (if consumer is specified).
+     * Generate a new nonce for the consumer (if consumer is specified).
      *
      * @param ConsumerInterface $consumer
-     * @return mixed - The generated nonce value.
+     * @return string - The generated nonce value.
      */
     public function generateNonce(ConsumerInterface $consumer = null);
 
     /**
-     * Generate a timestamp.
+     * Generate a current timestamp.
      *
      * @return int
      */
     public function generateTimestamp();
 
     /**
-     * Validate the specified Nonce and persist it with the consumer and timestamp.
+     * Validate the specified nonce, which ensures that it can only be used by a single consumer and persist it
+     * with the specified consumer and timestamp. This method effectively saves the nonce and marks it as used
+     * by the specified consumer.
      *
      * @param ConsumerInterface $consumer
-     * @param mixed $nonce - The nonce value.
+     * @param string $nonce - The nonce value.
      * @param int $timestamp - The 'oauth_timestamp' value.
      * @throws \Magento\Oauth\Exception - Exceptions are thrown for validation errors.
      */

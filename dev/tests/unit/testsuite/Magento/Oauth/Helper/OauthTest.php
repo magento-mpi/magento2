@@ -42,30 +42,30 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     public function testGenerateToken()
     {
         $token = $this->_oauthHelper->generateToken();
-        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Model\Token::LENGTH_TOKEN);
+        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN);
     }
 
     public function testGenerateTokenSecret()
     {
         $token = $this->_oauthHelper->generateTokenSecret();
-        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Model\Token::LENGTH_SECRET);
+        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Helper\Oauth::LENGTH_SECRET);
     }
 
     public function testGenerateVerifier()
     {
         $token = $this->_oauthHelper->generateVerifier();
-        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Model\Token::LENGTH_VERIFIER);
+        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Helper\Oauth::LENGTH_VERIFIER);
     }
 
     public function testGenerateConsumerKey()
     {
         $token = $this->_oauthHelper->generateConsumerKey();
-        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Model\Consumer::KEY_LENGTH);
+        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Helper\Oauth::KEY_LENGTH);
     }
 
     public function testGenerateConsumerSecret()
     {
         $token = $this->_oauthHelper->generateConsumerSecret();
-        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Model\Consumer::SECRET_LENGTH);
+        $this->assertTrue(is_string($token) && strlen($token) === \Magento\Oauth\Helper\Oauth::SECRET_LENGTH);
     }
 }

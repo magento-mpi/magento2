@@ -6,11 +6,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Oauth\Model;
+
 /**
  * oAuth token model
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method string getName() Consumer name (joined from consumer table)
  * @method \Magento\Oauth\Model\Resource\Token\Collection getCollection()
@@ -38,8 +38,6 @@
  * @method int getAuthorized()
  * @method \Magento\Oauth\Model\Token setAuthorized() setAuthorized(int $authorized)
  */
-namespace Magento\Oauth\Model;
-
 class Token extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
@@ -51,18 +49,11 @@ class Token extends \Magento\Core\Model\AbstractModel
     /**#@- */
 
     /**#@+
-     * Lengths of token fields
-     */
-    const LENGTH_TOKEN = 32;
-    const LENGTH_SECRET = 32;
-    const LENGTH_VERIFIER = 32;
-    /**#@- */
-
-    /**#@+
      * Customer types
      */
     const USER_TYPE_ADMIN = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
+    /**#@- */
 
     /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
@@ -146,13 +137,12 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function createVerifierToken($consumerId)
     {
-        $tokenData = $this->getResource()
-            ->selectTokenByType($consumerId, \Magento\Oauth\Model\Token::TYPE_VERIFIER);
+        $tokenData = $this->getResource()->selectTokenByType($consumerId, self::TYPE_VERIFIER);
         $this->setData($tokenData ? $tokenData : array());
         if (!$this->getId()) {
             $this->setData(array(
                 'consumer_id' => $consumerId,
-                'type' => \Magento\Oauth\Model\Token::TYPE_VERIFIER,
+                'type' => self::TYPE_VERIFIER,
                 'token' => $this->_oauthHelper->generateToken(),
                 'secret' => $this->_oauthHelper->generateTokenSecret(),
                 'verifier' => $this->_oauthHelper->generateVerifier(),
@@ -174,17 +164,17 @@ class Token extends \Magento\Core\Model\AbstractModel
     public function authorize($userId, $userType)
     {
         if (!$this->getId() || !$this->getConsumerId()) {
-            throw new \Magento\Oauth\Exception('Token is not ready to be authorized');
+            throw new \Magento\Oauth\Exception(__('Token is not ready to be authorized'));
         }
         if ($this->getAuthorized()) {
-            throw new \Magento\Oauth\Exception('Token is already authorized');
+            throw new \Magento\Oauth\Exception(__('Token is already authorized'));
         }
         if (self::USER_TYPE_ADMIN == $userType) {
             $this->setAdminId($userId);
         } elseif (self::USER_TYPE_CUSTOMER == $userType) {
             $this->setCustomerId($userId);
         } else {
-            throw new \Magento\Oauth\Exception('User type is unknown');
+            throw new \Magento\Oauth\Exception(__('User type is unknown'));
         }
 
         $this->setVerifier($this->_oauthHelper->generateVerifier());
@@ -204,8 +194,8 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function convertToAccess()
     {
-        if (\Magento\Oauth\Model\Token::TYPE_REQUEST != $this->getType()) {
-            throw new \Magento\Oauth\Exception('Can not convert due to token is not request type');
+        if (self::TYPE_REQUEST != $this->getType()) {
+            throw new \Magento\Oauth\Exception(__('Cannot convert to access token due to token is not request type'));
         }
 
         $this->setType(self::TYPE_ACCESS);
@@ -250,7 +240,7 @@ class Token extends \Magento\Core\Model\AbstractModel
         } elseif ($this->getCustomerId()) {
             return self::USER_TYPE_CUSTOMER;
         } else {
-            throw new \Magento\Oauth\Exception('User type is unknown');
+            throw new \Magento\Oauth\Exception(__('User type is unknown'));
         }
     }
 
@@ -299,14 +289,14 @@ class Token extends \Magento\Core\Model\AbstractModel
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
         $validatorLength = $this->_keyLengthFactory->create();
-        $validatorLength->setLength(self::LENGTH_SECRET);
+        $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
             throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
-        $validatorLength->setLength(self::LENGTH_TOKEN);
+        $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN);
         $validatorLength->setName('Token Key');
         if (!$validatorLength->isValid($this->getToken())) {
             $messages = $validatorLength->getMessages();
@@ -314,7 +304,7 @@ class Token extends \Magento\Core\Model\AbstractModel
         }
 
         if (null !== ($verifier = $this->getVerifier())) {
-            $validatorLength->setLength(self::LENGTH_VERIFIER);
+            $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_VERIFIER);
             $validatorLength->setName('Verifier Key');
             if (!$validatorLength->isValid($verifier)) {
                 $messages = $validatorLength->getMessages();

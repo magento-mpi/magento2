@@ -10,6 +10,26 @@ namespace Magento\Oauth\Helper;
 
 class Oauth
 {
+    /**#@+
+     * Lengths of token fields
+     */
+    const LENGTH_TOKEN = 32;
+    const LENGTH_SECRET = 32;
+    const LENGTH_VERIFIER = 32;
+    /**#@- */
+
+    /**#@+
+     * Lengths of consumer fields
+     */
+    const KEY_LENGTH = 32;
+    const SECRET_LENGTH = 32;
+    /**#@- */
+
+    /**
+     * Nonce length
+     */
+    const NONCE_LENGTH = 32;
+
     /**
      * Value of callback URL when it is established or if the client is unable to receive callbacks
      *
@@ -63,7 +83,7 @@ class Oauth
      */
     public function generateToken()
     {
-        return $this->generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN);
+        return $this->generateRandomString(self::LENGTH_TOKEN);
     }
 
     /**
@@ -73,7 +93,7 @@ class Oauth
      */
     public function generateTokenSecret()
     {
-        return $this->generateRandomString(\Magento\Oauth\Model\Token::LENGTH_SECRET);
+        return $this->generateRandomString(self::LENGTH_SECRET);
     }
 
     /**
@@ -83,7 +103,7 @@ class Oauth
      */
     public function generateVerifier()
     {
-        return $this->generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
+        return $this->generateRandomString(self::LENGTH_VERIFIER);
     }
 
     /**
@@ -93,7 +113,7 @@ class Oauth
      */
     public function generateConsumerKey()
     {
-        return $this->generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
+        return $this->generateRandomString(self::KEY_LENGTH);
     }
 
     /**
@@ -103,6 +123,6 @@ class Oauth
      */
     public function generateConsumerSecret()
     {
-        return $this->generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
+        return $this->generateRandomString(self::SECRET_LENGTH);
     }
 }

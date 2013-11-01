@@ -29,7 +29,7 @@ class KeyLength extends \Zend_Validate_StringLength
     /**
      * Sets validator options
      *
-     * @param  integer|array|Zend_Config $options
+     * @param  integer|array|\Zend_Config $options
      */
     public function __construct($options = array())
     {
