@@ -17,7 +17,7 @@
 
 namespace Magento\Invitation\Controller\Adminhtml\Report;
 
-class Invitation extends \Magento\Adminhtml\Controller\Action
+class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Invitation Config

@@ -145,7 +145,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getIsChooserMode()) {
             return null;
         }
-        return $this->getUrl('*/*/edit', array('id' => $row->getSegmentId()));
+        return $this->getUrl('adminhtml/*/edit', array('id' => $row->getSegmentId()));
     }
 
     /**

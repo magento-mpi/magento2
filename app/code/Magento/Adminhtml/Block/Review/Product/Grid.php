@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Review\Product;
 
-class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
+class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 {
     /**
      * @var \Magento\Core\Model\Resource\Website\CollectionFactory
@@ -136,12 +136,12 @@ class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/productGrid', array('_current'=>true));
+        return $this->getUrl('catalog/*/productGrid', array('_current'=>true));
     }
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
+        return $this->getUrl('catalog/*/jsonProductInfo', array('id' => $row->getId()));
     }
 
     protected function _prepareMassaction()
