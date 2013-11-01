@@ -92,6 +92,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $layoutXml = simplexml_load_file($layoutFile);
 
                 $this->_testObsoleteReferences($layoutXml);
+                $this ->_testObsoleteAttributes($layoutXml);
 
                 $selectorHeadBlock = '(name()="block" or name()="referenceBlock") and '
                     . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
@@ -151,6 +152,31 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     );
                 }
             }
+        }
+    }
+
+    /**
+     * @param SimpleXMLElement $layoutXml
+     */
+    protected function _testObsoleteAttributes($layoutXml)
+    {
+        $issues = array();
+        $type = $layoutXml['type'];
+        $parent = $layoutXml['parent'];
+        $owner = $layoutXml['owner'];
+
+        if ((string)$type === 'page') {
+            if ($parent) {
+                $issues[] = 'Attribute "parent" is not valid';
+            }
+        }
+        if ((string)$type === 'fragment') {
+            if ($owner) {
+                $issues[] = 'Attribute "owner" is not valid';
+            }
+        }
+        if ($issues) {
+            $this->fail("Issues found in handle declaration:\n" . implode("\n", $issues) . "\n");
         }
     }
 
