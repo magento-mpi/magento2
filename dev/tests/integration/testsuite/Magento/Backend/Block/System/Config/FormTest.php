@@ -63,7 +63,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitFieldsUseDefaultCheckbox($section, $group, $field, array $configData, $expectedUseDefault)
     {
-        $this->markTestIncomplete('MAGETWO-9058');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $form = $this->_formFactory->create();
@@ -117,7 +116,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitFieldsUseConfigPath($section, $group, $field, array $configData, $expectedUseDefault)
     {
-        $this->markTestIncomplete('MAGETWO-9058');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $form = $this->_formFactory->create();
@@ -154,15 +152,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
-        $configMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false);
-        $configMock->expects($this->any())->method('getConfigurationFiles')
+        $fileResolverMock = $this->getMock('Magento\Core\Model\Config\FileResolver');
+        $fileResolverMock->expects($this->any())
+            ->method('get')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
-        $configMock->expects($this->any())->method('getModuleDir')
-            ->will($this->returnValue(BP . '/app/code/Magento/Backend/etc'));
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
             'Magento\Backend\Model\Config\Structure\Reader' => array(
-                'parameters' => array('moduleReader' => $configMock)
+                'parameters' => array('fileResolver' => $fileResolverMock)
             )
         ));
         /** @var \Magento\Backend\Model\Config\Structure $structure  */
@@ -189,7 +186,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             array($section, $group, $field, array($fieldPath => null), false),
             array($section, $group, $field, array($fieldPath => ''), false),
             array($section, $group, $field, array($fieldPath => 'value'), false),
-            array($section, $group, $field2, array($fieldPath2 => 'config value'), true),
+            array($section, $group, $field2, array($fieldPath2 => 'config value'), false),
         );
     }
 
