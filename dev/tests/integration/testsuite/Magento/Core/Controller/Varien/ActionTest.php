@@ -11,6 +11,9 @@
 
 namespace Magento\Core\Controller\Varien;
 
+/**
+ * @magentoAppArea frontend
+ */
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -318,7 +321,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     {
         $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
         $design = $this->_objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
+        $app = $this->_objectManager->create('Magento\Core\Model\App');
         $this->_objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
+        $this->_objectManager->addSharedInstance($app, 'Magento\Core\Model\App');
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea($expectedArea);

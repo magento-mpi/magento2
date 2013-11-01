@@ -27,20 +27,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         );
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\App\Router\Base', $options);
-        $this->_model->setFront(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\FrontController'));
-    }
-
-    public function testFetchDefault()
-    {
-        $default = array(
-            'module' => 'core',
-            'controller' => 'index',
-            'action' => 'index'
-        );
-        $this->assertEmpty($this->_model->getFront()->getDefault());
-        $this->_model->fetchDefault();
-        $this->assertEquals($default, $this->_model->getFront()->getDefault());
     }
 
     public function testMatch()

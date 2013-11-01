@@ -37,7 +37,6 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/active');
         $this->_oldExceptionFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/exception_file');
-        $this->_oldWriterModel = (string)$configModel->getNode('global/log/core/writer_model');
     }
 
     protected function tearDown()
@@ -50,9 +49,6 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
             ->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
         $this->_oldExceptionFile = null;
 
-        /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
-        $configModel->setNode('global/log/core/writer_model', $this->_oldWriterModel);
         $this->_oldWriterModel = null;
 
         /**
