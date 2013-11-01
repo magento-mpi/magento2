@@ -44,7 +44,11 @@ class CreateProductAttribute extends Curl
         }
 
         $optionIds = array();
-        if (preg_match_all('!attributeOption\.add\({"checked":"","intype":"radio","id":"(\d+)"!', $response, $matches)) {
+        if (preg_match_all(
+            '!attributeOption\.add\({"checked":"","intype":"radio","id":"(\d+)"!',
+            $response,
+            $matches
+        )) {
             $optionIds = $matches[1];
         }
 

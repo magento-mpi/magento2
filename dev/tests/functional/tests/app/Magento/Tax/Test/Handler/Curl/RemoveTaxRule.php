@@ -73,7 +73,7 @@ class RemoveTaxRule extends Curl
     {
         preg_match_all("!tax_rule\/edit\/rule\/([\d]+)!", $data, $result);
         if (!isset($result[1]) || empty($result[1])) {
-            return;
+            return null;
         }
         foreach ($result[1] as $taxRuleId) {
             $this->_deleteTaxRuleRequest((int)$taxRuleId);

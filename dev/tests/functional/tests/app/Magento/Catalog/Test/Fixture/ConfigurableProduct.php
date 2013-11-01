@@ -133,8 +133,8 @@ class ConfigurableProduct extends Product
     public function getConfigurableOptions()
     {
         $options = array();
-        foreach($this->getData('fields/configurable_attributes_data/value') as $attribute) {
-            foreach($attribute as $option) {
+        foreach ($this->getData('fields/configurable_attributes_data/value') as $attribute) {
+            foreach ($attribute as $option) {
                 if (isset($option['option_label']['value'])) {
                     $options[$attribute['label']['value']][] = $option['option_label']['value'];
                 }

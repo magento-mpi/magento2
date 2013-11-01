@@ -22,7 +22,7 @@ use Mtf\Repository\AbstractRepository;
  */
 class Config extends AbstractRepository
 {
-    function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -410,8 +410,6 @@ class Config extends AbstractRepository
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => 1
-//                                                                'input_value' => 1,
-//                                                                'input_name' => 'payment/verisign/sandbox_flag'
                                                             ),
                                                             'use_proxy' => array( // Use Proxy
                                                                 'value' => 0

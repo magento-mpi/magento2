@@ -124,7 +124,8 @@ class Bundle extends Product
      *
      * @return array
      */
-    public function getSelectionData() {
+    public function getSelectionData()
+    {
         $options = $this->getData('checkout/selection');
         $selectionData = array();
         foreach ($options as $option => $selection) {

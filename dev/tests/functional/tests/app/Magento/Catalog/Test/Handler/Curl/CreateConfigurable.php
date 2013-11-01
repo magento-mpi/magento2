@@ -61,7 +61,7 @@ class CreateConfigurable extends Curl
         $baseData = $fixture->getData('fields');
         unset($baseData['configurable_attributes_data']);
         unset($baseData['variations-matrix']);
-        foreach($baseData as $key => $field) {
+        foreach ($baseData as $key => $field) {
             if (isset ($field['input_value'])) {
                 $curlData[$key] = $field['input_value'];
             } else if (isset($field['value'])) {
