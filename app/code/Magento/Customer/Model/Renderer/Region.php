@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Model\Customer\Renderer;
+namespace Magento\Customer\Model\Renderer;
 
 class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {

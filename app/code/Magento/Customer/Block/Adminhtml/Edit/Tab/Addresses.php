@@ -29,7 +29,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlAddresses = null;
 
     /**
-     * @param \Magento\Adminhtml\Model\Customer\Renderer\RegionFactory $regionFactory
+     * @param \Magento\Customer\Model\Renderer\RegionFactory $regionFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\FormFactory $customerFactory
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -41,7 +41,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
-        \Magento\Adminhtml\Model\Customer\Renderer\RegionFactory $regionFactory,
+        \Magento\Customer\Model\Renderer\RegionFactory $regionFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\FormFactory $customerFactory,
         \Magento\Core\Model\System\Store $systemStore,
