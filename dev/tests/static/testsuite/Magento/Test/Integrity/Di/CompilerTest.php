@@ -38,17 +38,18 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_tmpDir;
 
     /**
-     * @var \Magento\Code\Validator\ConstructorIntegrity
-     */
-    protected $_validator;
-
-    /**
      * @var \Magento\ObjectManager\Config\Mapper\Dom()
      */
     protected $_mapper;
 
     protected function setUp()
     {
+        \Magento\Autoload\IncludePath::addIncludePath(array(
+            $basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'code',
+            $basePath . DIRECTORY_SEPARATOR . 'lib',
+            $basePath . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'generation',
+        ));
+
         $this->_shell = new \Magento\Shell();
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace(DIRECTORY_SEPARATOR, '/', $basePath);
@@ -58,13 +59,6 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_command = 'php ' . $basePath
             . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
-        $this->_validator = new \Magento\Code\Validator\ConstructorIntegrity();
-
-        \Magento\Autoload\IncludePath::addIncludePath(array(
-            $basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'code',
-            $basePath . DIRECTORY_SEPARATOR . 'lib',
-            $basePath . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'generation',
-        ));
     }
 
     public function testConfigurationOfInstanceParameters()
@@ -122,51 +116,6 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testConstructorIntegrity()
-    {
-        $this->markTestSkipped('Temporary disabled. Should be refactored due to 8 Nov 2013 by Folks team.');
-        $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
-
-        $basePath = str_replace('/', '\\', $basePath);
-        $libPath = $basePath . '\\lib';
-        $appPath = $basePath . '\\app\\code';
-        $generationPathPath = $basePath . '\\var\\generation';
-
-        $files = \Magento\TestFramework\Utility\Files::init()->getClassFiles(
-            true, false, false, false, false, true, false
-        );
-
-        $patterns  = array(
-            '/' . preg_quote($libPath) . '/',
-            '/' . preg_quote($appPath) . '/',
-            '/' . preg_quote($generationPathPath) . '/'
-        );
-        $replacements  = array('', '', '');
-
-        $classes = array();
-        foreach ($files as $file) {
-            $file = str_replace('/', '\\', $file);
-            $filePath = preg_replace($patterns, $replacements, $file);
-            $className = substr($filePath, 0, -4);
-            if (class_exists($className)) {
-                $classes[$file] = $className;
-            }
-        }
-
-        $errors = array();
-        foreach ($classes as $className) {
-            try {
-                $this->_validator->validate($className);
-            } catch (\Magento\Code\ValidationException $exceptions) {
-                $errors[] = PHP_EOL . $exceptions->getMessage();
-            }
-        }
-        $failMessage = implode(PHP_EOL, $errors);
-        $this->assertEmpty($errors, $failMessage);
-
-        return empty($errors);
-    }
-
     /**
      * @depends testConfigurationOfInstanceParameters
      */
@@ -177,11 +126,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                 $this->_command,
                 array($this->_generationDir, $this->_compilationDir)
             );
-            $filesystem = new \Magento\Filesystem\Adapter\Local();
-            $filesystem->delete($this->_tmpDir);
         } catch (\Magento\Exception $exception) {
-            $filesystem = new \Magento\Filesystem\Adapter\Local();
-            $filesystem->delete($this->_tmpDir);
             $this->fail($exception->getPrevious()->getMessage());
         }
     }
