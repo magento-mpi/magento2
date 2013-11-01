@@ -1,6 +1,6 @@
 <?php
 /**
- * \Magento\Integration\Controller\Adminhtml\Integration
+ * \Magento\Integration\Controller\Adminhtml
  *
  * {license_notice}
  *
@@ -196,6 +196,10 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $integrationContr->saveAction();
     }
 
+    /**
+     * @expectedException \Magento\Core\Exception
+     * @expectedExceptionMessage an exception happened.
+     */
     public function testSaveActionException()
     {
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
