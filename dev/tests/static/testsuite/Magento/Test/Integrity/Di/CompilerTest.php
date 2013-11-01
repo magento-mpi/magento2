@@ -124,6 +124,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorIntegrity()
     {
+        $this->markTestSkipped('Temporary disabled. Should be refactored due to 8 Nov 2013 by Folks team.');
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
 
         $basePath = str_replace('/', '\\', $basePath);
@@ -168,7 +169,6 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testConfigurationOfInstanceParameters
-     * @depends testConstructorIntegrity
      */
     public function testCompiler()
     {
