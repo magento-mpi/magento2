@@ -26,8 +26,8 @@ class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\App\Resource $resource,
         \Magento\Webhook\Model\Config $config
     ) {
-        parent::__construct($resource);
         $this->_config = $config;
+        parent::__construct($resource);
     }
 
     /**
