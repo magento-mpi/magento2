@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-class Logging extends \Magento\Adminhtml\Controller\Action
+class Logging extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -86,7 +86,7 @@ class Logging extends \Magento\Adminhtml\Controller\Action
         $model = $this->_eventFactory->create()
             ->load($eventId);
         if (!$model->getId()) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $this->_title(__("Log Entry #%1", $eventId));

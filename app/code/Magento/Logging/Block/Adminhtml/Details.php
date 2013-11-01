@@ -72,7 +72,7 @@ class Details extends \Magento\Backend\Block\Widget\Container
         parent::_construct();
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('*/*/') . "')",
+            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
             'class'   => 'back'
         ));
     }

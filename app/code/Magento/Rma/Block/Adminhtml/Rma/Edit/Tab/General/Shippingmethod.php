@@ -192,7 +192,7 @@ class Shippingmethod
     public function getPrintLabelButton()
     {
         $data['id'] = $this->getRma()->getId();
-        $url        = $this->getUrl('*/rma/printLabel', $data);
+        $url        = $this->getUrl('adminhtml/rma/printLabel', $data);
 
         return $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Widget\Button')
@@ -227,7 +227,7 @@ class Shippingmethod
     public function getPrintButton()
     {
         $data['id'] = $this->getRma()->getId();
-        $url        = $this->getUrl('*/rma/printPackage', $data);
+        $url        = $this->getUrl('adminhtml/rma/printPackage', $data);
 
         return $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Widget\Button')

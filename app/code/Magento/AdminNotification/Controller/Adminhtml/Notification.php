@@ -46,7 +46,7 @@ class Notification extends \Magento\Backend\Controller\AbstractAction
             $this->_redirectReferer();
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -97,7 +97,7 @@ class Notification extends \Magento\Backend\Controller\AbstractAction
                 );
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     public function removeAction()
@@ -107,7 +107,7 @@ class Notification extends \Magento\Backend\Controller\AbstractAction
                 ->load($id);
 
             if (!$model->getId()) {
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return ;
             }
 
@@ -125,10 +125,10 @@ class Notification extends \Magento\Backend\Controller\AbstractAction
                 );
             }
 
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     public function massRemoveAction()

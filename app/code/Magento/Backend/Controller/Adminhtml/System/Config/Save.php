@@ -94,7 +94,7 @@ class Save extends \Magento\Backend\Controller\System\AbstractConfig
         }
 
         $this->_saveState($this->getRequest()->getPost('config_state'));
-        $this->_redirect('*/system_config/edit', array('_current' => array('section', 'website', 'store')));
+        $this->_redirect('adminhtml/system_config/edit', array('_current' => array('section', 'website', 'store')));
     }
 
     /**

@@ -12,7 +12,7 @@
 
 # Manage Product Attributes page
 manage_attributes:
-    mca: catalog_product_attribute/
+    mca: catalog/product_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_attribute')]
     title: Product Attributes / Attributes / Stores / Magento Admin
     uimap:
@@ -51,7 +51,7 @@ manage_attributes:
 
 # Add New Product Attribute page
 new_product_attribute:
-    mca: catalog_product_attribute/new/
+    mca: catalog/product_attribute/new/
     title: New Product Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newProductAttributeForm
@@ -143,7 +143,7 @@ new_product_attribute:
 
 # Manage Product Attributes page
 edit_product_attribute:
-    mca: catalog_product_attribute/edit/attribute_id/%id%/
+    mca: catalog/product_attribute/edit/attribute_id/%id%/
     title: %elementTitle% / Product Attributes / Attributes / Stores / Magento Admin
     uimap: &edit_product_attribute
         form: &editProductAttributeForm
@@ -191,7 +191,7 @@ edit_product_attribute:
 
 # Add New Product Attribute from product page
 new_product_attribute_from_product_page:
-    mca: catalog_product_attribute/new/group/%tab%/store/%storeId%/type/%productType%/popup/1/?set=%setId%
+    mca: catalog/product_attribute/new/group/%tab%/store/%storeId%/type/%productType%/popup/1/?set=%setId%
     title: New Attribute / Manage Attributes / Magento Admin
     uimap:
         form:
@@ -217,18 +217,18 @@ new_product_attribute_from_product_page:
         messages: *productAttributeMessages
 
 edit_product_attribute_save_and_continue:
-    mca: catalog_product_attribute/edit/attribute_id/%id%/back/edit/active_tab/%tab%
+    mca: catalog/product_attribute/edit/attribute_id/%id%/back/edit/active_tab/%tab%
     title: ~
     uimap: *edit_product_attribute
 
 new_product_attribute_save_and_continue:
-    mca: catalog_product_attribute/edit/back/edit/active_tab/%tab%/
+    mca: catalog/product_attribute/edit/back/edit/active_tab/%tab%/
     title: New Product Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm
 
 product_attribute:
-    mca: catalog_product_attribute/edit/
+    mca: catalog/product_attribute/edit/
     title: New Product Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm

@@ -171,7 +171,7 @@ class Selection
      */
     public function getSelectionSearchUrl()
     {
-        return $this->getUrl('*/bundle_selection/grid');
+        return $this->getUrl('adminhtml/bundle_selection/grid');
     }
 
     /**
