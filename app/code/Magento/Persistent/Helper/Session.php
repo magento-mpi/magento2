@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Persistent\Helper;
 
 /**
  * Persistent Shopping Cart Data Helper
  */
-namespace Magento\Persistent\Helper;
-
 class Session extends \Magento\Core\Helper\Data
 {
     /**
@@ -73,7 +72,6 @@ class Session extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -89,7 +87,6 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -100,8 +97,16 @@ class Session extends \Magento\Core\Helper\Data
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
     }
 

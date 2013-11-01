@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Helper;
 
 /**
@@ -41,7 +40,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Convert\Xml $xmlConverter
      * @param \Magento\App\Dir $dirs
@@ -56,7 +54,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Filesystem $filesystem,
         \Magento\Convert\Xml $xmlConverter,
         \Magento\App\Dir $dirs,
@@ -65,8 +62,16 @@ class Data extends \Magento\Core\Helper\Data
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
         $this->_xmlConverter = $xmlConverter;
-        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
     }
 
@@ -159,26 +164,22 @@ class Data extends \Magento\Core\Helper\Data
     {
         //check LFI protection
         $this->_filesystem->checkLfiProtection($packageName);
-
         $path = $this->getLocalPackagesPath();
         $xmlFile = $path . $packageName . '.xml';
         $serFile = $path . $packageName . '.ser';
-
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
-            $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
+            $xml = simplexml_load_string($this->_filesystem->read($xmlFile));
             $data = $this->_xmlConverter->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }
         }
-
         if ($this->_filesystem->isFile($serFile) && $this->_filesystem->isReadable($xmlFile)) {
             $data = unserialize($this->_filesystem->read($serFile));
             if (!empty($data)) {
                 return $data;
             }
         }
-
         return false;
     }
 }

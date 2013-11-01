@@ -7,24 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftMessage\Helper;
 
 /**
  * Gift Message helper
- *
- * @category   Magento
- * @package    Magento_GiftMessage
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Helper;
-
 class Message extends \Magento\Core\Helper\Data
 {
     /**
-     * Giftmessages allow section in configuration
+     * Gift messages allow section in configuration
      *
      */
     const XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS = 'sales/gift_options/allow_items';
+
     const XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER = 'sales/gift_options/allow_order';
 
     /**
@@ -70,7 +65,6 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
@@ -86,20 +80,26 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
         \Magento\Escaper $escaper,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_escaper = $escaper;
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
     }
 
@@ -111,14 +111,13 @@ class Message extends \Magento\Core\Helper\Data
      * @param boolean $dontDisplayContainer
      * @return string
      */
-    public function getInline($type, \Magento\Object $entity, $dontDisplayContainer=false)
+    public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
     {
-        if (!in_array($type, array('onepage_checkout','multishipping_address'))
+        if (!in_array($type, array('onepage_checkout', 'multishipping_address'))
             && !$this->isMessagesAvailable($type, $entity)
         ) {
             return '';
         }
-
         return $this->_layoutFactory->create()->createBlock('Magento\GiftMessage\Block\Message\Inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
@@ -138,16 +137,14 @@ class Message extends \Magento\Core\Helper\Data
     {
         if ($type == 'items') {
             $items = $entity->getAllItems();
-            if(!is_array($items) || empty($items)) {
+            if (!is_array($items) || empty($items)) {
                 return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
-            if($entity instanceof \Magento\Sales\Model\Quote) {
+            if ($entity instanceof \Magento\Sales\Model\Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
-            }
-            else {
+            } else {
                 $_type = 'order_item';
             }
-
             foreach ($items as $item) {
                 if ($item->getParentItem()) {
                     continue;
@@ -168,7 +165,6 @@ class Message extends \Magento\Core\Helper\Data
             );
         } elseif ($type == 'address_item') {
             $storeId = is_numeric($store) ? $store : $this->_storeManager->getStore($store)->getId();
-
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
@@ -185,7 +181,6 @@ class Message extends \Magento\Core\Helper\Data
         } else {
             return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
         }
-
         return false;
     }
 
@@ -196,7 +191,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store|integer $store
      * @return boolean
      */
-    protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
+    protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store = null)
     {
         $result = $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
         if ($productGiftMessageAllow === '' || is_null($productGiftMessageAllow)) {
@@ -214,7 +209,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
-    public function getIsMessagesAvailable($type, \Magento\Object $entity, $store=null)
+    public function getIsMessagesAvailable($type, \Magento\Object $entity, $store = null)
     {
         return $this->isMessagesAvailable($type, $entity, $store);
     }
@@ -242,7 +237,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getGiftMessageForEntity(\Magento\Object $entity)
     {
-        if($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
+        if ($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
             $message = $this->getGiftMessage($entity->getGiftMessageId());
             $entity->setGiftMessage($message);
         }
@@ -259,10 +254,9 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getCached($key)
     {
-        if($this->isCached($key)) {
+        if ($this->isCached($key)) {
             return $this->_innerCache[$key];
         }
-
         return null;
     }
 
@@ -297,14 +291,13 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
-    public function getAvailableForQuoteItems($quote, $store=null)
+    public function getAvailableForQuoteItems($quote, $store = null)
     {
-        foreach($quote->getAllItems() as $item) {
-            if($this->isMessagesAvailable('item', $item, $store)) {
+        foreach ($quote->getAllItems() as $item) {
+            if ($this->isMessagesAvailable('item', $item, $store)) {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -315,10 +308,10 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
-    public function getAvailableForAddressItems($items, $store=null)
+    public function getAvailableForAddressItems($items, $store = null)
     {
-        foreach($items as $item) {
-            if($this->isMessagesAvailable('address_item', $item, $store)) {
+        foreach ($items as $item) {
+            if ($this->isMessagesAvailable('address_item', $item, $store)) {
                 return true;
             }
         }
@@ -331,14 +324,12 @@ class Message extends \Magento\Core\Helper\Data
      * @param integer $messageId
      * @return \Magento\GiftMessage\Model\Message
      */
-    public function getGiftMessage($messageId=null)
+    public function getGiftMessage($messageId = null)
     {
         $message = $this->_giftMessageFactory->create();
-        if(!is_null($messageId)) {
+        if (!is_null($messageId)) {
             $message->load($messageId);
         }
-
         return $message;
     }
-
 }
