@@ -82,18 +82,18 @@
             <word>Enterprise</word>
             <word>Invitation</word>
             <word>WebsiteRestriction</word>
-            <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
+            <path>dev/tests/functional-old/framework/Mage/Selenium/AbstractHelper.php</path>
         </item>
         <item>
             <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
             <word>Enterprise</word>
-            <path>dev/tests/functional/framework/Unit/testsuite/Mage/Selenium/Helper/ConfigTest.php</path>
+            <path>dev/tests/functional-old/framework/Unit/testsuite/Mage/Selenium/Helper/ConfigTest.php</path>
         </item>
         <item>
             <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
             <word>GiftRegistry</word>
             <word>Invitation</word>
-            <path>dev/tests/functional/testsuite/Core/Mage/Grid/Reports/GridTest.php</path>
+            <path>dev/tests/functional-old/testsuite/Core/Mage/Grid/Reports/GridTest.php</path>
         </item>
         <item>
             <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
@@ -103,7 +103,7 @@
             <word>Enterprise</word>
             <word>Invitation</word>
             <word>WebsiteRestriction</word>
-            <path>dev/tests/functional/framework/Mage/Selenium/TestCase.php</path>
+            <path>dev/tests/functional-old/framework/Mage/Selenium/TestCase.php</path>
         </item>
         <item>
             <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
@@ -111,7 +111,7 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <word>Enterprise</word>
-            <path>dev/tests/functional/config/config.yml.dist</path>
+            <path>dev/tests/functional-old/config/config.yml.dist</path>
         </item>
         <item>
             <!-- License replacement tool does not process *.bat files currently -->
@@ -119,7 +119,7 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <word>Enterprise</word>
-            <path>dev/tests/functional/runtests.bat</path>
+            <path>dev/tests/functional-old/runtests.bat</path>
         </item>
         <item>
             <!-- License replacement tool does not process *.sh files currently -->
@@ -127,7 +127,7 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <word>Enterprise</word>
-            <path>dev/tests/functional/runtests.sh</path>
+            <path>dev/tests/functional-old/runtests.sh</path>
         </item>
         <item>
             <word>Enterprise</word>
@@ -266,12 +266,12 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>Reward</word>
-            <path>dev/tests/functional/testsuite/Core/Mage/ImportExport/Customer/CustomActionsTest.php</path>
+            <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/CustomActionsTest.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>Reward</word>
-            <path>dev/tests/functional/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
+            <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
@@ -377,6 +377,11 @@
                 (class from JavaScript is collected due to regexp usage) -->
             <word>CustomerSegment</word>
             <path>dev/tests/static/testsuite/Magento/Test/Integrity/_files/blacklist/reference.txt</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
+            <word>Pbridge</word>
+            <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
         </item>
     </whitelist>
 </config>
