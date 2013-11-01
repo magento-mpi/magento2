@@ -36,7 +36,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider getValueDataProvider
      */
-
     public function testGetValue($path, $expectedValue)
     {
         $this->_storeConfig
