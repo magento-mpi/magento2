@@ -25,6 +25,9 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
         $this->factory = new FlyweightFactory($this->dataProviderMock);
     }
 
+    /**
+     * @covers \Magento\View\Design\Theme\FlyweightFactory::createById
+     */
     public function testCreateById()
     {
         $themeId = 5;
@@ -45,6 +48,9 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($theme, $this->factory->create($themeId));
     }
 
+    /**
+     * @covers \Magento\View\Design\Theme\FlyweightFactory::createByPath
+     */
     public function testCreateByPath()
     {
         $path = 'frontend/magento_fixed_width';
