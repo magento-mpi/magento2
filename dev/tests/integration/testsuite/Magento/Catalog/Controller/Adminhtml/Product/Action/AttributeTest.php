@@ -36,10 +36,10 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         /** @var \Magento\Backend\Model\Url $urlBuilder */
         $urlBuilder = $objectManager->get('Magento\UrlInterface');
 
-        /** @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $attributeHelper */
-        $attributeHelper = $objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
+        /** @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper */
+        $attributeHelper = $objectManager->get('Magento\Catalog\Helper\Product\Edit\Action\Attribute');
         $expectedUrl = $urlBuilder->getUrl(
-            'backend/catalog/product/index', array('store' => $attributeHelper->getSelectedStoreId()))
+            'catalog/product/index', array('store' => $attributeHelper->getSelectedStoreId()))
         ;
         $isRedirectPresent = false;
         foreach ($this->getResponse()->getHeaders() as $header) {
