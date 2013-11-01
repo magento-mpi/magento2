@@ -25,9 +25,25 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class MultishippingGuestPaypalDirect extends Checkout
 {
     /**
-     * Prepare data for guest multishipping checkout with Payments Pro Method
+     * Data for guest multishipping checkout with Payments Pro Method
      */
     protected function _initData()
+    {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => array(
+                    '$15.83', //simple
+                    '$16.92' //configurable
+                )
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
     {
         //Configuration
         $this->_persistConfiguration(array(
@@ -44,15 +60,16 @@ class MultishippingGuestPaypalDirect extends Checkout
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
         //Products
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple1->switchData('simple');
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple_required');
+        $simple->persist();
 
-        $simple1->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
         $configurable->persist();
 
         $this->products = array(
-            $simple1,
+            $simple,
             $configurable
         );
         //Checkout data
@@ -84,17 +101,8 @@ class MultishippingGuestPaypalDirect extends Checkout
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_direct');
         $this->bindings = array(
-            $simple1->getProductName() => $address1->getOneLineAddress(),
+            $simple->getProductName() => $address1->getOneLineAddress(),
             $configurable->getProductName() => $address2->getOneLineAddress()
-        );
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => array(
-                    '$15.83', //simple
-                    '$16.92' //configurable
-                )
-            )
         );
     }
 }

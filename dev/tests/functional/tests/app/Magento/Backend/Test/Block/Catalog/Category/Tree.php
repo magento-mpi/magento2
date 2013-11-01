@@ -13,9 +13,9 @@
 namespace Magento\Backend\Test\Block\Catalog\Category;
 
 use Mtf\Block\Block;
-use Mtf\Client\Driver\Selenium\Element\TreeElement;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Driver\Selenium\Element\TreeElement;
 
 /**
  * Class Tree
@@ -33,6 +33,26 @@ class Tree extends Block
     private $addSubcategory;
 
     /**
+     * Backend abstract block
+     *
+     * @var \Magento\Backend\Test\Block\Template
+     */
+    private $templateBlock;
+
+    /**
+     * Custom constructor
+     *
+     * @constructor
+     * @param TreeElement $element
+     * @param $templateBlock
+     */
+    public function __construct(TreeElement $element, $templateBlock)
+    {
+        parent::__construct($element);
+        $this->templateBlock = $templateBlock;
+    }
+
+    /**
      * Initialize block elements
      */
     protected function _init()
@@ -47,6 +67,7 @@ class Tree extends Block
     public function addSubcategory()
     {
         $this->_rootElement->find($this->addSubcategory, Locator::SELECTOR_ID)->click();
+        $this->templateBlock->waitLoader();
     }
 
     /**
@@ -56,13 +77,15 @@ class Tree extends Block
      */
     public function selectCategory($path)
     {
+        $this->expandAllCategories();
         $this->_rootElement->clickByPath($path);
+        $this->templateBlock->waitLoader();
     }
 
     /**
      * Expand all categories tree
      */
-    public function expandAllCategories()
+    protected function expandAllCategories()
     {
         $this->_rootElement->find('.tree-actions > a:nth-of-type(2)')->click();
     }

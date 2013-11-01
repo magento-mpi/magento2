@@ -49,7 +49,7 @@ class Bundle extends \Magento\Adminhtml\Block\Widget
 
     public function getTabUrl()
     {
-        return $this->getUrl('*/bundle_product_edit/form', array('_current' => true));
+        return $this->getUrl('adminhtml/bundle_product_edit/form', array('_current' => true));
     }
 
     public function getTabClass()

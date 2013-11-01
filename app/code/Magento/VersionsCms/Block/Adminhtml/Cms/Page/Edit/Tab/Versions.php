@@ -188,7 +188,7 @@ class Versions
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/versions', array('_current' => true));
+        return $this->getUrl('adminhtml/*/versions', array('_current' => true));
     }
 
     /**
@@ -255,7 +255,7 @@ class Versions
 
             $this->getMassactionBlock()->addItem('delete', array(
                 'label'    => __('Delete'),
-                'url'      => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
+                'url'      => $this->getUrl('adminhtml/*/massDeleteVersions', array('_current' => true)),
                 'confirm'  => __('Are you sure?'),
                 'selected' => true,
             ));
@@ -271,7 +271,7 @@ class Versions
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/cms_page_version/edit', array(
+        return $this->getUrl('adminhtml/cms_page_version/edit', array(
             'page_id' => $row->getPageId(),
             'version_id' => $row->getVersionId()
         ));

@@ -17,3 +17,4 @@ dev/tests/functional-old/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableS
 dev/tests/functional-old/testsuite/Enterprise/Mage/Tags/RewardPoints.php
 dev/tests/functional-old/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontendTest.php
 dev/tests/functional-old/testsuite/Core/Mage/Product/Create/ChangeAttributeSetTest.php
+dev/tests/functional

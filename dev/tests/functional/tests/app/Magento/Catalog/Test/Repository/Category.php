@@ -28,31 +28,11 @@ class Category extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => $defaultData
-        );
-
-        // men
-        $this->_data['men'] = $this->_data['default'];
-        $this->_data['men']['data']['fields']['name'] = array(
-            'value' => 'Men %isolation%',
-            'group' => static::GROUP_GENERAL_INFORMATION
-        );
-
-        // shoes
-        $this->_data['shoes'] = $this->_data['default'];
-        $this->_data['shoes']['data']['fields']['name'] = array(
-            'value' => 'Subcategory-men-shoes %isolation%',
-            'group' => static::GROUP_GENERAL_INFORMATION
-        );
-        $this->_data['shoes']['data']['fields']['path'] = array(
-            'input_value' => '%men::getCategoryId%'
-        );
-        $this->_data['shoes']['data']['category_path'] = array(
-            'value' => 'Default Category (0)/' . '%men::getCategoryName%' .' (0)'
         );
     }
 }

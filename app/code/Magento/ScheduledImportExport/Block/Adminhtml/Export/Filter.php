@@ -39,11 +39,11 @@ class Filter
     public function getGridUrl()
     {
         if ($this->hasOperation()) {
-            return $this->getUrl('*/scheduled_operation/getFilter', array(
+            return $this->getUrl('adminhtml/scheduled_operation/getFilter', array(
                 'entity' => $this->getOperation()->getEntity()
             ));
         } else {
-            return $this->getUrl('*/scheduled_operation/getFilter');
+            return $this->getUrl('adminhtml/scheduled_operation/getFilter');
         }
     }
 }

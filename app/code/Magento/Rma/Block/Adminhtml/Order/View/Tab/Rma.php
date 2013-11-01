@@ -108,7 +108,7 @@ class Rma
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/rma/rmaOrder', array('_current' => true));
+        return $this->getUrl('adminhtml/rma/rmaOrder', array('_current' => true));
     }
 
     /**

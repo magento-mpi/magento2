@@ -1,6 +1,11 @@
+* Cleavage of Adminhtml module
+  * Move Sales-related logic to Sales module
+  * Move Catalog-related logic to Catalog module
+  * Move Tax-related logic to Tax module
+  * Move: Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
 * View abstraction was moved into lib
-* Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
-* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
+* Templates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
+* Templates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
 * Eliminated dependency in Magento\Data\Form from Magento\Core module
 * Eliminated Magento\Media module
 * Fixed copyright information

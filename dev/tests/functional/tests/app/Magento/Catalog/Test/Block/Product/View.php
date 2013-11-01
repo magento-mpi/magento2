@@ -41,6 +41,20 @@ class View extends Block
     private $paypalCheckout;
 
     /**
+     * Product name element
+     *
+     * @var string
+     */
+    private $productName;
+
+    /**
+     * Product price element
+     *
+     * @var string
+     */
+    private $productPrice;
+
+    /**
      * Bundle options block
      *
      * @var Bundle
@@ -55,6 +69,8 @@ class View extends Block
         //Elements
         $this->addToCart = '#product-addtocart-button';
         $this->paypalCheckout = '[data-action=checkout-form-submit]';
+        $this->productName = '.page.title.product span';
+        $this->productPrice = '.price-box .price';
 
         //Blocks
         $this->bundleBlock = Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
@@ -104,11 +120,11 @@ class View extends Block
     /**
      * Get product name displayed on page
      *
-     * @return array|string
+     * @return string
      */
     public function getProductName()
     {
-        return $this->_rootElement->find('//*[@class="page title product"]//span', Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->productName, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -118,7 +134,7 @@ class View extends Block
      */
     protected function _getSimplePrice()
     {
-        return $this->_rootElement->find('.price-box .price')->getText();
+        return $this->_rootElement->find($this->productPrice)->getText();
     }
 
     /**

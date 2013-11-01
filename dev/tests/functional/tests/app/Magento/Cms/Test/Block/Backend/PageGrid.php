@@ -35,11 +35,4 @@ class PageGrid extends Grid
             ),
         );
     }
-
-    public function deleteAll(array $filter = array())
-    {
-        $this->searchAndOpen($filter);
-        $this->_rootElement->find('delete', Locator::SELECTOR_ID)->click();
-        $this->_rootElement->acceptAlert();
-    }
 }

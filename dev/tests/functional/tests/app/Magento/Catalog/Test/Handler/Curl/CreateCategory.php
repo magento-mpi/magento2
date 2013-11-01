@@ -83,7 +83,7 @@ class CreateCategory extends Curl
             $params .= $key . '/' . $value . '/';
         }
         $params .= 'parent/' . (int)$parentCategory . '/';
-        return $_ENV['app_backend_url'] . 'admin/catalog_category/save/' . $params;
+        return $_ENV['app_backend_url'] . 'catalog/category/save/' . $params;
     }
 
     /**

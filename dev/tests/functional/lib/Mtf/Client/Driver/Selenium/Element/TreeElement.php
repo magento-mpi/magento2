@@ -163,7 +163,8 @@ class TreeElement extends Element
             $nodeArray[] = array(
                 'name' => $text,
                 'element' => $currentNode,
-                'subnodes' => ( $nodesContents->isVisible())? $this->_getNodeContent($nodesContents, '.x-tree-node > .x-tree-node-ct') : null
+                'subnodes' => $nodesContents->isVisible() ?
+                        $this->_getNodeContent($nodesContents, '.x-tree-node > .x-tree-node-ct') : null
             );
         }
 

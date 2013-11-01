@@ -8,7 +8,7 @@
 ---
 # 'New Search Term' Page
 create_search_terms:
-    mca: catalog_search/new/
+    mca: catalog/search/new/
     title: New Search / Search Terms / SEO & Search / Marketing / Magento Admin
     uimap:
         form:

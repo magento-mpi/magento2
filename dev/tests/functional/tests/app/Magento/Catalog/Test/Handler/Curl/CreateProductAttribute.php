@@ -32,19 +32,23 @@ class CreateProductAttribute extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
-        $url = $_ENV['app_backend_url'] . 'admin/catalog_product_attribute/save/back/edit/active_tab/main';
+        $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/back/edit/active_tab/main';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fixture->getPostParams());
         $response = $curl->read();
         $curl->close();
 
         $id = null;
-        if (preg_match('!catalog_product_attribute/save/attribute_id/(\d+)/active_tab/main/!', $response, $matches)) {
+        if (preg_match('!catalog/product_attribute/save/attribute_id/(\d+)/active_tab/main/!', $response, $matches)) {
             $id = $matches[1];
         }
 
         $optionIds = array();
-        if (preg_match_all('!attributeOption\.add\({"checked":"","intype":"radio","id":"(\d+)"!', $response, $matches)) {
+        if (preg_match_all(
+            '!attributeOption\.add\({"checked":"","intype":"radio","id":"(\d+)"!',
+            $response,
+            $matches
+        )) {
             $optionIds = $matches[1];
         }
 

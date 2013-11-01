@@ -20,7 +20,7 @@ class Payment extends \Magento\Core\Block\Template
     protected $_giftCardAccountData = null;
 
     /**
-     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate = null;
 
@@ -28,14 +28,14 @@ class Payment extends \Magento\Core\Block\Template
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param array $data
      */
     public function __construct(
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -46,7 +46,7 @@ class Payment extends \Magento\Core\Block\Template
     /**
      * Retrieve order create model
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _getOrderCreateModel()
     {
