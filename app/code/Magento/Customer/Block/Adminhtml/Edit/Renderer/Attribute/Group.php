@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Renderer for customer group ID
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;

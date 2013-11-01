@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Customer account form block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)

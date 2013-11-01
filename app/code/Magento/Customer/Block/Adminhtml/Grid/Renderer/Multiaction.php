@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml customers wishlist grid item action renderer for few action controls in one cell
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Adminhtml\Grid\Renderer;
