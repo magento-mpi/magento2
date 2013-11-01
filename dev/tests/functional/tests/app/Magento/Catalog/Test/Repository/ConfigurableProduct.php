@@ -27,9 +27,9 @@ class ConfigurableProduct extends AbstractRepository
             'data' => $defaultData
         );
         
-        $this->_data['configurable_default_category'] = $this->_data['default'];
-        $this->_data['configurable_default_category']['data']['category_name'] = '%category%';
-        $this->_data['configurable_default_category']['data']['affect_configurable_product_attributes']
-            = 'Template %isolation%';
+        $this->_data['configurable_required'] = $this->_data['default'];
+        $this->_data['configurable'] = $this->_data['default'];
+        $this->_data['configurable']['data']['category_name'] = '%category::getCategoryName%';
+        $this->_data['configurable']['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
     }
 }

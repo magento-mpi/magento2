@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Block\PageMessages;
+use Magento\Core\Test\Block\Messages;
 use Magento\Backend\Test\Block\Catalog\Product;
 use Magento\Catalog\Test\Block\Backend\ProductGrid;
 
@@ -41,7 +41,7 @@ class AdminCatalogProductIndex extends Page
     /**
      * Global page messages block
      *
-     * @var PageMessages
+     * @var Messages
      */
     private $messageBlock;
 
@@ -60,11 +60,14 @@ class AdminCatalogProductIndex extends Page
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
 
         $this->backendProductGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductGrid(
-            $this->_browser->find('productGrid', Locator::SELECTOR_ID));
-        $this->messageBlock = Factory::getBlockFactory()->getMagentoCatalogPageMessages(
-            $this->_browser->find('messages', Locator::SELECTOR_ID));
+            $this->_browser->find('productGrid', Locator::SELECTOR_ID)
+        );
+        $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find('messages', Locator::SELECTOR_ID)
+        );
         $this->productBlock = Factory::getBlockFactory()->getMagentoBackendCatalogProduct(
-            $this->_browser->find('add_new_product', Locator::SELECTOR_ID));
+            $this->_browser->find('add_new_product', Locator::SELECTOR_ID)
+        );
     }
 
     /**
@@ -80,7 +83,7 @@ class AdminCatalogProductIndex extends Page
     /**
      * Get page messages block
      *
-     * @return PageMessages
+     * @return Messages
      */
     public function getMessageBlock()
     {

@@ -30,6 +30,7 @@ class PayflowProTest extends Functional
      */
     public function testPayflowProExpress()
     {
+        $this->markTestSkipped('MAGETWO-16653');
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutExpressPayPalPayflow();
         $fixture->persist();
 
@@ -51,6 +52,7 @@ class PayflowProTest extends Functional
 
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
+
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
@@ -78,7 +80,7 @@ class PayflowProTest extends Functional
         $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
 
         $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()
-            ->getOrderHistoryBlock()->getAuthorizedAmount();
+            ->getOrderHistoryBlock()->getCommentsHistory();
         $this->assertContains(
             $expectedAuthorizedAmount,
             $actualAuthorizedAmount,

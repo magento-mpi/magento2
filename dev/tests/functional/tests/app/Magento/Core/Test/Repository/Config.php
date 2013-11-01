@@ -28,21 +28,24 @@ class Config extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
-
+        //Tax
         $this->_data['default_tax_config'] = $this->_getDefaultTax();
         $this->_data['us_tax_config'] = $this->_getUsTax();
         $this->_data['display_price'] = $this->_getPriceDisplay();
         $this->_data['display_shopping_cart'] = $this->_getShoppingCartDisplay();
+        //Payment methods
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
-        $this->_data['flat_rate'] = $this->_getFlatRate();
-        $this->_data['flat_rate_2'] = $this->_getFlatRate2();
-        $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
+        //Shipping methods
+        $this->_data['flat_rate'] = $this->_getFlatRate();
+        $this->_data['free_shipping'] = $this->_getFreeShipping();
+        //Catalog
+        $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
     }
 
     protected function _getFreeShipping()
@@ -112,13 +115,6 @@ class Config extends AbstractRepository
                 )
             )
         );
-    }
-
-    protected function _getFlatRate2()
-    {
-        $data = $this->_getFlatRate();
-        $data['data']['sections']['carriers']['groups']['flatrate']['price']['value'] = 15;
-        return $data;
     }
 
     protected function _getAuthorizeNet()
@@ -397,9 +393,6 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array( // Payflow Pro and Express Checkout
                                                         'fields' => array(
-                                                            'using_pbridge' => array( // Use via Payment Bridge
-                                                                'value' => 0
-                                                            ),
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),
@@ -614,9 +607,6 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array(
                                                         'fields' => array(
-                                                            'using_pbridge' => array(
-                                                                'value' => 0
-                                                            ),
                                                             'business_account' => array(
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),
@@ -691,6 +681,35 @@ class Config extends AbstractRepository
                                 'fields' => array(
                                     'active' => array( //Enabled
                                         'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Enable Mysql search
+     *
+     * @return array
+     */
+    protected function _getMysqlSearchEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'search' => array(
+                                'fields' => array(
+                                    'engine' => array(
+                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine' //MySql Fulltext
                                     )
                                 )
                             )

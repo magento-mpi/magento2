@@ -41,12 +41,22 @@ class Messages extends Block
     /**
      * Check for success message
      *
-     * @param DataFixture $fixture
-     *
      * @return bool
      */
-    public function waitForSuccessMessage(DataFixture $fixture)
+    public function waitForSuccessMessage()
     {
         $this->waitForElementVisible($this->successMessage);
+    }
+
+    /**
+     * Get all success messages which are present on the page
+     *
+     * @return string
+     */
+    public function getSuccessMessages()
+    {
+        return $this->_rootElement
+            ->find($this->successMessage)
+            ->getText();
     }
 }
