@@ -51,7 +51,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         // 4. Get urlConfig model
         $urlConfig = $this->getMockBuilder('Magento\View\Url\ConfigInterface')->getMockForAbstractClass();
         $urlConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue($isSigned));
 
         // 5. Get viewService model

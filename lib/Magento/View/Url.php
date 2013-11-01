@@ -169,7 +169,7 @@ class Url
      */
     protected function _isStaticFilesSigned()
     {
-        return (bool)$this->_config->getConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
+        return (bool)$this->_config->getValue(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
 
     /**

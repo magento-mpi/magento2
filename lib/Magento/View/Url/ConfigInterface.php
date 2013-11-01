@@ -19,5 +19,5 @@ interface ConfigInterface
      * @param string $path
      * @return mixed
      */
-    public function getConfig($path);
+    public function getValue($path);
 }

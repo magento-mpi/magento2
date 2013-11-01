@@ -33,7 +33,7 @@ class Config implements \Magento\View\Url\ConfigInterface
      * @param string $path
      * @return mixed
      */
-    public function getConfig($path)
+    public function getValue($path)
     {
         return $this->_storeConfig->getConfig($path);
     }
