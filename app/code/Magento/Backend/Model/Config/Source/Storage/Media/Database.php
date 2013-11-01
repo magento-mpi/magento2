@@ -16,12 +16,12 @@ namespace Magento\Backend\Model\Config\Source\Storage\Media;
 class Database implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\Config\Local
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @param \Magento\Core\Model\Config\Local
+     * @param \Magento\Core\Model\Config\Local $config
      */
     public function __construct(\Magento\Core\Model\Config\Local $config)
     {
