@@ -39,19 +39,19 @@
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tests/functional/config/config.yml.dist</path>
+            <path>dev/tests/functional-old/config/config.yml.dist</path>
         </item>
         <item>
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tests/functional/runtests.bat</path>
+            <path>dev/tests/functional-old/runtests.bat</path>
         </item>
         <item>
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tests/functional/runtests.sh</path>
+            <path>dev/tests/functional-old/runtests.sh</path>
         </item>
         <item>
             <word>{copyright}</word>
