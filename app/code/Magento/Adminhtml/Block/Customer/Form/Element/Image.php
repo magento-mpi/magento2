@@ -84,7 +84,7 @@ class Image extends \Magento\Adminhtml\Block\Customer\Form\Element\File
             return false;
         }
         return $this->_adminhtmlData->getUrl('adminhtml/customer/viewfile', array(
-            'image'      => $this->_coreData->urlEncode($this->getValue()),
+            'image'      => $this->_escaper->urlEncode($this->getValue()),
         ));
     }
 }

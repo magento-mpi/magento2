@@ -37,7 +37,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_errors = array();
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -54,7 +54,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     /**
      * Class constructor
      *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Context $context
@@ -68,7 +68,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Context $context,

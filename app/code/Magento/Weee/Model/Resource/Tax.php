@@ -8,21 +8,32 @@
  * @license     {license_link}
  */
 
+namespace Magento\Weee\Model\Resource;
 
 /**
  * Wee tax resource model
- *
- * @category    Magento
- * @package     Magento_Weee
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Weee\Model\Resource;
-
 class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Stdlib\DateTime $dateTime
+    ) {
+        $this->dateTime = $dateTime;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource initialization
-     *
      */
     protected function _construct()
     {
@@ -80,7 +91,7 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _updateDiscountPercents($productCondition = null)
     {
-        $now     = \Magento\Date::toTimestamp(\Magento\Date::now());
+        $now     = $this->dateTime->toTimestamp($this->dateTime->now());
         $adapter = $this->_getWriteAdapter();
 
         $select  = $this->_getReadAdapter()->select();

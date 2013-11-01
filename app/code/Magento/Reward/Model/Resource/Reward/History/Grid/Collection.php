@@ -19,22 +19,24 @@ class Collection
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Helper\Data $helper
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Locale $locale,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Helper\Data $helper,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
@@ -45,6 +47,7 @@ class Collection
             $entityFactory,
             $locale,
             $customerFactory,
+            $dateTime,
             $resource
         );
     }

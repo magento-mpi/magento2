@@ -102,8 +102,8 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
         $fromValue = null;
         $toValue   = null;
         if (is_array($value) && count($value) == 2) {
-            $fromValue = $this->_helper->escapeHtml(reset($value));
-            $toValue   = $this->_helper->escapeHtml(next($value));
+            $fromValue = $this->escapeHtml(reset($value));
+            $toValue   = $this->escapeHtml(next($value));
         }
 
         return '<strong>' . __('From') . ':</strong>&nbsp;'
@@ -124,7 +124,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
         $html = '<input type="text" name="' . $this->getFilterElementName($attribute->getAttributeCode())
              . '" class="input-text input-text-export-filter"';
         if ($value) {
-            $html .= ' value="' . $this->_helper->escapeHtml($value) . '"';
+            $html .= ' value="' . $this->escapeHtml($value) . '"';
         }
         return $html . ' />';
     }
@@ -182,8 +182,8 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
         $toValue = null;
         $name = $this->getFilterElementName($attribute->getAttributeCode());
         if (is_array($value) && count($value) == 2) {
-            $fromValue = $this->_helper->escapeHtml(reset($value));
-            $toValue   = $this->_helper->escapeHtml(next($value));
+            $fromValue = $this->escapeHtml(reset($value));
+            $toValue   = $this->escapeHtml(next($value));
         }
 
         return '<strong>' . __('From') . ':</strong>&nbsp;'

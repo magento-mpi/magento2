@@ -334,7 +334,7 @@
             for (var i=0, l = parent.childNodes.length; i < l; i++) {
                 var comparedNode = parent.childNodes[i];
                 if (comparedNode.id != currentId && comparedNode.attributes.identifier == currentUrlKey) {
-                    alert('<?php echo $this->jsQuoteEscape(__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.'))?>');
+                    alert('<?php echo $this->escapeJsQuote(__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.'))?>');
                     return false;
                 }
             }
@@ -553,7 +553,7 @@
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
                     var comparedNode = node.parentNode.childNodes[i];
                     if (comparedNode.id != node_id && identifier == comparedNode.attributes.identifier) {
-                        alert('<?php echo $this->jsQuoteEscape(__('This URL key is already in use.'))?>');
+                        alert('<?php echo $this->escapeJsQuote(__('This URL key is already in use.'))?>');
                         return false;
                     }
                 }

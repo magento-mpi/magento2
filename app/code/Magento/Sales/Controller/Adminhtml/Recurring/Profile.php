@@ -64,7 +64,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('sales/*/');
     }
@@ -80,7 +80,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('sales/*/');
     }
@@ -94,7 +94,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_initProfile();
             $this->loadLayout()->renderLayout();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->norouteAction();
         }
     }
@@ -124,7 +124,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('sales/*/view', array('profile' => $profile->getId()));
@@ -152,7 +152,7 @@ class Profile extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('sales/*/view', array('profile' => $profile->getId()));
