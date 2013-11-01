@@ -298,7 +298,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
             $content = $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
+                ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -319,7 +319,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
             $content = $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
+                ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -406,7 +406,7 @@ class Quote extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
         $chooserBlock = $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser', '', array('data' => array('id' => $uniqId)));
+            ->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser', '', array('data' => array('id' => $uniqId)));
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }
 

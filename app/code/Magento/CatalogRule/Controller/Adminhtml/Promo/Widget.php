@@ -43,7 +43,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
         switch ($request->getParam('attribute')) {
             case 'sku':
                 $block = $this->getLayout()->createBlock(
-                    'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
+                    'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
                     array('data' => array('js_form_object' => $request->getParam('form')),
                 ));
                 break;

@@ -92,7 +92,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This rule no longer exists.')
                 );
-                $this->_redirect('catalog/*');
+                $this->_redirect('catalog_rule/*');
                 return;
             }
         }
@@ -109,7 +109,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_coreRegistry->register('current_promo_catalog_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_catalog_edit')
-             ->setData('action', $this->getUrl('catalog/promo_catalog/save'));
+             ->setData('action', $this->getUrl('catalog_rule/promo_catalog/save'));
 
         $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
         $this->_addBreadcrumb($breadcrumb, $breadcrumb)->renderLayout();
@@ -140,7 +140,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                         $this->_getSession()->addError($errorMessage);
                     }
                     $this->_getSession()->setPageData($data);
-                    $this->_redirect('catalog/*/edit', array('id'=>$model->getId()));
+                    $this->_redirect('catalog_rule/*/edit', array('id'=>$model->getId()));
                     return;
                 }
 
@@ -165,10 +165,10 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                         ->setState(1)
                         ->save();
                     if ($this->getRequest()->getParam('back')) {
-                        $this->_redirect('catalog/*/edit', array('id' => $model->getId()));
+                        $this->_redirect('catalog_rule/*/edit', array('id' => $model->getId()));
                         return;
                     }
-                    $this->_redirect('catalog/*/');
+                    $this->_redirect('catalog_rule/*/');
                 }
                 return;
             } catch (\Magento\Core\Exception $e) {
@@ -179,11 +179,11 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                 );
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
-                $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
         }
-        $this->_redirect('catalog/*/');
+        $this->_redirect('catalog_rule/*/');
     }
 
     public function deleteAction()
@@ -200,7 +200,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The rule has been deleted.')
                 );
-                $this->_redirect('catalog/*/');
+                $this->_redirect('catalog_rule/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -209,14 +209,14 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                     __('An error occurred while deleting the rule. Please review the log and try again.')
                 );
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('Unable to find a rule to delete.')
         );
-        $this->_redirect('catalog/*/');
+        $this->_redirect('catalog_rule/*/');
     }
 
     public function newConditionHtmlAction()
@@ -246,7 +246,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
     public function chooserAction()
     {
         if ($this->getRequest()->getParam('attribute') == 'sku') {
-            $type = 'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku';
+            $type = 'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku';
         }
         if (!empty($type)) {
             $block = $this->getLayout()->createBlock($type);
@@ -302,7 +302,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_getSession()->addError($errorMessage);
         }
-        $this->_redirect('catalog/*');
+        $this->_redirect('catalog_rule/*');
     }
 
     protected function _isAllowed()

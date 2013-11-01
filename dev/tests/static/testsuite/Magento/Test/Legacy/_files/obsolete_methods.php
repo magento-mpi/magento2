@@ -494,7 +494,7 @@ return array(
     array('getStateModelClass', 'Magento\Centinel\Model\Config'),
     array('getStatrupPageUrl'),
     array('getStore', 'Magento\Captcha\Helper\Data'),
-    array('getStore', 'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku'),
+    array('getStore', 'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku'),
     array('getStoreButtonsHtml', 'Magento\Backend\Block\System\Config\Tabs'),
     array('getStoreCodeFromPath', 'Magento\App\Request\Http'),
     array('getStoreCurrency', 'Magento\Sales\Model\Order'),
