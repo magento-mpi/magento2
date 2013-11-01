@@ -86,8 +86,13 @@ class Customer extends AbstractRepository
                     'website_id' => array(
                         'value' => 'Main Website',
                         'group' => 'customer_info_tabs_account',
-                        'input' => 'select'
-                    )
+                        'input_value' => '1'
+                    ),
+                    'group_id' => array(
+                        'value' => 'General',
+                        'group' => 'customer_info_tabs_account',
+                        'input_value' => '1'
+                    ),
                 )
             )
         );
