@@ -10,7 +10,7 @@ namespace Magento\View\Design\Theme;
 class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design\Theme\DataProviderInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design\Theme\ThemeProviderInterface
      */
     protected $dataProviderMock;
 
@@ -21,7 +21,7 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dataProviderMock = $this->getMock('Magento\View\Design\Theme\DataProviderInterface');
+        $this->dataProviderMock = $this->getMock('Magento\View\Design\Theme\ThemeProviderInterface');
         $this->factory = new FlyweightFactory($this->dataProviderMock);
     }
 

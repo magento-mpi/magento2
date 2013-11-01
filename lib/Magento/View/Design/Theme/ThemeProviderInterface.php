@@ -7,7 +7,7 @@
  */
 namespace Magento\View\Design\Theme;
 
-interface DataProviderInterface
+interface ThemeProviderInterface
 {
     /**
      * @param string $fullPath

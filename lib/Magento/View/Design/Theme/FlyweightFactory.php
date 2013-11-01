@@ -16,7 +16,7 @@ namespace Magento\View\Design\Theme;
 class FlyweightFactory
 {
     /**
-     * @var DataProviderInterface
+     * @var ThemeProviderInterface
      */
     protected $dataProvider;
 
@@ -31,10 +31,10 @@ class FlyweightFactory
     protected $themesByPath = array();
 
     /**
-     * @param DataProviderInterface $dataProvider
+     * @param ThemeProviderInterface $dataProvider
      */
     public function __construct(
-        DataProviderInterface $dataProvider
+        ThemeProviderInterface $dataProvider
     ) {
         $this->dataProvider = $dataProvider;
     }
