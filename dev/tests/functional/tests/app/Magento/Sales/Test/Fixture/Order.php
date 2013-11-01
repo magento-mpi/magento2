@@ -89,10 +89,14 @@ class Order extends DataFixture
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
 
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+
         $simple->persist();
+        $configurable->persist();
 
         $this->products = array(
-            $simple
+            $simple,
+            $configurable
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -106,7 +110,7 @@ class Order extends DataFixture
 
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$15.83'
+                'grand_total' => '$32.73'
             ),
             'store_view' => 'Default Store View',
             'website_id' => '0'

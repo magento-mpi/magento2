@@ -68,6 +68,11 @@ class ProductsAddGrid extends Grid
         $this->search(array(
             'sku' => $product->getProductSku()
         ));
+        $this->_rootElement->find('.action-configure')->click();
+        $this->_templateBlock->waitLoader();
+        if ($this->_configureProductBlock->isVisible()) {
+            $this->_configureProductBlock->fillOptions($product->getProductOptions());
+        }
         $this->_rootElement
             ->find($this->rowItem)
             ->find('td.col-in_products input', Locator::SELECTOR_CSS, 'checkbox')
