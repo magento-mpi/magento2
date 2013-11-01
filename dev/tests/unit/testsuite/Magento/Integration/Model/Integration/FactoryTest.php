@@ -35,7 +35,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->will($this->returnValue($data));
         $mockObjectManager->expects($this->any())->method('create')->will($this->returnValue($mockIntegration));
-        /* @var Magento\Integration\Model\Integration\Factory */
+        /* @var \Magento\Integration\Model\Integration\Factory */
         $integrationFactory = new \Magento\Integration\Model\Integration\Factory($mockObjectManager);
         $integration = $integrationFactory->create($data);
         $this->assertEquals($data, $integration->getData(), 'The integration data is not set correctly');
