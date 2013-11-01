@@ -13,7 +13,7 @@ namespace Magento\Bundle\Block\Adminhtml\Sales\Order\Items;
 /**
  * Adminhtml sales order item renderer
  */
-class Renderer extends \Magento\Adminhtml\Block\Sales\Items\Renderer\DefaultRenderer
+class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer
 {
     /**
      * Filter manager

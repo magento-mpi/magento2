@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Customer;
 
-class Reward extends \Magento\Adminhtml\Controller\Action
+class Reward extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Check if module functionality enabled
@@ -71,7 +71,7 @@ class Reward extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/customer/edit', array('_current' => true));
+        $this->_redirect('adminhtml/customer/edit', array('_current' => true));
     }
 
     /**

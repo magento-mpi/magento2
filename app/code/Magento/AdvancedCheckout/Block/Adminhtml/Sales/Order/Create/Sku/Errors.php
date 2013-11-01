@@ -61,7 +61,7 @@ class Errors
      */
     public function getConfigureUrl()
     {
-        return $this->getUrl('*/sales_order_create/configureProductToAdd');
+        return $this->getUrl('sales/order_create/configureProductToAdd');
     }
 
     /**

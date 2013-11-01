@@ -26,7 +26,7 @@ class Rviewed
     protected $_listType = 'rviewed';
 
     /**
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var \Magento\Sales\Helper\Admin
      */
     protected $_adminhtmlSales;
 
@@ -53,7 +53,7 @@ class Rviewed
     /**
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -67,7 +67,7 @@ class Rviewed
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -144,7 +144,7 @@ class Rviewed
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/viewRecentlyViewed', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/viewRecentlyViewed', array('_current'=>true));
     }
 
 }

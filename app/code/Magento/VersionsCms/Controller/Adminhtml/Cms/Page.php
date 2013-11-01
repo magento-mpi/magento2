@@ -192,7 +192,7 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
                 $this->_getSession()->addError(__('Something went wrong while deleting these versions.'));
             }
         }
-        $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));
+        $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'versions'));
 
         return $this;
     }

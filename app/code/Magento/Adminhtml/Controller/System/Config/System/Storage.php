@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\System\Config\System;
 
-class Storage extends \Magento\Adminhtml\Controller\Action
+class Storage extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Return file storage singleton

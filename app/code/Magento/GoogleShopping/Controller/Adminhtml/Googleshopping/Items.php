@@ -18,7 +18,7 @@
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Items extends \Magento\Adminhtml\Controller\Action
+class Items extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Initialize general settings for action
@@ -42,7 +42,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
-            $this->_redirect('*/*/', array(
+            $this->_redirect('adminhtml/*/', array(
                 'store' => $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
                     ->getAnyStoreView()->getId(),
                 '_current' => true)
@@ -257,7 +257,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError(__('Something went wrong during Captcha confirmation.'));
         }
 
-        $this->_redirect('*/*/index', array('store'=>$storeId));
+        $this->_redirect('adminhtml/*/index', array('store'=>$storeId));
     }
 
     /**

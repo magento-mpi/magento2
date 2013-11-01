@@ -136,7 +136,7 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     protected function _preparePrices($basePrice, $price)
     {
-        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices($this->getOrder(), $basePrice, $price);
+        return $this->helper('Magento\Sales\Helper\Admin')->displayPrices($this->getOrder(), $basePrice, $price);
     }
 
     /**

@@ -123,7 +123,7 @@ abstract class Form
 
         $form->setMethod('post');
         $form->setUseContainer(true);
-        $form->setAction($this->getUrl('*/*/save'));
+        $form->setAction($this->getUrl('adminhtml/*/save'));
 
         $this->setForm($form);
         if (is_array($operation->getStartTime())) {

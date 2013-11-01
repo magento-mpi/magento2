@@ -86,7 +86,7 @@ class Layout
      */
     public function getCategoriesChooserUrl()
     {
-        return $this->getUrl('*/*/categories', array('_current' => true));
+        return $this->getUrl('adminhtml/*/categories', array('_current' => true));
     }
 
     /**
@@ -96,7 +96,7 @@ class Layout
      */
     public function getProductsChooserUrl()
     {
-        return $this->getUrl('*/*/products', array('_current' => true));
+        return $this->getUrl('adminhtml/*/products', array('_current' => true));
     }
 
     /**
@@ -106,7 +106,7 @@ class Layout
      */
     public function getBlockChooserUrl()
     {
-        return $this->getUrl('*/*/blocks', array('_current' => true));
+        return $this->getUrl('adminhtml/*/blocks', array('_current' => true));
     }
 
     /**
@@ -116,7 +116,7 @@ class Layout
      */
     public function getTemplateChooserUrl()
     {
-        return $this->getUrl('*/*/template', array('_current' => true));
+        return $this->getUrl('adminhtml/*/template', array('_current' => true));
     }
 
     /**

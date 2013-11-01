@@ -13,7 +13,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
-class Theme extends \Magento\Adminhtml\Controller\Action
+class Theme extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -90,11 +90,11 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We cannot find the theme.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -150,7 +150,9 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError('The theme was not saved');
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $redirectBack ? $this->_redirect('*/*/edit', array('id' => $theme->getId())) : $this->_redirect('*/*/');
+        $redirectBack
+            ? $this->_redirect('adminhtml/*/edit', array('id' => $theme->getId()))
+            : $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -184,7 +186,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         /**
          * @todo Temporary solution. Theme module should not know about the existence of editor module.
          */
-        $redirectBack ? $this->_redirect('*/system_design_editor/index/') : $this->_redirect('*/*/');
+        $redirectBack ? $this->_redirect('adminhtml/system_design_editor/index/') : $this->_redirect('adminhtml/*/');
     }
 
     /**

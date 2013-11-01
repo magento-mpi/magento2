@@ -130,6 +130,6 @@ class Customerbalance
      */
     public function getTabUrl()
     {
-        return $this->getUrl('*/customerbalance/form', array('_current' => true));
+        return $this->getUrl('adminhtml/customerbalance/form', array('_current' => true));
     }
 }

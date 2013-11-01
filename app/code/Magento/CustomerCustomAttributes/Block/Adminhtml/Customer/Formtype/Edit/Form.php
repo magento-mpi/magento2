@@ -68,10 +68,10 @@ class Form
     {
         $editMode = $this->_coreRegistry->registry('edit_mode');
         if ($editMode == 'edit') {
-            $saveUrl = $this->getUrl('*/*/save');
+            $saveUrl = $this->getUrl('adminhtml/*/save');
             $showNew = false;
         } else {
-            $saveUrl = $this->getUrl('*/*/create');
+            $saveUrl = $this->getUrl('adminhtml/*/create');
             $showNew = true;
         }
         /** @var \Magento\Data\Form $form */

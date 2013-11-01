@@ -13,7 +13,7 @@ namespace Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items;
 /**
  * Adminhtml sales order item renderer
  */
-class Renderer extends \Magento\Adminhtml\Block\Sales\Order\View\Items\Renderer\DefaultRenderer
+class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer
 {
     /**
      * Core string
