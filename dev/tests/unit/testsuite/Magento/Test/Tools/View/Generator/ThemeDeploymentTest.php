@@ -48,7 +48,12 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
         $this->setExpectedException('Magento\Exception', $exceptionMessage);
-        new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted, $forbidden);
+        new \Magento\Tools\View\Generator\ThemeDeployment(
+            $this->_cssUrlResolver,
+            $this->_tmpDir,
+            $permitted,
+            $forbidden
+        );
     }
 
     public static function constructorExceptionDataProvider()

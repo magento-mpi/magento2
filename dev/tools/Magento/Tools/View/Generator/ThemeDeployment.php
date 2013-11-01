@@ -211,7 +211,13 @@ class ThemeDeployment
 
             // Replace relative urls and write the modified content (if not dry run)
             $content = file_get_contents($fileSource);
-            $content = $this->_cssUrlResolver->replaceCssRelativeUrls($content, $fileSource, $fileDestination, $callback);
+            $content = $this->_cssUrlResolver->replaceCssRelativeUrls(
+                $content,
+                $fileSource,
+                $fileDestination,
+                $callback
+            );
+
             if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);
             }
