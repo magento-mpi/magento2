@@ -7,16 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Helper;
 
 /**
  * ImportExport data helper
- *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Helper;
-
 class Data extends \Magento\ImportExport\Helper\Data
 {
     /**
@@ -42,7 +37,6 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\File\Size $fileSize
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -57,7 +51,6 @@ class Data extends \Magento\ImportExport\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\File\Size $fileSize,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Reward\Helper\Data $rewardData,
@@ -66,8 +59,17 @@ class Data extends \Magento\ImportExport\Helper\Data
     {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $fileSize, $dbCompatibleMode
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $fileSize,
+            $dbCompatibleMode
         );
     }
 

@@ -33,7 +33,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory
      * @param bool $dbCompatibleMode
      */
@@ -46,14 +45,20 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_symbolFactory = $symbolFactory;
-        parent::__construct($context, $eventManager, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
     }
 

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Helper\Dashboard;
 
 /**
  * Adminhtml dashboard helper for orders
  */
-namespace Magento\Backend\Helper\Dashboard;
-
 class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
 {
     /**
@@ -45,7 +44,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         $dbCompatibleMode = true
     ) {
         $this->_orderCollection = $orderCollection;
-
         parent::__construct(
             $context,
             $eventManager,
