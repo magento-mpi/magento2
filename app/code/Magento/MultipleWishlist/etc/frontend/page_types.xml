@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<page_types>
+    <type id="wishlist_search_index" label="Wishlist Search Form"/>
+    <type id="wishlist_search_results" label="Wishlist Search Results"/>
+    <type id="wishlist_search_view" label="Wishlist View (From Search)"/>
+</page_types>

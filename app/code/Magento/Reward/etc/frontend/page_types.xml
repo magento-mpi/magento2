@@ -8,5 +8,5 @@
 */
 -->
 <page_types>
-    <type id="magento_customerbalance_info_index" label="Customer My Account Store Credit"/>
+    <type id="magento_reward_customer_info" label="Customer Reward Info"/>
 </page_types>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<page_types>
+    <type id="review_customer_index" label="Customer My Account Product Reviews"/>
+    <type id="review_customer_view" label="Customer My Account Review Details"/>
+    <type id="review_product_list" label="Catalog Product Reviews List"/>
+    <type id="review_product_view" label="Catalog Product Review View"/>
+</page_types>

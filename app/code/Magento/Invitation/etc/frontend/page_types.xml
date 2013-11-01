@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<page_types>
+    <type id="magento_invitation_customer_account_create" label="Customer Account Registration by Invitation Form"/>
+    <type id="magento_invitation_index_index" label="Customer My Account Invitations List"/>
+    <type id="magento_invitation_index_send" label="Customer My Account Invitations Form"/>
+</page_types>

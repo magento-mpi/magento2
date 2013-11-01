@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<page_types>
+    <type id="paypal_express_review" label="PayPal Express Order Review Form"/>
+    <type id="paypal_hostedpro_cancel" label="Paypal Hosted Pro Frame"/>
+    <type id="paypal_payflow_cancelpayment" label="Paypal Payflow Cancel Payment"/>
+    <type id="paypal_payflow_form" label="Paypal Payflow Form"/>
+    <type id="paypal_payflow_returnurl" label="Paypal Payflow Return URL"/>
+    <type id="paypal_payflowadvanced_cancelpayment" label="Paypal Payflow Advanced Cancel Payment"/>
+    <type id="paypal_payflowadvanced_form" label="Paypal Payflow Advanced Form"/>
+    <type id="paypal_payflowadvanced_returnurl" label="Paypal Payflow Advanced Return URL"/>
+</page_types>

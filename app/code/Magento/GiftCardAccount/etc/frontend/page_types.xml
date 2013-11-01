@@ -9,5 +9,5 @@
 -->
 <page_types>
     <type id="magento_giftcardaccound_cart_check" label="Gift Card Balance Check Form"/>
-    <type id="magento_giftcardaccound_customer_index" label="Customer My Account Gift Card Check Form"/>
+    <type id="magento_giftcardaccound_customer_index" label="Customer My Account Downloadable Items"/>
 </page_types>
