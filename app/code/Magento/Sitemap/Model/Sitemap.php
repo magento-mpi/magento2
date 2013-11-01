@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sitemap\Model;
+
 /**
  * Sitemap model
  *
@@ -23,13 +25,7 @@
  * @method \Magento\Sitemap\Model\Sitemap setSitemapTime(string $value)
  * @method int getStoreId()
  * @method \Magento\Sitemap\Model\Sitemap setStoreId(int $value)
- *
- * @category    Magento
- * @package     Magento_Sitemap
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model;
-
 class Sitemap extends \Magento\Core\Model\AbstractModel
 {
     const OPEN_TAG_KEY = 'start';
@@ -107,11 +103,9 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $_sitemapData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData;
+    protected $_escaper;
 
     /**
      * @var \Magento\Sitemap\Model\Resource\Catalog\CategoryFactory
@@ -149,7 +143,12 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $_request;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Filesystem $filesystem
@@ -161,12 +160,13 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\Dir $dirModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Core\Model\Context $context,
         \Magento\Filesystem $filesystem,
@@ -178,11 +178,12 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         \Magento\App\Dir $dirModel,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
         $this->_categoryFactory = $categoryFactory;
@@ -192,6 +193,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         $this->_dirModel = $dirModel;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -285,7 +287,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
          */
         if (!$file->fileExists($realPath, false)) {
             throw new \Magento\Core\Exception(__('Please create the specified folder "%1" before saving the sitemap.',
-                $this->_coreData->escapeHtml($this->getSitemapPath())));
+                $this->_escaper->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
@@ -384,8 +386,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _getCurrentDateTime()
     {
-        $date = new \Magento\Date();
-        return $date->now();
+        return $this->dateTime->now();
     }
 
     /**
@@ -484,7 +485,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      *
      * @param string $fileName
      * @param string $type
-     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _createSitemap($fileName = null, $type = self::TYPE_URL)
     {

@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Template Filter Model
- *
- * @category    Magento
- * @package     Magento_Widget
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Widget\Model\Template;
 
+/**
+ * Template Filter Model
+ */
 class Filter extends \Magento\Cms\Model\Template\Filter
 {
     /**
@@ -30,8 +26,9 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_widget;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Logger $logger
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
@@ -42,8 +39,9 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Widget\Model\Widget $widget
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Stdlib\String $string,
+        \Magento\Logger $logger,
+        \Magento\Escaper $escaper,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
@@ -56,8 +54,15 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
         parent::__construct(
-            $logger, $coreData, $viewUrl, $coreStoreConfig, $coreVariableFactory, $storeManager, 
-            $layout, $layoutFactory
+            $string,
+            $logger,
+            $escaper,
+            $viewUrl,
+            $coreStoreConfig,
+            $coreVariableFactory,
+            $storeManager,
+            $layout,
+            $layoutFactory
         );
     }
 
@@ -87,13 +92,13 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         } else {
             return '';
         }
-        
-        // we have no other way to avoid fatal errors for type like 'cms/widget__link', '_cms/widget_link' etc. 
+
+        // we have no other way to avoid fatal errors for type like 'cms/widget__link', '_cms/widget_link' etc.
         $xml = $this->_widget->getWidgetByClassType($type);
         if ($xml === null) {
             return '';
         }
-        
+
         // define widget block and check the type is instance of Widget Interface
         $widget = $this->_layout->createBlock($type, $name, array('data' => $params));
         if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {

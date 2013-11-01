@@ -9,7 +9,7 @@
  */
 
 /**
- * @var \Magento\Banner\Model\Resource\Setup $install
+ * @var $install \Magento\Banner\Model\Resource\Setup
  */
 $install = $this;
 
@@ -60,7 +60,7 @@ foreach ($banners as $sortOrder => $bannerData) {
             'types'        => array(''),
             'rotate'       => '',
             'banner_ids'   => $banner->getId(),
-            'unique_id'    => $install->getCoreData()->uniqHash()
+            'unique_id'    => $install->getUniqueHash()
         ))
         ->addData(array(
             'instance_type' => 'Magento\Banner\Block\Widget\Banner',

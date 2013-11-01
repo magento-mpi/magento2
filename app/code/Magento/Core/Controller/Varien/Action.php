@@ -121,6 +121,11 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_isRenderInherited;
 
     /**
+     * @var \Magento\HTTP\Authentication
+     */
+    protected $authentication;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      */
     public function __construct(\Magento\Core\Controller\Varien\Action\Context $context)
@@ -133,6 +138,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_eventManager    = $context->getEventManager();
         $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
+        $this->authentication = $context->getAuthentication();
 
         $this->_construct();
     }
@@ -1011,7 +1017,7 @@ class Action extends \Magento\App\Action\AbstractAction
                 ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
@@ -1040,7 +1046,7 @@ class Action extends \Magento\App\Action\AbstractAction
                 ->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATETIME_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
