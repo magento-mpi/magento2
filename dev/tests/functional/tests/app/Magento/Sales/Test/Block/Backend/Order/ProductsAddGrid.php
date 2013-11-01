@@ -68,10 +68,11 @@ class ProductsAddGrid extends Grid
         $this->search(array(
             'sku' => $product->getProductSku()
         ));
-        $this->_rootElement->find('.action-configure')->click();
-        $this->_templateBlock->waitLoader();
-        if ($this->_configureProductBlock->isVisible()) {
-            $this->_configureProductBlock->fillOptions($product->getProductOptions());
+        $productOptions = $product->getProductOptions();
+        if (!empty($productOptions)) {
+            $this->_rootElement->find('.action-configure')->click();
+            $this->_templateBlock->waitLoader();
+            $this->_configureProductBlock->fillOptions($productOptions);
         }
         $this->_rootElement
             ->find($this->rowItem)
