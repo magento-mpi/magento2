@@ -96,6 +96,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getSaveUrl()
     {
         $type = $this->_coreRegistry->registry('current_giftregistry_type');
-        return $this->getUrl('*/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
+        return $this->getUrl('adminhtml/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
     }
 }

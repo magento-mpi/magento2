@@ -37,7 +37,7 @@ class Available
     public function getNextPageUrl()
     {
         return $this->getNextPage() <= $this->getCollection()->getLastPageNumber()
-            ? $this->getUrl('*/*/*', array('page' => $this->getNextPage()))
+            ? $this->getUrl('adminhtml/*/*', array('page' => $this->getNextPage()))
             : '';
     }
 

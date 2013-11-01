@@ -16,7 +16,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
 
 class Invoices
-     extends \Magento\Adminhtml\Block\Sales\Order\View\Tab\Invoices
+     extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices
 {
 
     /**

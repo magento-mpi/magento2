@@ -10,7 +10,7 @@
 
 namespace Magento\Adminhtml\Controller\Promo;
 
-class Widget extends \Magento\Adminhtml\Controller\Action
+class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -65,7 +65,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
 
 
                 $block = $this->getLayout()->createBlock(
-                        'Magento\Adminhtml\Block\Catalog\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
+                        'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
                         array('data' => array('js_form_object' => $request->getParam('form')))
                     )
                     ->setCategoryIds($ids)
@@ -100,7 +100,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tree')
+                $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
                     ->getTreeJson($category)
             );
         }
@@ -125,7 +125,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
                 $rootId = $this->_objectManager->get('Magento\Core\Model\StoreManager')
                     ->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
-                    $this->_redirect('*/*/', array('_current' => true, 'id' => null));
+                    $this->_redirect('adminhtml/*/', array('_current' => true, 'id' => null));
                     return false;
                 }
             }

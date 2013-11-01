@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * Abstract storage resource model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\Resource\File\Storage;
 
+/**
+ * Class AbstractStorage
+ */
 abstract class AbstractStorage extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

@@ -49,7 +49,7 @@ class Additional extends \Magento\Backend\Block\Template
      */
     public function getCleanExternalCacheUrl()
     {
-        return $this->getUrl('*/pageCache/clean');
+        return $this->getUrl('adminhtml/pageCache/clean');
     }
 
     /**

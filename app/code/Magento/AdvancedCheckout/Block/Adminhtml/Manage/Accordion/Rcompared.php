@@ -26,7 +26,7 @@ class Rcompared
     protected $_listType = 'rcompared';
 
     /**
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var \Magento\Sales\Helper\Admin
      */
     protected $_adminhtmlSales;
 
@@ -53,7 +53,7 @@ class Rcompared
     /**
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -67,7 +67,7 @@ class Rcompared
     public function __construct(
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Reports\Model\Resource\Event $reportsEventResource,
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -157,6 +157,6 @@ class Rcompared
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/viewRecentlyCompared', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/viewRecentlyCompared', array('_current'=>true));
     }
 }
