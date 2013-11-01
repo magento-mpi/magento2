@@ -152,9 +152,6 @@
         <param name="errorProcessor">
             <instance type="Magento\Webapi\Controller\ErrorProcessor\Proxy"/>
         </param>
-        <param name="application">
-            <instance type="Magento\Core\Model\App\Proxy"/>
-        </param>
         <param name="oauthHelper">
             <instance type="Magento\Oauth\Helper\Service\Proxy"/>
         </param>
