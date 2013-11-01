@@ -243,7 +243,7 @@ class Observer
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
                         'label' => __('Currently Published Revision'),
-                        'href' => $this->_backendUrl->getUrl('*/cms_page_revision/edit', array(
+                        'href' => $this->_backendUrl->getUrl('adminhtml/cms_page_revision/edit', array(
                             'page_id' => $page->getId(),
                             'revision_id' => $page->getPublishedRevisionId()
                         )),

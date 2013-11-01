@@ -13,7 +13,7 @@
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Types extends \Magento\Adminhtml\Controller\Action
+class Types extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -116,7 +116,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't create Attribute Set Mapping."));
-            $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
+            $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
         }
     }
 
@@ -151,7 +151,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't edit Attribute Set Mapping."));
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
         }
     }
 
@@ -212,7 +212,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__("We can't save Attribute Set Mapping."));
         }
-        $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
+        $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
     }
 
     /**
@@ -232,7 +232,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't delete Attribute Set Mapping."));
         }
-        $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
+        $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
     }
 
     /**

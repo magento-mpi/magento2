@@ -154,7 +154,7 @@ class Revisions
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/revisions', array('_current' => true));
+        return $this->getUrl('adminhtml/*/revisions', array('_current' => true));
     }
 
     /**
@@ -165,7 +165,7 @@ class Revisions
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/cms_page_revision/edit', array(
+        return $this->getUrl('adminhtml/cms_page_revision/edit', array(
             'page_id' => $row->getPageId(),
             'revision_id' => $row->getRevisionId()
         ));
@@ -205,7 +205,7 @@ class Revisions
 
             $this->getMassactionBlock()->addItem('delete', array(
                  'label'=> __('Delete'),
-                 'url'  => $this->getUrl('*/*/massDeleteRevisions', array('_current' => true)),
+                 'url'  => $this->getUrl('adminhtml/*/massDeleteRevisions', array('_current' => true)),
                  'confirm' => __('Are you sure?')
             ));
         }

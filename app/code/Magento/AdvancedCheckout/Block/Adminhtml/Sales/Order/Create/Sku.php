@@ -18,7 +18,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
 
 class Sku
-    extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
+    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Define ID

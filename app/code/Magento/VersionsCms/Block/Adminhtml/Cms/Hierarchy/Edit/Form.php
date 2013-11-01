@@ -141,7 +141,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
-                'action'    => $this->getUrl('*/*/save'),
+                'action'    => $this->getUrl('adminhtml/*/save'),
                 'method'    => 'post',
             ))
         );
@@ -760,6 +760,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'store'  => $this->getRequest()->getParam('store'),
             'scopes' => $this->getData('current_scope') . '_' . $this->getData('current_scope_id'),
         );
-        return $this->getUrl('*/*/delete', $params);
+        return $this->getUrl('adminhtml/*/delete', $params);
     }
 }
