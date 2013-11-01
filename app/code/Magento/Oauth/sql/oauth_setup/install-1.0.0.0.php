@@ -38,10 +38,10 @@ $table = $adapter->newTable($installer->getTable('oauth_consumer'))
     ->addColumn('name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
             'nullable' => false
         ), 'Name of consumer')
-    ->addColumn('key', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Model\Consumer::KEY_LENGTH, array(
+    ->addColumn('key', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Helper\Oauth::KEY_LENGTH, array(
             'nullable' => false
         ), 'Key code')
-    ->addColumn('secret', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Model\Consumer::SECRET_LENGTH, array(
+    ->addColumn('secret', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Helper\Oauth::SECRET_LENGTH, array(
             'nullable' => false
         ), 'Secret code')
     ->addColumn('callback_url', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(), 'Callback URL')
@@ -91,13 +91,13 @@ $table = $adapter->newTable($installer->getTable('oauth_token'))
     ->addColumn('type', \Magento\DB\Ddl\Table::TYPE_TEXT, 16, array(
             'nullable' => false
         ), 'Token Type')
-    ->addColumn('token', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Model\Token::LENGTH_TOKEN, array(
+    ->addColumn('token', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN, array(
             'nullable' => false
         ), 'Token')
-    ->addColumn('secret', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Model\Token::LENGTH_SECRET, array(
+    ->addColumn('secret', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Helper\Oauth::LENGTH_SECRET, array(
             'nullable' => false
         ), 'Token Secret')
-    ->addColumn('verifier', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Model\Token::LENGTH_VERIFIER, array(
+    ->addColumn('verifier', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Oauth\Helper\Oauth::LENGTH_VERIFIER, array(
             'nullable' => true
         ), 'Token Verifier')
     ->addColumn('callback_url', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
