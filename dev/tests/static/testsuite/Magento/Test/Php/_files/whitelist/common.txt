@@ -7,12 +7,12 @@ app/code/Magento/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Magento/Adminhtml/Model/Observer.php
 app/code/Magento/Adminhtml/Block/Urlrewrite
 app/code/Magento/Adminhtml/Block/Page/System/Config/Robots/Reset.php
-app/code/Magento/Adminhtml/Block/System/Store/Edit
-app/code/Magento/Adminhtml/Block/System/Store/Edit.php
 app/code/Magento/Adminhtml/Controller/Report/Customer.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
+app/code/Magento/Backend/Block/System/Store/Edit
+app/code/Magento/Backend/Block/System/Store/Edit.php
 app/code/Magento/Bundle/Model/Plugin
 app/code/Magento/Catalog/Block/Adminhtml/Product/Edit/NewCategory.php
 app/code/Magento/Catalog/Block/Adminhtml/Product/Edit/Tab/Attributes/Search.php

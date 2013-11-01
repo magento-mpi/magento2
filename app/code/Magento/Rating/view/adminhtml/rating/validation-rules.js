@@ -1,10 +1,10 @@
 /**
- * Adminhtml client side validation rules
+ * Rating validation rules
  *
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Rating
  * @copyright   {copyright}
  * @license     {license_link}
  */

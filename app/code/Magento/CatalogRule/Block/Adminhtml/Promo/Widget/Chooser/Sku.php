@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml sales order create search products block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser;

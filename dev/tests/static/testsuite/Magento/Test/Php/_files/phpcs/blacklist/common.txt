@@ -19,7 +19,7 @@ app/code/Magento/Cms/Block/Adminhtml/Page/Edit/Tab/Design.php
 # Formatter intorduces long line
 app/code/Magento/Adminhtml/Block/Page/System/Config/Robots/Reset.php
 # Formatter intorduces long line
-app/code/Magento/Adminhtml/Block/System/Store/Edit.php
+app/code/Magento/Backend/Block/System/Store/Edit.php
 # Not magento code
 app/code/Zend
 # Not magento code

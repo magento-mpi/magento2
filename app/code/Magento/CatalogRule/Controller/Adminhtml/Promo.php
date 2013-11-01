@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * sales admin controller
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\CatalogRule\Controller\Adminhtml;
 
 class Promo extends \Magento\Backend\Controller\Adminhtml\Action
 {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  *
  * @category    Magento
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
