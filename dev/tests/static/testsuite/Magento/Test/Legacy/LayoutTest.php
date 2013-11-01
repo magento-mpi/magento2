@@ -92,7 +92,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $layoutXml = simplexml_load_file($layoutFile);
 
                 $this->_testObsoleteReferences($layoutXml);
-                $this ->_testObsoleteAttributes($layoutXml);
+                $this->_testObsoleteAttributes($layoutXml);
 
                 $selectorHeadBlock = '(name()="block" or name()="referenceBlock") and '
                     . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
@@ -156,6 +156,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the attributes of the top-level Layout Node.
+     * Verifies there are no longer attributes of "parent" or "owner"
+     *
      * @param SimpleXMLElement $layoutXml
      */
     protected function _testObsoleteAttributes($layoutXml)
