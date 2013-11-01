@@ -18,11 +18,11 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_locale = $locale;
@@ -93,6 +93,6 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
                 false
             );
         }
-        return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+        return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
     }
 }

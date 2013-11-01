@@ -74,6 +74,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\LocaleInterface */
     protected $_localeMock;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Math\Random */
+    protected $_mathMock;
+
     protected function setUp()
     {
         // These mocks are accessed via context
@@ -87,7 +90,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_eventManagerMock    = $this->_makeMock('Magento\Event\ManagerInterface');
         $this->_controllerMock      = $this->_makeMock('Magento\App\FrontController');
         $this->_dirMock             = $this->_makeMock('Magento\App\Dir');
-        $this->_loggerMock          = $this->_makeMock('Magento\Core\Model\Logger');
+        $this->_loggerMock          = $this->_makeMock('Magento\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\Core\Model\CacheInterface');
         $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
@@ -100,8 +103,11 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Core\Model\Cache\StateInterface');
         $appMock                    = $this->_makeMock('Magento\Core\Model\App');
+        $escaperMock                = $this->_makeMock('Magento\Escaper');
+        $filterManagerMock          = $this->_makeMock('Magento\Filter\FilterManager');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
+        $this->_mathMock            = $this->_makeMock('Magento\Math\Random');
 
         $this->_translatorMock
             ->expects($this->any())
@@ -131,8 +137,11 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $templateFactoryMock,
             $authorizationMock,
             $appMock,
+            $escaperMock,
+            $filterManagerMock,
             $backendSessionMock,
-            $this->_localeMock
+            $this->_localeMock,
+            $this->_mathMock
         );
     }
 

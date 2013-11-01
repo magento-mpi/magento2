@@ -41,7 +41,7 @@ class Amount
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
@@ -50,7 +50,7 @@ class Amount
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;
