@@ -104,10 +104,7 @@ app/code/Magento/Index/Model/Indexer/Config.php
 app/code/Magento/Index/Model/Indexer/ConfigInterface.php
 app/code/Magento/Index/Model/Indexer/Factory.php
 app/code/Magento/Index/Model/Indexer/AbstractIndexer.php
-app/code/Magento/Index/Model/EntryPoint/Shell.php
-app/code/Magento/Index/Model/EntryPoint/Indexer.php
 app/code/Magento/Index/Model/Shell.php
-app/code/Magento/Install/Model/EntryPoint
 app/code/Magento/Log/Model/Resource/Helper.php
 app/code/Magento/Log/Model/Resource/Shell.php
 app/code/Magento/Log/Model/Shell.php

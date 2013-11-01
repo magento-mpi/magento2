@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\EntryPoint;
+namespace Magento\App;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testProcessRequestBootstrapException()
     {
         if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
-            $this->markTestSkipped('Can\'t test entry point response without sending headers');
+            $this->markTestSkipped('Can\'t test application response without sending headers');
         }
 
         $objectManager = $this->getMock('Magento\ObjectManager');
@@ -29,7 +29,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $scopeMock = $this->getMock('Magento\Config\Scope', array(), array(), '', false);
         $configLoaderMock = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
 
-        /** @var \Magento\Core\Model\EntryPoint\Http $model */
+        /** @var \Magento\App\Http $model */
         $model = new \Magento\App\Http($objectManager, $areaListMock, $requestMock, $scopeMock, $configLoaderMock);
         ob_start();
         $model->execute();
