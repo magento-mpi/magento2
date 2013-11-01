@@ -13,6 +13,7 @@ namespace Magento\Sales\Test\Block\Backend\Order;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Sales\Test\Fixture\Order;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 
@@ -77,5 +78,20 @@ class ProductsAddGrid extends Grid
             ->find($this->rowItem)
             ->find('td.col-in_products input', Locator::SELECTOR_CSS, 'checkbox')
             ->setValue('Yes');
+    }
+
+    /**
+     * Add all products from the Order fixture
+     *
+     * @param Order $fixture
+     */
+    public function addProducts(Order $fixture)
+    {
+        foreach ($fixture->getProducts() as $product)
+        {
+            $this->addProduct($product);
+        }
+        $this->addSelectedProducts();
+        $this->_templateBlock->waitLoader();
     }
 }

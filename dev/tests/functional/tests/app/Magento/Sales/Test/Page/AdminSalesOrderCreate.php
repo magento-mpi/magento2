@@ -13,13 +13,12 @@
 namespace Magento\Sales\Test\Page;
 
 use Magento\Backend\Test\Block\Template;
-use Magento\Sales\Test\Block\Backend\Order\BillingAddress;
+use Magento\Sales\Test\Block\Backend\Order\Addresses;
 use Magento\Sales\Test\Block\Backend\Order\OrderCreationSummary;
 use Magento\Sales\Test\Block\Backend\Order\PaymentMethods;
 use Magento\Sales\Test\Block\Backend\Order\ProductsAddGrid;
 use Magento\Sales\Test\Block\Backend\Order\ProductsOrderedGrid;
 use Magento\Sales\Test\Block\Backend\Order\SelectStoreView;
-use Magento\Sales\Test\Block\Backend\Order\ShippingAddress;
 use Magento\Sales\Test\Block\Backend\Order\CustomerSelectionGrid;
 use Magento\Sales\Test\Block\Backend\Order\ShippingMethods;
 use Mtf\Factory\Factory;
@@ -48,14 +47,9 @@ class AdminSalesOrderCreate extends Page
     protected $_itemsAddGrid;
 
     /**
-     * @var BillingAddress
+     * @var Addresses
      */
-    protected $_billingAddressForm;
-
-    /**
-     * @var ShippingAddress
-     */
-    protected $_shippingAddressForm;
+    protected $_addressesBlock;
 
     /**
      * @var OrderCreationSummary
@@ -99,11 +93,8 @@ class AdminSalesOrderCreate extends Page
         $this->_itemsAddGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsAddGrid(
             $this->_browser->find('#order-search')
         );
-        $this->_billingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderBillingAddress(
-            $this->_browser->find('#order-billing_address')
-        );
-        $this->_shippingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingAddress(
-            $this->_browser->find('#order-shipping_address')
+        $this->_addressesBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderAddresses(
+            $this->_browser->find('#order-addresses')
         );
         $this->_orderSummaryBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderOrderCreationSummary(
             $this->_browser->find('.order-summary')
@@ -153,23 +144,13 @@ class AdminSalesOrderCreate extends Page
     }
 
     /**
-     * Getter for customer order billing address form
+     * Getter for customer order addresses block
      *
-     * @return BillingAddress
+     * @return Addresses
      */
-    public function getBillingAddressForm()
+    public function getAddressesBlock()
     {
-        return $this->_billingAddressForm;
-    }
-
-    /**
-     * Getter for customer order shipping address form
-     *
-     * @return ShippingAddress
-     */
-    public function getShippingAddressForm()
-    {
-        return $this->_shippingAddressForm;
+        return $this->_addressesBlock;
     }
 
     /**

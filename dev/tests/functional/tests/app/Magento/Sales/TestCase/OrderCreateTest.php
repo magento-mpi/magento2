@@ -34,16 +34,17 @@ class OrderCreateTest extends Functional
 
     /**
      * Test for creating order on backend
+     *
+     * @param Order $fixture
+     * @dataProvider dataProviderOrderFixtures
      */
-    public function testCreateOrder()
+    public function testCreateOrder(Order $fixture)
     {
-        $orderFixture = Factory::getFixtureFactory()->getMagentoSalesOrder();
-
         $this->_proceedToOrderCreatePage();
 
-        $this->_fillOrderData($orderFixture);
+        $this->_fillOrderData($fixture);
 
-        $this->_checkOrderAndCustomer($orderFixture);
+        $this->_checkOrderAndCustomer($fixture);
     }
 
     /**
@@ -66,43 +67,30 @@ class OrderCreateTest extends Functional
     protected function _fillOrderData(Order $fixture)
     {
         $orderCreatePage = Factory::getPageFactory()->getAdminSalesOrderCreateIndex();
+        //Blocks initialization
         $customerSelectionGrid = $orderCreatePage->getOrderCustomerBlock();
         $storeViewSelectionBlock = $orderCreatePage->getSelectStoreViewBlock();
         $itemsOrderedGrid = $orderCreatePage->getItemsOrderedGrid();
         $productsAddGrid = $orderCreatePage->getItemsAddGrid();
-        $billingAddressForm = $orderCreatePage->getBillingAddressForm();
-        $shippingAddressForm = $orderCreatePage->getShippingAddressForm();
+        $addressesBlock = $orderCreatePage->getAddressesBlock();
         $paymentMethodsBlock = $orderCreatePage->getPaymentMethodsBlock();
         $shippingMethodsBlock = $orderCreatePage->getShippingMethodsBlock();
         $orderSummaryBlock = $orderCreatePage->getOrderSummaryBlock();
-        $templateBlock = $orderCreatePage->getTemplateBlock();
 
+        //Test flow
         $customerSelectionGrid->selectCustomer($fixture);
 
-        if ($storeViewSelectionBlock->isVisible())
-        {
-            $storeViewSelectionBlock->selectStoreView($fixture);
-            $templateBlock->waitLoader();
-        }
+        $storeViewSelectionBlock->selectStoreView($fixture);
 
-        $itemsOrderedGrid->addNewProduct();
+        $itemsOrderedGrid->addNewProducts();
 
-        /** @var $product Product */
-        foreach ($fixture->getProducts() as $product)
-        {
-            $productsAddGrid->addProduct($product);
-        }
-        $productsAddGrid->addSelectedProducts();
+        $productsAddGrid->addProducts($fixture);
 
-        $billingAddressForm->fill($fixture->getBillingAddress());
-        $templateBlock->waitLoader();
-        $shippingAddressForm->setSameAsBillingShippingAddress();
-        $templateBlock->waitLoader();
+        $addressesBlock->fillAddresses($fixture);
 
         $paymentMethodsBlock->selectPaymentMethod($fixture);
-        $templateBlock->waitLoader();
+
         $shippingMethodsBlock->selectShippingMethod($fixture);
-        $templateBlock->waitLoader();
 
         $orderSummaryBlock->clickSaveOrder();
     }
@@ -114,33 +102,68 @@ class OrderCreateTest extends Functional
      */
     protected function _checkOrderAndCustomer(Order $fixture)
     {
+        //Pages
         $orderViewPage = Factory::getPageFactory()->getAdminSalesOrderView();
         $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
+        //Blocks
         $orderGrid = $orderGridPage->getOrderGridBlock();
 
+        //Verification data
         $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
         $orderId = substr($orderViewPage->getTitleBlock()->getTitle(), 1);
         $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
-        $orderGridPage->open();
 
+        //Test flow - order grand total check
+        $orderGridPage->open();
         $orderGrid->searchAndOpen(array(
             'id' => $orderId
         ));
         $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
 
-        $customerGridPage = Factory::getPageFactory()->getAdminCustomer();
-        $customerGrid = $customerGridPage->getCustomerGridBlock();
-        $customerViewPage = Factory::getPageFactory()->getAdminCustomerEdit();
+        $this->_checkCustomer($fixture, $email);
 
+    }
+
+    /**
+     * Check that customer is created (if the order was for the new customer)
+     *
+     * @param Order $fixture
+     * @param string $email
+     */
+    protected function _checkCustomer($fixture, $email)
+    {
+        //Pages
+        $customerGridPage = Factory::getPageFactory()->getAdminCustomer();
+        $customerViewPage = Factory::getPageFactory()->getAdminCustomerEdit();
+        //Block
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
+
+        //Test flow - customer saved check
         $customerGridPage->open();
         $customerGrid->searchAndOpen(array(
             'email' => $email
         ));
         $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
 
-        $firstname = $fixture->getBillingAddress()->getFirstName()['value'];
-        $lastname = $fixture->getBillingAddress()->getLastName()['value'];
+        if (!empty($fixture->getCustomer())) {
+            $firstName = $fixture->getCustomer()->getFirstName();
+            $lastName = $fixture->getCustomer()->getLastName();
+        } else {
+            $firstName = $fixture->getBillingAddress()->getFirstName()['value'];
+            $lastName = $fixture->getBillingAddress()->getLastName()['value'];
+        }
 
-        $this->assertEquals($customerPageTitle,  $firstname . ' ' . $lastname);
+        $this->assertEquals($customerPageTitle,  $firstName . ' ' . $lastName);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderOrderFixtures()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoSalesOrderWithCustomer()),
+            array(Factory::getFixtureFactory()->getMagentoSalesOrder())
+        );
     }
 }

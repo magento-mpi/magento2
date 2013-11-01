@@ -80,6 +80,56 @@ class Customer extends DataFixture
     }
 
     /**
+     * Get first name
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->getData('fields/firstname/value');
+    }
+
+    /**
+     * Get last name
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->getData('fields/lastname/value');
+    }
+
+    /**
+     * Get billing address for customer if it is set OR default billing address otherwise
+     *
+     * @return Address
+     */
+    public function getBillingAddress()
+    {
+        $default_billing = $this->getData('addresses/default_billing');
+        if (!empty($default_billing)) {
+            return $default_billing;
+        } else {
+            return $this->getDefaultBillingAddress();
+        }
+    }
+
+    /**
+     * Get shipping address for customer if it is set OR default shipping address otherwise
+     *
+     * @return Address
+     */
+    public function getShippingAddress()
+    {
+        $default_shipping = $this->getData('addresses/default_billing');
+        if (!empty($default_shipping)) {
+            return $default_shipping;
+        } else {
+            return $this->getDefaultShippingAddress();
+        }
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()

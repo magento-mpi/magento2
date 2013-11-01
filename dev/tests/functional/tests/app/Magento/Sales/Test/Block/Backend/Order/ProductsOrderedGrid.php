@@ -23,7 +23,7 @@ class ProductsOrderedGrid extends Grid
     /**
      * Click create new customer button
      */
-    public function addNewProduct()
+    public function addNewProducts()
     {
         $this->_rootElement->find('.actions .action-add')->click();
     }

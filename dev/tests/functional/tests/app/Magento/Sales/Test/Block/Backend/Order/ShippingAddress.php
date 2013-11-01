@@ -32,6 +32,11 @@ class ShippingAddress extends Form
             'order-shipping_same_as_billing',
             Locator::SELECTOR_ID,
             'checkbox'
+        )->setValue('No');
+        $this->_rootElement->find(
+            'order-shipping_same_as_billing',
+            Locator::SELECTOR_ID,
+            'checkbox'
         )->setValue('Yes');
     }
 }

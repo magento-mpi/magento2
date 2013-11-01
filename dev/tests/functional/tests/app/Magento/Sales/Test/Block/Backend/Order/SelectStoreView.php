@@ -12,9 +12,11 @@
 
 namespace Magento\Sales\Test\Block\Backend\Order;
 
+use Magento\Backend\Test\Block\Template;
 use Magento\Sales\Test\Fixture\Order;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Block for selection store view for creating order
@@ -23,9 +25,32 @@ use Mtf\Client\Element\Locator;
  */
 class SelectStoreView extends Block
 {
+    /**
+     * @var Template
+     */
+    protected $_templateBlock;
+
+    /**
+     * @inheritdoc
+     */
+    protected function _init()
+    {
+        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
+        );
+    }
+
+    /**
+     * Select store view for order based on Order fixture
+     *
+     * @param Order $fixture
+     */
     public function selectStoreView(Order $fixture)
     {
-        $selector = '//label[text()="' . $fixture->getStoreViewName() . '"]/preceding-sibling::*';
-        $this->_rootElement->find($selector, Locator::SELECTOR_XPATH, 'checkbox')->setValue('Yes');
+        if ($this->isVisible()) {
+            $selector = '//label[text()="' . $fixture->getStoreViewName() . '"]/preceding-sibling::*';
+            $this->_rootElement->find($selector, Locator::SELECTOR_XPATH, 'checkbox')->setValue('Yes');
+            $this->_templateBlock->waitLoader();
+        }
     }
 }

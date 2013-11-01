@@ -35,6 +35,7 @@ class Address extends AbstractRepository
         $this->_data['backend_address_US_1'] = $this->_getBackendUS1();
         $this->_data['address_US_2'] = $this->_getUS2();
         $this->_data['address_data_US_1'] = $this->_getDataUS1();
+        $this->_data['backend_address_data_US_1'] = $this->_getBackendDataUS1();
     }
 
     protected function _getUS1()
@@ -156,6 +157,36 @@ class Address extends AbstractRepository
     }
 
     protected function _getDataUS1()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'street_1' => array(
+                        'value' => '6161 West Centinela Avenue'
+                    ),
+                    'city' => array(
+                        'value' => 'Culver City'
+                    ),
+                    'region' => array(
+                        'value' => 'California',
+                        'input' => 'select'
+                    ),
+                    'postcode' => array(
+                        'value' => '90230'
+                    ),
+                    'country' => array(
+                        'value' => 'United States',
+                        'input' => 'select'
+                    ),
+                    'telephone' => array(
+                        'value' => '555-55-555-55'
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getBackendDataUS1()
     {
         return array(
             'data' => array(
