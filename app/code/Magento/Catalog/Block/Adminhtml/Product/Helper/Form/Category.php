@@ -13,8 +13,6 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 /**
  * Product form category field helper
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
-
 class Category extends \Magento\Data\Form\Element\Multiselect
 {
     /**
