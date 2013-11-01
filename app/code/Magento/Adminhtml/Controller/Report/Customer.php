@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-class Customer extends \Magento\Adminhtml\Controller\Action
+class Customer extends \Magento\Backend\Controller\Adminhtml\Action
 {
     public function _initAction()
     {

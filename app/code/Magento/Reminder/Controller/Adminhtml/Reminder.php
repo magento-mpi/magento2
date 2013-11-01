@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Controller\Adminhtml;
 
-class Reminder extends \Magento\Adminhtml\Controller\Action
+class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -122,7 +122,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
             $model = $this->_initRule();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -139,7 +139,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
         $this->_initAction();
 
         $this->getLayout()->getBlock('adminhtml_reminder_edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));
+            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
@@ -196,7 +196,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                     return;
                 }
 
@@ -212,7 +212,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->setPageData(false);
 
                 if ($redirectBack) {
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'id'       => $model->getId(),
                         '_current' => true,
                     ));
@@ -222,14 +222,14 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We could not save the reminder rule.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -244,13 +244,13 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
         }
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('id' => $model->getId()));
+            $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not delete the reminder rule.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -268,7 +268,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addException($e, __('Reminder rule matching error.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
+        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
     }
 
     /**

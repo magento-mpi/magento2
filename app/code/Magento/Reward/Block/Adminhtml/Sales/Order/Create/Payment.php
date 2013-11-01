@@ -33,7 +33,7 @@ class Payment extends \Magento\Backend\Block\Template
     protected $_storeManager;
 
     /**
-     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
 
@@ -47,7 +47,7 @@ class Payment extends \Magento\Backend\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
@@ -56,7 +56,7 @@ class Payment extends \Magento\Backend\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {

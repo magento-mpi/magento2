@@ -84,7 +84,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getMatchUrl()
     {
         $segment = $this->_coreRegistry->registry('current_customer_segment');
-        return $this->getUrl('*/*/match', array('id'=>$segment->getId()));
+        return $this->getUrl('adminhtml/*/match', array('id'=>$segment->getId()));
     }
 
     /**

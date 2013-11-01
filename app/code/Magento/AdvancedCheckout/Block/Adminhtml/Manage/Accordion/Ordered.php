@@ -204,6 +204,6 @@ class Ordered
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/viewOrdered', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/viewOrdered', array('_current'=>true));
     }
 }

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward;
 
-class Rate extends \Magento\Adminhtml\Controller\Action
+class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -133,7 +133,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
             $rate = $this->_initRate();
 
             if ($this->getRequest()->getParam('rate_id') && ! $rate->getId()) {
-                return $this->_redirect('*/*/');
+                return $this->_redirect('adminhtml/*/');
             }
 
             $rate->addData($data);
@@ -144,11 +144,11 @@ class Rate extends \Magento\Adminhtml\Controller\Action
             } catch (\Exception $exception) {
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($exception);
                 $this->_getSession()->addError(__('We cannot save Rate.'));
-                return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
+                return $this->_redirect('adminhtml/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
         }
 
-        return $this->_redirect('*/*/');
+        return $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -163,12 +163,12 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addSuccess(__('You deleted the rate.'));
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
         }
 
-        return $this->_redirect('*/*/');
+        return $this->_redirect('adminhtml/*/');
     }
 
     /**

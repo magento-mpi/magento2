@@ -106,7 +106,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('*/*/save');
+        return $this->getUrl('adminhtml/*/save');
     }
 
     /**

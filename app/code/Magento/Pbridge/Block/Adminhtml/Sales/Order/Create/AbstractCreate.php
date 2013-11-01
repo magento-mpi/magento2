@@ -114,7 +114,7 @@ class AbstractCreate
      */
     public function getRedirectUrl()
     {
-        return $this->_backendUrl->getUrl('*/pbridge/result',
+        return $this->_backendUrl->getUrl('adminhtml/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }

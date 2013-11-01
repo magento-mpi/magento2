@@ -17,7 +17,8 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
 
-class Order extends \Magento\Adminhtml\Controller\Sales\Order
+
+class Order extends  \Magento\Sales\Controller\Adminhtml\Order
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive

@@ -88,7 +88,7 @@ class Tabs
         if ($rule && $rule->getId()) {
             $this->addTab('matched_customers', array(
                 'label' => __('Matched Customers'),
-                'url'   => $this->getUrl('*/*/customerGrid', array('rule_id' => $rule->getId())),
+                'url'   => $this->getUrl('adminhtml/*/customerGrid', array('rule_id' => $rule->getId())),
                 'class' => 'ajax'
             ));
         }

@@ -28,7 +28,7 @@ extends \Magento\Core\Block\Template
     protected $_storeManager;
 
     /**
-     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
 
@@ -45,7 +45,7 @@ extends \Magento\Core\Block\Template
     /**
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
@@ -54,7 +54,7 @@ extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -70,7 +70,7 @@ extends \Magento\Core\Block\Template
     /**
      * Retrieve order create model
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _getOrderCreateModel()
     {
