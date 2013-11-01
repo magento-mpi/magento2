@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<page_types>
+    <type id="magento_giftregistry_email_entity_items" label="Customer GiftRegistry Email Items List"/>
+    <type id="magento_giftregistry_index_addselect" label="Customer My Account GiftRegistry Add"/>
+    <type id="magento_giftregistry_index_edit" label="Customer My Account GiftRegistry Edit"/>
+    <type id="magento_giftregistry_index_index" label="Customer GiftRegistry"/>
+    <type id="magento_giftregistry_index_items" label="Customer GiftRegistry Items List"/>
+    <type id="magento_giftregistry_index_share" label="Customer GiftRegistry Share"/>
+    <type id="magento_giftregistry_search_advanced" label="Customer GiftRegistry Advanced Search Form"/>
+    <type id="magento_giftregistry_search_index" label="Customer GiftRegistry Search Form"/>
+    <type id="magento_giftregistry_search_results" label="Customer GiftRegistry Search Results List"/>
+    <type id="magento_giftregistry_view_index" label="Customer GiftRegistry Gift View"/>
+</page_types>
