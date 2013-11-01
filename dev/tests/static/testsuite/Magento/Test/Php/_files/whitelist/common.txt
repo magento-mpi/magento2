@@ -2,8 +2,6 @@
 # Glob patterns are supported
 #
 app/bootstrap.php
-app/code/Magento/Cms/Block/Adminhtml/Page/Edit/Tab/Design.php
-app/code/Magento/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Magento/Adminhtml/Model/Observer.php
 app/code/Magento/Adminhtml/Block/Urlrewrite
 app/code/Magento/Adminhtml/Block/Page/System/Config/Robots/Reset.php
@@ -39,6 +37,7 @@ app/code/Magento/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/Magento/Centinel/Model/State/Jcb.php
 app/code/Magento/Checkout/Block/Cart/Link.php
 app/code/Magento/Checkout/Block/Link.php
+app/code/Magento/Cms/Block/Adminhtml/Page/Edit/Tab/Design.php
 app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Cms/Model/Template/FilterProvider.php
 app/code/Magento/Core/data
@@ -78,6 +77,7 @@ app/code/Magento/Cron/Model/Config.php
 app/code/Magento/Cron/Model/ConfigInterface.php
 app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
+app/code/Magento/Customer/Block/Adminhtml/Edit/Tab/Account.php
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
