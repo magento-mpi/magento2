@@ -15,7 +15,6 @@ return array(
     'Block/Backup',
     'Block/Cache',
     'Block/Checkout',
-    'Block/Customer',
     'Block/Dashboard',
     'Block/Denied',
     'Block/Html',
@@ -47,7 +46,6 @@ return array(
     'Helper/Js',
 
     // Models
-    'Model/Customer',
     'Model/Email',
     'Model/Giftmessage',
     'Model/LayoutUpdate',
@@ -60,7 +58,6 @@ return array(
     // Views
     'view/adminhtml/admin',
     'view/adminhtml/backup',
-    'view/adminhtml/customer',
     'view/adminhtml/email',
     'view/adminhtml/images',
     'view/adminhtml/media',
