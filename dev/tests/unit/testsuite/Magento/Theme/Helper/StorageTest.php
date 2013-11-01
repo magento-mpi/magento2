@@ -142,7 +142,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $themeModel = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($themeModel));
         $themeModel->expects($this->any())->method('getId')->will($this->returnValue($themeId));
-        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
         $themeModel->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
         $customization->expects($this->any())
             ->method('getCustomizationPath')

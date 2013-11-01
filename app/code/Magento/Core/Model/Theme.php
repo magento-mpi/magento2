@@ -90,7 +90,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_validator;
 
     /**
-     * @var \Magento\Core\Model\Theme\Customization
+     * @var \Magento\View\Design\Theme\Customization
      */
     protected $_customization;
 
@@ -170,7 +170,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     }
 
     /**
-     * @return \Magento\Core\Model\Theme\Customization
+     * @return \Magento\View\Design\Theme\Customization
      */
     public function getCustomization()
     {

@@ -100,7 +100,7 @@ class CustomTest extends \PHPUnit_Framework_TestCase
     {
         $expectedContent = 'New file content';
 
-        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
         /** @var $cssFile \Magento\View\Design\Theme\Customization\File\Css */

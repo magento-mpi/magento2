@@ -213,7 +213,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     public function testCopyLayoutUpdates()
     {
         $customization = $this->getMock(
-            'Magento\Core\Model\Theme\Customization',
+            'Magento\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -286,7 +286,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     public function testCopyDatabaseCustomization()
     {
         $sourceCustom = $this->getMock(
-            'Magento\Core\Model\Theme\Customization',
+            'Magento\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -298,7 +298,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         $this->_sourceTheme->expects($this->once())->method('getCustomization')
             ->will($this->returnValue($sourceCustom));
         $targetCustom = $this->getMock(
-            'Magento\Core\Model\Theme\Customization',
+            'Magento\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -365,7 +365,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     public function testCopyFilesystemCustomization()
     {
         $customization = $this->getMock(
-            'Magento\Core\Model\Theme\Customization',
+            'Magento\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',

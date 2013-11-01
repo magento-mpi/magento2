@@ -56,7 +56,7 @@ interface CustomizationInterface
      *
      * @param string $type
      * @param array $sequence
-     * @return $this
+     * @return CustomizationInterface
      */
     public function reorder($type, array $sequence);
 

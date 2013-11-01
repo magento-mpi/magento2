@@ -120,7 +120,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
             $file->setData($fileData);
             $files[] = $file;
         }
-        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
         $customization->expects($this->atLeastOnce())->method('getFilesByType')->with($type)
             ->will($this->returnValue($files));
 

@@ -67,7 +67,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->_themeCustomization = $this->getMock(
-            'Magento\Core\Model\Theme\Customization',
+            'Magento\View\Design\Theme\Customization',
             array(),
             array(),
             '',

@@ -232,8 +232,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $jsFile->setData('content', $jsFileData['content']);
             $jsFile->save();
 
-            /** @var $customization \Magento\Core\Model\Theme\Customization */
-            $customization = $this->_objectManager->create('Magento\Core\Model\Theme\Customization',
+            /** @var $customization \Magento\View\Design\Theme\Customization */
+            $customization = $this->_objectManager->create('Magento\View\Design\Theme\CustomizationInterface',
                 array('theme' => $theme));
             $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));

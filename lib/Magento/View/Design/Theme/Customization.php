@@ -11,48 +11,48 @@
 /**
  * Theme customizations manager
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
-class Customization implements \Magento\View\Design\Theme\CustomizationInterface
+class Customization implements CustomizationInterface
 {
     /**
-     * @var \Magento\Core\Model\Resource\Theme\File\CollectionFactory
+     * @var \Magento\View\Design\Theme\FileProviderInterface
      */
-    protected $_fileFactory;
+    protected $fileProvider;
 
     /**
      * @var \Magento\View\Design\Theme\Customization\Path
      */
-    protected $_customizationPath;
+    protected $customizationPath;
 
     /**
      * @var \Magento\View\Design\ThemeInterface
      */
-    protected $_theme;
+    protected $theme;
 
     /**
      * @var \Magento\Core\Model\Resource\Theme\File\Collection
      */
-    protected $_themeFiles;
+    protected $themeFiles;
 
     /**
      * @var \Magento\Core\Model\Resource\Theme\File\Collection[]
      */
-    protected $_themeFilesByType = array();
+    protected $themeFilesByType = array();
 
     /**
-     * @param \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory
+     * @param \Magento\View\Design\Theme\FileProviderInterface $fileProvider
      * @param \Magento\View\Design\Theme\Customization\Path $customizationPath
      * @param \Magento\View\Design\ThemeInterface $theme
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory,
+        \Magento\View\Design\Theme\FileProviderInterface $fileProvider,
         \Magento\View\Design\Theme\Customization\Path $customizationPath,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
-        $this->_fileFactory = $fileFactory;
-        $this->_customizationPath = $customizationPath;
-        $this->_theme = $theme;
+        $this->fileProvider = $fileProvider;
+        $this->customizationPath = $customizationPath;
+        $this->theme = $theme;
     }
 
     /**
@@ -62,12 +62,10 @@ class Customization implements \Magento\View\Design\Theme\CustomizationInterface
      */
     public function getFiles()
     {
-        if (!$this->_themeFiles) {
-            $this->_themeFiles = $this->_fileFactory->create();
-            $this->_themeFiles->addThemeFilter($this->_theme);
-            $this->_themeFiles->setDefaultOrder();
+        if (!$this->themeFiles) {
+            $this->themeFiles = $this->fileProvider->getCollection($this->theme);
         }
-        return $this->_themeFiles->getItems();
+        return $this->themeFiles->getItems();
     }
 
     /**
@@ -78,14 +76,12 @@ class Customization implements \Magento\View\Design\Theme\CustomizationInterface
      */
     public function getFilesByType($type)
     {
-        if (!isset($this->_themeFilesByType[$type])) {
-            $themeFiles = $this->_fileFactory->create();
-            $themeFiles->addThemeFilter($this->_theme);
-            $themeFiles->addFieldToFilter('file_type', $type);
-            $themeFiles->setDefaultOrder();
-            $this->_themeFilesByType[$type] = $themeFiles;
+        if (!isset($this->themeFilesByType[$type])) {
+            $this->themeFilesByType[$type] = $this->fileProvider->getCollection(
+                $this->theme, array('file_type' => $type)
+            );
         }
-        return $this->_themeFilesByType[$type]->getItems();
+        return $this->themeFilesByType[$type]->getItems();
     }
 
     /**
@@ -111,7 +107,7 @@ class Customization implements \Magento\View\Design\Theme\CustomizationInterface
      */
     public function getCustomizationPath()
     {
-        return $this->_customizationPath->getCustomizationPath($this->_theme);
+        return $this->customizationPath->getCustomizationPath($this->theme);
     }
 
     /**
@@ -119,9 +115,9 @@ class Customization implements \Magento\View\Design\Theme\CustomizationInterface
      */
     public function getThemeFilesPath()
     {
-        return $this->_theme->isPhysical()
-            ? $this->_customizationPath->getThemeFilesPath($this->_theme)
-            : $this->_customizationPath->getCustomizationPath($this->_theme);
+        return $this->theme->isPhysical()
+            ? $this->customizationPath->getThemeFilesPath($this->theme)
+            : $this->customizationPath->getCustomizationPath($this->theme);
     }
 
     /**
@@ -129,15 +125,11 @@ class Customization implements \Magento\View\Design\Theme\CustomizationInterface
      */
     public function getCustomViewConfigPath()
     {
-        return $this->_customizationPath->getCustomViewConfigPath($this->_theme);
+        return $this->customizationPath->getCustomViewConfigPath($this->theme);
     }
 
     /**
-     * Reorder files positions
-     *
-     * @param string $type
-     * @param array $sequence
-     * @return $this
+     * {@inheritdoc}
      */
     public function reorder($type, array $sequence)
     {
