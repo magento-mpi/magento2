@@ -8,7 +8,7 @@
 namespace Magento\Integration\Model\Integration\Source;
 
 /**
- * Integration status options.
+ * Integration authentication options.
  */
 class Authentication implements \Magento\Core\Model\Option\ArrayInterface
 {
