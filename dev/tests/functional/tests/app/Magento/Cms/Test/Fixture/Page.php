@@ -27,15 +27,7 @@ class Page extends DataFixture
     protected function _initData()
     {
         $this->_defaultConfig = array(
-            'block_form_class' => '\\Magento\\Cms\\Test\\Block\\Backend\\PageForm',
-            'block_grid_class' => '\\Magento\\Cms\\Test\\Block\\Backend\\PageGrid',
-
             'grid_filter'      => array('page_title'),
-
-            'url_create_page'  => 'admin/cms_page/new',
-            'url_update_page'  => 'admin/cms_page/edit',
-            'url_grid_page'    => 'admin/cms_page/index',
-
             'constraint'       => 'Success'
         );
 

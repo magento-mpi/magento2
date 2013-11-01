@@ -18,17 +18,17 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Backend\ProductForm;
 
 /**
- * Class AdminCatalogProductNew
+ * Class CatalogProductNew
  * Create product page
  *
  * @package Magento\Catalog\Test\Page\Catalog\Product
  */
-class AdminCatalogProductNew extends Page
+class CatalogProductNew extends Page
 {
     /**
      * URL for product creation
      */
-    const MCA = 'admin/catalog_product/new';
+    const MCA = 'catalog/product/new';
 
     /**
      * @var ProductForm

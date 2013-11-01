@@ -17,17 +17,17 @@ use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Sales\Order;
 
 /**
- * Class AdminSalesOrderView
+ * Class SalesOrderView
  * Order view page
  *
  * @package Magento\Sales\Test\Page
  */
-class AdminSalesOrderView extends Page
+class SalesOrderView extends Page
 {
     /**
      * URL for manage orders page
      */
-    const MCA = 'admin/sales_order/view';
+    const MCA = 'sales/order/view';
 
     /**
      * Sales order grid

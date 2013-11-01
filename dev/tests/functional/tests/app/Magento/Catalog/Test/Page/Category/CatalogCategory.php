@@ -21,17 +21,17 @@ use Magento\Backend\Test\Block\Catalog\Category\Tree;
 use Magento\Backend\Test\Block\Catalog\Category\Edit\Form;
 
 /**
- * Class AdminCatalogCategory
+ * Class CatalogCategory
  * Categories page
  *
  * @package Magento\Catalog\Test\Page\Category
  */
-class AdminCatalogCategory extends Page
+class CatalogCategory extends Page
 {
     /**
      * URL for category page
      */
-    const MCA = 'admin/catalog_category';
+    const MCA = 'catalog/category';
 
     /**
      * Category Edit Form on the Backend

@@ -42,8 +42,8 @@ class CreateConfigurableTest extends Functional
         $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $product->switchData('configurable');
         //Page & Blocks
-        $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $manageProductsGrid->open();
@@ -75,7 +75,7 @@ class CreateConfigurableTest extends Functional
         );
         $variationSkus = $product->getVariationSkus();
         //Page & Block
-        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         /** @var \Magento\Catalog\Test\Block\Backend\ProductGrid */
         $gridBlock = $productGridPage->getProductGrid();

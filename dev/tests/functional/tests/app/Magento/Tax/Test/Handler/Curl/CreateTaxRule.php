@@ -89,7 +89,7 @@ class CreateTaxRule extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
-        $url = $_ENV['app_backend_url'] . 'admin/tax_rule/save/?back=1';
+        $url = $_ENV['app_backend_url'] . 'tax/rule/save/?back=1';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $this->_getPostParams($fixture));

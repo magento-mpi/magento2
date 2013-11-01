@@ -21,17 +21,17 @@ use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid
 use Magento\Backend\Test\Block\Sales\Order\Invoice\Grid as InvoiceGrid;
 
 /**
- * Class AdminSalesOrder
+ * Class SalesOrder
  * Manage orders page
  *
  * @package Magento\Sales\Test\Page
  */
-class AdminSalesOrder extends Page
+class SalesOrder extends Page
 {
     /**
      * URL for manage orders page
      */
-    const MCA = 'admin/sales_order';
+    const MCA = 'sales/order';
 
     /**
      * Custom constructor

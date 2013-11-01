@@ -17,17 +17,17 @@ use Magento\Backend\Test\Block\Sales\Order\Invoice\Totals;
 use Magento\Backend\Test\Block\Sales\Order\Invoice\Create\Form;
 
 /**
- * Class AdminSalesOrder
+ * Class SalesOrder
  * Manage orders page
  *
  * @package Magento\Sales\Test\Page
  */
-class AdminSalesOrderInvoiceNew extends Page
+class SalesOrderInvoiceNew extends Page
 {
     /**
      * URL for manage orders page
      */
-    const MCA = 'admin/sales_order_invoice/new';
+    const MCA = 'sales/order/invoice/new';
 
     /**
      * Sales order grid

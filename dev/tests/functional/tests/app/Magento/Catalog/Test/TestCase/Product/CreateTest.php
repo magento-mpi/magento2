@@ -41,7 +41,7 @@ class CreateTest extends Functional
         $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product->switchData('simple');
         //Data
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
@@ -66,7 +66,7 @@ class CreateTest extends Functional
      */
     protected function assertOnGrid($product)
     {
-        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();

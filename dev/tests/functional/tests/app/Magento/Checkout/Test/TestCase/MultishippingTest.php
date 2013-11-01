@@ -76,12 +76,12 @@ class MultishippingTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $grandTotals = $fixture->getGrandTotal();
         foreach ($orderIds as $num => $orderId) {
-            $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+            $orderPage = Factory::getPageFactory()->getSalesOrder();
             $orderPage->open();
             $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
             $this->assertContains(
                 $grandTotals[$num],
-                Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+                Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
                 'Incorrect grand total value for the order #' . $orderId
             );
         }

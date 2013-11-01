@@ -153,7 +153,7 @@ class CreateConfigurable extends Curl
     public function execute(Fixture $fixture = null)
     {
         $url = $_ENV['app_backend_url']
-            . 'admin/catalog_product/save/'
+            . 'catalog/product/save/'
             . $fixture->getUrlParams('create_url_params');
         $params = $this->_prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());

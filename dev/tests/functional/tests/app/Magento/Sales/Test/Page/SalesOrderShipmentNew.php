@@ -16,17 +16,17 @@ use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Sales\Order\Shipment\Totals;
 
 /**
- * Class AdminSalesOrder
+ * Class SalesOrder
  * Manage orders page
  *
  * @package Magento\Sales\Test\Page
  */
-class AdminSalesOrderShipmentNew extends Page
+class SalesOrderShipmentNew extends Page
 {
     /**
      * URL for manage orders page
      */
-    const MCA = 'admin/sales_order_shipment/new';
+    const MCA = 'sales/order/shipment/new';
 
     /**
      * @var Totals

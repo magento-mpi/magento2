@@ -34,7 +34,7 @@ class CreateTest extends Functional
         /** @var Category $category */
         $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
         //Pages & Blocks
-        $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
+        $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
         $formBlock = $catalogCategoryPage->getFormBlock();
         $messageBlock = $catalogCategoryPage->getMessageBlock();

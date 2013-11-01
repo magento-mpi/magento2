@@ -19,17 +19,17 @@ use Magento\Backend\Test\Block\Catalog\Product;
 use Magento\Catalog\Test\Block\Backend\ProductGrid;
 
 /**
- * Class AdminCatalogProductIndex
+ * Class CatalogProductIndex
  * Catalog manage products grid page
  *
  * @package Magento\Catalog\Test\Page
  */
-class AdminCatalogProductIndex extends Page
+class CatalogProductIndex extends Page
 {
     /**
      * URL for catalog product grid
      */
-    const MCA = 'admin/catalog_product/index';
+    const MCA = 'catalog/product/index';
 
     /**
      * Catalog product grid on backend

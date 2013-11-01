@@ -40,9 +40,9 @@ class CloseOrderTest extends Functional
         $orderId = $fixture->getOrderId();
         $grandTotal = $fixture->getGrandTotal();
         //Pages
-        $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
-        $newInvoicePage = Factory::getPageFactory()->getAdminSalesOrderInvoiceNew();
-        $newShipmentPage = Factory::getPageFactory()->getAdminSalesOrderShipmentNew();
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
+        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
+        $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
 
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
@@ -50,7 +50,7 @@ class CloseOrderTest extends Functional
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $this->assertContains(
             $grandTotal,
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
 
@@ -65,7 +65,7 @@ class CloseOrderTest extends Functional
 
         $this->assertContains(
             $grandTotal,
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect captured amount value for the order #' . $orderId
         );
 
