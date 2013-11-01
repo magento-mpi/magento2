@@ -37,7 +37,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_modelDependencies = array(
         'eventDispatcher'    => 'Magento\Event\ManagerInterface',
-        'cacheManager'       => 'Magento\Core\Model\CacheInterface',
+        'cacheManager'       => 'Magento\App\CacheInterface',
         'resource'           => 'Magento\Core\Model\Resource\AbstractResource',
         'resourceCollection' => 'Magento\Data\Collection\Db'
     );
