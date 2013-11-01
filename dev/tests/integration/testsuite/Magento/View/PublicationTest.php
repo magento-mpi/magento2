@@ -658,8 +658,5 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         $actualFile = $this->_viewUrl->getViewFilePublicPath($filePath);
         $this->assertFileEquals($expectedFile, $actualFile);
-
-        // Nothing must have been published
-        $this->assertEmpty(glob($this->_viewService->getPublicDir() . '/*'));
     }
 }

@@ -95,7 +95,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
-        Url\CssResolver $cssUrlResolver,
+        \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\App\Dir $dir,
