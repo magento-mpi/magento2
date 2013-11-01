@@ -81,6 +81,11 @@ class Observer
     protected $_resourceRule;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $resourceRuleFactory
      * @param \Magento\CatalogRule\Model\Resource\Rule $resourceRule
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -92,6 +97,7 @@ class Observer
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\CatalogRule\Model\Rule\Product\Price $productPrice
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime $dateTime
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -106,7 +112,8 @@ class Observer
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\CatalogRule\Model\Rule\Product\Price $productPrice,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_resourceRule = $resourceRule;
         $this->_resourceRuleFactory = $resourceRuleFactory;
@@ -119,6 +126,7 @@ class Observer
         $this->_backendSession = $backendSession;
         $this->_productPrice = $productPrice;
         $this->_coreRegistry = $coreRegistry;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -157,7 +165,7 @@ class Observer
      */
     public function applyAllRules($observer)
     {
-        $this->_resourceRule->applyAllRulesForDateRange($this->_resourceRule->formatDate(mktime(0,0,0)));
+        $this->_resourceRule->applyAllRulesForDateRange($this->dateTime->formatDate(mktime(0,0,0)));
         $this->_flagFactory->create()
             ->loadSelf()
             ->setState(0)

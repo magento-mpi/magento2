@@ -58,7 +58,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
             $confirmMessage = __("If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?");
             $this->_updateButton('delete', 'label', __('Delete'));
             $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
 
             $this->_addButton('save_and_continue_edit', array(
@@ -96,6 +96,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getSaveUrl()
     {
         $type = $this->_coreRegistry->registry('current_giftregistry_type');
-        return $this->getUrl('*/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
+        return $this->getUrl('adminhtml/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
     }
 }

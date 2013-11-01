@@ -6,27 +6,26 @@
  * @license    {license_link}
  */
 
-/**
- * Integration model
- * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @method \Magento\Integration\Model\Resource\Integration _getResource()
- * @method \Magento\Integration\Model\Resource\Integration getResource()
- * @method \Magento\Integration\Model\Resource\Integration\Collection getCollection()
- * @method \Magento\Integration\Model\Resource\Integration\Collection getResourceCollection()
- * @method string getName()
- * @method \Magento\Integration\Model\Integration setName(string $name)
- * @method string getEmail()
- * @method \Magento\Integration\Model\Integration setEmail(string $email)
- * @method int getStatus()
- * @method \Magento\Integration\Model\Integration setStatus(int $value)
- * @method int getAuthentication()
- * @method \Magento\Integration\Model\Integration setAuthentication(int $value)
- * @method string getEndpoint()
- * @method \Magento\Integration\Model\Integration setEndpoint(string $endpoint)
- */
 namespace Magento\Integration\Model;
 
+/**
+ * Integration model.
+ *
+ * @method \string getName()
+ * @method Integration setName(\string $name)
+ * @method \string getEmail()
+ * @method Integration setEmail(\string $email)
+ * @method \int getStatus()
+ * @method Integration setStatus(\int $value)
+ * @method \int getAuthentication()
+ * @method Integration setAuthentication(\int $value)
+ * @method \string getEndpoint()
+ * @method Integration setEndpoint(\string $endpoint)
+ * @method \string getCreatedAt()
+ * @method Integration setCreatedAt(\string $createdAt)
+ * @method \string getUpdatedAt()
+ * @method Integration setUpdatedAt(\string $createdAt)
+ */
 class Integration extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
@@ -44,6 +43,31 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**#@-*/
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $_dateTime;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Resource\Customer $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Data\Collection\Db|null $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_dateTime = $dateTime;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      * @return void
@@ -55,17 +79,17 @@ class Integration extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * BeforeSave actions
+     * Prepare data to be saved to database
      *
      * @return \Magento\Integration\Model\Integration
      */
     protected function _beforeSave()
     {
-        if (!$this->getId()) {
-            $this->setUpdatedAt(time());
-        }
-        $this->validate();
         parent::_beforeSave();
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt($this->_dateTime->formatDate(true));
+        }
+        $this->setUpdatedAt($this->_dateTime->formatDate(true));
         return $this;
     }
 }

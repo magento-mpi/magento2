@@ -1,18 +1,15 @@
 <?php
 /**
- * Integration Service - Version 1.
- *
- * This service is used to interact with integrations.
- *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Integration
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Integration\Service;
 
+/**
+ * Integration Service Interface
+ */
 interface IntegrationV1Interface
 {
 
@@ -21,7 +18,6 @@ interface IntegrationV1Interface
      *
      * @param array $integrationData
      * @return array Integration data
-     * @throws \Exception|\Magento\Core\Exception
      * @throws \Magento\Integration\Exception
      */
     public function create(array $integrationData);
@@ -31,7 +27,6 @@ interface IntegrationV1Interface
      *
      * @param int $integrationId
      * @return array Integration data
-     * @throws \Exception|\Magento\Core\Exception
      * @throws \Magento\Integration\Exception
      */
     public function get($integrationId);
@@ -42,7 +37,6 @@ interface IntegrationV1Interface
      *
      * @param array $integrationData
      * @return array Integration data
-     * @throws \Exception|\Magento\Core\Exception
      * @throws \Magento\Integration\Exception
      */
     public function update(array $integrationData);

@@ -28,14 +28,22 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_ctlgProdConfigur = null;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Escaper $escaper
     ) {
         $this->_ctlgProdConfigur = $ctlgProdConfigur;
+        $this->_escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -52,7 +60,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
         if ($option) {
             $value = $option->getValue();
             if ($value) {
-                return $this->escapeHtml($value);
+                return $this->_escaper->escapeHtml($value);
             }
         }
         return false;

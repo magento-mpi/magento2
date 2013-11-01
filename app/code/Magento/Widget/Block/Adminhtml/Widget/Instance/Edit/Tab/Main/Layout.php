@@ -86,7 +86,7 @@ class Layout
      */
     public function getCategoriesChooserUrl()
     {
-        return $this->getUrl('*/*/categories', array('_current' => true));
+        return $this->getUrl('adminhtml/*/categories', array('_current' => true));
     }
 
     /**
@@ -96,7 +96,7 @@ class Layout
      */
     public function getProductsChooserUrl()
     {
-        return $this->getUrl('*/*/products', array('_current' => true));
+        return $this->getUrl('adminhtml/*/products', array('_current' => true));
     }
 
     /**
@@ -106,7 +106,7 @@ class Layout
      */
     public function getBlockChooserUrl()
     {
-        return $this->getUrl('*/*/blocks', array('_current' => true));
+        return $this->getUrl('adminhtml/*/blocks', array('_current' => true));
     }
 
     /**
@@ -116,7 +116,7 @@ class Layout
      */
     public function getTemplateChooserUrl()
     {
-        return $this->getUrl('*/*/template', array('_current' => true));
+        return $this->getUrl('adminhtml/*/template', array('_current' => true));
     }
 
     /**
@@ -148,45 +148,45 @@ class Layout
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('-- Please Select --'))
+            'label' => $this->escapeJsQuote(__('-- Please Select --'))
         );
         $options[] = array(
             'label' => __('Categories'),
             'value' => array(
                 array(
                     'value' => 'anchor_categories',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Anchor Categories'))
+                    'label' => $this->escapeJsQuote(__('Anchor Categories'))
                 ),
                 array(
                     'value' => 'notanchor_categories',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Non-Anchor Categories'))
+                    'label' => $this->escapeJsQuote(__('Non-Anchor Categories'))
                 )
             )
         );
         foreach ($this->_productType->getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
-               'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($type['label'])
+               'label' => $this->escapeJsQuote($type['label'])
             );
         }
         array_unshift($productsOptions, array(
             'value' => 'all_products',
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Product Types'))
+            'label' => $this->escapeJsQuote(__('All Product Types'))
         ));
         $options[] = array(
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Products')),
+            'label' => $this->escapeJsQuote(__('Products')),
             'value' => $productsOptions
         );
         $options[] = array(
-            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Generic Pages')),
+            'label' => $this->escapeJsQuote(__('Generic Pages')),
             'value' => array(
                 array(
                     'value' => 'all_pages',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Pages'))
+                    'label' => $this->escapeJsQuote(__('All Pages'))
                 ),
                 array(
                     'value' => 'pages',
-                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Specified Page'))
+                    'label' => $this->escapeJsQuote(__('Specified Page'))
                 )
             )
         );
@@ -284,7 +284,7 @@ class Layout
     {
         $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
-                'label'     => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Remove Layout Update')),
+                'label'     => $this->escapeJsQuote(__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
                 'class'     => 'action-delete'
             ));

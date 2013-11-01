@@ -13,7 +13,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg;
 
-class Files extends \Magento\Adminhtml\Controller\Action
+class Files extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Index action
@@ -35,7 +35,7 @@ class Files extends \Magento\Adminhtml\Controller\Action
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array()));
         }
     }
@@ -53,7 +53,7 @@ class Files extends \Magento\Adminhtml\Controller\Action
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
@@ -119,7 +119,7 @@ class Files extends \Magento\Adminhtml\Controller\Action
                 'value' => $helper->getThumbnailPath($file)
             ));
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('core/index/notfound');
         }
     }

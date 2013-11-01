@@ -19,7 +19,7 @@
 namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Renderer;
 
 class Action
-    extends \Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action
+    extends \Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action
 {
     /**
      * Render field HRML for column
@@ -32,7 +32,7 @@ class Action
         $actions = array();
         if ($row->getIsReturnable()) {
             $actions[] = array(
-                    '@' =>  array('href' => $this->getUrl('*/rma/new', array('order_id'=>$row->getId()))),
+                    '@' =>  array('href' => $this->getUrl('adminhtml/rma/new', array('order_id'=>$row->getId()))),
                     '#' =>  __('Return')
             );
         }

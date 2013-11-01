@@ -188,11 +188,11 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting these versions.'));
             }
         }
-        $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));
+        $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'versions'));
 
         return $this;
     }

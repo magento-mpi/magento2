@@ -1,0 +1,57 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @api
+ * @category    Mtf
+ * @package     Mtf
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Backend\Test\Block\Widget;
+
+use Mtf\Block\Form as AbstractForm;
+use Mtf\Client\Element\Locator;
+use Mtf\Client\Element;
+
+/**
+ * Class Tab
+ * Is used to represent any tab on the page
+ *
+ * @package Magento\Backend\Test\Block\Widget
+ */
+class Tab extends AbstractForm
+{
+    /**
+     * Fill data to fields on tab
+     *
+     * @param array $fields
+     * @param Element $element
+     */
+    public function fillFormTab(array $fields, Element $element)
+    {
+        $data = $this->dataMapping($fields);
+        $this->_fill($data, $element);
+    }
+
+    /**
+     * Update data to fields on tab
+     *
+     * @param array $fields
+     * @param Element $element
+     */
+    public function updateFormTab(array $fields, Element $element)
+    {
+        $this->fillFormTab($fields, $element);
+    }
+
+    /**
+     * Open tab
+     */
+    public function open()
+    {
+        $this->_rootElement->click();
+    }
+}

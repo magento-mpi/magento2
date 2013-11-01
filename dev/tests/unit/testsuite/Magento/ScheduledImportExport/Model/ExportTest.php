@@ -46,7 +46,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'getDateCallback')));
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
-            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMock('Magento\App\Dir', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', array(), array(), '', false),

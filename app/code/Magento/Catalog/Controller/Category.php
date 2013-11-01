@@ -111,7 +111,7 @@ class Category extends \Magento\Core\Controller\Front\Action
                 )
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return false;
         }
 
@@ -135,10 +135,17 @@ class Category extends \Magento\Core\Controller\Front\Action
             $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
             $update = $this->getLayout()->getUpdate();
+            $update->addHandle('default');
             if ($category->getIsAnchor()) {
                 $type = $category->hasChildren() ? 'layered' : 'layered_without_children';
             } else {
                 $type = $category->hasChildren() ? 'default' : 'default_without_children';
+            }
+
+            if (!$category->hasChildren()) {
+                // Two levels removed from parent.  Need to add default page type.
+                $parentType = strtok($type, '_');
+                $this->addPageLayoutHandles(array('type' => $parentType));
             }
             $this->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
             $this->loadLayoutUpdates();

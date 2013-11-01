@@ -134,6 +134,6 @@ class Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('type_id' => $row->getId()));
+        return $this->getUrl('adminhtml/*/edit', array('type_id' => $row->getId()));
     }
 }

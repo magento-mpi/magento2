@@ -429,8 +429,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $block1 = $this->_createBlockWithLayout('block1', 'block1');
         $block2 = $this->_createBlockWithLayout('block2', 'block2');
         $parent->setChild('block1', $block1)->setChild('block2', $block2);
-        $block1->addToParentGroup('group');
-        $block2->addToParentGroup('group');
+        $this->_layout->addToParentGroup('block1', 'group');
+        $this->_layout->addToParentGroup('block2', 'group');
         $group = $parent->getGroupChildNames('group');
         $this->assertContains('block1', $group);
         $this->assertContains('block2', $group);
@@ -612,10 +612,10 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($url, $this->_block->escapeUrl($url));
     }
 
-    public function testJsQuoteEscape()
+    public function testEscapeJsQuote()
     {
         $script = "var s = 'text';";
-        $this->assertEquals('var s = \\\'text\\\';', $this->_block->jsQuoteEscape($script));
+        $this->assertEquals('var s = \\\'text\\\';', $this->_block->escapeJsQuote($script));
     }
 
     public function testGetCacheKeyInfo()

@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Block;
 
 /**
  * Base html block
- *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Block;
-
 class Template extends \Magento\Core\Block\AbstractBlock
 {
     const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
@@ -29,8 +24,14 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     protected $_viewVars = array();
 
+    /**
+     * @var string
+     */
     protected $_baseUrl;
 
+    /**
+     * @var string
+     */
     protected $_jsUrl;
 
     /**
@@ -44,11 +45,6 @@ class Template extends \Magento\Core\Block\AbstractBlock
      * @var \Magento\App\Dir
      */
     protected $_dirs;
-
-    /**
-     * @var \Magento\Core\Model\Logger
-     */
-    protected $_logger;
 
     /**
      * @var \Magento\Filesystem
@@ -68,16 +64,16 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_template;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Pool
+     * @var \Magento\View\TemplateEngineFactory
      */
-    protected $_templateEnginePool;
+    protected $_templateEngineFactory;
 
     /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @var \Magento\Core\Model\App
@@ -97,10 +93,9 @@ class Template extends \Magento\Core\Block\AbstractBlock
     ) {
         $this->_coreData = $coreData;
         $this->_dirs = $context->getDirs();
-        $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
-        $this->_templateEnginePool = $context->getEnginePool();
+        $this->_templateEngineFactory = $context->getEngineFactory();
         $this->_storeManager = $context->getApp();
         parent::__construct($context, $data);
     }
@@ -209,7 +204,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
         ) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $templateEngine = $this->_templateEnginePool->get($extension);
+            $templateEngine = $this->_templateEngineFactory->get($extension);
             $html = $templateEngine->render($this, $fileName, $this->_viewVars);
         } else {
             $html = '';

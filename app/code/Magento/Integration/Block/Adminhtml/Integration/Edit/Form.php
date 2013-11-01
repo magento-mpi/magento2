@@ -10,7 +10,8 @@
 
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit;
 
-use \Magento\Integration\Controller\Adminhtml\Integration;
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Controller\Adminhtml\Integration;
 
 /**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
@@ -35,14 +36,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
-        if ($integrationData[Integration::DATA_INTEGRATION_ID]) {
-            $form->addField(
-                Integration::DATA_INTEGRATION_ID,
-                'hidden',
-                array(
-                    'name' => 'id',
-                )
-            );
+        if (isset($integrationData[Info::DATA_ID])) {
+            $form->addField(Info::DATA_ID, 'hidden', array('name' => 'id'));
             $form->setValues($integrationData);
         }
         $form->setUseContainer(true);

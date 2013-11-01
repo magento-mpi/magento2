@@ -17,7 +17,7 @@
  */
 namespace Magento\Banner\Controller\Adminhtml\Banner;
 
-class Widget extends \Magento\Adminhtml\Controller\Action
+class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Chooser Source action

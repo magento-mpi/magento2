@@ -158,6 +158,7 @@ class ColumnSet extends \Magento\Core\Block\Template
      */
     public function getColumns()
     {
+
         $columns = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         foreach ($columns as $key => $column) {
             if (!$column->isDisplayed()) {
