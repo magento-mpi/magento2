@@ -747,7 +747,7 @@ class Observer
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab_Attributes */
+        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab_Attributes */
         $block = $observer->getEvent()->getObject();
         $excludedFieldList = array();
 
@@ -773,7 +773,7 @@ class Observer
      */
     public function catalogProductAttributeUpdateBefore($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab_Attributes */
+        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab_Attributes */
         $attributesData = $observer->getEvent()->getAttributesData();
         $excludedAttributes = array();
 

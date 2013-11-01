@@ -95,7 +95,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
                     'label' => __('Matched Customers (%1)', $customersQty),
-                    'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
+                    'url'   => $this->getUrl('adminhtml/report_customer_customersegment/customerGrid',
                         array('segment_id' => $segment->getId())),
                     'class' => 'ajax',
                 ));

@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Catalog;
 
-class Search extends \Magento\Adminhtml\Controller\Action
+class Search extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -64,7 +64,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
             $model->load($id);
             if (! $model->getId()) {
                 $backendSession->addError(__('This search no longer exists.'));
-                $this->_redirect('*/*');
+                $this->_redirect('adminhtml/*');
                 return;
             }
         }

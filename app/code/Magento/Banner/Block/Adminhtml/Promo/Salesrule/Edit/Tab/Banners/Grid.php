@@ -124,7 +124,7 @@ class Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/banner/salesRuleBannersGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/banner/salesRuleBannersGrid', array('_current' => true));
     }
 
     /**

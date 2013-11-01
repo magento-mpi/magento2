@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
-class Hierarchy extends \Magento\Adminhtml\Controller\Action
+class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Current Scope
@@ -208,7 +208,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
             }
         }
 
-        $this->_redirect('*/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        $this->_redirect('adminhtml/*/index', array('website' => $this->_website, 'store' => $this->_store));
         return;
     }
 
@@ -241,7 +241,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
             }
         }
 
-        $this->_redirect('*/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        $this->_redirect('adminhtml/*/index', array('website' => $this->_website, 'store' => $this->_store));
         return;
     }
 
@@ -251,7 +251,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
      */
     public function lockAction()
     {
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -323,7 +323,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
             }
         }
 
-        $this->_redirect('*/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        $this->_redirect('adminhtml/*/index', array('website' => $this->_website, 'store' => $this->_store));
         return;
     }
 

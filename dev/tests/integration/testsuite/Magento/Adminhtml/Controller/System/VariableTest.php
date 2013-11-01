@@ -17,7 +17,7 @@ namespace Magento\Adminhtml\Controller\System;
 class VariableTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @covers \Magento\Adminhtml\Controller\Action::_addLeft
+     * @covers \Magento\Backend\Controller\Adminhtml\Action::_addLeft
      */
     public function testEditAction()
     {
