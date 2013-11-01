@@ -106,6 +106,10 @@ class Address extends AbstractRepository
                     ),
                     'telephone' => array(
                         'value' => '555-55-555-55'
+                    ),
+                    'save_in_address_book' => array(
+                        'value' => 'Yes',
+                        'input' => 'checkbox'
                     )
                 )
             )

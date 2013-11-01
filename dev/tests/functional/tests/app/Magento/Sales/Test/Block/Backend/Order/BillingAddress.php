@@ -33,7 +33,8 @@ class BillingAddress extends Form
             'city' => '#order-billing_address_city',
             'region' => '#order-billing_address_region_id',
             'postcode' => '#order-billing_address_postcode',
-            'country' => '#order-billing_address_country_id'
+            'country' => '#order-billing_address_country_id',
+            'save_in_address_book' => '#order-billing_address_save_in_address_book'
         );
         parent::_init();
     }

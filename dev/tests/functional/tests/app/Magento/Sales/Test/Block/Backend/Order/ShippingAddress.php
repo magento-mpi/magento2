@@ -27,8 +27,11 @@ class ShippingAddress extends Form
      */
     public function setSameAsBillingShippingAddress()
     {
-        $a = $this->_rootElement;
-            $a = $a->find('order-shipping_same_as_billing', Locator::SELECTOR_ID, 'checkbox');
-            $a->setValue('Yes');
+        $this->_rootElement->click();
+        $this->_rootElement->find(
+            'order-shipping_same_as_billing',
+            Locator::SELECTOR_ID,
+            'checkbox'
+        )->setValue('Yes');
     }
 }

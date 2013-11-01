@@ -89,14 +89,10 @@ class Order extends DataFixture
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple');
 
-//        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-
         $simple->persist();
-//        $configurable->persist();
 
         $this->products = array(
             $simple
-//            $configurable,
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -109,6 +105,9 @@ class Order extends DataFixture
         $this->paymentMethod->switchData('check_money_order');
 
         $this->_data = array(
+            'totals' => array(
+                'grand_total' => '$15.83'
+            ),
             'store_view' => 'Default Store View',
             'website_id' => '0'
         );
@@ -192,6 +191,16 @@ class Order extends DataFixture
     public function getStoreViewName()
     {
         return $this->getData('store_view');
+    }
+
+    /**
+     * Get order grand total amount
+     *
+     * @return string
+     */
+    public function getGrandTotal()
+    {
+        return $this->getData('totals/grand_total');
     }
 
     /**

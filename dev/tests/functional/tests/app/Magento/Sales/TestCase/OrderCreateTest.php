@@ -42,6 +42,8 @@ class OrderCreateTest extends Functional
         $this->_proceedToOrderCreatePage();
 
         $this->_fillOrderData($orderFixture);
+
+        $this->_checkOrderAndCustomer($orderFixture);
     }
 
     /**
@@ -88,9 +90,7 @@ class OrderCreateTest extends Functional
         /** @var $product Product */
         foreach ($fixture->getProducts() as $product)
         {
-            $productsAddGrid->searchAndSelect(array(
-                'sku' => $product->getProductSku()
-            ));
+            $productsAddGrid->addProduct($product);
         }
         $productsAddGrid->addSelectedProducts();
 
@@ -105,6 +105,42 @@ class OrderCreateTest extends Functional
         $templateBlock->waitLoader();
 
         $orderSummaryBlock->clickSaveOrder();
-        $templateBlock->waitLoader();
+    }
+
+    /**
+     * Check order's grand total
+     *
+     * @param Order $fixture
+     */
+    protected function _checkOrderAndCustomer(Order $fixture)
+    {
+        $orderViewPage = Factory::getPageFactory()->getAdminSalesOrderView();
+        $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $orderGrid = $orderGridPage->getOrderGridBlock();
+
+        $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
+        $orderId = substr($orderViewPage->getTitleBlock()->getTitle(), 1);
+        $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
+        $orderGridPage->open();
+
+        $orderGrid->searchAndOpen(array(
+            'id' => $orderId
+        ));
+        $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
+
+        $customerGridPage = Factory::getPageFactory()->getAdminCustomer();
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
+        $customerViewPage = Factory::getPageFactory()->getAdminCustomerEdit();
+
+        $customerGridPage->open();
+        $customerGrid->searchAndOpen(array(
+            'email' => $email
+        ));
+        $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
+
+        $firstname = $fixture->getBillingAddress()->getFirstName()['value'];
+        $lastname = $fixture->getBillingAddress()->getLastName()['value'];
+
+        $this->assertEquals($customerPageTitle,  $firstname . ' ' . $lastname);
     }
 }

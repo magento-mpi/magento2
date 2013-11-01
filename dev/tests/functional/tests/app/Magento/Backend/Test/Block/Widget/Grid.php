@@ -11,6 +11,7 @@
 
 namespace Magento\Backend\Test\Block\Widget;
 
+use Magento\Backend\Test\Block\Template;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
@@ -53,6 +54,13 @@ abstract class Grid extends Block
     protected $rowItem;
 
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink;
+
+    /**
      * An element locator which allows to select entities in grid
      *
      * @var string
@@ -76,8 +84,9 @@ abstract class Grid extends Block
         $this->resetButton = '[title="Reset Filter"][class*=action]';
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
+        $this->editLink = '//td[@data-column="action"]//a';
         $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find('./ancestor::body', \Mtf\Client\Element\Locator::SELECTOR_XPATH));
+            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH));
     }
 
     /**
@@ -128,7 +137,7 @@ abstract class Grid extends Block
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
-            $rowItem->find('//td[@data-column="action"]//a', Locator::SELECTOR_XPATH)->click();
+            $rowItem->find($this->editLink, Locator::SELECTOR_XPATH)->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }
