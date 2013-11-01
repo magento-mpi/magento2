@@ -28,7 +28,7 @@
         <plugin name="one" type="somePluginOne"/>
         <plugin name="two" type="somePluginTwo" sortOrder="15"/>
     </type>
-    <virtualType name="Magento\App\Config\Loader\LocalVirtual" type="Magento\App\Config\Loader\Local" shared="false">
+    <virtualType name="Magento\App\Config\LoaderVirtual" type="Magento\App\Config\Loader\Local" shared="false">
         <param name="customFile">
             <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>
         </param>
