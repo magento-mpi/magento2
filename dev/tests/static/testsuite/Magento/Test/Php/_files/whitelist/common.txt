@@ -52,7 +52,6 @@ app/code/Magento/Core/Model/Design/Fallback
 app/code/Magento/Core/Model/Design/Source/Design.php
 app/code/Magento/Core/Model/Email/Template/Config
 app/code/Magento/Core/Model/Email/Template/Config.php
-app/code/Magento/Core/Model/EntryPoint
 app/code/Magento/Core/Model/Layout/Factory.php
 app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument

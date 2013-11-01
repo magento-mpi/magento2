@@ -24,10 +24,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->throwException(new \Magento\BootstrapException('exception_message')));
 
+        $areaListMock = $this->getMock('Magento\App\AreaList', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $scopeMock = $this->getMock('Magento\Config\Scope', array(), array(), '', false);
+        $configLoaderMock = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
+
         /** @var \Magento\Core\Model\EntryPoint\Http $model */
-        $model = new \Magento\Core\Model\EntryPoint\Http(BP, array(), $objectManager);
+        $model = new \Magento\App\Http($objectManager, $areaListMock, $requestMock, $scopeMock, $configLoaderMock);
         ob_start();
-        $model->processRequest();
+        $model->execute();
         $content = ob_get_clean();
 
         $headers = xdebug_get_headers();
