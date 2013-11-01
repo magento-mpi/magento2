@@ -31,23 +31,23 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     protected $_outputMock;
 
     /** \PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\Installer\ConsoleFactory */
-    protected $_installerFactoryMock;
+    protected $_instFactoryMock;
 
     protected function setUp()
     {
-        $this->_installerFactoryMock = $this->getMock('\Magento\Install\Model\Installer\ConsoleFactory',
+        $this->_instFactoryMock = $this->getMock('\Magento\Install\Model\Installer\ConsoleFactory',
             array('create'), array(), '', false);
         $this->_installerMock = $this->getMock('Magento\Install\Model\Installer\Console', array(), array(), '', false);
         $this->_dirVerifierMock = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
         $this->_outputMock = $this->getMock('Magento\Install\App\Output', array(), array(), '', false);
 
-        $this->_installerFactoryMock->expects($this->any())->method('create')
+        $this->_instFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($this->_installerMock));
     }
 
     protected function _createModel($params = array())
     {
-        return new \Magento\Install\App\Console($this->_installerFactoryMock, $params, $this->_outputMock);
+        return new \Magento\Install\App\Console($this->_instFactoryMock, $params, $this->_outputMock);
     }
 
     /**

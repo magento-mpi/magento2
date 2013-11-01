@@ -115,7 +115,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testSetRouteNameWithNullRouterValue()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $router = $this->getMock('\Magento\App\Router\AbstractRouter', array(), array(), '', false);
         $this->_routerListMock->expects($this->once())->method('getRouteFrontName')->will($this->returnValue(null));
         $this->_model->setRouteName('RouterName');
     }
@@ -169,7 +168,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedRouteNameWithRewritePathInfo()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $routerAbstract = $this->getMock('\Magento\App\Router\AbstractRouter', array(), array(), '', false);
         $expected = 'TestValue';
         $this->_model->setPathInfo($expected);
         $this->_model->rewritePathInfo($expected . '/other');

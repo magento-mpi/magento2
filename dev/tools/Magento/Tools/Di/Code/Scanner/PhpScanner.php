@@ -26,6 +26,52 @@ class PhpScanner implements ScannerInterface
     }
 
     /**
+     * Fetch factories from class constructor
+     *
+     * @param $file string
+     * @param $reflectionClass mixed
+     * @return array
+     */
+    protected function _fetchFactories($file, $reflectionClass)
+    {
+        $absentFactories = array();
+        if ($reflectionClass->hasMethod('__construct')) {
+            $constructor = $reflectionClass->getMethod('__construct');
+            $parameters = $constructor->getParameters();
+            /** @var $parameter \ReflectionParameter */
+            foreach ($parameters as $parameter) {
+                preg_match('/\[\s\<\w+?>\s([\w\\\\]+)/s', $parameter->__toString(), $matches);
+                if (isset($matches[1]) && substr($matches[1], -7) == 'Factory') {
+                    $factoryClassName = $matches[1];
+                    if (class_exists($factoryClassName)) {
+                        continue;
+                    }
+                    $entityName = rtrim(substr($factoryClassName, 0, -7), '\\');
+                    if (!class_exists($entityName)) {
+                        $this->_log->add(
+                            Log::CONFIGURATION_ERROR,
+                            $factoryClassName,
+                            'Invalid Factory for nonexistent class ' . $entityName . ' in file ' . $file
+                        );
+                        continue;
+                    }
+
+                    if (substr($factoryClassName, -8) == '\\Factory') {
+                        $this->_log->add(
+                            Log::CONFIGURATION_ERROR,
+                            $factoryClassName,
+                            'Invalid Factory declaration for class ' . $entityName . ' in file ' . $file
+                        );
+                        continue;
+                    }
+                    $absentFactories[] = $factoryClassName;
+                }
+            }
+        }
+        return $absentFactories;
+    }
+
+    /**
      * Get array of class names
      *
      * @param array $files
@@ -38,42 +84,50 @@ class PhpScanner implements ScannerInterface
             $classes = $this->_getDeclaredClasses($file);
             foreach ($classes as $className) {
                 $reflectionClass = new \ReflectionClass($className);
-                if ($reflectionClass->hasMethod('__construct')) {
-                    $constructor = $reflectionClass->getMethod('__construct');
-                    $parameters = $constructor->getParameters();
-                    /** @var $parameter \ReflectionParameter */
-                    foreach ($parameters as $parameter) {
-                        preg_match('/\[\s\<\w+?>\s([\w\\\\]+)/s', $parameter->__toString(), $matches);
-                        if (isset($matches[1]) && substr($matches[1], -7) == 'Factory') {
-                            $factoryClassName = $matches[1];
-                            if (class_exists($factoryClassName)) {
-                                continue;
-                            }
-                            $entityName = rtrim(substr($factoryClassName, 0, -7), '\\');
-                            if (!class_exists($entityName)) {
-                                $this->_log->add(
-                                    Log::CONFIGURATION_ERROR,
-                                    $factoryClassName,
-                                    'Invalid Factory for nonexistent class ' . $entityName . ' in file ' . $file
-                                );
-                                continue;
-                            }
-
-                            if (substr($factoryClassName, -8) == '\\Factory') {
-                                $this->_log->add(
-                                    Log::CONFIGURATION_ERROR,
-                                    $factoryClassName,
-                                    'Invalid Factory declaration for class ' . $entityName . ' in file ' . $file
-                                );
-                                continue;
-                            }
-                            $output[] = $factoryClassName;
-                        }
-                    }
+                $absentFactories = $this->_fetchFactories($file, $reflectionClass);
+                if (!empty($absentFactories)) {
+                    $output = array_merge($output, $absentFactories);
                 }
             }
         }
         return array_unique($output);
+    }
+
+    /**
+     * @param $tokenIterator int
+     * @param $count int
+     * @param $tokens array
+     * @return string
+     */
+    protected function _fetchNamespace($tokenIterator, $count, $tokens)
+    {
+        $namespace = '';
+        for ($tokenOffset = $tokenIterator + 1; $tokenOffset < $count; ++$tokenOffset) {
+            if ($tokens[$tokenOffset][0] === T_STRING) {
+                $namespace .= "\\" . $tokens[$tokenOffset][1];
+            } elseif ($tokens[$tokenOffset] === '{' || $tokens[$tokenOffset] === ';') {
+                break;
+            }
+        }
+        return $namespace;
+    }
+
+    /**
+     * @param $namespace string
+     * @param $tokenIterator int
+     * @param $count int
+     * @param $tokens array
+     * @return array
+     */
+    protected function _fetchClasses($namespace, $tokenIterator, $count, $tokens)
+    {
+        $classes = array();
+        for ($tokenOffset = $tokenIterator + 1; $tokenOffset < $count; ++$tokenOffset) {
+            if ($tokens[$tokenOffset] === '{') {
+                $classes[]= $namespace . "\\" . $tokens[$tokenIterator + 2][1];
+            }
+        }
+        return $classes;
     }
 
     /**
@@ -91,22 +145,11 @@ class PhpScanner implements ScannerInterface
 
         for ($tokenIterator = 0; $tokenIterator < $count; $tokenIterator ++) {
             if ($tokens[$tokenIterator][0] === T_NAMESPACE) {
-                for ($tokenOffset = $tokenIterator + 1; $tokenOffset < $count; ++$tokenOffset) {
-                    if ($tokens[$tokenOffset][0] === T_STRING) {
-                        $namespace .= "\\" . $tokens[$tokenOffset][1];
-                    } elseif ($tokens[$tokenOffset] === '{' || $tokens[$tokenOffset] === ';') {
-                        break;
-                    }
-                }
+                $namespace .= $this->_fetchNamespace($tokenIterator, $count, $tokens);
             }
 
             if ($tokens[$tokenIterator][0] === T_CLASS) {
-                for ($tokenOffset = $tokenIterator + 1; $tokenOffset < $count; ++$tokenOffset) {
-                    if ($tokens[$tokenOffset] === '{') {
-                        $classes[]= $namespace . "\\" . $tokens[$tokenIterator + 2][1];
-                    }
-                }
-
+                $classes = array_merge($classes, $this->_fetchClasses($namespace, $tokenIterator, $count, $tokens));
             }
         }
         return array_unique($classes);

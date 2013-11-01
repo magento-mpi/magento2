@@ -25,7 +25,7 @@ class ElementFactory
     /**
      * @param string $className
      * @param array $data
-     * @return Magento\SomeModule\Element\Collection
+     * @return \Magento\SomeModule\Element
      */
     public function create($className, array $data = array())
     {

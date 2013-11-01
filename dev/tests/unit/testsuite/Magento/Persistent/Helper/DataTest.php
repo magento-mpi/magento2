@@ -22,7 +22,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-//        $this->fail("Magento\Core\Model\Config::getModuleDir() was deleted");
         $this->_modulesReader = $this->getMock(
             '\Magento\Module\Dir\Reader',
             array(),

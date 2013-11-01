@@ -43,7 +43,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      * @param \Magento\App\RequestInterface $request
      * @param bool $isVde
      * @param bool $isLoggedIn
-     * @param bool $isConfiguration
      * @param array $routers
      * @param string|null $matchedValue
      *
@@ -53,11 +52,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         \Magento\App\RequestInterface $request,
         $isVde,
         $isLoggedIn,
-        $isConfiguration,
         array $routers = array(),
         $matchedValue = null
     ) {
-        $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $isConfiguration, $routers);
+        $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
 
         $this->assertEquals($matchedValue, $this->_model->match($request));
         if ($isVde && $isLoggedIn) {
@@ -120,7 +118,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 ),
                 '$isVde'           => false,
                 '$isLoggedIn'      => true,
-                '$isConfiguration' => false,
             ),
             'not logged as admin' => array(
                 '$request' => $this->getMock(
@@ -128,7 +125,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
-                '$isConfiguration' => false,
             ),
             'no matched routers' => array(
                 '$request' => $this->getMock(
@@ -136,14 +132,12 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
-                '$isConfiguration' => false,
                 '$routers'         => $excludedRouters
             ),
             'matched routers' => array(
                 '$request'         => $matchedRequest,
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
-                '$isConfiguration' => true,
                 '$routers'         => $matchedRouters,
                 '$matchedValue'    => $matchedController,
             ),
@@ -154,7 +148,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      * @param \Magento\App\RequestInterface $request
      * @param bool $isVde
      * @param bool $isLoggedIn
-     * @param bool $isConfiguration
      * @param array $routers
      * @return \Magento\DesignEditor\Controller\Varien\Router\Standard
      */
@@ -162,7 +155,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         \Magento\App\RequestInterface $request,
         $isVde,
         $isLoggedIn,
-        $isConfiguration,
         array $routers
     ) {
         // default mocks - not affected on method functionality

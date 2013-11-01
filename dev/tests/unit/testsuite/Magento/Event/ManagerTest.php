@@ -56,7 +56,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatch()
     {
-        $data = array('123');
         $this->_eventConfigMock->expects($this->once())
             ->method('getObservers')
             ->with('some_event')

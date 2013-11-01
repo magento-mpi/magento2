@@ -62,6 +62,52 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
     }
 
+    /**
+     * Perform class(instance) and its parameters analysis
+     * return error message if found issues
+     *
+     * @param $file
+     * @param $instanceName
+     * @param $parameters
+     * @return string|null
+     */
+    protected function analyzeInstance($file, $instanceName, $parameters)
+    {
+        if (!isset($parameters['parameters']) || empty($parameters['parameters'])) {
+            return;
+        }
+
+        if (\Magento\TestFramework\Utility\Classes::isVirtual($instanceName)) {
+            $instanceName = \Magento\TestFramework\Utility\Classes::resolveVirtualType($instanceName);
+        }
+        $parameters = $parameters['parameters'];
+
+        if (!class_exists($instanceName)) {
+            return 'Detected configuration of non existed class: ' . $instanceName . ' in file ' . $file;
+        }
+
+        $reflectionClass = new \ReflectionClass($instanceName);
+
+        $constructor = $reflectionClass->getConstructor();
+        if (!$constructor) {
+            return 'Class ' . $instanceName . ' does not have __constructor';
+        }
+
+        $classParameters = $constructor->getParameters();
+        foreach ($classParameters as $classParameter) {
+            $parameterName = $classParameter->getName();
+            if (array_key_exists($parameterName, $parameters)) {
+                unset($parameters[$parameterName]);
+            }
+        }
+
+        if (!empty($parameters)) {
+            return 'Configuration of ' . $instanceName
+                . ' contains data for non-existed parameters: ' . implode(', ', array_keys($parameters))
+                . ' in file: ' . $file;
+        }
+    }
+
     public function testConfigurationOfInstanceParameters()
     {
         $files = \Magento\TestFramework\Utility\Files::init()->getDiConfigs();
@@ -72,41 +118,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $data = $this->_mapper->convert($dom);
 
             foreach ($data as $instanceName => $parameters) {
-                if (!isset($parameters['parameters']) || empty($parameters['parameters'])) {
-                    continue;
+                $message = $this->analyzeInstance($file, $instanceName, $parameters);
+                if (!empty($message)) {
+                    $errors[] = $message;
                 }
-
-                if (\Magento\TestFramework\Utility\Classes::isVirtual($instanceName)) {
-                    $instanceName = \Magento\TestFramework\Utility\Classes::resolveVirtualType($instanceName);
-                }
-                $parameters = $parameters['parameters'];
-
-                if (!class_exists($instanceName)) {
-                    $errors[] = 'Detected configuration of non existed class: ' . $instanceName . ' in file ' . $file;
-                    continue;
-                }
-
-                $reflectionClass = new \ReflectionClass($instanceName);
-
-                $constructor = $reflectionClass->getConstructor();
-                if (!$constructor) {
-                    $errors[] = 'Class ' . $instanceName . ' does not have __constructor';
-                    continue;
-                }
-
-                $classParameters = $constructor->getParameters();
-                foreach ($classParameters as $classParameter) {
-                    $parameterName = $classParameter->getName();
-                    if (array_key_exists($parameterName, $parameters)) {
-                        unset($parameters[$parameterName]);
-                    }
-                }
-                if (!empty($parameters)) {
-                    $errors[] = 'Configuration of ' . $instanceName
-                        . ' contains data for non-existed parameters: ' . implode(', ', array_keys($parameters))
-                        . ' in file: ' . $file;
-                }
-
             }
         }
 

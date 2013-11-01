@@ -33,6 +33,7 @@ class EntryPoint implements EntryPointInterface
      * @param string $rootDir
      * @param array $parameters
      * @param ObjectManager $objectManager
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function __construct(
         $rootDir,
