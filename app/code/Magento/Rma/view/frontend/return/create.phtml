@@ -12,18 +12,19 @@
 <?php $_order =  $this->getOrder(); ?>
 <?php $_data = $this->getFormData(); ?>
 <?php $_items = $this->getItems(); ?>
-
 <div id="template-registrant" class="template" style="display: none">
-    <p class="btn-remove" id="btn-remove${_index_}"><a href="#" class="btn-remove">
-        <img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo __('Remove') ?>" /></a>
-    </p>
-    <div class="field">
-        <label for="items:item${_index_}" class="required"><em>*</em><?php echo __('Item') ?></label>
-        <div class="input-box">
+
+    <div id="delete${_index_}" class="actions">
+        <a href="#" class="action delete" title="<?php echo __('Remove') ?>"><span><?php echo __('Remove') ?></span></a>
+    </div>
+
+    <div class="field item required">
+        <label for="items:item${_index_}" class="label"><span><?php echo __('Item') ?></span></label>
+        <div class="control">
             <?php $bundleID     = 0; ?>
             <?php $firstItemId = $i = $productType = $availableQty = 0; ?>
             <?php $html         = array(); ?>
-            <select name="items[${_index_}][order_item_id]" class="input-text" id="items:item${_index_}" data-args='{"index":${_index_}}'>
+            <select name="items[${_index_}][order_item_id]" class="select" id="items:item${_index_}" data-args='{"index":${_index_}}'>
                 <?php foreach($_items as $_item): ?>
                 <?php if ($i == 0): ?>
                     <?php
@@ -62,66 +63,52 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </select>
-        </div>
-
         <?php if(!empty($html)): ?>
         <?php foreach($html as $bundleID=>$node): ?>
-            <div class="field">
-                <label class="required"></label>
-                <div class="input-box">
-                    <div id="radio:item${_index_}_<?php echo $bundleID?>">
-                        <table class="data-table" id="return-items-table-<?php echo $bundleID?>">
-                            <colgroup>
-                                <col width="10" />
-                                <col width="143" />
-                                <col width="82" />
-                                <col width="65" />
-                            </colgroup>
-                            <thead>
-                            <th colspan="2"><?php echo __('Sub-items:') ?></th>
-                            <th class="a-center"><?php echo __('Remaining Qty:') ?></th>
-                            <th class="a-center"><?php echo __('Qty:') ?></th>
-                            </thead>
-                            <tbody>
-                                <?php foreach($node as $item): ?>
-                            <tr>
-                                <td>
-                                    <?php if ($item[3]): ?>
-                                    <input type="checkbox" disabled />
-                                    <?php else: ?>
-                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"
-                                           data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox"
-                                           value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
-                                    <?php endif; ?>
-                                </td>
-                                <td style="padding-left:0;padding-right:0;"><label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" style="float: none !important;padding:0;margin:0;width:0;<?php echo ($item[3]) ? 'color:#999999;' : ''?>display:inline;"><?php echo $item[1]?></label></td>
-                                <td class="a-center"><?php echo $item[2] ?></td>
-                                <td width="65">
-                                    <?php if (!$item[3]): ?>
-                                            <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" style="display:none" disabled="disabled"/>
-                                            <?php endif; ?>
-                                </td>
-                            </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                        <script type="text/javascript">jQuery('#return-items-table-<?php echo $bundleID?>').decorate('table')</script>
-                    </div>
+            <div class="nested">
+                <div id="radio:item${_index_}_<?php echo $bundleID?>">
+                    <table class="data table" id="return-items-table-<?php echo $bundleID?>">
+                        <thead>
+                            <th colspan="2" class="col subitems"><?php echo __('Sub-items') ?></th>
+                            <th class="col remaining qty"><?php echo __('Remaining Qty') ?></th>
+                            <th class="col qty"><?php echo __('Qty') ?></th>
+                        </thead>
+                        <tbody>
+                        <?php foreach($node as $item): ?>
+                        <tr>
+                            <td class="col">
+                                <?php if ($item[3]): ?>
+                                    <input type="checkbox" disabled>
+                                <?php else: ?>
+                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
+                                <?php endif; ?>
+                            </td>
+                            <td class="col product">
+                                <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo ($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
+                            </td>
+                            <td class="col remaining qty"><?php echo $item[2] ?></td>
+                            <td class="col qty">
+                                <?php if (!$item[3]): ?>
+                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="text" style="display:none" disabled class="input-text">
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <?php endforeach; ?>
         <?php endif; ?>
-    </div>
-    <div class="field" id="qty_requested_block_${_index_}">
-        <label for="items:qty_requested${_index_}" class="required"><em>*</em><?php echo __('Quantity To Return') ?></label>
-        <div class="input-box">
-            <input type="text" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
         </div>
     </div>
-    <div class="field" id="remaining_quantity_block_${_index_}">
-        <label class="required"></label>
-        <div class="input-box">
-            Remaining quantity: <span id="remaining_quantity_${_index_}"></span>
+    <div class="field qty required" id="qty_requested_block_${_index_}">
+        <label for="items:qty_requested${_index_}" class="label"><span><?php echo __('Quantity To Return') ?></span></label>
+        <div class="control">
+            <input type="text" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
+        </div>
+        <div class="note" id="remaining_quantity_block_${_index_}">
+            <?php echo __('Remaining quantity') ?><span id="remaining_quantity_${_index_}" class="qty remaining"></span>
         </div>
     </div>
 
@@ -130,47 +117,43 @@
     <?php $attributeCode = $attribute->getAttributeCode(); ?>
     <?php if ($attributeContent): ?>
         <?php if ($attributeCode == 'reason_other'): ?>
-            <li id="reason_other${_index_}" style="display: none;"><?php echo $attributeContent;?></li>
+                <?php echo $attributeContent;?>
             <?php else: ?>
-            <li><?php echo $attributeContent;?></li>
+                <?php echo $attributeContent;?>
             <?php endif; ?>
         <?php endif;?>
     <?php endforeach;?>
 </div>
 
-
-<form id="rma_create_form" method="post" enctype="multipart/form-data">
-    <div class="order-page">
-        <div class="page-title title-buttons">
-            <h1><?php echo __('New Return for Order %1', $_order->getIncrementId()) ?></h1>
+<form id="rma_create_form" method="post" enctype="multipart/form-data" class="form create return">
+    <fieldset class="fieldset">
+        <legend class="legend">
+            <span><?php echo __('New Return for Order %1', $_order->getIncrementId()) ?></span>
+        </legend>
+        <br>
+        <div class="box id">
+            <strong class="subtitle"><span><?php echo __('Order ID') ?></span></strong>
+            <div class="control"><span><?php echo $_order->getIncrementId() ?></span></div>
         </div>
-        <ul class="form-list">
-            <li>
-                <label><?php echo __('Order ID') ?></label>
-                <h5 style="float:left;"><?php echo $_order->getIncrementId() ?></h5>
-            </li>
-            <li>
-                <label><?php echo __('Customer Name') ?></label>
-                <h5 style="float:left;"><?php echo $this->escapeHtml($_order->getCustomerName()) ?></h5>
-            </li>
-            <li>
-                <label><?php echo __('Order Shipping Address') ?></label>
-                <h5 style="float:left;"><?php echo $_order->getShippingAddress()->format('html') ?></h5>
-            </li>
-            <li>
-                <label><?php echo __('Email Address') ?></label>
-                <h5 style="float:left;"><?php echo $_order->getCustomerEmail()?></h5>
-            </li>
-            <li>
-                <label><?php echo $this->helper('Magento\Rma\Helper\Data')->getContactEmailLabel() ?></label>
-                <div class="input-box">
-                     <input type="text" name="customer_custom_email" id="email" title="Contact Email Address" class="input-text" data-validate="{'validate-email':true}" value="<?php echo $this->getContactEmail()?>">
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="order-page"><dl class="order-info"></dl></div><br>
-
+        <div class="box name">
+            <strong class="subtitle"><span><?php echo __('Customer Name') ?></span></strong>
+            <div class="control"><span><?php echo $this->escapeHtml($_order->getCustomerName()) ?></span></div>
+        </div>
+        <div class="box email">
+            <strong class="subtitle"><span><?php echo __('Email Address') ?></span></strong>
+            <div class="control"><span><?php echo $_order->getCustomerEmail()?></span></div>
+        </div>
+        <div class="field contact email">
+            <label class="label"><span><?php echo $this->helper('Magento\Rma\Helper\Data')->getContactEmailLabel() ?></span></label>
+            <div class="control">
+                <input type="text" name="customer_custom_email" id="email" title="Contact Email Address" class="input-text" data-validate="{'validate-email':true}" value="<?php echo $this->getContactEmail()?>">
+            </div>
+        </div>
+        <div class="box address shipping">
+            <strong class="subtitle"><?php echo __('Order Shipping Address') ?></strong>
+            <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
+        </div>
+    </fieldset>
 
     <script type="text/javascript">
         (function($) {
@@ -195,9 +178,9 @@
                         templateRegistrant: '#template-registrant',
                         registrantOptions: '#registrant-options',
                         addItemToReturn: 'add-item-to-return',
-                        btnRemove: 'btn-remove',
+                        btnRemove: 'delete',
                         row: '#row',
-                        addRow: 'add-row',
+                        addRow: 'additional row',
                         qtyReqBlock: '#qty_requested_block',
                         remQtyBlock: '#remaining_quantity_block',
                         remQty: '#remaining_quantity',
@@ -215,32 +198,26 @@
                 });
         })(jQuery);
     </script>
-    <div class="fieldset">
-        <h2 class="legend"><?php echo __('Return Items Information') ?></h2>
-        <ul class="form-list" id="registrant-options">
-            <li class="no-display">&nbsp;</li>
-        </ul>
-        <div class="buttons-set form-buttons" style="text-align:right">
-            <a href="javascript:void(0)" id="add-item-to-return"><?php echo __('Add Item To Return') ?></a>
+    <fieldset class="fieldset">
+        <legend class="legend"><legend><?php echo __('Return Items Information') ?></legend></legend>
+        <br>
+        <div id="registrant-options"></div> <?php /* fields of the form are inserted here */ ?>
+        <div class="actions">
+            <a href="#" id="add-item-to-return" class="action add"><span><?php echo __('Add Item To Return') ?></span></a>
         </div>
-    </div>
-
-    <div class="order-page"><dl class="order-info"></dl></div>
-    <br />
-    <ul class="form-list">
-        <li class="fields">
-            <div class="field">
-                <label for="rma_comment"><?php echo __('Comments') ?></label>
-                <div class="input-box">
-                    <textarea id="rma_comment" style="height:6em;" cols="5" rows="3" name="rma_comment" class="input-text"><?php if ($_data): ?><?php echo $_data->getRmaComment(); ?><?php endif; ?></textarea>
-                </div>
+        <div class="field comment">
+            <label for="rma_comment" class="label"><span><?php echo __('Comments') ?></span></label>
+            <div class="control">
+                <textarea id="rma_comment" cols="5" rows="3" name="rma_comment" class="input-text"><?php if ($_data): ?><?php echo $_data->getRmaComment(); ?><?php endif; ?></textarea>
             </div>
-        </li>
-    </ul>
-
-    <br />
-    <div class="buttons-set form-buttons">
-        <p class="back-link a-left"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
-        <button type="submit" class="button" id="submit.save" title="<?php echo __('Save') ?>"><span><span><?php echo __('Submit') ?></span></span></button>
+        </div>
+    </fieldset>
+    <div class="actions">
+        <div class="secondary">
+            <a href="<?php echo $this->getBackUrl() ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+        </div>
+        <div class="primary">
+            <button type="submit" class="action submit" id="submit.save" title="<?php echo __('Save') ?>"><span><?php echo __('Submit') ?></span></button>
+        </div>
     </div>
 </form>

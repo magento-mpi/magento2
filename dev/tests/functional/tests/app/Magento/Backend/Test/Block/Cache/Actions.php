@@ -58,5 +58,6 @@ class Actions extends Block
     public function flushCacheStorage()
     {
         $this->_rootElement->find($this->flushCacheStorageButton)->click();
+        $this->_rootElement->acceptAlert();
     }
 }

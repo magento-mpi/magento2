@@ -13,25 +13,24 @@
 <?php if ($this->getErrorMessage()): ?>
 <tr>
     <td colspan="3">
-        <ul class="messages">
-             <li class="error-msg"><?php echo $this->escapeHtml($this->getErrorMessage()) ?></li>
-        </ul>
+        <div class="error-msg">
+             <div><?php echo $this->escapeHtml($this->getErrorMessage()) ?></div>
+        </div>
     </td>
 </tr>
 <?php endif ?>
 <?php foreach ($this->getTrackingNumbers() as $number): ?>
 <tr>
-    <td><?php echo $this->escapeHtml($number->getCarrierTitle()) ?></td>
-    <td>
-        <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($number) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}"
-           title="<?php echo $this->escapeHtml($number->getTrackNumber()) ?>">
-                <?php echo $this->escapeHtml($number->getTrackNumber()) ?>
+    <td class="col carrier"><?php echo $this->escapeHtml($number->getCarrierTitle()) ?></td>
+    <td class="col id">
+        <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($number) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}" title="<?php echo $this->escapeHtml($number->getTrackNumber()) ?>" class="action tracking">
+            <span><?php echo $this->escapeHtml($number->getTrackNumber()) ?></span>
         </a>
     </td>
-    <td>
+    <td class="col actions">
         <?php if(!$number->getIsAdmin() && $this->isPrintShippingLabelAllowed()): ?>
-            <a href="#" data-entity-id="<?php echo $number->getEntityId()?>">
-                <?php echo __('Delete') ?>
+            <a href="#" data-entity-id="<?php echo $number->getEntityId()?>" class="action delete" title="<?php echo __('Delete') ?>">
+                <span><?php echo __('Delete') ?></span>
             </a>
         <?php endif; ?>
     </td>

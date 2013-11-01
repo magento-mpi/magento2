@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Image
+ * @package    Magento_Image
  * @copyright  {copyright}
  * @license    {license_link}
  */

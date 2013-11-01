@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Crypt
+ * @package     Magento_Crypt
  * @copyright   {copyright}
  * @license     {license_link}
  */

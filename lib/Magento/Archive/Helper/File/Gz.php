@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
 * Helper class that simplifies gz files stream reading and writing
-*
-* @category    Magento* @package     \Magento\Archive
-* @author      Magento Core Team <core@magentocommerce.com>
 */
 namespace Magento\Archive\Helper\File;
 
