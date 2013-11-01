@@ -2,15 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Integration
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
-use \Magento\Integration\Controller\Adminhtml\Integration;
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Controller\Adminhtml\Integration;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
@@ -22,6 +21,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected $_registry = null;
 
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -38,7 +39,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     }
 
     /**
-     * Initialize Integration edit page. Set management buttons
+     * Initialize Integration edit page
      *
      */
     protected function _construct()
@@ -49,39 +50,21 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     }
 
     /**
-     * Get current loaded integration ID
+     * Get header text for edit page.
      *
-     */
-    public function getBannerId()
-    {
-        return $this->_registry->registry(
-            Integration::REGISTRY_KEY_CURRENT_INTEGRATION
-        )[Integration::DATA_INTEGRATION_ID];
-    }
-
-    /**
-     * Get header text for edit page
-     *
+     * @return string
      */
     public function getHeaderText()
     {
-        if ($this->_registry
-            ->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)[Integration::DATA_INTEGRATION_ID]
-        ) {
-            return $this->escapeHtml(
-                $this->_registry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)->getName()
+        if (isset($this->_registry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)[Info::DATA_ID])) {
+            return __(
+                "Edit Integration '%1'",
+                $this->escapeHtml(
+                    $this->_registry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)[Info::DATA_NAME]
+                )
             );
         } else {
             return __('New Integration');
         }
-    }
-
-    /**
-     * Get form action URL
-     *
-     */
-    public function getFormActionUrl()
-    {
-        return $this->getUrl('*/*/save');
     }
 }

@@ -29,7 +29,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      * edit_form element names.
      */
     const HTML_ID_PREFIX = 'integration_properties_';
-    const DATA_INTEGRATION_ID = 'integration_id';
+    const DATA_ID = 'integration_id';
     const DATA_NAME = 'name';
     const DATA_EMAIL = 'email';
     const DATA_AUTHENTICATION = 'authentication';
@@ -70,8 +70,8 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $form->setHtmlIdPrefix(self::HTML_ID_PREFIX);
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Integration')));
-        if (isset($integrationData[self::DATA_INTEGRATION_ID])) {
-            $fieldset->addField(self::DATA_INTEGRATION_ID, 'hidden', array('name' => 'id'));
+        if (isset($integrationData[self::DATA_ID])) {
+            $fieldset->addField(self::DATA_ID, 'hidden', array('name' => 'id'));
         }
         $fieldset->addField(
             self::DATA_NAME,

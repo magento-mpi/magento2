@@ -131,7 +131,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockBackendModSess->expects($this->any())
             ->method('__call')->will(
                 $this->returnValue(array(
-                        Info::DATA_INTEGRATION_ID => 1,
+                        Info::DATA_ID => 1,
                         'name' => 'testIntegration'
                     )));
         $this->_verifyLoadAndRenderLayout();
@@ -217,9 +217,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $intData = $this->_getSampleIntegrationData();
         //No id when New Integration is Post-ed
-        unset($intData[Info::DATA_INTEGRATION_ID]);
+        unset($intData[Info::DATA_ID]);
         $this->_mockRequest->expects($this->any())->method('getPost')->will($this->returnValue($intData));
-        $intData[Info::DATA_INTEGRATION_ID] = 1;
+        $intData[Info::DATA_ID] = 1;
         $this->_mockIntegrationSvc->expects($this->any())->method('create')->with($this->anything())
             ->will($this->returnValue($intData));
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with(1)->will(
@@ -329,7 +329,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             Info::DATA_NAME => 'nameTest',
-            Info::DATA_INTEGRATION_ID => '1',
+            Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
             Info::DATA_AUTHENTICATION => 1,
             Info::DATA_ENDPOINT => 'http://magento.ll/endpoint'
