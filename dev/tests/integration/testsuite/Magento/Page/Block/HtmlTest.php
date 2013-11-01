@@ -14,8 +14,8 @@ namespace Magento\Page\Block;
 class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @dataProvider getConfigValuesDataProvider
+     * @magentoAppArea frontend
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
