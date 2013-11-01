@@ -44,15 +44,16 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\Autoload\IncludePath::addIncludePath(array(
-            $basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'code',
-            $basePath . DIRECTORY_SEPARATOR . 'lib',
-            $basePath . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'generation',
-        ));
-
         $this->_shell = new \Magento\Shell();
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace(DIRECTORY_SEPARATOR, '/', $basePath);
+
+        \Magento\Autoload\IncludePath::addIncludePath(array(
+            $basePath . '/app/code',
+            $basePath . '/lib',
+            $basePath . '/var/generation',
+        ));
+
         $this->_tmpDir = realpath(__DIR__) . '/tmp';
         $this->_generationDir =  $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
