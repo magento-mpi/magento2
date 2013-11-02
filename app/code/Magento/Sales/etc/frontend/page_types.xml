@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<page_types>
+    <type id="sales_billing_agreement_index" label="Billing Agreement"/>
+    <type id="sales_billing_agreement_view" label="Billing Agreement View"/>
+    <type id="sales_guest_creditmemo" label="Guest Order Creditmemo View"/>
+    <type id="sales_guest_form" label="Returns"/>
+    <type id="sales_guest_invoice" label="Guest Order Invoice View"/>
+    <type id="sales_guest_printorder" label="Sales Order Print View"/>
+    <type id="sales_guest_printordercreditmemo" label="Sales Creditmemo Print View"/>
+    <type id="sales_guest_printorderinvoice" label="Sales Invoice Print View"/>
+    <type id="sales_guest_printshipment" label="Sales Shipment Print View"/>
+    <type id="sales_guest_reorder" label="Sales Guest Reorder"/>
+    <type id="sales_guest_shipment" label="Guest Order Shipment View"/>
+    <type id="sales_guest_view" label="Guest Order View"/>
+    <type id="sales_order_creditmemo" label="Customer My Account Order Creditmemo View"/>
+    <type id="sales_order_history" label="Customer My Account Order History"/>
+    <type id="sales_order_invoice" label="Customer My Account Order Invoice View"/>
+    <type id="sales_order_printorder" label="Sales Order Print View"/>
+    <type id="sales_order_printordercreditmemo" label="Sales Creditmemo Print View"/>
+    <type id="sales_order_printorderinvoice" label="Sales Invoice Print View"/>
+    <type id="sales_order_printshipment" label="Sales Shipment Print View"/>
+    <type id="sales_order_reorder" label="Sales Reorder"/>
+    <type id="sales_order_shipment" label="Customer My Account Order Shipment View"/>
+    <type id="sales_order_view" label="Customer My Account Order View"/>
+    <type id="sales_recurring_profile_index" label="Recurring Profile"/>
+    <type id="sales_recurring_profile_orders" label="Recurring Profile Orders List"/>
+    <type id="sales_recurring_profile_view" label="Recurring Profile View"/>
+    <type id="sales_recurring_profile_view__tabs" label="Recurring Profile View Tabs"/>
+</page_types>
