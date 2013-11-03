@@ -7,6 +7,9 @@
  */
 namespace Magento\Oauth\Oauth;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class OauthTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Oauth\Model\Consumer\Factory */
