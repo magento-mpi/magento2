@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Modular\Magento\Core;
+namespace Magento\Test\Integrity\Modular\Magento\Email;
 
 class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
