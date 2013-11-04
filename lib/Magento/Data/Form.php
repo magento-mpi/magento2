@@ -69,10 +69,10 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Set session instance
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\Session $session
      * @return \Magento\Data\Form
      */
-    public function setSession(AbstractSession $session)
+    public function setSession(Session $session)
     {
         $this->_session = $session;
         return $this;
