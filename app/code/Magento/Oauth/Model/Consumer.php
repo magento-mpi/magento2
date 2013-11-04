@@ -33,7 +33,7 @@ namespace Magento\Oauth\Model;
 class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\ConsumerInterface
 {
     /**
-     * @var \Magento\Core\Model\Url\Validator
+     * @var \Magento\Url\Validator
      */
     protected $_urlValidator;
 

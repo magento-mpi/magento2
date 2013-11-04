@@ -38,9 +38,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Oauth\Oauth */
     protected $_oauthServiceMock;
 
-    /** @var \Magento\Oauth\Helper\Oauth */
-    protected $_oauthHelperMock;
-
     /**
      * Set up Controller object.
      */
@@ -89,10 +86,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Oauth')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_responseMock->expects($this->any())->method('clearHeaders')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
@@ -106,8 +99,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_errorProcessorMock,
             $this->_appStateMock,
             $this->_applicationMock,
-            $this->_oauthServiceMock,
-            $this->_oauthHelperMock
+            $this->_oauthServiceMock
         );
     }
 

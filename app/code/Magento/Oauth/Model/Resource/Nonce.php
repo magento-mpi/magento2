@@ -53,7 +53,7 @@ class Nonce extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $nonce - The nonce string
      * @param int $consumerId - The consumer id
-     * @return array|bool - Array of data or false if no row
+     * @return array - Array of data
      */
     public function selectByCompositeKey($nonce, $consumerId)
     {
@@ -62,7 +62,6 @@ class Nonce extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->from($this->getMainTable())
             ->where('nonce = ?', $nonce)->where('consumer_id = ?', $consumerId);
         $row = $adapter->fetchRow($select);
-
         return $row ? $row : array();
     }
 }

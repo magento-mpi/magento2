@@ -248,7 +248,8 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
             $this->_setFormData(null);
         } catch (\Magento\Core\Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
+            $this->_getSession()
+                ->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
         } catch (\Exception $e) {
             $this->_setFormData(null);

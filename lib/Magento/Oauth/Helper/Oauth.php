@@ -37,25 +37,17 @@ class Oauth
      */
     const CALLBACK_ESTABLISHED = 'oob';
 
-    /** @var \Magento\Core\Model\Store\Config */
-    protected $_storeConfig;
-
     /**
      * @var \Magento\Math\Random
      */
     protected $_mathRandom;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Math\Random $mathRandom
      * @internal param \Magento\Core\Helper\Data $coreData
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Math\Random $mathRandom
-    ) {
-        parent::__construct($context);
-        $this->_storeConfig = $storeConfig;
+    public function __construct(\Magento\Math\Random $mathRandom)
+    {
         $this->_mathRandom = $mathRandom;
     }
 

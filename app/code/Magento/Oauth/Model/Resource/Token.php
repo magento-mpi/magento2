@@ -22,7 +22,7 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -30,7 +30,7 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\Core\Model\Resource $resource)
     {
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
         parent::__construct($resource);
     }
 
@@ -85,7 +85,7 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $this->getMainTable(),
                 $adapter->quoteInto(
                     'type = "' . \Magento\Oauth\Model\Token::TYPE_REQUEST . '" AND created_at <= ?',
-                    $this->dateTime->formatDate(time() - $minutes * 60)
+                    $this->_dateTime->formatDate(time() - $minutes * 60)
                 )
             );
         } else {

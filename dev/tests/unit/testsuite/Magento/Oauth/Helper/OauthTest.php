@@ -9,33 +9,16 @@ namespace Magento\Oauth\Helper;
 
 class OauthTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Helper\Data */
-    protected $_coreHelper;
-
     /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
 
     protected function setUp()
     {
-        $this->_coreHelper = new \Magento\Core\Helper\Data(
-            $this->getMockBuilder('Magento\Core\Helper\Context')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\Event\Manager')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Helper\Http')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\Store\Config')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\StoreManager')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\Locale')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\Date')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\App\State')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento\Core\Model\Encryption')->disableOriginalConstructor()->getMock()
-        );
-
-        $this->_oauthHelper = new \Magento\Oauth\Helper\Oauth($this->_coreHelper);
+        $this->_oauthHelper = new \Magento\Oauth\Helper\Oauth(new \Magento\Math\Random);
     }
 
     protected function tearDown()
     {
-        unset($this->_coreHelper);
         unset($this->_oauthHelper);
     }
 

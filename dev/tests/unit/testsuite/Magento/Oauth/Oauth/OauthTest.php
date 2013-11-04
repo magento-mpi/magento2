@@ -103,12 +103,10 @@ class OauthTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenMock));
 
-        $coreDataMock = $this->getMockBuilder('Magento\Core\Helper\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Oauth')
-            ->setConstructorArgs(array($coreDataMock))
+            ->setConstructorArgs(array(new \Magento\Math\Random()))
             ->getMock();
+
         $this->_dataHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
