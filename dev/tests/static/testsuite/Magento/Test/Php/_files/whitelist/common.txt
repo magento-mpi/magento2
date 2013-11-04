@@ -59,7 +59,6 @@ app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
-app/code/Magento/Core/Model/Sender.php
 app/code/Magento/Core/Model/Session/Validator.php
 app/code/Magento/Core/Model/AbstractShell.php
 app/code/Magento/Core/Model/Theme
@@ -81,6 +80,9 @@ app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/Eav/Model/Cache/Type.php
+app/code/Magento/Email/Model/Sender.php
+app/code/Magento/Email/Model/Template/Config
+app/code/Magento/Email/Model/Template/Config.php
 app/code/Magento/GiftMessage/Model/Plugin
 app/code/Magento/GoogleShopping/Block/SiteVerification.php
 app/code/Magento/GoogleShopping/Model/AttributeFactory.php
