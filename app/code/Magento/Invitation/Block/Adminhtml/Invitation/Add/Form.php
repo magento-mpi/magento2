@@ -82,7 +82,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getActionUrl()
     {
-        return $this->getUrl('*/*/save', array('_current' => true));
+        return $this->getUrl('adminhtml/*/save', array('_current' => true));
     }
 
     /**

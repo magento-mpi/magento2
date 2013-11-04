@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Newsletter;
 
-class Problem extends \Magento\Adminhtml\Controller\Action
+class Problem extends \Magento\Backend\Controller\Adminhtml\Action
 {
     public function indexAction()
     {

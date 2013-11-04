@@ -45,7 +45,7 @@ define('BP', dirname(__DIR__));
 /**
  * Require necessary files
  */
-require_once BP . '/app/code/Magento/Core/functions.php';
+require_once BP . '/app/functions.php';
 
 require_once __DIR__ . '/autoload.php';
 \Magento\Autoload\IncludePath::addIncludePath(array(
@@ -74,5 +74,4 @@ if (!defined('BARE_BOOTSTRAP')) {
         \Magento\Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
     }
 }
-set_error_handler('mageCoreErrorHandler');
 date_default_timezone_set(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);

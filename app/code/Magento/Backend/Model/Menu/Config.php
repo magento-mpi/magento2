@@ -36,7 +36,7 @@ class Config
     protected $_menu;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -67,7 +67,7 @@ class Config
      * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      */
@@ -97,12 +97,17 @@ class Config
      * Build menu model from config
      *
      * @return \Magento\Backend\Model\Menu
-     * @throws \InvalidArgumentException|BadMethodCallException|OutOfRangeException|Exception
+     * @throws \Exception|\InvalidArgumentException
+     * @throws \Exception
+     * @throws \BadMethodCallException|\Exception
+     * @throws \Exception|\OutOfRangeException
      */
     public function getMenu()
     {
-        $store = $this->_storeManager->getStore();
-        $this->_logger->addStoreLog(\Magento\Backend\Model\Menu::LOGGER_KEY, $store);
+        if ($this->_storeManager->getStore()->getConfig('dev/log/active')) {
+            $this->_logger->addStreamLog(\Magento\Backend\Model\Menu::LOGGER_KEY);
+        }
+
         try {
             $this->_initMenu();
             return $this->_menu;

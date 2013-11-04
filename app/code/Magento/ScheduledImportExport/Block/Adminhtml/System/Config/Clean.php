@@ -40,7 +40,7 @@ class Clean
      */
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $url    = $this->getUrl('*/scheduled_operation/logClean', array(
+        $url    = $this->getUrl('adminhtml/scheduled_operation/logClean', array(
             'section' => $this->getRequest()->getParam('section')
         ));
         $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')

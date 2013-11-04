@@ -71,7 +71,7 @@ class Date
                     $dateFormat = 'yyyy';
                     break;
                 default:
-                    $dateFormat = \Magento\Date::DATE_INTERNAL_FORMAT;
+                    $dateFormat = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
                     break;
             }
 

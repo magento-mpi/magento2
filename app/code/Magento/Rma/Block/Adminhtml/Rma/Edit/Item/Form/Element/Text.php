@@ -27,21 +27,21 @@ class Text extends \Magento\Data\Form\Element\Text
     protected $_rmaEav = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $attributes
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $attributes = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
     }
 
     /**

@@ -71,6 +71,11 @@ class Session extends \Magento\Core\Model\AbstractModel
     protected $_cookie;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Context $context
@@ -80,6 +85,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -92,6 +98,7 @@ class Session extends \Magento\Core\Model\AbstractModel
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Math\Random $mathRandom,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -101,6 +108,7 @@ class Session extends \Magento\Core\Model\AbstractModel
         $this->_coreConfig = $coreConfig;
         $this->_cookie = $cookie;
         $this->_storeManager = $storeManager;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -168,7 +176,7 @@ class Session extends \Magento\Core\Model\AbstractModel
             $this->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
             // Setting cookie key
             do {
-                $this->setKey($this->_coreData->getRandomString(self::KEY_LENGTH));
+                $this->setKey($this->mathRandom->getRandomString(self::KEY_LENGTH));
             } while (!$this->getResource()->isKeyAllowed($this->getKey()));
         }
 

@@ -18,7 +18,7 @@
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
 class Testconnection
-    extends \Magento\Adminhtml\Controller\Action
+    extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Check for connection to server

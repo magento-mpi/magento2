@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\System\Config\System;
 
-class Storage extends \Magento\Adminhtml\Controller\Action
+class Storage extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Return file storage singleton
@@ -72,7 +72,7 @@ class Storage extends \Magento\Adminhtml\Controller\Action
         try {
             $this->_getSyncSingleton()->synchronize($storage);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $flag->passError($e);
         }
 
@@ -123,7 +123,7 @@ class Storage extends \Magento\Adminhtml\Controller\Action
                         if (is_array($flagData)
                             && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
                         ) {
-                            $this->_objectManager->get('Magento\Core\Model\Logger')
+                            $this->_objectManager->get('Magento\Logger')
                                 ->logException(new \Magento\Exception(
                                 __('The timeout limit for response from synchronize process was reached.')
                             ));

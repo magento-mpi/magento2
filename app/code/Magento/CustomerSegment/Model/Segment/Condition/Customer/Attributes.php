@@ -309,11 +309,11 @@ class Attributes
     {
         if ($this->getOperator() == '==') {
             $dateObj = $this->_locale
-                ->date($this->getValue(), \Magento\Date::DATE_INTERNAL_FORMAT, null, false)
+                ->date($this->getValue(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(
-                'start' => $dateObj->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
+                'start' => $dateObj->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
             return $value;
         }

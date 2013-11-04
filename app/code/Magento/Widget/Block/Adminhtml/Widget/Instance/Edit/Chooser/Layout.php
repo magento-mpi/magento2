@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * Widget Instance layouts chooser
  *
  * @method getArea()
  * @method getTheme()
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
-
 class Layout extends \Magento\Core\Block\Html\Select
 {
     /**
@@ -78,10 +78,6 @@ class Layout extends \Magento\Core\Block\Html\Select
      * Retrieve theme instance by its identifier
      *
      * @param int $themeId
-     *
-     *
-     *
-     *
      * @return \Magento\Core\Model\Theme|null
      */
     protected function _getThemeInstance($themeId)
@@ -109,6 +105,7 @@ class Layout extends \Magento\Core\Block\Html\Select
      */
     protected function _addPageTypeOptions(array $pageTypes)
     {
+        $label = array();
         // Sort list of page types by label
         foreach ($pageTypes as $key => $row) {
             $label[$key]  = $row['label'];

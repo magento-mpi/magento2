@@ -87,7 +87,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         /** @var \PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(

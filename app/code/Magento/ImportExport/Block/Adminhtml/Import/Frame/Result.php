@@ -146,7 +146,7 @@ class Result extends \Magento\Adminhtml\Block\Template
      */
     public function getImportStartUrl()
     {
-        return $this->getUrl('*/*/start');
+        return $this->getUrl('adminhtml/*/start');
     }
 
     /**

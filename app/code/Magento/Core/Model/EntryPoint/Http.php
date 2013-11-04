@@ -29,7 +29,14 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (\Exception $e) {
-            $this->processException($e);
+            // attempt to specify store as a skin
+            try {
+                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+                $skin = $storeManager->getStore()->getCode;
+            } catch (\Exception $exception) {
+                $skin = null;
+            }
+            $this->_errorHandler->processException($e, array('skin' => $skin));
         }
     }
 
@@ -38,6 +45,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
      */
     protected function _processRequest()
     {
+        /** @var $request \Magento\App\Request\Http */
         $request = $this->_objectManager->get('Magento\App\RequestInterface');
         $areas = $this->_objectManager->get('Magento\App\AreaList');
         $areaCode = $areas->getCodeByFrontName($request->getFrontName());
@@ -46,6 +54,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
         $this->_objectManager->configure(
             $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load($areaCode)
         );
+        /** @var \Magento\Webapi\Controller\Rest|\Magento\App\FrontController\Interceptor $frontController */
         $frontController = $this->_objectManager->get('Magento\App\FrontControllerInterface');
         $frontController->dispatch($request);
     }
