@@ -42,9 +42,6 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->_widgetModelMock = $this->getMockBuilder('Magento\Widget\Model\Widget')
             ->disableOriginalConstructor()
             ->getMock();
-        $contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_viewFileSystemMock = $this->getMockBuilder('Magento\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
