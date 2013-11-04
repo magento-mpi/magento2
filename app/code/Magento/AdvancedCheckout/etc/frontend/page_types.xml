@@ -8,6 +8,6 @@
 */
 -->
 <page_types>
-    <type id="checkout_cart_configure" label="Configure Cart Item (Any)"/>
     <type id="checkout_cart_configurefailed" label="Configure Cart Item Failed"/>
+    <type id="magento_advancedcheckout_sku_index" label="Customer Checkout by SKU"/>
 </page_types>

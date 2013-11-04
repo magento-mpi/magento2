@@ -8,7 +8,6 @@
 */
 -->
 <page_types>
-    <type id="magento_giftregistry_email_entity_items" label="Customer GiftRegistry Email Items List"/>
     <type id="magento_giftregistry_index_addselect" label="Customer My Account GiftRegistry Add"/>
     <type id="magento_giftregistry_index_edit" label="Customer My Account GiftRegistry Edit"/>
     <type id="magento_giftregistry_index_index" label="Customer GiftRegistry"/>
