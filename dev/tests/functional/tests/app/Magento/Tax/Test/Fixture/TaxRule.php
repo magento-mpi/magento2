@@ -33,6 +33,7 @@ class TaxRule extends DataFixture
         parent::__construct($configuration, $placeholders);
 
         $this->_placeholders['us_ca_rate_8_25'] = array($this, '_getTaxRateId');
+        $this->_placeholders['us_ny_rate_8_1'] = array($this, '_getTaxRateData');
         $this->_placeholders['us_ny_rate_8_375'] = array($this, '_getTaxRateId');
         $this->_placeholders['product_tax_class'] = array($this, '_getTaxClassId');
         $this->_placeholders['customer_tax_class'] = array($this, '_getTaxClassId');
@@ -64,6 +65,13 @@ class TaxRule extends DataFixture
         return $taxClass->persist()->getTaxClassId();
     }
 
+    protected function _getTaxRateData($dataSetName)
+    {
+        $taxClass = Factory::getFixtureFactory()->getMagentoTaxTaxRate();
+        $taxClass->switchData($dataSetName);
+        return $taxClass->getData('fields');
+    }
+
     /**
      * Get tax rule name
      *
@@ -72,6 +80,26 @@ class TaxRule extends DataFixture
     public function getTaxRuleName()
     {
         return $this->getData('fields/code/value');
+    }
+
+    /**
+     * Get tax customer class
+     *
+     * @return string|array
+     */
+    public function getTaxCustomerClass()
+    {
+        return $this->getData('fields/tax_customer_class/value');
+    }
+
+    /**
+     * Get tax product class
+     *
+     * @return string|array
+     */
+    public function getTaxProductClass()
+    {
+        return $this->getData('fields/tax_product_class/value');
     }
 
     /**
