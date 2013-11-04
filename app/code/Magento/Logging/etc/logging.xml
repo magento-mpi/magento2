@@ -996,11 +996,11 @@
                 <expected_model class="Magento\Email\Model\Template" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_email_template_save"
+                <event controller_action="email_template_save"
                        action_alias="save" />
-                <event controller_action="adminhtml_email_template_edit"
+                <event controller_action="email_template_edit"
                        action_alias="edit" />
-                <event controller_action="adminhtml_email_template_delete"
+                <event controller_action="email_template_delete"
                        action_alias="delete" />
             </events>
         </group>
