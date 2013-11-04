@@ -6,6 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Config\Initial;
+
 class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**

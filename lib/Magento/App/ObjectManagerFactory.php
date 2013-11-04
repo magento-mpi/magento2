@@ -40,6 +40,7 @@ class ObjectManagerFactory
      * Create object manager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      *
      * @param string $rootDir
      * @param array $arguments
