@@ -134,7 +134,7 @@ class RuleTest extends \Magento\Webapi\Model\Resource\Acl\AbstractTest
         // Init rule resource.
         $ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
-            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', 'getResources'))
+            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', 'getResources', '__wakeup'))
             ->getMock();
 
         $ruleResource->expects($this->any())

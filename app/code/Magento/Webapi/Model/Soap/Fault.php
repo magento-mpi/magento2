@@ -22,10 +22,10 @@ class Fault extends \RuntimeException
     /**#@+
      * Nodes that can appear in Detail node of SOAP fault.
      */
-    const NODE_ERROR_DETAIL_CODE = 'Code';
-    const NODE_ERROR_DETAIL_PARAMETERS = 'Parameters';
-    const NODE_ERROR_DETAIL_TRACE = 'Trace';
-    const NODE_ERROR_DETAILS = 'ErrorDetails';
+    const NODE_DETAIL_CODE = 'Code';
+    const NODE_DETAIL_PARAMETERS = 'Parameters';
+    const NODE_DETAIL_TRACE = 'Trace';
+    const NODE_DETAIL_WRAPPER = 'DefaultFault';
     /**#@-*/
 
     /** @var string */
@@ -39,7 +39,14 @@ class Fault extends \RuntimeException
      *
      * @var array
      */
-    protected $_parameters;
+    protected $_parameters = array();
+
+    /**
+     * Fault name is used for details wrapper node name generation.
+     *
+     * @var string
+     */
+    protected $_faultName = '';
 
     /**
      * Details that are used to generate 'Detail' node of SoapFault.
@@ -51,14 +58,19 @@ class Fault extends \RuntimeException
     /** @var \Magento\Core\Model\App */
     protected $_application;
 
+    /** @var \Magento\Webapi\Model\Soap\Server */
+    protected $_soapServer;
+
     /**
      * Construct exception.
      *
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Webapi\Exception $previousException
+     * @param \Magento\Webapi\Model\Soap\Server $soapServer
      */
     public function __construct(
         \Magento\Core\Model\App $application,
+        \Magento\Webapi\Model\Soap\Server $soapServer,
         \Magento\Webapi\Exception $previousException
     ) {
         parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);
@@ -66,6 +78,8 @@ class Fault extends \RuntimeException
         $this->_parameters = $previousException->getDetails();
         $this->_errorCode = $previousException->getCode();
         $this->_application = $application;
+        $this->_soapServer = $soapServer;
+        $this->_setFaultName($previousException->getName());
     }
 
     /**
@@ -76,13 +90,13 @@ class Fault extends \RuntimeException
     public function toXml()
     {
         if ($this->_application->isDeveloperMode()) {
-            $this->addDetails(array(self::NODE_ERROR_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
+            $this->addDetails(array(self::NODE_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
         }
         if ($this->getParameters()) {
-            $this->addDetails(array(self::NODE_ERROR_DETAIL_PARAMETERS => $this->getParameters()));
+            $this->addDetails(array(self::NODE_DETAIL_PARAMETERS => $this->getParameters()));
         }
         if ($this->getErrorCode()) {
-            $this->addDetails(array(self::NODE_ERROR_DETAIL_CODE => $this->getErrorCode()));
+            $this->addDetails(array(self::NODE_DETAIL_CODE => $this->getErrorCode()));
         }
 
         return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $this->getDetails());
@@ -96,6 +110,33 @@ class Fault extends \RuntimeException
     public function getParameters()
     {
         return $this->_parameters;
+    }
+
+    /**
+     * Receive SOAP fault name.
+     *
+     * @return string
+     */
+    public function getFaultName()
+    {
+        return $this->_faultName;
+    }
+
+    /**
+     * Define current SOAP fault name. It is used as a name of the wrapper node for SOAP fault details.
+     *
+     * @param $exceptionName
+     */
+    protected function _setFaultName($exceptionName)
+    {
+        if ($exceptionName) {
+            $contentType = $this->_application->getRequest()->getHeader('Content-Type');
+            /** SOAP action is specified in content type header if content type is application/soap+xml */
+            if (preg_match('|application/soap\+xml.+action="(.+)".*|', $contentType, $matches)) {
+                $soapAction = $matches[1];
+                $this->_faultName = ucfirst($soapAction) . ucfirst($exceptionName) . 'Fault';
+            }
+        }
     }
 
     /**
@@ -158,19 +199,13 @@ class Fault extends \RuntimeException
      * @param array|null $details Detailed reason message(s)
      * @return string
      */
-    public function getSoapFaultMessage($reason, $code, $details)
+    public function getSoapFaultMessage($reason, $code, $details = null)
     {
-        if (is_array($details) && !empty($details)) {
-            $detailsXml = $this->_convertDetailsToXml($details);
-            $errorDetailsNode = self::NODE_ERROR_DETAILS;
-            $detailsXml = $detailsXml
-                ? "<env:Detail><m:{$errorDetailsNode}>" . $detailsXml . "</m:{$errorDetailsNode}></env:Detail>"
-                : '';
-        } else {
-            $detailsXml = '';
-        }
+        $detailXml = $this->_generateDetailXml($details);
         $language = $this->getLanguage();
-        $detailsNamespace = !empty($detailsXml) ? 'xmlns:m="http://magento.com"': '';
+        $detailsNamespace = !empty($detailXml)
+            ? 'xmlns:m="' . urlencode($this->_soapServer->generateUri(true)) . '"'
+            : '';
         $reason = htmlentities($reason);
         $message = <<<FAULT_MESSAGE
 <?xml version="1.0" encoding="utf-8" ?>
@@ -183,12 +218,36 @@ class Fault extends \RuntimeException
          <env:Reason>
             <env:Text xml:lang="$language">$reason</env:Text>
          </env:Reason>
-         $detailsXml
+         $detailXml
       </env:Fault>
    </env:Body>
 </env:Envelope>
 FAULT_MESSAGE;
         return $message;
+    }
+
+    /**
+     * Generate 'Detail' node content.
+     *
+     * In case when fault name is undefined, no 'Detail' node is generated.
+     *
+     * @param array $details
+     * @return string
+     */
+    protected function _generateDetailXml($details)
+    {
+        $detailsXml = '';
+        if (is_array($details) && !empty($details)) {
+            $detailsXml = $this->_convertDetailsToXml($details);
+            if ($detailsXml) {
+                $errorDetailsNode = $this->getFaultName() ? $this->getFaultName() :self::NODE_DETAIL_WRAPPER;
+                $detailsXml = "<env:Detail><m:{$errorDetailsNode}>"
+                    . $detailsXml . "</m:{$errorDetailsNode}></env:Detail>";
+            } else {
+                $detailsXml = '';
+            }
+        }
+        return $detailsXml;
     }
 
     /**
