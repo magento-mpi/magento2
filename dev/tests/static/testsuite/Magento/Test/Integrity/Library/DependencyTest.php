@@ -8,10 +8,13 @@
 
 namespace Magento\Test\Integrity\Library;
 
+use Magento\TestFramework\Integrity\Library\Injectable;
+use Magento\TestFramework\Integrity\Library\PhpParser\Tokens;
+use Magento\TestFramework\Integrity\Library\PhpParser\UseToken;
+use Magento\TestFramework\Integrity\Library\PhpParser\StaticCallToken;
+use Magento\TestFramework\Integrity\Library\PhpParser\ThrowToken;
 use Magento\TestFramework\Utility\Files;
-use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\FileReflection;
-use Zend\Code\Reflection\ParameterReflection;
 
 /**
  * @package Magento\Test\Integrity\Dependency
@@ -21,41 +24,43 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $throws = array();
+    protected $errors = array();
 
     /**
-     * @var array
+     * @var Tokens
      */
     protected $tokens = array();
 
     /**
-     * @var array
+     * @var UseToken
      */
-    protected $staticCalls = array();
+    protected $useToken;
 
     /**
-     * @var array
+     * @var StaticCallToken
      */
-    protected $uses = array();
+    protected $staticCallToken;
 
     /**
-     * @var bool
+     * @var ThrowToken
      */
-    protected $parseUse = false;
+    protected $throwToken;
 
     /**
-     * @var array
+     * @var Injectable
      */
-    protected $errors = array();
+    protected $injectable;
 
     /**
-     * Fix for one of our class in library implemented interface from application
-     *
-     * @TODO: remove this code when class Magento\Data\Collection will fixed
+     * @inheritdoc
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        include_once __DIR__ . '/../../../../../../../../app/code/Magento/Core/Model/Option/ArrayInterface.php';
+        $this->tokens =          new Tokens();
+        $this->useToken =        new UseToken();
+        $this->staticCallToken = new StaticCallToken($this->tokens, $this->useToken);
+        $this->throwToken =      new ThrowToken($this->tokens, $this->useToken);
+        $this->injectable =      new Injectable();
     }
 
     /**
@@ -66,15 +71,18 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckDependencies($file)
     {
-        include_once $file;
         $fileReflection = new FileReflection($file);
 
-        $this->tokens = token_get_all($fileReflection->getContents());
+        $this->tokens->parse($fileReflection->getContents());
         $this->parseContent();
 
-        $this->checkInjectableDependencies($fileReflection);
-        $this->checkStaticCallDependencies($fileReflection);
-        $this->checkThrowsDependencies($fileReflection);
+        $this->injectable->checkDependencies($fileReflection);
+        $this->throwToken->checkDependencies();
+        $this->staticCallToken->checkDependencies();
+
+        foreach ($this->getExceptions() as $exception) {
+            $this->addError($exception, $fileReflection->getFileName());
+        }
 
         if ($this->hasErrors()) {
             $this->fail($this->getFailMessage());
@@ -82,20 +90,23 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Detect wrong dependencies
-     *
-     * @param ParameterReflection $parameter
-     * @param ClassReflection $class
-     * @throws \Exception
-     * @throws \ReflectionException
+     * @return bool
      */
-    public function detectWrongDependencies(ParameterReflection $parameter, ClassReflection $class)
+    protected function hasErrors()
     {
-        try {
-            $parameter->getClass();
-        } catch (\ReflectionException $e) {
-            $this->addError($e, $class->getName());
-        }
+        return !empty($this->errors);
+    }
+
+    /**
+     * @return \ReflectionException[]
+     */
+    public function getExceptions()
+    {
+        return array_merge(
+            $this->injectable->getDependencies(),
+            $this->staticCallToken->getDependencies(),
+            $this->throwToken->getDependencies()
+        );
     }
 
     /**
@@ -103,20 +114,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->errors     = array();
-        $this->tokens     = array();
-        $this->uses       = array();
-        $this->staticCalls = array();
-    }
-
-    /**
-     * Check if file has wrong dependencies
-     *
-     * @return bool
-     */
-    protected function hasErrors()
-    {
-        return !empty($this->errors);
+        $this->errors = array();
     }
 
     /**
@@ -145,96 +143,19 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function libraryDataProvider()
     {
-        return Files::init()->getClassFiles(false, false, false, false, false, true, true);
-    }
+        // @TODO: remove this code when class Magento\Data\Collection will fixed
+        include_once __DIR__ . '/../../../../../../../../app/code/Magento/Core/Model/Option/ArrayInterface.php';
+        $blackList = file(__DIR__ . DIRECTORY_SEPARATOR . '_files/blacklist.txt', FILE_IGNORE_NEW_LINES);
+        $dataProvider = Files::init()->getClassFiles(false, false, false, false, false, true, true);
 
-    /**
-     * @param FileReflection $fileReflection
-     */
-    protected function checkInjectableDependencies(FileReflection $fileReflection)
-    {
-        foreach ($fileReflection->getClasses() as $class) {
-            /** @var ClassReflection $class */
-            foreach ($class->getMethods() as $method) {
-                /** @var \Zend\Code\Reflection\MethodReflection $method */
-                foreach ($method->getParameters() as $parameter) {
-                    /** @var ParameterReflection $parameter */
-                    $this->detectWrongDependencies($parameter, $class);
-                }
+        foreach ($dataProvider as $key => $data) {
+            include_once $data[0];
+            $file = str_replace(realpath(__DIR__ . '/../../../../../../../../') . '/', '', $data[0]);
+            if (in_array($file, $blackList)) {
+                unset($dataProvider[$key]);
             }
         }
-    }
-
-    /**
-     * @param FileReflection $fileReflection
-     * @throws \ReflectionException
-     */
-    protected function checkStaticCallDependencies(FileReflection $fileReflection)
-    {
-        foreach ($this->staticCalls as $staticCall) {
-            $class = $this->getClassByStaticCall($staticCall);
-            if ($this->hasUses() && !$this->isGlobalClass($class)) {
-                $class = $this->prepareFullClassName($class);
-            } elseif (!$this->isMagentoClass($class)) {
-                continue;
-            }
-            try {
-                new ClassReflection($class);
-            } catch (\ReflectionException $e) {
-                $this->addError($e, $fileReflection->getFileName());
-            }
-        }
-    }
-
-    /**
-     * @param FileReflection $fileReflection
-     */
-    protected function checkThrowsDependencies(FileReflection $fileReflection)
-    {
-        foreach ($this->throws as $throw) {
-            $class = '';
-            if ($this->tokens[$throw + 2][0] == T_NEW) {
-                $step = 4;
-                while ($this->isString($this->tokens[$throw+$step][0])
-                    || $this->isNamespaceSeparator($this->tokens[$throw+$step][0])
-                ) {
-                    $class .= trim($this->tokens[$throw + $step][1]);
-                    $step++;
-                }
-
-                if ($this->hasUses() && !$this->isGlobalClass($class)) {
-                    $class = $this->prepareFullClassName($class);
-                }
-
-                try {
-                    new ClassReflection($class);
-                } catch (\ReflectionException $e) {
-                    $this->addError($e, $fileReflection->getFileName());
-                }
-            }
-        }
-    }
-
-    /**
-     * @param string $class
-     * @return string
-     */
-    protected function prepareFullClassName($class)
-    {
-        preg_match('#^([A-Za-z0-9_]+)(.*)$#', $class, $match);
-        foreach ($this->uses as $use) {
-            if (preg_match('#^([^\s]+)\s+as\s+(.*)$#', $use, $useMatch) && $useMatch[2] == $match[1]) {
-                $class = $useMatch[1] . $match[2];
-                break;
-            }
-            $packages = explode('\\', $use);
-            end($packages);
-            $lastPackageKey = key($packages);
-            if ($packages[$lastPackageKey] == $match[1]) {
-                $class = $use . $match[2];
-            }
-        }
-        return $class;
+        return $dataProvider;
     }
 
     /**
@@ -251,211 +172,12 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @param string $class
-     * @return int
-     */
-    public function isMagentoClass($class)
-    {
-        return preg_match('#^\\\\Magento\\\\#', $class);
-    }
-
-    /**
-     * @param string $class
-     * @return int
-     */
-    protected function isGlobalClass($class)
-    {
-        return preg_match('#^\\\\#', $class);
-    }
-
-    /**
-     * @param int $staticCall
-     * @return string
-     */
-    protected function getClassByStaticCall($staticCall)
-    {
-        $step = 1;
-        $staticClassParts = array();
-        while ($this->isString($this->tokens[$staticCall-$step][0])
-            || $this->isNamespaceSeparator($this->tokens[$staticCall-$step][0])
-        ) {
-            $staticClassParts[] = $this->tokens[$staticCall-$step][1];
-            $step++;
-        }
-        return implode(array_reverse($staticClassParts));
-    }
-
     protected function parseContent()
     {
-        foreach ($this->tokens as $key => $token) {
-            $this->parseUses($token);
-            $this->parseStaticCall($token, $key);
-            $this->parseThrows($token, $key);
+        foreach ($this->tokens->getAllTokens() as $key => $token) {
+            $this->useToken->parseUses($token);
+            $this->staticCallToken->parseStaticCall($token, $key);
+            $this->throwToken->parseThrows($token, $key);
         }
-    }
-
-    /**
-     * @param array|string $token
-     * @param $key
-     */
-    protected function parseThrows($token, $key)
-    {
-        if ($this->hasTokenCode($token) && $this->isThrow($token[0])) {
-            $this->throws[] = $key;
-        }
-    }
-
-    /**
-     * @param array|string $token
-     */
-    protected function parseUses($token)
-    {
-        if ($this->hasTokenCode($token)) {
-            if ($this->isParseUseInProgress()) {
-                $this->appendToLastUses($token[1]);
-            }
-            if ($this->isUse($token[0])) {
-                $this->startParseUse();
-                $this->addNewUses();
-            }
-        } else {
-            if ($this->isParseUseInProgress()) {
-                if ($token == ';') {
-                    $this->stopParseUse();
-                }
-                if ($token == ',') {
-                    $this->addNewUses();
-                }
-            }
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function hasUses()
-    {
-        return !empty($this->uses);
-    }
-
-    /**
-     * @param string|array $token
-     * @param int $key
-     */
-    protected function parseStaticCall($token, $key)
-    {
-        if ($this->hasTokenCode($token)
-            && $this->isStaticCall($token[0])
-            && $this->isTokenClass($this->getPreviousToken($key))
-        ) {
-            $this->staticCalls[] = $key;
-        }
-    }
-
-    /**
-     * @param array $token
-     * @return bool
-     */
-    protected function isTokenClass($token)
-    {
-        return $this->hasTokenCode($token)
-            && !(in_array($token[1], array('self', 'parent')) || preg_match('#^\$#', $token[1]));
-    }
-
-    /**
-     * @param int $key
-     * @param int $step
-     * @return array
-     */
-    protected function getPreviousToken($key, $step = 1)
-    {
-        return $this->tokens[$key - $step];
-    }
-
-    /**
-     * @param array|string $token
-     * @return bool
-     */
-    protected function hasTokenCode($token)
-    {
-        return is_array($token);
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    protected function isThrow($code)
-    {
-        return $code == T_THROW;
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    protected function isUse($code)
-    {
-        return $code == T_USE;
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    protected function isString($code)
-    {
-        return $code == T_STRING;
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    protected function isNamespaceSeparator($code)
-    {
-        return $code == T_NS_SEPARATOR;
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    protected function isStaticCall($code)
-    {
-        return $code == T_PAAMAYIM_NEKUDOTAYIM;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isParseUseInProgress()
-    {
-        return $this->parseUse;
-    }
-
-    protected function stopParseUse()
-    {
-        $this->parseUse = false;
-    }
-
-    protected function startParseUse()
-    {
-        $this->parseUse = true;
-    }
-
-    protected function addNewUses()
-    {
-        $this->uses[] = '';
-    }
-
-    /**
-     * @param string $value
-     */
-    protected function appendToLastUses($value)
-    {
-        end($this->uses);
-        $this->uses[key($this->uses)] .= trim($value);
     }
 }
