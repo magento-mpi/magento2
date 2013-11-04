@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Persistent\Helper;
 
 /**
  * Persistent Shopping Cart Data Helper
  */
-namespace Magento\Persistent\Helper;
-
 class Session extends \Magento\Core\Helper\Data
 {
     /**
@@ -66,14 +65,12 @@ class Session extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -82,14 +79,12 @@ class Session extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Core\Model\Encryption $encryptor,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -101,7 +96,13 @@ class Session extends \Magento\Core\Helper\Data
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
         parent::__construct(
-            $context, $coreHttp, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState, $encryptor,
+            $context,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
             $dbCompatibleMode
         );
     }

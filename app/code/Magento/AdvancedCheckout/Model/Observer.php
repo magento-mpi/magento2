@@ -134,7 +134,7 @@ class Observer
             $sku = isset($params['sku']) ? $params['sku'] : $id;
             $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
         }
-        /* @var $orderCreateModel \Magento\Adminhtml\Model\Sales\Order\Create */
+        /* @var $orderCreateModel \Magento\Sales\Model\AdminOrder\Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart->saveAffectedProducts($orderCreateModel, false);
         // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
@@ -158,7 +158,7 @@ class Observer
             return;
         }
 
-        /* @var $orderCreateModel \Magento\Adminhtml\Model\Sales\Order\Create */
+        /* @var $orderCreateModel \Magento\Sales\Model\AdminOrder\Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart = $this->_getBackendCart($observer);
         $cart->prepareAddProductsBySku($rows);

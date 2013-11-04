@@ -33,9 +33,9 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
     /**
      * Adminhtml data
      *
-     * @var \Magento\Adminhtml\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_adminhtmlData = null;
+    protected $_escaper = null;
 
     /**
      * @var \Magento\Directory\Model\CountryFactory
@@ -44,14 +44,14 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
 
     /**
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Adminhtml\Helper\Data $adminhtmlData
+        \Magento\Escaper $escaper
     ) {
         $this->_countryFactory = $countryFactory;
-        $this->_adminhtmlData = $adminhtmlData;
+        $this->_escaper = $escaper;
     }
 
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
@@ -105,7 +105,7 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
                 $selected = ($regionId==$region['value']) ? ' selected="selected"' : '';
                 $regionVal = (0 == $region['value']) ? '' : (int)$region['value'];
                 $html.= '<option value="' . $regionVal . '"' . $selected . '>'
-                    . $this->_adminhtmlData->escapeHtml(__($region['label']))
+                    . $this->_escaper->escapeHtml(__($region['label']))
                     . '</option>';
             }
             $html.= '</select>' . "\n";

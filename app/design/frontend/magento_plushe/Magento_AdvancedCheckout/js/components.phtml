@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+    <script type="text/javascript">
+        (function ($) {
+            "use strict";
+            /**
+             * Declaration of resources needed for defined components
+             */
+            $.mage.component({
+                orderBySkuFailure: [
+                    '<?php echo $this->getViewFileUrl('Magento_AdvancedCheckout::js/order-by-sku-failure.js') ?>'
+                ],
+                fileChooser: [
+                    '<?php echo $this->getViewFileUrl('Magento_AdvancedCheckout::js/file-chooser.js') ?>'
+                ]
+            });
+        })(jQuery);
+    </script>
+<?php echo $this->getChildHtml() ?>

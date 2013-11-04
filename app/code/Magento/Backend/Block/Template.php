@@ -33,6 +33,11 @@ class Template extends \Magento\Core\Block\Template
     protected $_locale;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -45,6 +50,7 @@ class Template extends \Magento\Core\Block\Template
         $this->_storeManager = $context->getStoreManager();
         $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
+        $this->mathRandom = $context->getMathRandom();
         parent::__construct($coreData, $context, $data);
     }
 

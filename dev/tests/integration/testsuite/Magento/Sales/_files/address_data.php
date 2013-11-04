@@ -13,6 +13,7 @@ return array(
     'region'     => 'CA',
     'postcode'   => '11111',
     'lastname'   => 'lastname',
+    'firstname'  => 'firstname',
     'street'     => 'street',
     'city'       => 'Los Angeles',
     'email'      => 'admin@example.com',

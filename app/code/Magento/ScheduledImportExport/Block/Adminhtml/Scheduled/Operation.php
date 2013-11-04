@@ -32,7 +32,7 @@ class Operation
 
         $this->_addButton('add_new_import', array(
             'label'   => __('Add Scheduled Import'),
-            'onclick' => "setLocation('" . $this->getUrl('*/*/new', array('type' => 'import')) . "')",
+            'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/new', array('type' => 'import')) . "')",
             'class'   => 'add'
         ));
 
@@ -48,6 +48,6 @@ class Operation
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('*/*/new', array('type' => 'export'));
+        return $this->getUrl('adminhtml/*/new', array('type' => 'export'));
     }
 }

@@ -33,7 +33,7 @@ class Lowstock extends \Magento\Adminhtml\Block\Widget\Grid\Container
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher')
                 ->setUseConfirm(false)
-                ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
+                ->setSwitchUrl($this->getUrl('adminhtml/*/*', array('store'=>null)))
                 ->setTemplate('Magento_Reports::store/switcher.phtml')
         );
 

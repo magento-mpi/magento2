@@ -50,7 +50,7 @@ class Onepage
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -112,7 +112,7 @@ class Onepage
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -128,7 +128,7 @@ class Onepage
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Helper\Data $helper,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

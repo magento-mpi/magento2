@@ -57,7 +57,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
                     ->loadByCode($code)
                     ->addToCart();
                 $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
-                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
@@ -79,7 +79,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
                     ->loadByCode($code)
                     ->removeFromCart();
                 $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
-                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(

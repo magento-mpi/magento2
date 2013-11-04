@@ -137,7 +137,7 @@ class Edit
     public function getBackUrl()
     {
         $cmsPage = $this->_coreRegistry->registry('cms_page');
-        return $this->getUrl('*/cms_page/edit', array(
+        return $this->getUrl('adminhtml/cms_page/edit', array(
             'page_id' => $cmsPage ? $cmsPage->getPageId() : null,
             'tab' => 'versions'
         ));
@@ -150,7 +150,7 @@ class Edit
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('_current' => true));
+        return $this->getUrl('adminhtml/*/delete', array('_current' => true));
     }
 
     /**
@@ -160,7 +160,7 @@ class Edit
      */
     public function getNewUrl()
     {
-        return $this->getUrl('*/*/new', array('_current' => true));
+        return $this->getUrl('adminhtml/*/new', array('_current' => true));
     }
 
     /**
@@ -170,6 +170,6 @@ class Edit
      */
     public function getNewRevisionUrl()
     {
-        return $this->getUrl('*/cms_page_revision/new', array('_current' => true));
+        return $this->getUrl('adminhtml/cms_page_revision/new', array('_current' => true));
     }
 }

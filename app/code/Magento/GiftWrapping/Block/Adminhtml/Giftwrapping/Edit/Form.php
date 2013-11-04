@@ -99,7 +99,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
-                'action' => $this->getUrl('*/*/save', $actionParams),
+                'action' => $this->getUrl('adminhtml/*/save', $actionParams),
                 'method' => 'post',
                 'field_name_suffix' => 'wrapping',
                 'enctype'=> 'multipart/form-data',
@@ -142,7 +142,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         ));
 
-        $fieldset->addType('price', 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price');
+        $fieldset->addType('price', 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => __('Price'),
             'name'     => 'base_price',

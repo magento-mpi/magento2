@@ -75,10 +75,17 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_arguments = array('test' => 'argument');
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $this->_logMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
-        $this->_appMock
-            = $this->getMock('Magento\Core\Model\App\Proxy', array('setUseSessionInUrl'), array(), '', false);
+        $this->_appMock = $this->getMockForAbstractClass(
+            'Magento\Core\Model\AppInterface',
+            [],
+            '',
+            false,
+            false,
+            false,
+            ['setUseSessionInUrl']
+        );
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
 
@@ -126,11 +133,15 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $store->expects($this->once())
+        $store->expects($this->at(0))
             ->method('getConfig')
-            ->with(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID)
+            ->with($this->equalTo(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID))
             ->will($this->returnValue(true));
 
+        $store->expects($this->at(1))
+            ->method('getConfig')
+            ->with($this->equalTo('dev/log/active'))
+            ->will($this->returnValue(true));
 
         $this->_objectManagerMock
             ->expects($this->once())
@@ -141,8 +152,10 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_eventManagerMock->expects($this->once())->method('dispatch')->with('core_app_init_current_store_after');
         $this->_logMock
             ->expects($this->once())
-            ->method('initForStore')
-            ->with($store, $this->_configMock);
+            ->method('unsetLoggers');
+        $this->_logMock
+            ->expects($this->exactly(2))
+            ->method('addStreamLog');
 
         $this->_appMock->expects($this->once())
             ->method('setUseSessionInUrl')->with(true);

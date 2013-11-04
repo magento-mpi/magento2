@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge implements  \Magento\View\Layout\ProcessorInterface
+class Merge implements \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
      * Available item type names
@@ -72,7 +72,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     protected $_subst = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_fileSource;
 
@@ -97,7 +97,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     protected $_layoutValidator;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -106,23 +106,23 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+        \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -358,7 +358,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
                 $messages = $this->_layoutValidator->getMessages();
                 //Add first message to exception
                 $message = array_shift($messages);
-                $this->_logger->addStreamLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM);
+                $this->_logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
                 $this->_logger->log('Cache file with merged layout: ' . $cacheId. ': ' . $message, \Zend_Log::ERR);
             }
         }

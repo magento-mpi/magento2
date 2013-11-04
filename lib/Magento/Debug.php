@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Debug
+ * @package     Magento_Debug
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Magento Debug methods
  *
  * @category    Magento
- * @package     \Magento\Debug
+ * @package     Magento_Debug
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;
@@ -20,6 +20,7 @@ namespace Magento;
 class Debug
 {
     public static $argLength = 16;
+
     /**
      * Magento Root path
      *
@@ -45,11 +46,11 @@ class Debug
     }
 
     /**
-     * Prints or return a backtrace
+     * Prints or returns a backtrace
      *
      * @param bool $return      return or print
      * @param bool $html        output in HTML format
-     * @param bool $withArgs    add short argumets of methods
+     * @param bool $withArgs    add short arguments of methods
      * @return string|bool
      */
     public static function backtrace($return = false, $html = true, $withArgs = true)
@@ -64,7 +65,7 @@ class Debug
      * @param array $trace      trace array
      * @param bool $return      return or print
      * @param bool $html        output in HTML format
-     * @param bool $withArgs    add short argumets of methods
+     * @param bool $withArgs    add short arguments of methods
      * @return string|bool
      */
     public static function trace(array $trace, $return = false, $html = true, $withArgs = true)
@@ -80,7 +81,7 @@ class Debug
                 continue;
             }
 
-            // prepare method argments
+            // prepare method arguments
             $args = array();
             if (isset($data['args']) && $withArgs) {
                 foreach ($data['args'] as $arg) {
@@ -144,6 +145,7 @@ class Debug
      * Format argument in called method
      *
      * @param mixed $arg
+     * @return string
      */
     protected static function _formatCalledArgument($arg)
     {

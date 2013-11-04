@@ -149,7 +149,7 @@ class Checkout
     protected $_customerData;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -211,7 +211,7 @@ class Checkout
     /**
      * Set config, session and quote instances
      *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Checkout\Helper\Data $checkoutData
@@ -232,7 +232,7 @@ class Checkout
      * @throws \Exception
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Checkout\Helper\Data $checkoutData,
