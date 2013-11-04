@@ -10,7 +10,7 @@
 return array(
     'expectedResultArrayDataDetails' =>
     '<?xml version="1.0" encoding="utf-8" ?>
-    <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
+    <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{wsdl_url}">
         <env:Body>
             <env:Fault>
                 <env:Code>
@@ -20,10 +20,10 @@ return array(
                     <env:Text xml:lang="en">Fault reason</env:Text>
                 </env:Reason>
                 <env:Detail>
-                    <m:ErrorDetails>
+                    <m:DefaultFault>
                         <m:key1>value1</m:key1>
                         <m:key2>value2</m:key2>
-                    </m:ErrorDetails>
+                    </m:DefaultFault>
                 </env:Detail>
             </env:Fault>
         </env:Body>
@@ -72,7 +72,7 @@ return array(
     </env:Envelope>',
     'expectedResultComplexDataDetails' =>
     '<?xml version = "1.0" encoding = "utf-8" ?>
-    <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
+    <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{wsdl_url}">
         <env:Body>
             <env:Fault>
                 <env:Code>
@@ -82,11 +82,11 @@ return array(
                     <env:Text xml:lang="en">Fault reason</env:Text>
                 </env:Reason>
                 <env:Detail>
-                    <m:ErrorDetails>
+                    <m:DefaultFault>
                         <m:key>
                             <m:sub_key>value</m:sub_key>
                         </m:key>
-                    </m:ErrorDetails>
+                    </m:DefaultFault>
                 </env:Detail>
             </env:Fault>
         </env:Body>
