@@ -91,17 +91,8 @@ class Customer extends AbstractRepository
                         'input_value' => '1'
                     )
                 ),
-                'addresses' => array(
-                    'default_billing' => $this->_getDefaultBillingAddress()
-                )
+                'addresses' => array()
             )
         );
-    }
-
-    protected function _getDefaultBillingAddress()
-    {
-        $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $defaultBilling->switchData('address_US_1');
-        return $defaultBilling;
     }
 }

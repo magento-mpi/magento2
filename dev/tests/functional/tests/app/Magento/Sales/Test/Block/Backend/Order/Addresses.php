@@ -69,11 +69,11 @@ class Addresses extends Block
      */
     public function fillAddresses(Order $fixture)
     {
-        $customerAddress = $fixture->getCustomer()->getDefaultBillingAddress();
-        if (empty($customerAddress)) {
-            $this->billingAddressForm->fill($fixture->getBillingAddress());
+        $billingAddress = $fixture->getBillingAddress();
+        if (empty($billingAddress)) {
+            $this->billingAddressForm->fill($fixture->getCustomer()->getDefaultBillingAddress());
         } else {
-            $this->billingAddressForm->fill($customerAddress);
+            $this->billingAddressForm->fill($billingAddress);
         }
         $this->templateBlock->waitLoader();
         $this->shippingAddressForm->setSameAsBillingShippingAddress();
