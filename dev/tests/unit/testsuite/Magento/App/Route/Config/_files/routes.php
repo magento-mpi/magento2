@@ -18,7 +18,7 @@ return array(
                     'Magento_Wishlist',
                     'Magento_Adminhtml',
                     'Magento_Customer',
-                    'Magento_CustomerBalance',
+                    'Magento_Paypal',
                 ),
             ),
             'customer' => array(
