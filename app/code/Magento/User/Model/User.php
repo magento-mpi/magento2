@@ -146,7 +146,7 @@ class User
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\User\Helper\Data $userData
-     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
@@ -165,7 +165,7 @@ class User
         \Magento\Core\Model\Registry $registry,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\User\Helper\Data $userData,
-        \Magento\Core\Model\Sender $sender,
+        \Magento\Email\Model\Sender $sender,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
