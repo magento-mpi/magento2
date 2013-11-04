@@ -67,4 +67,12 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
             return __('New Integration');
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFormActionUrl()
+    {
+        return $this->getUrl('*/*/save');
+    }
 }
