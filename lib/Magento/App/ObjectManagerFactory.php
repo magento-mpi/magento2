@@ -15,6 +15,11 @@ use Magento\App\Dir,
     Magento\ObjectManager\Factory\Factory,
     Magento\Profiler;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * Class ObjectManagerFactory
+ * @package Magento\App
+ */
 class ObjectManagerFactory
 {
     /**
@@ -33,6 +38,8 @@ class ObjectManagerFactory
 
     /**
      * Create object manager
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      *
      * @param string $rootDir
      * @param array $arguments

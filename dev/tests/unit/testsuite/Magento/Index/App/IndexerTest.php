@@ -54,7 +54,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $indexer->expects($this->once())->method('getProcessesCollection')->will($this->returnValue(array($process)));
         $process->expects($this->any())->method('getIndexer')->will($this->returnValue($indexerInterface));
 
-        if($value) {
+        if ($value) {
             $indexerInterface->expects($this->once())->method('isVisible')->will($this->returnValue(true));
             $process->expects($this->once())->method('reindexEverything');
         } else {
