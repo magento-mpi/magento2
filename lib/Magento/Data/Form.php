@@ -9,7 +9,6 @@
  */
 
 /**
- * Data form
  *
  * @category   Magento
  * @package    Magento_Data
@@ -21,7 +20,7 @@
  */
 namespace Magento\Data;
 
-use \Magento\Core\Model\Session\AbstractSession;
+use \Magento\Core\Model\Session;
 
 class Form extends \Magento\Data\Form\AbstractForm
 {
@@ -51,13 +50,13 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param AbstractSession $session
+     * @param Session $session
      * @param Form\Element\Factory $factoryElement
      * @param Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        AbstractSession $session,
+        Session $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
@@ -268,8 +267,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     public function toHtml()
     {
         \Magento\Profiler::start('form/toHtml');
-        $html = '';
-        if ($useContainer = $this->getUseContainer()) {
+        $html = ''; if ($useContainer = $this->getUseContainer()) {
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
