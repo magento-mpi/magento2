@@ -20,18 +20,12 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Oauth\Helper\Service */
     protected $_oauthHelper;
 
-    /** @var \Magento\Core\Model\Encryption */
-    protected $_encryptorMock;
-
     protected function setUp()
     {
         $this->_coreContextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_encryptorMock = $this->getMockBuilder('Magento\Encryption\Encryptor')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -43,7 +37,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('Magento\Core\Model\Locale')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\Core\Model\Date')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock(),
-            $this->_encryptorMock,
             $this->getMockBuilder('Magento\Object\Copy')->disableOriginalConstructor()->getMock()
         );
 

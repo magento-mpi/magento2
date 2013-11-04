@@ -71,6 +71,7 @@ class Session extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
+     * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -85,6 +86,7 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
+        \Magento\Object\Copy $objectCopyService,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -103,6 +105,7 @@ class Session extends \Magento\Core\Helper\Data
             $locale,
             $dateModel,
             $appState,
+            $objectCopyService,
             $dbCompatibleMode
         );
     }
