@@ -19,8 +19,6 @@ class Factory implements \Magento\ObjectManager\Factory
      */
     protected $_config;
 
-    protected $_objects = array();
-
     /**
      * Definition list
      *
