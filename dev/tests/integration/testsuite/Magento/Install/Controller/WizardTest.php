@@ -50,7 +50,7 @@ class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
         $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State');
         $appState->setInstallDate(false);
         $this->dispatch('install/wizard');
-        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+        $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
         $appState->setInstallDate(date('r', strtotime('now')));
     }
 

@@ -164,7 +164,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function indexAction()
     {
-        $this->_forward('begin');
+        $this->_redirect('*/*/begin');
     }
 
     /**
