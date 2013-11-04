@@ -30,5 +30,6 @@ class State extends \Magento\App\State
     public function setAreaCode($code)
     {
         $this->_areaCode = $code;
+        $this->_configScope->setCurrentScope($code);
     }
 }

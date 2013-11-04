@@ -11,9 +11,9 @@
 /**
  * RSS Controller for Catalog feeds in Admin
  */
-namespace Magento\Rss\Controller\Adminhtml\Rss;
+namespace Magento\Rss\Controller\Adminhtml;
 
-class Catalog extends \Magento\Rss\Controller\Adminhtml\Rss\Authenticate
+class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
 {
     protected function _getActionAclResource()
     {

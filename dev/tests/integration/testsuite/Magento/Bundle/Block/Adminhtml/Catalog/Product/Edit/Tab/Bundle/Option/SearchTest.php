@@ -16,17 +16,16 @@ class SearchTest
 {
     /**
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testToHtmlHasIndex()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
         $block = $layout->createBlock(
             'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search',
-            'block2');
+            'block2'
+        );
 
         $indexValue = 'magento_index_set_to_test';
         $block->setIndex($indexValue);

@@ -679,14 +679,4 @@ class Base extends \Magento\App\Router\AbstractRouter
                 && substr($this->_coreStoreConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
     }
-
-    /**
-     * Get area code
-     *
-     * @return string
-     */
-    public function getAreaCode()
-    {
-        return $this->_areaCode;
-    }
 }

@@ -11,9 +11,9 @@
 /**
  * RSS Controller for Orders feed in Admin
  */
-namespace Magento\Rss\Controller\Adminhtml\Rss;
+namespace Magento\Rss\Controller\Adminhtml;
 
-class Order extends \Magento\Rss\Controller\Adminhtml\Rss\Authenticate
+class Order extends \Magento\Rss\Controller\Adminhtml\Authenticate
 {
     protected function _getActionAclResource()
     {

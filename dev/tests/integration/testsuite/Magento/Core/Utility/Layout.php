@@ -91,6 +91,7 @@ class Layout
             'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento\Core\Model\DataService\Graph', array()),
             'coreStoreConfig'    => $objectManager->create('Magento\Core\Model\Store\Config'),
+            'appState'           => $objectManager->get('Magento\App\State'),
         );
     }
 }

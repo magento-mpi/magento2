@@ -84,14 +84,4 @@ abstract class AbstractRouter
      * @return \Magento\App\Action\AbstractAction
      */
     abstract public function match(RequestInterface $request);
-
-    /**
-     * Get area code, detected or used by router
-     *
-     * @return null|string
-     */
-    public function getAreaCode()
-    {
-        return null;
-    }
 }

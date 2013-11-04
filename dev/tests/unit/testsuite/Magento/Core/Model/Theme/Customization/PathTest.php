@@ -39,7 +39,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
-        $this->_appState = $this->getMock('Magento\App\State', null, array(), '', false);
+        $this->_appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
         $appStateProperty = new \ReflectionProperty('\Magento\Core\Model\Theme', '_appState');
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($this->_theme, $this->_appState);
@@ -75,7 +75,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetThemeFilesPath()
     {
-        $this->_appState->setAreaCode('area51');
+        $this->_appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('area51'));
         $this->_dir->expects($this->once())->method('getDir')->with(\Magento\App\Dir::THEMES)
             ->will($this->returnValue('/themes_dir'));
         $expectedPath = implode(

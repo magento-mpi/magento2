@@ -73,7 +73,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _toHtml()
     {
-        $newUrl = $this->getUrl('adminhtml/rss_catalog/review', array('_secure' => true, '_nosecret' => true));
+        $newUrl = $this->getUrl('rss/catalog/review', array('_secure' => true, '_nosecret' => true));
         $title = __('Pending product review(s)');
 
         /** @var $rssObj \Magento\Rss\Model\Rss */
@@ -118,7 +118,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
             ->setStore($row['store_id'])
             ->getUrl('catalog/product/view', array('id' => $row['entity_id']));
         $reviewUrl = $this->getUrl(
-            'adminhtml/catalog_product_review/edit/',
+            'catalog/product_review/edit/',
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true)
         );
         $storeName = $this->_storeManager->getStore($row['store_id'])->getName();

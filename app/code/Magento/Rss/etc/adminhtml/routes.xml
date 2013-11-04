@@ -8,9 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
---><config>
+-->
+<config>
     <router id="admin">
-        <route id="adminhtml">
+        <route id="rss" frontName="rss">
             <module name="Magento_Rss_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>

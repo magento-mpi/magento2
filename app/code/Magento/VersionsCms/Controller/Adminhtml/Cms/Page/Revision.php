@@ -454,7 +454,7 @@ class Revision
     {
         if ($this->getRequest()->getActionName() == 'drop') {
             $this->_objectManager->get('Magento\App\State')
-                ->emulateAreaCode('frontend', array($this, 'initFrontendDesign'));
+                ->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));
         } else {
             parent::_initDesign();
         }
@@ -464,7 +464,7 @@ class Revision
     /**
      * Callback for init design from outside (need to substitute area code)
      */
-    public function initFrontendDesign()
+    public function emulateDesignCallback()
     {
         parent::_initDesign();
     }

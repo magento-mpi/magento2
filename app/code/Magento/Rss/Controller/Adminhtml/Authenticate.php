@@ -11,9 +11,9 @@
 /**
  * RSS Controller with HTTP Basic authentication
  */
-namespace Magento\Rss\Controller\Adminhtml\Rss;
+namespace Magento\Rss\Controller\Adminhtml;
 
-class Authenticate extends \Magento\Adminhtml\Controller\Action
+class Authenticate extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Core\Model\Logger
@@ -30,11 +30,19 @@ class Authenticate extends \Magento\Adminhtml\Controller\Action
         $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
     }
 
+    /**
+     * Return required ACL resource for current action
+     * @return string
+     */
     protected function _getActionAclResource()
     {
         return 'Magento_Rss::rss';
     }
 
+    /**
+     * Replace standard admin login form with HTTP Basic authentication
+     * @return bool|\Magento\Backend\Controller\AbstractAction
+     */
     protected function _initAuthentication()
     {
         $aclResource = $this->_getActionAclResource();
@@ -48,8 +56,7 @@ class Authenticate extends \Magento\Adminhtml\Controller\Action
 
         // Try to login using HTTP-authentication
         if (!$session->isLoggedIn()) {
-            list($login, $password) = $this->_objectManager->get('Magento\Core\Helper\Http')
-                ->getHttpAuthCredentials($this->getRequest());
+            list($login, $password) = $this->_objectManager->get('Magento\HTTP\Authentication')->getCredentials();
             try {
                 $auth->login($login, $password);
             } catch (\Magento\Backend\Model\Auth\Exception $e) {
@@ -59,9 +66,9 @@ class Authenticate extends \Magento\Adminhtml\Controller\Action
 
         // Verify if logged in and authorized
         if (!$session->isLoggedIn()
-            || !$this->_objectManager->get('Magento\AuthorizationInterface')->isAllowed($aclResource)) {
-            $this->_objectManager->get('Magento\Core\Helper\Http')
-                ->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
+            || !$this->_objectManager->get('Magento\AuthorizationInterface')->isAllowed($aclResource)
+        ) {
+            $this->_objectManager->get('Magento\HTTP\Authentication')->setAuthenticationFailed('RSS Feeds');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }

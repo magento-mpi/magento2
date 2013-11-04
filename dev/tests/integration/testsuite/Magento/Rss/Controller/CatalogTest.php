@@ -74,7 +74,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
             ->turnOffSecretKey();
-        $this->dispatch("backend/admin/rss_catalog/{$action}");
+        $this->dispatch("backend/rss/catalog/{$action}");
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
 
@@ -101,7 +101,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
             ->get('Magento\CatalogInventory\Model\Resource\Stock')
             ->updateLowStockDate();
         $this->_loginAdmin();
-        $this->dispatch('backend/admin/rss_catalog/notifystock');
+        $this->dispatch('backend/rss/catalog/notifystock');
 
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
 
@@ -118,7 +118,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testReviewAction()
     {
         $this->_loginAdmin();
-        $this->dispatch('backend/admin/rss_catalog/review');
+        $this->dispatch('backend/rss/catalog/review');
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
         $body = $this->getResponse()->getBody();
         $this->assertContains('"Simple Product 3"', $body);

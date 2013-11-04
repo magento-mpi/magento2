@@ -94,8 +94,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 
-        $appState = $this->getMock('Magento\App\State', null, array(), '', false);
-        $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState->expects($this->any())->method('getAreaCode')
+            ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
         $this->_model = new \Magento\Backend\Model\Menu\Config(
             $this->_menuBuilderMock,

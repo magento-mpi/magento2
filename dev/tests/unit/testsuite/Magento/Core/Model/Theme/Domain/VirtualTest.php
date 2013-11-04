@@ -53,8 +53,8 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
     {
         $theme = $this->getMock('Magento\Core\Model\Theme', array('getStagingVersion'), array(), '', false, false);
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue(null));
-        $appState = $this->getMock('Magento\App\State', null, array(), '', false);
-        $appState->setAreaCode('fixture_area');
+        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('fixture_area'));
         $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Theme', '_appState');
         $appStateProperty->setAccessible(true);
         /** @var $theme \Magento\Object */

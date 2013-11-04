@@ -84,6 +84,8 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Config\ScopeInterface')
                     ->setCurrentScope($area);
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+                    ->setAreaCode($area);
 
                 $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();

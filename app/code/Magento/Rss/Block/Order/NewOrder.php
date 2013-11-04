@@ -31,10 +31,16 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
     protected $_resourceIterator;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $_dateTime;
+
+    /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -42,11 +48,13 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_rssFactory = $rssFactory;
         $this->_orderFactory = $orderFactory;
         $this->_resourceIterator = $resourceIterator;
+        $this->_dateTime = $dateTime;
         parent::__construct($context, $data);
     }
 
@@ -54,8 +62,8 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
     {
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
-        $passDate = $order->getResource()->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
-        $newUrl = $this->getUrl('adminhtml/rss_order/new', array('_secure' => true, '_nosecret' => true));
+        $passDate = $this->_dateTime->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
+        $newUrl = $this->getUrl('rss/order/new', array('_secure' => true, '_nosecret' => true));
         $title = __('New Orders');
 
         /** @var $rssObj \Magento\Rss\Model\Rss */
@@ -93,7 +101,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
         $order->reset()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
             $title = __('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-            $url = $this->getUrl('adminhtml/sales_order/view',
+            $url = $this->getUrl('sales/order/view',
                 array('_secure' => true, 'order_id' => $order->getId(), '_nosecret' => true)
             );
             $detailBlock->setOrder($order);

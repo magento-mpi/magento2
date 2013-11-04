@@ -91,6 +91,20 @@ class Filter extends \Magento\Filter\Template
     protected $_coreStoreConfig;
 
     /**
+     * Layout directive params
+     *
+     * @var array
+     */
+    protected $_directiveParams;
+
+    /**
+     * App state
+     *
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
@@ -100,6 +114,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\View\LayoutFactory $layoutFactory
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Stdlib\String $string,
@@ -110,7 +125,8 @@ class Filter extends \Magento\Filter\Template
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\View\LayoutInterface $layout,
-        \Magento\View\LayoutFactory $layoutFactory
+        \Magento\View\LayoutFactory $layoutFactory,
+        \Magento\App\State $appState
     ) {
         $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
@@ -121,6 +137,7 @@ class Filter extends \Magento\Filter\Template
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
         $this->_layoutFactory = $layoutFactory;
+        $this->_appState = $appState;
         parent::__construct($string);
     }
 
@@ -238,6 +255,71 @@ class Filter extends \Magento\Filter\Template
             $method = 'toHtml';
         }
         return $block->$method();
+    }
+
+    /**
+     * Retrieve layout html directive
+     *
+     * @param array $construction
+     * @return string
+     */
+    public function layoutDirective($construction)
+    {
+        $this->_directiveParams = $this->_getIncludeParameters($construction[2]);
+        if (!isset($this->_directiveParams['area'])) {
+            $this->_directiveParams['area'] = 'frontend';
+        }
+        if ($this->_directiveParams['area'] != $this->_appState->getAreaCode()) {
+            return $this->_appState->emulateAreaCode(
+                $this->_directiveParams['area'],
+                array($this, 'emulateAreaCallback')
+            );
+        } else {
+            return $this->emulateAreaCallback();
+        }
+    }
+
+    /**
+     * Retrieve layout html directive callback
+     *
+     * @return string
+     */
+    public function emulateAreaCallback()
+    {
+        $skipParams = array('handle', 'area');
+
+        /** @var $layout \Magento\View\LayoutInterface */
+        $layout = $this->_layoutFactory->create();
+        $layout->getUpdate()->addHandle($this->_directiveParams['handle'])
+            ->load();
+
+        $layout->generateXml();
+        $layout->generateElements();
+
+        $rootBlock = false;
+        foreach ($layout->getAllBlocks() as $block) {
+            /* @var $block \Magento\Core\Block\AbstractBlock */
+            if (!$block->getParentBlock() && !$rootBlock) {
+                $rootBlock = $block;
+            }
+            foreach ($this->_directiveParams as $k => $v) {
+                if (in_array($k, $skipParams)) {
+                    continue;
+                }
+                $block->setDataUsingMethod($k, $v);
+            }
+        }
+
+        /**
+         * Add root block to output
+         */
+        if ($rootBlock) {
+            $layout->addOutputElement($rootBlock->getNameInLayout());
+        }
+
+        $result = $layout->getOutput();
+        $layout->__destruct(); // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
+        return $result;
     }
 
     /**

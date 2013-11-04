@@ -54,8 +54,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->with('phtml')
             ->will($this->returnValue($this->_templateEngine));
 
-        $appState = $this->getMock('Magento\App\State', null, array(), '', false);
-        $appState->setAreaCode('frontend');
+        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('frontend'));
 
         $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getEngineFactory')->will($this->returnValue($enginePool));

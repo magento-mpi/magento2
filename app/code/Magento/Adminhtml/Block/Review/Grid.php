@@ -283,7 +283,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'sortable'  => false
         ));
 
-        $this->addRssList('*/rss_catalog/review', __('Pending Reviews RSS'));
+        $this->addRssList('rss/catalog/review', __('Pending Reviews RSS'));
 
         return parent::_prepareColumns();
     }

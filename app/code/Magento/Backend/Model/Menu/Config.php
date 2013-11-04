@@ -78,7 +78,7 @@ class Config
         \Magento\Backend\Model\Menu\Config\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState
     ) {

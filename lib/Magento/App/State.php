@@ -43,6 +43,13 @@ class State
     protected $_installDate;
 
     /**
+     * Config scope model
+     *
+     * @var \Magento\Config\ScopeInterface
+     */
+    protected $_configScope;
+
+    /**
      * Area code
      *
      * @var string
@@ -60,13 +67,15 @@ class State
     const PARAM_INSTALL_DATE   = 'install.date';
 
     /**
+     * @param \Magento\Config\ScopeInterface $configScope
      * @param string $installDate
      * @param string $mode
      * @throws \LogicException
      */
-    public function __construct($installDate, $mode = self::MODE_DEFAULT)
+    public function __construct(\Magento\Config\ScopeInterface $configScope, $installDate, $mode = self::MODE_DEFAULT)
     {
         $this->_installDate = strtotime((string)$installDate);
+        $this->_configScope = $configScope;
         switch ($mode) {
             case self::MODE_DEVELOPER:
             case self::MODE_PRODUCTION:
@@ -150,6 +159,7 @@ class State
         if (isset($this->_areaCode)) {
             throw new \Magento\Exception('Area code is already set');
         }
+        $this->_configScope->setCurrentScope($code);
         $this->_areaCode = $code;
     }
 
