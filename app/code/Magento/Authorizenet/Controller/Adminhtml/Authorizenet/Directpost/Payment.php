@@ -1,24 +1,15 @@
 <?php
 /**
+ * Admihtml DirtectPost Payment Controller
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Admihtml DirtectPost Payment Controller
- *
- * @category   Magento
- * @package    Magento_DirtectPost
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet\Directpost;
 
-class Payment
-    extends \Magento\Adminhtml\Controller\Sales\Order\Create
+class Payment extends \Magento\Adminhtml\Controller\Sales\Order\Create
 {
     /**
      * Core registry
