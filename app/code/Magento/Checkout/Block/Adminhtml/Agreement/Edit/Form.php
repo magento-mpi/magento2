@@ -3,15 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Adminhtml Tax Rule Edit Form
- */
-namespace Magento\Adminhtml\Block\Checkout\Agreement\Edit;
+namespace Magento\Checkout\Block\Adminhtml\Agreement\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

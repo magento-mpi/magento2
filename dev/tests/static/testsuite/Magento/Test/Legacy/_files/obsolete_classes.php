@@ -1340,4 +1340,24 @@ return array(
         'Magento\Adminhtml\Block\System\Variable',
         'Magento\Backend\Block\System\Variable'
     ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Edit\Form',
+        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Edit',
+        'Magento\Checkout\Block\Adminhtml\Agreement\Edit'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Grid',
+        'Magento\Checkout\Block\Adminhtml\Agreement\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement',
+        'Magento\Checkout\Block\Adminhtml\Agreement'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Checkout\Agreement',
+        'Magento\Checkout\Controller\Adminhtml\Agreement'
+    ),
 );

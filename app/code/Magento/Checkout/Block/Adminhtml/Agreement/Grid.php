@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Adminhtml\Block\Checkout\Agreement;
+namespace Magento\Checkout\Block\Adminhtml\Agreement;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {

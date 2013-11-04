@@ -3,16 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Adminhtml tax rule Edit Container
- */
-
-namespace Magento\Adminhtml\Block\Checkout\Agreement;
+namespace Magento\Checkout\Block\Adminhtml\Agreement;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
@@ -46,7 +42,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'id';
-        $this->_controller = 'checkout_agreement';
+        $this->_controller = 'adminhtml_agreement';
+        $this->_blockGroup = 'Magento_Checkout';
 
         parent::_construct();
 

@@ -14,13 +14,13 @@ namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 /**
  * @magentoAppArea adminhtml
  */
-class CheckoutTest extends \Magento\Backend\Utility\Controller
+class IndexTest extends \Magento\Backend\Utility\Controller
 {
     public function testLoadBlockAction()
     {
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('backend/admin/checkout/loadBlock');
+        $this->dispatch('backend/checkout/index_loadBlock');
         $this->assertStringMatchesFormat('{"message":"%ACustomer not found%A"}', $this->getResponse()->getBody());
     }
 }
