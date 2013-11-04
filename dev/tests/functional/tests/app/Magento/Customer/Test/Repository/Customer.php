@@ -89,10 +89,19 @@ class Customer extends AbstractRepository
                         'value' => 'General',
                         'group' => 'customer_info_tabs_account',
                         'input_value' => '1'
-                    ),
-                    'addresses' => array()
+                    )
+                ),
+                'addresses' => array(
+                    'default_billing' => $this->_getDefaultBillingAddress()
                 )
             )
         );
+    }
+
+    protected function _getDefaultBillingAddress()
+    {
+        $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultBilling->switchData('address_US_1');
+        return $defaultBilling;
     }
 }

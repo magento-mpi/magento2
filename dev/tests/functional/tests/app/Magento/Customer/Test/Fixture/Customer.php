@@ -116,7 +116,6 @@ class Customer extends DataFixture
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCustomerCustomer($this->_dataConfig, $this->_data);
 
-        $this->_data['backend_customer']['data']['addresses']['default_billing'] = $this->getDefaultBillingAddress();
         //Default data set
         $this->switchData('customer_US_1');
     }
