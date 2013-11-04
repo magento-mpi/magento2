@@ -72,7 +72,9 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testAuthorizationFailed($action)
     {
-        $this->dispatch("rss/catalog/{$action}");
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+            ->turnOffSecretKey();
+        $this->dispatch("backend/admin/rss_catalog/{$action}");
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
 
@@ -89,6 +91,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoConfigFixture admin_store cataloginventory/item_options/notify_stock_qty 75
      * @magentoConfigFixture current_store cataloginventory/item_options/notify_stock_qty 75
      */
     public function testNotifyStockAction()
@@ -98,7 +101,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
             ->get('Magento\CatalogInventory\Model\Resource\Stock')
             ->updateLowStockDate();
         $this->_loginAdmin();
-        $this->dispatch('rss/catalog/notifystock');
+        $this->dispatch('backend/admin/rss_catalog/notifystock');
 
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
 
@@ -115,7 +118,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testReviewAction()
     {
         $this->_loginAdmin();
-        $this->dispatch('rss/catalog/review');
+        $this->dispatch('backend/admin/rss_catalog/review');
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
         $body = $this->getResponse()->getBody();
         $this->assertContains('"Simple Product 3"', $body);
@@ -144,7 +147,6 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected function _loginAdmin()
     {
-        $this->markTestIncomplete('Should be fixed after implementation of rss area');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
@@ -153,5 +155,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
             'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
             'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         ));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+            ->turnOffSecretKey();
     }
 }

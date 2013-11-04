@@ -43,47 +43,4 @@ class Action extends \Magento\Core\Controller\Varien\Action
         }
         return $this;
     }
-
-    /**
-     * Check if admin is logged in and authorized to access resource by specified ACL path
-     *
-     * If not authenticated, will try to do it using credentials from HTTP-request
-     *
-     * @param string $aclResource
-     * @param \Magento\Logger $logger
-     * @return bool
-     */
-    public function authenticateAndAuthorizeAdmin($aclResource, $logger)
-    {
-        $this->_objectManager->get('Magento\Core\Model\App')
-            ->loadAreaPart(
-                \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-                \Magento\Core\Model\App\Area::PART_CONFIG
-            );
-
-        /** @var $auth \Magento\Backend\Model\Auth */
-        $auth = $this->_objectManager->create('Magento\Backend\Model\Auth');
-        $session = $auth->getAuthStorage();
-
-        // Try to login using HTTP-authentication
-        if (!$session->isLoggedIn()) {
-            list($login, $password) = $this->authentication->getCredentials();
-            try {
-                $auth->login($login, $password);
-            } catch (\Magento\Backend\Model\Auth\Exception $e) {
-                $logger->logException($e);
-            }
-        }
-
-        // Verify if logged in and authorized
-        /** @var \Magento\AuthorizationInterface $authorization */
-        $authorization = $this->_objectManager->get('Magento\AuthorizationInterface');
-        if (!$session->isLoggedIn() || !$authorization->isAllowed($aclResource)) {
-            $this->authentication->setAuthenticationFailed('RSS Feeds');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return false;
-        }
-
-        return true;
-    }
 }

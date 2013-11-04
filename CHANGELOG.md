@@ -1,5 +1,6 @@
 * Application Areas Rework:
   * Single point of access to the current area code
+  * Declare Application Areas
 * Various improvements:
   * Global functions are called now from app\functions.php
   * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
