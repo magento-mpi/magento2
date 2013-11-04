@@ -42,7 +42,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             array('create'), array(), '', false);
         $this->_factoryCollectionMock->expects($this->any())->method('create')->will($this->returnValue(array()));
         $this->_sessionMock = $this->getMock(
-            'Magento\Core\Model\Session\AbstractSession', array('getFormKey'), array(), '', false
+            'Magento\Core\Model\Session', array('getFormKey'), array(), '', false
         );
 
         $this->_form = new Form($this->_sessionMock, $this->_factoryElementMock, $this->_factoryCollectionMock);

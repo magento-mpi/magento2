@@ -32,7 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false);
+        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
         $translate = function (array $args) {
             return reset($args);
         };

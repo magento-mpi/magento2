@@ -67,7 +67,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_select = new \Zend_Db_Select(
             $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false);
+        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
     }
 
     protected function tearDown()
