@@ -112,7 +112,7 @@ class Order extends DataFixture
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('backend_address_US_1');
+        $this->billingAddress->switchData('address_data_US_1');
 
         $this->shippingMethod = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethod->switchData('flat_rate');

@@ -22,7 +22,7 @@ use Mtf\Client\Element\Locator;
 class ProductsOrderedGrid extends Grid
 {
     /**
-     * Click create new customer button
+     * Click add new products button
      */
     public function addNewProducts()
     {

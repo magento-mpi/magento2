@@ -26,32 +26,38 @@ use Mtf\Factory\Factory;
 class Addresses extends Block
 {
     /**
+     * Form for billing address
+     *
      * @var BillingAddress
      */
-    protected $_billingAddressForm;
+    protected $billingAddressForm;
 
     /**
+     * Form for shipping address
+     *
      * @var ShippingAddress
      */
-    protected $_shippingAddressForm;
+    protected $shippingAddressForm;
 
     /**
+     * Global page template block
+     *
      * @var Template
      */
-    protected $_templateBlock;
+    protected $templateBlock;
 
     /**
      * @inheritdoc
      */
     protected function _init()
     {
-        $this->_billingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderBillingAddress(
+        $this->billingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderBillingAddress(
             $this->_rootElement->find('#order-billing_address')
         );
-        $this->_shippingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingAddress(
+        $this->shippingAddressForm = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingAddress(
             $this->_rootElement->find('#order-shipping_address')
         );
-        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
         );
     }
@@ -63,9 +69,9 @@ class Addresses extends Block
      */
     public function fillAddresses(Order $fixture)
     {
-        $this->_billingAddressForm ->fill($fixture->getBillingAddress());
-        $this->_templateBlock->waitLoader();
-        $this->_shippingAddressForm->setSameAsBillingShippingAddress();
-        $this->_templateBlock->waitLoader();
+        $this->billingAddressForm->fill($fixture->getBillingAddress());
+        $this->templateBlock->waitLoader();
+        $this->shippingAddressForm->setSameAsBillingShippingAddress();
+        $this->templateBlock->waitLoader();
     }
 }

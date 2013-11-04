@@ -59,6 +59,6 @@ class CustomerSelectionGrid extends Grid
                 'email' => $customer->getEmail()
             ));
         }
-        $this->_templateBlock->waitLoader();
+        $this->templateBlock->waitLoader();
     }
 }

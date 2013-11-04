@@ -32,51 +32,67 @@ class AdminSalesOrderCreate extends Page
     const MCA = 'admin/sales_order_create/index';
 
     /**
+     * Grid for customer selection
+     *
      * @var CustomerSelectionGrid
      */
-    protected $_orderCustomerBlock;
+    protected $orderCustomerBlock;
 
     /**
+     * Grid which contain already ordered products
+     *
      * @var ProductsOrderedGrid
      */
-    protected $_itemsOrderedGrid;
+    protected $itemsOrderedGrid;
 
     /**
+     * Grid for adding products to order
+     *
      * @var ProductsAddGrid
      */
-    protected $_itemsAddGrid;
+    protected $itemsAddGrid;
 
     /**
+     * Block with billing and shipping addresses forms
+     *
      * @var Addresses
      */
-    protected $_addressesBlock;
+    protected $addressesBlock;
 
     /**
+     * Block with order creation summary
+     *
      * @var OrderCreationSummary
      */
-    protected $_orderSummaryBlock;
+    protected $orderSummaryBlock;
 
     /**
+     * Block for store view selection
+     *
      * @var SelectStoreView
      */
-    protected $_selectStoreViewBlock;
+    protected $selectStoreViewBlock;
 
     /**
+     * Block with payment methods for order creation
+     *
      * @var PaymentMethods
      */
-    protected $_paymentMethodsBlock;
+    protected $paymentMethodsBlock;
 
     /**
+     * Block with shipping methods for order creation
+     *
      * @var ShippingMethods
      */
-    protected $_shippingMethodsBlock;
+    protected $shippingMethodsBlock;
 
     /**
      * Backend abstract block
      *
      * @var Template
      */
-    protected $_templateBlock;
+    protected $templateBlock;
 
     /**
      * Custom constructor
@@ -84,31 +100,31 @@ class AdminSalesOrderCreate extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_orderCustomerBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerSelectionGrid(
+        $this->orderCustomerBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerSelectionGrid(
             $this->_browser->find('#order-customer-selector')
         );
-        $this->_itemsOrderedGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsOrderedGrid(
+        $this->itemsOrderedGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsOrderedGrid(
             $this->_browser->find('#order-items')
         );
-        $this->_itemsAddGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsAddGrid(
+        $this->itemsAddGrid = Factory::getBlockFactory()->getMagentoSalesBackendOrderProductsAddGrid(
             $this->_browser->find('#order-search')
         );
-        $this->_addressesBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderAddresses(
+        $this->addressesBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderAddresses(
             $this->_browser->find('#order-addresses')
         );
-        $this->_orderSummaryBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderOrderCreationSummary(
+        $this->orderSummaryBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderOrderCreationSummary(
             $this->_browser->find('.order-summary')
         );
-        $this->_selectStoreViewBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderSelectStoreView(
+        $this->selectStoreViewBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderSelectStoreView(
             $this->_browser->find('#order-store-selector')
         );
-        $this->_paymentMethodsBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderPaymentMethods(
+        $this->paymentMethodsBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderPaymentMethods(
             $this->_browser->find('.order-billing-method')
         );
-        $this->_shippingMethodsBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingMethods(
+        $this->shippingMethodsBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderShippingMethods(
             $this->_browser->find('.order-shipping-method')
         );
-        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_browser->find('#html-body')
         );
     }
@@ -120,7 +136,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getOrderCustomerBlock()
     {
-        return $this->_orderCustomerBlock;
+        return $this->orderCustomerBlock;
     }
 
     /**
@@ -130,7 +146,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getItemsOrderedGrid()
     {
-        return $this->_itemsOrderedGrid;
+        return $this->itemsOrderedGrid;
     }
 
     /**
@@ -140,7 +156,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getItemsAddGrid()
     {
-        return $this->_itemsAddGrid;
+        return $this->itemsAddGrid;
     }
 
     /**
@@ -150,7 +166,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getAddressesBlock()
     {
-        return $this->_addressesBlock;
+        return $this->addressesBlock;
     }
 
     /**
@@ -160,7 +176,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getOrderSummaryBlock()
     {
-        return $this->_orderSummaryBlock;
+        return $this->orderSummaryBlock;
     }
 
     /**
@@ -170,7 +186,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getSelectStoreViewBlock()
     {
-        return $this->_selectStoreViewBlock;
+        return $this->selectStoreViewBlock;
     }
 
     /**
@@ -180,7 +196,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getPaymentMethodsBlock()
     {
-        return $this->_paymentMethodsBlock;
+        return $this->paymentMethodsBlock;
     }
 
     /**
@@ -190,7 +206,7 @@ class AdminSalesOrderCreate extends Page
      */
     public function getShippingMethodsBlock()
     {
-        return $this->_shippingMethodsBlock;
+        return $this->shippingMethodsBlock;
     }
 
     /**
@@ -200,6 +216,6 @@ class AdminSalesOrderCreate extends Page
      */
     public function getTemplateBlock()
     {
-        return $this->_templateBlock;
+        return $this->templateBlock;
     }
 }

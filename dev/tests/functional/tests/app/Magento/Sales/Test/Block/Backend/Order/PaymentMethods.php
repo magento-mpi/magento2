@@ -15,7 +15,6 @@ use Magento\Backend\Test\Block\Template;
 use Magento\Sales\Test\Fixture\Order;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Payment\Test\Block\Form;
 use Mtf\Factory\Factory;
 
 /**
@@ -27,16 +26,18 @@ use Mtf\Factory\Factory;
 class PaymentMethods extends Block
 {
     /**
+     * Global page template block
+     *
      * @var Template
      */
-    protected $_templateBlock;
+    protected $templateBlock;
 
     /**
      * @inheritdoc
      */
     protected function _init()
     {
-        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
         );
     }
@@ -51,6 +52,6 @@ class PaymentMethods extends Block
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
         $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS)->click();
-        $this->_templateBlock->waitLoader();
+        $this->templateBlock->waitLoader();
     }
 }

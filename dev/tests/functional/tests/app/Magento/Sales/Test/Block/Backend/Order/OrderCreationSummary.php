@@ -20,6 +20,9 @@ use Mtf\Block\Block;
  */
 class OrderCreationSummary extends Block
 {
+    /**
+     * Click save order
+     */
     public function clickSaveOrder()
     {
         $this->_rootElement->find('.order-totals-bottom button')->click();

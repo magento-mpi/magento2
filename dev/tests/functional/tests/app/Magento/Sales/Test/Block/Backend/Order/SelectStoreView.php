@@ -26,16 +26,19 @@ use Mtf\Factory\Factory;
 class SelectStoreView extends Block
 {
     /**
+     * Global page template block
+     *
      * @var Template
      */
-    protected $_templateBlock;
+    protected $templateBlock;
 
     /**
      * @inheritdoc
      */
     protected function _init()
     {
-        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+        parent::_init();
+        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
         );
     }
@@ -50,7 +53,7 @@ class SelectStoreView extends Block
         if ($this->isVisible()) {
             $selector = '//label[text()="' . $fixture->getStoreViewName() . '"]/preceding-sibling::*';
             $this->_rootElement->find($selector, Locator::SELECTOR_XPATH, 'checkbox')->setValue('Yes');
-            $this->_templateBlock->waitLoader();
+            $this->templateBlock->waitLoader();
         }
     }
 }

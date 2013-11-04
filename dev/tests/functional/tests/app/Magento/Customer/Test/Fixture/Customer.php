@@ -34,30 +34,10 @@ class Customer extends DataFixture
     /**
      * @return \Magento\Customer\Test\Fixture\Address
      */
-    public function getDefaultShippingAddress()
-    {
-        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $customerAddress->switchData('address_US_1');
-        return $customerAddress;
-    }
-
-    /**
-     * @return \Magento\Customer\Test\Fixture\Address
-     */
     public function getSecondShippingAddress()
     {
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $customerAddress->switchData('address_US_2');
-        return $customerAddress;
-    }
-
-    /**
-     * @return \Magento\Customer\Test\Fixture\Address
-     */
-    public function getDefaultBillingAddress()
-    {
-        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $customerAddress->switchData('address_US_1');
         return $customerAddress;
     }
 
@@ -100,32 +80,36 @@ class Customer extends DataFixture
     }
 
     /**
-     * Get billing address for customer if it is set OR default billing address otherwise
+     * Get billing address for customer
      *
      * @return Address
      */
-    public function getBillingAddress()
+    public function getDefaultBillingAddress()
     {
-        $default_billing = $this->getData('addresses/default_billing');
-        if (!empty($default_billing)) {
-            return $default_billing;
+        $defaultBilling = $this->getData('addresses/default_billing');
+        if (!empty($defaultBilling)) {
+            return $defaultBilling;
         } else {
-            return $this->getDefaultBillingAddress();
+            $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+            $defaultBilling->switchData('address_US_1');
+            return $defaultBilling;
         }
     }
 
     /**
-     * Get shipping address for customer if it is set OR default shipping address otherwise
+     * Get default shipping address for customer
      *
      * @return Address
      */
-    public function getShippingAddress()
+    public function getDefaultShippingAddress()
     {
-        $default_shipping = $this->getData('addresses/default_billing');
-        if (!empty($default_shipping)) {
-            return $default_shipping;
+        $defaultShipping = $this->getData('addresses/default_billing');
+        if (!empty($defaultShipping)) {
+            return $defaultShipping;
         } else {
-            return $this->getDefaultShippingAddress();
+            $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+            $defaultShipping->switchData('address_US_1');
+            return $defaultShipping;
         }
     }
 

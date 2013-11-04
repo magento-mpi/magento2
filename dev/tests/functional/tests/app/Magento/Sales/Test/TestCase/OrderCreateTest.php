@@ -77,22 +77,14 @@ class OrderCreateTest extends Functional
         $paymentMethodsBlock = $orderCreatePage->getPaymentMethodsBlock();
         $shippingMethodsBlock = $orderCreatePage->getShippingMethodsBlock();
         $orderSummaryBlock = $orderCreatePage->getOrderSummaryBlock();
-
         //Test flow
         $customerSelectionGrid->selectCustomer($fixture);
-
         $storeViewSelectionBlock->selectStoreView($fixture);
-
         $itemsOrderedGrid->addNewProducts();
-
         $productsAddGrid->addProducts($fixture);
-
         $addressesBlock->fillAddresses($fixture);
-
         $paymentMethodsBlock->selectPaymentMethod($fixture);
-
         $shippingMethodsBlock->selectShippingMethod($fixture);
-
         $orderSummaryBlock->clickSaveOrder();
     }
 
@@ -106,21 +98,17 @@ class OrderCreateTest extends Functional
         $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
         $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         $orderGrid = $orderGridPage->getOrderGridBlock();
-
         //Verification data
         $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
         $orderId = substr($orderViewPage->getTitleBlock()->getTitle(), 1);
         $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
-
         //Test flow - order grand total check
         $orderGridPage->open();
         $orderGrid->searchAndOpen(array(
             'id' => $orderId
         ));
         $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
-
         $this->_checkCustomer($fixture, $email);
-
     }
 
     /**
@@ -144,7 +132,8 @@ class OrderCreateTest extends Functional
         ));
         $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
 
-        if (!empty($fixture->getCustomer())) {
+        $customer = $fixture->getCustomer();
+        if (!empty($customer)) {
             $firstName = $fixture->getCustomer()->getFirstName();
             $lastName = $fixture->getCustomer()->getLastName();
         } else {

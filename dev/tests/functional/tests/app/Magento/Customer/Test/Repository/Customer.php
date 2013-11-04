@@ -60,7 +60,7 @@ class Customer extends AbstractRepository
                     )
                 ),
                 'addresses' => array(
-                    'default_billing' => $this->_getDefaultAddress()->getData(),
+                    'default_billing' => $this->_getDefaultAddress(),
                 )
             )
         );

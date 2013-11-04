@@ -48,12 +48,12 @@ class SalesOrderView extends Page
     /**
      * @var CustomerInformation
      */
-    protected $_customerInformationBlock;
+    protected $customerInformationBlock;
 
     /**
      * @var Title
      */
-    protected $_titleBlock;
+    protected $titleBlock;
 
     /**
      * Custom constructor
@@ -67,10 +67,10 @@ class SalesOrderView extends Page
         $this->orderHistoryBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderHistory(
             $this->_browser->find('.order-comments-history', Locator::SELECTOR_CSS)
         );
-        $this->_customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
+        $this->customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
             $this->_browser->find('.order-account-information')
         );
-        $this->_titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page-title .title')
         );
     }
@@ -102,7 +102,7 @@ class SalesOrderView extends Page
      */
     public function getOrderCustomerInformationBlock()
     {
-        return $this->_customerInformationBlock;
+        return $this->customerInformationBlock;
     }
 
     /**
@@ -112,6 +112,6 @@ class SalesOrderView extends Page
      */
     public function getTitleBlock()
     {
-        return $this->_titleBlock;
+        return $this->titleBlock;
     }
 }
