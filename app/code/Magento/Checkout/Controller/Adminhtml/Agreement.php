@@ -3,19 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Tax rule controller
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Adminhtml\Controller\Checkout;
+namespace Magento\Checkout\Controller\Adminhtml;
 
 class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -66,7 +59,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This condition no longer exists.')
                 );
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('checkout/*/');
                 return;
             }
         }
@@ -88,7 +81,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
             ->_addContent(
                 $this->getLayout()
                     ->createBlock('Magento\Adminhtml\Block\Checkout\Agreement\Edit')
-                    ->setData('action', $this->getUrl('adminhtml/*/save'))
+                    ->setData('action', $this->getUrl('checkout/*/save'))
             )
             ->renderLayout();
     }
@@ -104,7 +97,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->save();
 
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been saved.'));
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('checkout/*/');
 
                 return;
             } catch (\Magento\Core\Exception $e) {
@@ -125,14 +118,14 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
             ->load($id);
         if (!$model->getId()) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This condition no longer exists.'));
-            $this->_redirect('adminhtml/*/');
+            $this->_redirect('checkout/*/');
             return;
         }
 
         try {
             $model->delete();
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been deleted.'));
-            $this->_redirect('adminhtml/*/');
+            $this->_redirect('checkout/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());

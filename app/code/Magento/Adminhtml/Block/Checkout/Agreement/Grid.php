@@ -118,7 +118,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('checkout/*/edit', array('id' => $row->getId()));
     }
 
 }
