@@ -227,7 +227,7 @@ class Products
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/products', array('_current'=>true));
+        return $this->getUrl('checkout/*/products', array('_current'=>true));
     }
 
     /**

@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
-class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
+class Index extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -113,7 +113,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                         )
                     );
                 } else {
-                    $this->_redirect('adminhtml/*/index', array('store' => $storeId, 'customer' => $customerId));
+                    $this->_redirect('checkout/*/index', array('store' => $storeId, 'customer' => $customerId));
                 }
                 $this->_redirectFlag = true;
                 return $this;
@@ -200,7 +200,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error has occurred. See error log for details.')
             );
         }
-        $this->_redirect('adminhtml/*/error');
+        $this->_redirect('checkout/*/error');
     }
 
 
@@ -392,7 +392,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                    ->setCustomerId($quote->getCustomerId());
 
             }
-            $this->_redirect('adminhtml/sales_order_create', array(
+            $this->_redirect('sales/order_create', array(
                 'customer_id' => $this->_registry->registry('checkout_current_customer')->getId(),
                 'store_id' => $this->_registry->registry('checkout_current_store')->getId(),
             ));
@@ -405,7 +405,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 __('An error has occurred. See error log for details.')
             );
         }
-        $this->_redirect('adminhtml/*/error');
+        $this->_redirect('checkout/*/error');
     }
 
     /**
@@ -701,9 +701,9 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
 
         $update = $this->getLayout()->getUpdate();
         if ($asJson) {
-            $update->addHandle('adminhtml_checkout_manage_load_block_json');
+            $update->addHandle('checkout_manage_load_block_json');
         } else {
-            $update->addHandle('adminhtml_checkout_manage_load_block_plain');
+            $update->addHandle('checkout_manage_load_block_plain');
         }
 
         if ($block) {
@@ -716,7 +716,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
                 if ($criticalException && ($block != 'message')) {
                     continue;
                 }
-                $update->addHandle('adminhtml_checkout_manage_load_block_' . $block);
+                $update->addHandle('checkout_manage_load_block_' . $block);
             }
         }
 
@@ -724,7 +724,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
         $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
-            $this->_redirect('adminhtml/*/showUpdateResult');
+            $this->_redirect('checkout/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
         }

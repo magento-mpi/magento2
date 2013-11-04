@@ -94,6 +94,7 @@ class Ordered
         $this->_stockStatus = $stockStatus;
         $this->_ordersFactory = $ordersFactory;
         $this->_salesConfig = $salesConfig;
+        $this->_productFactory = $productFactory;
         parent::__construct(
             $collectionFactory,
             $coreData,
@@ -103,7 +104,6 @@ class Ordered
             $coreRegistry,
             $data
         );
-        $this->_productFactory = $productFactory;
     }
 
     /**
@@ -204,6 +204,6 @@ class Ordered
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/viewOrdered', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewOrdered', array('_current'=>true));
     }
 }
