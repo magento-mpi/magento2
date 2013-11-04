@@ -12,8 +12,7 @@ namespace Magento\App\EntryPoint;
 use Magento\App\Dir,
     Magento\App\State,
     Magento\App\EntryPointInterface,
-    Magento\ObjectManager,
-    Magento\App\ObjectManagerFactory;
+    Magento\ObjectManager;
 
 class EntryPoint implements EntryPointInterface
 {
@@ -44,7 +43,7 @@ class EntryPoint implements EntryPointInterface
         if (!$this->_locator) {
             \Magento\Profiler::start('locator');
             try {
-                $locatorFactory = new ObjectManagerFactory();
+                $locatorFactory = new \Magento\App\ObjectManagerFactory();
                 $objectManager = $locatorFactory->create($rootDir, $parameters);
             } catch (\Exception $exception) {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);

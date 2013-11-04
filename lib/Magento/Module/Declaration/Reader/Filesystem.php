@@ -169,6 +169,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
      * @param array $modules
      * @return array
      * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _sortModules(array $modules)
     {
@@ -177,7 +178,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
          * (in order not to add extra information about dependencies to module config)
          */
         $moduleDependencyMap = array();
-        foreach (array_keys($modules) as $moduleName) {
+        foreach ($modules as $moduleName => $value) {
             $moduleDependencyMap[] = array(
                 'moduleName' => $moduleName,
                 'dependencies' => $this->_getExtendedModuleDependencies($moduleName, $modules),
