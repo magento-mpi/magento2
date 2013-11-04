@@ -8,6 +8,9 @@
     * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
     * from Http Magento Helper to Magento\HTTP libraries
   * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
+  * Implemented SOAP faults declaration in WSDL
+  * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
+  * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
   * Fixed Minimum Advertised Price link on Product view
