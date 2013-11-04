@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable */
 ?>
 <?php $_item = $this->getItem() ?>
 <?php $_order = $this->getItem()->getOrderItem()->getOrder() ?>
@@ -55,7 +57,7 @@
 </tr>
 <tr>
     <th><?php echo __('SKU') ?></th>
-    <td><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->splitInjection($this->getSku())) ?></td>
+    <td><?php echo $this->prepareSku($this->getSku()) ?></td>
 </tr>
 <tr>
     <th><?php echo __('Price') ?></th>

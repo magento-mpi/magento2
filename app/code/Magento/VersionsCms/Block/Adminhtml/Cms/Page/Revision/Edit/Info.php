@@ -162,7 +162,7 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
         $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         $data = $this->_page->getRevisionCreatedAt();
         try {
-            $data = $this->_locale->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+            $data = $this->_locale->date($data, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
         } catch (\Exception $e) {
             $data = __('N/A');
         }

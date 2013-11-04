@@ -7,15 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Controller\Customer;
 
 /**
  * Invitation customer account frontend controller
- *
- * @category   Magento
- * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Controller\Customer;
-
 class Account extends \Magento\Customer\Controller\Account
 {
     /**
@@ -48,6 +44,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -60,6 +57,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Stdlib\String $string,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
@@ -71,7 +69,8 @@ class Account extends \Magento\Customer\Controller\Account
             $urlFactory,
             $customerFactory,
             $formFactory,
-            $addressFactory
+            $addressFactory,
+            $string
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;

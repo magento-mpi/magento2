@@ -22,24 +22,24 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @var \Magento\App\State
      */
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      * @param \Magento\Core\Model\CacheInterface $cacheManager
      * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventDispatcher,
         \Magento\Core\Model\CacheInterface $cacheManager,
         \Magento\App\State $appState
@@ -67,7 +67,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

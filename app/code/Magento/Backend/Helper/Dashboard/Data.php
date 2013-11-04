@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Helper\Dashboard;
 
 /**
  * Data helper for dashboard
  */
-namespace Magento\Backend\Helper\Dashboard;
-
 class Data extends \Magento\Core\Helper\Data
 {
-    protected $_locale = null;
-    protected $_stores = null;
+    /**
+     * @var \Magento\Data\Collection\Db
+     */
+    protected $_stores;
 
     /**
      * @var string
@@ -26,14 +27,12 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param string $installDate
      * @param bool $dbCompatibleMode
@@ -41,19 +40,25 @@ class Data extends \Magento\Core\Helper\Data
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Core\Model\Encryption $encryptor,
         $installDate,
         $dbCompatibleMode = true
     ) {
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
         $this->_installDate = $installDate;
     }
@@ -65,10 +70,9 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getStores()
     {
-        if(!$this->_stores) {
+        if (!$this->_stores) {
             $this->_stores = $this->_storeManager->getStore()->getResourceCollection()->load();
         }
-
         return $this->_stores;
     }
 

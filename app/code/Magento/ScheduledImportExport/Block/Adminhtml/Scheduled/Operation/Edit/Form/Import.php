@@ -45,6 +45,7 @@ class Import
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -61,6 +62,7 @@ class Import
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -71,8 +73,8 @@ class Import
         $this->_templateFactory = $templateFactory;
         $this->_importModel = $importModel;
         parent::__construct(
-            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $registry, $formFactory,
-            $coreData, $context, $data
+            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $string, $registry,
+            $formFactory, $coreData, $context, $data
         );
     }
 
