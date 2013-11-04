@@ -24,7 +24,7 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
-        $this->assertContains('<div class="box-collateral box-related">', $content);
+        $this->assertContains('<div class="block related">', $content);
         $this->assertContains('Simple Product 2 Name', $content);
     }
 
@@ -40,7 +40,7 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->markTestSkipped('Can not be reproduced by manual testing');
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
-        $this->assertContains('<div class="box-collateral box-up-sell">', $content);
+        $this->assertContains('<div class="block upsell">', $content);
         $this->assertContains('Simple Product 2 Name', $content);
     }
 }

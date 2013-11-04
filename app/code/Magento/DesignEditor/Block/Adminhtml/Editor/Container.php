@@ -11,7 +11,7 @@
 /**
  * Editor toolbar
  *
- * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\Core\Model\Theme $theme)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\View\Design\ThemeInterface $theme)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 
@@ -31,7 +31,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         $this->addButton('back_button', array(
             'label'   => __('Back'),
-            'onclick' => 'setLocation(\'' . $this->getUrl('*/*') . '\')',
+            'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*') . '\')',
             'class'   => 'back'
         ));
 

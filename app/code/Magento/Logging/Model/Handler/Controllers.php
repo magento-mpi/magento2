@@ -30,7 +30,7 @@ class Controllers
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     * @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute
      */
     protected $_actionAttribute = null;
 
@@ -54,14 +54,14 @@ class Controllers
     /**
      * Request
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
     /**
      * Response
      *
-     * @var \Zend_Controller_Response_Http
+     * @var \Magento\App\ResponseInterface
      */
     protected $_response;
 
@@ -77,10 +77,10 @@ class Controllers
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Logging\Helper\Data $loggingData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $actionAttribute
+     * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
      */
     public function __construct(
@@ -88,10 +88,10 @@ class Controllers
         \Magento\Backend\Model\Session $session,
         \Magento\Logging\Helper\Data $loggingData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $actionAttribute,
+        \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Controller\Response\Http $response,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
     ) {
         $this->_structureConfig = $structureConfig;

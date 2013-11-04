@@ -73,7 +73,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'      => 'edit_form',
-                'action'  => $this->getUrl('*/*/validate'),
+                'action'  => $this->getUrl('adminhtml/*/validate'),
                 'method'  => 'post',
                 'enctype' => 'multipart/form-data',
             ))
@@ -123,6 +123,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'label'    => __('Select File to Import'),
             'title'    => __('Select File to Import'),
             'required' => true,
+            'class' => 'input-file'
         ));
 
         $form->setUseContainer(true);

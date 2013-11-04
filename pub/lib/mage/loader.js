@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true */
-(function($, console) {
+/*global console:true*/
+(function($) {
     $.widget("mage.loader", {
         loaderStarted: 0,
         spinner: $(undefined),
@@ -88,8 +89,7 @@
          */
         _render: function() {
             if (this.spinner.length === 0) {
-                this.spinner = $.tmpl(this.options.template, this.options)
-                    .css(this._getCssObj());
+                this.spinner = $.tmpl(this.options.template, this.options)/*.css(this._getCssObj())*/;
             }
             this.element.prepend(this.spinner);
         },
@@ -174,4 +174,4 @@
         }
 
     });
-})(jQuery, console);
+})(jQuery);

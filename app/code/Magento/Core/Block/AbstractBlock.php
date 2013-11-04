@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Block;
+
+use Magento\View\Element\BlockInterface;
 
 /**
  * Base Content Block class
@@ -15,23 +18,15 @@
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
  *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Block;
-
-/**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class AbstractBlock extends \Magento\Object
-    implements \Magento\Core\Block
+abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 {
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -59,12 +54,12 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Parent layout of the block
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -90,7 +85,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Url Builder
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -98,14 +93,14 @@ abstract class AbstractBlock extends \Magento\Object
      * System event manager
      *
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
      * Application front controller
      *
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_frontController;
 
@@ -122,7 +117,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\ConfigInterface
      */
     protected $_viewConfig;
 
@@ -132,7 +127,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -140,6 +135,16 @@ abstract class AbstractBlock extends \Magento\Object
      * @var \Magento\Core\Model\App
      */
     protected $_app;
+
+    /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filterManager;
 
     /**
      * @param \Magento\Core\Block\Context $context
@@ -162,13 +167,15 @@ abstract class AbstractBlock extends \Magento\Object
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_app             = $context->getApp();
+        $this->_app    = $context->getApp();
+        $this->_escaper         = $context->getEscaper();
+        $this->filterManager    = $context->getFilterManager();
         parent::__construct($data);
         $this->_construct();
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest()
     {
@@ -209,10 +216,10 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Set layout object
      *
-     * @param   \Magento\Core\Model\Layout $layout
+     * @param   \Magento\View\LayoutInterface $layout
      * @return  \Magento\Core\Block\AbstractBlock
      */
-    public function setLayout(\Magento\Core\Model\Layout $layout)
+    public function setLayout(\Magento\View\LayoutInterface $layout)
     {
         $this->_layout = $layout;
         $this->_eventManager->dispatch('core_block_abstract_prepare_layout_before', array('block' => $this));
@@ -236,7 +243,7 @@ abstract class AbstractBlock extends \Magento\Object
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {
@@ -310,6 +317,7 @@ abstract class AbstractBlock extends \Magento\Object
         if ($block instanceof self) {
             $block = $block->getNameInLayout();
         }
+
         $layout->setChild($thisName, $block, $alias);
 
         return $this;
@@ -535,23 +543,6 @@ abstract class AbstractBlock extends \Magento\Object
     public function append($element, $alias = '')
     {
         return $this->insert($element, null, true, $alias);
-    }
-
-    /**
-     * Add self to the specified group of parent block
-     *
-     * @param string $groupName
-     * @return \Magento\Core\Block\AbstractBlock|bool
-     */
-    public function addToParentGroup($groupName)
-    {
-        $layout = $this->getLayout();
-        if (!$layout) {
-            return false;
-        }
-        $layout->addToParentGroup($this->getNameInLayout(), $groupName);
-
-        return $this;
     }
 
     /**
@@ -861,7 +852,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->helper('Magento\Core\Helper\Data')->escapeHtml($data, $allowedTags);
+        return $this->_escaper->escapeHtml($data, $allowedTags);
     }
 
     /**
@@ -874,7 +865,10 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->helper('Magento\Core\Helper\Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
+        return $this->filterManager->stripTags($data, array(
+            'allowableTags' => $allowableTags,
+            'escape'        => $allowHtmlEntities
+        ));
     }
 
     /**
@@ -885,7 +879,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function escapeUrl($data)
     {
-        return $this->helper('Magento\Core\Helper\Data')->escapeUrl($data);
+        return $this->_escaper->escapeUrl($data);
     }
 
     /**
@@ -896,9 +890,9 @@ abstract class AbstractBlock extends \Magento\Object
      * @param  bool $addSlashes
      * @return string
      */
-    public function quoteEscape($data, $addSlashes = false)
+    public function escapeQuote($data, $addSlashes = false)
     {
-        return $this->helper('Magento\Core\Helper\Data')->quoteEscape($data, $addSlashes);
+        return $this->_escaper->escapeQuote($data, $addSlashes);
     }
 
     /**
@@ -908,9 +902,9 @@ abstract class AbstractBlock extends \Magento\Object
      * @param string $quote
      * @return mixed
      */
-    public function jsQuoteEscape($data, $quote = '\'')
+    public function escapeJsQuote($data, $quote = '\'')
     {
-        return $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($data, $quote);
+        return $this->_escaper->escapeJsQuote($data, $quote);
     }
 
     /**
@@ -931,7 +925,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected function _beforeCacheUrl()
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(true);
+            $this->_storeManager->setUseSessionVar(true);
         }
         return $this;
     }
@@ -945,7 +939,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected function _afterCacheUrl($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(false);
+            $this->_storeManager->setUseSessionVar(false);
             \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             \Magento\Profiler::stop('CACHE_URL');

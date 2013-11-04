@@ -17,8 +17,8 @@ class Collection
     /**
      * @param \Magento\Webhook\Model\Subscription\Config $subscriptionConfig
      * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Resource\Db\Abstract $resource
@@ -26,8 +26,8 @@ class Collection
     public function __construct(
         \Magento\Webhook\Model\Subscription\Config $subscriptionConfig,
         \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null

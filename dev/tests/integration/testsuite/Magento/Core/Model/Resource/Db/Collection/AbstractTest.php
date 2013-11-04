@@ -33,12 +33,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $eventManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Event\Manager');
+            ->get('Magento\Event\ManagerInterface');
 
         $entityFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\EntityFactory');
         $logger = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Logger');
+            ->get('Magento\Logger');
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',

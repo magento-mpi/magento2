@@ -219,7 +219,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testUpdateNavigationMode()
     {
         $this->_setAdditionalExpectations();
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array('getPathInfo'), array(), '', false);
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
 
         $request->expects($this->once())
             ->method('getPathInfo')
@@ -240,8 +240,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
             ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
-
-        $controller = $this->getMock('Magento\Adminhtml\Controller\Action', array(), array(), '', false);
+        $controller = $this->getMock('Magento\Backend\Controller\Adminhtml\Action', array(), array(), '', false);
 
         $this->assertNull($this->_model->update(self::AREA_CODE, $request, $controller));
     }

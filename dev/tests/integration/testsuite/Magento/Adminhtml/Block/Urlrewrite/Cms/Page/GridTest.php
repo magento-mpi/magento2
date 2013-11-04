@@ -23,7 +23,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPrepareGrid()
     {
         /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
-        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
 
@@ -36,7 +36,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'Grid URL is invalid');
 
         $row = new \Magento\Object(array('id' => 1));
-        $this->assertStringStartsWith('http://localhost/index.php/cms_page/1', $gridBlock->getRowUrl($row),
+        $this->assertStringStartsWith(
+            'http://localhost/index.php/backend/admin/index/edit/cms_page/1', $gridBlock->getRowUrl($row),
             'Grid row URL is invalid');
 
         $this->assertEmpty(0, $gridBlock->getMassactionBlock()->getItems(), 'Grid should not have mass action items');
@@ -51,7 +52,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPrepareGridForMultipleStores()
     {
         /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
-        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
         $this->assertInstanceOf('Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn('store_id'),

@@ -51,7 +51,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -85,7 +85,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -117,7 +117,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -133,7 +133,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -340,7 +340,7 @@ class Product extends \Magento\Core\Helper\Url
          */
         $inputTypes = array(
             'multiselect'   => array(
-                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\Array'
+                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
             ),
             'boolean'       => array(
                 'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'

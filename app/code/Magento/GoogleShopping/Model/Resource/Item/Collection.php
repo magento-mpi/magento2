@@ -36,8 +36,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
@@ -45,8 +45,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function __construct(
         \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Eav\Model\Config $config,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null

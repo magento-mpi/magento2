@@ -16,19 +16,9 @@ namespace Magento\Backend\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
-    const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
-    const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
-    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
-    const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
-
     protected $_pageHelpUrl;
-
-    /**
-     * @var \Magento\Core\Model\ConfigInterface
-     */
-    protected $_config;
 
     /**
      * @var \Magento\Core\Model\Config\Primary
@@ -36,30 +26,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_primaryConfig;
 
     /**
-     * @var string
-     */
-    protected $_defaultAreaFrontName;
-
-    /**
-     * Area front name
-     * @var string
-     */
-    protected $_areaFrontName = null;
-
-    /**
-     * @var \Magento\Core\Model\RouterList
+     * @var \Magento\App\RouterList
      */
     protected $_routerList;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @var \Magento\Core\Model\AppInterface
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
@@ -74,48 +46,43 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_auth;
 
     /**
-     * Backend area front name
-     *
-     * @var string
+     * @var \Magento\Backend\App\Area\FrontNameResolver
      */
-    protected $_backendFrontName;
+    protected $_frontNameResolver;
+
+    /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\Core\Model\RouterList $routerList
+     * @param \Magento\App\RouterList $routerList
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
-     * @param string $defaultAreaFrontName
-     * @param string $backendFrontName
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\ConfigInterface $applicationConfig,
         \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\Core\Model\RouterList $routerList,
+        \Magento\App\RouterList $routerList,
         \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
-        $defaultAreaFrontName,
-        $backendFrontName
+        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
+        \Magento\Math\Random $mathRandom
     ) {
         parent::__construct($context);
-        $this->_coreData = $coreData;
-        $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
-        $this->_defaultAreaFrontName = $defaultAreaFrontName;
         $this->_routerList = $routerList;
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
-        $this->_backendFrontName = $backendFrontName;
+        $this->_frontNameResolver = $frontNameResolver;
+        $this->mathRandom = $mathRandom;
     }
 
     public function getPageHelpUrl()
@@ -206,7 +173,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return $this->_coreData->uniqHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**
@@ -236,28 +203,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAreaFrontName()
     {
-        if (null === $this->_areaFrontName) {
-            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
-
-            if ($isCustomPathUsed) {
-                $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
-            } elseif ($this->_backendFrontName) {
-                $this->_areaFrontName = $this->_backendFrontName;
-            } else {
-                $this->_areaFrontName = $this->_defaultAreaFrontName;
-            }
-        }
-        return $this->_areaFrontName;
-    }
-
-    /**
-     * Invalidate cache of area front name
-     *
-     * @return \Magento\Backend\Helper\Data
-     */
-    public function clearAreaFrontName()
-    {
-        $this->_areaFrontName = null;
-        return $this;
+        return $this->_frontNameResolver->getFrontName();
     }
 }

@@ -18,7 +18,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostDispatchCustomerSegmentMatch($qty, $customerSegmentId, $expectedText)
     {
-        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $requestMock->expects($this->atLeastOnce())
             ->method('getParam')
             ->with('id')
@@ -32,7 +32,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\CustomerSegment\Model\Logging($resourceMock, $requestMock);
         $config = new \Magento\Simplexml\Element('<config/>');
-        $eventMock = $this->getMock('Magento\Logging\Model\Event', array('setInfo'), array(), '', false);
+        $eventMock = $this->getMock('Magento\Logging\Model\Event', array('setInfo', '__wakeup'), array(), '', false);
         $eventMock->expects($this->once())
             ->method('setInfo')
             ->with($expectedText);

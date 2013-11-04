@@ -30,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
 
         $config = new \Magento\Object();
@@ -46,7 +46,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType('array', $settings['widget_placeholders']);
 
-        $this->assertStringStartsWith('http://localhost/index.php/key', $settings['widget_window_url']);
+        $this->assertStringStartsWith(
+            'http://localhost/index.php/backend/admin/widget/index/key',
+            $settings['widget_window_url']
+        );
     }
 
     public function testGetWidgetWindowUrl()
@@ -55,6 +58,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $url = $this->_model->getWidgetWindowUrl($config);
 
-        $this->assertStringStartsWith('http://localhost/index.php/skip_widgets/', $url);
+        $this->assertStringStartsWith('http://localhost/index.php/backend/admin/widget/index/skip_widgets', $url);
     }
 }

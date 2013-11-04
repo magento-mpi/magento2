@@ -60,8 +60,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected $_exportAdapterFac;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Logger $logger
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
@@ -69,8 +69,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\Logger $logger,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,

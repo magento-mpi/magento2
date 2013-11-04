@@ -111,12 +111,17 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
     /**
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -127,12 +132,13 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
@@ -143,6 +149,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -156,6 +163,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $this->_schedOperFactory = $schedOperFactory;
         $this->_storeManager = $storeManager;
         $this->_coreDir = $coreDir;
+        $this->string = $string;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
@@ -515,7 +523,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
     {
         /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation */
         $operation = $this->_schedOperFactory->create(
-            'Magento\ScheduledImportExport\Model\\' . uc_words($this->getOperationType())
+            'Magento\ScheduledImportExport\Model\\'
+                . $this->string->upperCaseWords($this->getOperationType())
         );
 
         $operation->initialize($this);
@@ -604,7 +613,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     protected function _getHistoryDirPath()
     {
-        $dirPath = $this->_coreDir->getDir(\Magento\Core\Model\Dir::LOG) . DS . self::LOG_DIRECTORY
+        $dirPath = $this->_coreDir->getDir(\Magento\App\Dir::LOG) . DS . self::LOG_DIRECTORY
             . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
 
         if (!is_dir($dirPath)) {

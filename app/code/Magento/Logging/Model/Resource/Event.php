@@ -26,21 +26,28 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_archiveFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
-     * @throws \InvalidArgumentException
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
         \Magento\Filesystem $filesystem,
-        \Magento\Logging\Model\ArchiveFactory $archiveFactory
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
         $this->_archiveFactory = $archiveFactory;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -61,7 +68,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
-        $event->setTime($this->formatDate($event->getTime()));
+        $event->setTime($this->dateTime->formatDate($event->getTime()));
         return $this;
     }
 
@@ -76,7 +83,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
         $writeAdapter = $this->_getWriteAdapter();
 
         // get the latest log entry required to the moment
-        $clearBefore = $this->formatDate(time() - $lifetime);
+        $clearBefore = $this->dateTime->formatDate(time() - $lifetime);
 
         $select = $readAdapter->select()
             ->from($this->getMainTable(), 'log_id')

@@ -28,13 +28,18 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_widgetFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
@@ -45,21 +50,21 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Core\Model\Config $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
+        \Magento\Math\Random $mathRandom,
         $resourceName,
         $moduleName = 'Magento_Banner',
         $connectionName = ''
     ) {
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
+        $this->mathRandom = $mathRandom;
         parent::__construct(
             $context,
             $cache,
             $attrGrCollFactory,
-            $coreHelper,
             $config,
             $resourceName,
             $moduleName,
@@ -68,7 +73,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \\Magento\Banner\Model\BannerFactory
+     * @return \Magento\Banner\Model\BannerFactory
      */
     public function getBannerInstance()
     {
@@ -76,7 +81,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \\Magento\Core\Model\Resource\Theme\Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function getThemeCollection()
     {
@@ -84,10 +89,18 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \\Magento\Widget\Model\Widget\Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
         return $this->_widgetFactory->create();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqueHash()
+    {
+        return $this->mathRandom->getUniqueHash();
     }
 }

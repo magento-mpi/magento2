@@ -13,7 +13,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
-class Theme extends \Magento\Adminhtml\Controller\Action
+class Theme extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -68,8 +68,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
     public function editAction()
     {
         $themeId = (int)$this->getRequest()->getParam('id');
-        /** @var $theme \Magento\Core\Model\Theme */
-        $theme = $this->_objectManager->create('Magento\Core\Model\Theme');
+        /** @var $theme \Magento\View\Design\ThemeInterface */
+        $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
         try {
             $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
@@ -90,11 +90,11 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We cannot find the theme.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -148,9 +148,11 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $redirectBack = true;
         } catch (\Exception $e) {
             $this->_getSession()->addError('The theme was not saved');
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $redirectBack ? $this->_redirect('*/*/edit', array('id' => $theme->getId())) : $this->_redirect('*/*/');
+        $redirectBack
+            ? $this->_redirect('adminhtml/*/edit', array('id' => $theme->getId()))
+            : $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -162,8 +164,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         $themeId = $this->getRequest()->getParam('id');
         try {
             if ($themeId) {
-                /** @var $theme \Magento\Core\Model\Theme */
-                $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->load($themeId);
+                /** @var $theme \Magento\View\Design\ThemeInterface */
+                $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->load($themeId);
                 if (!$theme->getId()) {
                     throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
                 }
@@ -179,12 +181,12 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot delete the theme.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         /**
          * @todo Temporary solution. Theme module should not know about the existence of editor module.
          */
-        $redirectBack ? $this->_redirect('*/system_design_editor/index/') : $this->_redirect('*/*/');
+        $redirectBack ? $this->_redirect('adminhtml/system_design_editor/index/') : $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -201,7 +203,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
@@ -241,7 +243,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the JS file.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
@@ -277,7 +279,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file'));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 
@@ -293,8 +295,8 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
         $fileName = $helper->urlDecode($file);
         try {
-            /** @var $theme \Magento\Core\Model\Theme */
-            $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->load($themeId);
+            /** @var $theme \Magento\View\Design\ThemeInterface */
+            $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->load($themeId);
             if (!$theme->getId()) {
                 throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
             }
@@ -313,7 +315,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file "%1".', $fileName));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 

@@ -56,7 +56,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_rootChildrenIds             = array();
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -104,7 +104,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Catalog\Model\Category $catalogCategory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
@@ -112,7 +112,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Catalog\Model\Category $catalogCategory,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;

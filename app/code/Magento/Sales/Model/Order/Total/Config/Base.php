@@ -43,14 +43,14 @@ class Base extends \Magento\Sales\Model\Config\Ordered
 
     /**
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory
      * @param \Magento\Sales\Model\Config $salesConfig,
      * @param null $sourceData
      */
     public function __construct(
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory,
         \Magento\Sales\Model\Config $salesConfig,
         $sourceData = null
@@ -73,7 +73,7 @@ class Base extends \Magento\Sales\Model\Config\Ordered
         $model = $this->_orderTotalFactory->create($class);
         if (!$model instanceof \Magento\Sales\Model\Order\Total\AbstractTotal) {
             throw new \Magento\Core\Exception(
-                __('The total model should be extended from \Magento\Sales\Model\Order\Total\Abstract.')
+                __('The total model should be extended from \Magento\Sales\Model\Order\Total\AbstractTotal.')
             );
         }
 

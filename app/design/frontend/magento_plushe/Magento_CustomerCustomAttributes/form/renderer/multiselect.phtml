@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Create account form template
+ */
+/* @var $this \Magento\CustomAttribute\Block\Form\Renderer\Multiselect */
+?>
+<?php
+$fieldCssClass = 'field field-' . $this->getHtmlId();
+$fieldCssClass .= $this->isRequired() ? ' required' : '';
+?>
+<div class="<?php echo $fieldCssClass; ?>">
+    <label class="label" for="<?php echo $this->getHtmlId()?>"><span><?php echo $this->getLabel() ?></span></label>
+    <div class="control">
+        <select multiple="multiple" id="<?php echo $this->getHtmlId()?>" name="<?php echo $this->getFieldName('')?>"<?php if($this->getHtmlClass()):?> class="<?php echo $this->getHtmlClass();?>"<?php endif;?>>
+        <?php foreach ($this->getOptions() as $option):?>
+        <option value="<?php echo $option['value']?>"<?php if ($this->isValueSelected($option['value'])):?> selected="selected"<?php endif;?>><?php echo $this->escapeHtml($option['label'])?></option>
+        <?php endforeach;?>
+        </select>
+        <?php if ($_message = $this->getAdditionalDescription()) : ?>
+        <div class="note"><?php echo $_message; ?></div>
+        <?php endif; ?>
+    </div>
+</div>

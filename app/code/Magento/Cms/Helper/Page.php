@@ -34,14 +34,14 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
      * Design package instance
      *
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
@@ -79,9 +79,14 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Url
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_url;
+
+    /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
 
     /**
      * Construct
@@ -89,25 +94,27 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Session\Pool $sessionFactory
      * @param \Magento\Cms\Model\Page $page
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Page\Helper\Layout $pageLayout
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\UrlInterface $url
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Session\Pool $sessionFactory,
         \Magento\Cms\Model\Page $page,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Page\Helper\Layout $pageLayout,
-        \Magento\Core\Model\View\DesignInterface $design,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\View\DesignInterface $design,
+        \Magento\UrlInterface $url,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Escaper $escaper
     ) {
         $this->_sessionPool = $sessionFactory;
         // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
@@ -119,6 +126,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
+        $this->_escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -170,6 +178,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
                 $this->_design->setDesignTheme($this->_page->getCustomTheme());
             }
         }
+        $action->getLayout()->getUpdate()->addHandle('default')->addHandle('cms_page_view');
         $action->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
 
         $action->addActionLayoutHandles();
@@ -195,7 +204,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
 
         $contentHeadingBlock = $action->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {
-            $contentHeading = $this->escapeHtml($this->_page->getContentHeading());
+            $contentHeading = $this->_escaper->escapeHtml($this->_page->getContentHeading());
             $contentHeadingBlock->setContentHeading($contentHeading);
         }
 

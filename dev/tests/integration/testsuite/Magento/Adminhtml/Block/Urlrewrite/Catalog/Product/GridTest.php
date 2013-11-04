@@ -23,7 +23,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPrepareGrid()
     {
         /** @var $gridBlock \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid */
-        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
         $gridBlock->toHtml();
 
@@ -36,8 +36,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'Grid URL is invalid');
 
         $row = new \Magento\Object(array('id' => 1));
-        $this->assertStringStartsWith('http://localhost/index.php/product/1', $gridBlock->getRowUrl($row),
-            'Grid row URL is invalid');
+        $this->assertStringStartsWith(
+            'http://localhost/index.php/backend/admin/index/edit/product/1',
+            $gridBlock->getRowUrl($row),
+            'Grid row URL is invalid'
+        );
         $this->assertStringEndsWith('/category', $gridBlock->getRowUrl($row), 'Grid row URL is invalid');
 
         $this->assertEmpty(0, $gridBlock->getMassactionBlock()->getItems(), 'Grid should not have mass action items');

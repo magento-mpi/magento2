@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Controller\Adminhtml\Crypt;
 
-class Key extends \Magento\Adminhtml\Controller\Action
+class Key extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Check whether local.xml is writeable
@@ -23,7 +23,7 @@ class Key extends \Magento\Adminhtml\Controller\Action
      */
     protected function _checkIsLocalXmlWriteable()
     {
-        $filename = $this->_objectManager->get('Magento\Core\Model\Dir')->getDir(\Magento\Core\Model\Dir::CONFIG)
+        $filename = $this->_objectManager->get('Magento\App\Dir')->getDir(\Magento\App\Dir::CONFIG)
             . DS . 'local.xml';
         if (!is_writeable($filename)) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
@@ -94,7 +94,7 @@ class Key extends \Magento\Adminhtml\Controller\Action
             }
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(array('crypt_key' => $key));
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

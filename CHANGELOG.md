@@ -1,9 +1,76 @@
 * Various improvements:
-  * Added static legacy test for compilation of di definitions
+  * Global functions are called now from app\functions.php
+  * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
+  * Eliminated functions.php from Magento\Core module
+  * Methods from Core Helpers were moved to appropriate libraries:
+    * from AbstractHelper to Magento\Escaper and Magento\Filter libraries
+    * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
+    * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
+    * from Http Magento Helper to Magento\HTTP libraries
+  * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
+  * Implemented SOAP faults declaration in WSDL
+  * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
+  * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
 * Fixed bugs:
+  * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
+
+2.0.0.0-dev50
+=============
+* Modularity improvements:
+  * Breakdown of the Adminhtml module:
+    * Moved Sales, Catalog, Tax-related logic to respective modules
+    * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
+  * View abstraction was moved into library
+  * Eliminated dependency in Magento\Data\Form from Magento\Core module
+  * Eliminated Magento\Media module
+* Themes update:
+  * Templates and layout updates are updated in Cms, Contacts, Core, Directory, GoogleCheckout, Page, Payment, PaypalUk, Paypal, Rating, Review, Rss,Sales, Widget modules, old files moved to magento_backup theme
+* Layout improvements:
+  * Removed page type hierarchy and page fragment types
+  * No direct code execution: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
+* Fixed bugs:
+  * Impossible to add image using WYSIWYG
+  * Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
+  * Incorrect copyright information
+
+2.0.0.0-dev49
+=============
+* Various improvements:
+  * Unified Area configuration
+  * Moved EventManager to Magento\Event lib component
+  * Moved FrontController, Routers, Base Actions to Magento\App
+  * Created Magento\App component in library
+  * Declared public interfaces for View component into library
+  * Plushe theme is set as the default theme
+  * Refactor the Blacklist Pattern in the Integrity Test Suite's ClassesTest to Replace Blacklist.php Files
+  * Removed JavaScript unit test TreeSuggestTest.prototype.testBind as obsolete
+  * Introduced ability to register a template engine to process template files having certain extension
+  * Removed support of the Twig template engine along with the corresponding component from the library
+  * Removed layout flag that forced template blocks to output rendered content directly to a browser bypassing the response object
+  * Moved out responsibility of rendering template debugging hints from the template block to the plugin and decorator for a template engine
+* Fixed bugs:
+  * Fixed inability to create product if multiple attributes are assigned to attribute set
+  * Fixed inability to create a new widget instance
+  * Fixed error on Customers Segments Conditions tab while the 'Number of Orders' condition is chosen
+  * Fixed blank page when placing order via Ogone
+  * Fixed various UI issues in Admin Panel with layout, aligning, buttons and fields
+  * Fixed static tests failing to verify themes files
+
+2.0.0.0-dev48
+=============
+* Various improvements:
+  * Added static integrity test for compilation of DI definitions
+  * Lightweight replacement for PhpUnit data providers is implemented and involved in static and integrity tests with big data providers (primarily file lists)
+* Fixed bugs:
+  * Fixed broken styles on front-end due to usage of nonexistent stylesheet
   * Fixed plugins configuration inheritance for proxy classes
-  * Fixed Oauth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
+  * Fixed OAuth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
   * Fixed Namespace class references
+  * Fixed error on creating shipment with bundle products
+  * Fixed uninstallation via console installer
+  * Fixed JavaScript error in bootstrap in IE8/9
+  * Fixed placing order within PayPal Payments Advanced and Payflow Link
+  * Fixed fatal error on placing order with Billing Agreement
 
 2.0.0.0-dev47
 =============

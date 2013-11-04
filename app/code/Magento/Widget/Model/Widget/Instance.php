@@ -80,8 +80,17 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_relatedCacheTypes;
 
     /**
-     * @param \Magento\Widget\Helper\Data $widgetData
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
@@ -90,14 +99,14 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Widget\Model\Config\Reader $reader
      * @param \Magento\Widget\Model\Widget $widgetModel
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
-        \Magento\Widget\Helper\Data $widgetData,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
@@ -106,13 +115,13 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Math\Random $mathRandom,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
         array $data = array()
     ) {
-        $this->_widgetData = $widgetData;
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
@@ -120,6 +129,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -232,6 +242,35 @@ class Instance extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Return widget instance code.  If not set, derive value from type (namespace\class).
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        $code = $this->_getData('instance_code');
+        if ($code == null) {
+            $code = $this->getWidgetReference('type', $this->getType(), 'code');
+            $this->setData('instance_code', $code);
+        }
+        return $code;
+    }
+
+    /**
+     * Sets the value this widget instance code.
+     * The widget code is the 'id' attribute in the widget node.
+     * 'code' is used in Magento\Widget\Model\Widget->getWidgetsArray when the array of widgets is created.
+     *
+     * @param string $code
+     * @return \Magento\Widget\Model\Widget\Instance
+     */
+    public function setCode($code)
+    {
+        $this->setData('instance_code', $code);
+        return $this;
+    }
+
+    /**
      * Setter
      * Prepare widget type
      *
@@ -265,7 +304,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA;
+            return \Magento\View\DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -305,17 +344,38 @@ class Instance extends \Magento\Core\Model\AbstractModel
      *
      * @return array
      */
-    public function getWidgetsOptionArray()
+    public function getWidgetsOptionArray($value = 'code')
     {
         $widgets = array();
         $widgetsArr = $this->_widgetModel->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
-                'value' => $widget['type'],
+                'value' => $widget[$value],
                 'label' => $widget['name']
             );
         }
         return $widgets;
+    }
+
+    /**
+     * Get the widget reference (code or namespace\class name) for the passed in type or code.
+     *
+     * @param $matchParam
+     * @param $value
+     * @param $requestedParam
+     * @return null
+     */
+    public function getWidgetReference($matchParam, $value, $requestedParam)
+    {
+        $reference = null;
+        $widgetsArr = $this->_widgetModel->getWidgetsArray();
+        foreach ($widgetsArr as $widget) {
+            if ($widget[$matchParam] === $value) {
+                $reference = $widget[$requestedParam];
+                break;
+            }
+        }
+        return $reference;
     }
 
     /**
@@ -462,7 +522,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = $this->_coreData->uniqHash();
+        $hash = $this->mathRandom->getUniqueHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
@@ -472,7 +532,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
                 $xml .= '<action method="setData">'
                     . '<argument name="name" xsi:type="string">' . $name . '</argument>'
                     . '<argument name="value" xsi:type="string">'
-                    . $this->_widgetData->escapeHtml($value) . '</argument>'
+                    . $this->_escaper->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

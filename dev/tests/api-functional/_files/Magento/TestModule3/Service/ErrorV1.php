@@ -18,7 +18,7 @@ class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
 
     public function resourceNotFoundException()
     {
-        throw new \Magento\Service\ResourceNotFoundException('', 2345, null, array(), 'resourceY');
+        throw new \Magento\Service\ResourceNotFoundException('', 2345, null, array(), 'resourceNotFound', 'resourceY');
     }
 
     public function serviceException()
@@ -33,7 +33,7 @@ class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
 
     public function authorizationException()
     {
-        throw new \Magento\Service\AuthorizationException('', 4567, null, array(), 30, 'resourceN');
+        throw new \Magento\Service\AuthorizationException('', 4567, null, array(), 'authorization', 30, 'resourceN');
     }
 
     public function webapiException()

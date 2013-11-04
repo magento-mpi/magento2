@@ -45,7 +45,8 @@ class TabTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
         $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->_tabsMock = $this->getMock('Magento\Adminhtml\Block\Catalog\Category\Tabs', array(), array(), '', false);
+        $this->_tabsMock = $this->getMock('Magento\Catalog\Block\Adminhtml\Category\Tabs',
+            array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -62,7 +63,7 @@ class TabTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
 
-        $block = $this->getMock('Magento\Core\Block', array(), array(), '', false);
+        $block = $this->getMock('Magento\View\Element\BlockInterface', array(), array(), '', false);
         $block->expects($this->once())->method('toHtml')->will($this->returnValue('generated html'));
 
         $this->_layoutMock->expects($this->once())->method('createBlock')->with(

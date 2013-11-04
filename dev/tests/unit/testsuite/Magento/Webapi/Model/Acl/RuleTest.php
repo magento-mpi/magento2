@@ -37,7 +37,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $this->_ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
-            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection'))
+            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', '__wakeup'))
             ->getMock();
 
         $this->_ruleResource->expects($this->any())
@@ -61,7 +61,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function _createModel($ruleResource, $resourceCollection = null)
     {
         return $this->_helper->getObject('Magento\Webapi\Model\Acl\Rule', array(
-            'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            'eventDispatcher' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
             'resource' => $ruleResource,
             'resourceCollection' => $resourceCollection
@@ -99,10 +99,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         /** @var \PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(

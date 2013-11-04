@@ -35,19 +35,19 @@ class Layout
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Core\Model\Layout\File\Factory $fileFactory */
-        $fileFactory = $objectManager->get('Magento\Core\Model\Layout\File\Factory');
+        /** @var \Magento\View\Layout\File\Factory $fileFactory */
+        $fileFactory = $objectManager->get('Magento\View\Layout\File\Factory');
         $files = array();
         foreach ((array)$layoutUpdatesFile as $filename) {
             $files[] = $fileFactory->create($filename, 'Magento_Core');
         }
-        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
+        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $fileSource->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(\PHPUnit_Framework_TestCase::returnValue($files));
         $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
-            'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
+            'Magento\View\Layout\ProcessorInterface', array('fileSource' => $fileSource, 'cache' => $cache)
         );
     }
 
@@ -78,13 +78,13 @@ class Layout
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
-            'mergeFactory'       => $objectManager->get('Magento\Core\Model\Layout\MergeFactory'),
+            'processorFactory'       => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-            'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
-            'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
+            'logger'             => $objectManager->get('Magento\Logger'),
+            'eventManager'       => $objectManager->get('Magento\Event\ManagerInterface'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),
-            'design'             => $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+            'design'             => $objectManager->get('Magento\View\DesignInterface'),
             'blockFactory'       => $objectManager->create('Magento\Core\Model\BlockFactory', array()),
             'structure'          => $objectManager->create('Magento\Data\Structure', array()),
             'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),

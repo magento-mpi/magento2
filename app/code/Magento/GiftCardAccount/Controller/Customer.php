@@ -43,7 +43,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
                     ->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
                 $this->_objectManager->get('Magento\Customer\Model\Session')->addSuccess(
-                    __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
+                    __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Customer\Model\Session')->addError($e->getMessage());

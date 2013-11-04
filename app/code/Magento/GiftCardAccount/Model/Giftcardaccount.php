@@ -199,7 +199,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         if (!$this->getId()) {
             $now = $this->_locale->date()
                 ->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE)
-                ->toString(\Magento\Date::DATE_INTERNAL_FORMAT);
+                ->toString(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
             if (!$this->hasCode()) {
@@ -223,10 +223,10 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         } else {
             if ($this->getDateExpires()) {
                 $expirationDate =  $this->_locale->date(
-                    $this->getDateExpires(), \Magento\Date::DATE_INTERNAL_FORMAT,
+                    $this->getDateExpires(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
                 $currentDate = $this->_locale->date(
-                    null, \Magento\Date::DATE_INTERNAL_FORMAT,
+                    null, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
                     throw new \Magento\Core\Exception(__('An expiration date must be in the future.'));

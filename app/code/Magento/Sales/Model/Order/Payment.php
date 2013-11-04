@@ -171,7 +171,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -201,11 +201,11 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Sales\Model\Service\Order $serviceOrderFactory
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory
@@ -216,11 +216,11 @@ class Payment extends \Magento\Payment\Model\Info
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Service\Order $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory,
@@ -236,7 +236,7 @@ class Payment extends \Magento\Payment\Model\Info
         $this->_transactionCollFactory = $transactionCollFactory;
         $this->_agreementFactory = $agreementFactory;
         $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $paymentData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($paymentData, $context, $registry, $encryptor, $resource, $resourceCollection, $data);
     }
 
     /**

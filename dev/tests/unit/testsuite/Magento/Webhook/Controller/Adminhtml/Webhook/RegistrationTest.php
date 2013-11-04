@@ -76,7 +76,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockConfig = $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()
             ->getMock();
         $this->_mockApp->expects($this->any())->method('getConfig')->will($this->returnValue($this->_mockConfig));
-        $this->_mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
+        $this->_mockEventManager = $this->getMockBuilder('Magento\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockLayoutFilter = $this->getMockBuilder('Magento\Core\Model\Layout\Filter\Acl')
@@ -96,12 +96,10 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockRequest = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
+        $this->_mockRequest = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockResponse = $this->getMockBuilder('Magento\Core\Controller\Response\Http')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_mockResponse = $this->getMock('Magento\App\Response\Http');
     }
 
     public function testActivateActionException()
@@ -230,7 +228,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         // Verify redirect to success page
         $this->_mockBackendHlpData->expects($this->once())
             ->method('getUrl')
-            ->with($this->equalTo('*/webhook_registration/succeeded'), array('id' => '1'));
+            ->with($this->equalTo('adminhtml/webhook_registration/succeeded'), array('id' => '1'));
 
         $registrationContr->registerAction();
     }

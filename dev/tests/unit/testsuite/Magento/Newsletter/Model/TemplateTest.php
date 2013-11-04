@@ -16,7 +16,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplate($isSingleStore)
     {
-        $design = $this->getMock('Magento\Core\Model\View\DesignInterface');
+        $design = $this->getMock('Magento\View\DesignInterface');
         $context = $this->getMock('Magento\Core\Model\Context', array(), array(), '', false);
         $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
@@ -25,7 +25,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->method('hasSingleStore')
             ->will($this->returnValue($isSingleStore));
 
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
 
         if ($isSingleStore) {
             $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
@@ -60,10 +60,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $templateFactory = $this->getMock('Magento\Newsletter\Model\TemplateFactory');
         $data = array('template_text' => 'template text');
 
+        $filterManager = $this->getMock('\Magento\Filter\FilterManager', array(), array(), '', false);
+
         /** @var \Magento\Newsletter\Model\Template $model */
         $model = $this->getMock('Magento\Newsletter\Model\Template', array('_init'), array(
             $design, $context, $registry, $storeManager, $request, $filter, $storeConfig, $templateFactory,
-            $appEmulation, $data,
+            $appEmulation, $filterManager, $data,
         ));
 
         $result = $model->getProcessedTemplate();

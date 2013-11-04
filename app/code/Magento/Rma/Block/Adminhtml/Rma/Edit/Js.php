@@ -50,7 +50,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadAttributesUrl()
     {
-        return $this->getUrl('*/*/loadAttributes', array(
+        return $this->getUrl('adminhtml/*/loadAttributes', array(
             'id' => $this->_coreRegistry->registry('current_rma')->getId()
         ));
     }
@@ -62,7 +62,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadSplitLineUrl()
     {
-        return $this->getUrl('*/*/loadSplitLine', array(
+        return $this->getUrl('adminhtml/*/loadSplitLine', array(
             'id' => $this->_coreRegistry->registry('current_rma')->getId()
         ));
     }
@@ -74,7 +74,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadShippingMethodsUrl()
     {
-        return $this->getUrl('*/*/showShippingMethods', array(
+        return $this->getUrl('adminhtml/*/showShippingMethods', array(
             'id' => $this->_coreRegistry->registry('current_rma')->getId()
         ));
     }
@@ -86,7 +86,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadPslUrl()
     {
-        return $this->getUrl('*/*/psl', array(
+        return $this->getUrl('adminhtml/*/psl', array(
             'id' => $this->_coreRegistry->registry('current_rma')->getId()
         ));
     }

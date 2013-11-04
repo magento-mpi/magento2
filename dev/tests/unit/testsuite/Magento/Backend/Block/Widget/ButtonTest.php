@@ -24,11 +24,6 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_factoryMock;
 
     /**
@@ -48,15 +43,8 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helperMock =
-            $this->getMock('Magento\Backend\Helper\Data', array('uniqHash'), array(), '', false, false);
-
         $this->_layoutMock =
             $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
-        $this->_layoutMock
-            ->expects($this->any())
-            ->method('helper')
-            ->will($this->returnValue($this->_helperMock));
 
         $this->_helperFactoryMock = $this->getMock(
             'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
@@ -77,7 +65,6 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_layoutMock);
-        unset($this->_helperMock);
         unset($this->_buttonMock);
     }
 

@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 <?php $_item = $this->getItem() ?>
 <?php $_order = $this->getItem()->getOrderItem()->getOrder() ?>
-<tr class="border" id="order-item-row-<?php echo $_item->getId() ?>">
-    <td><h4 class="product-name"><?php echo $this->escapeHtml($_item->getName()) ?></h4>
+<tr id="order-item-row-<?php echo $_item->getId() ?>">
+    <td class="col name">
+        <strong class="product name"><?php echo $this->escapeHtml($_item->getName()) ?></strong>
         <?php if($_options = $this->getItemOptions()): ?>
-        <dl class="item-options">
+        <dl class="item options">
         <?php foreach ($_options as $_option) : ?>
             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
             <?php if (!$this->getPrintStatus()): ?>
@@ -22,7 +22,7 @@
                     <?php echo $_formatedOptionValue['value'] ?>
                     <?php if (isset($_formatedOptionValue['full_view'])): ?>
                     <div class="truncated_full_value">
-                        <dl class="item-options">
+                        <dl class="item options">
                             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                             <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
                         </dl>
@@ -41,11 +41,16 @@
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
         <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item->getOrderItem()) && $_item->getGiftMessageId()): ?>
-            <a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $_item->getId()?>" data-item-id="<?php echo $_item->getId()?>"><?php echo __('Gift Message') ?></a>
+            <a href="#"
+               id="order-item-gift-message-link-<?php echo $_item->getId() ?>"
+               class="action show"
+               aria-controls="order-item-gift-message-<?php echo $_item->getId()?>" data-item-id="<?php echo $_item->getId()?>">
+                <?php echo __('Gift Message') ?>
+            </a>
         <?php endif; ?>
     </td>
-    <td><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->splitInjection($this->getSku())) ?></td>
-    <td class="a-right">
+    <td class="col sku"><?php echo $this->prepareSku($this->getSku()) ?></td>
+    <td class="col price">
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $this->helper('Magento\Tax\Helper\Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
                 <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()): ?>
@@ -70,7 +75,6 @@
                     <?php endif; ?>
 
                 </span>
-
 
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($this->getItem())): ?>
 
@@ -129,7 +133,6 @@
 
                 </span>
 
-
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($this->getItem())): ?>
 
                     <span class="cart-tax-info" id="unit-item-tax-details<?php echo $this->getItem()->getId(); ?>" style="display:none;">
@@ -161,8 +164,10 @@
             </span>
         <?php endif; ?>
     </td>
-    <td class="a-center"><?php echo $_item->getQty()*1 ?> </td>
-    <td class="a-right">
+    <td class="col qty">
+        <span class="qty summary"><?php echo $_item->getQty()*1 ?></span>
+    </td>
+    <td class="col subtotal">
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $this->helper('Magento\Tax\Helper\Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
                 <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()): ?>
@@ -187,7 +192,6 @@
                     <?php endif; ?>
 
                 </span>
-
 
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($this->getItem())): ?>
 
@@ -245,7 +249,6 @@
 
                 </span>
 
-
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($this->getItem())): ?>
 
                     <span class="cart-tax-info" id="subtotal-item-tax-details<?php echo $this->getItem()->getId(); ?>" style="display:none;">
@@ -274,8 +277,6 @@
                         </span>
                     <?php endif; ?>
                 <?php endif; ?>
-
-
 
             </span>
         <?php endif; ?>

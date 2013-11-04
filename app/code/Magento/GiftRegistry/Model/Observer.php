@@ -51,13 +51,13 @@ class Observer
     /**
      * Design package instance
      *
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -65,7 +65,7 @@ class Observer
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
@@ -310,7 +310,7 @@ class Observer
      */
     public function assignHtmlHeadRenderingFlag(\Magento\Event\Observer $observer)
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = $observer->getEvent()->getLayout();
         /** @var $blockHead \Magento\Page\Block\Html\Head */
         $blockHead = $layout->getBlock('head');

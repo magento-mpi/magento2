@@ -36,9 +36,15 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_invitationStatus;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -47,12 +53,14 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_invitationStatus = $invitationStatus;
+        $this->dateTime = $dateTime;
         $this->_init('Magento\Invitation\Model\Resource\Invitation\History');
     }
 
@@ -73,7 +81,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->setInvitationDate($this->getResource()->formatDate(time()));
+        $this->setInvitationDate($this->dateTime->formatDate(time()));
         return parent::_beforeSave();
     }
 }

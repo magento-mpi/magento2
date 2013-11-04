@@ -22,4 +22,11 @@ interface ScopeInterface
      * @return array
      */
     public function getAllScopes();
+
+    /**
+     * Set current configuration scope
+     *
+     * @param string $scope
+     */
+    public function setCurrentScope($scope);
 }

@@ -20,7 +20,7 @@ namespace Magento\AdminGws\Model;
 class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -47,9 +47,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     private $_storeManager = null;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\ResponseInterface
      */
-    protected $_app = null;
+    protected $_response = null;
 
     /**
      * @var \Magento\Backend\Model\Url
@@ -78,10 +78,10 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\ResponseInterface $response
      */
     public function __construct(
         \Magento\Backend\Model\Url $backendUrl,
@@ -90,10 +90,10 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
         \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\App $app
+        \Magento\App\ResponseInterface $response
     ) {
         $this->_registry = $registry;
         $this->_backendUrl = $backendUrl;
@@ -104,13 +104,13 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $this->_objectManager = $objectManager;
         $this->_request = $request;
         $this->_storeManager = $storeManager;
-        $this->_app = $app;
+        $this->_response = $response;
     }
 
     /**
      * Make sure the System Configuration pages are used in proper scopes
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateSystemConfig($controller)
     {
@@ -159,7 +159,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate misc catalog product requests
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogProduct($controller)
     {
@@ -171,7 +171,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate catalog product edit page
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogProductEdit($controller)
     {
@@ -184,7 +184,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate catalog product review save, edit action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogProductReview($controller)
     {
@@ -203,7 +203,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate catalog product massStatus
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogProductMassActions($controller)
     {
@@ -220,7 +220,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Avoid viewing disallowed customer
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCustomerEdit($controller)
     {
@@ -248,7 +248,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow submitting gift cards without website-level permissions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateGiftCardAccount($controller)
     {
@@ -265,7 +265,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prevent viewing wrong categories and creation pages
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogCategories($controller)
     {
@@ -313,7 +313,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow viewing categories in disallowed scopes
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogCategoryView($controller)
     {
@@ -323,7 +323,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow submitting catalog event in wrong scope
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogEvents($controller)
     {
@@ -342,7 +342,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow viewing wrong catalog events or viewing them in disallowed scope
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateCatalogEventEdit($controller)
     {
@@ -374,7 +374,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow any creation order activity, if there is no website-level access
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateSalesOrderCreation($controller)
     {
@@ -392,7 +392,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      *
      * Returns false if disallowed
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller (first param is reserved, don't remove it)
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller (first param is reserved, don't remove it)
      * @param string|array $denyActions
      * @param string $saveAction
      * @param string $idFieldName
@@ -416,7 +416,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Manage Stores pages actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function validateSystemStore($controller)
     {
@@ -497,14 +497,14 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Redirect to a specific page
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @param array|string $url
      */
     protected function _redirect($controller, $url = null)
     {
         $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = $this->_backendUrl->getUrl('*/*/denied');
+            $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
         }
         elseif (is_array($url)) {
             $url = $this->_backendUrl->getUrl(array_shift($url), $url);
@@ -512,7 +512,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         elseif (false === strpos($url, 'http', 0)) {
             $url = $this->_backendUrl->getUrl($url);
         }
-        $this->_app->getResponse()->setRedirect($url);
+        $this->_response->setRedirect($url);
     }
 
     /**
@@ -579,7 +579,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Order view actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderViewAction($controller)
@@ -601,7 +601,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Creditmemo view actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderCreditmemoViewAction($controller)
@@ -626,7 +626,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Invoice view actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderInvoiceViewAction($controller)
@@ -651,7 +651,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Shipment view actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderShipmentViewAction($controller)
@@ -676,7 +676,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Creditmemo creation actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderCreditmemoCreateAction($controller)
@@ -707,7 +707,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Invoice creation actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderInvoiceCreateAction($controller)
@@ -736,7 +736,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Shipment creation actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderShipmentCreateAction($controller)
@@ -765,7 +765,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Order mass actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderMassAction($controller)
@@ -791,7 +791,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Order edit action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderEditStartAction($controller)
@@ -813,7 +813,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Shipment tracking actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateSalesOrderShipmentTrackAction($controller)
@@ -835,7 +835,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Terms and Conditions management edit action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateCheckoutAgreementEditAction($controller)
@@ -859,7 +859,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate URL Rewrite Management edit action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateUrlRewriteEditAction($controller)
@@ -880,7 +880,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Admin User management actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateAdminUserAction($controller)
@@ -905,7 +905,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Admin Role management actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateAdminRoleAction($controller)
@@ -929,7 +929,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Attribute management actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateCatalogProductAttributeActions($controller)
@@ -944,7 +944,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Attribute creation action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -961,7 +961,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Products in Catalog Product MassDelete Action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      */
     public function catalogProductMassDeleteAction($controller)
     {
@@ -992,7 +992,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Attribute set creation, deletion and saving actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1030,7 +1030,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Block index actions for all GWS limited users.
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function blockIndexAction($controller)
@@ -1042,7 +1042,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate misc Manage Currency Rates requests
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1059,7 +1059,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate misc Transactional Emails
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1098,7 +1098,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate Giftregistry actions : edit, add, share, delete
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1122,7 +1122,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate customer attribute actions
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateCustomerAttributeActions($controller)
@@ -1142,7 +1142,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Deny certain actions at rule entity in disallowed scopes
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1231,7 +1231,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate applying catalog rules action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1246,7 +1246,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      *
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      *
      * @return bool
      */
@@ -1260,7 +1260,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      *
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @param \Magento\Core\Model\AbstractModel $model
      *
      * @return bool
@@ -1273,7 +1273,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Promo catalog index action
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return \Magento\AdminGws\Model\Controllers
      */
     public function promoCatalogIndexAction($controller)
@@ -1287,7 +1287,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Block editing of RMA attributes on disallowed websites
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool|void
      */
     public function validateRmaAttributeEditAction($controller)
@@ -1338,7 +1338,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Block deleting of options of attributes for all GWS enabled users
      *
-     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return bool
      */
     public function validateRmaAttributeSaveAction($controller)

@@ -24,7 +24,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $path = 'checkout/cart';
         $url = 'http://example.com/';
 
-        $urlBuilder = $this->getMockForAbstractClass('Magento\Core\Model\UrlInterface');
+        $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface');
         $urlBuilder->expects($this->once())->method('getUrl')->with($path)->will($this->returnValue($url . $path));
 
         $helper = $this->getMockBuilder('Magento\Core\Helper\Data')
@@ -68,7 +68,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Invitation\Block\Link $block */
+        /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
             array(
@@ -106,7 +106,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Invitation\Block\Link $block */
+        /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
             array(

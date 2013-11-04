@@ -32,7 +32,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -62,6 +62,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_userRoles;
 
     /**
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Acl\Builder $aclBuilder
@@ -71,7 +76,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -83,7 +89,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Controller\Request\Http $request
+        \Magento\App\RequestInterface $request,
+        \Magento\Stdlib\String $string
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;
@@ -95,6 +102,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $this->_config = $config;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
+        $this->string = $string;
     }
 
     /**
@@ -524,7 +532,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
             foreach ($this->_config->getCallbacks($callbackGroup) as $className => $callback) {
-                $className = uc_words($className);
+                $className = $this->string->upperCaseWords($className);
 
                 /*
                  * Second parameter passed as FALSE to prevent usage of __autoload function

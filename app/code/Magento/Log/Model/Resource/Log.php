@@ -23,7 +23,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -33,17 +33,25 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_date;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Date $date
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
         \Magento\Core\Model\Date $date,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_date = $date;
         $this->_eventManager = $eventManager;
+        $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
 
@@ -84,7 +92,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate($this->_date->gmtTimestamp() - $time);
+        $timeLimit = $this->dateTime->formatDate($this->_date->gmtTimestamp() - $time);
 
         while (true) {
             $select = $readAdapter->select()
@@ -133,7 +141,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate($this->_date->gmtTimestamp() - $time);
+        $timeLimit = $this->dateTime->formatDate($this->_date->gmtTimestamp() - $time);
 
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(

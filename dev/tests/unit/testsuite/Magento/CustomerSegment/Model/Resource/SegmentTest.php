@@ -65,9 +65,9 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
             )));
 
         $this->_configShare = $this->getMock('Magento\Customer\Model\Config\Share',
-            array('isGlobalScope'), array(), '', false);
+            array('isGlobalScope', '__wakeup'), array(), '', false);
         $this->_segment = $this->getMock('Magento\CustomerSegment\Model\Segment',
-            array('getConditions', 'getWebsiteIds', 'getId'), array(), '', false);
+            array('getConditions', 'getWebsiteIds', 'getId', '__wakeup'), array(), '', false);
 
         $this->_conditions = $this->getMock('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
             array('getConditionsSql', 'getConditions'), array(), '', false);
@@ -75,7 +75,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
         $this->_resourceModel = new \Magento\CustomerSegment\Model\Resource\Segment(
             $this->getMock('Magento\Core\Model\Resource\HelperPool', array(), array(), '', false),
             $this->_resource,
-            $this->_configShare
+            $this->_configShare,
+            $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true)
         );
     }
 

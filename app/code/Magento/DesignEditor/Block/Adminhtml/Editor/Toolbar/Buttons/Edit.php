@@ -122,7 +122,7 @@ class Edit
      */
     public function getRevertUrl($revertType)
     {
-        return $this->getUrl('*/system_design_editor/revert', array(
+        return $this->getUrl('adminhtml/system_design_editor/revert', array(
             'theme_id'  => $this->_themeContext->getEditableTheme()->getId(),
             'revert_to' => $revertType
         ));
@@ -165,7 +165,7 @@ class Edit
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
         $dateMessage = $this->_localeModel
-            ->date($sourceChange->getChangeTime(), \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString();
+            ->date($sourceChange->getChangeTime(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString();
         $message = __('Do you want to restore the version saved at %1?', $dateMessage);
 
         $data = array(
@@ -178,7 +178,7 @@ class Edit
                 )
             )
         );
-        return $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
+        return $this->escapeHtml(json_encode($data));
     }
 
     /**
@@ -199,7 +199,7 @@ class Edit
                 )
             )
         );
-        return $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
+        return $this->escapeHtml(json_encode($data));
     }
 
     /**
@@ -231,11 +231,11 @@ class Edit
     /**
      * Checks themes for changes by time
      *
-     * @param \Magento\Core\Model\Theme $sourceTheme
-     * @param \Magento\Core\Model\Theme $targetTheme
+     * @param \Magento\View\Design\ThemeInterface $sourceTheme
+     * @param \Magento\View\Design\ThemeInterface $targetTheme
      * @return bool
      */
-    protected function _hasThemeChanged(\Magento\Core\Model\Theme $sourceTheme, \Magento\Core\Model\Theme $targetTheme)
+    protected function _hasThemeChanged(\Magento\View\Design\ThemeInterface $sourceTheme, \Magento\View\Design\ThemeInterface $targetTheme)
     {
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($sourceTheme->getId());

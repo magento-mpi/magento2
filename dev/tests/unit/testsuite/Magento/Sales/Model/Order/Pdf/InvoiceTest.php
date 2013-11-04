@@ -24,10 +24,10 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
     {
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $coreHelperStringMock = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false, false);
+        $stringMock = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
         $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
         $translateMock = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false, false);
-        $coreDirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
+        $coreDirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $coreDirMock->expects($this->once())
             ->method('getDir')
             ->will($this->returnValue(BP));
@@ -47,7 +47,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Sales\Model\Order\Pdf\Invoice(
             $paymentDataMock,
             $coreHelperMock,
-            $coreHelperStringMock,
+            $stringMock,
             $storeConfigMock,
             $translateMock,
             $coreDirMock,

@@ -15,17 +15,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        /** @var \Magento\Core\Model\Event\Manager $eventManager */
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        /** @var \Magento\Event\ManagerInterface $eventManager */
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         /** @var \Magento\Data\Collection\Db\FetchStrategyInterface $mockFetchStrategy */
         $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
         /** @var \Magento\Core\Model\EntityFactory $entityFactory */
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $dateTime = new \Magento\Stdlib\DateTime;
         $mockDBAdapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
-            ->setMethods(array('_connect', '_quote'))
+            ->setMethods(array('_connect', '_quote', 'formatDate'))
             ->getMockForAbstractClass();
         $mockResourceEvent = $this->getMockBuilder('Magento\Webhook\Model\Resource\Job')
             ->disableOriginalConstructor()
@@ -33,10 +34,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $mockResourceEvent->expects($this->once())
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         $collection = new \Magento\Webhook\Model\Resource\Job\Collection(
-            $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent
+            $eventManager, $logger, $mockFetchStrategy, $entityFactory, $dateTime, $mockResourceEvent
         );
         $this->assertInstanceOf('Magento\Webhook\Model\Resource\Job\Collection', $collection);
         $this->assertEquals('Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());

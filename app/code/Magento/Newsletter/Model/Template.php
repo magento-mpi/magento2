@@ -66,7 +66,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Http-request, used to determine current store in multi-store mode
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -92,27 +92,34 @@ class Template extends \Magento\Core\Model\Template
     protected $_templateFactory;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $_filterManager;
+
+    /**
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Filter\FilterManager $filterManager,
         array $data = array()
     ) {
         parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
@@ -121,6 +128,7 @@ class Template extends \Magento\Core\Model\Template
         $this->_filter = $filter;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_templateFactory = $templateFactory;
+        $this->_filterManager = $filterManager;
     }
 
     /**
@@ -297,14 +305,10 @@ class Template extends \Magento\Core\Model\Template
      */
     public function getProcessedTemplateSubject(array $variables)
     {
-        $processor = new \Magento\Filter\Template();
-
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
-
-        $processor->setVariables($variables);
-        return $processor->filter($this->getTemplateSubject());
+        return $this->_filterManager->template($this->getTemplateSubject(), array('variables' => $variables));
     }
 
     /**

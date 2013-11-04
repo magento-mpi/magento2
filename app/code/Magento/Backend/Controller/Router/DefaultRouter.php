@@ -52,7 +52,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected $_defaultRouteId;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -68,18 +68,17 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
 
     /**
      * @param \Magento\Backend\Helper\Data $backendData
-     * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
+     * @param \Magento\App\ActionFactory $controllerFactory
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Route\Config $routeConfig
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param $areaCode
      * @param $baseController
      * @param $routerId
@@ -91,18 +90,17 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      */
     public function __construct(
         \Magento\Backend\Helper\Data $backendData,
-        \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
+        \Magento\App\ActionFactory $controllerFactory,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\App\State $appState,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
         \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $url,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         $areaCode,
         $baseController,
         $routerId,
@@ -112,7 +110,6 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
             $controllerFactory,
             $filesystem,
             $app,
-            $configScope,
             $coreStoreConfig,
             $routeConfig,
             $securityInfo,
@@ -131,9 +128,6 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         $this->_url = $url;
         $this->_areaFrontName = $this->_backendData->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
-        if (empty($this->_areaFrontName)) {
-            throw new \InvalidArgumentException('Area Front Name should be defined');
-        }
     }
 
     /**
@@ -234,7 +228,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     /**
      * Retrieve current secure url
      *
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return string
      */
     protected function _getCurrentSecureUrl($request)
@@ -274,12 +268,12 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
          */
 
         $parts = explode('_', $realModule);
-        $realModule = implode(\Magento\Autoload\IncludePath::NS_SEPARATOR, array_splice($parts, 0, 2));
-        return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
+        $parts = array_splice($parts, 0, 2);
+        $parts[] = 'Controller';
+        $parts[] = $this->_areaCode;
+        $parts[] = $controller;
 
+        return \Magento\Core\Helper\String::buildClassName($parts);
     }
 
     /**

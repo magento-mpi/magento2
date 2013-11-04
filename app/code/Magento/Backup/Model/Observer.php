@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,7 +45,7 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -59,7 +59,7 @@ class Observer
     /**
      * Directory model
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -71,17 +71,17 @@ class Observer
     /**
      * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Backup\Factory $backupFactory
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Backup\Factory $backupFactory
     ) {
         $this->_backupData = $backupData;

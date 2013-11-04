@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      \Magento\Backup
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +12,26 @@
  * Class to work with database backups
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup;
 
 class Db extends \Magento\Backup\AbstractBackup
 {
+    /**
+     * @var \Magento\Backup\Db\BackupFactory
+     */
+    protected $_backupFactory;
+
+    /**
+     * @param \Magento\Backup\Db\BackupFactory $backupFactory
+     */
+    public function __construct(\Magento\Backup\Db\BackupFactory $backupFactory)
+    {
+        $this->_backupFactory = $backupFactory;
+    }
+
     /**
      * Implements Rollback functionality for Db
      *
@@ -57,9 +70,9 @@ class Db extends \Magento\Backup\AbstractBackup
         $lineLength = strlen($cleanLine);
 
         $returnResult = false;
-        if ($lineLength > 0){
+        if ($lineLength > 0) {
             $lastSymbolIndex = $lineLength-1;
-            if ($cleanLine[$lastSymbolIndex] == ';'){
+            if ($cleanLine[$lastSymbolIndex] == ';') {
                 $returnResult = true;
             }
         }
@@ -79,13 +92,13 @@ class Db extends \Magento\Backup\AbstractBackup
 
         $this->_lastOperationSucceed = false;
 
-        $backup = \Mage::getModel('Magento\Backup\Model\Backup')
+        $backup = $this->_backupFactory->createBackupModel()
             ->setTime($this->getTime())
             ->setType($this->getType())
             ->setPath($this->getBackupsDir())
             ->setName($this->getName());
 
-        $backupDb = \Mage::getModel('Magento\Backup\Model\Db');
+        $backupDb = $this->_backupFactory->createBackupDbModel();
         $backupDb->createBackup($backup);
 
         $this->_lastOperationSucceed = true;

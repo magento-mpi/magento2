@@ -17,7 +17,7 @@ namespace Magento\PromotionPermissions\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout = null;
 
@@ -28,12 +28,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Core\Model\ModuleList');
-        $objectManager->get('Magento\Core\Model\Config\Scope')
+        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\App\ModuleList');
+        $objectManager->get('Magento\Config\ScopeInterface')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\View\LayoutInterface');
     }
 
     /**

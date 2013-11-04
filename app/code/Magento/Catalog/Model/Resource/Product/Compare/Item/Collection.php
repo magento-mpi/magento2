@@ -57,8 +57,8 @@ class Collection
     protected $_catalogProductCompareItem;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -74,14 +74,15 @@ class Collection
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item $catalogProductCompareItem
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -97,15 +98,15 @@ class Collection
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Resource\Product\Compare\Item $catalogProductCompareItem,
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
-    )
-    {
+    ) {
         $this->_catalogProductCompareItem = $catalogProductCompareItem;
         $this->_catalogProductCompare = $catalogProductCompare;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
             $coreResource, $eavEntityFactory, $universalFactory, $storeManager, $catalogData, $catalogProductFlat,
-            $coreStoreConfig, $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper
+            $coreStoreConfig, $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper, $dateTime
         );
     }
 

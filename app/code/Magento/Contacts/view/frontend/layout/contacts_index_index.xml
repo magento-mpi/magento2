@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Contact Us Form" type="page" parent="cms_page_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Contact Us Form" type="page">
     <referenceBlock name="head">
         <action method="setTitle">
             <argument translate="true" name="title" xsi:type="string">Contact Us</argument>

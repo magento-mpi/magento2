@@ -30,68 +30,99 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_storeManager;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Model\Layout $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Dir $dirs
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\App\Dir $dirs
+     * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
+     * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Math\Random $mathRandom
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\App\RequestInterface $request,
+        \Magento\View\LayoutInterface $layout,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\View\ConfigInterface $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Dir $dirs,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\App\Dir $dirs,
+        \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
+        \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager,
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Math\Random $mathRandom
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
-            $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
-            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $storeConfig,
+            $frontController,
+            $helperFactory,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $dirs,
+            $logger,
+            $filesystem,
+            $viewFileSystem,
+            $engineFactory,
+            $app,
+            $escaper,
+            $filterManager
         );
         $this->_storeManager = $storeManager;
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
         $this->_locale = $locale;
+        $this->mathRandom = $mathRandom;
     }
 
     /**
@@ -107,7 +138,7 @@ class Context extends \Magento\Core\Block\Template\Context
     /**
      * Retrieve Authorization
      *
-     * @return \\Magento\AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {
@@ -128,5 +159,13 @@ class Context extends \Magento\Core\Block\Template\Context
     public function getLocale()
     {
         return $this->_locale;
+    }
+
+    /**
+     * @return \Magento\Math\Random
+     */
+    public function getMathRandom()
+    {
+        return $this->mathRandom;
     }
 }

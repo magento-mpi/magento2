@@ -32,4 +32,7 @@
     </connection>
     <resource name="default_setup" connection="default"/>
     <session_save><![CDATA[files]]></session_save>
+    <backend>
+        <frontName><![CDATA[backend]]></frontName>
+    </backend>
 </config>

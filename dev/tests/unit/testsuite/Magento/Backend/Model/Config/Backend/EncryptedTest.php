@@ -10,7 +10,7 @@ namespace Magento\Backend\Model\Config\Backend;
 class EncryptedTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
+    protected $_encryptorMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_configMock;
@@ -25,7 +25,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $eventDispatcherMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventDispatcherMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
         $contextMock = $this->getMock('Magento\Core\Model\Context', array(), array(), '', false);
         $contextMock->expects($this->any())
             ->method('getEventDispatcher')
@@ -40,11 +40,12 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
         );
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_encryptorMock = $this->getMock('Magento\Encryption\EncryptorInterface', array(), array(), '', false);
         $this->_model = $helper->getObject('Magento\Backend\Model\Config\Backend\Encrypted', array(
-            'coreData' => $this->_helperMock,
             'config' => $this->_configMock,
             'context' => $contextMock,
             'resource' => $this->_resourceMock,
+            'encryptor' => $this->_encryptorMock
         ));
 
     }
@@ -53,7 +54,8 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
     {
         $value = 'someValue';
         $result = 'some value from parent class';
-        $this->_helperMock->expects($this->once())->method('decrypt')->with($value)->will($this->returnValue($result));
+        $this->_encryptorMock->expects($this->once())->method('decrypt')->with($value)
+            ->will($this->returnValue($result));
         $this->assertEquals($result, $this->_model->processValue($value));
     }
 
@@ -77,7 +79,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->with('some/path')
             ->will($this->returnValue('oldValue'));
-        $this->_helperMock->expects($this->once())
+        $this->_encryptorMock->expects($this->once())
             ->method('encrypt')
             ->with($valueToSave)
             ->will($this->returnValue('encrypted'));

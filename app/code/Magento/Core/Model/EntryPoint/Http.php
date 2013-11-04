@@ -23,13 +23,20 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
                 'Location: ' . $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getBaseUrl()
             );
         } catch (\Magento\Core\Model\Store\Exception $e) {
-            require $this->_objectManager->get('Magento\Core\Model\Dir')
-                    ->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . '404.php';
+            require $this->_objectManager->get('Magento\App\Dir')
+                    ->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . '404.php';
         } catch (\Magento\BootstrapException $e) {
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (\Exception $e) {
-            $this->processException($e);
+            // attempt to specify store as a skin
+            try {
+                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+                $skin = $storeManager->getStore()->getCode;
+            } catch (\Exception $exception) {
+                $skin = null;
+            }
+            $this->_errorHandler->processException($e, array('skin' => $skin));
         }
     }
 
@@ -38,9 +45,16 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
      */
     protected function _processRequest()
     {
-        $request = $this->_objectManager->get('Magento\Core\Controller\Request\Http');
-        $response = $this->_objectManager->get('Magento\Core\Controller\Response\Http');
-        $handler = $this->_objectManager->get('Magento\HTTP\Handler\Composite');
-        $handler->handle($request, $response);
+        /** @var $request \Magento\App\Request\Http */
+        $request = $this->_objectManager->get('Magento\App\RequestInterface');
+        $areas = $this->_objectManager->get('Magento\App\AreaList');
+        $areaCode = $areas->getCodeByFrontName($request->getFrontName());
+        $this->_objectManager->get('Magento\Config\Scope')->setCurrentScope($areaCode);
+        $this->_objectManager->configure(
+            $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load($areaCode)
+        );
+        /** @var \Magento\Webapi\Controller\Rest|\Magento\App\FrontController\Interceptor $frontController */
+        $frontController = $this->_objectManager->get('Magento\App\FrontControllerInterface');
+        $frontController->dispatch($request);
     }
 }

@@ -34,12 +34,12 @@ class StorageFactory
     protected $_cache = array();
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_log;
 
@@ -49,32 +49,32 @@ class StorageFactory
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\App\Proxy
+     * @var \Magento\Core\Model\AppInterface
      */
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $log
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\App\Proxy $app
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\AppInterface $app
+     * @param \Magento\App\State $appState
      * @param string $defaultStorageClassName
      * @param string $installedStoreClassName
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $log,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Core\Model\ConfigInterface $config,
-        \Magento\Core\Model\App\Proxy $app,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\AppInterface $app,
+        \Magento\App\State $appState,
         $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
         $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db'
     ) {
@@ -82,7 +82,7 @@ class StorageFactory
         $this->_defaultStorageClassName = $defaultStorageClassName;
         $this->_installedStoreClassName = $installedStoreClassName;
         $this->_eventManager = $eventManager;
-        $this->_log = $log;
+        $this->_log = $logger;
         $this->_appState = $appState;
         $this->_config = $config;
         $this->_app = $app;
@@ -119,7 +119,16 @@ class StorageFactory
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
-                $this->_log->initForStore($instance->getStore(true), $this->_config);
+                $store = $instance->getStore(true);
+                if ($store->getConfig('dev/log/active')) {
+                    $writer = (string)$this->_config->getNode('global/log/core/writer_model');
+
+                    $this->_log->unsetLoggers();
+                    $this->_log->addStreamLog(
+                        \Magento\Logger::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $writer);
+                    $this->_log->addStreamLog(
+                        \Magento\Logger::LOGGER_EXCEPTION, $store->getConfig('dev/log/exception_file'), $writer);
+                }
             }
         }
         return $this->_cache[$className];

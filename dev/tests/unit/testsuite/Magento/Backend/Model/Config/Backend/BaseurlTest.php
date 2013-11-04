@@ -11,11 +11,11 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 {
     public function testSaveMergedJsCssMustBeCleaned()
     {
-        $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-        $appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface');
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $context = new \Magento\Core\Model\Context(
             $logger,
             $eventDispatcher,

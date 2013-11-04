@@ -18,31 +18,31 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
     /**
      * Core string
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreString = $coreString;
+        $this->string = $string;
         parent::__construct($taxData, $context, $registry, $coreDir, $resource, $resourceCollection, $data);
     }
 
@@ -57,9 +57,9 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         $lines  = array();
 
         // draw Product name
-        $stringHelper = $this->_coreString;
+        $stringHelper = $this->string;
         $lines[0] = array(array(
-            'text' => $this->_coreString->strSplit($item->getName(), 60, true, true),
+            'text' => $this->string->split($item->getName(), 60, true, true),
             'feed' => 100,
         ));
 
@@ -71,7 +71,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit($this->getSku($item), 25),
+            'text'  => $this->string->split($this->getSku($item), 25),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -82,7 +82,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $stringHelper->strSplit(strip_tags($option['label']), 70, true, true),
+                    'text' => $stringHelper->split(strip_tags($option['label']), 70, true, true),
                     'font' => 'italic',
                     'feed' => 110
                 );
@@ -95,7 +95,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => $this->_coreString->strSplit($value, 50, true, true),
+                            'text' => $this->string->split($value, 50, true, true),
                             'feed' => 115
                         );
                     }

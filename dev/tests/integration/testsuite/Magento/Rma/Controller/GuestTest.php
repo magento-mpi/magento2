@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Magento
+ * @package Magento_Rma
+ * @subpackage integration_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Rma\Controller;
@@ -41,8 +41,8 @@ class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/guest/addlabel', '<td>CarrierTitle</td>'),
-            array('rma/guest/dellabel', '<td>CarrierTitle</td>'),
+            array('rma/guest/addlabel', '<td class="col carrier">CarrierTitle</td>'),
+            array('rma/guest/dellabel', '<td class="col carrier">CarrierTitle</td>'),
         );
     }
 }

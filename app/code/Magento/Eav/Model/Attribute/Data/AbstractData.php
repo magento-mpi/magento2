@@ -76,7 +76,7 @@ abstract class AbstractData
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -84,11 +84,11 @@ abstract class AbstractData
      * Constructor
      *
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */    
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_locale = $locale;
         $this->_logger = $logger;
@@ -449,7 +449,7 @@ abstract class AbstractData
                     }
                     break;
                 case 'date':
-                    $validator = new \Zend_Validate_Date(\Magento\Date::DATE_INTERNAL_FORMAT);
+                    $validator = new \Zend_Validate_Date(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
                     $validator->setMessage(
                         __('"%1" invalid type entered.', $label),
                         \Zend_Validate_Date::INVALID
@@ -497,10 +497,10 @@ abstract class AbstractData
     /**
      * Return Original Attribute value from Request
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return mixed
      */
-    protected function _getRequestValue(\Zend_Controller_Request_Http $request)
+    protected function _getRequestValue(\Magento\App\RequestInterface $request)
     {
         $attrCode  = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
@@ -536,10 +536,10 @@ abstract class AbstractData
     /**
      * Extract data from request and return value
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return array|string
      */
-    abstract public function extractValue(\Zend_Controller_Request_Http $request);
+    abstract public function extractValue(\Magento\App\RequestInterface $request);
 
     /**
      * Validate data

@@ -28,7 +28,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     protected $_filesContent;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\RequestInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -36,7 +36,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
-        $this->_request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
@@ -70,7 +70,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/newFolder', $requestParams)
+            ->with('adminhtml/*/newFolder', $requestParams)
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getNewfolderUrl());
@@ -90,7 +90,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/deleteFiles', $requestParams)
+            ->with('adminhtml/*/deleteFiles', $requestParams)
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getDeleteFilesUrl());
@@ -110,7 +110,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/onInsert', $requestParams)
+            ->with('adminhtml/*/onInsert', $requestParams)
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getOnInsertUrl());
@@ -157,7 +157,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/contents', array('type' => $expectedRequest) + $requestParams)
+            ->with('adminhtml/*/contents', array('type' => $expectedRequest) + $requestParams)
             ->will($this->returnValue($expectedUrl));
 
         $this->_request->expects($this->once())

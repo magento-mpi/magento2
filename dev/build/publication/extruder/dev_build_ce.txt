@@ -1,8 +1,10 @@
 # special case for CE edition in build mode: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
 ~dev/tests/functional
-dev/tests/functional/fixture/enterprise*
-dev/tests/functional/testsuite/Enterprise
+~dev/tests/functional-old
+dev/tests/functional-old/fixture/_testFiles/Enterprise*
+dev/tests/functional-old/fixture/enterprise*
+dev/tests/functional-old/testsuite/Enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php

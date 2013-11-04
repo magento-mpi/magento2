@@ -64,7 +64,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -96,7 +96,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -106,7 +106,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -180,7 +180,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getCheckoutSession()->addError(__('We can\'t start Express Checkout.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -198,7 +198,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 
@@ -229,7 +229,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getCheckoutSession()->addError(__('Unable to cancel Express Checkout'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -249,7 +249,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_checkoutSession->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_checkoutSession->addError(__('We can\'t process Express Checkout approval.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -278,7 +278,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_checkoutSession->addError(
                 __('We can\'t initialize Express Checkout review.')
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -316,7 +316,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t update shipping method.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
@@ -344,7 +344,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t update Order data.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
             . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
@@ -370,7 +370,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t update Order data.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
@@ -444,7 +444,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t place the order.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('*/*/review');
     }

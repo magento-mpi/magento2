@@ -20,7 +20,7 @@ class Config
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -36,7 +36,7 @@ class Config
     protected $_menu;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -61,8 +61,8 @@ class Config
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
      * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -71,8 +71,8 @@ class Config
         \Magento\Backend\Model\MenuFactory $menuFactory,
         \Magento\Backend\Model\Menu\Config\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_menuBuilder = $menuBuilder;
@@ -89,12 +89,17 @@ class Config
      * Build menu model from config
      *
      * @return \Magento\Backend\Model\Menu
-     * @throws \InvalidArgumentException|BadMethodCallException|OutOfRangeException|Exception
+     * @throws \Exception|\InvalidArgumentException
+     * @throws \Exception
+     * @throws \BadMethodCallException|\Exception
+     * @throws \Exception|\OutOfRangeException
      */
     public function getMenu()
     {
-        $store = $this->_storeManager->getStore();
-        $this->_logger->addStoreLog(\Magento\Backend\Model\Menu::LOGGER_KEY, $store);
+        if ($this->_storeManager->getStore()->getConfig('dev/log/active')) {
+            $this->_logger->addStreamLog(\Magento\Backend\Model\Menu::LOGGER_KEY);
+        }
+
         try {
             $this->_initMenu();
             return $this->_menu;

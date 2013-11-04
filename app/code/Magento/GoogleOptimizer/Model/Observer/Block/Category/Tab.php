@@ -17,16 +17,18 @@ class Tab
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      */
-    public function __construct(\Magento\GoogleOptimizer\Helper\Data $helper, \Magento\Core\Model\Layout $layout)
-    {
+    public function __construct(
+        \Magento\GoogleOptimizer\Helper\Data $helper,
+        \Magento\View\LayoutInterface $layout
+    ) {
         $this->_helper = $helper;
         $this->_layout = $layout;
     }
@@ -44,7 +46,7 @@ class Tab
                 'google-experiment-form'
             );
 
-            /** @var $tabs \Magento\Adminhtml\Block\Catalog\Category\Tabs */
+            /** @var $tabs \Magento\Catalog\Block\Adminhtml\Category\Tabs */
             $tabs = $observer->getEvent()->getTabs();
             $tabs->addTab('google-experiment-tab', array(
                 'label' => __('Category View Optimization'),

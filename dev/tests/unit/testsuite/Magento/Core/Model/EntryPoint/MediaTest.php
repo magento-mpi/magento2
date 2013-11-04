@@ -77,22 +77,22 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             return true;
         };
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(  ), '', false);
+        $this->_appState = $this->getMock('Magento\App\State', array(), array(  ), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync= $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
-            'Magento\Core\Model\Dir\Verification', array(), array(), '', false
+            'Magento\App\Dir\Verification', array(), array(), '', false
         );
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
-            array('Magento\Core\Model\Dir\Verification', $this->_dirVerificationMock),
-            array('Magento\Core\Model\App\State', $this->_appState),
+            array('Magento\App\Dir\Verification', $this->_dirVerificationMock),
+            array('Magento\App\State', $this->_appState),
             array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
             array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync),
         );
 
-        $this->_model = new \Magento\Core\Model\EntryPoint\Media(
+        $this->_model = $this->getMock('\Magento\Core\Model\EntryPoint\Media', array('_initErrorHandler'), array(
             $this->_config,
             $this->_requestMock,
             $this->_closure,
@@ -102,7 +102,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->_relativeFileName,
             $this->_objectManagerMock,
             $this->_responseMock
-        );
+        ));
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
     }
 
@@ -121,7 +121,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
     {
-        $this->_model = new \Magento\Core\Model\EntryPoint\Media(
+        $this->_model = $this->getMock('\Magento\Core\Model\EntryPoint\Media', array('_initErrorHandler'), array(
             $this->_config,
             $this->_requestMock,
             $this->_closure,
@@ -131,7 +131,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'relativeFileName',
             $this->_objectManagerMock,
             $this->_responseMock
-        );
+        ));
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_objectManagerMock->expects($this->once())->method('create')
             ->with('Magento\Core\Model\File\Storage\Config')
@@ -146,9 +146,17 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_closure = function () {
             return false;
         };
-        $this->_model = new \Magento\Core\Model\EntryPoint\Media(
-            $this->_config, $this->_requestMock, $this->_closure, 'var', false, 'cacheFile', 'relativeFileName',
-                $this->_objectManagerMock, $this->_responseMock);
+        $this->_model = $this->getMock('\Magento\Core\Model\EntryPoint\Media', array('_initErrorHandler'), array(
+            $this->_config,
+            $this->_requestMock,
+            $this->_closure,
+            'var',
+            false,
+            'cacheFile',
+            'relativeFileName',
+            $this->_objectManagerMock,
+            $this->_responseMock
+        ));
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_responseMock->expects($this->once())->method('sendNotFound');
         $this->_requestMock->expects($this->once())->method('getPathInfo');

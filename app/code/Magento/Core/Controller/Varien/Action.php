@@ -20,7 +20,9 @@
  */
 namespace Magento\Core\Controller\Varien;
 
-class Action extends \Magento\Core\Controller\Varien\AbstractAction
+use Magento\App\Action\AbstractAction;
+
+class Action extends \Magento\App\Action\AbstractAction
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -97,17 +99,17 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     protected $_removeDefaultTitle = false;
 
     /**
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_frontController = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\Factory
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -117,6 +119,11 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
      * @var bool
      */
     protected $_isRenderInherited;
+
+    /**
+     * @var \Magento\HTTP\Authentication
+     */
+    protected $authentication;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
@@ -131,6 +138,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
         $this->_eventManager    = $context->getEventManager();
         $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
+        $this->authentication = $context->getAuthentication();
 
         $this->_construct();
     }
@@ -191,7 +199,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     /**
      * Retrieve current layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
     {
@@ -275,7 +283,8 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
-        return $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
+        // Do not sort array going into add page handles. Ensure default layout handle is added first.
+        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
     }
 
     /**
@@ -373,10 +382,6 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             return;
         }
 
-        if ($this->_frontController->getNoRender()) {
-            return;
-        }
-
         \Magento\Profiler::start('LAYOUT');
 
         $this->_renderTitles();
@@ -389,8 +394,6 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
 
         $this->_eventManager->dispatch('controller_action_layout_render_before');
         $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
-
-        $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();
         $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
@@ -438,7 +441,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             }
 
             \Magento\Profiler::stop($profilerKey);
-        } catch (\Magento\Core\Controller\Varien\Exception $e) {
+        } catch (\Magento\App\Action\Exception $e) {
             // set prepared flags
             foreach ($e->getResultFlags() as $flagData) {
                 list($action, $flag, $value) = $flagData;
@@ -447,11 +450,11 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             // call forward, redirect or an action
             list($method, $parameters) = $e->getResultCallback();
             switch ($method) {
-                case \Magento\Core\Controller\Varien\Exception::RESULT_REDIRECT:
+                case \Magento\App\Action\Exception::RESULT_REDIRECT:
                     list($path, $arguments) = $parameters;
                     $this->_redirect($path, $arguments);
                     break;
-                case \Magento\Core\Controller\Varien\Exception::RESULT_FORWARD:
+                case \Magento\App\Action\Exception::RESULT_FORWARD:
                     list($action, $controller, $module, $params) = $parameters;
                     $this->_forward($action, $controller, $module, $params);
                     break;
@@ -530,7 +533,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!$this->_objectManager->get('Magento\Core\Model\App\State')->isInstalled()) {
+            if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
@@ -539,7 +542,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
 
         // Prohibit disabled store actions
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($this->_objectManager->get('Magento\Core\Model\App\State') && !$storeManager->getStore()->getIsActive()) {
+        if ($this->_objectManager->get('Magento\App\State') && !$storeManager->getStore()->getIsActive()) {
             $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
         }
 
@@ -1014,7 +1017,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
                 ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
@@ -1043,7 +1046,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
                 ->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATETIME_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {

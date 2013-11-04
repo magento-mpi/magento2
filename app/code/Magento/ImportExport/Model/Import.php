@@ -115,8 +115,8 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_behaviorFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Logger $logger
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Model\Config $coreConfig
@@ -131,8 +131,8 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\Logger $logger,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\Core\Model\Config $coreConfig,

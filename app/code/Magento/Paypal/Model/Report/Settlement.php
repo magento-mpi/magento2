@@ -143,7 +143,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     );
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
@@ -155,7 +155,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -164,7 +164,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -215,7 +215,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = tempnam($this->_coreDir->getDir(\Magento\Core\Model\Dir::TMP), 'PayPal_STL');
+            $localCsv = tempnam($this->_coreDir->getDir(\Magento\App\Dir::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
                     throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
@@ -232,7 +232,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
                 // Set last modified date, this value will be overwritten during parsing
                 if (isset($attributes['mtime'])) {
                     $lastModified = new \Zend_Date($attributes['mtime']);
-                    $this->setReportLastModified($lastModified->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+                    $this->setReportLastModified($lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
                 }
 
                 $this->setReportDate($this->_fileNameToDate($filename))
@@ -302,7 +302,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
             switch($lineType) {
                 case 'RH': // Report header.
                     $lastModified = new \Zend_Date($line[1]);
-                    $this->setReportLastModified($lastModified->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+                    $this->setReportLastModified($lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
                     //$this->setAccountId($columns[2]); -- probably we'll just take that from the section header...
                     break;
                 case 'FH': // File header.

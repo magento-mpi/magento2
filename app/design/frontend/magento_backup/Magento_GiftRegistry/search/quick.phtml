@@ -1,0 +1,88 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
+<div class="block block-gr-search">
+    <div class="block-title">
+        <strong><span><?php echo __('Gift Registry Search') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post">
+            <ul class="form-alt">
+                <li>
+                    <?php echo $this->getBlockHtml('formkey')?>
+                    <label for="params-firstname" class="required"><?php echo __('First Name') ?> <em>*</em></label>
+                    <div class="input-box">
+                        <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-firstname" name="params[firstname]" />
+                    </div>
+                </li>
+                <li>
+                    <label for="params-lastname" class="required"><?php echo __('Last Name') ?> <em>*</em></label>
+                    <div class="input-box">
+                        <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-lastname" name="params[lastname]" />
+                    </div>
+                    <p class="note"><em>*</em> <?php echo __('Please enter at least two letters of the name.') ?></p>
+                </li>
+                <li>
+                    <label class="required"><?php echo __('Type') ?></label>
+                    <div class="input-box"><?php echo $this->getTypeSelectHtml() ?></div>
+                </li>
+            </ul>
+            <div class="actions">
+                <input type="hidden" name="params[search]" value="type" />
+                <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+                </div>
+        </form>
+
+        <form id="gr-quick-search-email-form" action="<?php echo $this->getActionUrl() ?>" method="post">
+            <ul class="form-alt">
+                <li>
+                    <?php echo $this->getBlockHtml('formkey')?>
+                    <label for="params_email" class="required"><?php echo __('Recipient Email') ?> <em>*</em></label>
+                    <div class="input-box">
+                        <input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" />
+                    </div>
+                </li>
+            </ul>
+            <div class="actions">
+                <input type="hidden" name="params[search]" value="email" />
+                <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+            </div>
+        </form>
+
+        <form id="gr-quick-search-id-form" action="<?php echo $this->getActionUrl() ?>" method="post">
+            <ul class="form-alt">
+                <li>
+                    <?php echo $this->getBlockHtml('formkey')?>
+                    <label for="params_id" class="required"><?php echo __('Gift Registry ID') ?> <em>*</em></label>
+                    <div class="input-box">
+                        <input type="text" class="input-text required-entry" id="params_id" name="params[id]" />
+                    </div>
+                </li>
+            </ul>
+            <div class="actions">
+                <input type="hidden" name="params[search]" value="id" />
+                <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+                $('form[id^="gr-quick-search"]').validation();
+            });
+    })(jQuery);
+</script>
+<?php endif; ?>

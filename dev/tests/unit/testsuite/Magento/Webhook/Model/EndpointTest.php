@@ -59,13 +59,15 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockWebhookUser));
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
         $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setConstructorArgs(array(
                 $this->_mockContext,
                 $coreRegistry,
-                $this->_mockUserFactory
+                $this->_mockUserFactory,
+                $dateTime
             ))
             ->setMethods(array('_init'))
             ->getMock();
@@ -106,7 +108,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($hasAuthType, $hasDataChanges)
     {
-        $mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
+        $mockEventManager = $this->getMockBuilder('Magento\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -115,6 +117,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockEventManager));
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', array('formatDate'), array(), '', true);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
         $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
@@ -122,6 +125,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 $this->_mockContext,
                 $coreRegistry,
                 $this->_mockUserFactory,
+                $dateTime
             ))
             ->setMethods(
                 array('_init', '_getResource', 'hasAuthenticationType', 'setAuthenticationType', 'setUpdatedAt',
@@ -148,7 +152,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
         if ($hasDataChanges) {
             $someFormattedTime = '2013-07-10 12:35:28';
-            $this->_mockResourceEndpnt->expects($this->once())
+            $dateTime->expects($this->once())
                 ->method('formatDate')
                 ->withAnyParameters() // impossible to predict what time() will be
                 ->will($this->returnValue($someFormattedTime));

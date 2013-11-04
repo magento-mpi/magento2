@@ -15,7 +15,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
 
         $fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');
         $endpointResMock = $this->_makeMock('Magento\Webhook\Model\Resource\Endpoint');
@@ -38,7 +38,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($connectionMock));
         /** @var \Magento\Core\Model\EntityFactory $entityFactory */
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         new \Magento\Webhook\Model\Resource\Subscription\Grid\Collection(
             $configMock, $endpointResMock, $eventManager, $logger, $fetchStrategyMock, $entityFactory, $resourceMock);
     }

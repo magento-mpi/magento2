@@ -12,14 +12,14 @@ namespace Magento\Webapi\Block\Adminhtml\User;
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\RequestInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Escaper
      */
-    protected $_coreData;
+    protected $_escaper;
 
     /**
      * @var \Magento\Webapi\Block\Adminhtml\User\Edit
@@ -28,9 +28,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
+        $this->_request = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
-            ->setMethods(array('getParam'))
             ->getMock();
 
         $this->_request->expects($this->any())
@@ -38,29 +37,36 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->with('user_id')
             ->will($this->returnValue(1));
 
-        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
+        $this->_escaper = $this->getMockBuilder('Magento\Escaper')
             ->disableOriginalConstructor()
             ->setMethods(array('escapeHtml'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
+        $urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
+            ->setMethods(array('getUrl'))
             ->disableOriginalConstructor()
-            ->setMethods(array('get'))
             ->getMock();
 
-        $helperFactory->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('Magento\Core\Helper\Data'))
-            ->will($this->returnValue($this->_coreData));
+        $context = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getEscaper', 'getUrlBuilder', 'getRequest'))
+            ->getMock();
 
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\User\Edit', array(
-            // TODO: Remove injecting of 'urlBuilder' after MAGENTOTWO-5038 complete
-            'urlBuilder' => $this->getMockBuilder('Magento\Backend\Model\Url')
-                ->disableOriginalConstructor()
-                ->getMock(),
-            'request' => $this->_request,
-            'helperFactory' => $helperFactory,
+        $context->expects($this->any())
+            ->method('getEscaper')
+            ->will($this->returnValue($this->_escaper));
+
+        $context->expects($this->any())
+            ->method('getUrlBuilder')
+            ->will($this->returnValue($urlBuilder));
+
+        $context->expects($this->any())
+            ->method('getRequest')
+            ->will($this->returnValue($this->_request));
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $objectManager->getObject('Magento\Webapi\Block\Adminhtml\User\Edit', array(
+            'context' => $context
         ));
     }
 
@@ -88,7 +94,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         $apiUser->setId(1)->setApiKey('test-api');
 
-        $this->_coreData->expects($this->once())
+        $this->_escaper->expects($this->once())
             ->method('escapeHtml')
             ->with($apiUser->getApiKey())
             ->will($this->returnArgument(0));

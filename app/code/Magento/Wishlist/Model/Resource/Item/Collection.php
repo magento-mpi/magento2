@@ -79,7 +79,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Adminhtml sales
      *
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var \Magento\Sales\Helper\Admin
      */
     protected $_adminhtmlSales = null;
 
@@ -137,9 +137,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Sales\Helper\Admin $adminhtmlSales
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -155,9 +155,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function __construct(
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Sales\Helper\Admin $adminhtmlSales,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -455,14 +455,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $now = $this->_date->date();
         $gmtOffset = (int)$this->_date->getGmtOffset();
         if (isset($constraints['from'])) {
-            $lastDay = new \Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $lastDay = new \Zend_Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
-            $firstDay = new \Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $firstDay = new \Zend_Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;

@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Ogone\Model;
+
 /**
  * Ogone payment method model
  */
-namespace Magento\Ogone\Model;
-
 class Api extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
@@ -152,28 +152,26 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Parameters hashing context
-     * @var string
      */
     const HASH_DIR_OUT = 'out';
     const HASH_DIR_IN = 'in';
 
     /**
      * Supported hashing algorithms
-     * @var string
      */
     const HASH_SHA1 = 'sha1';
     const HASH_SHA256 = 'sha256';
     const HASH_SHA512 = 'sha512';
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -190,25 +188,25 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Construct
      * 
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\UrlInterface $urlBuilder,
+        \Magento\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
@@ -216,7 +214,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_urlBuilder = $urlBuilder;
-        $this->_coreString = $coreString;
+        $this->string = $string;
         $this->_config = $config;
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
@@ -417,9 +415,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _getOgonePaymentOperation()
     {
         $value = $this->getPaymentAction();
-        if ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE) {
+        if ($value == \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE) {
             $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_ACTION;
-        } elseif ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
+        } elseif ($value == \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
             $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
         return $value;
@@ -439,12 +437,12 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
                 continue;
             }
             //COM filed can only handle max 100
-            if ($this->_coreString->strlen($invoiceDesc.$item->getName()) > 100) {
+            if ($this->string->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return $this->_coreString->substr($invoiceDesc, 0, -2);
+        return $this->string->substr($invoiceDesc, 0, -2);
     }
 
     /**

@@ -40,9 +40,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_registry = $this->getMock('Magento\Core\Model\Registry', array('registry'), array(), '', false);
 
         $website = new \Magento\Object(array('id' => 5));
-        $storeManager = $this->getMockForAbstractClass(
-            'Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
-        );
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
@@ -52,7 +50,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_resource = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
-            array($this->getMock('Magento\Core\Model\Resource', array(), array(), '', false))
+            array(
+                $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true),
+                $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false)
+            )
         );
 
         $this->_model = new \Magento\CustomerSegment\Model\Customer(
@@ -61,7 +62,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
             $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->_registry,
             $storeManager,

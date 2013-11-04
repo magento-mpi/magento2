@@ -44,6 +44,11 @@ class Data extends \Magento\Core\Helper\Data
     protected $_checkoutData;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * Core url
      *
      * @var \Magento\Core\Helper\Url
@@ -52,42 +57,49 @@ class Data extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\App\State $appState
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
-        \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\App\State $appState,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Escaper $escaper,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        $this->_escaper = $escaper;
+
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
     }
 
@@ -174,7 +186,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->escapeHtml($this->_persistentSession->getCustomer()->getName()));
+        return __('(Not %1?)', $this->_escaper->escapeHtml($this->_persistentSession->getCustomer()->getName()));
     }
 
     /**

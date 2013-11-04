@@ -131,8 +131,8 @@ class Settings
 
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('type', 'select', array(
-            'name'     => 'type',
+        $fieldset->addField('code', 'select', array(
+            'name'     => 'code',
             'label'    => __('Type'),
             'title'    => __('Type'),
             'required' => true,
@@ -153,7 +153,7 @@ class Settings
             ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Continue'),
-                'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",
+                'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'code', 'theme_id')",
                 'class'     => 'save'
             ));
         $fieldset->addField('continue_button', 'note', array(
@@ -172,9 +172,9 @@ class Settings
      */
     public function getContinueUrl()
     {
-        return $this->getUrl('*/*/*', array(
+        return $this->getUrl('adminhtml/*/*', array(
             '_current' => true,
-            'type'     => '{{type}}',
+            'code'     => '{{code}}',
             'theme_id' => '{{theme_id}}'
         ));
     }

@@ -32,13 +32,6 @@ class Observer
     protected $_persistentData = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Persistent session
      *
      * @var \Magento\Persistent\Helper\Session
@@ -48,21 +41,21 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
      * Layout model
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * Request http
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -97,7 +90,7 @@ class Observer
     /**
      * Url model
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
@@ -130,46 +123,50 @@ class Observer
     protected $_websiteCollectionFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\UrlInterface $url
-     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     * @param \Magento\UrlInterface $url
+     * @param SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
-     * @param \Magento\Core\Controller\Request\Http $requestHttp
-     * @param \Magento\Core\Model\Layout $layout
+     * @param Persistent\ConfigFactory $persistentConfigFactory
+     * @param \Magento\App\RequestInterface $requestHttp
+     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Escaper $escaper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\UrlInterface $url,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
-        \Magento\Core\Controller\Request\Http $requestHttp,
-        \Magento\Core\Model\Layout $layout
+        \Magento\App\RequestInterface $requestHttp,
+        \Magento\View\LayoutInterface $layout,
+        \Magento\Escaper $escaper
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
-        $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
         $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_session = $session;
@@ -182,6 +179,7 @@ class Observer
         $this->_persistentConfigFactory = $persistentConfigFactory;
         $this->_requestHttp = $requestHttp;
         $this->_layout = $layout;
+        $this->_escaper = $escaper;
     }
 
     /**
@@ -248,8 +246,7 @@ class Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $escapedName = $this->_coreData
-            ->escapeHtml($this->_getPersistentCustomer()->getName(), null);
+        $escapedName = $this->_escaper->escapeHtml($this->_getPersistentCustomer()->getName(), null);
 
         $this->_applyAccountLinksPersistentData();
         $welcomeMessage = __('Welcome, %1!', $escapedName)

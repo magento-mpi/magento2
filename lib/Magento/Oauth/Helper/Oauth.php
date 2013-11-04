@@ -37,19 +37,26 @@ class Oauth
      */
     const CALLBACK_ESTABLISHED = 'oob';
 
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
+    /** @var \Magento\Core\Model\Store\Config */
+    protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Math\Random
      */
-    public function __construct(\Magento\Core\Helper\Data $coreData)
-    {
-        $this->_coreData = $coreData;
+    protected $_mathRandom;
+
+    /**
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Math\Random $mathRandom
+     * @internal param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Math\Random $mathRandom
+    ) {
+        parent::__construct($context);
+        $this->_storeConfig = $storeConfig;
+        $this->_mathRandom = $mathRandom;
     }
 
     /**
@@ -67,9 +74,9 @@ class Oauth
             $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
         } else {
             // fallback to mt_rand() if openssl is not installed
-            $randomString = $this->_coreData->getRandomString(
+            $randomString = $this->_mathRandom->getRandomString(
                 $length,
-                \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS
+                \Magento\Math\Random::CHARS_DIGITS . \Magento\Math\Random::CHARS_LOWERS
             );
         }
 

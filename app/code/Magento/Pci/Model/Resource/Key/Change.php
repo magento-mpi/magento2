@@ -22,7 +22,7 @@ namespace Magento\Pci\Model\Resource\Key;
 class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Pci\Model\Encryption
+     * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -32,14 +32,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_filesystem;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -49,21 +42,21 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_structure;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Resource $resource,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Dir $dir,
-        \Magento\Backend\Model\Config\Structure $structure
+        \Magento\App\Dir $dir,
+        \Magento\Backend\Model\Config\Structure $structure,
+        \Magento\Encryption\EncryptorInterface $encryptor
     ) {
-        $this->_coreData = $coreData;
         $this->_dir = $dir;
+        $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
         $this->_structure = $structure;
@@ -81,13 +74,13 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Re-encrypt all encrypted data in the database
      *
+     * TODO: seems not used
+     *
      * @throws \Exception
      * @param bool $safe Specifies whether wrapping re-encryption into the database transaction or not
      */
     public function reEncryptDatabaseValues($safe = true)
     {
-        $this->_encryptor = clone $this->_coreData->getEncryptor();
-
         // update database only
         if ($safe) {
             $this->beginTransaction();
@@ -116,9 +109,9 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function changeEncryptionKey($key = null)
     {
-        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG));
+        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(\Magento\App\Dir::CONFIG));
         // prepare new key, encryptor and new file contents
-        $file = $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG) . DS . 'local.xml';
+        $file = $this->_dir->getDir(\Magento\App\Dir::CONFIG) . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
             throw new \Exception(__('File %1 is not writeable.', $file));
@@ -128,7 +121,6 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (null === $key) {
             $key = md5(time());
         }
-        $this->_encryptor = clone $this->_coreData->getEncryptor();
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
             '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents

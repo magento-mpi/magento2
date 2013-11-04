@@ -84,7 +84,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @var \Magento\Core\Model\StoreManager
      */
-    protected $storeManger;
+    protected $storeManager;
 
     /**
      * @var \Magento\SalesRule\Model\CouponFactory
@@ -107,7 +107,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Core\Model\Email\Template $emailTemplateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManager $storeManger
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
@@ -126,7 +126,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Core\Model\Email\Template $emailTemplateFactory,
         \Magento\Core\Model\Translate $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManager $storeManger,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,
@@ -144,7 +144,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->emailTemplateFactory = $emailTemplateFactory;
         $this->translate = $translate;
         $this->customerFactory = $customerFactory;
-        $this->storeManger = $storeManger;
+        $this->storeManager = $storeManager;
         $this->couponFactory = $couponFactory;
         $this->dateFactory = $dateFactory;
         $this->salesRule = $salesRule;
@@ -253,7 +253,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             if ($customer->getStoreId()) {
                 $store = $customer->getStore();
             } else {
-                $store = $this->storeManger->getWebsite($customer->getWebsiteId())->getDefaultStore();
+                $store = $this->storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore();
             }
 
             $storeData = $this->getStoreData($recipient['rule_id'], $store->getId());

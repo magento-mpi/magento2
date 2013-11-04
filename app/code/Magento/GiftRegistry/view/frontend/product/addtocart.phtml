@@ -10,14 +10,20 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php if ($_product->isSaleable()): ?>
-<div class="add-to-cart">
+<div class="box tocart giftregisty">
     <?php if (!$_product->isGrouped()): ?>
-    <label for="qty"><?php echo __('Qty:') ?></label>
-    <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>"
-           title="<?php echo __('Qty') ?>" class="input-text qty"/>
+        <div class="field qty">
+            <label for="qty" class="label"><span><?php echo __('Qty:') ?></span></label>
+            <div class="control">
+                <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo __('Qty') ?>" class="input-text qty">
+            </div>
+        </div>
     <?php endif; ?>
-    <button type="submit" title="<?php echo __('Add to Gift Registry') ?>" class="button btn-cart btn-gr">
-        <span><span><?php echo __('Add to Gift Registry') ?></span></span></button>
+    <div class="actions">
+        <button type="submit" title="<?php echo __('Add to Gift Registry') ?>" class="action primary tocart">
+            <span><?php echo __('Add to Gift Registry') ?></span>
+        </button>
+    </div>
 </div>
 <?php endif; ?>
 <script type="text/javascript">

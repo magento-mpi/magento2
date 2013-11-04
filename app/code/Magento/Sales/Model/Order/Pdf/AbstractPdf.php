@@ -61,11 +61,9 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_paymentData;
 
     /**
-     * Core string
-     *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString;
+    protected $string;
 
     /**
      * Core data
@@ -87,7 +85,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_coreDir;
 
@@ -114,10 +112,10 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
@@ -129,10 +127,10 @@ abstract class AbstractPdf extends \Magento\Object
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Dir $coreDir,
+        \Magento\App\Dir $coreDir,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
@@ -141,7 +139,7 @@ abstract class AbstractPdf extends \Magento\Object
     ) {
         $this->_paymentData = $paymentData;
         $this->_coreData = $coreData;
-        $this->_coreString = $coreString;
+        $this->string = $string;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translate = $translate;
         $this->_coreDir = $coreDir;
@@ -227,7 +225,7 @@ abstract class AbstractPdf extends \Magento\Object
         $this->y = $this->y ? $this->y : 815;
         $image = $this->_coreStoreConfig->getConfig('sales/identity/logo', $store);
         if ($image) {
-            $image = $this->_coreDir->getDir(\Magento\Core\Model\Dir::MEDIA) . '/sales/store/logo/' . $image;
+            $image = $this->_coreDir->getDir(\Magento\App\Dir::MEDIA) . '/sales/store/logo/' . $image;
             if (is_file($image)) {
                 $image       = \Zend_Pdf_Image::imageWithPath($image);
                 $top         = 830; //top border of the page
@@ -278,7 +276,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach (explode("\n", $this->_coreStoreConfig->getConfig('sales/identity/address', $store)) as $value) {
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                foreach ($this->string->split($value, 45, true, true) as $_value) {
                     $page->drawText(trim(strip_tags($_value)),
                         $this->getAlignRight($_value, 130, 440, $font, 10),
                         $top,
@@ -300,7 +298,7 @@ abstract class AbstractPdf extends \Magento\Object
     {
         $return = array();
         foreach (explode('|', $address) as $str) {
-            foreach ($this->_coreString->strSplit($str, 45, true, true) as $part) {
+            foreach ($this->string->split($str, 45, true, true) as $part) {
                 if (empty($part)) {
                     continue;
                 }
@@ -322,7 +320,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach ($address as $value) {
             if ($value !== '') {
                 $text = array();
-                foreach ($this->_coreString->strSplit($value, 55, true, true) as $_value) {
+                foreach ($this->string->split($value, 55, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -431,7 +429,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach ($billingAddress as $value) {
             if ($value !== '') {
                 $text = array();
-                foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                foreach ($this->string->split($value, 45, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -448,7 +446,7 @@ abstract class AbstractPdf extends \Magento\Object
             foreach ($shippingAddress as $value) {
                 if ($value!=='') {
                     $text = array();
-                    foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                    foreach ($this->string->split($value, 45, true, true) as $_value) {
                         $text[] = $_value;
                     }
                     foreach ($text as $part) {
@@ -489,7 +487,7 @@ abstract class AbstractPdf extends \Magento\Object
             if (trim($value) != '') {
                 //Printing "Payment Method" lines
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                foreach ($this->string->split($value, 45, true, true) as $_value) {
                     $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
                     $yPayments -= 15;
                 }
@@ -509,7 +507,7 @@ abstract class AbstractPdf extends \Magento\Object
             $methodStartY = $this->y;
             $this->y     -= 15;
 
-            foreach ($this->_coreString->strSplit($shippingMethod, 45, true, true) as $_value) {
+            foreach ($this->string->split($shippingMethod, 45, true, true) as $_value) {
                 $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
                 $this->y -= 15;
             }

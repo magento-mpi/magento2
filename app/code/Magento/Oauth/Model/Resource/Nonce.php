@@ -61,6 +61,8 @@ class Nonce extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = $adapter->select()
             ->from($this->getMainTable())
             ->where('nonce = ?', $nonce)->where('consumer_id = ?', $consumerId);
-        return $adapter->fetchRow($select);
+        $row = $adapter->fetchRow($select);
+
+        return $row ? $row : array();
     }
 }

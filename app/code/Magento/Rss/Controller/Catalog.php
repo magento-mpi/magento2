@@ -16,7 +16,7 @@ namespace Magento\Rss\Controller;
 class Catalog extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope
+     * @var \Magento\Config\Scope
      */
     protected $_configScope;
 
@@ -26,18 +26,18 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Config\Scope $configScope
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Config\Scope $configScope,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {
         $this->_configScope = $configScope;

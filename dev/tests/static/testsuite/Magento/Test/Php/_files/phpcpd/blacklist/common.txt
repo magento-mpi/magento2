@@ -1,6 +1,5 @@
 Find/Feed/Block/Adminhtml
 Magento/Adminhtml
-Magento/AdvancedCheckout/Block
 Magento/Authorizenet/Model
 Magento/Backend
 Magento/Bundle
@@ -8,6 +7,7 @@ Magento/Catalog/Block/Product/ProductList
 Magento/Catalog/Model/Category/Attribute/Source
 Magento/Catalog/Model/Category/Indexer
 Magento/Catalog/Model/Product
+Magento/Core/Model/Resource/Design
 Zend
 downloader
 dev
@@ -19,6 +19,7 @@ Magento/Paypal
 Magento/Paygate
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper
+Magento/Catalog/Block/Adminhtml
 Magento/Catalog/Model/Resource/Product/Indexer
 Magento/CatalogInventory/Model/Resource/Indexer/Stock
 Magento/Sales/Model/Order
@@ -32,14 +33,13 @@ Magento/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
 Magento/Catalog/Model/Template
 Magento/Cms/Model
 Magento/GiftMessage/Model
-Magento/GiftWrapping/Model
 Magento/GoogleShopping/Model/Attribute
 Magento/Oauth/Controller
 Magento/Sales/Block/Order
+Magento/Sales/Controller/Adminhtml/Order
 Magento/Sales/Model/Resource/Helper
 Magento/Sales/Model/Resource/Order
 Magento/Catalog/Model/Resource/Product
-Magento/CatalogEvent/Block/Catalog/Category
 Magento/Checkout/Block/Onepage
 Magento/Core/Model/Design/Backend
 Magento/Core/Model/Layout/File/Source/Override
@@ -74,7 +74,6 @@ Magento/CatalogRule/Model
 Magento/Tax/Block/Checkout
 Magento/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
-Magento/VersionsCms/Block
 Magento/Webapi/Model
 Magento/Webhook/Model
 Magento/Widget/Model/Widget/Instance
@@ -86,7 +85,6 @@ lib/Magento/HTTP/Client
 lib/Magento/Acl
 lib/PEAR
 lib/phpseclib
-lib/Twig
 lib/Magento/Convert
 Magento/Cron/Model
 Magento/SalesRule/Model/Resource/Report/Rule
@@ -98,3 +96,4 @@ Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Magento/User/Block/User/Edit
 var/generation
 Magento/Newsletter/Model/Template/Filter
+

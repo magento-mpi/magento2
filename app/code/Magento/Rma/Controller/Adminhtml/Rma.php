@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller\Adminhtml;
 
-class Rma extends \Magento\Adminhtml\Controller\Action
+class Rma extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -121,7 +121,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $orderId = $this->getRequest()->getParam('order_id');
         if (!$orderId) {
             $customerId = $this->getRequest()->getParam('customer_id');
-            $this->_redirect('*/*/chooseorder', array('customer_id' => $customerId));
+            $this->_redirect('adminhtml/*/chooseorder', array('customer_id' => $customerId));
         } else {
             /** @var \Magento\Backend\Model\Session $backendSession */
             $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
@@ -135,7 +135,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 }
             } catch (\Magento\Core\Exception $e) {
                 $backendSession->addError($e->getMessage());
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
 
@@ -171,7 +171,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $this->_initAction();
@@ -187,7 +187,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     public function saveNewAction()
     {
         if (!$this->getRequest()->isPost() || $this->getRequest()->getParam('back', false)) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         /** @var \Magento\Backend\Model\Session $backendSession */
@@ -210,13 +210,13 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
             }
-            $this->_redirect('*/*/new', $controllerParams);
+            $this->_redirect('adminhtml/*/new', $controllerParams);
             return;
         } catch (\Exception $e) {
             $backendSession->addError(__('We failed to save this RMA.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -281,7 +281,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         if (!$this->getRequest()->isPost()) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $rmaId = (int)$this->getRequest()->getParam('rma_id');
@@ -306,7 +306,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $backendSession->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
-                $this->_redirect('*/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
@@ -317,15 +317,15 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             if (isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
             }
-            $this->_redirect('*/*/edit', $controllerParams);
+            $this->_redirect('adminhtml/*/edit', $controllerParams);
             return;
         } catch (\Exception $e) {
             $backendSession->addError(__('We failed to save this RMA.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_redirect('adminhtml/*/');
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -399,7 +399,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
      */
     public function deleteAction()
     {
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -440,9 +440,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         }
 
         if ($returnRma) {
-            $this->_redirect('*/*/edit', array('id' => $returnRma));
+            $this->_redirect('adminhtml/*/edit', array('id' => $returnRma));
         } else {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -817,9 +817,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         } else {
             return $this->norouteAction();
         }
-        /** @var $dirModel \Magento\Core\Model\Dir */
-        $dirModel = $this->_objectManager->get('Magento\Core\Model\Dir');
-        $path = $dirModel->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'rma_item';
+        /** @var $dirModel \Magento\App\Dir */
+        $dirModel = $this->_objectManager->get('Magento\App\Dir');
+        $path = $dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'rma_item';
 
         $ioFile = new \Magento\Io\File();
         $ioFile->open(array('path' => $path));
@@ -985,9 +985,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $urlParams['id']    = $model->getId();
         $items              = $model->getShippingMethods(true);
 
-        $createLabelUrl = $this->getUrl('*/*/saveShipping', $urlParams);
-        $itemsGridUrl   = $this->getUrl('*/*/getShippingItemsGrid', $urlParams);
-        $thisPage       = $this->getUrl('*/*/edit', $urlParams);
+        $createLabelUrl = $this->getUrl('adminhtml/*/saveShipping', $urlParams);
+        $itemsGridUrl   = $this->getUrl('adminhtml/*/getShippingItemsGrid', $urlParams);
+        $thisPage       = $this->getUrl('adminhtml/*/edit', $urlParams);
 
         $code    = $this->getRequest()->getParam('method');
         $carrier = $this->_objectManager->get('Magento\Rma\Helper\Data')->getCarrier($code, $model->getStoreId());
@@ -1075,7 +1075,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 $responseAjax->setError(true);
                 $responseAjax->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1101,7 +1101,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1198,7 +1198,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      * @throws \Magento\Core\Exception
      */
     public function printLabelAction()
@@ -1231,11 +1231,11 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()
                 ->addError(__('Something went wrong creating a shipping label.'));
        }
-        $this->_redirect('*/*/edit', array(
+        $this->_redirect('adminhtml/*/edit', array(
             'id' => $this->getRequest()->getParam('id')
         ));
     }

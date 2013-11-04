@@ -204,19 +204,35 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     /**
      * Dirs instance
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirs;
 
     /**
-     * @param \Magento\Core\Model\Dir $dirs
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\App\Dir $dirs
+     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $config
      */
     public function __construct(
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\App\Dir $dirs,
+        \Magento\Stdlib\String $string,
+        \Magento\Stdlib\DateTime $dateTime,
         array $config = array()
     ) {
         $this->_dirs = $dirs;
+        $this->string = $string;
+        $this->dateTime = $dateTime;
         parent::__construct($config);
     }
 
@@ -329,7 +345,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         }
 
         if (!isset($this->_config['host'])) {
-            throw new \Zend_Db_Adapter_Exception('No host configured to connect to' . mageDebugBacktrace(true));
+            throw new \Zend_Db_Adapter_Exception('No host configured to connect');
         }
 
         if (strpos($this->_config['host'], '/') !== false) {
@@ -1395,7 +1411,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
         if (!$this->_debugIoAdapter) {
             $this->_debugIoAdapter = new \Magento\Io\File();
-            $dir = $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT)
+            $dir = $this->_dirs->getDir(\Magento\App\Dir::ROOT)
                 . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
             $this->_debugIoAdapter->checkAndCreateFolder($dir);
             $this->_debugIoAdapter->open(array('path' => $dir));
@@ -1650,7 +1666,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $options['precision'] = $columnData['PRECISION'];
         }
 
-        $comment = uc_words($columnData['COLUMN_NAME'], ' ');
+        $comment = $this->string->upperCaseWords($columnData['COLUMN_NAME'], '_', ' ');
 
         $result = array(
             'name'      => $columnData['COLUMN_NAME'],
@@ -1674,7 +1690,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     {
         $describe = $this->describeTable($tableName);
         $table = $this->newTable($newTableName)
-            ->setComment(uc_words($newTableName, ' '));
+            ->setComment($this->string->upperCaseWords($newTableName, '_', ' '));
 
         foreach ($describe as $columnData) {
             $columnInfo = $this->getColumnCreateByDescribe($columnData);
@@ -2589,7 +2605,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function formatDate($date, $includeTime = true)
     {
-        $date = \Magento\Date::formatDate($date, $includeTime);
+        $date = $this->dateTime->formatDate($date, $includeTime);
 
         if ($date === null) {
             return new \Zend_Db_Expr('NULL');

@@ -31,7 +31,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Url::getSecure
+     * @covers \Magento\Backend\Model\Url::isSecure
      */
     public function testIsSecure()
     {
@@ -52,7 +52,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Url::getSecure
+     * @covers \Magento\Backend\Model\Url::setRouteParams
      */
     public function testSetRouteParams()
     {
@@ -66,7 +66,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
-     * @covers \Magento\Backend\Model\Url::getSecure
      * @magentoAppIsolation enabled
      */
     public function testGetUrl()
@@ -85,9 +84,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
-        /** @var $request \Magento\Core\Controller\Request\Http */
+        /** @var $request \Magento\App\RequestInterface */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Request\Http');
+            ->create('Magento\App\RequestInterface');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
             ->setRouteName('default_router');
@@ -103,25 +102,28 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function getSecretKeyDataProvider()
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /** @var $encryptor \Magento\Encryption\EncryptorInterface */
+        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+
         return array(
             array('', '', '',
-                $helper->getHash('default_router' . 'default_controller' . 'default_action' . 'salt')),
+                $encryptor->getHash('default_router' . 'default_controller' . 'default_action' . 'salt')),
             array('', '', 'action',
-                $helper->getHash('default_router' . 'default_controller' . 'action' . 'salt')),
+                $encryptor->getHash('default_router' . 'default_controller' . 'action' . 'salt')),
             array('', 'controller', '',
-                $helper->getHash('default_router' . 'controller' . 'default_action' . 'salt')),
+                $encryptor->getHash('default_router' . 'controller' . 'default_action' . 'salt')),
             array('', 'controller', 'action',
-                $helper->getHash('default_router' . 'controller' . 'action' . 'salt')),
+                $encryptor->getHash('default_router' . 'controller' . 'action' . 'salt')),
             array('adminhtml', '', '',
-                $helper->getHash('adminhtml' . 'default_controller' . 'default_action' . 'salt')),
+                $encryptor->getHash('adminhtml' . 'default_controller' . 'default_action' . 'salt')),
             array('adminhtml', '', 'action',
-                $helper->getHash('adminhtml' . 'default_controller' . 'action' . 'salt')),
+                $encryptor->getHash('adminhtml' . 'default_controller' . 'action' . 'salt')),
             array('adminhtml', 'controller', '',
-                $helper->getHash('adminhtml' . 'controller' . 'default_action' . 'salt')),
+                $encryptor->getHash('adminhtml' . 'controller' . 'default_action' . 'salt')),
             array('adminhtml', 'controller', 'action',
-                $helper->getHash('adminhtml' . 'controller' . 'action' . 'salt')),
+                $encryptor->getHash('adminhtml' . 'controller' . 'action' . 'salt')),
         );
     }
 
@@ -130,18 +132,21 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSecretKeyForwarded()
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        /** @var $request \Magento\Core\Controller\Request\Http */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /** @var $encryptor \Magento\Encryption\EncryptorInterface */
+        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+
+        /** @var $request \Magento\App\Request\Http */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Request\Http');
+            ->create('Magento\App\RequestInterface');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
             ->setData('_form_key', 'salt');
         $this->assertEquals(
-            $helper->getHash('controller' . 'action' . 'salt'),
+            $encryptor->getHash('controller' . 'action' . 'salt'),
             $this->_model->getSecretKey()
         );
     }

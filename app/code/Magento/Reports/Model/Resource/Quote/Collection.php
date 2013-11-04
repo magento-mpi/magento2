@@ -50,8 +50,8 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
     protected $_customerResource;
 
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\Resource\Product\Collection $productResource,

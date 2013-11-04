@@ -32,15 +32,15 @@ class Collection
     protected $_selectedColumns    = array();
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Report $resource
@@ -210,7 +210,7 @@ class Collection
             $selectUnions = array();
 
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
-            $dtFormat   = \Magento\Date::DATE_INTERNAL_FORMAT;
+            $dtFormat   = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
             $periodFrom = (!is_null($this->_from) ? new \Zend_Date($this->_from, $dtFormat) : null);
             $periodTo   = (!is_null($this->_to)   ? new \Zend_Date($this->_to,   $dtFormat) : null);
             if ('year' == $this->_period) {

@@ -81,7 +81,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
         $expectedUrl = 'some_url';
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_editor_tools/uploadjs', array('theme_id' => self::TEST_THEME_ID))
+            ->with('adminhtml/system_design_editor_tools/uploadjs', array('theme_id' => self::TEST_THEME_ID))
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_model->getJsUploadUrl());
@@ -95,7 +95,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
         $expectedUrl = 'some_url';
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_editor_tools/reorderjs', array('theme_id' => self::TEST_THEME_ID))
+            ->with('adminhtml/system_design_editor_tools/reorderjs', array('theme_id' => self::TEST_THEME_ID))
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_model->getJsReorderUrl());

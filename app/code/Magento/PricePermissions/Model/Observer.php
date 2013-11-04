@@ -22,7 +22,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -116,7 +116,7 @@ class Observer
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -125,7 +125,7 @@ class Observer
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory  $productFactory,
@@ -747,7 +747,7 @@ class Observer
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab_Attributes */
+        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab_Attributes */
         $block = $observer->getEvent()->getObject();
         $excludedFieldList = array();
 
@@ -773,7 +773,7 @@ class Observer
      */
     public function catalogProductAttributeUpdateBefore($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab_Attributes */
+        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab_Attributes */
         $attributesData = $observer->getEvent()->getAttributesData();
         $excludedAttributes = array();
 

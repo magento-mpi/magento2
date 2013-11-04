@@ -16,7 +16,7 @@ namespace Magento\Rss\Controller;
 class Order extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope
+     * @var \Magento\Config\Scope
      */
     protected $_configScope;
 
@@ -28,19 +28,19 @@ class Order extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Config\Scope $configScope
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Config\Scope $configScope
+        \Magento\Config\Scope $configScope
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configScope = $configScope;

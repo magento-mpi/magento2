@@ -110,7 +110,7 @@ class Processor
     /**
      * Logger model
      *
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -124,16 +124,14 @@ class Processor
     /**
      * Request
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
      */
-    protected $_httpHelper;
+    protected $_remoteAddress;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
@@ -143,11 +141,11 @@ class Processor
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Helper\Http $httpHelper
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
@@ -155,11 +153,11 @@ class Processor
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Helper\Http $httpHelper
+        \Magento\App\RequestInterface $request,
+        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
@@ -170,7 +168,7 @@ class Processor
         $this->_logger = $logger;
         $this->_eventFactory = $eventFactory;
         $this->_request = $request;
-        $this->_httpHelper = $httpHelper;
+        $this->_remoteAddress = $remoteAddress;
     }
 
     /**
@@ -385,7 +383,7 @@ class Processor
         $errors = $this->_backendSession->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
         $loggingEvent = $this->_eventFactory->create()->setData(array(
-            'ip'            => $this->_httpHelper->getRemoteAddr(),
+            'ip'            => $this->_remoteAddress->getRemoteAddress(),
             'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,

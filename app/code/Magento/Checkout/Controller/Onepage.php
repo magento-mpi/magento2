@@ -198,7 +198,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
         $this->_objectManager->get('Magento\Checkout\Model\Session')->setCartWasUpdated(false);
-        $currentUrl = $this->_objectManager->create('Magento\Core\Model\UrlInterface')
+        $currentUrl = $this->_objectManager->create('Magento\UrlInterface')
             ->getUrl('*/*/*', array('_secure'=>true));
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();
@@ -461,7 +461,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['error'] = __('Unable to set Payment Method');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -558,7 +558,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 'html' => $this->_getPaymentMethodsHtml()
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get('Magento\Checkout\Helper\Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()
@@ -584,7 +584,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 $this->getOnepage()->getCheckout()->setUpdateSection(null);
             }
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get('Magento\Checkout\Helper\Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()

@@ -26,7 +26,7 @@ class Installer extends \Magento\Object
     /**
      * DB updated model
      *
-     * @var \Magento\Core\Model\Db\UpdaterInterface
+     * @var \Magento\App\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -62,7 +62,7 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Core\Model\Resource\SetupFactory
+     * @var \Magento\App\Updater\SetupFactory
      */
     protected $_setupFactory;
 
@@ -97,7 +97,7 @@ class Installer extends \Magento\Object
     /**
      * Application
      *
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -137,17 +137,26 @@ class Installer extends \Magento\Object
     protected $_session;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\App\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Resource\SetupFactory $setupFactory
+     * @param \Magento\App\Updater\SetupFactory $setupFactory
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\Config\Local $localConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\User\Model\UserFactory $userModelFactory
      * @param \Magento\Install\Model\Installer\Filesystem $filesystem
@@ -155,20 +164,21 @@ class Installer extends \Magento\Object
      * @param \Magento\Install\Model\Installer\Db $installerDb
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
-        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\App\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Resource\SetupFactory $setupFactory,
+        \Magento\App\Updater\SetupFactory $setupFactory,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\Config\Local $localConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\User\Model\UserFactory $userModelFactory,
         \Magento\Install\Model\Installer\Filesystem $filesystem,
@@ -176,15 +186,18 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
+        $this->_encryptor = $encryptor;
+        $this->mathRandom = $mathRandom;
         parent::__construct($data);
         $this->_primaryConfig = $primaryConfig;
         $this->_localConfig = $localConfig;
@@ -320,18 +333,16 @@ class Installer extends \Magento\Object
          * Saving host information into DB
          */
         /** @var $setupModel \Magento\Core\Model\Resource\Setup */
-        $setupModel = $this->_setupFactory->create(
-            'Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
-        );
+        $setupModel = $this->_setupFactory->create('core_setup', 'Magento_Core');
 
         if (!empty($data['use_rewrites'])) {
             $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);
         }
 
         if (!empty($data['enable_charts'])) {
-            $setupModel->setConfigData(\Magento\Adminhtml\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
+            $setupModel->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
         } else {
-            $setupModel->setConfigData(\Magento\Adminhtml\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
+            $setupModel->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
         }
 
         if (!empty($data['admin_no_form_key'])) {
@@ -430,7 +441,7 @@ class Installer extends \Magento\Object
      */
     public function installEncryptionKey($key)
     {
-        $this->_coreData->validateKey($key);
+        $this->_encryptor->validateKey($key);
         $this->_installerConfig->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
@@ -445,9 +456,9 @@ class Installer extends \Magento\Object
     public function getValidEncryptionKey($key = null)
     {
         if (!$key) {
-            $key = md5($this->_coreData->getRandomString(10));
+            $key = md5($this->mathRandom->getRandomString(10));
         }
-        $this->_coreData->validateKey($key);
+        $this->_encryptor->validateKey($key);
         return $key;
     }
 

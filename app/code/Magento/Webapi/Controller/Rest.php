@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-class Rest implements \Magento\Core\Controller\FrontInterface
+class Rest implements \Magento\App\FrontControllerInterface
 {
     /** @var \Magento\Webapi\Controller\Rest\Router */
     protected $_router;
@@ -23,7 +23,7 @@ class Rest implements \Magento\Core\Controller\FrontInterface
     /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var \Magento\Core\Model\App\State */
+    /** @var \Magento\App\State */
     protected $_appState;
 
     /** @var \Magento\Oauth\OauthInterface */
@@ -33,13 +33,11 @@ class Rest implements \Magento\Core\Controller\FrontInterface
     protected $_oauthHelper;
 
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Webapi\Controller\Rest\Request $request
-     * @param \Magento\Webapi\Controller\Rest\Response $response
-     * @param \Magento\Webapi\Controller\Rest\Router $router
+     * @param Rest\Request $request
+     * @param Rest\Response $response
+     * @param Rest\Router $router
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      */
@@ -48,7 +46,7 @@ class Rest implements \Magento\Core\Controller\FrontInterface
         \Magento\Webapi\Controller\Rest\Response $response,
         \Magento\Webapi\Controller\Rest\Router $router,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper
     ) {
@@ -72,12 +70,16 @@ class Rest implements \Magento\Core\Controller\FrontInterface
     }
 
     /**
-     * Handle REST request.
+     * Handle REST request
      *
-     * @return \Magento\Webapi\Controller\Rest
+     * @param \Magento\App\RequestInterface $request
+     * @return $this
      */
-    public function dispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
+        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
+        array_shift($pathParts);
+        $request->setPathInfo('/' . implode('/', $pathParts));
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

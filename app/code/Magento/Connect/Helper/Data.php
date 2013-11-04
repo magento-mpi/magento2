@@ -7,16 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect\Helper;
 
 /**
  * Default helper of the module
- *
- * @category    Magento
- * @package     Magento_Connect
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect\Helper;
-
 class Data extends \Magento\Core\Helper\Data
 {
     /**
@@ -27,45 +22,56 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Application dirs
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirs;
 
     /**
+     * @var \Magento\Convert\Xml
+     */
+    protected $_xmlConverter;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\App\State $appState
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Convert\Xml $xmlConverter
+     * @param \Magento\App\Dir $dirs
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
-        \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\App\State $appState,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\Convert\Xml $xmlConverter,
+        \Magento\App\Dir $dirs,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
-        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
-            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        $this->_xmlConverter = $xmlConverter;
+        parent::__construct(
+            $context,
+            $eventManager,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $dbCompatibleMode
         );
     }
 
@@ -157,27 +163,23 @@ class Data extends \Magento\Core\Helper\Data
     public function loadLocalPackage($packageName)
     {
         //check LFI protection
-        $this->checkLfiProtection($packageName);
-
+        $this->_filesystem->checkLfiProtection($packageName);
         $path = $this->getLocalPackagesPath();
         $xmlFile = $path . $packageName . '.xml';
         $serFile = $path . $packageName . '.ser';
-
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
-            $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = $this->xmlToAssoc($xml);
+            $xml = simplexml_load_string($this->_filesystem->read($xmlFile));
+            $data = $this->_xmlConverter->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }
         }
-
         if ($this->_filesystem->isFile($serFile) && $this->_filesystem->isReadable($xmlFile)) {
             $data = unserialize($this->_filesystem->read($serFile));
             if (!empty($data)) {
                 return $data;
             }
         }
-
         return false;
     }
 }

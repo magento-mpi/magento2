@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar */
+/* @var $this \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar */
 ?>
 <div class="create-order-sidebar-block" id="sidebar_data_<?php echo $this->getDataId() ?>">
     <div class="head">
@@ -91,7 +91,7 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    var wishlistBlockId = 'sidebar_data_<?php echo $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($this->getDataId()); ?>';
+    var wishlistBlockId = 'sidebar_data_<?php echo $this->escapeJsQuote($this->getDataId()); ?>';
     var wishlistBlock = {
         table : $(wishlistBlockId).down('.content table'),
         selector : $(wishlistBlockId).down('.head select'),

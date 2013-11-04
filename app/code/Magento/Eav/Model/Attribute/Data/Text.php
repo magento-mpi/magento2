@@ -23,29 +23,29 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * @var \Magento\Core\Helper\String
      */
-    protected $_stringHelper;
+    protected $_string;
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\String $stringHelper
+     * @param \Magento\Logger $logger
+     * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\String $stringHelper
+        \Magento\Logger $logger,
+        \Magento\Stdlib\String $stringHelper
     ) {
         parent::__construct($locale, $logger);
-        $this->_stringHelper = $stringHelper;
+        $this->_string = $stringHelper;
     }
 
     /**
      * Extract data from request and return value
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return array|string
      */
-    public function extractValue(\Zend_Controller_Request_Http $request)
+    public function extractValue(\Magento\App\RequestInterface $request)
     {
         $value = $this->_getRequestValue($request);
         return $this->_applyInputFilter($value);
@@ -78,7 +78,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
         }
 
         // validate length
-        $length = $this->_stringHelper->strlen(trim($value));
+        $length = $this->_string->strlen(trim($value));
 
         $validateRules = $attribute->getValidateRules();
         if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']) {

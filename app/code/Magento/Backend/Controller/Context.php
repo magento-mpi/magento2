@@ -53,13 +53,14 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\Logger $logger
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Controller\Varien\Front $frontController
-     * @param \Magento\Core\Model\Layout $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\App\FrontController $frontController
+     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\HTTP\Authentication $authentication
      * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
@@ -72,13 +73,14 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Controller\Response\Http $response,
+        \Magento\Logger $logger,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Controller\Varien\Front $frontController,
-        \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\App\FrontController $frontController,
+        \Magento\View\LayoutInterface $layout,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\HTTP\Authentication $authentication,
         $isRenderInherited,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
@@ -89,7 +91,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
-            $isRenderInherited
+            $authentication, $isRenderInherited
         );
         $this->_session = $session;
         $this->_helper = $helper;

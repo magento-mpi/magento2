@@ -35,20 +35,6 @@ class Form extends \Magento\Core\Block\Template
     protected $_formModelPath = '';
 
     /**
-     * Array of attribute renderers data keyed by attribute front-end type
-     *
-     * @var array
-     */
-    protected $_renderBlockTypes    = array();
-
-    /**
-     * Array of renderer blocks keyed by attribute front-end type
-     *
-     * @var array
-     */
-    protected $_renderBlocks        = array();
-
-    /**
      * EAV Form Type code
      *
      * @var string
@@ -135,24 +121,6 @@ class Form extends \Magento\Core\Block\Template
     }
 
     /**
-     * Add custom renderer block and template for rendering EAV entity attributes
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return \Magento\CustomAttribute\Block\Form
-     */
-    public function addRenderer($type, $block, $template)
-    {
-        $this->_renderBlockTypes[$type] = array(
-            'block'     => $block,
-            'template'  => $template,
-        );
-
-        return $this;
-    }
-
-    /**
      * Try to get EAV Form Template Block
      * Get Attribute renderers from it, and add to self
      *
@@ -168,13 +136,6 @@ class Form extends \Magento\Core\Block\Template
             throw new \Magento\Core\Exception(__('The current module form model pathname is undefined.'));
         }
 
-        /* $var $template \Magento\CustomAttribute\Block\Form\Template */
-        $template = $this->getLayout()->getBlock($this->_xmlBlockName);
-        if ($template && $template->getRenderers()) {
-            foreach ($template->getRenderers() as $type => $data) {
-                $this->addRenderer($type, $data['block'], $data['template']);
-            }
-        }
         return parent::_prepareLayout();
     }
 
@@ -186,19 +147,7 @@ class Form extends \Magento\Core\Block\Template
      */
     public function getRenderer($type)
     {
-        if (!isset($this->_renderBlocks[$type])) {
-            if (isset($this->_renderBlockTypes[$type])) {
-                $data   = $this->_renderBlockTypes[$type];
-                $block  = $this->getLayout()->createBlock($data['block']);
-                if ($block) {
-                    $block->setTemplate($data['template']);
-                }
-            } else {
-                $block = false;
-            }
-            $this->_renderBlocks[$type] = $block;
-        }
-        return $this->_renderBlocks[$type];
+        return $this->getLayout()->getBlock($this->_xmlBlockName)->getChildBlock($type);
     }
 
     /**

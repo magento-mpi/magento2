@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Resource;
 
-class Setup implements \Magento\Core\Model\Resource\SetupInterface
+class Setup implements \Magento\App\Updater\SetupInterface
 {
     /**
      * Setup resource name
@@ -65,12 +65,12 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -785,7 +785,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \Magento\Event\ManagerInterface
      */
     public function getEventManager()
     {

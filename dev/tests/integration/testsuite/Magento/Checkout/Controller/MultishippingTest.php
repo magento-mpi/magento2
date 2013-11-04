@@ -34,7 +34,7 @@ class MultishippingTest extends \Magento\TestFramework\TestCase\AbstractControll
         $quote->load('test01', 'reserved_order_id');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
             ->setQuoteId($quote->getId());
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         /** @var $session \Magento\Customer\Model\Session */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
@@ -42,7 +42,9 @@ class MultishippingTest extends \Magento\TestFramework\TestCase\AbstractControll
         $this->getRequest()->setPost('payment', array('method' => 'checkmo'));
         $this->dispatch('checkout/multishipping/overview');
         $html = $this->getResponse()->getBody();
-        $this->assertContains('<p>' . $quote->getPayment()->getMethodInstance()->getTitle() . '</p>', $html);
+        $this->assertContains('<div class="box method">', $html);
+        $this->assertContains('<dt class="title">'
+            . $quote->getPayment()->getMethodInstance()->getTitle() . '</dt>', $html);
         $this->assertContains('<span class="price">$10.00</span>', $html);
     }
 }

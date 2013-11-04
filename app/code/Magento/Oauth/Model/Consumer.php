@@ -44,7 +44,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oau
 
     /**
      * @param \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory
-     * @param \Magento\Core\Model\Url\Validator $urlValidator
+     * @param \Magento\Url\Validator $urlValidator
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -53,7 +53,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oau
      */
     public function __construct(
         \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
-        \Magento\Core\Model\Url\Validator $urlValidator,
+        \Magento\Url\Validator $urlValidator,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
