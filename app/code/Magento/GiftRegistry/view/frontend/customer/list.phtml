@@ -27,7 +27,7 @@
         <tbody>
             <?php foreach($entityCollection as $item): ?>
                 <tr>
-                    <td class="col event" title="<?php echo $this->getEscapedTitle($item)?>"><?php echo $this->helper('Magento\Core\Helper\String')->truncate($this->getEscapedTitle($item), 70)?></td>
+                    <td class="col event" title="<?php echo $this->getEscapedTitle($item)?>"><?php echo $this->truncateString($this->getEscapedTitle($item), 70)?></td>
                     <td class="col create"><?php echo $this->getFormattedDate($item) ?></td>
                     <td class="col message"><?php echo $this->getEscapedMessage($item)?></td>
                     <td class="col actions">

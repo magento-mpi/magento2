@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pci\Model\Resource\Admin;
 
 /**
  * Admin user resource model
- *
- * @category    Magento
- * @package     Magento_Pci
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pci\Model\Resource\Admin;
-
 class User extends \Magento\User\Model\Resource\User
 {
     /**
@@ -53,7 +48,7 @@ class User extends \Magento\User\Model\Resource\User
         }
         $exceptId = (int)$exceptId;
         return $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('lock_expires'  => $this->formatDate(time() + $lifetime),),
+            array('lock_expires'  => $this->dateTime->formatDate(time() + $lifetime),),
             "{$this->getIdFieldName()} IN (" . $this->_getWriteAdapter()->quote($userIds) . ")
             AND {$this->getIdFieldName()} <> {$exceptId}"
         );
@@ -70,11 +65,11 @@ class User extends \Magento\User\Model\Resource\User
     {
         $update = array('failures_num' => new \Zend_Db_Expr('failures_num + 1'));
         if (false !== $setFirstFailure) {
-            $update['first_failure'] = $this->formatDate($setFirstFailure);
+            $update['first_failure'] = $this->dateTime->formatDate($setFirstFailure);
             $update['failures_num']  = 1;
         }
         if (false !== $setLockExpires) {
-            $update['lock_expires'] = $this->formatDate($setLockExpires);
+            $update['lock_expires'] = $this->dateTime->formatDate($setLockExpires);
         }
         $this->_getWriteAdapter()->update($this->getMainTable(), $update,
             $this->_getWriteAdapter()->quoteInto("{$this->getIdFieldName()} = ?", $user->getId())

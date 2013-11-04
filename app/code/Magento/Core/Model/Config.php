@@ -84,6 +84,13 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_moduleList;
 
     /**
+     * Module namespaces
+     *
+     * @var null|array
+     */
+    protected $_moduleNamespaces;
+
+    /**
      * @var \Magento\Core\Model\Config\SectionPool
      */
     protected $_sectionPool;

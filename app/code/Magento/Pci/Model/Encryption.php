@@ -15,7 +15,7 @@
  */
 namespace Magento\Pci\Model;
 
-class Encryption extends \Magento\Core\Model\Encryption
+class Encryption extends \Magento\Encryption\Encryptor
 {
     const HASH_VERSION_MD5    = 0;
     const HASH_VERSION_SHA256 = 1;
@@ -33,17 +33,16 @@ class Encryption extends \Magento\Core\Model\Encryption
     protected $_keys = array();
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Math\Random $randomGenerator
+     * @param \Magento\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Math\Random $randomGenerator,
+        \Magento\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {
-        parent::__construct(
-            $objectManager,
-            $cryptKey
-        );
+        parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
         // load all possible keys
         $this->_keys = preg_split('/\s+/s', trim($cryptKey));
         $this->_keyVersion = count($this->_keys) - 1;
@@ -160,7 +159,7 @@ class Encryption extends \Magento\Core\Model\Encryption
      * By default initializes with latest key and crypt versions
      *
      * @param string $key
-     * @return \Magento\Crypt
+     * @return \Magento\Encryption\Crypt
      */
     protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
@@ -187,7 +186,7 @@ class Encryption extends \Magento\Core\Model\Encryption
             $mode   = MCRYPT_MODE_ECB;
         }
 
-        return new \Magento\Crypt($key, $cipher, $mode, $initVector);
+        return new \Magento\Encryption\Crypt($key, $cipher, $mode, $initVector);
     }
 
     /**

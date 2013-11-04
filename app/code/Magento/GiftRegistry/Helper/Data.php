@@ -66,6 +66,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $locale;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -73,6 +78,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -81,7 +87,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Escaper $escaper
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -90,6 +97,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->productFactory = $productFactory;
         $this->urlFactory = $urlFactory;
         $this->locale = $locale;
+        $this->_escaper = $escaper;
     }
 
     /**
@@ -185,7 +193,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
                 $result[] = new \Magento\Object(array('value' => $entity->getId(),
-                        'title' => $this->escapeHtml($entity->getTitle())));
+                        'title' => $this->_escaper->escapeHtml($entity->getTitle())));
             }
         }
         return $result;
@@ -241,7 +249,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             'locale'      => $this->locale->getLocaleCode()
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
         ));
 
         $value = $filterInput->filter($value);

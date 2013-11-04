@@ -226,7 +226,7 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We could not save the reminder rule.'));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -248,7 +248,7 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not delete the reminder rule.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
     }
@@ -266,7 +266,7 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Reminder rule matching error.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
     }

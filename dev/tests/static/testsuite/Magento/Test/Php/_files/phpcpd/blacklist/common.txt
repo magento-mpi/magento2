@@ -7,6 +7,7 @@ Magento/Catalog/Block/Product/ProductList
 Magento/Catalog/Model/Category/Attribute/Source
 Magento/Catalog/Model/Category/Indexer
 Magento/Catalog/Model/Product
+Magento/Core/Model/Resource/Design
 Zend
 downloader
 dev
@@ -95,3 +96,4 @@ Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Magento/User/Block/User/Edit
 var/generation
 Magento/Newsletter/Model/Template/Filter
+

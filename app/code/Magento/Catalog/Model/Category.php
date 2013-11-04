@@ -105,9 +105,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Core data
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Filter\FilterManager
      */
-    protected $_coreData = null;
+    protected $filter;
 
     /**
      * Core event manager proxy
@@ -183,6 +183,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -205,6 +206,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Filter\FilterManager $filter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -218,7 +220,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->_catalogConfig = $catalogConfig;
         $this->_indexIndexer = $indexIndexer;
         $this->_eventManager = $eventManager;
-        $this->_coreData = $coreData;
+        $this->filter = $filter;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_treeModel = $categoryTreeResource;
         parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
@@ -289,6 +291,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param   int $parentId new parent category id
      * @param   int $afterCategoryId category id after which we have put current category
      * @return  \Magento\Catalog\Model\Category
+     * @throws \Magento\Core\Exception|\Exception
      */
     public function move($parentId, $afterCategoryId)
     {
@@ -383,6 +386,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * Retrieve all customer attributes
      *
      * @todo Use with Flat Resource
+     * @param bool $noDesignAttributes
      * @return array
      */
     public function getAttributes($noDesignAttributes = false)
@@ -392,7 +396,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             ->getSortedAttributes();
 
         if ($noDesignAttributes){
-            foreach ($result as $k=>$a){
+            foreach ($result as $k => $a){
                 if (in_array($k, $this->_designAttributes)) {
                     unset($result[$k]);
                 }
@@ -506,11 +510,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     {
         $url = $this->_getData('url');
         if (is_null($url)) {
-            \Magento\Profiler::start('REWRITE: '.__METHOD__, array('group' => 'REWRITE', 'method' => __METHOD__));
+            \Magento\Profiler::start('REWRITE: ' . __METHOD__, array('group' => 'REWRITE', 'method' => __METHOD__));
 
             if ($this->hasData('request_path') && $this->getRequestPath() != '') {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($this->getRequestPath()));
-                \Magento\Profiler::stop('REWRITE: '.__METHOD__);
+                \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
                 return $this->getData('url');
             }
 
@@ -523,11 +527,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
             if ($rewrite->getId()) {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-                \Magento\Profiler::stop('REWRITE: '.__METHOD__);
+                \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
                 return $this->getData('url');
             }
 
-            \Magento\Profiler::stop('REWRITE: '.__METHOD__);
+            \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
 
             $this->setData('url', $this->getCategoryIdUrl());
             return $this->getData('url');
@@ -560,7 +564,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function formatUrlKey($str)
     {
-        $str = $this->_coreData->removeAccents($str);
+        $str = $this->filter->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
@@ -577,7 +581,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $url = false;
         $image = $this->getImage();
         if ($image) {
-            $url = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . 'catalog/category/' . $image;
+            $url = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
+                . 'catalog/category/' . $image;
         }
         return $url;
     }

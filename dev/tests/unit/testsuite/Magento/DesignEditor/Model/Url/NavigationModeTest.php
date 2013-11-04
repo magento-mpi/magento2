@@ -78,7 +78,6 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_designHelperMock = $this->getMock('Magento\DesignEditor\Helper\Data', array(), array(), '', false);
-        $this->_coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $this->_appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
@@ -99,7 +98,6 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
             $this->_securityInfoMock,
             $this->_designHelperMock,
             $this->_storeConfigMock,
-            $this->_coreHelperMock,
             $this->_appMock,
             $this->_storeManagerMock,
             $this->_sessionMock,
