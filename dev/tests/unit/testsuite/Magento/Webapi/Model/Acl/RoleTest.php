@@ -37,7 +37,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
 
         $this->_roleService = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Role')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIdFieldName', 'getReadConnection'))
+            ->setMethods(array('getIdFieldName', 'getReadConnection', '__wakeup'))
             ->getMock();
 
         $this->_roleService->expects($this->any())
