@@ -24,16 +24,6 @@ class Customer extends DataFixture
     /**
      * @return \Magento\Customer\Test\Fixture\Address
      */
-    public function getDefaultAddress()
-    {
-        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $customerAddress->switchData('address_data_US_1');
-        return $customerAddress;
-    }
-
-    /**
-     * @return \Magento\Customer\Test\Fixture\Address
-     */
     public function getSecondShippingAddress()
     {
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
@@ -126,6 +116,7 @@ class Customer extends DataFixture
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCustomerCustomer($this->_dataConfig, $this->_data);
 
+        $this->_data['backend_customer']['data']['addresses']['default_billing'] = $this->getDefaultBillingAddress();
         //Default data set
         $this->switchData('customer_US_1');
     }

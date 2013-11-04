@@ -59,9 +59,6 @@ class Customer extends AbstractRepository
                         'value' => '123123q'
                     )
                 ),
-                'addresses' => array(
-                    'default_billing' => $this->_getDefaultAddress(),
-                )
             )
         );
     }
@@ -93,18 +90,9 @@ class Customer extends AbstractRepository
                         'group' => 'customer_info_tabs_account',
                         'input_value' => '1'
                     ),
+                    'addresses' => array()
                 )
             )
         );
-    }
-
-    /**
-     * @return \Magento\Customer\Test\Fixture\Address
-     */
-    protected function _getDefaultAddress()
-    {
-        $address = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $address->switchData('address_data_US_1');
-        return $address;
     }
 }
