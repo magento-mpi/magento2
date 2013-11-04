@@ -57,7 +57,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\AppInterface $application
      * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
      * @param \Magento\Oauth\Helper\Service $oauthHelper
      */
@@ -68,7 +68,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Server $soapServer,
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
         \Magento\App\State $appState,
-        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\AppInterface $application,
         \Magento\Oauth\Service\OauthV1Interface $oauthService,
         \Magento\Oauth\Helper\Service $oauthHelper
     ) {

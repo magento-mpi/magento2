@@ -153,7 +153,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__("We couldn't save the gift wrapping."));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -182,7 +182,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__("We couldn't save the gift wrapping."));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
 

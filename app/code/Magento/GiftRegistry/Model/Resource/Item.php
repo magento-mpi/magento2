@@ -21,8 +21,22 @@ namespace Magento\GiftRegistry\Model\Resource;
 class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\Core\Model\Resource $resource)
+    {
+        $this->dateTime = $dateTime;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource model initialization
-     *
      */
     protected function _construct()
     {
@@ -38,7 +52,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getAddedAt()) {
-            $object->setAddedAt($this->formatDate(true));
+            $object->setAddedAt($this->dateTime->formatDate(true));
         }
         return parent::_beforeSave($object);
     }

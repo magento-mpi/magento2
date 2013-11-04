@@ -109,6 +109,9 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionWithValidCustomerDataAndValidAddressData()
     {
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -142,21 +145,18 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer data were set to session
          */
-        $this->assertEmpty(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Session')->getCustomerData());
+        $this->assertEmpty($objectManager->get('Magento\Backend\Model\Session')->getCustomerData());
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Core\Model\Message::SUCCESS);
 
-        /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry('current_customer');
+        $registry = $objectManager->get('Magento\Core\Model\Registry');
+        $customer = $registry->registry('current_customer');
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
         $this->assertCount(1, $customer->getAddressesCollection());
 

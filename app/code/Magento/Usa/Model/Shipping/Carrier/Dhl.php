@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Usa\Model\Shipping\Carrier;
 
 /**
  * DHL shipping implementation
- *
- * @category   Magento
- * @package    Magento_Usa
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
-
 class Dhl
     extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
@@ -105,19 +100,18 @@ class Dhl
      *
      * @var \Magento\Usa\Helper\Data
      */
-    protected $_usaData = null;
+    protected $_usaData;
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
      * Dhl constructor
      *
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
@@ -132,11 +126,12 @@ class Dhl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Stdlib\String $string
      * @param array $data
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
@@ -151,9 +146,10 @@ class Dhl
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
-        $this->_coreString = $coreString;
+        $this->string = $string;
         $this->_usaData = $usaData;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
@@ -378,9 +374,7 @@ class Dhl
         $r->setValue(round($request->getPackageValue(), 2));
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
-        $r->setDestStreet(
-            $this->_coreString->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
-        );
+        $r->setDestStreet($this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35));
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
         $r->setOrigCompanyName($request->getOrigCompanyName());
@@ -390,8 +384,10 @@ class Dhl
         $r->setOrigEmail($this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $r->getStoreId()));
         $r->setOrigCity($request->getOrigCity());
         $r->setOrigPostal($request->getOrigPostal());
-        $originStreet1 = $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS1,$r->getStoreId());
-        $originStreet2 = $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $r->getStoreId());
+        $originStreet1 = $this->_coreStoreConfig
+            ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS1, $r->getStoreId());
+        $originStreet2 = $this->_coreStoreConfig
+            ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $r->getStoreId());
         $r->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
         $r->setOrigStreetLine2($request->getOrigStreetLine2());
         $r->setDestPhoneNumber($request->getDestPhoneNumber());
@@ -414,7 +410,7 @@ class Dhl
         //for DHL, puero rico state for US will assume as puerto rico country
         //for puerto rico, dhl will ship as international
         if ($destCountry == self::USA_COUNTRY_ID && ($request->getDestPostcode() == '00912'
-                                                     || $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
+            || $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
         ) {
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
