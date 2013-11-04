@@ -37,12 +37,14 @@ class Reader extends \Magento\Config\Reader\Filesystem
         parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, $fileName);
     }
 
+    /**
+     * Read resource configuration
+     *
+     * @param string $scope
+     * @return array
+     */
     public function read($scope = null)
     {
-        if ($scope !== 'primary') {
-            return parent::read($scope);
-        }
+        return ($scope !== 'primary') ? parent::read($scope) : array();
     }
-
-
 }
