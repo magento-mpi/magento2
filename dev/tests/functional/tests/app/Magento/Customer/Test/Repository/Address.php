@@ -133,6 +133,12 @@ class Address extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
+                    'firstname' => array(
+                        'value' => 'John'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe'
+                    ),
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),

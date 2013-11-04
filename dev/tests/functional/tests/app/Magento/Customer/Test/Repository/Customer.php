@@ -107,14 +107,4 @@ class Customer extends AbstractRepository
         $address->switchData('address_data_US_1');
         return $address;
     }
-
-    /**
-     * @return \Magento\Customer\Test\Fixture\Address
-     */
-    protected function _getAddressForBackend()
-    {
-        $address = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $address->switchData('backend_address_data_US_1');
-        return $address;
-    }
 }
