@@ -108,6 +108,6 @@ class Rest implements \Magento\App\FrontControllerInterface
         } catch (\Exception $e) {
             $this->_response->setException($e);
         }
-        $this->_response;
+        return $this->_response;
     }
 }
