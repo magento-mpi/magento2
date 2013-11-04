@@ -314,6 +314,14 @@
             <instance type="Magento\Object\Copy\Config\SchemaLocator" />
         </param>
     </type>
+    <type name="Magento\Object\Copy\Config\SchemaLocator">
+        <param name="schema">
+            <value>lib/Magento/Object/etc/fieldset.xsd</value>
+        </param>
+        <param name="perFileSchema">
+            <value>lib/Magento/Object/etc/fieldset_file.xsd</value>
+        </param>
+    </type>
     <type name="Magento\Object\Copy\Config\Data">
         <param name="reader">
             <instance type="Magento\Object\Copy\Config\Reader" />

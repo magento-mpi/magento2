@@ -16,22 +16,24 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      *
      * @var string
      */
-    protected $_schema = null;
+    protected $_schema;
 
     /**
      * Path to corresponding XSD file with validation rules for separate config files
      *
      * @var string
      */
-    protected $_perFileSchema = null;
+    protected $_perFileSchema;
 
     /**
-     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\App\Dir $dirs
+     * @param string $schema
+     * @param string $perFileSchema
      */
-    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
+    public function __construct(\Magento\App\Dir $dirs, $schema, $perFileSchema)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . '/fieldset.xsd';
-        $this->_perFileSchemaschema = $moduleReader->getModuleDir('etc', 'Magento_Core') . '/fieldset_file.xsd';
+        $this->_schema = $dirs->getDir() . DS . $schema;
+        $this->_perFileSchemaschema = $dirs->getDir() . DS . $perFileSchema;
     }
 
     /**
