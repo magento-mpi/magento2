@@ -237,6 +237,8 @@ class Attribute
             $attributeObject = $this->_initAttribute();
             /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
             $helper = $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Data');
+            /* @var $filterManager \Magento\Filter\FilterManager */
+            $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
 
             //filtering
             try {
@@ -289,8 +291,9 @@ class Attribute
             $defaultValueField = $helper->getAttributeDefaultValueByInput($data['frontend_input']);
             if ($defaultValueField) {
                 $scopeKeyPrefix = ($this->getRequest()->getParam('website') ? 'scope_' : '');
-                $data[$scopeKeyPrefix . 'default_value'] = $helper->stripTags(
-                    $this->getRequest()->getParam($scopeKeyPrefix . $defaultValueField));
+                $data[$scopeKeyPrefix . 'default_value'] = $filterManager->stripTags(
+                    $this->getRequest()->getParam($scopeKeyPrefix . $defaultValueField)
+                );
             }
 
             $data['entity_type_id']     = $this->_getEntityType()->getId();

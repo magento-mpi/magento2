@@ -39,17 +39,19 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
         \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($eavConfig, $locale, $context);
+        parent::__construct($eavConfig, $locale, $context, $filterManager);
     }
 
     /**

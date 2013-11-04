@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * GiftCard account history serource model
  *
@@ -20,6 +19,21 @@ namespace Magento\GiftCardAccount\Model\Resource;
 
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\Core\Model\Resource $resource)
+    {
+        $this->dateTime = $dateTime;
+        parent::__construct($resource);
+    }
+
     /**
      * Define main table and primary key field
      *
@@ -37,8 +51,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
-        $object->setUpdatedAt($this->formatDate(time()));
-
+        $object->setUpdatedAt($this->dateTime->formatDate(time()));
         return parent::_beforeSave($object);
     }
 }

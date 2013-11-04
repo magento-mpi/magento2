@@ -60,7 +60,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
             $massCancelUrl = $this->getUrl('adminhtml/*/massCancel', array('_query' => array('invitations' => array($invitation->getId()))));
             $this->_addButton('cancel', array(
                 'label' => __('Discard Invitation'),
-                'onclick' => 'deleteConfirm(\''. $this->jsQuoteEscape(
+                'onclick' => 'deleteConfirm(\''. $this->escapeJsQuote(
                             __('Are you sure you want to discard this invitation?')
                         ) . '\', \'' . $massCancelUrl . '\' )',
                 'class' => 'cancel'

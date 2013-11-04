@@ -8,22 +8,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\GoogleCheckout\Model\Resource;
 
 /**
  * Google Checkout resource notification model
- *
- * @category    Magento
- * @package     Magento_GoogleCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleCheckout\Model\Resource;
-
 class Notification extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * Intialize resource model.
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Stdlib\DateTime $dateTime
+    ) {
+        $this->dateTime = $dateTime;
+        parent::__construct($resource);
+    }
+
+    /**
+     * Initialize resource model.
      * Set main entity table name and primary key field name.
-     *
      */
     protected function _construct()
     {
@@ -55,7 +66,7 @@ class Notification extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $data = array(
             'serial_number' => $serialNumber,
-            'started_at'    => \Magento\Date::now(),
+            'started_at'    => $this->dateTime->now(),
             'status'        => \Magento\GoogleCheckout\Model\Notification::STATUS_INPROCESS
         );
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
@@ -86,7 +97,7 @@ class Notification extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function updateProcess($serialNumber)
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('started_at' => \Magento\Date::now()),
+            array('started_at' => $this->dateTime->now()),
             array('serial_number = ?' => $serialNumber)
         );
 

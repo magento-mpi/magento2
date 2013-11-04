@@ -33,19 +33,19 @@ class File
     protected $_dbHelper;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\File\Storage\Database $dbHelper
-     * @param \Magento\Core\Model\Logger $log
+     * @param \Magento\Logger $log
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\File\Storage\Database $dbHelper,
-        \Magento\Core\Model\Logger $log
+        \Magento\Logger $log
     ) {
         $this->_dbHelper = $dbHelper;
         $this->_logger = $log;

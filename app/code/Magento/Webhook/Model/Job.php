@@ -1,13 +1,17 @@
 <?php
 /**
- * Handles HTTP responses, and manages retry schedule
- *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+namespace Magento\Webhook\Model;
+
+/**
+ * Handles HTTP responses, and manages retry schedule
  *
  * @method bool hasEvent()
  * @method \Magento\Webhook\Model\Job setEventId()
@@ -21,8 +25,6 @@
  * @method \Magento\Webhook\Model\Job setUpdatedAt()
  * @method \Magento\Webhook\Model\Job setCreatedAt()
  */
-namespace Magento\Webhook\Model;
-
 class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\JobInterface
 {
     /** @var  \Magento\Webhook\Model\Event\Factory */
@@ -30,6 +32,11 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
 
     /** @var \Magento\Webhook\Model\Subscription\Factory */
     protected $_subscriptionFactory;
+
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $_dateTime;
 
     /** @var array */
     private $_retryTimeToAdd = array(
@@ -48,6 +55,7 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
      * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -57,12 +65,14 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
         $this->_subscriptionFactory = $subscriptionFactory;
+        $this->_dateTime = $dateTime;
         parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
     }
 
@@ -93,9 +103,9 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->setCreatedAt($this->_getResource()->formatDate(true));
+            $this->setCreatedAt($this->_dateTime->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
-            $this->setUpdatedAt($this->_getResource()->formatDate(true));
+            $this->setUpdatedAt($this->_dateTime->formatDate(true));
         }
         return $this;
     }
@@ -166,8 +176,8 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         if ($retryCount < count($this->_retryTimeToAdd)) {
             $addedTimeInMinutes = $this->_retryTimeToAdd[$retryCount + 1] * 60 + time();
             $this->setRetryCount($retryCount + 1);
-            $this->setRetryAt(\Magento\Date::formatDate($addedTimeInMinutes));
-            $this->setUpdatedAt(\Magento\Date::formatDate(time(), true));
+            $this->setRetryAt($this->_dateTime->formatDate($addedTimeInMinutes));
+            $this->setUpdatedAt($this->_dateTime->formatDate(time(), true));
             $this->setStatus(\Magento\PubSub\JobInterface::STATUS_RETRY);
         } else {
             $this->setStatus(\Magento\PubSub\JobInterface::STATUS_FAILED);
