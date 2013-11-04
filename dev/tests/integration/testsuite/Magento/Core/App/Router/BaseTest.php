@@ -20,15 +20,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $options = array(
-            'areaCode' => 'frontend',
-            'baseController' => 'Magento\Core\Controller\Front\Action',
-            'routerId' => 'standard'
-        );
+        $options = array('routerId' => 'standard');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\App\Router\Base', $options);
     }
 
+    /**
+     * @magentoAppArea frontend
+     */
     public function testMatch()
     {
         if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
