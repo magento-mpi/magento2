@@ -22,11 +22,11 @@ use Mtf\Factory\Factory;
 class OrderWithCustomer extends Order
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
-    protected function _initData()
+    public function persist()
     {
-        parent::_initData();
+        parent::persist();
         $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $this->customer->switchData('backend_customer');
         $this->customer->persist();

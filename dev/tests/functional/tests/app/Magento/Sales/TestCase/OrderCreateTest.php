@@ -14,11 +14,9 @@ namespace Magento\Sales\Test\TestCase;
 use Magento\Sales\Test\Fixture\Order;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Tests for creating order on backend
- * @ZephyrId MAGETWO-12520
  *
  * @package Magento\Sales\Test\TestCase
  */
@@ -37,15 +35,16 @@ class OrderCreateTest extends Functional
      *
      * @param Order $fixture
      * @dataProvider dataProviderOrderFixtures
+     * @ZephyrId MAGETWO-12520, MAGETWO-12395
      */
     public function testCreateOrder(Order $fixture)
     {
+        //Init data
         $fixture->persist();
-
+        //Steps
         $this->_proceedToOrderCreatePage();
-
         $this->_fillOrderData($fixture);
-
+        //Verification
         $this->_checkOrderAndCustomer($fixture);
     }
 
@@ -125,7 +124,7 @@ class OrderCreateTest extends Functional
     }
 
     /**
-     * Check that customer is created (if the order was for the new customer)
+     * Check that customer exists
      *
      * @param Order $fixture
      * @param string $email
