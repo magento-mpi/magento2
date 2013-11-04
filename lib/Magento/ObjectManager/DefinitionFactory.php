@@ -81,7 +81,7 @@ class DefinitionFactory
             $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
             $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);
-            spl_autoload_register(array($autoloader, 'load'), true, false);
+            spl_autoload_register(array($autoloader, 'load'));
 
             $result =  new \Magento\ObjectManager\Definition\Runtime();
         }
