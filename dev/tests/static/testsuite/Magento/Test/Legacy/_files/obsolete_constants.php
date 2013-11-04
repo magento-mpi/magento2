@@ -110,10 +110,10 @@ return array(
     array('XML_NODE_RELATED_CACHE', 'Magento\CatalogRule\Model\Rule'),
     array('XML_NODE_ATTRIBUTE_NODES', 'Magento\Catalog\Model\Resource\Product\Flat\Indexer',
         'XML_NODE_ATTRIBUTE_GROUPS'),
-    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CODES'),
-    array('XML_PATH_ALLOW_CURRENCIES', 'Magento\Core\Model\Locale',
-        'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
-    ),
+    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\Locale'),
+    array('XML_PATH_ALLOW_CURRENCIES', 'Magento\Core\Model\Locale'),
+    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\LocaleInterface'),
+    array('XML_PATH_ALLOW_CURRENCIES', 'Magento\Core\Model\LocaleInterface'),
     array('XML_PATH_ALLOW_CURRENCIES_INSTALLED', 'Magento\Core\Model\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES_INSTALLED'),
     array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design\PackageInterface',
@@ -139,6 +139,7 @@ return array(
     array('XML_PATH_INDEXER_DATA', 'Magento\Index\Model\Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
     array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Helper\Data'),
+    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Model\CacheControlFactory'),
     array('XML_PATH_EXTERNAL_CACHE_CONTROL', 'Magento\PageCache\Helper\Data'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento\Wishlist\Model\Config'),
@@ -234,5 +235,7 @@ return array(
     array('XML_PATH_CUSTOM_ADMIN_PATH', 'Magento\Backend\Helper\Data'),
     array('XML_PATH_BACKEND_AREA_FRONTNAME', 'Magento\Backend\Helper\Data'),
     array('PARAM_BACKEND_FRONT_NAME', 'Magento\Backend\Helper\Data'),
-
+    array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
+    array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
+    array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
 );

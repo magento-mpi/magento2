@@ -21,17 +21,10 @@ class Watermark
     extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
-    const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
-
     /**
      * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
 
     /**
      * @var \Magento\Backend\Block\System\Config\Form\Field

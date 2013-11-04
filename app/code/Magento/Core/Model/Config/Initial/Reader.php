@@ -51,7 +51,7 @@ class Reader
      *
      * @var string
      */
-    protected $_schema;
+    protected $_schemaFile;
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
@@ -63,8 +63,8 @@ class Reader
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        \Magento\Core\Model\Config\Initial\Converter $converter,
-        \Magento\Core\Model\Config\Initial\SchemaLocator $schemaLocator,
+        Converter $converter,
+        SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'config.xml',
         $domDocumentClass = 'Magento\Config\Dom'
