@@ -21,5 +21,7 @@ return array(
     'config/frontend/cache/requests' =>
         'This configuration moved to Di configuration for \Magento\FullPageCache\Model\Processor model and'
         . ' \Magento\PageCache\Model\Observer model',
+    '/config/global/magento_search/supported_languages' =>
+    'This configuration moved to Di configuration for \Magento\Search\Helper\Data class',
 
 );

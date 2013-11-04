@@ -17,8 +17,8 @@ return array(
                     'Magento_Catalog',
                     'Magento_Wishlist',
                     'Magento_Adminhtml',
-                    'Magento_GiftCard',
-                    'Magento_GiftCardAccount',
+                    'Magento_Customer',
+                    'Magento_CustomerBalance',
                 ),
             ),
             'customer' => array(

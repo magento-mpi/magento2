@@ -25,8 +25,6 @@ return array(
         'This configuration moved to Di configuration of \Magento\Core\Model\Locale\Config model',
     '/config/global/mime/types'                =>
         'This configuration moved to Di configuration for \Magento\Downloadable\Helper\File class',
-    '/config/global/magento_search/supported_languages' =>
-        'This configuration moved to Di configuration for \Magento\Search\Helper\Data class',
     '/config/global/models/*/deprecatedNode'   => '',
     '/config/global/models/*/entities/*/table' => '',
     '/config/global/models/*/class'            => '',

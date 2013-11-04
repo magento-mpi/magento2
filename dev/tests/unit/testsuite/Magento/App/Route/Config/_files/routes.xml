@@ -14,8 +14,8 @@
             <module name="Magento_Catalog" before="Magento_Adminhtml" />
             <module name="Magento_Wishlist" before="Magento_Adminhtml" />
             <module name="Magento_Sales" before="Magento_Catalog" />
-            <module name="Magento_GiftCard" />
-            <module name="Magento_GiftCardAccount" after="Magento_GiftCard" />
+            <module name="Magento_Customer" />
+            <module name="Magento_CustomerBalance" after="Magento_Customer" />
         </route>
         <route id="customer" frontName="customer">
             <module name="Magento_Customer" before="Magento_Wishlist" />
