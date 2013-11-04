@@ -267,6 +267,7 @@ return array(
     array('createDirIfNotExists', '', 'mkdir()'),
     array('createOrderItem', 'Magento\CatalogInventory\Model\Observer'),
     array('debugRequest', 'Magento\Paypal\Model\Api\Standard'),
+    array('decorateArray', 'Magento\Core\Helper\Data', 'Magento\Stdlib\ArrayUtils::decorateArray'),
     array('deleteAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('deleteConfig', 'Magento\Core\Model\Config'),
     array('deleteProductPrices', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
