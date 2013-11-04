@@ -32,7 +32,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory
      * @param bool $dbCompatibleMode
      */
@@ -44,7 +43,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Object\Copy $objectCopyService,
         \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
         $dbCompatibleMode = true
     ) {
@@ -57,7 +55,6 @@ class Data extends \Magento\Core\Helper\Data
             $locale,
             $dateModel,
             $appState,
-            $objectCopyService,
             $dbCompatibleMode
         );
     }

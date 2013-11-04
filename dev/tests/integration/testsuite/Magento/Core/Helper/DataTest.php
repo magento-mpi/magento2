@@ -124,37 +124,48 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_helper->isDevAllowed());
     }
 
-    public function testDecorateArray()
+    public function testCopyFieldset()
     {
-        $original = array(
-            array('value' => 1),
-            array('value' => 2),
-            array('value' => 3),
+        $fieldset = 'sales_copy_order';
+        $aspect = 'to_edit';
+        $data = array(
+            'customer_email' => 'admin@example.com',
+            'customer_group_id' => '1',
         );
-        $decorated = array(
-            array('value' => 1, 'is_first' => true, 'is_odd' => true),
-            array('value' => 2, 'is_even' => true),
-            array('value' => 3, 'is_last' => true, 'is_odd' => true),
-        );
+        $source = new \Magento\Object($data);
+        $target = new \Magento\Object();
+        $expectedTarget = new \Magento\Object($data);
+        $expectedTarget->setDataChanges(true); // hack for assertion
 
-        // arrays
-        $this->assertEquals($decorated, $this->_helper->decorateArray($original, ''));
+        $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, 'invalid_source', array()));
+        $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, array(), 'invalid_target'));
+        $this->assertEquals(
+            $target,
+            $this->_helper->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target)
+        );
+        $this->assertSame($target, $this->_helper->copyFieldsetToTarget($fieldset, $aspect, $source, $target));
+        $this->assertEquals($expectedTarget, $target);
+    }
 
-        // \Magento\Object
-        $sample = array(
-            new \Magento\Object($original[0]),
-            new \Magento\Object($original[1]),
-            new \Magento\Object($original[2]),
+    public function testCopyFieldsetArrayTarget()
+    {
+        $fieldset = 'sales_copy_order';
+        $aspect = 'to_edit';
+        $data = array(
+            'customer_email' => 'admin@example.com',
+            'customer_group_id' => '1',
         );
-        $decoratedVo = array(
-            new \Magento\Object($decorated[0]),
-            new \Magento\Object($decorated[1]),
-            new \Magento\Object($decorated[2]),
+        $source = new \Magento\Object($data);
+        $target = array();
+        $expectedTarget = $data;
+
+        $this->assertEquals(
+            $target,
+            $this->_helper->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target)
         );
-        foreach ($decoratedVo as $obj) {
-            $obj->setDataChanges(true); // hack for assertion
-        }
-        $this->assertEquals($decoratedVo, $this->_helper->decorateArray($sample, ''));
+        $this->assertEquals(
+            $expectedTarget,
+            $this->_helper->copyFieldsetToTarget($fieldset, $aspect, $source, $target));
     }
 
     public function testJsonEncodeDecode()

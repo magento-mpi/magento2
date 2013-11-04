@@ -34,6 +34,7 @@ class Grouped
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param array $data
      */
     public function __construct(
@@ -45,11 +46,12 @@ class Grouped
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
         parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
-            $data);
+            $arrayUtils, $data);
     }
 
     /**

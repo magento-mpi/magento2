@@ -27,7 +27,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
      * @param bool $dbCompatibleMode
      */
@@ -39,7 +38,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Object\Copy $objectCopyService,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true
     ) {
@@ -52,7 +50,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
             $locale,
             $dateModel,
             $appState,
-            $objectCopyService,
             $dbCompatibleMode
         );
     }

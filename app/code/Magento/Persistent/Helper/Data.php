@@ -77,7 +77,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Object\Copy $objectCopyService,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Persistent\Helper\Session $persistentSession,
@@ -97,7 +96,6 @@ class Data extends \Magento\Core\Helper\Data
             $locale,
             $dateModel,
             $appState,
-            $objectCopyService,
             $dbCompatibleMode
         );
     }

@@ -60,6 +60,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param array $data
      */
     public function __construct(
@@ -72,12 +73,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
-            $context, $data);
+            $context, $arrayUtils, $data);
     }
 
     /**

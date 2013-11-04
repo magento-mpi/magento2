@@ -30,7 +30,6 @@ class Reorder extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Session $customerSession
      * @param bool $dbCompatibleMode
      */
@@ -42,7 +41,6 @@ class Reorder extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Object\Copy $objectCopyService,
         \Magento\Customer\Model\Session $customerSession,
         $dbCompatibleMode = true
     ) {
@@ -55,7 +53,6 @@ class Reorder extends \Magento\Core\Helper\Data
             $locale,
             $dateModel,
             $appState,
-            $objectCopyService,
             $dbCompatibleMode
         );
     }

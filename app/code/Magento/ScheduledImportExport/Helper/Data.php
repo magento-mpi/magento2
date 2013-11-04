@@ -36,7 +36,6 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\File\Size $fileSize
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -50,7 +49,6 @@ class Data extends \Magento\ImportExport\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Object\Copy $objectCopyService,
         \Magento\File\Size $fileSize,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Reward\Helper\Data $rewardData,
@@ -66,7 +64,6 @@ class Data extends \Magento\ImportExport\Helper\Data
             $locale,
             $dateModel,
             $appState,
-            $objectCopyService,
             $fileSize,
             $dbCompatibleMode
         );

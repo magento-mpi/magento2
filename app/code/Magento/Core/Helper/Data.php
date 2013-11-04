@@ -76,11 +76,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_appState;
 
     /**
-     * @var \Magento\Object\Copy
-     */
-    protected $_objectCopyService;
-
-    /**
      * @var boolean
      */
     protected $_dbCompatibleMode;
@@ -98,7 +93,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\Object\Copy $objectCopyService
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -109,12 +103,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\Object\Copy $objectCopyService,
         $dbCompatibleMode = true
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_remoteAddress = $context->getRemoteAddress();
-        $this->_objectCopyService = $objectCopyService;
         parent::__construct($context);
         $this->_config = $config;
         $this->_cacheConfig = $context->getCacheConfig();
@@ -286,85 +278,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $types[$type] = $node['label'];
         }
         return $types;
-    }
-
-    /**
-     * Decorate a plain array of arrays or objects
-     * The array actually can be an object with Iterator interface
-     *
-     * Keys with prefix_* will be set:
-     * *_is_first - if the element is first
-     * *_is_odd / *_is_even - for odd/even elements
-     * *_is_last - if the element is last
-     *
-     * The respective key/attribute will be set to element, depending on object it is or array.
-     * \Magento\Object is supported.
-     *
-     * $forceSetAll true will cause to set all possible values for all elements.
-     * When false (default), only non-empty values will be set.
-     *
-     * @param mixed $array
-     * @param string $prefix
-     * @param bool $forceSetAll
-     * @return mixed
-     */
-    public function decorateArray($array, $prefix = 'decorated_', $forceSetAll = false)
-    {
-        // check if array or an object to be iterated given
-        if (!(is_array($array) || is_object($array))) {
-            return $array;
-        }
-
-        $keyIsFirst = "{$prefix}is_first";
-        $keyIsOdd   = "{$prefix}is_odd";
-        $keyIsEven  = "{$prefix}is_even";
-        $keyIsLast  = "{$prefix}is_last";
-
-        $count  = count($array); // this will force Iterator to load
-        $i      = 0;
-        $isEven = false;
-        foreach ($array as $key => $element) {
-            if (is_object($element)) {
-                $this->_decorateArrayObject($element, $keyIsFirst, (0 === $i), $forceSetAll || (0 === $i));
-                $this->_decorateArrayObject($element, $keyIsOdd, !$isEven, $forceSetAll || !$isEven);
-                $this->_decorateArrayObject($element, $keyIsEven, $isEven, $forceSetAll || $isEven);
-                $isEven = !$isEven;
-                $i++;
-                $this->_decorateArrayObject($element, $keyIsLast, ($i === $count), $forceSetAll || ($i === $count));
-            } elseif (is_array($element)) {
-                if ($forceSetAll || (0 === $i)) {
-                    $array[$key][$keyIsFirst] = (0 === $i);
-                }
-                if ($forceSetAll || !$isEven) {
-                    $array[$key][$keyIsOdd] = !$isEven;
-                }
-                if ($forceSetAll || $isEven) {
-                    $array[$key][$keyIsEven] = $isEven;
-                }
-                $isEven = !$isEven;
-                $i++;
-                if ($forceSetAll || ($i === $count)) {
-                    $array[$key][$keyIsLast] = ($i === $count);
-                }
-            }
-        }
-
-        return $array;
-    }
-
-    /**
-     * Mark passed object with specified flag and appropriate value.
-     *
-     * @param \Magento\Object $element
-     * @param string $key
-     * @param mixed $value
-     * @param bool $dontSkip
-     */
-    private function _decorateArrayObject($element, $key, $value, $dontSkip)
-    {
-        if ($dontSkip && $element instanceof \Magento\Object) {
-            $element->setData($key, $value);
-        }
     }
 
     /**
