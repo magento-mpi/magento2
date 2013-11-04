@@ -16,13 +16,7 @@ class Line
 {
     const ATTRIBUTE_INDEX = 'index';
 
-    const ATTRIBUTE_LINE = 'line';
-
-    const ATTRIBUTE_NO_INDENT = 'noindent';
-
     const ATTRIBUTE_SORT_ORDER = 'sortOrder';
-
-    const ATTRIBUTE_TERMINATOR = 'terminator';
 
     const ATTRIBUTE_TOTAL = 'total';
 
@@ -72,15 +66,29 @@ class Line
                 $this->add($itemToken);
             }
         } else {
-            // just add the token to the end of the list
-            $this->tokens[] = $token;
-            // persist line break information
-            if ($token instanceof ConditionalLineBreak) {
-                $this->saveLineBreakToken($token);
+            // slight optimization; if last element was a string and this element is a string, combine them
+            $tokenCount = sizeof($this->tokens);
+            if ($tokenCount > 0 && is_string($this->tokens[$tokenCount - 1]) && is_string($token)) {
+                $this->tokens[$tokenCount - 1] .= $token;
+            } else {
+                // just add the token to the end of the list
+                $this->tokens[] = $token;
+                // persist line break information
+                if ($token instanceof ConditionalLineBreak) {
+                    $this->saveLineBreakToken($token);
+                }
             }
         }
         // return this instance so that chaining can be accomplished
         return $this;
+    }
+
+    /**
+     * This method returns the first token in the list.
+     */
+    public function getFirstToken()
+    {
+        return sizeof($this->tokens) > 0 ? $this->tokens[0] : null;
     }
 
     /**
@@ -121,7 +129,7 @@ class Line
             $sortOrders[] = $lineBreakToken[Line::ATTRIBUTE_SORT_ORDER];
         }
         // only need the unique values
-        $sortOrders = array_unique($sortOrders, SORT_NUMERIC);
+        // $sortOrders = array_unique($sortOrders, SORT_NUMERIC);
         // but need them in numerical order
         sort($sortOrders, SORT_NUMERIC);
         // return the new list
@@ -142,7 +150,23 @@ class Line
      */
     public function isNoIndent()
     {
-        return array_key_exists(self::ATTRIBUTE_NO_INDENT, $this->tokens);
+        return $this->getFirstToken() instanceof IndentConsumer;
+    }
+
+    /**
+     * This method replaces the last n characters of the line, where n is the size of the replacement.
+     * @param string $replacement String containing the replacement value.
+     */
+    public function replaceEndOfToken($replacement)
+    {
+        $tokenCount = sizeof($this->tokens);
+        if ($tokenCount > 0 && is_string($this->tokens[$tokenCount - 1])) {
+            $this->tokens[$tokenCount - 1] = substr(
+                $this->tokens[$tokenCount - 1],
+                0,
+                strlen($this->tokens[$tokenCount - 1]) - strlen($replacement)
+            ) . $replacement;
+        }
     }
 
     /**
@@ -219,37 +243,37 @@ class Line
     {
         $currentLines = array();
         $index = 0;
+        $lineBreakData = array();
         // build up the string by compiling the tokens
         foreach ($this->tokens as $token) {
             // if no current line, create one and put it in the array
             if ($index >= sizeof($currentLines)) {
-                $currentLines[$index] = array();
-                $currentLines[$index][self::ATTRIBUTE_LINE] = '';
+                $currentLines[$index] = new Line();
             }
-            if (is_string($token)) {
-                // add the current token to the end of the current line
-                $currentLines[$index][self::ATTRIBUTE_LINE] .= $token;
-            } elseif ($token instanceof HardLineBreak) {
-                $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $token;
+            if ($token instanceof HardLineBreak) {
+                $currentLines[$index]->add($token);
                 $index++;
             } elseif ($token instanceof LineBreak) {
                 $groupingId = $token->getGroupingId();
                 $resolvedToken = $token->getValue(
                     $level,
-                    $this
-                    ->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
-                    $this
-                    ->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
+                    $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
+                    $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL],
+                    $lineBreakData
                 );
-                if ($resolvedToken instanceof HardLineBreak) {
-                    $currentLines[$index][self::ATTRIBUTE_TERMINATOR] = $resolvedToken;
-                    $index++;
+                // if the token was resolved, then add the resolved token into the line
+                if (false !== $resolvedToken) {
+                    $currentLines[$index]->add($resolvedToken);
+                    if ($resolvedToken instanceof HardLineBreak) {
+                        $index++;
+                    }
                 } else {
-                    $currentLines[$index][self::ATTRIBUTE_LINE] .= (string) $resolvedToken;
+                    // otherwise, just add the token back into the string
+                    $currentLines[$index]->add($token);
                 }
-            } elseif ($token instanceof IndentConsumer) {
-                // if there is the special flag in the line, then note it in the resulting line
-                $currentLines[$index][self::ATTRIBUTE_NO_INDENT] = $token;
+            } else {
+                // add the current token to the end of the current line
+                $currentLines[$index]->add($token);
             }
         }
         return $currentLines;
@@ -264,6 +288,7 @@ class Line
     {
         $currentLines = array();
         $index = 0;
+        $lineBreakData = array();
         // break down the line by only resolving the line breaks based on sort order
         foreach ($this->tokens as $token) {
             // if no current line, create one and put it in the array
@@ -274,13 +299,16 @@ class Line
                 $groupingId = $token->getGroupingId();
                 // resolve the token if the conditional should be resolved
                 if ($this->lineBreakTokens[$groupingId][self::ATTRIBUTE_SORT_ORDER] <= $sortOrder) {
-                    $token = $token->getValue(
+                    $resolvedToken = $token->getValue(
                         1,
-                        $this
-                        ->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
-                        $this
-                        ->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL]
+                        $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_INDEX]++,
+                        $this->lineBreakTokens[$groupingId][self::ATTRIBUTE_TOTAL],
+                        $lineBreakData
                     );
+                    // if the token was actually resolved, use that instead of the original
+                    if (false !== $resolvedToken) {
+                        $token = $resolvedToken;
+                    }
                 }
             }
             // add the current token to the end of the current line
