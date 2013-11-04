@@ -128,7 +128,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             array(
                 'getReadConnection',
                 'getMainTable',
-                'getTable'
+                'getTable',
+                '__wakeup'
             )
         );
         $resource->expects($this->once())
@@ -143,12 +144,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
 
         $this->_collection = $this->getMock(
             'Magento\CatalogEvent\Model\Resource\Event\Collection',
             array('setModel'),
-            array($eventManager, $logger, $fetchStrategy, $entityFactory, $application, $resource)
+            array($eventManager, $logger, $fetchStrategy, $entityFactory, $application, $dateTime, $resource)
         );
     }
 

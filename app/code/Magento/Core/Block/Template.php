@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Block;
 
 /**
  * Base html block
- *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Block;
-
 class Template extends \Magento\Core\Block\AbstractBlock
 {
     const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
@@ -52,11 +47,6 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_dirs;
 
     /**
-     * @var \Magento\Core\Model\Logger
-     */
-    protected $_logger;
-
-    /**
      * @var \Magento\Filesystem
      */
     protected $_filesystem;
@@ -83,7 +73,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @var \Magento\Core\Model\App
@@ -103,7 +93,6 @@ class Template extends \Magento\Core\Block\AbstractBlock
     ) {
         $this->_coreData = $coreData;
         $this->_dirs = $context->getDirs();
-        $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_templateEngineFactory = $context->getEngineFactory();

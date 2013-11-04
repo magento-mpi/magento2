@@ -31,7 +31,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Logger|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logger;
 
@@ -50,7 +50,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         );
         $this->_minifier = $this->getMock('Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
         $this->_viewUrl = $this->getMock('Magento\View\Url', array(), array(), '', false);
-        $this->_logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         $this->_model = new \Magento\Core\Model\Page\Asset\Minified($this->_asset, $this->_minifier, $this->_viewUrl,
             $this->_logger

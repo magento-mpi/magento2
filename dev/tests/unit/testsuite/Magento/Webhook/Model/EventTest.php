@@ -28,6 +28,11 @@ class EventTest extends \PHPUnit_Framework_TestCase
      */
     protected $_event;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Stdlib\DateTime
+     */
+    protected $_dateTime;
+
     protected function setUp()
     {
         $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
@@ -43,9 +48,10 @@ class EventTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockEventManager));
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->_dateTime = $this->getMock('Magento\Stdlib\DateTime', array('formatDate'), array(), '', true);
 
         $this->_event = $this->getMockBuilder('Magento\Webhook\Model\Event')
-            ->setConstructorArgs(array($this->_mockContext, $coreRegistry))
+            ->setConstructorArgs(array($this->_mockContext, $coreRegistry, $this->_dateTime))
             ->setMethods(
                 array('_init', 'isDeleted', 'isObjectNew', 'getId', '_hasModelChanged', '_getResource')
             )
@@ -61,14 +67,14 @@ class EventTest extends \PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mockResource->expects($this->any())
+        $this->_dateTime->expects($this->atLeastOnce())
             ->method('formatDate')
             ->with($this->equalTo(true))
             ->will($this->returnValue(self::SOME_FORMATTED_TIME));
+
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         // needed for 'save' method
         $mockResource->expects($this->once())
@@ -118,13 +124,14 @@ class EventTest extends \PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockResource->expects($this->any())
+        $this->_dateTime->expects($this->atLeastOnce())
             ->method('formatDate')
             ->with($this->equalTo(true))
             ->will($this->returnValue(self::SOME_FORMATTED_TIME));
+
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         // needed for 'save' method
         $mockResource->expects($this->once())

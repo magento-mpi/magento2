@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 use Magento\Backend\Model\Auth;
@@ -44,6 +43,7 @@ class Url extends \Magento\Core\Model\Url
 
     /**
      * Startup page url from config
+     *
      * @var string
      */
     protected $_startupMenuItemId;
@@ -52,11 +52,6 @@ class Url extends \Magento\Core\Model\Url
      * @var \Magento\Backend\Helper\Data
      */
     protected $_backendHelper;
-
-    /**
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreHelper;
 
     /**
      * @var \Magento\Core\Model\Session
@@ -76,6 +71,11 @@ class Url extends \Magento\Core\Model\Url
     protected $_cache;
 
     /**
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
      * @param \Magento\App\RouterListInterface $routerList
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
@@ -83,11 +83,11 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Session $session
      * @param Menu\Config $menuConfig
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param Auth\Session $authSession
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(
@@ -98,15 +98,24 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Backend\Model\Menu\Config $menuConfig,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         array $data = array()
     ) {
+        $this->_encryptor = $encryptor;
         parent::__construct(
-            $routerList, $request, $securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $session, $data);
+            $routerList,
+            $request,
+            $securityInfo,
+            $coreStoreConfig,
+            $app,
+            $storeManager,
+            $session,
+            $data
+        );
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $session;
@@ -135,7 +144,7 @@ class Url extends \Magento\Core\Model\Url
      * @param bool $unsetOldParams
      * @return \Magento\Backend\Model\Url
      */
-    public function setRouteParams(array $data, $unsetOldParams=true)
+    public function setRouteParams(array $data, $unsetOldParams = true)
     {
         if (isset($data['_nosecret'])) {
             $this->setNoSecret(true);
@@ -143,7 +152,6 @@ class Url extends \Magento\Core\Model\Url
         } else {
             $this->setNoSecret(false);
         }
-
         return parent::setRouteParams($data, $unsetOldParams);
     }
 
@@ -154,23 +162,20 @@ class Url extends \Magento\Core\Model\Url
      * @param array $routeParams
      * @return string
      */
-    public function getUrl($routePath=null, $routeParams=null)
+    public function getUrl($routePath = null, $routeParams = null)
     {
         $cacheSecretKey = false;
         if (is_array($routeParams) && isset($routeParams['_cache_secret_key'])) {
             unset($routeParams['_cache_secret_key']);
             $cacheSecretKey = true;
         }
-
         $result = parent::getUrl($routePath, $routeParams);
         if (!$this->useSecretKey()) {
             return $result;
         }
-
         $routeName = $this->getRouteName('*');
         $controllerName = $this->getControllerName($this->getDefaultControllerName());
         $actionName = $this->getActionName($this->getDefaultActionName());
-
         if ($cacheSecretKey) {
             $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$routeName}/{$controllerName}/{$actionName}\$");
         } else {
@@ -186,7 +191,6 @@ class Url extends \Magento\Core\Model\Url
         if (is_array($this->getRouteParams())) {
             $routeParams = array_merge($this->getRouteParams(), $routeParams);
         }
-
         return parent::getUrl("{$routeName}/{$controllerName}/{$actionName}", $routeParams);
     }
 
@@ -202,7 +206,6 @@ class Url extends \Magento\Core\Model\Url
     {
         $salt = $this->_coreSession->getFormKey();
         $request = $this->getRequest();
-
         if (!$routeName) {
             if ($request->getBeforeForwardInfo('route_name') !== null) {
                 $routeName = $request->getBeforeForwardInfo('route_name');
@@ -210,7 +213,6 @@ class Url extends \Magento\Core\Model\Url
                 $routeName = $request->getRouteName();
             }
         }
-
         if (!$controller) {
             if ($request->getBeforeForwardInfo('controller_name') !== null) {
                 $controller = $request->getBeforeForwardInfo('controller_name');
@@ -218,7 +220,6 @@ class Url extends \Magento\Core\Model\Url
                 $controller = $request->getControllerName();
             }
         }
-
         if (!$action) {
             if ($request->getBeforeForwardInfo('action_name') !== null) {
                 $action = $request->getBeforeForwardInfo('action_name');
@@ -226,9 +227,8 @@ class Url extends \Magento\Core\Model\Url
                 $action = $request->getActionName();
             }
         }
-
         $secret = $routeName . $controller . $action . $salt;
-        return $this->_coreData->getHash($secret);
+        return $this->_encryptor->getHash($secret);
     }
 
     /**
@@ -308,7 +308,6 @@ class Url extends \Magento\Core\Model\Url
             $action = '*/*/denied';
         }
         return $action;
-
     }
 
     /**
@@ -346,7 +345,6 @@ class Url extends \Magento\Core\Model\Url
         return $this->_session;
     }
 
-
     /**
      * Return backend area front name, defined in configuration
      *
@@ -357,7 +355,6 @@ class Url extends \Magento\Core\Model\Url
         if (!$this->_getData('area_front_name')) {
             $this->setData('area_front_name', $this->_backendHelper->getAreaFrontName());
         }
-
         return $this->_getData('area_front_name');
     }
 
@@ -375,7 +372,6 @@ class Url extends \Magento\Core\Model\Url
                 $path = $this->getAreaFrontName() . '/' . $path;
             }
         }
-
         return $path;
     }
 }

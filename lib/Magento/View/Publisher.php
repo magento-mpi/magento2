@@ -59,7 +59,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -83,7 +83,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     /**
      * View files publisher model
      *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param Service $viewService
@@ -93,7 +93,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param $allowDuplication
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\View\Service $viewService,

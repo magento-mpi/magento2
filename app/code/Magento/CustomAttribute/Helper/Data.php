@@ -37,17 +37,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_locale;
 
     /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filterManager;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_locale = $locale;
+        $this->filterManager = $filterManager;
         parent::__construct($context);
     }
 
@@ -489,7 +497,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             //labels
             foreach ($data['frontend_label'] as & $value) {
                 if ($value) {
-                    $value = $this->stripTags($value);
+                    $value = $this->filterManager->stripTags($value);
                 }
             }
 

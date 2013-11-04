@@ -26,7 +26,7 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 

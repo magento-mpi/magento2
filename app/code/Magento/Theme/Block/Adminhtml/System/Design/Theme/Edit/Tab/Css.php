@@ -188,7 +188,7 @@ class Css
                         \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
                 ))
                 . "', null, null,'"
-                . $this->quoteEscape(
+                . $this->escapeQuote(
                     __('Upload Images'), true
                 )
                 . "');"
@@ -212,7 +212,7 @@ class Css
                     \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
                 ))
                 . "', null, null,'"
-                . $this->quoteEscape(
+                . $this->escapeQuote(
                     __('Upload Fonts'), true
                 )
                 . "');",

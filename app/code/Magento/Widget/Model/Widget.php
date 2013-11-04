@@ -42,27 +42,27 @@ class Widget
     /**
      * Core data
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper;
 
     /** @var  array */
     protected $_widgetsArray = array();
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_dataStorage = $dataStorage;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
@@ -254,7 +254,7 @@ class Widget
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            $this->_coreData->escapeUrl($directive)
+            $this->_escaper->escapeUrl($directive)
         );
         return $html;
     }
