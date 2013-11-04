@@ -135,7 +135,7 @@ class Validatevat extends \Magento\Backend\Block\System\Config\Form\Field
         $this->addData(array(
             'button_label' => __($buttonLabel),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => $this->_urlBuilder->getUrl('customer/customer_system_config_validatevat/validate')
+            'ajax_url' => $this->_urlBuilder->getUrl('customer/system_config_validatevat/validate')
         ));
 
         return $this->_toHtml();

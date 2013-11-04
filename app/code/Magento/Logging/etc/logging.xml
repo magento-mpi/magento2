@@ -279,29 +279,29 @@
                 </expected_model>
             </expected_models>
             <events>
-                <event controller_action="adminhtml_customer_edit" action_alias="view" />
-                <event controller_action="adminhtml_customer_save" action_alias="save">
+                <event controller_action="customer_index_edit" action_alias="view" />
+                <event controller_action="customer_index_save" action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_customer_edit" />
+                        <controller_action name="customer_index_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_customer_validate"
+                <event controller_action="customer_index_validate"
                        action_alias="save"
                        post_dispatch="postDispatchCustomerValidate" />
-                <event controller_action="adminhtml_customer_delete" action_alias="delete" />
-                <event controller_action="adminhtml_customer_massSubscribe"
+                <event controller_action="customer_index_delete" action_alias="delete" />
+                <event controller_action="customer_index_massSubscribe"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_customer_massUnsubscribe"
+                <event controller_action="customer_index_massUnsubscribe"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_customer_massDelete"
+                <event controller_action="customer_index_massDelete"
                        action_alias="massDelete" />
-                <event controller_action="adminhtml_customer_exportCsv"
+                <event controller_action="customer_index_exportCsv"
                        action_alias="export"
                        post_dispatch="postDispatchSimpleSave" />
-                <event controller_action="adminhtml_customer_exportXml"
+                <event controller_action="customer_index_exportXml"
                        action_alias="export"
                        post_dispatch="postDispatchSimpleSave" />
-                <event controller_action="adminhtml_customer_massAssignGroup"
+                <event controller_action="customer_index_massAssignGroup"
                        action_alias="massUpdate" />
             </events>
         </group>
@@ -311,9 +311,9 @@
                 <expected_model class="Magento\Customer\Model\Group" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_customer_group_edit" action_alias="view" />
-                <event controller_action="adminhtml_customer_group_save" action_alias="save" />
-                <event controller_action="adminhtml_customer_group_delete"
+                <event controller_action="customer_group_edit" action_alias="view" />
+                <event controller_action="customer_group_save" action_alias="save" />
+                <event controller_action="customer_group_delete"
                        action_alias="delete" />
             </events>
         </group>

@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-class Customer extends \Magento\Backend\Controller\Adminhtml\Action
+class Index extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Validator
@@ -39,7 +39,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      * Customer initialization
      *
      * @param string $idFieldName
-     * @return \Magento\Customer\Controller\Adminhtml\Customer
+     * @return \Magento\Customer\Controller\Adminhtml\Index
      */
     protected function _initCustomer($idFieldName = 'id')
     {
@@ -196,7 +196,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($exception->getMessage());
             }
         }
-        $this->_redirect('customer/customer');
+        $this->_redirect('customer/index');
     }
 
     /**
@@ -274,7 +274,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_redirect('customer/*/new', array('_current' => true));
             }
         } else {
-            $this->_redirect('customer/customer');
+            $this->_redirect('customer/index');
         }
     }
 
@@ -285,14 +285,14 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $customerId = (int)$this->getRequest()->getParam('customer_id', 0);
         if (!$customerId) {
-            return $this->_redirect('customer/customer');
+            return $this->_redirect('customer/index');
         }
 
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customer->load($customerId);
         if (!$customer->getId()) {
-            return $this->_redirect('customer/customer');
+            return $this->_redirect('customer/index');
         }
 
         try {

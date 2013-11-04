@@ -15,7 +15,7 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Controller\Adminhtml\Customer\System\Config;
+namespace Magento\Customer\Controller\Adminhtml\System\Config;
 
 class Validatevat extends \Magento\Backend\Controller\Adminhtml\Action
 {

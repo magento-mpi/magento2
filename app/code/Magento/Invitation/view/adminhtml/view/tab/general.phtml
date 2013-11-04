@@ -108,7 +108,7 @@
                 <td>
                 <?php if ($this->getInvitation()->getReferralId()): ?>
                     <?php if ($this->canShowReferralLink()) :?>
-                        <a target="_blank" href="<?php echo $this->getUrl('customer/customer/edit', array('id'=>$this->getInvitation()->getReferralId()));?>"><?php echo $this->getInvitation()->getReferralId()?></a>
+                        <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', array('id'=>$this->getInvitation()->getReferralId()));?>"><?php echo $this->getInvitation()->getReferralId()?></a>
                     <?php else : ?>
                         <?php echo $this->getInvitation()->getReferralId()?>
                     <?php endif; ?>
@@ -186,7 +186,7 @@
                 <th><?php  echo __('Customer ID'); ?></th>
                 <td>
                 <?php if ($this->getInvitation()->getCustomerId()): ?>
-                    <a target="_blank" href="<?php echo $this->getUrl('customer/customer/edit', array('id'=>$this->getInvitation()->getCustomerId()));?>"><?php echo $this->getInvitation()->getCustomerId()?></a>
+                    <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', array('id'=>$this->getInvitation()->getCustomerId()));?>"><?php echo $this->getInvitation()->getCustomerId()?></a>
                 <?php else:  ?>
                     <?php echo __('N/A'); ?>
                 <?php endif; ?>

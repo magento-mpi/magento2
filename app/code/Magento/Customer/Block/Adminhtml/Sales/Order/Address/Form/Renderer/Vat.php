@@ -43,7 +43,7 @@ class Vat
             $vatElementId = $this->_element->getHtmlId();
 
             $countryElementId = $form->getElement('country_id')->getHtmlId();
-            $validateUrl = $this->_urlBuilder->getUrl('customer/customer_system_config_validatevat/validateAdvanced');
+            $validateUrl = $this->_urlBuilder->getUrl('customer/system_config_validatevat/validateAdvanced');
 
             $groupMessage = __('The customer is currently assigned to Customer Group %s.')
                 . ' ' . __('Would you like to change the Customer Group for this order?');

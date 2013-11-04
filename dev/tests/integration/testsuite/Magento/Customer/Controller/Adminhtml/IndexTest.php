@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Customer
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -14,7 +14,7 @@ namespace Magento\Customer\Controller\Adminhtml;
 /**
  * @magentoAppArea adminhtml
  */
-class CustomerTest extends \Magento\Backend\Utility\Controller
+class IndexTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Base controller URL
@@ -26,7 +26,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
     protected function setUp()
     {
         parent::setUp();
-        $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/customer/';
+        $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
     }
 
     protected function tearDown()
@@ -48,7 +48,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionWithEmptyPostData()
     {
         $this->getRequest()->setPost(array());
-        $this->dispatch('backend/customer/customer/save');
+        $this->dispatch('backend/customer/index/save');
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
     }
 
@@ -61,7 +61,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             )
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/customer/customer/save');
+        $this->dispatch('backend/customer/index/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -91,7 +91,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             'address' => array('_item1' => array()),
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/customer/customer/save');
+        $this->dispatch('backend/customer/index/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -134,7 +134,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         );
         $this->getRequest()->setPost($post);
         $this->getRequest()->setParam('back', '1');
-        $this->dispatch('backend/customer/customer/save');
+        $this->dispatch('backend/customer/index/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -217,7 +217,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         );
         $this->getRequest()->setPost($post);
         $this->getRequest()->setParam('customer_id', 1);
-        $this->dispatch('backend/customer/customer/save');
+        $this->dispatch('backend/customer/index/save');
         /**
          * Check that success message is set
          */
@@ -273,7 +273,7 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             ),
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/customer/customer/save');
+        $this->dispatch('backend/customer/index/save');
         /*
         * Check that error message is set
         */

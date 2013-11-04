@@ -160,7 +160,7 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('customer/customer_group');
+        $this->_redirect('customer/group');
     }
 
     protected function _isAllowed()

@@ -122,6 +122,6 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('customer/customer/edit', array('id'=>$row->getId()));
+        return $this->getUrl('customer/index/edit', array('id'=>$row->getId()));
     }
 }

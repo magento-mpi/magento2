@@ -17,6 +17,9 @@
     <event name="controller_action_postdispatch_tax">
         <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPostdispatch" />
     </event>
+    <event name="controller_action_postdispatch_customer">
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPostdispatch" />
+    </event>
     <event name="model_save_after">
         <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="modelSaveAfter" />
     </event>

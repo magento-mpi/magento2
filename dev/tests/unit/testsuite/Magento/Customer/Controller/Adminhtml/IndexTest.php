@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for \Magento\Adminhtml\Controller\Customer controller
+ * Unit test for \Magento\Customer\Controller\Adminhtml\Index controller
  *
  * {license_notice}
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class \Magento\Adminhtml\Controller\CustomerTest
+ * Class \Magento\Customer\Controller\Adminhtml\IndexTest
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-class CustomerTest extends \PHPUnit_Framework_TestCase
+class IndexTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Request mock instance
@@ -33,7 +33,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Instance of mocked tested object
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Controller\Adminhtml\Customer
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Controller\Adminhtml\Index
      */
     protected $_testedObject;
 
@@ -125,7 +125,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $args = array('context' => $contextMock);
 
         $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_testedObject = $helperObjectManager->getObject('Magento\Customer\Controller\Adminhtml\Customer', $args);
+        $this->_testedObject = $helperObjectManager->getObject('Magento\Customer\Controller\Adminhtml\Index', $args);
     }
 
     /**
@@ -141,7 +141,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_helper->expects($this->once())
             ->method('getUrl')
-            ->with($this->equalTo('customer/customer'), $this->equalTo(array()))
+            ->with($this->equalTo('customer/index'), $this->equalTo(array()))
             ->will($this->returnValue($redirectLink));
 
         $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectLink));
@@ -171,7 +171,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_helper->expects($this->any())
             ->method('getUrl')
-            ->with($this->equalTo('customer/customer'), $this->equalTo(array()))
+            ->with($this->equalTo('customer/index'), $this->equalTo(array()))
             ->will($this->returnValue($redirectLink));
 
         $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectLink));

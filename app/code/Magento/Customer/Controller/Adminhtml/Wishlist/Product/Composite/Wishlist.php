@@ -15,7 +15,7 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Controller\Adminhtml\Customer\Wishlist\Product\Composite;
+namespace Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite;
 
 class Wishlist
     extends \Magento\Backend\Controller\Adminhtml\Action
@@ -37,7 +37,7 @@ class Wishlist
     /**
      * Loads wishlist and wishlist item
      *
-     * @return \Magento\Customer\Controller\Adminhtml\Customer\Wishlist\Product\Composite\Wishlist
+     * @return \Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite\Wishlist
      */
     protected function _initData()
     {
@@ -65,7 +65,7 @@ class Wishlist
     /**
      * Ajax handler to response configuration fieldset of composite product in customer's wishlist
      *
-     * @return \Magento\Customer\Controller\Adminhtml\Customer\Wishlist\Product\Composite\Wishlist
+     * @return \Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite\Wishlist
      */
     public function configureAction()
     {

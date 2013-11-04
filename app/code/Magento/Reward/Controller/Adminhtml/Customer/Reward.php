@@ -71,7 +71,7 @@ class Reward extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('customer/customer/edit', array('_current' => true));
+        $this->_redirect('customer/index/edit', array('_current' => true));
     }
 
     /**

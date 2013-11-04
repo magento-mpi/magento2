@@ -697,7 +697,7 @@ th.required:after {
 .adminhtml-sitemap-index .col-1-layout,
 /* customers */
 .customer-online-index .col-1-layout,
-.customer-customer-index .col-1-layout,
+.customer-index-index .col-1-layout,
 .adminhtml-customer-attribute-index .col-1-layout,
 .adminhtml-customer-address-attribute-index .col-1-layout,
 .customer-group-index .col-1-layout,
@@ -795,7 +795,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions,
 .adminhtml-sitemap-index .page-actions,
 /* customers */
-.customer-customer-index .page-actions,
+.customer-index-index .page-actions,
 .adminhtml-customer-attribute-index .page-actions,
 .adminhtml-customer-address-attribute-index .page-actions,
 .customer-group-index .page-actions,
@@ -854,7 +854,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions.fixed,
 .adminhtml-sitemap-index .page-actions.fixed,
 /* customers */
-.customer-customer-index .page-actions.fixed,
+.customer-index-index .page-actions.fixed,
 .adminhtml-customer-attribute-index .page-actions.fixed,
 .adminhtml-customer-address-attribute-index .page-actions.fixed,
 .customer-group-index .page-actions.fixed,
@@ -912,7 +912,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add,
 .adminhtml-sitemap-index .page-actions .add,
 /* customers */
-.customer-customer-index .page-actions .add,
+.customer-index-index .page-actions .add,
 .adminhtml-customer-attribute-index .page-actions .add,
 .adminhtml-customer-address-attribute-index .page-actions .add,
 .customer-group-index .page-actions .add,
@@ -983,7 +983,7 @@ th.required:after {
 .eq-ie8 .adminhtml-googleshopping-types-index .page-actions .add,
 .eq-ie8 .adminhtml-sitemap-index .page-actions .add,
 /* customers */
-.eq-ie8 .customer-customer-index .page-actions .add,
+.eq-ie8 .customer-index-index .page-actions .add,
 .eq-ie8 .adminhtml-customer-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-customer-address-attribute-index .page-actions .add,
 .eq-ie8 .customer-group-index .page-actions .add,
@@ -1038,7 +1038,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add:hover,
 .adminhtml-sitemap-index .page-actions .add:hover,
 /* customers */
-.customer-customer-index .page-actions .add:hover,
+.customer-index-index .page-actions .add:hover,
 .adminhtml-customer-attribute-index .page-actions .add:hover,
 .adminhtml-customer-address-attribute-index .page-actions .add:hover,
 .customer-group-index .page-actions .add:hover,
@@ -1101,7 +1101,7 @@ th.required:after {
 .eq-ie8 .adminhtml-googleshopping-types-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-sitemap-index .page-actions .add:hover,
 /* customers */
-.eq-ie8 .customer-customer-index .page-actions .add:hover,
+.eq-ie8 .customer-index-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-customer-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-customer-address-attribute-index .page-actions .add:hover,
 .eq-ie8 .customer-group-index .page-actions .add:hover,
@@ -1155,7 +1155,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add:active,
 .adminhtml-sitemap-index .page-actions .add:active,
 /* customers */
-.customer-customer-index .page-actions .add:active,
+.customer-index-index .page-actions .add:active,
 .adminhtml-customer-attribute-index .page-actions .add:active,
 .adminhtml-customer-address-attribute-index .page-actions .add:active,
 .customer-group-index .page-actions .add:active,
@@ -1214,7 +1214,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add > span,
 .adminhtml-sitemap-index .page-actions .add > span,
 /* customers */
-.customer-customer-index .page-actions .add > span,
+.customer-index-index .page-actions .add > span,
 .adminhtml-customer-attribute-index .page-actions .add > span,
 .adminhtml-customer-address-attribute-index .page-actions .add > span,
 .customer-group-index .page-actions .add > span,
@@ -1272,7 +1272,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add > span:before,
 .adminhtml-sitemap-index .page-actions .add > span:before,
 /* customers */
-.customer-customer-index .page-actions .add > span:before,
+.customer-index-index .page-actions .add > span:before,
 .adminhtml-customer-attribute-index .page-actions .add > span:before,
 .adminhtml-customer-address-attribute-index .page-actions .add > span:before,
 .customer-group-index .page-actions .add > span:before,
@@ -1439,7 +1439,7 @@ th.required:after {
 .adminhtml-googleshopping-types-index .grid-actions,
 .adminhtml-sitemap-index .grid-actions,
 /* customers */
-.customer-customer-index .grid-actions,
+.customer-index-index .grid-actions,
 .adminhtml-customer-attribute-index .grid-actions,
 .adminhtml-customer-address-attribute-index .grid-actions,
 .customer-group-index .grid-actions,

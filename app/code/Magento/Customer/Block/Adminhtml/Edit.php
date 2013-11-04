@@ -72,7 +72,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         }
 
         if ($customer && $customer->getId()) {
-            $url = $this->getUrl('customer/customer/resetPassword', array('customer_id' => $customer->getId()));
+            $url = $this->getUrl('customer/index/resetPassword', array('customer_id' => $customer->getId()));
             $this->_addButton('reset_password', array(
                 'label' => __('Reset Password'),
                 'onclick' => 'setLocation(\'' . $url . '\')',
@@ -138,7 +138,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     protected function _getSaveAndContinueUrl()
     {
-        return $this->getUrl('customer/customer/save', array(
+        return $this->getUrl('customer/index/save', array(
             '_current'  => true,
             'back'      => 'edit',
             'tab'       => '{{tab_id}}'
