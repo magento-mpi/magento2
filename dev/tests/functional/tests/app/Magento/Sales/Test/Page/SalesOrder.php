@@ -11,6 +11,7 @@
 
 namespace Magento\Sales\Test\Page;
 
+use Magento\Backend\Test\Block\PageActions;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Sales\Order\Grid;
@@ -54,11 +55,11 @@ class SalesOrder extends Page
     /**
      * Get order actions block
      *
-     * @return Actions
+     * @return PageActions
      */
     public function getOrderActionsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendSalesOrderActions($this->_browser->find('.page-actions'));
+        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find('.page-actions'));
     }
 
     /**

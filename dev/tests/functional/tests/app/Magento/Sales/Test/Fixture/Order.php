@@ -75,6 +75,17 @@ class Order extends DataFixture
      */
     protected function _initData()
     {
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => '$32.73'
+            ),
+            'store_view' => 'Default Store View',
+            'website_id' => '0'
+        );
+    }
+
+    public function persist()
+    {
         //Configuration
         $this->_persistConfiguration(array(
             'flat_rate',
@@ -87,9 +98,10 @@ class Order extends DataFixture
         $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
+        $simple->switchData('simple_required');
 
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $simple->switchData('configurable_required');
 
         $simple->persist();
         $configurable->persist();
@@ -108,13 +120,7 @@ class Order extends DataFixture
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
         $this->paymentMethod->switchData('check_money_order');
 
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$32.73'
-            ),
-            'store_view' => 'Default Store View',
-            'website_id' => '0'
-        );
+        return $this;
     }
 
     /**

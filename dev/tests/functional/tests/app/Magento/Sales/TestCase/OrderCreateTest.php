@@ -34,10 +34,13 @@ class OrderCreateTest extends Functional
 
     /**
      * Test for creating order on backend
+     *
+     * @param Order $orderFixture
+     * @dataProvider dataProviderOrderFixture
      */
-    public function testCreateOrder()
+    public function testCreateOrder(Order $orderFixture)
     {
-        $orderFixture = Factory::getFixtureFactory()->getMagentoSalesOrder();
+        $orderFixture->persist();
 
         $this->_proceedToOrderCreatePage();
 
@@ -51,8 +54,8 @@ class OrderCreateTest extends Functional
      */
     protected function _proceedToOrderCreatePage()
     {
-        $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
-        $gridPageActionsBlock = $orderGridPage->getPageActionsBlock();
+        $orderGridPage = Factory::getPageFactory()->getSalesOrder();
+        $gridPageActionsBlock = $orderGridPage->getOrderActionsBlock();
 
         $orderGridPage->open();
         $gridPageActionsBlock->clickAddNew();
@@ -114,8 +117,8 @@ class OrderCreateTest extends Functional
      */
     protected function _checkOrderAndCustomer(Order $fixture)
     {
-        $orderViewPage = Factory::getPageFactory()->getAdminSalesOrderView();
-        $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
+        $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         $orderGrid = $orderGridPage->getOrderGridBlock();
 
         $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
@@ -142,5 +145,12 @@ class OrderCreateTest extends Functional
         $lastname = $fixture->getBillingAddress()->getLastName()['value'];
 
         $this->assertEquals($customerPageTitle,  $firstname . ' ' . $lastname);
+    }
+
+    public function dataProviderOrderFixture()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoSalesOrder())
+        );
     }
 }

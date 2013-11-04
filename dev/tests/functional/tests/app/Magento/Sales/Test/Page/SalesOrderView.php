@@ -11,13 +11,12 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Magento\Core\Test\Block\Title;
+use Magento\Page\Test\Block\Html\Title;
 use Magento\Sales\Test\Block\Backend\Order\CustomerInformation;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Sales\Order;
-use Magento\Sales\Test\Block\Backend\Order\Information;
 
 /**
  * Class SalesOrderView
@@ -71,7 +70,7 @@ class SalesOrderView extends Page
         $this->_customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
             $this->_browser->find('.order-account-information')
         );
-        $this->_titleBlock = Factory::getBlockFactory()->getMagentoCoreTitle(
+        $this->_titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page-title .title')
         );
     }

@@ -22,6 +22,11 @@ use Mtf\Client\Element\Locator;
  */
 class ConfigureProduct extends Form
 {
+    /**
+     * Fill options for the product
+     *
+     * @param array $productOptions
+     */
     public function fillOptions($productOptions)
     {
         foreach ($productOptions as $attributeLabel => $attributeValue) {
