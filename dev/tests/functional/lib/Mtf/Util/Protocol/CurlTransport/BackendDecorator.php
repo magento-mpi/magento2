@@ -60,13 +60,12 @@ class BackendDecorator implements CurlInterface
     protected function _authorize()
     {
         $credentials = $this->_configuration->getConfigParam('application/backend_user_credentials');
-        $backendLoginUrl = $_ENV['app_backend_url']
-            . $this->_configuration->getConfigParam('application/backend_login_url');
+        $url = $_ENV['app_backend_url'] . $this->_configuration->getConfigParam('application/backend_login_url');
         $data = array(
             'login[username]' => $credentials['login'],
             'login[password]' => $credentials['password']
         );
-        $this->_transport->write(CurlInterface::POST, $backendLoginUrl, '1.0', array(), $data);
+        $this->_transport->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $this->read();
     }
 

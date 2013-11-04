@@ -1,15 +1,32 @@
-* View abstraction was moved into lib
-* Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
-* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
-* Eliminated dependency in Magento\Data\Form from Magento\Core module
-* Eliminated Magento\Media module
-* Fixed copyright information
-* Removed page type hierarchy
-* Removed page fragment types
-* Fixed Impossible to add image using WYSIWYG
-* No direct code execution in layout: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
-* Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
-
+* Various improvements:
+  * Cleavage of Adminhtml module
+    * Move Sales-related logic to Sales module
+    * Move Catalog-related logic to Catalog module
+    * Move Tax-related logic to Tax module
+    * Move: Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
+  * View abstraction was moved into lib
+  * Templates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
+  * Templates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
+  * Eliminated dependency in Magento\Data\Form from Magento\Core module
+  * Eliminated Magento\Media module
+  * Fixed copyright information
+  * Removed page type hierarchy
+  * Removed page fragment types
+  * Fixed Impossible to add image using WYSIWYG
+  * No direct code execution in layout: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
+  * Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
+  * Global functions are called now from app\functions.php
+  * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
+  * Eliminated functions.php from Magento\Core module
+  * Methods from Core Helpers were moved to appropriate libraries:
+    * from AbstractHelper to Magento\Escaper and Magento\Filter libraries
+    * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
+    * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
+    * from Http Magento Helper to Magento\HTTP libraries
+  * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
+* Fixed bugs:
+  * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
+  
 2.0.0.0-dev49
 =============
 * Various improvements:

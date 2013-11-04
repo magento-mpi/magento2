@@ -41,7 +41,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testValidateCatalogPermissionsWebsites()
     {
-        $this->dispatch('backend/admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/catalog/category/edit/id/3');
         $result = $this->getResponse()->getBody();
         $this->assertContains('category_permissions_3', $result);
         $this->assertContains('limited_website_ids', $result);
@@ -54,7 +54,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testValidateCatalogPermissionsStoreGroups()
     {
-        $this->dispatch('backend/admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/catalog/category/edit/id/3');
         $this->assertRegExp('/title\="New Permission"\s+type\="button"\s+'
             . 'class="action-\w*\s+scalable\s+delete\s+disabled\s+disabled"/', $this->getResponse()->getBody());
     }

@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Controller\Adminhtml\Crypt;
 
-class Key extends \Magento\Adminhtml\Controller\Action
+class Key extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Check whether local.xml is writeable
@@ -94,7 +94,7 @@ class Key extends \Magento\Adminhtml\Controller\Action
             }
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(array('crypt_key' => $key));
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

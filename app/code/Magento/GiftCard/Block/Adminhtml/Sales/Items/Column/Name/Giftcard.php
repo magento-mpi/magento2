@@ -11,7 +11,7 @@
 namespace Magento\GiftCard\Block\Adminhtml\Sales\Items\Column\Name;
 
 class Giftcard
-    extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
+    extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
 {
     /**
      * Prepare custom option for display, returns false if there's no value

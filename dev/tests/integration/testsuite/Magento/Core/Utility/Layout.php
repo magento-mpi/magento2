@@ -80,7 +80,7 @@ class Layout
         return array(
             'processorFactory'       => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-            'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
+            'logger'             => $objectManager->get('Magento\Logger'),
             'eventManager'       => $objectManager->get('Magento\Event\ManagerInterface'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),

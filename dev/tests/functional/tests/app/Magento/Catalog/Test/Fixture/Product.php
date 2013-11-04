@@ -204,14 +204,7 @@ class Product extends DataFixture
         $this->_dataConfig = array(
             'constraint' => 'Success',
 
-            'block_form_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductForm',
-            'block_grid_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductGrid',
-
             'grid_filter'       => array('name'),
-
-            'url_create_page'   => 'admin/catalog_product/new',
-            'url_update_page'   => 'admin/catalog_product/edit',
-            'url_grid_page'     => 'admin/catalog_product/index',
 
             'create_url_params' => array(
                 'type' => 'simple',

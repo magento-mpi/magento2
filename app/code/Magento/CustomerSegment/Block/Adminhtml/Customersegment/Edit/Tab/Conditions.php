@@ -67,7 +67,7 @@ class Conditions
 
         $form->setHtmlIdPrefix('segment_');
         $params = array('apply_to' => $model->getApplyTo());
-        $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
+        $url = $this->getUrl('adminhtml/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
         $renderer = $this->_fieldset->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
             ->setNewChildUrl($url);

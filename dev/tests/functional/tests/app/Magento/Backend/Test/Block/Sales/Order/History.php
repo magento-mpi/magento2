@@ -29,32 +29,14 @@ class History extends Block
      *
      * @var string
      */
-    protected $_commentHistoryClass;
-
-    /**
-     * Authorized amount Id
-     *
-     * @var string
-     */
-    protected $_authorizedAmount;
+    private $commentHistory;
 
     /**
      * Initialize block elements
      */
     protected function _init()
     {
-        $this->_commentHistoryClass = 'note-list-comment';
-        $this->_authorizedAmount = '#order_history_block .note-list-comment';
-    }
-
-    /**
-     * Comment History
-     *
-     * @return array|string
-     */
-    public function getCommentHistory()
-    {
-        return $this->_rootElement->find($this->_commentHistoryClass, Locator::SELECTOR_CLASS_NAME)->getText();
+        $this->commentHistory = '.note-list-comment';
     }
 
     /**
@@ -64,6 +46,6 @@ class History extends Block
      */
     public function getCommentsHistory()
     {
-        return $this->_rootElement->find($this->_authorizedAmount)->getText();
+        return $this->_rootElement->find($this->commentHistory)->getText();
     }
 }

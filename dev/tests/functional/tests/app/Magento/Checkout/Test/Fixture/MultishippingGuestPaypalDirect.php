@@ -25,9 +25,25 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class MultishippingGuestPaypalDirect extends Checkout
 {
     /**
-     * Prepare data for guest multishipping checkout with Payments Pro Method
+     * Data for guest multishipping checkout with Payments Pro Method
      */
     protected function _initData()
+    {
+        //Verification data
+        $this->_data = array(
+            'totals' => array(
+                'grand_total' => array(
+                    '$15.83', //simple
+                    '$16.92' //configurable
+                )
+            )
+        );
+    }
+
+    /**
+     * Setup fixture
+     */
+    public function persist()
     {
         //Configuration
         $this->_persistConfiguration(array(
@@ -46,10 +62,10 @@ class MultishippingGuestPaypalDirect extends Checkout
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simple->switchData('simple_required');
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->
-
         $simple->persist();
+
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
         $configurable->persist();
 
         $this->products = array(
@@ -87,15 +103,6 @@ class MultishippingGuestPaypalDirect extends Checkout
         $this->bindings = array(
             $simple->getProductName() => $address1->getOneLineAddress(),
             $configurable->getProductName() => $address2->getOneLineAddress()
-        );
-        //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => array(
-                    '$15.83', //simple
-                    '$16.92' //configurable
-                )
-            )
         );
     }
 }

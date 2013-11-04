@@ -24,16 +24,11 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $this->_storage = $this->getMockBuilder('Magento\Widget\Model\Config\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $viewUrl = $this->getMockBuilder('Magento\Core\Model\View\Url')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $viewFileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_model = new \Magento\Widget\Model\Widget($coreData, $this->_storage, $viewUrl, $viewFileSystem);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManagerHelper->getObject('Magento\Widget\Model\Widget', array('dataStorage' => $this->_storage));
+        $this->_model = $objectManagerHelper->getObject('Magento\Widget\Model\Widget', array(
+            'dataStorage' => $this->_storage)
+        );
     }
 
     public function testGetWidgets()

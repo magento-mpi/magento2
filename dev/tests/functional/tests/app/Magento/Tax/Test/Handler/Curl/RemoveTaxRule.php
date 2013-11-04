@@ -43,7 +43,7 @@ class RemoveTaxRule extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
-        $this->_taxRuleGridUrl = $_ENV['app_backend_url'] . 'admin/tax_rule/index/';
+        $this->_taxRuleGridUrl = $_ENV['app_backend_url'] . 'tax/rule/index/';
         $curl = $this->_getCurl($this->_taxRuleGridUrl);
         $response = $curl->read();
         $this->_removeTaxRules($response);
@@ -71,9 +71,9 @@ class RemoveTaxRule extends Curl
      */
     protected function _removeTaxRules($data)
     {
-        preg_match_all("!tax_rule\/edit\/rule\/([\d]+)!", $data, $result);
+        preg_match_all("!tax\/rule\/edit\/rule\/([\d]+)!", $data, $result);
         if (!isset($result[1]) || empty($result[1])) {
-            return;
+            return null;
         }
         foreach ($result[1] as $taxRuleId) {
             $this->_deleteTaxRuleRequest((int)$taxRuleId);
@@ -93,7 +93,7 @@ class RemoveTaxRule extends Curl
      */
     protected function _deleteTaxRuleRequest($taxRuleId)
     {
-        $url = $_ENV['app_backend_url'] . 'admin/tax_rule/delete/rule/' . (int) $taxRuleId;
+        $url = $_ENV['app_backend_url'] . 'tax/rule/delete/rule/' . (int) $taxRuleId;
         $curl = $this->_getCurl($url);
         $response = $curl->read();
         $this->_checkMessage($response, $taxRuleId);

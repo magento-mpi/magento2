@@ -30,6 +30,7 @@ class ProductPageTest extends Functional
      */
     public function testCheckoutFreeShipping()
     {
+        $this->markTestSkipped('MAGETWO-16653');
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutPaypalExpress();
         $fixture->persist();
 
@@ -48,6 +49,7 @@ class ProductPageTest extends Functional
         $checkoutReviewPage->getReviewBlock()->verifyOrderInformation($fixture);
         $checkoutReviewPage->getReviewBlock()->fillTelephone($fixture->getTelephoneNumber());
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
+
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         //Verification
@@ -64,19 +66,19 @@ class ProductPageTest extends Functional
     protected function _verifyOrder($orderId, Checkout $fixture)
     {
         Factory::getApp()->magentoBackendLoginUser();
-        $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
 
         $this->assertContains(
             $fixture->getGrandTotal(),
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
 
         $this->assertContains(
             'Authorized amount of ' . $fixture->getGrandTotal(),
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getLastOrderComment(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect authorized amount value for the order #' . $orderId
         );
     }

@@ -87,7 +87,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Magento\Escaper')->escapeHtml($user->getApiKey())
             : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
@@ -142,7 +142,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
                     ->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());
@@ -150,9 +150,9 @@ class User extends \Magento\Backend\Controller\AbstractAction
             }
         }
         if ($redirectBack) {
-            $this->_redirect('*/*/edit', array('user_id' => $userId));
+            $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
         } else {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -173,18 +173,18 @@ class User extends \Magento\Backend\Controller\AbstractAction
                 $this->_getSession()->addSuccess(
                     __('The API user has been deleted.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('user_id' => $userId));
+                $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
                 return;
             }
         }
         $this->_getSession()->addError(
             __('Unable to find a user to be deleted.')
         );
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -244,7 +244,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
             $this->_getSession()->addError(
                 __('This user no longer exists.')
             );
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return false;
         }
         return $user;

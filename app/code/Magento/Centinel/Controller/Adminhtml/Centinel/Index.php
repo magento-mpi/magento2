@@ -17,7 +17,7 @@
  */
 namespace Magento\Centinel\Controller\Adminhtml\Centinel;
 
-class Index extends \Magento\Adminhtml\Controller\Action
+class Index extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -57,7 +57,7 @@ class Index extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $result['message'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['message'] = __('Validation failed.');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -107,7 +107,7 @@ class Index extends \Magento\Adminhtml\Controller\Action
      */
     private function _getPayment()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')->getQuote()->getPayment();
     }
 
     /**

@@ -22,7 +22,7 @@ use Mtf\Repository\AbstractRepository;
  */
 class Config extends AbstractRepository
 {
-    function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -393,9 +393,6 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array( // Payflow Pro and Express Checkout
                                                         'fields' => array(
-                                                            'using_pbridge' => array( // Use via Payment Bridge
-                                                                'value' => 0
-                                                            ),
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),
@@ -413,8 +410,6 @@ class Config extends AbstractRepository
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => 1
-//                                                                'input_value' => 1,
-//                                                                'input_name' => 'payment/verisign/sandbox_flag'
                                                             ),
                                                             'use_proxy' => array( // Use Proxy
                                                                 'value' => 0
@@ -610,9 +605,6 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'paypal_payflow_api_settings' => array(
                                                         'fields' => array(
-                                                            'using_pbridge' => array(
-                                                                'value' => 0
-                                                            ),
                                                             'business_account' => array(
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
                                                             ),

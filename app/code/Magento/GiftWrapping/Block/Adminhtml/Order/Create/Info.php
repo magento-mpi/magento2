@@ -148,6 +148,6 @@ class Info
      */
     public function getRefreshWrappingUrl()
     {
-        return $this->getUrl('*/giftwrapping/orderOptions');
+        return $this->getUrl('adminhtml/giftwrapping/orderOptions');
     }
 }

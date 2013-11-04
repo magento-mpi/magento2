@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
-class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
+class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
     /**
      * Template
@@ -141,6 +141,6 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
      */
     public function getLoadTreeUrl()
     {
-        return $this->getUrl('*/*/categoriesJson');
+        return $this->getUrl('adminhtml/*/categoriesJson');
     }
 }

@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
-class Checkout extends \Magento\Adminhtml\Controller\Action
+class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -82,7 +82,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError(
                     __('Shopping cart management disabled for this customer.')
                 );
-                $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
+                $this->_redirect('adminhtml/customer/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
                 return $this;
             } else {
@@ -113,7 +113,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                         )
                     );
                 } else {
-                    $this->_redirect('*/*/index', array('store' => $storeId, 'customer' => $customerId));
+                    $this->_redirect('adminhtml/*/index', array('store' => $storeId, 'customer' => $customerId));
                 }
                 $this->_redirectFlag = true;
                 return $this;
@@ -155,7 +155,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     /**
      * Renderer for page title
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initTitle()
     {
@@ -195,12 +195,12 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
         }
-        $this->_redirect('*/*/error');
+        $this->_redirect('adminhtml/*/error');
     }
 
 
@@ -386,13 +386,13 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getSession();
+                $session = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
 
             }
-            $this->_redirect('*/sales_order_create', array(
+            $this->_redirect('adminhtml/sales_order_create', array(
                 'customer_id' => $this->_registry->registry('checkout_current_customer')->getId(),
                 'store_id' => $this->_registry->registry('checkout_current_store')->getId(),
             ));
@@ -400,12 +400,12 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
         }
-        $this->_redirect('*/*/error');
+        $this->_redirect('adminhtml/*/error');
     }
 
     /**
@@ -480,8 +480,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             ->setCurrentCustomerId($customerId);
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -526,8 +526,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -571,8 +571,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -587,7 +587,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         if ($e instanceof \Magento\Core\Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $result = array(
                 'error' => __('An error has occurred. See error log for details.')
             );
@@ -658,8 +658,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         }
 
         // Render page
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        /* @var $helper \Magento\Catalog\Helper\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -724,7 +724,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
-            $this->_redirect('*/*/showUpdateResult');
+            $this->_redirect('adminhtml/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
         }
@@ -905,7 +905,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                         } catch (\Magento\Core\Exception $e){
                             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                         } catch (\Exception $e){
-                            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                            $this->_objectManager->get('Magento\Logger')->logException($e);
                         }
                     }
                 }
@@ -989,8 +989,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         try {
             $this->_initData();
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/customer');
+            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_redirect('adminhtml/customer');
             $this->_redirectFlag = true;
         }
         if ($this->_redirectFlag) {

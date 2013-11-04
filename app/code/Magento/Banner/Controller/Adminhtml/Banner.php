@@ -10,7 +10,7 @@
 
 namespace Magento\Banner\Controller\Adminhtml;
 
-class Banner extends \Magento\Adminhtml\Controller\Action
+class Banner extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -66,7 +66,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
         if (!$model->getId() && $bannerId) {
             $this->_getSession()
                 ->addError(__('This banner no longer exists.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -101,7 +101,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError(
                     __('This banner does not exist.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
 
@@ -151,14 +151,14 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('We cannot save the banner.')
                 );
                 $redirectBack = true;
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
             if ($redirectBack) {
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -180,7 +180,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('The banner has been deleted.')
                 );
                 // go to grid
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -190,11 +190,11 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 // save data in session
                 $this->_getSession()->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('id' => $bannerId));
+                $this->_redirect('adminhtml/*/edit', array('id' => $bannerId));
                 return;
             }
         }
@@ -203,7 +203,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
             __('We cannot find a banner to delete.')
         );
         // go to grid
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -233,11 +233,11 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 return;
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 
 
@@ -296,7 +296,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError(
                 __('This banner does not exist.')
             );
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -322,7 +322,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError(
                 __('This banner does not exist.')
             );
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -348,7 +348,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError(
                     __('This rule no longer exists.')
                 );
-                $this->_redirect('*/*');
+                $this->_redirect('adminhtml/*');
                 return;
             }
         }
@@ -375,7 +375,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
             $model->load($ruleId);
             if (! $model->getRuleId()) {
                 $this->_getSession()->addError(__('This rule no longer exists.'));
-                $this->_redirect('*/*');
+                $this->_redirect('adminhtml/*');
                 return;
             }
         }

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase;
+namespace Magento\CatalogSearch\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -18,7 +18,7 @@ use Mtf\TestCase\Functional;
  * Class SearchTest
  * Searching product in the Frontend via quick search
  *
- * @package Magento\Catalog\Test\TestCase
+ * @package Magento\CatalogSearch\Test\TestCase
  */
 class SearchTest extends Functional
 {

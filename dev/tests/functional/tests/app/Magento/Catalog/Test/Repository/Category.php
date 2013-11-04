@@ -28,7 +28,7 @@ class Category extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

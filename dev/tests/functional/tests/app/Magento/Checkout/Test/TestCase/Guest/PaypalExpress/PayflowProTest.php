@@ -30,6 +30,7 @@ class PayflowProTest extends Functional
      */
     public function testPayflowProExpress()
     {
+        $this->markTestSkipped('MAGETWO-16653');
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutExpressPayPalPayflow();
         $fixture->persist();
 
@@ -51,6 +52,7 @@ class PayflowProTest extends Functional
 
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
+
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
@@ -67,18 +69,18 @@ class PayflowProTest extends Functional
     protected function _verifyOrder($orderId, Checkout $fixture)
     {
         Factory::getApp()->magentoBackendLoginUser();
-        $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $this->assertContains(
             $fixture->getGrandTotal(),
-            Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
         $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
 
-        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()
-            ->getOrderHistoryBlock()->getLastOrderComment();
+        $actualAuthorizedAmount = Factory::getPageFactory()->getSalesOrderView()
+            ->getOrderHistoryBlock()->getCommentsHistory();
         $this->assertContains(
             $expectedAuthorizedAmount,
             $actualAuthorizedAmount,

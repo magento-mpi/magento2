@@ -41,8 +41,8 @@ class BundleTest extends Functional
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
         $bundle->switchData('bundle_fixed');
         //Pages & Blocks
-        $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $manageProductsGrid->open();
@@ -67,7 +67,7 @@ class BundleTest extends Functional
      */
     protected function assertOnGrid($product)
     {
-        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();

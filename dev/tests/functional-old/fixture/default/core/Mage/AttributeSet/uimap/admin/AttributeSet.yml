@@ -12,7 +12,7 @@
 
 # Manage Attribute Sets page
 manage_attribute_sets:
-    mca: catalog_product_set/
+    mca: catalog/product_set/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_set/')]
     title: Product Templates / Attributes / Stores / Magento Admin
     uimap:
@@ -41,7 +41,7 @@ manage_attribute_sets:
             delete_group: This group contains system attributes. Please move system attributes to another group and try again
 
 add_new_attribute_set:
-    mca: catalog_product_set/add/
+    mca: catalog/product_set/add/
     title: New Product Template / Attributes / Stores / Magento Admin
     uimap:
         form: &addNewAttributeSet
@@ -60,7 +60,7 @@ add_new_attribute_set:
 
 
 edit_attribute_set:
-    mca: catalog_product_set/edit/id/%id%/
+    mca: catalog/product_set/edit/id/%id%/
     title: %elementTitle% / Product Templates / Attributes / Stores / Magento Admin
     uimap:
         form: &editAttributeSet

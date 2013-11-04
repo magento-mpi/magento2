@@ -42,7 +42,7 @@ class AssociatedProduct
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -58,6 +58,7 @@ class AssociatedProduct
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
@@ -65,7 +66,7 @@ class AssociatedProduct
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -81,6 +82,7 @@ class AssociatedProduct
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Registry $registryManager,
         \Magento\Catalog\Model\Product\Type\Configurable $productType,
         \Magento\Catalog\Helper\Product\Configuration $configurationHelper
@@ -90,7 +92,7 @@ class AssociatedProduct
         $this->_configurationHelper = $configurationHelper;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
             $eavEntityFactory, $universalFactory, $storeManager, $catalogData, $catalogProductFlat, $coreStoreConfig,
-            $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper
+            $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper, $dateTime
         );
     }
 
