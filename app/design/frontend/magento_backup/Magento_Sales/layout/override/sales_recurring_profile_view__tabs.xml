@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile View Tabs" type="page" parent="sales_recurring_profile_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile View Tabs" design_abstraction="custom">
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-left.phtml</argument>
