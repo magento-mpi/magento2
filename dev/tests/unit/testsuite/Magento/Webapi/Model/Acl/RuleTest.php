@@ -37,7 +37,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $this->_ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
-            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection'))
+            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', '__wakeup'))
             ->getMock();
 
         $this->_ruleResource->expects($this->any())
