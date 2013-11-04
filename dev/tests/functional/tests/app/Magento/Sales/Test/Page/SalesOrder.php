@@ -15,7 +15,6 @@ use Magento\Backend\Test\Block\PageActions;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Sales\Order\Grid;
-use Magento\Backend\Test\Block\Sales\Order\Actions;
 use Magento\Core\Test\Block\Messages;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid;
