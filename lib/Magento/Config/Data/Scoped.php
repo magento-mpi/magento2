@@ -102,7 +102,9 @@ class Scoped extends \Magento\Config\Data
                             $this->_cache->save(serialize($data), $scopeCode . '::' . $this->_cacheId);
                         }
                     }
-                    $this->merge($data);
+                    if ($data) {
+                        $this->merge($data);
+                    }
                     $this->_loadedScopes[$scopeCode] = true;
                 }
                 if ($scopeCode == $scope) {
