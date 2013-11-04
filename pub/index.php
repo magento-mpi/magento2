@@ -12,5 +12,6 @@ require __DIR__ . '/../app/bootstrap.php';
 $params = $_SERVER;
 $params[\Magento\App\Dir::PARAM_APP_URIS][\Magento\App\Dir::PUB] = '';
 $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $params);
-$entryPoint->run('Magento\App\Http');
+$result = $entryPoint->run('Magento\App\Http');
 \Magento\Profiler::stop('magento');
+return $result;

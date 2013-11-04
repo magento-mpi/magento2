@@ -18,11 +18,6 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_eventManager;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_response;
 
     /**
@@ -42,7 +37,6 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->_response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->_request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_router = $this->getMock('Magento\App\Router\AbstractRouter',
@@ -50,7 +44,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
         $this->_routerList = $this->getMock('Magento\App\RouterList', array(), array(), '', false);
         $this->_routerList->expects($this->any())
             ->method('getIterator')->will($this->returnValue($this->_routerList));
-        $this->_model = new \Magento\App\FrontController($this->_eventManager, $this->_response, $this->_routerList);
+        $this->_model = new \Magento\App\FrontController($this->_response, $this->_routerList);
     }
 
     /**
@@ -60,14 +54,6 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
     public function testDispatchThrowException()
     {
         $this->_request->expects($this->any())->method('isDispatched')->will($this->returnValue(false));
-        $this->_eventManager->expects($this->never())->method('dispatch');
-        $this->_model->dispatch($this->_request);
-    }
-
-    public function testWhenRequestDispatched()
-    {
-        $this->_request->expects($this->once())->method('isDispatched')->will($this->returnValue(true));
-        $this->_eventManager->expects($this->atLeastOnce())->method('dispatch');
         $this->_model->dispatch($this->_request);
     }
 

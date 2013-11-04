@@ -240,9 +240,9 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $frontController = $observer->getEvent()->getFront();
-        $request = $frontController->getRequest();
-        $response = $frontController->getResponse();
+        $event = $observer->getEvent();
+        $request = $event->getRequest();
+        $response = $event->getResponse();
         $this->_saveDesignException();
         $this->_processor->processRequestResponse($request, $response);
         return $this;

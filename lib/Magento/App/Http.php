@@ -10,7 +10,8 @@
 namespace Magento\App;
 
 use \Magento\Config\Scope,
-    \Magento\App\ObjectManager\ConfigLoader;
+    \Magento\App\ObjectManager\ConfigLoader,
+    \Magento\Event;
 
 class Http implements \Magento\AppInterface
 {
@@ -18,6 +19,11 @@ class Http implements \Magento\AppInterface
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
+
+    /**
+     * @var \Magento\Event\Manager
+     */
+    protected $_eventManager;
 
     /**
      * @var AreaList
@@ -40,24 +46,43 @@ class Http implements \Magento\AppInterface
     protected $_configLoader;
 
     /**
+     * @var State
+     */
+    protected $_state;
+
+    /**
+     * @var Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
+     * @param Event\Manager $eventManager
      * @param AreaList $areaList
      * @param RequestInterface $request
      * @param Scope $configScope
      * @param ConfigLoader $configLoader
+     * @param State $state
+     * @param Dir $dir
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
+        Event\Manager $eventManager,
         AreaList $areaList,
         RequestInterface $request,
         Scope $configScope,
-        ConfigLoader $configLoader
+        ConfigLoader $configLoader,
+        State $state,
+        Dir $dir
     ) {
         $this->_objectManager = $objectManager;
+        $this->_eventManager = $eventManager;
         $this->_areaList = $areaList;
         $this->_request = $request;
         $this->_configScope = $configScope;
         $this->_configLoader = $configLoader;
+        $this->_state = $state;
+        $this->_dir = $dir;
     }
 
     /**
@@ -65,10 +90,46 @@ class Http implements \Magento\AppInterface
      */
     public function execute()
     {
-        $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
-        $this->_configScope->setCurrentScope($areaCode);
-        $this->_objectManager->configure($this->_configLoader->load($areaCode));
-        $this->_objectManager->get('Magento\App\FrontControllerInterface')->dispatch($this->_request);
-        return 0;
+        try {
+            $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
+            $this->_configScope->setCurrentScope($areaCode);
+            $this->_objectManager->configure($this->_configLoader->load($areaCode));
+            $response = $this->_objectManager->get('Magento\App\FrontControllerInterface')->dispatch($this->_request);
+            // This event gives possibility to launch something before sending output (allow cookie setting)
+            $eventParams = array('request' => $this->_request, 'response' => $response);
+            $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);
+            \Magento\Profiler::start('send_response');
+            $response->sendResponse();
+            \Magento\Profiler::stop('send_response');
+            $this->_eventManager->dispatch('controller_front_send_response_after', $eventParams);
+            return 0;
+        } catch(\Exception $exception) {
+            echo $exception->getMessage() . "\n";
+            try {
+                if ($this->_state->getMode() == State::MODE_DEVELOPER) {
+                    header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                    print '<pre>';
+                    print $exception->getMessage() . "\n\n";
+                    print $exception->getTraceAsString();
+                    print '</pre>';
+                } else {
+                    $reportData = array($exception->getMessage(), $exception->getTraceAsString());
+                    // retrieve server data
+                    if (isset($_SERVER)) {
+                        if (isset($_SERVER['REQUEST_URI'])) {
+                            $reportData['url'] = $_SERVER['REQUEST_URI'];
+                        }
+                        if (isset($_SERVER['SCRIPT_NAME'])) {
+                            $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
+                        }
+                    }
+                    require_once ($this->_dir->getDir(Dir::PUB) . DS . 'errors' . DS . 'report.php');
+                }
+            } catch (\Exception $exception) {
+                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                print "Unknown error happened.";
+            }
+            return -1;
+        }
     }
 }
