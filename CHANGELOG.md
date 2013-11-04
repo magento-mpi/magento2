@@ -11,6 +11,7 @@
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
+  * Removed residual page fragment code
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
 
