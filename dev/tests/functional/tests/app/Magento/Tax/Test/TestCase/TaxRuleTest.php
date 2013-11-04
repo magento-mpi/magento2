@@ -14,8 +14,14 @@ namespace Magento\Tax\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 
+/**
+ * Functional test for Tax Rule configuration
+ */
 class TaxRuleTest extends Functional
 {
+    /**
+     * Test case for new Tax Rule creation
+     */
     public function testCreateTaxRule()
     {
         Factory::getApp()->magentoTaxRemoveTaxRule();

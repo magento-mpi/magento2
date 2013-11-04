@@ -48,37 +48,6 @@ class Rule extends Grid
     }
 
     /**
-     * Press Reset Filter Button
-     */
-    public function clickResetFilter()
-    {
-        parent::resetFilter();
-    }
-
-    public function prepareForSearch(array $filters)
-    {
-        foreach ($filters as $key => $value) {
-            if (isset($this->filters[$key])) {
-                $selector = $this->filters[$key]['selector'];
-                $strategy = isset($this->filters[$key]['strategy'])
-                    ? $this->filters[$key]['strategy']
-                    : Locator::SELECTOR_CSS;
-                $typifiedElement = isset($this->filters[$key]['input'])
-                    ? $this->filters[$key]['input']
-                    : null;
-                $this->_rootElement->find($selector, $strategy, $typifiedElement)->setValue($value);
-            } else {
-                throw new \Exception('Such column is absent in the grid or not described yet.');
-            }
-        }
-    }
-
-    public function clickSearchButton()
-    {
-        $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
      * @param array|string $filter
      * @return bool
      */
@@ -91,5 +60,3 @@ class Rule extends Grid
         }
     }
 }
-
-//div[@class="grid"]//tr[td[text()[normalize-space()="Tax Rule 1961477950"]] and td[text()[normalize-space()="Retail Customer"]] and td[text()[normalize-space()="Taxable Goods"]] and td[text()[normalize-space()="US-CA-*-Rate 1"]]]

@@ -59,6 +59,11 @@ class TaxRule extends AbstractRepository
         );
     }
 
+    /**
+     * Return data structure for Tax Rule with custom Rates, Tax classes
+     *
+     * @return array
+     */
     protected function _getUscanyTaxRule()
     {
         return array(

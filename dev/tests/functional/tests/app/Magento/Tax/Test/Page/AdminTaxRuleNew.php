@@ -18,15 +18,14 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Login.
- * Customer frontend login page.
+ * Class for new tax rule page
  *
- * @package Magento\Customer\Test\Page
+ * @package Magento\Tax\Test\Page
  */
 class AdminTaxRuleNew extends Page
 {
     /**
-     * URL for customer login
+     * URL for new tax rule
      */
     const MCA = 'admin/tax_rule/new/';
 
