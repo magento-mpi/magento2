@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Default Declarations of Scripts and Styles" type="fragment" owner="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-calendar-css">
             <arguments>
