@@ -8,45 +8,57 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Dashboard\Searches\Renderer;
 
 /**
  * Dashboard search query column renderer
- *
- * @category   Magento
- * @package    Magento_Adminhtml
  */
-namespace Magento\Backend\Block\Dashboard\Searches\Renderer;
-
-class Searchquery
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Searchquery extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
+     * Filter manager
+     *
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filter;
+
+
+    /**
+     * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Filter\FilterManager $filter,
         \Magento\Backend\Block\Context $context,
+        \Magento\Stdlib\String $string,
         array $data = array()
     ) {
-        $this->_coreString = $coreString;
+        $this->filter = $filter;
+        $this->string = $string;
         parent::__construct($context, $data);
     }
 
+    /**
+     * Renders grid column
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
-        if ($this->_coreString->strlen($value) > 30) {
-            $value = '<span title="'. $this->escapeHtml($value) .'">'
-                . $this->escapeHtml($this->_coreString->truncate($value, 30)) . '</span>';
+        if ($this->string->strlen($value) > 30) {
+            $value = '<span title="' . $this->escapeHtml($value) . '">'
+                . $this->escapeHtml($this->filter->truncate($value, array('length' => 30))) . '</span>';
         } else {
             $value = $this->escapeHtml($value);
         }

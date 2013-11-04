@@ -31,7 +31,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->method('getAttributeCode')
             ->will($this->returnValue('category_ids'));
 
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $model = new \Magento\Catalog\Model\Product\Attribute\Backend\Category($logger);
         $model->setAttribute($categoryAttribute);
 

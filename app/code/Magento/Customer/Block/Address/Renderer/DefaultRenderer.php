@@ -42,24 +42,32 @@ class DefaultRenderer
     protected $_attrDataFactory;
 
     /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $_filterManager;
+
+    /**
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Block\Context $context
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Block\Context $context,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
+        \Magento\Filter\FilterManager $filterManager,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_attrDataFactory = $attrDataFactory;
+        $this->_filterManager = $filterManager;
         parent::__construct($context, $data);
     }
 
     /**
-     * Retrive format type object
+     * Retrieve format type object
      *
      * @return \Magento\Object
      */
@@ -69,7 +77,7 @@ class DefaultRenderer
     }
 
     /**
-     * Retrive format type object
+     * Retrieve format type object
      *
      * @param  \Magento\Object $type
      * @return \Magento\Customer\Block\Address\Renderer\DefaultRenderer
@@ -112,7 +120,6 @@ class DefaultRenderer
                 break;
         }
 
-        $formater   = new \Magento\Filter\Template();
         $attributes = $this->_customerAddress->getAttributes();
 
         $data = array();
@@ -145,11 +152,8 @@ class DefaultRenderer
                 $data[$key] = $this->escapeHtml($value);
             }
         }
-
-        $formater->setVariables($data);
-
         $format = !is_null($format) ? $format : $this->getFormat($address);
 
-        return $formater->filter($format);
+        return $this->_filterManager->template($format, array('variables' => $data));
     }
 }

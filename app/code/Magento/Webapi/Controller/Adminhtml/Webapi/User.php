@@ -87,7 +87,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Magento\Escaper')->escapeHtml($user->getApiKey())
             : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
@@ -142,7 +142,7 @@ class User extends \Magento\Backend\Controller\AbstractAction
                     ->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());

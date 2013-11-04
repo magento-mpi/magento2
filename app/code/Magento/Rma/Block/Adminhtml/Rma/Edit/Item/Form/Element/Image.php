@@ -28,21 +28,26 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
     protected $_backendData = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Backend\Helper\Data $backendData
      * @param array $attributes
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Backend\Helper\Data $backendData,
         $attributes = array()
     ) {
         $this->_backendData = $backendData;
-        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct(
+            $escaper,
+            $factoryElement,
+            $factoryCollection,
+            $attributes
+        );
         $this->setType('file');
     }
 
@@ -167,7 +172,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
             return false;
         }
         return $this->_backendData->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => $this->_coreData->urlEncode($this->getValue()),
+            'image'      => $this->_escaper->urlEncode($this->getValue()),
         ));
     }
 
