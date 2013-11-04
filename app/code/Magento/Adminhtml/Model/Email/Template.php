@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Model\Email;
 
-class Template extends \Magento\Core\Model\Email\Template
+class Template extends \Magento\Email\Model\Template
 {
     /**
      * @var \Magento\Core\Model\Config
@@ -40,10 +40,10 @@ class Template extends \Magento\Core\Model\Email\Template
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory
+     * @param \Magento\Email\Model\Template\FilterFactory $emailFilterFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
+     * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param array $data
      *
@@ -59,10 +59,10 @@ class Template extends \Magento\Core\Model\Email\Template
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
-        \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory,
+        \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\Dir $dir,
-        \Magento\Core\Model\Email\Template\Config $emailConfig,
+        \Magento\Email\Model\Template\Config $emailConfig,
         \Magento\Backend\Model\Config\Structure $structure,
         array $data = array()
     ) {

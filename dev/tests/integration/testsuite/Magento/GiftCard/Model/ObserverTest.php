@@ -26,7 +26,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         'Magento\Core\Model\View\FileSystem',
         'Magento\Core\Model\View\Design',
         'Magento\Core\Model\Store\Config',
-        'Magento\Core\Model\Email\Template\Config',
+        'Magento\Email\Model\Template\Config',
     );
 
     /**
@@ -46,7 +46,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $observer = new \Magento\Event\Observer(array('event' => $event));
 
         $emailTemplateMock = $this->getMock(
-            'Magento\Core\Model\Email\Template',
+            'Magento\Email\Model\Template',
             array('_getMail'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
@@ -58,10 +58,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\Config'),
-                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->get('Magento\App\Dir'),
-                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $emailTemplateMock->expects($this->once())

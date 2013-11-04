@@ -39,9 +39,9 @@ class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testTemplateReference($templateId)
     {
-        /** @var \Magento\Core\Model\Email\Template\Config $emailConfig */
+        /** @var \Magento\Email\Model\Template\Config $emailConfig */
         $emailConfig =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Email\Template\Config');
+            ->create('Magento\Email\Model\Template\Config');
         $templateFilename = $emailConfig->getTemplateFilename($templateId);
         $this->assertFileExists($templateFilename, 'Email template file, specified in the configuration, must exist');
     }
@@ -52,9 +52,9 @@ class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function templateReferenceDataProvider()
     {
         $data = array();
-        /** @var \Magento\Core\Model\Email\Template\Config $emailConfig */
+        /** @var \Magento\Email\Model\Template\Config $emailConfig */
         $emailConfig =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Email\Template\Config');
+            ->create('Magento\Email\Model\Template\Config');
         foreach ($emailConfig->getAvailableTemplates() as $templateId) {
             $data[$templateId] = array($templateId);
         }
@@ -68,9 +68,9 @@ class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
     {
         $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationState->expects($this->any())->method('isValidated')->will($this->returnValue(true));
-        /** @var \Magento\Core\Model\Email\Template\Config\Reader $reader */
+        /** @var \Magento\Email\Model\Template\Config\Reader $reader */
         $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Email\Template\Config\Reader', array('validationState' => $validationState));
+            ->create('Magento\Email\Model\Template\Config\Reader', array('validationState' => $validationState));
         try {
             $reader->read();
         } catch (\Exception $e) {
