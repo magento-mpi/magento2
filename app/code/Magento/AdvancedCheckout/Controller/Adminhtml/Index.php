@@ -66,7 +66,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      *
      * @throws \Magento\Core\Exception
      * @throws \Magento\AdvancedCheckout\Exception
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     protected function _initData($useRedirects = true)
     {
@@ -459,7 +459,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Ajax handler to response configuration fieldset of composite product in order
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     public function configureProductToAddAction()
     {
@@ -490,7 +490,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Ajax handler to configure item in wishlist
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     public function configureWishlistItemAction()
     {
@@ -535,7 +535,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Ajax handler to configure item in wishlist
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     public function configureOrderedItemAction()
     {
@@ -622,7 +622,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Configure quote items
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     public function configureQuoteItemsAction()
     {
@@ -668,7 +668,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Reload quote
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     protected function _reloadQuote()
     {
@@ -808,7 +808,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Processing request data
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     protected function _processData()
     {
