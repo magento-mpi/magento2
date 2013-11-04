@@ -92,6 +92,20 @@ class Checkout extends DataFixture
     }
 
     /**
+     * Setup a set of configurations
+     *
+     * @param array $dataSets
+     */
+    protected function _persistConfiguration(array $dataSets)
+    {
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        foreach ($dataSets as $dataSet) {
+            $configFixture->switchData($dataSet);
+            $configFixture->persist();
+        }
+    }
+
+    /**
      * Get product which should be added to shopping cart
      *
      * @return \Magento\Catalog\Test\Fixture\Product[]
@@ -192,16 +206,12 @@ class Checkout extends DataFixture
     }
 
     /**
-     * Setup a set of configurations
+     * Get comment history string
      *
-     * @param array $dataSets
+     * @return string
      */
-    protected function _persistConfiguration(array $dataSets)
+    public function getCommentHistory()
     {
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        foreach ($dataSets as $dataSet) {
-            $configFixture->switchData($dataSet);
-            $configFixture->persist();
-        }
+        return $this->getData('totals/comment_history');
     }
 }

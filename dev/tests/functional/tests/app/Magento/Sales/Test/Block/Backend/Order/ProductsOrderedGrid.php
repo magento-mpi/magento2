@@ -12,6 +12,7 @@
 namespace Magento\Sales\Test\Block\Backend\Order;
 
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Grid for products already present in order during it creation in backend
@@ -25,6 +26,6 @@ class ProductsOrderedGrid extends Grid
      */
     public function addNewProducts()
     {
-        $this->_rootElement->find('.actions .action-add')->click();
+        $this->_rootElement->find('//button/span[.="Add Products"]', Locator::SELECTOR_XPATH)->click();
     }
 }

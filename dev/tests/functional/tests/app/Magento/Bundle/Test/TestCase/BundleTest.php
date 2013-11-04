@@ -39,16 +39,17 @@ class BundleTest extends Functional
     {
         //Data
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundle->switchData('bundle_fixed_with_category');
+        $bundle->switchData('bundle_fixed');
         //Pages & Blocks
-        $manageProductsGrid = Factory::getPageFactory()->getAdminCatalogProductIndex();
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
+        //Verification
         $createProductPage->assertProductSaveResult($bundle);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -66,7 +67,7 @@ class BundleTest extends Functional
      */
     protected function assertOnGrid($product)
     {
-        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
@@ -78,9 +79,13 @@ class BundleTest extends Functional
      */
     protected function assertOnCategory($product)
     {
-        //Steps
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $categoryPage->openCategory($product->getCategoryName());
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));

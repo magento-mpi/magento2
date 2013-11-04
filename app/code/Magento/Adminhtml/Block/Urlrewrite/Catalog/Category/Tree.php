@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
 
-class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
+class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
     /**
      * List of allowed category ids
@@ -169,6 +169,6 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
      */
     public function getLoadTreeUrl()
     {
-        return $this->_adminhtmlData->getUrl('*/*/categoriesJson');
+        return $this->_adminhtmlData->getUrl('adminhtml/*/categoriesJson');
     }
 }

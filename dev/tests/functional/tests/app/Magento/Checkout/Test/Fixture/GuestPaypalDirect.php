@@ -52,26 +52,30 @@ class GuestPaypalDirect extends Checkout
             'display_shopping_cart',
             'default_tax_config'
         ));
+
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
+
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable_default_category');
-
+        $simple->switchData('simple_required');
         $simple->persist();
-        $bundle->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
         $configurable->persist();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle->switchData('bundle_fixed_required');
+        $bundle->persist();
+
         $this->products = array(
             $simple,
-            $bundle,
-            $configurable
+            $configurable,
+            $bundle
         );
+
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->billingAddress->switchData('address_US_1');

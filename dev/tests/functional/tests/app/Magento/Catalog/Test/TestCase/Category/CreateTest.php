@@ -17,55 +17,56 @@ use Magento\Catalog\Test\Fixture\Category;
 
 /**
  * Class CreateTest
- * Create new subcategory test
+ * Create category test
  *
  * @package Magento\Catalog\Test\TestCase\Category
  */
 class CreateTest extends Functional
 {
     /**
-     * Category create
+     * Creating Category from Category page with required fields only
+     *
+     * @ZephyrId MAGETWO-12513
      */
-    public function testCreateCategory()
+    public function testWithRequiredFields()
     {
         //Data
         /** @var Category $category */
         $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
         //Pages & Blocks
-        $catalogCategoryPage = Factory::getPageFactory()->getAdminCatalogCategory();
+        $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
         $formBlock = $catalogCategoryPage->getFormBlock();
         $messageBlock = $catalogCategoryPage->getMessageBlock();
-        $loader = $catalogCategoryPage->getTemplateBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
-        $treeBlock->expandAllCategories();
-        $loader->waitLoader();
         $treeBlock->selectCategory($category->getCategoryPath());
-        $loader->waitLoader();
         $treeBlock->addSubcategory();
-        $loader->waitLoader();
         $formBlock->fill($category);
         $formBlock->save($category);
         //Verifying
-        $messageBlock->waitForSuccessMessage($category);
-
+        $messageBlock->waitForSuccessMessage();
         //Flush cache
         $cacheManagementPage = Factory::getPageFactory()->getAdminCache();
         $cacheManagementPage->open();
         $cacheManagementPage->getActionsBlock()->flushMagentoCache();
+        //Verifying
+        $this->assertCategoryOnFrontend($category);
+    }
 
+    /**
+     * Verify category on the frontend
+     *
+     * @param Category $category
+     */
+    protected function assertCategoryOnFrontend(Category $category)
+    {
         //Open created category on frontend
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
-        $loader->waitLoader();
         $navigationMenu = $frontendHomePage->getTopmenu();
-        //TODO: this method does not work if parent has more than one parent in tree
         $navigationMenu->selectCategoryByName($category->getCategoryName());
-        $pageTitleBlock = $frontendHomePage->getTitleBlock();
-        $categoryTitle = $pageTitleBlock->getTitle();
-
-        $this->assertEquals($category->getCategoryName(), $categoryTitle);
+        $this->assertEquals($category->getCategoryName(), $frontendHomePage->getTitleBlock()->getTitle());
     }
 }

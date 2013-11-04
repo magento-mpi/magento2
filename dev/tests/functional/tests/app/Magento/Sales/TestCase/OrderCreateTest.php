@@ -40,6 +40,8 @@ class OrderCreateTest extends Functional
      */
     public function testCreateOrder(Order $fixture)
     {
+        $fixture->persist();
+
         $this->_proceedToOrderCreatePage();
 
         $this->_fillOrderData($fixture);
@@ -52,8 +54,8 @@ class OrderCreateTest extends Functional
      */
     protected function _proceedToOrderCreatePage()
     {
-        $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
-        $gridPageActionsBlock = $orderGridPage->getPageActionsBlock();
+        $orderGridPage = Factory::getPageFactory()->getSalesOrder();
+        $gridPageActionsBlock = $orderGridPage->getOrderActionsBlock();
 
         $orderGridPage->open();
         $gridPageActionsBlock->clickAddNew();
@@ -102,10 +104,8 @@ class OrderCreateTest extends Functional
      */
     protected function _checkOrderAndCustomer(Order $fixture)
     {
-        //Pages
-        $orderViewPage = Factory::getPageFactory()->getAdminSalesOrderView();
-        $orderGridPage = Factory::getPageFactory()->getAdminSalesOrder();
-        //Blocks
+        $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
+        $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         $orderGrid = $orderGridPage->getOrderGridBlock();
 
         //Verification data

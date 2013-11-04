@@ -68,6 +68,27 @@ abstract class Grid extends Block
     protected $selectItem;
 
     /**
+     * 'Select All' link
+     *
+     * @var string
+     */
+    protected $selectAll;
+
+    /**
+     * Massaction dropdown
+     *
+     * @var string
+     */
+    protected $massactionSelect;
+
+    /**
+     * Massaction 'Submit' button
+     *
+     * @var string
+     */
+    protected $massactionSubmit;
+
+    /**
      * The body element of the page
      *
      * @var Template
@@ -80,10 +101,16 @@ abstract class Grid extends Block
     protected function _init()
     {
         parent::_init();
+        //Elements
         $this->searchButton = '[title=Search][class*=action]';
         $this->resetButton = '[title="Reset Filter"][class*=action]';
         $this->rowItem = 'tbody tr';
         $this->selectItem = 'tbody tr .col-select';
+        //Mass action
+        $this->selectAll = '.massaction a[onclick*=".selectAll()"]';
+        $this->massactionSelect = '[id*=massaction-select]';
+        $this->massactionSubmit = '[id*=massaction-form] button';
+        //Blocks
         $this->editLink = '//td[@data-column="action"]//a';
         $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH));
@@ -169,9 +196,34 @@ abstract class Grid extends Block
         $this->_templateBlock->waitLoader();
     }
 
-    public function deleteAll()
+    /**
+     * Perform selected massaction over checked items
+     *
+     * @param string $actionType
+     * @param array $items
+     */
+    protected function massaction($actionType, array $items = array())
     {
-        //
+        if ($items) {
+            foreach ($items as $item) {
+                $this->searchAndSelect($item);
+            }
+        } else {
+            $this->_rootElement->find($this->selectAll, Locator::SELECTOR_CSS)->click();
+        }
+        $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
+        $this->_rootElement->find($this->massactionSubmit, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->acceptAlert();
+    }
+
+    /**
+     * Delete selected items in grid
+     *
+     * @param array $items
+     */
+    public function delete($items = array())
+    {
+        $this->massaction('Delete', $items);
     }
 
     /**

@@ -132,6 +132,6 @@ class History
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/gridHistory', array('_current' => true));
+        return $this->getUrl('adminhtml/*/gridHistory', array('_current' => true));
     }
 }

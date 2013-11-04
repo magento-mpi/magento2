@@ -71,12 +71,15 @@ class Review extends Form
         $this->placeOrder = '#review-button';
         $this->shippingMethod = '#shipping_method';
         $this->updateOrder = '#update-order';
+        $this->_mapping = array(
+            'telephone' => '[id="shipping:telephone"]'
+        );
 
         //Blocks
         $this->billingBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewBilling(
-            $this->_rootElement->find('#billing-address-form', Locator::SELECTOR_CSS));
+            $this->_rootElement->find('#billing-address', Locator::SELECTOR_CSS));
         $this->shippingBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewShipping(
-            $this->_rootElement->find('#shipping-address-form', Locator::SELECTOR_CSS));
+            $this->_rootElement->find('#shipping-address', Locator::SELECTOR_CSS));
     }
 
     /**
@@ -107,12 +110,8 @@ class Review extends Form
      */
     public function verifyOrderInformation(Checkout $fixture)
     {
-        //TODO assert constraints
         $this->getBillingBlock()->verify($fixture->getBillingAddress());
-        $shippingAddresses = $fixture->getShippingAddress();
-        foreach ($shippingAddresses as $shippingAddress) {
-            $this->getShippingBlock()->verify($shippingAddress);
-        }
+        $this->getShippingBlock()->verify($fixture->getShippingAddress());
     }
 
     /**
@@ -130,16 +129,11 @@ class Review extends Form
     /**
      * Set telephone to form
      *
-     * @param Address $fixture
+     * @param array $telephone
      */
-    public function fillTelephone(Address $fixture)
+    public function fillTelephone(array $telephone)
     {
-        $data = array(array(
-            'selector'  => 'shipping:telephone',
-            'strategy'  => Locator::SELECTOR_ID,
-            'value'     => $fixture->getData('fields/telephone/value'),
-            'input'     => null
-        ));
+        $data = $this->dataMapping($telephone);
         $this->_fill($data);
     }
 

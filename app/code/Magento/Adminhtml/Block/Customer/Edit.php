@@ -71,7 +71,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         }
 
         if ($customer && $customer->getId()) {
-            $url = $this->getUrl('*/*/resetPassword', array('customer_id' => $customer->getId()));
+            $url = $this->getUrl('adminhtml/*/resetPassword', array('customer_id' => $customer->getId()));
             $this->_addButton('reset_password', array(
                 'label' => __('Reset Password'),
                 'onclick' => 'setLocation(\'' . $url . '\')',
@@ -82,7 +82,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getCreateOrderUrl()
     {
-        return $this->getUrl('*/sales_order_create/start', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('sales/order_create/start', array('customer_id' => $this->getCustomerId()));
     }
 
     public function getCustomerId()
@@ -108,14 +108,14 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getFormHtml()
     {
         $html = parent::getFormHtml();
-        $html .= $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Composite\Configure')
+        $html .= $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Composite\Configure')
             ->toHtml();
         return $html;
     }
 
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current' => true));
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
 
     protected function _prepareLayout()
@@ -137,7 +137,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     protected function _getSaveAndContinueUrl()
     {
-        return $this->getUrl('*/*/save', array(
+        return $this->getUrl('adminhtml/*/save', array(
             '_current'  => true,
             'back'      => 'edit',
             'tab'       => '{{tab_id}}'

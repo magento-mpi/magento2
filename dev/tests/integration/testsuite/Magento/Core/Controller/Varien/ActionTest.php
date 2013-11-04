@@ -323,7 +323,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'Magento\Core\Controller\Varien\Action\Context'
             ),
             'backend' => array(
-                'Magento\Adminhtml\Controller\Action',
+                'Magento\Backend\Controller\Adminhtml\Action',
                 'adminhtml',
                 'admin',
                 'magento_backend',

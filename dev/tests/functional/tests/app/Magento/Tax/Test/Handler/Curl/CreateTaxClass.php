@@ -39,7 +39,7 @@ class CreateTaxClass extends Curl
         foreach ($data as $key => $field) {
             $fields[$key] = $field['value'];
         }
-        $url = $_ENV['app_backend_url'] . 'admin/tax_tax/ajaxSAve/?isAjax=true';
+        $url = $_ENV['app_backend_url'] . 'tax/tax/ajaxSAve/?isAjax=true';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();

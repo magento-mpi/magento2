@@ -179,6 +179,21 @@ class Product extends DataFixture
     }
 
     /**
+     * Stab for filling product options
+     */
+    public function getProductOptions()
+    {
+        $selections = $this->getData('checkout/selections');
+        $options = array();
+        if (!empty($selection)) {
+            foreach ($selections as $selection) {
+                $options[$selection['attribute_name']] = $selection['option_name'];
+            }
+        }
+        return $options;
+    }
+
+    /**
      * Get Url params
      *
      * @param string $urlKey
@@ -204,14 +219,7 @@ class Product extends DataFixture
         $this->_dataConfig = array(
             'constraint' => 'Success',
 
-            'block_form_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductForm',
-            'block_grid_class'  => '\\Magento\\Catalog\\Test\\Block\\Backend\\ProductGrid',
-
             'grid_filter'       => array('name'),
-
-            'url_create_page'   => 'admin/catalog_product/new',
-            'url_update_page'   => 'admin/catalog_product/edit',
-            'url_grid_page'     => 'admin/catalog_product/index',
 
             'create_url_params' => array(
                 'type' => 'simple',
@@ -248,18 +256,6 @@ class Product extends DataFixture
                 'weight' => array(
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'meta_title' => array(
-                    'value' => 'Meta Title',
-                    'group' => static::GROUP_ADVANCED_SEO
-                ),
-                'meta_keyword' => array(
-                    'value' => 'Meta Keyword',
-                    'group' => static::GROUP_ADVANCED_SEO
-                ),
-                'meta_description' => array(
-                    'value' => 'Meta Description',
-                    'group' => static::GROUP_ADVANCED_SEO
                 ),
                 'product_website_1' => array(
                     'value' => 'Yes',

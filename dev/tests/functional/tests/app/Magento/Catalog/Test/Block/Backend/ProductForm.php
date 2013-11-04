@@ -79,6 +79,7 @@ class ProductForm extends FormTabs
          * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
          */
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+        /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
         if ($fixture->getCategoryName()) {
             $this->fillCategory($fixture->getCategoryName());
         }

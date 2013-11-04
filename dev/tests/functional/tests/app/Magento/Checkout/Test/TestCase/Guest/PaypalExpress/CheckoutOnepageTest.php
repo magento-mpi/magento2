@@ -31,6 +31,7 @@ class CheckoutOnepageTest extends Functional
     public function testOnepageCheckout()
     {
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress();
+        $fixture->persist();
 
         $this->_createAndAddProducts($fixture);
 
@@ -109,17 +110,17 @@ class CheckoutOnepageTest extends Functional
     {
         $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
         Factory::getApp()->magentoBackendLoginUser();
-        $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $expectedGrandTotal = $fixture->getData('totals/grand_total');
-        $actualGrandTotal = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal();
-        $expectedAuthorizedAmount = $fixture->getData('totals/authorized_amount');
-        $actualAuthorizedAmount = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getAuthorizedAmount();
-        $expectedCommentHistory = $fixture->getData('totals/comment_history');
-        $actualCommentHistory = Factory::getPageFactory()->getAdminSalesOrderView()->getOrderHistoryBlock()->getCommentHistory();
-        $this->assertContains($expectedGrandTotal, $actualGrandTotal, 'Incorrect grand total value for the order #' . $orderId);
-        $this->assertContains($expectedAuthorizedAmount, $actualAuthorizedAmount, 'Incorrect authorized amount value for the order #' . $orderId);
-        $this->assertContains($expectedCommentHistory, $actualCommentHistory, 'Incorrect authorized amount value for the order #' . $orderId);
+
+        $this->assertContains(
+            $fixture->getGrandTotal(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+            'Incorrect grand total value for the order #' . $orderId);
+        $this->assertContains(
+            $fixture->getGrandTotal(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
+            'Incorrect authorized amount value for the order #' . $orderId);
     }
 }

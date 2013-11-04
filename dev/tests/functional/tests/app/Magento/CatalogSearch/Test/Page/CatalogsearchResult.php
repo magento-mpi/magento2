@@ -43,7 +43,7 @@ class CatalogsearchResult extends Page
     {
         $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
         $this->listProductBlock = Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
-            $this->_browser->find('.category-products', Locator::SELECTOR_CSS)
+            $this->_browser->find('.search.results', Locator::SELECTOR_CSS)
         );
     }
 

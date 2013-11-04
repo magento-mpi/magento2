@@ -56,7 +56,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqueId = $this->_coreData->uniqHash($element->getId());
-        $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
+        $sourceUrl = $this->getUrl('adminhtml/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)

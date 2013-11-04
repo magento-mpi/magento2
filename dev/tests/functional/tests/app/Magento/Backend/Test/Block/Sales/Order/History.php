@@ -14,7 +14,6 @@ namespace Magento\Backend\Test\Block\Sales\Order;
 use Mtf\Fixture;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -30,41 +29,23 @@ class History extends Block
      *
      * @var string
      */
-    protected $_commentHistoryClass;
-
-    /**
-     * Authorized amount Id
-     *
-     * @var string
-     */
-    protected $_authorizedAmount;
+    private $commentHistory;
 
     /**
      * Initialize block elements
      */
     protected function _init()
     {
-        $this->_commentHistoryClass    = 'note-list-comment';
-        $this->_authorizedAmount  = '#order_history_block .note-list-comment';
+        $this->commentHistory = '.note-list-comment';
     }
 
     /**
-     * Comment History
-     *
-     * @return array|string
-     */
-    public function getCommentHistory()
-    {
-        return $this->_rootElement->find($this->_commentHistoryClass, Locator::SELECTOR_CLASS_NAME)->getText();
-    }
-
-    /**
-     * Get Authorized Amount
+     * Get comments history
      *
      * @return string
      */
-    public function getAuthorizedAmount()
+    public function getCommentsHistory()
     {
-        return $this->_rootElement->find($this->_authorizedAmount)->getText();
+        return $this->_rootElement->find($this->commentHistory)->getText();
     }
 }

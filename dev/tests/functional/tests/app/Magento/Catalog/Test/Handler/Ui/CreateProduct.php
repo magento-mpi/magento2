@@ -34,7 +34,7 @@ class CreateProduct extends Ui
     {
         Factory::getApp()->magentoBackendLoginUser();
 
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($fixture);
         $createProductPage->open();
 

@@ -41,21 +41,10 @@ class CatalogCategoryView extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'];
+
         $this->listProductBlock = Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
             $this->_browser->find('.products.wrapper.grid', Locator::SELECTOR_CSS)
         );
-    }
-
-    /**
-     * Open category by name from menu
-     *
-     * @param string $categoryName
-     */
-    public function openCategory($categoryName)
-    {
-        $this->open();
-        $location = '//nav[@class="navigation"]//a[span[text()="' . $categoryName . '"]]';
-        $this->_browser->find($location, Locator::SELECTOR_XPATH)->click();
     }
 
     /**

@@ -135,15 +135,7 @@ class Customer extends DataFixture
     protected function _initData()
     {
         $this->_defaultConfig = array(
-            'block_form_class' => '\\Magento\\Customer\\Test\Block\\Backend\\CustomerForm',
-            'block_grid_class' => '\\Magento\\Customer\\Test\Block\\Backend\\CustomerGrid',
-
             'grid_filter' => array('email'),
-
-            'url_create_page' => 'admin/customer/new',
-            'url_update_page' => 'admin/customer/edit',
-            'url_grid_page' => 'admin/customer/index',
-
             'constraint' => 'Success'
         );
 

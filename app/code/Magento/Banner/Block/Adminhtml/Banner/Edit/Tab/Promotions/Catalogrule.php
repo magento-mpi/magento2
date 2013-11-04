@@ -154,7 +154,7 @@ class Catalogrule
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/catalogRuleGrid', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/catalogRuleGrid', array('_current'=>true));
     }
 
     protected function _getSelectedRules()

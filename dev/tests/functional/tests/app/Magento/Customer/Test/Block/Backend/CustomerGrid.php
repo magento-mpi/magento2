@@ -36,22 +36,4 @@ class CustomerGrid extends Grid
             ),
         );
     }
-
-    /**
-     * Click "Select All" and submit Delete action
-     */
-    public function deleteAll()
-    {
-        $this->_rootElement
-            ->find('//*[@id="customerGrid_massaction"]//a[text()="Select All"]', Locator::SELECTOR_XPATH)
-            ->click();
-        $this->_rootElement
-            ->find('customerGrid_massaction-select', Locator::SELECTOR_ID, 'select')
-            ->setValue('Delete');
-        $this->_rootElement
-            ->find('customerGrid_massaction-form', Locator::SELECTOR_ID)
-            ->find('[title=Submit]', Locator::SELECTOR_CSS)
-            ->click();
-        $this->_rootElement->acceptAlert();
-    }
 }

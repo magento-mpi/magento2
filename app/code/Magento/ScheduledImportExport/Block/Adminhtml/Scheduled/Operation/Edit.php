@@ -122,7 +122,7 @@ class Edit
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array(
+        return $this->getUrl('adminhtml/*/delete', array(
             $this->_objectId => $this->getRequest()->getParam($this->_objectId),
             'type' => $this->_coreRegistry->registry('current_operation')->getOperationType()
         ));

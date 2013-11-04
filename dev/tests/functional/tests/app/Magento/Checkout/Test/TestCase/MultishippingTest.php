@@ -9,28 +9,30 @@
  * @license     {license_link}
  */
 
-namespace Scenarios\Test\TestCase\Checkout;
+namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class MultishippingCheckoutTest
+ * Class MultishippingTest
  * Test multiple address page checkout with different configurations
  *
- * @package Scenarios\Test\TestCase\Checkout
+ * @package Magento\Checkout\Test\TestCase
  */
-class MultishippingCheckoutTest extends Functional
+class MultishippingTest extends Functional
 {
     /**
      * Place order on frontend via multishipping.
      *
      * @param Checkout $fixture
      * @dataProvider dataProviderMultishippingCheckout
+     * @ZephyrId MAGETWO-12836
      */
     public function testMultishippingCheckout(Checkout $fixture)
     {
+        $fixture->persist();
         //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
@@ -43,7 +45,7 @@ class MultishippingCheckoutTest extends Functional
 
         //Proceed to checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        //Multishipping checkout
+
         $checkoutCartPage->getCartBlock()->getMultishippingLinkBlock()->multipleAddressesCheckout();
 
         //Register new customer
@@ -74,12 +76,12 @@ class MultishippingCheckoutTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $grandTotals = $fixture->getGrandTotal();
         foreach ($orderIds as $num => $orderId) {
-            $orderPage = Factory::getPageFactory()->getAdminSalesOrder();
+            $orderPage = Factory::getPageFactory()->getSalesOrder();
             $orderPage->open();
             $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
             $this->assertContains(
                 $grandTotals[$num],
-                Factory::getPageFactory()->getAdminSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+                Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
                 'Incorrect grand total value for the order #' . $orderId
             );
         }
