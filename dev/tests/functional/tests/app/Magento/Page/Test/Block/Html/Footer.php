@@ -16,12 +16,17 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class top menu navigation block
+ * Footer block
  *
  * @package Magento\Page\Test\Block\Html
  */
 class Footer extends Block
 {
+    /**
+     * Link selector
+     *
+     * @var string
+     */
     protected $linkSelector = '//*[@class="links"]//a[contains(text(), "%s")]';
 
     /**
