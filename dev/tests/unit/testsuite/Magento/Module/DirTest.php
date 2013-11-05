@@ -34,7 +34,8 @@ class DirTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'));
 
         $this->_stringMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false, false);
-        $this->_stringMock->expects($this->once())->method('upperCaseWords')->will($this->returnValue('Test\Module'));
+        $this->_stringMock->expects($this->once())->method('upperCaseWords')
+            ->will($this->returnValue('Test' . DIRECTORY_SEPARATOR . 'Module'));
         $this->_model = new \Magento\Module\Dir($this->_applicationDirs, $this->_stringMock);
     }
 
