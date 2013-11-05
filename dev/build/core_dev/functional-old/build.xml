@@ -108,7 +108,7 @@
         ]]></script>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed} --
+            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional-old/parallel-run.php ${env.bamboo_tests_executed} --
                 --log-junit ${basedir}/test-cases-report.xml
                 --max-instances ${max_instances}
                 ${env.bamboo_executer_options}
@@ -123,17 +123,17 @@
         <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/phpunit.xml"/>
         <copy file="${basedir}/${env.build_customization_dir}/config.yml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/config.yml"/>
         <copy file="${basedir}/${env.build_customization_dir}/install.php" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/install.php"/>
 
         <antcall target="_installation_requirements" inheritAll="true">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>
         </antcall>
 
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php">
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/install.php">
             <replacefilter token="{{db_model}}" value="${env.db_model}"/>
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
             <replacefilter token="{{db_name}}" value="${env.db_name_prefix}${instanceIndex}"/>
@@ -143,7 +143,7 @@
             <replacefilter token="{{secure_url}}" value="${env.https_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml">
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/config.yml">
             <replacefilter token="{{admin_url}}" value="${env.https_host}${env.build.key}/instance-${instanceIndex}/backend/admin"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
@@ -248,7 +248,7 @@
         ]]></script>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed_ee} --
+            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional-old/parallel-run.php ${env.bamboo_tests_executed_ee} --
                 --log-junit ${basedir}/test-cases-report.xml
                 --max-instances ${max_instances}
                 ${env.bamboo_executer_options}
@@ -263,17 +263,17 @@
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/phpunit.xml"/>
         <copy file="${basedir}/${env.build_customization_dir}/config.yml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/config.yml"/>
         <copy file="${basedir}/${env.build_customization_dir}/install.php" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/install.php"/>
 
         <antcall target="_installation_requirements" inheritAll="true">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>
         </antcall>
 
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php">
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/install.php">
             <replacefilter token="{{db_model}}" value="${env.db_model}"/>
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
             <replacefilter token="{{db_name}}" value="${env.db_name_prefix}${instanceIndex}"/>
@@ -283,7 +283,7 @@
             <replacefilter token="{{secure_url}}" value="${env.https_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml">
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/config/config.yml">
             <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/instance-${instanceIndex}/backend/admin"/>
             <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
