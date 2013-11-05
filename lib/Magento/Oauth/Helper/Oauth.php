@@ -14,21 +14,21 @@ class Oauth
      * Lengths of token fields
      */
     const LENGTH_TOKEN = 32;
-    const LENGTH_SECRET = 32;
-    const LENGTH_VERIFIER = 32;
+    const LENGTH_TOKEN_SECRET = 32;
+    const LENGTH_TOKEN_VERIFIER = 32;
     /**#@- */
 
     /**#@+
      * Lengths of consumer fields
      */
-    const KEY_LENGTH = 32;
-    const SECRET_LENGTH = 32;
+    const LENGTH_CONSUMER_KEY = 32;
+    const LENGTH_CONSUMER_SECRET = 32;
     /**#@- */
 
     /**
      * Nonce length
      */
-    const NONCE_LENGTH = 32;
+    const LENGTH_NONCE = 32;
 
     /**
      * Value of callback URL when it is established or if the client is unable to receive callbacks
@@ -92,7 +92,7 @@ class Oauth
      */
     public function generateTokenSecret()
     {
-        return $this->generateRandomString(self::LENGTH_SECRET);
+        return $this->generateRandomString(self::LENGTH_TOKEN_SECRET);
     }
 
     /**
@@ -102,7 +102,7 @@ class Oauth
      */
     public function generateVerifier()
     {
-        return $this->generateRandomString(self::LENGTH_VERIFIER);
+        return $this->generateRandomString(self::LENGTH_TOKEN_VERIFIER);
     }
 
     /**
@@ -112,7 +112,7 @@ class Oauth
      */
     public function generateConsumerKey()
     {
-        return $this->generateRandomString(self::KEY_LENGTH);
+        return $this->generateRandomString(self::LENGTH_CONSUMER_KEY);
     }
 
     /**
@@ -122,6 +122,6 @@ class Oauth
      */
     public function generateConsumerSecret()
     {
-        return $this->generateRandomString(self::SECRET_LENGTH);
+        return $this->generateRandomString(self::LENGTH_CONSUMER_SECRET);
     }
 }

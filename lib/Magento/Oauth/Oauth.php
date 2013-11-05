@@ -16,22 +16,22 @@ class Oauth implements OauthInterface
     /** @var  \Zend_Oauth_Http_Utility */
     protected $_httpUtility;
 
-    /** @var \Magento\Oauth\Nonce\GeneratorInterface */
+    /** @var \Magento\Oauth\NonceGeneratorInterface */
     protected $_nonceGenerator;
 
-    /** @var \Magento\Oauth\Token\ProviderInterface */
+    /** @var \Magento\Oauth\TokenProviderInterface */
     protected $_tokenProvider;
 
     /**
      * @param Helper\Oauth $oauthHelper
-     * @param Nonce\GeneratorInterface $nonceGenerator
-     * @param Token\ProviderInterface $tokenProvider
+     * @param NonceGeneratorInterface $nonceGenerator
+     * @param TokenProviderInterface $tokenProvider
      * @param \Zend_Oauth_Http_Utility $httpUtility
      */
     public function __construct(
         Helper\Oauth $oauthHelper,
-        Nonce\GeneratorInterface $nonceGenerator,
-        Token\ProviderInterface $tokenProvider,
+        NonceGeneratorInterface $nonceGenerator,
+        TokenProviderInterface $tokenProvider,
         \Zend_Oauth_Http_Utility $httpUtility
     ) {
         $this->_oauthHelper = $oauthHelper;
@@ -88,8 +88,7 @@ class Oauth implements OauthInterface
         $this->_validateProtocolParams($params, $required);
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
         $tokenSecret = $this->_tokenProvider
-            ->validateRequestToken($params['oauth_token'], $consumer, $params['oauth_verifier']
-        );
+            ->validateRequestToken($params['oauth_token'], $consumer, $params['oauth_verifier']);
 
         $this->_validateSignature(
             $params,
@@ -264,7 +263,6 @@ class Oauth implements OauthInterface
         }
 
         $consumer = $this->_tokenProvider->getConsumerByKey($protocolParams['oauth_consumer_key']);
-
         $this->_nonceGenerator->validateNonce(
             $consumer, $protocolParams['oauth_nonce'], $protocolParams['oauth_timestamp']
         );

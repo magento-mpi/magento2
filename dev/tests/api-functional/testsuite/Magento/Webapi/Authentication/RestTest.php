@@ -21,10 +21,10 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     /** @var \Magento\TestFramework\Authentication\Rest\OauthClient[] */
     protected $_oAuthClients = array();
 
-    /** @var \Magento\Oauth\Model\Consumer */
+    /** @var \Magento\Integration\Model\Oauth\Consumer */
     protected static $_consumer;
 
-    /** @var \Magento\Oauth\Model\Token */
+    /** @var \Magento\Integration\Model\Oauth\Token */
     protected static $_token;
 
     /** @var string */
@@ -78,9 +78,9 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->assertEquals(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN,
             strlen($requestToken->getRequestToken()),
             "Request token value length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN);
-        $this->assertEquals(\Magento\Oauth\Helper\Oauth::LENGTH_SECRET,
+        $this->assertEquals(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET,
             strlen($requestToken->getRequestTokenSecret()),
-            "Request token secret length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_SECRET);
+            "Request token secret length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET);
     }
 
     /**
@@ -130,9 +130,9 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->assertEquals(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN,
             strlen($accessToken->getAccessToken()),
             "Access token value length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN);
-        $this->assertEquals(\Magento\Oauth\Helper\Oauth::LENGTH_SECRET,
+        $this->assertEquals(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET,
             strlen($accessToken->getAccessTokenSecret()),
-            "Access token secret length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_SECRET);
+            "Access token secret length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET);
     }
 
     public function testAccessApi()

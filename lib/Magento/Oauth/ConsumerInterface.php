@@ -52,4 +52,11 @@ interface ConsumerInterface
      * @return string
      */
     public function getCallbackUrl();
+
+    /**
+     * Get when the consumer was created.
+     *
+     * @return string
+     */
+    public function getCreatedAt();
 }

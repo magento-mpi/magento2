@@ -29,8 +29,8 @@ class OauthHelper
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $consumerHelper \Magento\Oauth\Helper\Consumer */
-        $consumerHelper = $objectManager->get('Magento\Oauth\Helper\Consumer');
+        /** @var $consumerHelper \Magento\Integration\Helper\Oauth\Consumer */
+        $consumerHelper = $objectManager->get('Magento\Integration\Helper\Oauth\Consumer');
         /** @var $oauthHelper \Magento\Oauth\Helper\Oauth */
         $oauthHelper = $objectManager->get('Magento\Oauth\Helper\Oauth');
 
@@ -43,8 +43,7 @@ class OauthHelper
             'secret' => $consumerSecret,
             'name' => 'consumerName',
             'callback_url' => $url,
-            'rejected_callback_url' => $url,
-            'http_post_url' => $url
+            'rejected_callback_url' => $url
         );
 
         if (!is_null($date)) {
@@ -53,10 +52,10 @@ class OauthHelper
 
         /** @var array $consumerData */
         $consumerData = $consumerHelper->createConsumer($data);
-        /** @var  $consumer \Magento\Oauth\Model\Consumer */
-        $consumer = $objectManager->get('Magento\Oauth\Model\Consumer')
+        /** @var  $consumer \Magento\Integration\Model\Oauth\Consumer */
+        $consumer = $objectManager->get('Magento\Integration\Model\Oauth\Consumer')
             ->load($consumerData['key'], 'key');
-        $token = $objectManager->create('Magento\Oauth\Model\Token');
+        $token = $objectManager->create('Magento\Integration\Model\Oauth\Token');
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
         return array (
