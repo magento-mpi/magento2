@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Any)" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Any)" type="page">
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -64,7 +64,7 @@
                 </arguments>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.rating" template="product/view/rating.phtml"/>
-            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="product/view/attribute.phtml">
+            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="product/view/attribute.phtml" group="detailed_info">
                 <arguments>
                     <argument name="at_call" xsi:type="string">getShortDescription</argument>
                     <argument name="at_code" xsi:type="string">short_description</argument>
@@ -89,7 +89,7 @@
             </block>
         </container>
         <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.details" template="product/view/details.phtml">
-            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" template="product/view/attribute.phtml">
+            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" template="product/view/attribute.phtml" group="detailed_info">
                 <arguments>
                     <argument name="at_call" xsi:type="string">getDescription</argument>
                     <argument name="at_code" xsi:type="string">description</argument>
@@ -97,17 +97,11 @@
                     <argument name="at_label" xsi:type="string">none</argument>
                     <argument name="title" translate="true" xsi:type="string">Details</argument>
                 </arguments>
-                <action method="addToParentGroup">
-                    <argument name="group" xsi:type="string">detailed_info</argument>
-                </action>
             </block>
-            <block class="Magento\Catalog\Block\Product\View\Attributes" name="product.attributes" as="additional" template="product/view/attributes.phtml">
+            <block class="Magento\Catalog\Block\Product\View\Attributes" name="product.attributes" as="additional" template="product/view/attributes.phtml" group="detailed_info">
                 <arguments>
                     <argument translate="true" name="title" xsi:type="string">Additional Information</argument>
                 </arguments>
-                <action method="addToParentGroup">
-                    <argument name="group" xsi:type="string">detailed_info</argument>
-                </action>
             </block>
         </block>
     </referenceContainer>

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-class Statistics extends \Magento\Adminhtml\Controller\Action
+class Statistics extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Admin session model
@@ -119,11 +119,11 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('We can\'t refresh recent statistics.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } else {
             $this->_redirectReferer('*/*');
         }
@@ -150,11 +150,11 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('We can\'t refresh lifetime statistics.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
-            $this->_redirect('*/*');
+            $this->_redirect('adminhtml/*');
         } else {
             $this->_redirectReferer('*/*');
         }

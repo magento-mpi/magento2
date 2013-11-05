@@ -9,6 +9,6 @@
 ?>
 <?php if ($this->getEnabled()): ?>
 <div class="gift registry name">
-    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>" class="action gift registry"><span><?php echo $this->helper('Magento\Core\Helper\String')->truncate($this->getGiftregistryTitle(), 50) ?></span></a>
+    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>" class="action gift registry"><span><?php echo $this->truncateString($this->getGiftregistryTitle(), 50) ?></span></a>
 </div>
 <?php endif; ?>

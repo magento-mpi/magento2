@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Exception
+ * @package    Magento_Exception
  * @copyright  {copyright}
  * @license    {license_link}
  */

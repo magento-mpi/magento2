@@ -35,26 +35,26 @@ class Minified implements \Magento\Core\Model\Page\Asset\MergeableInterface
     protected $_url;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
      * @param \Magento\Core\Model\Page\Asset\LocalInterface $asset
      * @param \Magento\Code\Minifier $minifier
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Core\Model\Page\Asset\LocalInterface $asset,
         \Magento\Code\Minifier $minifier,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\Logger $logger
+        \Magento\View\Url $viewUrl,
+        \Magento\Logger $logger
     ) {
         $this->_originalAsset = $asset;
         $this->_minifier = $minifier;

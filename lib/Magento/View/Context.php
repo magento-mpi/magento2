@@ -16,9 +16,9 @@ use Magento\App\FrontControllerInterface;
 use Magento\Core\Model\Translate;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\Core\Model\Factory\Helper as FactoryHelper;
-use Magento\Core\Model\View\Url as ViewUrl;
+use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
-use Magento\Core\Model\Logger;
+use Magento\Logger;
 use Magento\Core\Model\App;
 use Magento\App\State as AppState;
 
@@ -88,14 +88,19 @@ class Context
     protected $helperFactory;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $viewUrl;
 
     /**
+     * @var \Magento\View\LayoutInterface
+     */
+    protected $layout;
+
+    /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $viewConfig;
 
@@ -105,7 +110,7 @@ class Context
     protected $cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $logger;
 
@@ -265,7 +270,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\Url
+     * @return \Magento\View\Url
      */
     public function getViewUrl()
     {
@@ -289,7 +294,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

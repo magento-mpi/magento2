@@ -1,9 +1,44 @@
-* View abstraction was moved into lib
-* Temlates and layouts are updated Weee, Directory, Sales, Payment, PaypalUk, Paypal modules, old files moved to magento_backup theme
-* Temlates and layouts are updated in Cms, Contacts, Core, GoogleCheckout, Page, Rating, Review, Rss, Widget modules, old files moved to magento_backup theme
-* Eliminated dependency in Magento\Data\Form from Magento\Core module
-* Eliminated Magento\Media module
-* Fixed copyright information
+* Various improvements:
+  * Global functions are called now from app\functions.php
+  * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
+  * Eliminated functions.php from Magento\Core module
+  * Methods from Core Helpers were moved to appropriate libraries:
+    * from AbstractHelper to Magento\Escaper and Magento\Filter libraries
+    * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
+    * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
+    * from Http Magento Helper to Magento\HTTP libraries
+  * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
+  * Implemented SOAP faults declaration in WSDL
+  * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
+  * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
+* Fixed bugs:
+  * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
+  * Fixed Minimum Advertised Price link on Product view
+  * Fixed View Files Population Tool
+  * Fixed error on save of Google AdWords configuration
+  * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
+  * Fixed impossibility to use spaces in credit card number
+  * Fixed impossibility to print order from frontend
+  * Fixed fatal error when trying to delete review with rating
+
+2.0.0.0-dev50
+=============
+* Modularity improvements:
+  * Breakdown of the Adminhtml module:
+    * Moved Sales, Catalog, Tax-related logic to respective modules
+    * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
+  * View abstraction was moved into library
+  * Eliminated dependency in Magento\Data\Form from Magento\Core module
+  * Eliminated Magento\Media module
+* Themes update:
+  * Templates and layout updates are updated in Cms, Contacts, Core, Directory, GoogleCheckout, Page, Payment, PaypalUk, Paypal, Rating, Review, Rss,Sales, Widget modules, old files moved to magento_backup theme
+* Layout improvements:
+  * Removed page type hierarchy and page fragment types
+  * No direct code execution: methods addColumnRender, addRenderer, addToParentGroup usages as action nodes were eliminated
+* Fixed bugs:
+  * Impossible to add image using WYSIWYG
+  * Legacy static test ObsoleteCodeTest::testPhpFiles produced false-positive results
+  * Incorrect copyright information
 
 2.0.0.0-dev49
 =============

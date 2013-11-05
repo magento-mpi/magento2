@@ -17,7 +17,7 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit;
 
-class Tabs extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
+class Tabs extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs
 {
     protected $_attributeTabBlock = 'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes';
 
@@ -27,7 +27,7 @@ class Tabs extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
 
         $this->addTab('bundle_items', array(
             'label'     => __('Bundle Items'),
-            'url'   => $this->getUrl('*/*/bundles', array('_current' => true)),
+            'url'   => $this->getUrl('adminhtml/*/bundles', array('_current' => true)),
             'class' => 'ajax',
         ));
         $this->bindShadowTabs('bundle_items', 'customer_options');

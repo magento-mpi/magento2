@@ -2,12 +2,6 @@
 # Glob patterns are supported
 #
 app/bootstrap.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Edit/Tab/Attributes/Search.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/Magento/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
 app/code/Magento/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Magento/Adminhtml/Model/Observer.php
@@ -20,6 +14,12 @@ app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
 app/code/Magento/Bundle/Model/Plugin
+app/code/Magento/Catalog/Block/Adminhtml/Product/Edit/NewCategory.php
+app/code/Magento/Catalog/Block/Adminhtml/Product/Edit/Tab/Attributes/Search.php
+app/code/Magento/Catalog/Block/Adminhtml/Product/Edit/Tab/Options/Popup/Grid.php
+app/code/Magento/Catalog/Block/Adminhtml/Product/Helper/Form/Category.php
+app/code/Magento/Catalog/Block/Adminhtml/Product/Helper/Form/Weight.php
+app/code/Magento/Catalog/Block/Adminhtml/Product/Options/Ajax.php
 app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/Grouped
 app/code/Magento/Catalog/Block/Product/TemplateSelector.php
@@ -42,7 +42,6 @@ app/code/Magento/Checkout/Block/Link.php
 app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Cms/Model/Template/FilterProvider.php
 app/code/Magento/Core/data
-app/code/Magento/Core/Helper/Css.php
 app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
@@ -148,7 +147,7 @@ lib/Magento/Backup/Db
 lib/Magento/Backup/Factory.php
 lib/Magento/Cache/Core.php
 lib/Magento/Convert
-lib/Magento/Date.php
+lib/Magento/Stdlib/DateTime.php
 lib/Magento/Object.php
 lib/Magento/App
 lib/Magento/View

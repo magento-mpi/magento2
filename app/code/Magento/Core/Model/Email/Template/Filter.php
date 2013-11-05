@@ -46,21 +46,19 @@ class Filter extends \Magento\Filter\Template
     protected $_plainTemplateMode = false;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper = null;
 
     /**
      * Core store config
@@ -93,9 +91,10 @@ class Filter extends \Magento\Filter\Template
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Logger $logger
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -103,16 +102,17 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\View\LayoutFactory $layoutFactory
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Stdlib\String $string,
+        \Magento\Logger $logger,
+        \Magento\Escaper $escaper,
+        \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\View\LayoutInterface $layout,
         \Magento\View\LayoutFactory $layoutFactory
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -121,6 +121,7 @@ class Filter extends \Magento\Filter\Template
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
         $this->_layoutFactory = $layoutFactory;
+        parent::__construct($string);
     }
 
     /**
@@ -383,7 +384,7 @@ class Filter extends \Magento\Filter\Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return $this->_coreData->escapeHtml($params['var'], $allowedTags);
+        return $this->_escaper->escapeHtml($params['var'], $allowedTags);
     }
 
     /**

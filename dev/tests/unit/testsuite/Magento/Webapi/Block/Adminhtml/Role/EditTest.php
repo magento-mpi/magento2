@@ -24,7 +24,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Helper\Data
      */
-    protected $_coreData;
+    protected $_escaper;
 
     /**
      * @var \Magento\Webapi\Block\Adminhtml\Role\Edit
@@ -34,6 +34,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
+            ->setMethods(array('getUrl'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -46,26 +47,31 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->with('role_id')
             ->will($this->returnValue(1));
 
-        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
+        $this->_escaper = $this->getMockBuilder('Magento\Escaper')
             ->disableOriginalConstructor()
             ->setMethods(array('escapeHtml'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
+        $context = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
             ->disableOriginalConstructor()
-            ->setMethods(array('get'))
+            ->setMethods(array('getEscaper', 'getUrlBuilder', 'getRequest'))
             ->getMock();
 
-        $helperFactory->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('Magento\Core\Helper\Data'))
-            ->will($this->returnValue($this->_coreData));
+        $context->expects($this->any())
+            ->method('getEscaper')
+            ->will($this->returnValue($this->_escaper));
+
+        $context->expects($this->any())
+            ->method('getUrlBuilder')
+            ->will($this->returnValue($this->_urlBuilder));
+
+        $context->expects($this->any())
+            ->method('getRequest')
+            ->will($this->returnValue($this->_request));
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit', array(
-            'urlBuilder' => $this->_urlBuilder,
-            'request' => $this->_request,
-            'helperFactory' => $helperFactory,
+            'context' => $context
         ));
     }
 
@@ -90,7 +96,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilder
             ->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/save', array('_current' => true, 'continue' => true))
+            ->with('adminhtml/*/save', array('_current' => true, 'continue' => true))
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_block->getSaveAndContinueUrl());
@@ -107,7 +113,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         $apiRole->setId(1)->setRoleName('Test Role');
 
-        $this->_coreData->expects($this->once())
+        $this->_escaper->expects($this->once())
             ->method('escapeHtml')
             ->with($apiRole->getRoleName())
             ->will($this->returnArgument(0));

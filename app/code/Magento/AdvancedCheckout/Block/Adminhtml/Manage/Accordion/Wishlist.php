@@ -144,7 +144,7 @@ class Wishlist
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/viewWishlist', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/viewWishlist', array('_current'=>true));
     }
 
     /**

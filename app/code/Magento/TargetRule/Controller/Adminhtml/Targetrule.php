@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Controller\Adminhtml;
 
-class Targetrule extends \Magento\Adminhtml\Controller\Action
+class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
 {
 
     /**
@@ -89,7 +89,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
             $model->load($ruleId);
             if (!$model->getId()) {
                 $this->_getSession()->addError(__('This rule no longer exists.'));
-                $this->_redirect('*/*');
+                $this->_redirect('adminhtml/*');
                 return;
             }
         }
@@ -154,7 +154,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('id'=>$model->getId()));
                     return;
                 }
 
@@ -170,7 +170,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
                 );
 
                 if ($redirectBack) {
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'id'       => $model->getId(),
                         '_current' => true,
                     ));
@@ -189,7 +189,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
 
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
 
@@ -217,18 +217,18 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
                 $model->delete();
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addSuccess(__('You deleted the rule.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
             catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')
             ->addError(__("We can't find a page to delete."));
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**

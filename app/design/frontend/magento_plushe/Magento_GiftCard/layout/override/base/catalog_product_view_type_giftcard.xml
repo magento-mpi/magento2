@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Gift Card)" type="page" parent="catalog_product_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Gift Card)" type="page">
     <referenceBlock name="product.info.form.options">
         <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml" before="-">
             <action method="addPriceBlockType">

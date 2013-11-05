@@ -51,7 +51,7 @@ class BackgroundUploader
      */
     public function getImageUploadUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/uploadQuickStyleImage',
+        return $this->getUrl('adminhtml/system_design_editor_tools/uploadQuickStyleImage',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
         );
     }
@@ -63,7 +63,7 @@ class BackgroundUploader
      */
     public function getImageRemoveUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/removeQuickStyleImage',
+        return $this->getUrl('adminhtml/system_design_editor_tools/removeQuickStyleImage',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
         );
     }

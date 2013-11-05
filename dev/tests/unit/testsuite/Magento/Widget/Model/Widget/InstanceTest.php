@@ -17,7 +17,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
     protected $_widgetModelMock;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewFileSystemMock;
 
@@ -42,10 +42,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->_widgetModelMock = $this->getMockBuilder('Magento\Widget\Model\Widget')
             ->disableOriginalConstructor()
             ->getMock();
-        $contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_viewFileSystemMock = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')
+        $this->_viewFileSystemMock = $this->getMockBuilder('Magento\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_coreConfigMock = $this->getMockBuilder('Magento\Core\Model\Config')
@@ -55,30 +52,17 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->_readerMock = $this->getMockBuilder('Magento\Widget\Model\Config\Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $registryMock = $this->getMockBuilder('Magento\Core\Model\Registry')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $widgetData = $this->getMockBuilder('Magento\Widget\Helper\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productType = $this->getMockBuilder('Magento\Catalog\Model\Product\Type')
-            ->disableOriginalConstructor()
-            ->getMock();
+
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $args = $objectManagerHelper->getConstructArguments('Magento\Widget\Model\Widget\Instance', array(
+            'viewFileSystem' => $this->_viewFileSystemMock,
+            'cacheTypeList' => $this->_cacheTypesListMock,
+            'reader' => $this->_readerMock,
+            'widgetModel' => $this->_widgetModelMock,
+            'coreConfig' => $this->_coreConfigMock
+        ));
         /** @var \Magento\Widget\Model\Widget\Instance _model */
-        $this->_model = $this->getMock(
-            'Magento\Widget\Model\Widget\Instance',
-            array('_construct'),
-            array(
-                $widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock,
-                $this->_cacheTypesListMock, $productType, $this->_readerMock, $this->_widgetModelMock,
-                $this->_coreConfigMock
-            ),
-            '',
-            true
-        );
+        $this->_model = $this->getMock('Magento\Widget\Model\Widget\Instance', array('_construct'), $args, '', true );
     }
 
     public function testGetWidgetConfigAsArray()

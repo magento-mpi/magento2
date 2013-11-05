@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Dashboard" type="page" parent="customer_account">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Dashboard" type="page">
     <update handle="customer_account"/>
     <update handle="page_two_columns_left"/>
     <referenceBlock name="page.main.title">

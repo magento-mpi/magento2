@@ -68,7 +68,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_helperFactory;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -85,7 +85,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -93,6 +93,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @var \Magento\Core\Model\App
      */
     protected $_app;
+
+    /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $_filterManager;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -106,11 +116,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
@@ -125,11 +137,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -148,6 +162,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cacheState      = $cacheState;
         $this->_logger          = $logger;
         $this->_app             = $app;
+        $this->_escaper         = $escaper;
+        $this->_filterManager   = $filterManager;
     }
 
     /**
@@ -239,7 +255,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\View\Url
+     * @return \Magento\View\Url
      */
     public function getViewUrl()
     {
@@ -263,7 +279,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {
@@ -276,5 +292,21 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getApp()
     {
         return $this->_app;
+    }
+
+    /**
+     * @return \Magento\Escaper
+     */
+    public function getEscaper()
+    {
+        return $this->_escaper;
+    }
+
+    /**
+     * @return \Magento\Filter\FilterManager
+     */
+    public function getFilterManager()
+    {
+        return $this->_filterManager;
     }
 }
