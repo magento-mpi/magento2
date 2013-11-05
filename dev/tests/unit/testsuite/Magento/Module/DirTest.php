@@ -19,6 +19,11 @@ class DirTest extends \PHPUnit_Framework_TestCase
      */
     protected $_applicationDirs;
 
+    /**
+     * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_stringMock;
+
     protected function setUp()
     {
         $this->_applicationDirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
@@ -26,9 +31,11 @@ class DirTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getDir')
             ->with(\Magento\App\Dir::MODULES)
-            ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'))
-        ;
-        $this->_model = new \Magento\Module\Dir($this->_applicationDirs);
+            ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'));
+
+        $this->_stringMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false, false);
+        $this->_stringMock->expects($this->once())->method('upperCaseWords')->will($this->returnValue('Test\Module'));
+        $this->_model = new \Magento\Module\Dir($this->_applicationDirs, $this->_stringMock);
     }
 
     public function testGetDirModuleRoot()

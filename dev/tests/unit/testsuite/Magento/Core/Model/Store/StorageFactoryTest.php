@@ -70,7 +70,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_arguments = array('test' => 'argument');
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $this->_logMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_appMock
             = $this->getMock('\Magento\Core\Model\AppInterface');
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
@@ -138,8 +138,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_eventManagerMock->expects($this->once())->method('dispatch')->with('core_app_init_current_store_after');
         $this->_logMock
             ->expects($this->once())
-            ->method('initForStore')
-            ->with($store)
             ->method('unsetLoggers');
         $this->_logMock
             ->expects($this->exactly(2))
