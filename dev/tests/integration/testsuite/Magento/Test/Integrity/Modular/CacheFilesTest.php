@@ -20,7 +20,9 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $schema = realpath(__DIR__ . '../../../../../../../../../lib/Magento/Cache/etc/cache.xsd');
+        /** @var \Magento\App\Dir $dirs */
+        $dirs = $objectManager->get('Magento\App\Dir');
+        $schema = $dirs->getDir('lib') . str_replace('/', DIRECTORY_SEPARATOR, '/Magento/Cache/etc/cache.xsd');
 
         /** @var \Magento\Cache\Config\Reader $reader */
         $reader = $objectManager->create(
