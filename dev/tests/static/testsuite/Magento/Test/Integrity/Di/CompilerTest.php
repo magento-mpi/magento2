@@ -42,24 +42,37 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_mapper;
 
+    /**
+     * @var \Magento\Code\Validator\ConstructorIntegrity
+     */
+    protected $_validator;
+
     protected function setUp()
     {
         $this->_shell = new \Magento\Shell();
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace(DIRECTORY_SEPARATOR, '/', $basePath);
 
-        \Magento\Autoload\IncludePath::addIncludePath(array(
-            $basePath . '/app/code',
-            $basePath . '/lib',
-            $basePath . '/var/generation',
-        ));
-
         $this->_tmpDir = realpath(__DIR__) . '/tmp';
         $this->_generationDir =  $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
+
+        \Magento\Autoload\IncludePath::addIncludePath(array(
+            $basePath . '/app/code',
+            $basePath . '/lib',
+            $this->_generationDir,
+        ));
+
         $this->_command = 'php ' . $basePath
             . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
+        $this->_validator = new \Magento\Code\Validator\ConstructorIntegrity();
+    }
+
+    protected function tearDown()
+    {
+        $filesystem = new \Magento\Filesystem\Adapter\Local();
+        $filesystem->delete($this->_tmpDir);
     }
 
     /**
@@ -74,7 +87,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected function analyzeInstance($file, $instanceName, $parameters)
     {
         if (!isset($parameters['parameters']) || empty($parameters['parameters'])) {
-            return;
+            return null;
         }
 
         if (\Magento\TestFramework\Utility\Classes::isVirtual($instanceName)) {
@@ -129,11 +142,64 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($errors, $failMessage);
 
         return empty($errors);
+    }
 
+    public function testConstructorIntegrity()
+    {
+        $autoloader = new \Magento\Autoload\IncludePath();
+        $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
+        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
+        $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+        spl_autoload_register(array($autoloader, 'load'));
+
+        $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+
+        $basePath = str_replace('/', '\\', $basePath);
+        $libPath = $basePath . '\\lib';
+        $appPath = $basePath . '\\app\\code';
+        $generationPathPath = str_replace('/', '\\', $this->_generationDir);
+
+        $files = \Magento\TestFramework\Utility\Files::init()->getClassFiles(
+            true, false, false, false, false, true, false
+        );
+
+        $patterns  = array(
+            '/' . preg_quote($libPath) . '/',
+            '/' . preg_quote($appPath) . '/',
+            '/' . preg_quote($generationPathPath) . '/'
+        );
+        $replacements  = array('', '', '');
+
+        $classes = array();
+        foreach ($files as $file) {
+            $file = str_replace('/', '\\', $file);
+            $filePath = preg_replace($patterns, $replacements, $file);
+            $className = substr($filePath, 0, -4);
+            if (class_exists($className)) {
+                $classes[$file] = $className;
+            }
+        }
+
+        $errors = array();
+        foreach ($classes as $className) {
+            try {
+                $this->_validator->validate($className);
+            } catch (\Magento\Code\ValidationException $exceptions) {
+                $errors[] = PHP_EOL . $exceptions->getMessage();
+            }
+        }
+
+        spl_autoload_unregister(array($autoloader, 'load'));
+
+        $failMessage = implode(PHP_EOL, $errors);
+        $this->assertEmpty($errors, $failMessage);
+
+        return empty($errors);
     }
 
     /**
      * @depends testConfigurationOfInstanceParameters
+     * @depends testConstructorIntegrity
      */
     public function testCompiler()
     {
