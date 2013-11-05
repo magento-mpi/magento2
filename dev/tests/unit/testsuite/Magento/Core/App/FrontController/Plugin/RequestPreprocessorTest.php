@@ -17,11 +17,6 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_rewriteServiceMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_storeManagerMock;
 
     /**
@@ -33,11 +28,6 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_backendDataMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -65,23 +55,17 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $this->_invocationChainMock
             = $this->getMock('\Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
-        $this->_rewriteServiceMock =
-            $this->getMock('\Magento\Core\App\Request\RewriteService', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
         $this->_urlMock = $this->getMock('\Magento\Core\Model\Url', array(), array(), '', false);
-        $this->_backendDataMock = $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);;
+        $this->_storeConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\Core\App\FrontController\Plugin\RequestPreprocessor(
             $this->_storeManagerMock,
             $this->_appStateMock,
             $this->_urlMock,
             $this->_storeConfigMock,
-            $this->getMock('\Magento\App\ResponseFactory', array(), array(), '', false),
-            $this->getMock('\Magento\App\Dir', array(), array(), '', false),
-            $this->_rewriteServiceMock,
-            $this->_backendDataMock
+            $this->getMock('\Magento\App\ResponseFactory', array(), array(), '', false)
         );
     }
 

@@ -70,7 +70,9 @@ class EntryPointTest extends  \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('\Magento\App\EntryPoint\ApplicationWithException', array())
             ->will($this->returnValue(new \Magento\App\EntryPoint\ApplicationWithException()));
-
+        // clean output
+        ob_start();
         $this->assertEquals(1, $this->_model->run('\Magento\App\EntryPoint\ApplicationWithException'));
+        ob_end_clean();
     }
 }

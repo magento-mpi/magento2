@@ -395,4 +395,7 @@
             <instance type="Magento\App\FrontController\Proxy" />
         </param>
     </type>
+    <type name="Magento\App\FrontController">
+        <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
+    </type>
 </config>
