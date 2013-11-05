@@ -59,17 +59,13 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
             'cacheTypeList' => $this->_cacheTypesListMock,
             'reader' => $this->_readerMock,
             'widgetModel' => $this->_widgetModelMock,
-            'coreConfig' => $this->_coreConfigMock
+            'namespaceResolver' => $this->_namespaceResolver
         ));
         /** @var \Magento\Widget\Model\Widget\Instance _model */
         $this->_model = $this->getMock(
             'Magento\Widget\Model\Widget\Instance',
             array('_construct'),
-            array(
-                $widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock,
-                $this->_cacheTypesListMock, $productType, $this->_readerMock, $this->_widgetModelMock,
-                $this->_namespaceResolver
-            ),
+            $args,
             '',
             true
         );
