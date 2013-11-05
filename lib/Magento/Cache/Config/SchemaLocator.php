@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Cache\Config;
+namespace Magento\Cache\Config;
 
 class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
@@ -16,21 +16,22 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      *
      * @var string
      */
-    protected $_schema = null;
+    protected $_schema;
 
     /**
      * Path to corresponding XSD file with validation rules for separate config files
      *
      * @var string
      */
-    protected $_perFileSchema = null;
+    protected $_perFileSchema;
 
     /**
-     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\App\Dir $dirs
+     * @param string $schema
      */
-    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
+    public function __construct(\Magento\App\Dir $dirs, $schema)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'cache.xsd';
+        $this->_schema = $dirs->getDir() . DIRECTORY_SEPARATOR . $schema;
     }
 
     /**

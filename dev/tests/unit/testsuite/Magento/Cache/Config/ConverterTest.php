@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Cache\Config;
+namespace Magento\Cache\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Cache\Config\Converter
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Cache\Config\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Core\Model\Cache\Config\Converter();
+        $this->_model = new \Magento\Cache\Config\Converter;
     }
 
     public function testConvert()

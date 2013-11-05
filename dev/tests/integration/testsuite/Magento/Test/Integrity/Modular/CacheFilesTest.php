@@ -18,18 +18,19 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
-        $moduleReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Config\Modules\Reader');
-        $schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'cache.xsd';
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Core\Model\Cache\Config\Reader $reader */
-        $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Cache\Config\Reader',
+        /** @var \Magento\App\Dir $dirs */
+        //$dirs = $objectManager->get('Magento\App\Dir');
+        //$schema = $dirs->getDir() . DIRECTORY_SEPARATOR . 'lib/Magento/Cache/etc/cache.xsd';
+
+        /** @var \Magento\Cache\Config\Reader $reader */
+        $reader = $objectManager->create(
+            'Magento\Cache\Config\Reader',
             array(
                 'validationState' => $validationStateMock,
-                'schema' => $schema,
-                'perFileSchema' => $schema,
+                //'schema' => $schema,
+                //'perFileSchema' => $schema,
             )
         );
         try {

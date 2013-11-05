@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Cache\Config;
+namespace Magento\Cache\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
 {
@@ -20,8 +20,8 @@ class Reader extends \Magento\Config\Reader\Filesystem
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
-     * @param \Magento\Core\Model\Cache\Config\Converter $converter
-     * @param \Magento\Core\Model\Cache\Config\SchemaLocator $schemeLocator
+     * @param \Magento\Cache\Config\Converter $converter
+     * @param \Magento\Cache\Config\SchemaLocator $schemeLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -29,8 +29,8 @@ class Reader extends \Magento\Config\Reader\Filesystem
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        \Magento\Core\Model\Cache\Config\Converter $converter,
-        \Magento\Core\Model\Cache\Config\SchemaLocator $schemeLocator,
+        \Magento\Cache\Config\Converter $converter,
+        \Magento\Cache\Config\SchemaLocator $schemeLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'cache.xml',
         $idAttributes = array(),

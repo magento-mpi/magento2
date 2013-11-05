@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Cache\Config;
+namespace Magento\Cache\Config;
 
 class Converter implements \Magento\Config\ConverterInterface
 {
