@@ -86,7 +86,6 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function testAddLogWithSpecificKey()
     {
         $this->_filesystemMock->expects($this->once())->method('checkAndCreateFolder');
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $key = uniqid();
         $this->_model->addStreamLog($key);
         $this->assertTrue($this->_model->hasLog($key));

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\SomeModule;
+
 class Element
 {
 
