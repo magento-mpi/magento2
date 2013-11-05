@@ -16,11 +16,11 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Create simple product for BAT
+ * Create product
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class CreateTest extends Functional
+class CreateProductTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -31,23 +31,22 @@ class CreateTest extends Functional
     }
 
     /**
-     * Create product
+     * Create simple product with settings in advanced inventory tab
      *
-     * @ZephyrId MAGETWO-12514
+     * @ZephyrId MAGETWO-12914
      */
-    public function testCreateProduct()
+    public function testCreateProductAdvancedInventory()
     {
         $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple_with_category');
+        $product->switchData('simple_advanced_inventory');
         //Data
-        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
         $createProductPage->init($product);
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $createProductPage->open();
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
-        //Verifying
         $createProductPage->assertProductSaveResult($product);
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -65,7 +64,7 @@ class CreateTest extends Functional
      */
     protected function assertOnGrid($product)
     {
-        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
+        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
         $productGridPage->open();
         //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
@@ -73,19 +72,13 @@ class CreateTest extends Functional
     }
 
     /**
-     * Assert product data on category and product pages
-     *
      * @param Product $product
      */
     protected function assertOnCategory($product)
     {
-        //Pages
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
-        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
-        $frontendHomePage->open();
-        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        $categoryPage->openCategory($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
