@@ -11,6 +11,7 @@
 
 namespace Magento\Sales\Test\Page;
 
+use Magento\Backend\Test\Block\PageActions;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Sales\Order\Shipment\Totals;
@@ -34,6 +35,11 @@ class SalesOrderShipmentNew extends Page
     private $totalsBlock;
 
     /**
+     * @var PageActions
+     */
+    protected $_pageActionsBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -42,6 +48,11 @@ class SalesOrderShipmentNew extends Page
 
         $this->totalsBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderShipmentTotals(
             $this->_browser->find('.order-totals')
+        );
+        $this->orderGridBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderGrid(
+            $this->_browser->find('#sales_order_grid', Locator::SELECTOR_CSS));
+        $this->_pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
+            $this->_browser->find('.page-actions')
         );
     }
 
@@ -53,5 +64,16 @@ class SalesOrderShipmentNew extends Page
     public function getOrderGridBlock()
     {
         return $this->totalsBlock;
+        return $this->orderGridBlock;
+    }
+
+    /**
+     * Getter for page actions block
+     *
+     * @return PageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return $this->_pageActionsBlock;
     }
 }

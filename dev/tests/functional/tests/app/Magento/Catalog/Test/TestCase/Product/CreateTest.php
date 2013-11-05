@@ -16,8 +16,7 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Class CreateTest
- * Test product creation
+ * Create simple product for BAT
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
@@ -39,7 +38,7 @@ class CreateTest extends Functional
     public function testCreateProduct()
     {
         $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple');
+        $product->switchData('simple_with_category');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);

@@ -11,6 +11,7 @@
 
 namespace Magento\Backend\Test\Block\Widget;
 
+use Magento\Backend\Test\Block\Template;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
@@ -53,6 +54,13 @@ abstract class Grid extends Block
     protected $rowItem;
 
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink;
+
+    /**
      * An element locator which allows to select entities in grid
      *
      * @var string
@@ -83,9 +91,9 @@ abstract class Grid extends Block
     /**
      * The body element of the page
      *
-     * @var \Magento\Backend\Test\Block\Template
+     * @var Template
      */
-    protected $_templateBlock;
+    protected $templateBlock;
 
     /**
      * Initialize block elements
@@ -103,7 +111,8 @@ abstract class Grid extends Block
         $this->massactionSelect = '[id*=massaction-select]';
         $this->massactionSubmit = '[id*=massaction-form] button';
         //Blocks
-        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+        $this->editLink = '//td[@data-column="action"]//a';
+        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH));
     }
 
@@ -141,7 +150,7 @@ abstract class Grid extends Block
         $this->resetFilter();
         $this->_prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-        $this->_templateBlock->waitLoader();
+        $this->templateBlock->waitLoader();
     }
 
     /**
@@ -155,7 +164,7 @@ abstract class Grid extends Block
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
-            $rowItem->find('//td[@data-column="action"]//a', Locator::SELECTOR_XPATH)->click();
+            $rowItem->find($this->editLink, Locator::SELECTOR_XPATH)->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }
@@ -184,7 +193,7 @@ abstract class Grid extends Block
     public function resetFilter()
     {
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
-        $this->_templateBlock->waitLoader();
+        $this->templateBlock->waitLoader();
     }
 
     /**
