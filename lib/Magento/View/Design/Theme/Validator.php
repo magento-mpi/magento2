@@ -42,7 +42,7 @@ class Validator
     /**
      * Set version validators
      *
-     * @return \Magento\Core\Model\Theme\Validator
+     * @return Validator
      */
     protected function _setVersionValidators()
     {
@@ -62,7 +62,7 @@ class Validator
     /**
      * Set title validators
      *
-     * @return $this
+     * @return Validator
      */
     protected function _setTitleValidators()
     {
@@ -83,7 +83,7 @@ class Validator
     /**
      * Set theme type validators
      *
-     * @return \Magento\Core\Model\Theme\Validator
+     * @return Validator
      */
     protected function _setTypeValidators()
     {
@@ -120,7 +120,7 @@ class Validator
      *
      * @param string $dataKey
      * @param array $validators
-     * @return \Magento\Core\Model\Theme\Validator
+     * @return Validator
      */
     public function addDataValidators($dataKey, $validators)
     {
@@ -151,7 +151,7 @@ class Validator
      * Instantiate class validator
      *
      * @param array $validators
-     * @return \Magento\Core\Model\Theme\Validator
+     * @return Validator
      */
     protected function _instantiateValidators(array &$validators)
     {
