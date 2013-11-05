@@ -65,7 +65,7 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image\Uploader::__construct
+     * @covers \Magento\View\Design\Theme\Image\Uploader::__construct
      */
     public function testCunstructor()
     {
