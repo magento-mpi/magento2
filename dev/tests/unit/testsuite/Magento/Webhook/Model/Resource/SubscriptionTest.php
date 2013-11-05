@@ -47,7 +47,18 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_selectMock));
 
         // Config mock
-        $this->_configMock = $this->getMock('\Magento\Webhook\Model\Config', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Webhook\Model\Config', array(), array(), '', false);
+        $configArray = array(
+            'a' => array(
+                'label' => 'label'
+            ),
+            'c' => array(
+                'label' => 'label'
+            )
+        );
+        $this->_configMock->expects($this->once())
+            ->method('getWebhooks')
+            ->will($this->returnValue($configArray));
     }
 
     /**
@@ -108,18 +119,6 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->with('topics')
             ->will($this->returnValue($newTopics));
-        $configArray = array(
-            'a' => array(
-                'label' => 'label'
-            ),
-            'c' => array(
-                'label' => 'label'
-            )
-        );
-        $this->_configMock->expects($this->once())
-            ->method('getWebhooks')
-            ->will($this->returnValue($configArray));
-
         // Adapter stubs
         $this->_adapterMock->expects($this->once())
             ->method('delete')
