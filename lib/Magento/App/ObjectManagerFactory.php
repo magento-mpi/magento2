@@ -108,8 +108,6 @@ class ObjectManagerFactory
         $locator->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
         $locator->get('Magento\App\Resource')->setCache($locator->get('Magento\App\CacheInterface'));
 
-        $locator->get('Magento\App\Resource')->setCache($locator->get('Magento\App\CacheInterface'));
-
         $relations = $definitionFactory->createRelations();
 
         $interceptionConfig = $locator->create('Magento\Interception\Config\Config', array(

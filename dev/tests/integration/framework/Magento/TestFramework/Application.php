@@ -10,8 +10,6 @@
  */
 
 namespace Magento\TestFramework;
-use Magento\App\State,
-    Magento\App\Dir;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -96,7 +94,7 @@ class Application
     protected $_primaryConfigData = array();
 
     /**
-     * @var ObjectManagerFactory
+     * @var \Magento\TestFramework\ObjectManagerFactory
      */
     protected $_factory;
 
@@ -133,9 +131,9 @@ class Application
                 \Magento\App\Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
                 \Magento\App\Dir::GENERATION => $generationDir,
             ),
-            State::PARAM_MODE => $appMode
+            \Magento\App\State::PARAM_MODE => $appMode
         );
-        $this->_factory = new ObjectManagerFactory();
+        $this->_factory = new \Magento\TestFramework\ObjectManagerFactory();
     }
 
     /**
@@ -184,7 +182,7 @@ class Application
     public function initialize($overriddenParams = array())
     {
         $overriddenParams['base_dir'] = BP;
-        $overriddenParams[State::PARAM_MODE] = $this->_appMode;
+        $overriddenParams[\Magento\App\State::PARAM_MODE] = $this->_appMode;
         $overriddenParams = $this->_customizeParams($overriddenParams);
 
         /** @var \Magento\TestFramework\ObjectManager $objectManager */
@@ -233,9 +231,9 @@ class Application
     public function run()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Http $entryPoint */
-        $entryPoint = $objectManager->get('Magento\App\Http');
-        $entryPoint->execute();
+        /** @var \Magento\App\Http $app */
+        $app = $objectManager->get('Magento\App\Http');
+        $app->execute();
     }
 
     /**
@@ -346,18 +344,10 @@ class Application
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
-        $resource = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_singleton/Magento\App\Resource');
-
         \Magento\Data\Form::setElementRenderer(null);
         \Magento\Data\Form::setFieldsetRenderer(null);
         \Magento\Data\Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
-
-        if ($resource) {
-            $objectManager->get('Magento\Core\Model\Registry')
-                ->register('_singleton/Magento\App\Resource', $resource);
-        }
     }
 
     /**
