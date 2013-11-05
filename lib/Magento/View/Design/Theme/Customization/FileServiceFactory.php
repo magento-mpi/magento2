@@ -16,34 +16,18 @@ namespace Magento\View\Design\Theme\Customization;
 class FileServiceFactory
 {
     /**
-     * XML path to definitions of customization services
-     */
-    const XML_PATH_CUSTOM_FILES = 'theme/customization';
-
-    /**
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var array
-     */
-    protected $_types = array();
-
-    /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\View\Design\Theme\Customization\ConfigInterface $config
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config $config)
+    public function __construct(\Magento\ObjectManager $objectManager, ConfigInterface $config)
     {
         $this->_objectManager = $objectManager;
-
-        $convertNode = $config->getValue(self::XML_PATH_CUSTOM_FILES, 'default');
-        if ($convertNode) {
-            foreach ($convertNode as $name => $value) {
-                $this->_types[$name] = $value;
-            }
-        }
+        $this->_types = $config->getFileTypes();
     }
 
     /**
