@@ -223,7 +223,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getUnassignedTheme()
     {
-        return new \Magento\Object(array('id' => 2, 'theme_path' => 'magento_enterprise'));
+        return new \Magento\Object(array('id' => 2, 'theme_path' => 'magento_blank'));
     }
 
     /**
