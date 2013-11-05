@@ -22,9 +22,9 @@ use Mtf\Client\Element\Locator;
 class ProductsOrderedGrid extends Grid
 {
     /**
-     * Click create new customer button
+     * Click add new products button
      */
-    public function addNewProduct()
+    public function addNewProducts()
     {
         $this->_rootElement->find('//button/span[.="Add Products"]', Locator::SELECTOR_XPATH)->click();
     }

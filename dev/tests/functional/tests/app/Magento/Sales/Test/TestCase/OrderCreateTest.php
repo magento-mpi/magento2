@@ -14,11 +14,9 @@ namespace Magento\Sales\Test\TestCase;
 use Magento\Sales\Test\Fixture\Order;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Tests for creating order on backend
- * @ZephyrId MAGETWO-12520
  *
  * @package Magento\Sales\Test\TestCase
  */
@@ -35,18 +33,19 @@ class OrderCreateTest extends Functional
     /**
      * Test for creating order on backend
      *
-     * @param Order $orderFixture
-     * @dataProvider dataProviderOrderFixture
+     * @param Order $fixture
+     * @dataProvider dataProviderOrderFixtures
+     * @ZephyrId MAGETWO-12520, MAGETWO-12395
      */
-    public function testCreateOrder(Order $orderFixture)
+    public function testCreateOrder(Order $fixture)
     {
-        $orderFixture->persist();
-
+        //Init data
+        $fixture->persist();
+        //Steps
         $this->_proceedToOrderCreatePage();
-
-        $this->_fillOrderData($orderFixture);
-
-        $this->_checkOrderAndCustomer($orderFixture);
+        $this->_fillOrderData($fixture);
+        //Verification
+        $this->_checkOrderAndCustomer($fixture);
     }
 
     /**
@@ -69,44 +68,23 @@ class OrderCreateTest extends Functional
     protected function _fillOrderData(Order $fixture)
     {
         $orderCreatePage = Factory::getPageFactory()->getAdminSalesOrderCreateIndex();
+        //Blocks initialization
         $customerSelectionGrid = $orderCreatePage->getOrderCustomerBlock();
         $storeViewSelectionBlock = $orderCreatePage->getSelectStoreViewBlock();
         $itemsOrderedGrid = $orderCreatePage->getItemsOrderedGrid();
         $productsAddGrid = $orderCreatePage->getItemsAddGrid();
-        $billingAddressForm = $orderCreatePage->getBillingAddressForm();
-        $shippingAddressForm = $orderCreatePage->getShippingAddressForm();
+        $addressesBlock = $orderCreatePage->getAddressesBlock();
         $paymentMethodsBlock = $orderCreatePage->getPaymentMethodsBlock();
         $shippingMethodsBlock = $orderCreatePage->getShippingMethodsBlock();
         $orderSummaryBlock = $orderCreatePage->getOrderSummaryBlock();
-        $templateBlock = $orderCreatePage->getTemplateBlock();
-
+        //Test flow
         $customerSelectionGrid->selectCustomer($fixture);
-
-        if ($storeViewSelectionBlock->isVisible())
-        {
-            $storeViewSelectionBlock->selectStoreView($fixture);
-            $templateBlock->waitLoader();
-        }
-
-        $itemsOrderedGrid->addNewProduct();
-
-        /** @var $product Product */
-        foreach ($fixture->getProducts() as $product)
-        {
-            $productsAddGrid->addProduct($product);
-        }
-        $productsAddGrid->addSelectedProducts();
-
-        $billingAddressForm->fill($fixture->getBillingAddress());
-        $templateBlock->waitLoader();
-        $shippingAddressForm->setSameAsBillingShippingAddress();
-        $templateBlock->waitLoader();
-
+        $storeViewSelectionBlock->selectStoreView($fixture);
+        $itemsOrderedGrid->addNewProducts();
+        $productsAddGrid->addProducts($fixture);
+        $addressesBlock->fillAddresses($fixture);
         $paymentMethodsBlock->selectPaymentMethod($fixture);
-        $templateBlock->waitLoader();
         $shippingMethodsBlock->selectShippingMethod($fixture);
-        $templateBlock->waitLoader();
-
         $orderSummaryBlock->clickSaveOrder();
     }
 
@@ -120,36 +98,59 @@ class OrderCreateTest extends Functional
         $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
         $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         $orderGrid = $orderGridPage->getOrderGridBlock();
-
+        //Verification data
         $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
         $orderId = substr($orderViewPage->getTitleBlock()->getTitle(), 1);
         $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
+        //Test flow - order grand total check
         $orderGridPage->open();
-
         $orderGrid->searchAndOpen(array(
             'id' => $orderId
         ));
         $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
+        $this->_checkCustomer($fixture, $email);
+    }
 
+    /**
+     * Check that customer exists
+     *
+     * @param Order $fixture
+     * @param string $email
+     */
+    protected function _checkCustomer($fixture, $email)
+    {
+        //Pages
         $customerGridPage = Factory::getPageFactory()->getAdminCustomer();
-        $customerGrid = $customerGridPage->getCustomerGridBlock();
         $customerViewPage = Factory::getPageFactory()->getAdminCustomerEdit();
+        //Block
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
 
+        //Test flow - customer saved check
         $customerGridPage->open();
         $customerGrid->searchAndOpen(array(
             'email' => $email
         ));
         $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
 
-        $firstname = $fixture->getBillingAddress()->getFirstName()['value'];
-        $lastname = $fixture->getBillingAddress()->getLastName()['value'];
+        $customer = $fixture->getCustomer();
+        if (!empty($customer)) {
+            $firstName = $fixture->getCustomer()->getFirstName();
+            $lastName = $fixture->getCustomer()->getLastName();
+        } else {
+            $firstName = $fixture->getBillingAddress()->getFirstName()['value'];
+            $lastName = $fixture->getBillingAddress()->getLastName()['value'];
+        }
 
-        $this->assertEquals($customerPageTitle,  $firstname . ' ' . $lastname);
+        $this->assertEquals($customerPageTitle,  $firstName . ' ' . $lastName);
     }
 
-    public function dataProviderOrderFixture()
+    /**
+     * @return array
+     */
+    public function dataProviderOrderFixtures()
     {
         return array(
+            array(Factory::getFixtureFactory()->getMagentoSalesOrderWithCustomer()),
             array(Factory::getFixtureFactory()->getMagentoSalesOrder())
         );
     }

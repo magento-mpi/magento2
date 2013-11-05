@@ -28,6 +28,7 @@ class CustomerSelectionGrid extends Grid
     protected function _init()
     {
         parent::_init();
+        $this->editLink = '//td[@data-column="email"]';
         $this->filters = array(
             'email' => array(
                 'selector' => '#sales_order_create_customer_grid_filter_email'
@@ -41,7 +42,6 @@ class CustomerSelectionGrid extends Grid
     protected function _clickCreateNewCustomer()
     {
         $this->_rootElement->find('.actions button')->click();
-        $this->_templateBlock->waitLoader();
     }
 
     /**
@@ -59,5 +59,6 @@ class CustomerSelectionGrid extends Grid
                 'email' => $customer->getEmail()
             ));
         }
+        $this->templateBlock->waitLoader();
     }
 }

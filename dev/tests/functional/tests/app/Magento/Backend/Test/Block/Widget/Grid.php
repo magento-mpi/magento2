@@ -93,7 +93,7 @@ abstract class Grid extends Block
      *
      * @var Template
      */
-    protected $_templateBlock;
+    protected $templateBlock;
 
     /**
      * Initialize block elements
@@ -112,7 +112,7 @@ abstract class Grid extends Block
         $this->massactionSubmit = '[id*=massaction-form] button';
         //Blocks
         $this->editLink = '//td[@data-column="action"]//a';
-        $this->_templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
+        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH));
     }
 
@@ -150,7 +150,7 @@ abstract class Grid extends Block
         $this->resetFilter();
         $this->_prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-        $this->_templateBlock->waitLoader();
+        $this->templateBlock->waitLoader();
     }
 
     /**
@@ -193,7 +193,7 @@ abstract class Grid extends Block
     public function resetFilter()
     {
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
-        $this->_templateBlock->waitLoader();
+        $this->templateBlock->waitLoader();
     }
 
     /**
