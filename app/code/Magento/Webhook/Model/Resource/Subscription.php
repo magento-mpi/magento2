@@ -14,9 +14,9 @@ namespace Magento\Webhook\Model\Resource;
 class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Webhook\Model\Config
+     * @var array
      */
-    private $_config;
+    private $_webHookList;
 
     /**
      * @param \Magento\App\Resource $resource
@@ -26,7 +26,7 @@ class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\App\Resource $resource,
         \Magento\Webhook\Model\Config $config
     ) {
-        $this->_config = $config;
+        $this->_webHookList = $config->getWebhooks();
         parent::__construct($resource);
     }
 
@@ -126,7 +126,7 @@ class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getSupportedTopics()
     {
         $availableHooks = array();
-        foreach ($this->_config->getWebhooks() as $key => $configData) {
+        foreach ($this->_webHookList as $key => $configData) {
             foreach ($configData as $name => $hook) {
                 if (is_array($hook)) {
                     $availableHooks[] = $key . '/' . $name;
