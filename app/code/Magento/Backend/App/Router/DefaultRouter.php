@@ -103,11 +103,11 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
          */
 
         $parts = explode('_', $realModule);
-        $realModule = implode(\Magento\Autoload\IncludePath::NS_SEPARATOR, array_splice($parts, 0, 2));
-        return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst(\Magento\Backend\Helper\Data::BACKEND_AREA_CODE) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
+        $parts = array_splice($parts, 0, 2);
+        $parts[] = 'Controller';
+        $parts[] = \Magento\Backend\Helper\Data::BACKEND_AREA_CODE;
+        $parts[] = $controller;
 
+        return \Magento\Core\Helper\String::buildClassName($parts);
     }
 }

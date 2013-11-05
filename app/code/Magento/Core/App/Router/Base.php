@@ -343,11 +343,11 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     public function getControllerClassName($realModule, $controller)
     {
-        $class = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $realModule) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_','\\', uc_words(str_replace('_', ' ', $controller)));
-        return $class;
+        return \Magento\Core\Helper\String::buildClassName(array(
+            $realModule,
+            'Controller',
+            $controller
+        ));
     }
 
     /**
