@@ -35,28 +35,21 @@ class Logger
      */
     protected $_fileSystem;
 
-    /**
-     * @var string
-     */
-    protected $_writerModel;
 
     /**
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Io\File $fileSystem
      * @param string $defaultFile
-     * @param string $writerModel
      */
     public function __construct(
         \Magento\App\Dir $dirs,
         \Magento\Io\File $fileSystem,
-        $defaultFile = '',
-        $writerModel = ''
+        $defaultFile = ''
     ) {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;
         $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)
             ->addStreamLog(self::LOGGER_EXCEPTION, $defaultFile);
-        $this->_writerModel = $writerModel;
     }
 
     /**

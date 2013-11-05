@@ -54,6 +54,11 @@ class StorageFactory
     protected $_appState;
 
     /**
+     * @var string
+     */
+    protected $_writerModel;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
@@ -61,6 +66,7 @@ class StorageFactory
      * @param \Magento\App\State $appState
      * @param string $defaultStorageClassName
      * @param string $installedStoreClassName
+     * @param string $writerModel
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -69,7 +75,8 @@ class StorageFactory
         \Magento\Core\Model\AppInterface $app,
         \Magento\App\State $appState,
         $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
-        $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db'
+        $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db',
+        $writerModel = ''
     ) {
         $this->_objectManager = $objectManager;
         $this->_defaultStorageClassName = $defaultStorageClassName;
@@ -78,6 +85,7 @@ class StorageFactory
         $this->_log = $logger;
         $this->_appState = $appState;
         $this->_app = $app;
+        $this->_writerModel = $writerModel;
     }
 
     /**
@@ -99,7 +107,7 @@ class StorageFactory
 
             if (false === ($instance instanceof \Magento\Core\Model\Store\StorageInterface)) {
                 throw new \InvalidArgumentException($className
-                        . ' doesn\'t implement \Magento\Core\Model\Store\StorageInterface'
+                    . ' doesn\'t implement \Magento\Core\Model\Store\StorageInterface'
                 );
             }
             $this->_cache[$className] = $instance;
@@ -111,7 +119,18 @@ class StorageFactory
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
-                $this->_log->initForStore($instance->getStore(true));
+                $store = $instance->getStore(true);
+                if ($store->getConfig('dev/log/active')) {
+
+                    $this->_log->unsetLoggers();
+                    $this->_log->addStreamLog(
+                        \Magento\Logger::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $this->_writerModel);
+                    $this->_log->addStreamLog(
+                        \Magento\Logger::LOGGER_EXCEPTION,
+                        $store->getConfig('dev/log/exception_file'),
+                        $this->_writerModel
+                    );
+                }
             }
         }
         return $this->_cache[$className];
