@@ -211,7 +211,7 @@
             <instance type="layoutFileSourceOverrideThemeSorted" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Theme\Image">
+    <type name="Magento\View\Design\Theme\Image">
         <param name="uploader">
             <instance type="Magento\View\Design\Theme\Image\UploaderProxy" />
         </param>
@@ -403,5 +403,10 @@
     </type>
     <type name="Magento\View\TemplateEngineFactory">
         <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+    </type>
+    <type name="\Magento\Image">
+        <param name="adapter">
+            <instance type="Magento\Image\Adapter\Gd2"/>
+        </param>
     </type>
 </config>

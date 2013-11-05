@@ -72,7 +72,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_domainFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\ImageFactory
+     * @var \Magento\View\Design\Theme\ImageFactory
      */
     protected $_imageFactory;
 
@@ -98,7 +98,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
-     * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
+     * @param \Magento\View\Design\Theme\ImageFactory $imageFactory
      * @param \Magento\View\Design\Theme\Validator $validator
      * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
      * @param \Magento\Core\Model\Resource\Theme $resource
@@ -112,7 +112,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         \Magento\Core\Model\Registry $registry,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Domain\Factory $domainFactory,
-        \Magento\Core\Model\Theme\ImageFactory $imageFactory,
+        \Magento\View\Design\Theme\ImageFactory $imageFactory,
         \Magento\View\Design\Theme\Validator $validator,
         \Magento\View\Design\Theme\CustomizationFactory $customizationFactory,
         \Magento\Core\Model\Resource\Theme $resource = null,
@@ -143,7 +143,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     /**
      * Get theme image model
      *
-     * @return \Magento\Core\Model\Theme\Image
+     * @return \Magento\View\Design\Theme\Image
      */
     public function getThemeImage()
     {

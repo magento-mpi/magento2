@@ -40,7 +40,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_imageFactory = $this->getMock('Magento\Core\Model\Theme\ImageFactory',
+        $this->_imageFactory = $this->getMock('Magento\View\Design\Theme\ImageFactory',
             array('create'), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);

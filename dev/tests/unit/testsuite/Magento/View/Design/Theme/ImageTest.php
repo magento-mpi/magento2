@@ -12,12 +12,12 @@
 /**
  * Test theme image model
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Theme\Image
+     * @var \Magento\View\Design\Theme\Image
      */
     protected $_model;
 
@@ -44,7 +44,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
-        $imageFactory = $this->getMock('Magento\Core\Model\Image\Factory', array(), array(), '', false, false);
+        $imageFactory = $this->getMock('Magento\Image\Factory', array(), array(), '', false, false);
         $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
@@ -59,7 +59,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_model = new \Magento\Core\Model\Theme\Image(
+        $this->_model = new \Magento\View\Design\Theme\Image(
             $this->_filesystemMock,
             $imageFactory,
             $this->_uploaderMock,
@@ -115,13 +115,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::__construct
+     * @covers \Magento\View\Design\Theme\Image::__construct
      */
     public function testConstructor()
     {
-        $themeImage = new \Magento\Core\Model\Theme\Image(
+        $themeImage = new \Magento\View\Design\Theme\Image(
             $this->_filesystemMock,
-            $this->getMock('Magento\Core\Model\Image\Factory', array(), array(), '', false, false),
+            $this->getMock('Magento\Image\Factory', array(), array(), '', false, false),
             $this->_uploaderMock,
             $this->_getImagePathMock(),
             $this->getMock('Magento\Logger', array(), array(), '', false, false),
@@ -131,7 +131,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::createPreviewImage
+     * @covers \Magento\View\Design\Theme\Image::createPreviewImage
      */
     public function testCreatePreviewImage()
     {
@@ -143,7 +143,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::createPreviewImageCopy
+     * @covers \Magento\View\Design\Theme\Image::createPreviewImageCopy
      */
     public function testCreatePreviewImageCopy()
     {
@@ -158,7 +158,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::removePreviewImage
+     * @covers \Magento\View\Design\Theme\Image::removePreviewImage
      */
     public function testRemovePreviewImage()
     {
@@ -170,7 +170,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::removePreviewImage
+     * @covers \Magento\View\Design\Theme\Image::removePreviewImage
      */
     public function testRemoveEmptyPreviewImage()
     {
@@ -182,7 +182,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::uploadPreviewImage
+     * @covers \Magento\View\Design\Theme\Image::uploadPreviewImage
      */
     public function testUploadPreviewImage()
     {
@@ -198,7 +198,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::getPreviewImageUrl
+     * @covers \Magento\View\Design\Theme\Image::getPreviewImageUrl
      */
     public function testGetPreviewImageUrl()
     {
@@ -208,7 +208,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Image::getPreviewImageUrl
+     * @covers \Magento\View\Design\Theme\Image::getPreviewImageUrl
      */
     public function testGetDefaultPreviewImageUrl()
     {

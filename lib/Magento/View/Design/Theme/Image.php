@@ -11,7 +11,7 @@
 /**
  * Theme Image model class
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class Image
 {
@@ -31,17 +31,17 @@ class Image
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\Image\Factory
+     * @var \Magento\Image\Factory
      */
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\Image\Uploader
+     * @var Image\Uploader
      */
     protected $_uploader;
 
     /**
-     * @var \Magento\View\Design\Theme\Image\Path
+     * @var Image\Path
      */
     protected $_themeImagePath;
 
@@ -59,17 +59,17 @@ class Image
      * Initialize dependencies
      *
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Image\Factory $imageFactory
-     * @param \Magento\View\Design\Theme\Image\Uploader $uploader
-     * @param \Magento\View\Design\Theme\Image\Path $themeImagePath
+     * @param \Magento\Image\Factory $imageFactory
+     * @param Image\Uploader $uploader
+     * @param Image\Path $themeImagePath
      * @param \Magento\Logger $logger
      * @param \Magento\View\Design\ThemeInterface $theme
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Image\Factory $imageFactory,
-        \Magento\View\Design\Theme\Image\Uploader $uploader,
-        \Magento\View\Design\Theme\Image\Path $themeImagePath,
+        \Magento\Image\Factory $imageFactory,
+        Image\Uploader $uploader,
+        Image\Path $themeImagePath,
         \Magento\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
@@ -85,7 +85,7 @@ class Image
      * Create preview image
      *
      * @param string $imagePath
-     * @return $this
+     * @return Image
      */
     public function createPreviewImage($imagePath)
     {
@@ -152,7 +152,7 @@ class Image
      * Upload and create preview image
      *
      * @param string $scope the request key for file
-     * @return $this
+     * @return Image
      */
     public function uploadPreviewImage($scope)
     {

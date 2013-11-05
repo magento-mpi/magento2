@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Theme;
 class Observer
 {
     /**
-     * @var \Magento\Core\Model\Theme\ImageFactory
+     * @var \Magento\View\Design\Theme\ImageFactory
      */
     protected $_themeImageFactory;
 
@@ -36,13 +36,13 @@ class Observer
     protected $_eventDispatcher;
 
     /**
-     * @param \Magento\Core\Model\Theme\ImageFactory $themeImageFactory
+     * @param \Magento\View\Design\Theme\ImageFactory $themeImageFactory
      * @param \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection
      * @param \Magento\Theme\Model\Config\Customization $themeConfig
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      */
     public function __construct(
-        \Magento\Core\Model\Theme\ImageFactory $themeImageFactory,
+        \Magento\View\Design\Theme\ImageFactory $themeImageFactory,
         \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection,
         \Magento\Theme\Model\Config\Customization $themeConfig,
         \Magento\Event\ManagerInterface $eventDispatcher
