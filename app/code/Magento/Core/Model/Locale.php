@@ -93,6 +93,21 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     protected $dateTime;
 
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_dateModel;
+
+    /**
+     * @var array
+     */
+    protected $_allowedFormats = array(
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
+    );
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Translate $translate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -101,6 +116,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
      * @param \Magento\Core\Model\Locale\Config $config
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Date $dateModel
      * @param string $locale
      */
     public function __construct(
@@ -112,6 +128,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
         \Magento\Core\Model\Locale\Config $config,
         \Magento\Core\Model\App $app,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Date $dateModel,
         $locale = null
     ) {
         $this->_eventManager = $eventManager;
@@ -122,6 +139,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
         $this->_config = $config;
         $this->_app = $app;
         $this->dateTime = $dateTime;
+        $this->_dateModel = $dateModel;
         $this->setLocale($locale);
     }
 
@@ -178,6 +196,16 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     public function getTimezone()
     {
         return \Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE;
+    }
+
+    /**
+     * Gets the store config timezone
+     *
+     * @return string
+     */
+    public function getConfigTimezone()
+    {
+        return $this->_storeManager->getStore()->getConfig('general/locale/timezone');
     }
 
     /**
@@ -535,6 +563,74 @@ class Locale implements \Magento\Core\Model\LocaleInterface
                 ->setSecond(0);
         }
         return $date;
+    }
+
+    /**
+     * Format date using current locale options and time zone.
+     *
+     * @param   date|Zend_Date|null $date
+     * @param   string              $format   See \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_* constants
+     * @param   bool                $showTime Whether to include time
+     * @return  string
+     */
+    public function formatDate(
+        $date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
+    ) {
+        if (!in_array($format, $this->_allowedFormats, true)) {
+            return $date;
+        }
+        if (!($date instanceof \Zend_Date) && $date && !strtotime($date)) {
+            return '';
+        }
+        if (is_null($date)) {
+            $date = $this->date(
+                $this->_dateModel->gmtTimestamp(),
+                null,
+                null
+            );
+        } elseif (!$date instanceof \Zend_Date) {
+            $date = $this->date(strtotime($date), null, null);
+        }
+
+        if ($showTime) {
+            $format = $this->getDateTimeFormat($format);
+        } else {
+            $format = $this->getDateFormat($format);
+        }
+
+        return $date->toString($format);
+    }
+
+    /**
+     * Format time using current locale options
+     *
+     * @param   date|Zend_Date|null $time
+     * @param   string              $format
+     * @param   bool                $showDate
+     * @return  string
+     */
+    public function formatTime(
+        $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
+    ) {
+        if (!in_array($format, $this->_allowedFormats, true)) {
+            return $time;
+        }
+
+        if (is_null($time)) {
+            $date = $this->date(time());
+        } elseif ($time instanceof \Zend_Date) {
+            $date = $time;
+        } else {
+            $date = $this->date(strtotime($time));
+        }
+
+        if ($showDate) {
+            $format = $this->getDateTimeFormat($format);
+        } else {
+            $format = $this->getTimeFormat($format);
+        }
+
+        return $date->toString($format);
     }
 
     /**

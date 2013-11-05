@@ -31,13 +31,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
 
-    protected $_allowedFormats = array(
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
-    );
-
     /**
      * @var \Magento\Core\Model\Config
      */
@@ -66,11 +59,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\Date
-     */
-    protected $_dateModel;
-
-    /**
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -91,7 +79,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
      */
@@ -101,7 +88,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
@@ -112,7 +98,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        $this->_dateModel = $dateModel;
         $this->_appState = $appState;
         $this->_dbCompatibleMode = $dbCompatibleMode;
     }
@@ -179,71 +164,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         return $this->_storeManager->getStore()->formatPrice($price, $includeContainer);
     }
 
-    /**
-     * Format date using current locale options and time zone.
-     *
-     * @param   date|Zend_Date|null $date
-     * @param   string              $format   See \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_* constants
-     * @param   bool                $showTime Whether to include time
-     * @return  string
-     */
-    public function formatDate($date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
-    {
-        if (!in_array($format, $this->_allowedFormats, true)) {
-            return $date;
-        }
-        if (!($date instanceof \Zend_Date) && $date && !strtotime($date)) {
-            return '';
-        }
-        if (is_null($date)) {
-            $date = $this->_locale->date(
-                $this->_dateModel->gmtTimestamp(),
-                null,
-                null
-            );
-        } elseif (!$date instanceof \Zend_Date) {
-            $date = $this->_locale->date(strtotime($date), null, null);
-        }
-
-        if ($showTime) {
-            $format = $this->_locale->getDateTimeFormat($format);
-        } else {
-            $format = $this->_locale->getDateFormat($format);
-        }
-
-        return $date->toString($format);
-    }
-
-    /**
-     * Format time using current locale options
-     *
-     * @param   date|Zend_Date|null $time
-     * @param   string              $format
-     * @param   bool                $showDate
-     * @return  string
-     */
-    public function formatTime($time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
-    {
-        if (!in_array($format, $this->_allowedFormats, true)) {
-            return $time;
-        }
-
-        if (is_null($time)) {
-            $date = $this->_locale->date(time());
-        } else if ($time instanceof \Zend_Date) {
-            $date = $time;
-        } else {
-            $date = $this->_locale->date(strtotime($time));
-        }
-
-        if ($showDate) {
-            $format = $this->_locale->getDateTimeFormat($format);
-        } else {
-            $format = $this->_locale->getTimeFormat($format);
-        }
-
-        return $date->toString($format);
-    }
 
     /**
      * @param null $storeId

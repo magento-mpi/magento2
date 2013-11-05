@@ -24,7 +24,7 @@
                 <td class="col actions"><?php echo $this->getActionLabel($event->getAction()); ?></td>
                 <td class="col change"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceDelta()); ?></td>
                 <td class="col balance"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceAmount()); ?></td>
-                <td class="col date"><?php echo $this->helper('Magento\Core\Helper\Data')->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
+                <td class="col date"><?php echo $this->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

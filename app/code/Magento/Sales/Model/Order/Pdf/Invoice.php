@@ -27,7 +27,6 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
@@ -44,7 +43,6 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
@@ -57,11 +55,9 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         parent::__construct(
             $paymentData,
-            $coreData,
             $string,
             $coreStoreConfig,
             $translate,
@@ -70,6 +66,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
+            $locale,
             $data
         );
     }
