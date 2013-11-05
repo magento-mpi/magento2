@@ -78,82 +78,55 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Perform class(instance) and its parameters analysis
-     * return error message if found issues
+     * Validate DI config file
      *
-     * @param $file
-     * @param $instanceName
-     * @param $parameters
-     * @return string|null
+     * @param string $file
      */
-    protected function analyzeInstance($file, $instanceName, $parameters)
+    protected function _validateFile($file)
     {
-        if (!isset($parameters['parameters']) || empty($parameters['parameters'])) {
-            return null;
-        }
+        $dom = new \DOMDocument();
+        $dom->load($file);
+        $data = $this->_mapper->convert($dom);
 
-        if (\Magento\TestFramework\Utility\Classes::isVirtual($instanceName)) {
-            $instanceName = \Magento\TestFramework\Utility\Classes::resolveVirtualType($instanceName);
-        }
-        $parameters = $parameters['parameters'];
-
-        if (!class_exists($instanceName)) {
-            return 'Detected configuration of non existed class: ' . $instanceName . ' in file ' . $file;
-        }
-
-        $reflectionClass = new \ReflectionClass($instanceName);
-
-        $constructor = $reflectionClass->getConstructor();
-        if (!$constructor) {
-            return 'Class ' . $instanceName . ' does not have __constructor';
-        }
-
-        $classParameters = $constructor->getParameters();
-        foreach ($classParameters as $classParameter) {
-            $parameterName = $classParameter->getName();
-            if (array_key_exists($parameterName, $parameters)) {
-                unset($parameters[$parameterName]);
+        foreach ($data as $instanceName => $parameters) {
+            if (!isset($parameters['parameters']) || empty($parameters['parameters'])) {
+                continue;
             }
-        }
+            if (\Magento\TestFramework\Utility\Classes::isVirtual($instanceName)) {
+                $instanceName = \Magento\TestFramework\Utility\Classes::resolveVirtualType($instanceName);
+            }
+            $parameters = $parameters['parameters'];
+            if (!class_exists($instanceName)) {
+                $this->fail('Detected configuration of non existed class: ' . $instanceName);
+            }
 
-        if (!empty($parameters)) {
-            return 'Configuration of ' . $instanceName
-                . ' contains data for non-existed parameters: ' . implode(', ', array_keys($parameters))
-                . ' in file: ' . $file;
-        }
-    }
+            $reflectionClass = new \ReflectionClass($instanceName);
 
-    public function testConfigurationOfInstanceParameters()
-    {
-        $files = \Magento\TestFramework\Utility\Files::init()->getDiConfigs();
-        $errors = array();
-        foreach ($files as $file) {
-            $dom = new \DOMDocument();
-            $dom->load($file);
-            $data = $this->_mapper->convert($dom);
+            $constructor = $reflectionClass->getConstructor();
+            if (!$constructor) {
+                $this->fail('Class ' . $instanceName . ' does not have __constructor');
+            }
 
-            foreach ($data as $instanceName => $parameters) {
-                $message = $this->analyzeInstance($file, $instanceName, $parameters);
-                if (!empty($message)) {
-                    $errors[] = $message;
+            $classParameters = $constructor->getParameters();
+            foreach ($classParameters as $classParameter) {
+                $parameterName = $classParameter->getName();
+                if (array_key_exists($parameterName, $parameters)) {
+                    unset($parameters[$parameterName]);
                 }
             }
+            $message = 'Configuration of ' . $instanceName
+                . ' contains data for non-existed parameters: ' . implode(', ', array_keys($parameters));
+            $this->assertEmpty($parameters, $message);
         }
-
-        $failMessage = implode(PHP_EOL . PHP_EOL, $errors);
-        $this->assertEmpty($errors, $failMessage);
-
-        return empty($errors);
     }
 
-    public function testConstructorIntegrity()
+    /**
+     * Get php classes list
+     *
+     * @return array
+     */
+    protected function _phpClassesDataProvider()
     {
-        $autoloader = new \Magento\Autoload\IncludePath();
-        $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
-        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
-        $autoloader = new \Magento\Code\Generator\Autoloader($generator);
-        spl_autoload_register(array($autoloader, 'load'));
-
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
 
         $basePath = str_replace('/', '\\', $basePath);
@@ -178,27 +151,58 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $filePath = preg_replace($patterns, $replacements, $file);
             $className = substr($filePath, 0, -4);
             if (class_exists($className)) {
-                $classes[$file] = $className;
+                $classes[$file] = array($className);
             }
         }
+        return $classes;
+    }
 
-        $errors = array();
-        foreach ($classes as $file => $className) {
-            try {
-                $this->_validator->validate($className);
-            } catch (\Magento\Code\ValidationException $exceptions) {
-                $errors[] = PHP_EOL . $exceptions->getMessage();
-            } catch (\ReflectionException $exceptions) {
-                $errors[] = PHP_EOL . $exceptions->getMessage();
-            }
+    /**
+     * Validate class
+     *
+     * @param string $className
+     */
+    protected function _validateClass($className)
+    {
+        try {
+            $this->_validator->validate($className);
+        } catch (\Magento\Code\ValidationException $exceptions) {
+            $this->fail($exceptions->getMessage());
+        } catch (\ReflectionException $exceptions) {
+            $this->fail($exceptions->getMessage());
         }
+    }
 
+    public function testConfigurationOfInstanceParameters()
+    {
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            /**
+             * @param string $file
+             */
+            function ($file) {
+                $this->_validateFile($file);
+            },
+            \Magento\TestFramework\Utility\Files::init()->getDiConfigs(true)
+        );
+    }
+
+    public function testConstructorIntegrity()
+    {
+        $autoloader = new \Magento\Autoload\IncludePath();
+        $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
+        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
+        $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+        spl_autoload_register(array($autoloader, 'load'));
+
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            function ($className) {
+                $this->_validateClass($className);
+            },
+            $this->_phpClassesDataProvider()
+        );
         spl_autoload_unregister(array($autoloader, 'load'));
-
-        $failMessage = implode(PHP_EOL, $errors);
-        $this->assertEmpty($errors, $failMessage);
-
-        return empty($errors);
     }
 
     /**
