@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Bundle)" type="page">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Bundle)">
     <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-bundle-bundle-js">
             <arguments>
