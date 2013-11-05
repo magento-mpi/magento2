@@ -12,6 +12,7 @@ namespace Magento\App\EntryPoint;
 use Magento\App\State,
     Magento\App\EntryPointInterface,
     Magento\ObjectManager;
+use Magento\Webapi\Exception;
 
 class EntryPoint implements EntryPointInterface
 {
@@ -70,7 +71,16 @@ class EntryPoint implements EntryPointInterface
                 print $exception->getMessage() . "\n\n";
                 print $exception->getTraceAsString();
             } else {
-                print "Unknown error happened during application run\n";
+                $message = "Error happened during application run.\n";
+                try {
+                    if (!$this->_locator) {
+                        throw new \DomainException();
+                    }
+                    $this->_locator->get('Magento\Core\Model\Logger')->logException($exception);
+                } catch (\Exception $e) {
+                    $message .= "Could not write error message to log. Please use developer mode to see the message.\n";
+                }
+                print $message;
             }
             return 1;
         }
