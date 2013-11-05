@@ -157,9 +157,9 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     public function getThemeFilesPathDataProvider()
     {
         return array(
-            'physical' => array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, 'getThemeFilesPath'),
-            'virtual'  => array(\Magento\Core\Model\Theme::TYPE_VIRTUAL, 'getCustomizationPath'),
-            'staging'  => array(\Magento\Core\Model\Theme::TYPE_STAGING, 'getCustomizationPath'),
+            'physical' => array(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL, 'getThemeFilesPath'),
+            'virtual'  => array(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, 'getCustomizationPath'),
+            'staging'  => array(\Magento\View\Design\ThemeInterface::TYPE_STAGING, 'getCustomizationPath'),
         );
     }
 

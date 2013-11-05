@@ -119,7 +119,7 @@ class Tools extends \Magento\Adminhtml\Controller\Action
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
         /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
-        $jsService = $this->_objectManager->create('Magento\Core\Model\Theme\Customization\File\Js');
+        $jsService = $this->_objectManager->create('Magento\View\Design\Theme\Customization\File\Js');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();

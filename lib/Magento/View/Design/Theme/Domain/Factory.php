@@ -13,6 +13,8 @@
  */
 namespace Magento\View\Design\Theme\Domain;
 
+use \Magento\View\Design\ThemeInterface;
+
 class Factory
 {
     /**
@@ -24,9 +26,9 @@ class Factory
      * @var array
      */
     protected $_types = array(
-        \Magento\Core\Model\Theme::TYPE_PHYSICAL => 'Magento\Core\Model\Theme\Domain\Physical',
-        \Magento\Core\Model\Theme::TYPE_VIRTUAL  => 'Magento\Core\Model\Theme\Domain\Virtual',
-        \Magento\Core\Model\Theme::TYPE_STAGING  => 'Magento\Core\Model\Theme\Domain\Staging',
+        ThemeInterface::TYPE_PHYSICAL => 'Magento\Core\Model\Theme\Domain\Physical',
+        ThemeInterface::TYPE_VIRTUAL  => 'Magento\Core\Model\Theme\Domain\Virtual',
+        ThemeInterface::TYPE_STAGING  => 'Magento\Core\Model\Theme\Domain\Staging',
     );
 
     /**
@@ -44,7 +46,7 @@ class Factory
      * @return \Magento\Core\Model\Theme\Domain\Virtual|\Magento\Core\Model\Theme\Domain\Staging
      * @throws \Magento\Exception
      */
-    public function create(\Magento\View\Design\ThemeInterface $theme)
+    public function create(ThemeInterface $theme)
     {
         if (!isset($this->_types[$theme->getType()])) {
             throw new \Magento\Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));

@@ -75,7 +75,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             'preview_image'         => 'fixture_preview_image',
             'is_featured'           => 'fixture_is_featured',
             'area'                  => 'fixture_area',
-            'type'                  => \Magento\Core\Model\Theme::TYPE_VIRTUAL
+            'type'                  => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
         ));
 
         $themeStaging = $this->getMock(
@@ -94,7 +94,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             'preview_image'         => 'fixture_preview_image',
             'is_featured'           => 'fixture_is_featured',
             'area'                  => 'fixture_area',
-            'type'                  => \Magento\Core\Model\Theme::TYPE_STAGING,
+            'type'                  => \Magento\View\Design\ThemeInterface::TYPE_STAGING,
         ));
         $themeStaging->expects($this->at(1))->method('save');
 

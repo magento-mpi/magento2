@@ -71,7 +71,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         /** @var $theme \Magento\View\Design\ThemeInterface */
         $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
         try {
-            $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
+            $theme->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
                 throw new \Magento\Core\Exception(__('We cannot find theme "%1".', $themeId));
             }
@@ -122,7 +122,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
                     $theme = $themeFactory->create($themeData['theme_id']);
                 } else {
                     $parentTheme = $themeFactory->create($themeData['parent_id']);
-                    $theme = $parentTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)
+                    $theme = $parentTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
                         ->createVirtualTheme($parentTheme);
                 }
                 if ($theme && !$theme->isEditable()) {
@@ -133,7 +133,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
                     $theme->getThemeImage()->removePreviewImage();
                 }
                 $theme->getThemeImage()->uploadPreviewImage('preview');
-                $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
+                $theme->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
                 $theme->save();
                 $customization = $theme->getCustomization();
                 $customization->reorder(\Magento\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles);
@@ -219,7 +219,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
         $themeFactory = $this->_objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
         /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
-        $jsService = $this->_objectManager->get('Magento\Core\Model\Theme\Customization\File\Js');
+        $jsService = $this->_objectManager->get('Magento\View\Design\Theme\Customization\File\Js');
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {

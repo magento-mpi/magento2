@@ -99,7 +99,13 @@ class Validator
                 'name' => 'available',
                 'class' => 'Zend_Validate_InArray',
                 'break' => true,
-                'options' => array('haystack' => \Magento\Core\Model\Theme::$types),
+                'options' => array(
+                    'haystack' => array(
+                        \Magento\View\Design\ThemeInterface::TYPE_PHYSICAL,
+                        \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL,
+                        \Magento\View\Design\ThemeInterface::TYPE_STAGING,
+                    )
+                ),
                 'message' => __('Theme type is invalid')
             )
         );

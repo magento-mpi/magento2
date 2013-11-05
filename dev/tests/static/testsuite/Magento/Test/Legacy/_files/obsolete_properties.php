@@ -100,4 +100,5 @@ return array(
     array('_backendFrontName', 'Magento\Backend\Helper\Data'),
     array('_app', 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency'),
     array('_enginePool', '\Magento\Core\Block\Template\Context', '_engineFactory'),
+    array('types', '\Magento\Core\Model\Theme'),
 );

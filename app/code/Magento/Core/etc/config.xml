@@ -168,8 +168,8 @@
         </general>
         <theme>
             <customization>
-                <css>Magento\Core\Model\Theme\Customization\File\Css</css>
-                <js>Magento\Core\Model\Theme\Customization\File\Js</js>
+                <css>Magento\View\Design\Theme\Customization\File\Css</css>
+                <js>Magento\View\Design\Theme\Customization\File\Js</js>
             </customization>
         </theme>
     </default>

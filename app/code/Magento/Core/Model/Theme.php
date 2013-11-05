@@ -42,14 +42,6 @@ namespace Magento\Core\Model;
  */
 class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\Design\ThemeInterface
 {
-    /**#@+
-     * Theme types group
-     */
-    const TYPE_PHYSICAL = 0;
-    const TYPE_VIRTUAL  = 1;
-    const TYPE_STAGING  = 2;
-    /**#@-*/
-
     /**
      * Filename of view configuration
      */
@@ -95,20 +87,9 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_customization;
 
     /**
-     * @var \Magento\Core\Model\Theme\CustomizationFactory
+     * @var \Magento\View\Design\Theme\CustomizationFactory
      */
     protected $_customFactory;
-
-    /**
-     * All possible types of a theme
-     *
-     * @var array
-     */
-    public static $types = array(
-        self::TYPE_PHYSICAL,
-        self::TYPE_VIRTUAL,
-        self::TYPE_STAGING,
-    );
 
     /**
      * Initialize dependencies
@@ -119,7 +100,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
      * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
      * @param \Magento\View\Design\Theme\Validator $validator
-     * @param \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory
+     * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
      * @param \Magento\Core\Model\Resource\Theme $resource
      * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
      * @param array $data
@@ -133,7 +114,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         \Magento\View\Design\Theme\Domain\Factory $domainFactory,
         \Magento\Core\Model\Theme\ImageFactory $imageFactory,
         \Magento\View\Design\Theme\Validator $validator,
-        \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory,
+        \Magento\View\Design\Theme\CustomizationFactory $customizationFactory,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
@@ -238,7 +219,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     public function hasChildThemes()
     {
         return (bool)$this->getCollection()
-            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
+            ->addTypeFilter(self::TYPE_VIRTUAL)
             ->addFieldToFilter('parent_id', array('eq' => $this->getId()))
             ->getSize();
     }

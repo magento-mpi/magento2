@@ -24,7 +24,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup', 'getType'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(\Magento\Core\Model\Theme::TYPE_VIRTUAL));
+            ->will($this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL));
 
         $newThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
 

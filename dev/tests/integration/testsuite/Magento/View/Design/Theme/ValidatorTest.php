@@ -12,7 +12,7 @@
 /**
  * Test theme data validator
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $validator \Magento\View\Design\Theme\Validator */
         $validator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme\Validator');
+            ->create('Magento\View\Design\Theme\Validator');
 
         $themeModel = $this->_getThemeModel();
         $themeModel->setData($this->_getThemeValidData());
@@ -38,7 +38,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $validator \Magento\View\Design\Theme\Validator */
         $validator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme\Validator');
+            ->create('Magento\View\Design\Theme\Validator');
 
         $themeModel = $this->_getThemeModel();
         $themeModel->setData($this->_getThemeInvalidData());

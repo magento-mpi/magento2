@@ -127,7 +127,7 @@ class Virtual
             'preview_image'        => $this->_theme->getPreviewImage(),
             'is_featured'          => $this->_theme->getIsFeatured(),
             'area'                 => $this->_theme->getArea(),
-            'type'                 => \Magento\Core\Model\Theme::TYPE_STAGING
+            'type'                 => \Magento\View\Design\ThemeInterface::TYPE_STAGING
         ));
         $stagingTheme->save();
         return $stagingTheme;

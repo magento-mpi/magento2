@@ -244,7 +244,7 @@ class Collection extends \Magento\Data\Collection
 
         return array(
             'parent_id'         => null,
-            'type'              => \Magento\Core\Model\Theme::TYPE_PHYSICAL,
+            'type'              => \Magento\View\Design\ThemeInterface::TYPE_PHYSICAL,
             'area'              => $pathData['area'],
             'theme_path'        => $themePath,
             'code'              => $themeCode,

@@ -110,7 +110,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'theme_title'          => 'Sample theme',
             'preview_image'        => 'images/preview.png',
             'area'                 => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
+            'type'                 => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
         );
     }
 
