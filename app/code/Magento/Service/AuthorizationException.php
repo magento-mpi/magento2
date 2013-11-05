@@ -18,6 +18,7 @@ class AuthorizationException extends \Magento\Service\Exception
      * @param int $code
      * @param \Exception $previous
      * @param array $parameters
+     * @param string $name
      * @param string|int|null $userId
      * @param string|int|null $resourceId
      */
@@ -26,7 +27,8 @@ class AuthorizationException extends \Magento\Service\Exception
         // TODO Specify default exception code when Service \Exception Handling policy is defined
         $code = 0,
         \Exception $previous = null,
-        $parameters = array(),
+        array $parameters = array(),
+        $name = 'authorization',
         $userId = null,
         $resourceId = null
     ) {
@@ -36,6 +38,6 @@ class AuthorizationException extends \Magento\Service\Exception
                 $message = "User with ID '{$userId}' is not authorized to access resource with ID '{$resourceId}'.";
             }
         }
-        parent::__construct($message, $code, $previous, $parameters);
+        parent::__construct($message, $code, $previous, $parameters, $name);
     }
 }
