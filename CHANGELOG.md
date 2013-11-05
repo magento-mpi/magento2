@@ -17,6 +17,9 @@
   * Fixed View Files Population Tool
   * Fixed error on save of Google AdWords configuration
   * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
+  * Fixed impossibility to use spaces in credit card number
+  * Fixed impossibility to print order from frontend
+  * Fixed fatal error when trying to delete review with rating
 
 2.0.0.0-dev50
 =============
