@@ -155,7 +155,7 @@ abstract class Grid extends Block
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
-            $rowItem->find('//td[@data-column="action"]//a', Locator::SELECTOR_XPATH)->click();
+            $rowItem->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }

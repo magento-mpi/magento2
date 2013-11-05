@@ -52,25 +52,35 @@ class Form extends FormInstance
      * Update the root form
      *
      * @param Fixture $fixture
+     * @return Form
      */
     public function update(Fixture $fixture)
     {
         $this->fill($fixture);
+        return $this;
     }
 
     /**
      * Save the form
+     *
+     * @param Fixture $fixture
+     * @return Form
      */
     public function save(Fixture $fixture)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
+        return $this;
     }
 
     /**
      * Delete current form item
+     *
+     * @param Fixture $fixture
+     * @return Form
      */
     public function delete(Fixture $fixture)
     {
         $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_ID)->click();
+        return $this;
     }
 }

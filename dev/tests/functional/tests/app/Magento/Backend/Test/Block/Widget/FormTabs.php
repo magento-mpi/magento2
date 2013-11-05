@@ -34,6 +34,7 @@ class FormTabs extends Form
      *
      * @param Fixture $fixture
      * @param Element $element
+     * @return FormTabs
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
@@ -43,12 +44,14 @@ class FormTabs extends Form
             $tabElement->open($this->_rootElement);
             $tabElement->fillFormTab($tabFields, $this->_rootElement);
         }
+        return $this;
     }
 
     /**
      * Update form with tabs
      *
      * @param Fixture $fixture
+     * @return FormTabs
      */
     public function update(Fixture $fixture)
     {
@@ -58,6 +61,7 @@ class FormTabs extends Form
             $tabElement->open($this->_rootElement);
             $tabElement->updateFormTab($tabFields, $this->_rootElement);
         }
+        return $this;
     }
 
     /**
@@ -109,10 +113,12 @@ class FormTabs extends Form
      * Open tab
      *
      * @param string $tabName
+     * @return FormTabs
      */
     public function openTab($tabName)
     {
         $tabElement = $this->getTabElement($tabName);
         $tabElement->open($this->_rootElement);
+        return $this;
     }
 }

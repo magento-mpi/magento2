@@ -23,11 +23,18 @@ use Mtf\Fixture\DataFixture;
 class Messages extends Block
 {
     /**
-     * Success message
+     * Success message selector.
      *
      * @var string
      */
-    private $successMessage;
+    private $successMessageSelector;
+
+    /**
+     * Error message selector.
+     *
+     * @var string
+     */
+    private $errorMessageSelector;
 
     /**
      * Initialize block elements
@@ -35,7 +42,8 @@ class Messages extends Block
     protected function _init()
     {
         //Elements
-        $this->successMessage = '[data-ui-id=messages-message-success]';
+        $this->successMessageSelector = '[data-ui-id=messages-message-success]';
+        $this->errorMessageSelector = '[data-ui-id=messages-message-error]';
     }
 
     /**
@@ -45,7 +53,17 @@ class Messages extends Block
      */
     public function waitForSuccessMessage()
     {
-        $this->waitForElementVisible($this->successMessage);
+        return $this->waitForElementVisible($this->successMessageSelector);
+    }
+
+    /**
+     * Check for error message
+     *
+     * @return bool
+     */
+    public function waitForErrorMessage()
+    {
+        return $this->waitForElementVisible($this->errorMessageSelector);
     }
 
     /**
