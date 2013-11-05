@@ -20,7 +20,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('backend/checkout/index_loadBlock');
+        $this->dispatch('backend/checkout/index/loadBlock');
         $this->assertStringMatchesFormat('{"message":"%ACustomer not found%A"}', $this->getResponse()->getBody());
     }
 }

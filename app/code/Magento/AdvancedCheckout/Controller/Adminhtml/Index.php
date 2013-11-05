@@ -701,9 +701,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
 
         $update = $this->getLayout()->getUpdate();
         if ($asJson) {
-            $update->addHandle('checkout_manage_load_block_json');
+            $update->addHandle('checkout_index_manage_load_block_json');
         } else {
-            $update->addHandle('checkout_manage_load_block_plain');
+            $update->addHandle('checkout_index_manage_load_block_plain');
         }
 
         if ($block) {
@@ -716,7 +716,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 if ($criticalException && ($block != 'message')) {
                     continue;
                 }
-                $update->addHandle('checkout_manage_load_block_' . $block);
+                $update->addHandle('checkout_index_manage_load_block_' . $block);
             }
         }
 
