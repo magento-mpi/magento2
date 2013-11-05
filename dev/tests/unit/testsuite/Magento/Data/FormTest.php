@@ -9,7 +9,7 @@
 namespace Magento\Data;
 
 /**
- * Tests for \Magento\Data\Form\Factory
+ * Tests for \Magento\Data\FormFactory
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class FormTest extends \PHPUnit_Framework_TestCase

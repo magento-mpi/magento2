@@ -9,7 +9,7 @@
 namespace Magento\Data;
 
 /**
- * Tests for \Magento\Data\Form\Factory
+ * Tests for \Magento\Data\FormFactory
  */
 class FormFactoryTest extends \PHPUnit_Framework_TestCase
 {

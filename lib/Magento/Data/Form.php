@@ -10,7 +10,7 @@
 
 namespace Magento\Data;
 
-use \Magento\Core\Model\Session\AbstractSession;
+use \Magento\Core\Model\Session;
 
 class Form extends \Magento\Data\Form\AbstractForm
 {

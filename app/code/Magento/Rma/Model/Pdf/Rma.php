@@ -86,8 +86,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_rmaData = $rmaData;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $coreData, $string, $coreStoreConfig, $translate, $dirs, $pdfConfig,
-            $totalFactory);
+        parent::__construct($paymentData, $coreData, $string, $coreStoreConfig, $translate, $coreDir, $shippingConfig,
+            $pdfConfig, $pdfTotalFactory, $pdfItemsFactory, $data);
     }
 
     /**

@@ -23,22 +23,4 @@
             <instance type="Magento\Adminhtml\Model\Session" />
         </param>
     </type>
-    <type name="Magento\Adminhtml\Controller\Index">
-        <param name="searchModules">
-            <value>
-                <products>
-                    <class>Magento\Adminhtml\Model\Search\Catalog</class>
-                    <acl>Magento_Catalog::catalog</acl>
-                </products>
-                <customers>
-                    <class>Magento\Adminhtml\Model\Search\Customer</class>
-                    <acl>Magento_Customer::customer</acl>
-                </customers>
-                <sales>
-                    <class>Magento\Adminhtml\Model\Search\Order</class>
-                    <acl>Magento_Sales::sales</acl>
-                </sales>
-            </value>
-        </param>
-    </type>
 </config>

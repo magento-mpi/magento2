@@ -161,7 +161,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypesList
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -184,7 +184,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypesList,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,

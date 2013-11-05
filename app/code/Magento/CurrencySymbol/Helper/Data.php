@@ -32,7 +32,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
-     * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory
+     * @param \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -43,7 +43,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Locale $locale,
         \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
-        \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
+        \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory,
         $dbCompatibleMode = true
     ) {
         $this->_symbolFactory = $symbolFactory;

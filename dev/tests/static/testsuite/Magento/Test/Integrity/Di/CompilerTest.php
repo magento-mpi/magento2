@@ -181,10 +181,12 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         }
 
         $errors = array();
-        foreach ($classes as $className) {
+        foreach ($classes as $file => $className) {
             try {
                 $this->_validator->validate($className);
             } catch (\Magento\Code\ValidationException $exceptions) {
+                $errors[] = PHP_EOL . $exceptions->getMessage();
+            } catch (\ReflectionException $exceptions) {
                 $errors[] = PHP_EOL . $exceptions->getMessage();
             }
         }
