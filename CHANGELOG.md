@@ -11,8 +11,18 @@
     * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
     * from Http Magento Helper to Magento\HTTP libraries
   * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
+  * Implemented SOAP faults declaration in WSDL
+  * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
+  * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
+  * Fixed Minimum Advertised Price link on Product view
+  * Fixed View Files Population Tool
+  * Fixed error on save of Google AdWords configuration
+  * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
+  * Fixed impossibility to use spaces in credit card number
+  * Fixed impossibility to print order from frontend
+  * Fixed fatal error when trying to delete review with rating
 
 2.0.0.0-dev50
 =============

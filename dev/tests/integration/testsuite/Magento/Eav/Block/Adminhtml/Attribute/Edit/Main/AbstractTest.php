@@ -25,8 +25,8 @@ class AbstractTest
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $objectManager->get('Magento\App\State')
-            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+        $objectManager->get('Magento\Core\Model\App')
+            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $objectManager->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')

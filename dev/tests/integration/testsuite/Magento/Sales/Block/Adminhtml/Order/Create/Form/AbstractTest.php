@@ -23,8 +23,8 @@ class AbstractTest
     public function testAddAttributesToForm()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
         $objectManager->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();

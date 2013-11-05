@@ -62,11 +62,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $customerData
      * @dataProvider createDataProvider
+     * @magentoAppArea adminhtml
      */
     public function testCreate($customerData)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $this->_createdCustomer = $this->_model->create($customerData);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
@@ -303,6 +302,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      * @param array $customerData
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @dataProvider updateDataProvider
+     * @magentoAppArea frontend
      */
     public function testUpdate($customerData)
     {
@@ -397,11 +397,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @appAreaCode adminhtml
      */
     public function testAutoGeneratePassword()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $oldPasswordHash = $this->_customerFactory->create()
             ->load(1)
             ->getPasswordHash();
