@@ -9,15 +9,14 @@
 namespace Magento\Test\Integrity\Library;
 
 use Magento\TestFramework\Integrity\Library\Injectable;
+use Magento\TestFramework\Integrity\Library\PhpParser\ParserFactory;
 use Magento\TestFramework\Integrity\Library\PhpParser\Tokens;
-use Magento\TestFramework\Integrity\Library\PhpParser\UseToken;
-use Magento\TestFramework\Integrity\Library\PhpParser\StaticCallToken;
-use Magento\TestFramework\Integrity\Library\PhpParser\ThrowToken;
 use Magento\TestFramework\Utility\Files;
+use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\FileReflection;
 
 /**
- * @package Magento\Test\Integrity\Dependency
+ * @package Magento\Test
  */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,39 +31,25 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     protected $tokens = array();
 
     /**
-     * @var UseToken
-     */
-    protected $useToken;
-
-    /**
-     * @var StaticCallToken
-     */
-    protected $staticCallToken;
-
-    /**
-     * @var ThrowToken
-     */
-    protected $throwToken;
-
-    /**
      * @var Injectable
      */
     protected $injectable;
+
+    /**
+     * @var
+     */
+    protected $fileReflection;
 
     /**
      * @inheritdoc
      */
     public function setUp()
     {
-        $this->tokens =          new Tokens();
-        $this->useToken =        new UseToken();
-        $this->staticCallToken = new StaticCallToken($this->tokens, $this->useToken);
-        $this->throwToken =      new ThrowToken($this->tokens, $this->useToken);
-        $this->injectable =      new Injectable();
+        $this->injectable = new Injectable();
     }
 
     /**
-     * Test check injectable dependencies in library
+     * Test check dependencies in library from application
      *
      * @test
      * @dataProvider libraryDataProvider
@@ -72,15 +57,21 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function testCheckDependencies($file)
     {
         $fileReflection = new FileReflection($file);
+        $this->tokens   = new Tokens($fileReflection->getContents(), new ParserFactory());
+        $this->tokens->parseContent();
 
-        $this->tokens->parse($fileReflection->getContents());
-        $this->parseContent();
+        $exceptions = array();
+        foreach ($this->tokens->getDependencies() as $dependency) {
+            try {
+                new ClassReflection($dependency);
+            } catch (\ReflectionException $e) {
+                $exceptions[] = $e;
+            }
+        }
 
         $this->injectable->checkDependencies($fileReflection);
-        $this->throwToken->checkDependencies();
-        $this->staticCallToken->checkDependencies();
 
-        foreach ($this->getExceptions() as $exception) {
+        foreach (array_merge($exceptions, $this->injectable->getDependencies()) as $exception) {
             $this->addError($exception, $fileReflection->getFileName());
         }
 
@@ -95,18 +86,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     protected function hasErrors()
     {
         return !empty($this->errors);
-    }
-
-    /**
-     * @return \ReflectionException[]
-     */
-    public function getExceptions()
-    {
-        return array_merge(
-            $this->injectable->getDependencies(),
-            $this->staticCallToken->getDependencies(),
-            $this->throwToken->getDependencies()
-        );
     }
 
     /**
@@ -169,15 +148,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
             $this->errors[$key][] = $result[1];
         } else {
             throw $exception;
-        }
-    }
-
-    protected function parseContent()
-    {
-        foreach ($this->tokens->getAllTokens() as $key => $token) {
-            $this->useToken->parseUses($token);
-            $this->staticCallToken->parseStaticCall($token, $key);
-            $this->throwToken->parseThrows($token, $key);
         }
     }
 }

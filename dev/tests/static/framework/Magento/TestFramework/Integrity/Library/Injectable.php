@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nas
- * Date: 11/4/13
- * Time: 3:48 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\TestFramework\Integrity\Library;

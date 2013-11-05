@@ -9,32 +9,88 @@
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
+ * Parse php code and found dependencies
+ *
  * @package Magento\TestFramework
  */
 class Tokens
 {
     /**
+     * Collect all tokens
+     *
      * @var array
      */
     protected $tokens = array();
 
     /**
-     * @param string $content
+     * Collect dependencies
+     *
+     * @var array
      */
-    public function parse($content)
+    protected $dependencies = array();
+
+    /**
+     * Collect all parsers
+     *
+     * @var Parser[]
+     */
+    protected $parsers = array();
+
+    /**
+     * Parser factory for creating parsers
+     *
+     * @var ParserFactory
+     */
+    protected $parserFactory;
+
+    /**
+     * @param string $content
+     * @param ParserFactory $parserFactory
+     */
+    public function __construct($content, ParserFactory $parserFactory)
     {
         $this->tokens = token_get_all($content);
+        $this->parserFactory = $parserFactory;
     }
 
     /**
+     * Parse content
+     */
+    public function parseContent()
+    {
+        foreach ($this->tokens as $k => $token) {
+            foreach ($this->getParsers() as $parser) {
+                $parser->parse($token, $k);
+            }
+        }
+    }
+
+    /**
+     * Get all parsers
+     *
+     * @return Parser[]
+     */
+    protected function getParsers()
+    {
+        return $this->parserFactory->createParsers($this);
+    }
+
+    /**
+     * Get parsed dependencies
+     *
      * @return array
      */
-    public function getAllTokens()
+    public function getDependencies()
     {
-        return $this->tokens;
+        return array_merge(
+            $this->parserFactory->getStaticCalls()->getDependencies($this->parserFactory->getUses()),
+            $this->parserFactory->getThrows()->getDependencies($this->parserFactory->getUses())
+        );
     }
 
     /**
+     * Return previous token
+     *
      * @param int $key
      * @param int $step
      * @return array
@@ -45,47 +101,24 @@ class Tokens
     }
 
     /**
-     * @param array|string $token
-     * @return bool
-     */
-    public function hasTokenCode($token)
-    {
-        return is_array($token);
-    }
-
-    /**
+     * Return token code by key
+     *
      * @param $key
      * @return null|int
      */
     public function getTokenCodeByKey($key)
     {
-        return $this->hasTokenCode($this->tokens[$key]) ? $this->tokens[$key][0] : null;
+        return is_array($this->tokens[$key]) ? $this->tokens[$key][0] : null;
     }
 
     /**
+     * Return token value by key
+     *
      * @param $key
      * @return string
      */
     public function getTokenValueByKey($key)
     {
-        return $this->hasTokenCode($this->tokens[$key]) ? $this->tokens[$key][1] : $this->tokens[$key];
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    public function isString($code)
-    {
-        return $code == T_STRING;
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    public function isNamespaceSeparator($code)
-    {
-        return $code == T_NS_SEPARATOR;
+        return is_array($this->tokens[$key]) ? $this->tokens[$key][1] : $this->tokens[$key];
     }
 }

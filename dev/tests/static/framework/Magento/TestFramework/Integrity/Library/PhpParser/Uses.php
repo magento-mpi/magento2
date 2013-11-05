@@ -9,29 +9,29 @@
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
+ * Parse uses block
+ *
  * @package Magento\TestFramework
  */
-class UseToken
+class Uses implements Parser
 {
     /**
+     * Flag for parse use block
+     *
      * @var bool
      */
     protected $parseUse = false;
 
     /**
+     * Collect all uses
+     *
      * @var array
      */
     protected $uses = array();
 
     /**
-     * @return mixed
-     */
-    protected function getUses()
-    {
-        return $this->uses;
-    }
-
-    /**
+     * Check if uses present in content
+     *
      * @return bool
      */
     public function hasUses()
@@ -39,17 +39,26 @@ class UseToken
         return !empty($this->uses);
     }
 
-    protected function addNewUses()
+    /**
+     * Create empty uses in collection
+     */
+    protected function createEmptyItem()
     {
         $this->uses[] = '';
     }
 
     /**
+     * Return class name with namespace
+     *
      * @param string $class
      * @return string
      */
-    public function prepareFullClassName($class)
+    public function getClassNameWithNamespace($class)
     {
+        if (preg_match('#^\\\\#', $class)) {
+            return $class;
+        }
+
         preg_match('#^([A-Za-z0-9_]+)(.*)$#', $class, $match);
         foreach ($this->uses as $use) {
             if (preg_match('#^([^\s]+)\s+as\s+(.*)$#', $use, $useMatch) && $useMatch[2] == $match[1]) {
@@ -67,63 +76,64 @@ class UseToken
     }
 
     /**
+     * Append part of uses into last item
+     *
      * @param string $value
      */
-    protected function appendToLastUses($value)
+    protected function appendToLast($value)
     {
         end($this->uses);
         $this->uses[key($this->uses)] .= trim($value);
     }
 
     /**
+     * Check flag parse
+     *
      * @return bool
      */
-    protected function isParseUseInProgress()
+    protected function isParseInProgress()
     {
         return $this->parseUse;
     }
 
-    protected function stopParseUse()
+    /**
+     * Start parse
+     */
+    protected function stopParse()
     {
         $this->parseUse = false;
     }
 
-    protected function startParseUse()
+    /**
+     * Stop parse
+     */
+    protected function startParse()
     {
         $this->parseUse = true;
     }
 
     /**
-     * @param array|string $token
+     * @inheritdoc
      */
-    public function parseUses($token)
+    public function parse($token, $k)
     {
         if (is_array($token)) {
-            if ($this->isParseUseInProgress()) {
-                $this->appendToLastUses($token[1]);
+            if ($this->isParseInProgress()) {
+                $this->appendToLast($token[1]);
             }
-            if ($this->isUse($token[0])) {
-                $this->startParseUse();
-                $this->addNewUses();
+            if (T_USE == $token[0]) {
+                $this->startParse();
+                $this->createEmptyItem();
             }
         } else {
-            if ($this->isParseUseInProgress()) {
+            if ($this->isParseInProgress()) {
                 if ($token == ';') {
-                    $this->stopParseUse();
+                    $this->stopParse();
                 }
                 if ($token == ',') {
-                    $this->addNewUses();
+                    $this->createEmptyItem();
                 }
             }
         }
-    }
-
-    /**
-     * @param int $code
-     * @return bool
-     */
-    protected function isUse($code)
-    {
-        return $code == T_USE;
     }
 }
