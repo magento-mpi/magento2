@@ -21,6 +21,18 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     const TYPE_PAGE = 'page';
     /**#@-*/
 
+    /**#@+
+     * Layout abstraction based on designer prerogative.
+     */
+    const DESIGN_ABSTRACTION_CUSTOM = 'custom';
+    /**#@-*/
+
+    /**#@+
+     * Layout generalization guaranteed to load into View
+     */
+    const DESIGN_ABSTRACTION_PAGE_LAYOUT = 'page_layout';
+    /**#@-*/
+
     /**
      * XPath of handles originally declared in layout updates
      */
@@ -302,6 +314,43 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
                 'name'     => $name,
                 'label'    => __((string)$node->getAttribute('label')),
                 'type'     => $node->getAttribute('type'),
+            );
+            $result[$name] = $info;
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve all design abstractions that exist in the system.
+     *
+     * Result format:
+     * array(
+     *     'handle_name_1' => array(
+     *         'name'     => 'handle_name_1',
+     *         'label'    => 'Handle Name 1',
+     *         'design_abstraction' => self::DESIGN_ABSTRACTION_PAGE_LAYOUT or self::DESIGN_ABSTRACTION_CUSTOM
+     *     ),
+     *     // ...
+     * )
+     *
+     * @return array
+     */
+    public function getAllDesignAbstractions()
+    {
+        $result = array();
+
+        $conditions = array(
+            '(@design_abstraction="' . self::DESIGN_ABSTRACTION_PAGE_LAYOUT . '" or @design_abstraction="' . self::DESIGN_ABSTRACTION_CUSTOM . '")'
+        );
+        $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
+        /** @var $node \Magento\View\Layout\Element */
+        foreach ($nodes as $node) {
+            $name = $node->getAttribute('id');
+            $info = array(
+                'name'     => $name,
+                'label'    => __((string)$node->getAttribute('label')),
+                'design_abstraction'     => $node->getAttribute('design_abstraction'),
             );
             $result[$name] = $info;
         }
