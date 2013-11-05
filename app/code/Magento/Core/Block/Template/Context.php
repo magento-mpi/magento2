@@ -65,6 +65,8 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -88,7 +90,9 @@ class Context extends \Magento\Core\Block\Context
         \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
     ) {
         parent::__construct(
             $request,
@@ -108,7 +112,9 @@ class Context extends \Magento\Core\Block\Context
             $logger,
             $app,
             $escaper,
-            $filterManager
+            $filterManager,
+            $locale,
+            $data
         );
 
         $this->_dirs = $dirs;
