@@ -24,8 +24,6 @@ app/code/Magento/Adminhtml/Block/System/Store/Edit.php
 app/code/Zend
 # Not magento code
 dev/tools/Magento/Tools/I18n/Zend
-# Not required to scan build director
-dev/build
 # Not magento code
 dev/tools/layout
 # Not magento code
