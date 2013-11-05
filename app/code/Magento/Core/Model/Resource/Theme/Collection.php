@@ -186,7 +186,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param string $area
      * @param int $type
-     * @return $this
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function filterThemeCustomizations(
         $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,

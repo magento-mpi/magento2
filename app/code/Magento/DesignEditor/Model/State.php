@@ -173,14 +173,14 @@ class State
     protected function _setTheme()
     {
         if ($this->_themeContext->getEditableTheme()) {
-            $themeId = $this->_themeContext->getVisibleTheme()->getId();
+            $themePath = $this->_themeContext->getVisibleTheme()->getThemePath();
             $this->_application->getStore()->setConfig(
-                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
-                $themeId
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH,
+                $themePath
             );
             $this->_application->getConfig()->setValue(
-                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
-                $themeId
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH,
+                $themePath
             );
         }
     }

@@ -216,13 +216,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_processorFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @var \Magento\View\Design\Theme\ThemeProviderInterface
      */
-    protected $_themeFactory;
+    protected $themeProvider;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
-     * @param Resource\Theme\CollectionFactory $themeFactory
+     * @param \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
      * @param Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param Factory\Helper $factoryHelper
@@ -238,7 +238,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
+        \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider,
         \Magento\Core\Model\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
@@ -267,7 +267,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
         $this->_processorFactory = $processorFactory;
-        $this->_themeFactory = $themeFactory;
+        $this->themeProvider = $themeProvider;
         $this->_logger = $logger;
     }
 
@@ -312,15 +312,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if ($this->_design->getDesignTheme()->getArea() == $area || $this->_design->getArea() == $area) {
             return $this->_design->getDesignTheme();
         }
-        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = $this->_themeFactory->create();
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
-        if (is_numeric($themeIdentifier)) {
-            $result = $themeCollection->getItemById($themeIdentifier);
-        } else {
-            $themeFullPath = $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier;
-            $result = $themeCollection->getThemeByFullPath($themeFullPath);
-        }
+        $result = $this->themeProvider->getThemeByFullPath(
+            $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier
+        );
         return $result;
     }
 
