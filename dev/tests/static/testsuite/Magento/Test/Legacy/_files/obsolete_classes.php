@@ -993,7 +993,6 @@ return array(
     array('Magento\Poll\Model\Resource\Poll\Vote'),
     array('Mage:'),
     array('Magento\Backup'),
-    array('Magento\Backup\Factory'),
     array('Magento\Core\Controller\Front\Router'),
     array('Magento\Core\Controller\Request\HttpProxy'),
     array('Magento\Core\Controller\Response\Http', 'Magento\App\Response\Http'),
