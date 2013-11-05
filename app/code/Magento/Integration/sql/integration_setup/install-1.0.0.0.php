@@ -105,17 +105,17 @@ $table = $installer->getConnection()
     )
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('oauth_consumer'),
+            $installer->getTable('integration'),
             array('consumer_id'),
             \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         ),
         array('consumer_id'),
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
-        $installer->getFkName('consumer', 'consumer_id', $installer->getTable('oauth_consumer'), 'entity_id'),
-        'admin_id',
-        $installer->getTable('admin_user'),
-        'user_id',
+        $installer->getFkName('integration', 'consumer_id', $installer->getTable('oauth_consumer'), 'entity_id'),
+        'consumer_id',
+        $installer->getTable('oauth_consumer'),
+        'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\DB\Ddl\Table::ACTION_CASCADE);
 
