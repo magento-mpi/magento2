@@ -28,22 +28,20 @@ class Config
      */
     protected $_subscriptionFactory;
 
-    /**
-     * @var \Magento\Core\Model\Logger
-     */
+    /** @var \Magento\Logger */
     private $_logger;
 
     /**
      * @param \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet
      * @param \Magento\Webhook\Model\Config $config
      * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet,
         \Magento\Webhook\Model\Config $config,
         \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_subscriptionSet = $subscriptionSet;
         $this->_config = $config;

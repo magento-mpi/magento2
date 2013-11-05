@@ -206,7 +206,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getDeleteOrphanPointsUrl()
     {
-        return $this->getUrl('*/customer_reward/deleteOrphanPoints', array('_current' => true));
+        return $this->getUrl('adminhtml/customer_reward/deleteOrphanPoints', array('_current' => true));
     }
 
     /**

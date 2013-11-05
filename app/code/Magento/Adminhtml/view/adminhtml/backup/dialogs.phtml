@@ -134,16 +134,16 @@
 
 <?php
     $helper = $this->helper('Magento\Backup\Helper\Data');
-    $rollbackUrl = $this->getUrl('*/*/rollback');
-    $backupUrl = $this->getUrl('*/*/create');
+    $rollbackUrl = $this->getUrl('adminhtml/*/rollback');
+    $backupUrl = $this->getUrl('adminhtml/*/create');
 ?>
 
 <script type="text/javascript">
 //<![CDATA[
     document.observe('dom:loaded', function () {
         backup = new AdminBackup();
-        backup.rollbackUrl = '<?php echo $helper->jsQuoteEscape($rollbackUrl);?>';
-        backup.backupUrl = '<?php echo $helper->jsQuoteEscape($backupUrl);?>';
+        backup.rollbackUrl = '<?php echo $helper->escapeJsQuote($rollbackUrl);?>';
+        backup.backupUrl = '<?php echo $helper->escapeJsQuote($backupUrl);?>';
     });
 //]]>
 </script>

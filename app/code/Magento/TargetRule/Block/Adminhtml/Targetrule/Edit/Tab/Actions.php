@@ -71,7 +71,7 @@ class Actions
         $fieldset   = $form->addFieldset('actions_fieldset', array(
             'legend' => __('Product Result Conditions (leave blank for matching all products)'))
         );
-        $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
         $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')

@@ -18,7 +18,7 @@
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Items extends \Magento\Adminhtml\Controller\Action
+class Items extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Initialize general settings for action
@@ -42,7 +42,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
-            $this->_redirect('*/*/', array(
+            $this->_redirect('adminhtml/*/', array(
                 'store' => $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
                     ->getAnyStoreView()->getId(),
                 '_current' => true)
@@ -140,7 +140,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 __('An error has occurred while adding products to google shopping account.'),
                 $e->getMessage()
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return;
         }
 
@@ -180,7 +180,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return;
         }
 
@@ -220,7 +220,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             return;
         }
 
@@ -253,11 +253,11 @@ class Items extends \Magento\Adminhtml\Controller\Action
                     ->parseGdataExceptionMessage($e->getMessage())
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__('Something went wrong during Captcha confirmation.'));
         }
 
-        $this->_redirect('*/*/index', array('store'=>$storeId));
+        $this->_redirect('adminhtml/*/index', array('store'=>$storeId));
     }
 
     /**

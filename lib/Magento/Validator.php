@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Validator
+ * @package     Magento_Validator
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -43,17 +43,15 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
     /** @var \Magento\Oauth\Helper\Service */
     protected $_oauthHelper;
 
-    /** @var \Magento\Core\Model\Logger */
+    /** @var \Magento\Logger */
     protected $_logger;
 
     /**
-     * Class constructor
-     *
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Oauth\Helper\Service $oauthHelper
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Backend\Controller\Context $context
      */
     public function __construct(
@@ -61,7 +59,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
         \Magento\Oauth\Helper\Service $oauthHelper,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Backend\Controller\Context $context
     ) {
         parent::__construct($context);
@@ -112,7 +110,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
 
         if (!$consumerId) {
             $this->_getSession()->addError(__('Invalid ID parameter.'));
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
             return $consumer;
         }
 
@@ -121,7 +119,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
         if (!$consumer->getId()) {
             $this->_getSession()
                 ->addError(__('An add-on with ID %1 was not found.', $consumerId));
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
         }
 
         return $consumer;
@@ -203,9 +201,9 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
     private function _redirectToEditOrNew($consumerId)
     {
         if ($consumerId) {
-            $this->_redirect('*/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
+            $this->_redirect('adminhtml/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
         } else {
-            $this->_redirect('*/*/new');
+            $this->_redirect('adminhtml/*/new');
         }
     }
 
@@ -246,7 +244,7 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
             $this->_setFormData(null);
         } catch (\Magento\Core\Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError($this->_oauthHelper->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
         } catch (\Exception $e) {
             $this->_setFormData(null);
@@ -261,11 +259,11 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
             //$this->_redirect('<Add-On Website URL>', array(
                     //'oauth_consumer_key' => $consumerData[self::DATA_KEY],
                     //'oauth_verifier' => $verifier[self::DATA_VERIFIER],
-                    //'callback_url' => $this->getUrl('*/*/index')
+                    //'callback_url' => $this->getUrl('adminhtml/*/index')
                 //));
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
         } else {
-            $this->_redirect('*/*/index');
+            $this->_redirect('adminhtml/*/index');
         }
     }
 
@@ -334,6 +332,6 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
                     ->addException($e, __('An error occurred while deleting the add-on.'));
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('adminhtml/*/index');
     }
 }

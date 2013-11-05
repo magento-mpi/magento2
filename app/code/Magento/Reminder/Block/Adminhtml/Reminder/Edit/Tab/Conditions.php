@@ -66,7 +66,7 @@ class Conditions
 
         $renderer = $this->_fieldsetBlock
             ->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
+            ->setNewChildUrl($this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
             'legend'  => __('Conditions'),
             'comment' => __('You need to set at least one condition for this rule to work.'),

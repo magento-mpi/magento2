@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Solr search engine abstract adapter
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Search\Model\Adapter\Solr;
 
+/**
+ * Solr search engine abstract adapter
+ */
 abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapter
 {
     /**
@@ -58,7 +54,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $_clientFactory;
 
     /**
-     * @var SolrClient|\Magento\Search\Model\Client\Solr
+     * @var \SolrClient|\Magento\Search\Model\Client\Solr
      */
     protected $_client;
 
@@ -89,23 +85,28 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Customer\Model\Session                              $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price             $filterPrice
-     * @param \Magento\Search\Model\Resource\Index                         $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext               $resourceFulltext
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
+     * @param \Magento\Search\Model\Resource\Index $resourceIndex
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Core\Model\Logger                                   $logger
-     * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
-     * @param \Magento\App\CacheInterface                           $cache
-     * @param \Magento\Eav\Model\Config                                    $eavConfig
-     * @param \Magento\Search\Model\Factory\Factory                        $searchFactory
-     * @param \Magento\Search\Helper\ClientInterface                       $clientHelper
-     * @param \Magento\Core\Model\Registry                                 $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface                    $coreStoreConfig
-     * @param array                                                       $options
-     *
+     * @param \Magento\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Search\Model\Factory\Factory $searchFactory
+     * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param array $options
+     * 
      * @throws \Magento\Core\Exception
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -113,7 +114,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
@@ -121,6 +122,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Stdlib\DateTime $dateTime,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -128,6 +130,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->dateTime = $dateTime;
         parent::__construct(
             $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
             $logger, $storeManager, $cache
@@ -222,7 +225,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
 
-        if (is_empty_date($date)) {
+        if ($this->dateTime->isEmptyDate($date)) {
             return null;
         }
 

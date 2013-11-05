@@ -13,7 +13,11 @@ namespace Magento\Filter\Object;
 
 class Grid extends \Magento\Filter\Object
 {
-    function filter($grid)
+    /**
+     * @param array $grid
+     * @return array
+     */
+    public function filter($grid)
     {
         $out = array();
         if (is_array($grid)) {

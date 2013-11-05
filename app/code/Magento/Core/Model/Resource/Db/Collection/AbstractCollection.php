@@ -106,14 +106,14 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
@@ -598,17 +598,5 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
             $item->save();
         }
         return $this;
-    }
-
-    /**
-     * Format Date to internal database date format
-     *
-     * @param int|string|Zend_Date $date
-     * @param boolean $includeTime
-     * @return string
-     */
-    public function formatDate($date, $includeTime = true)
-    {
-        return \Magento\Date::formatDate($date, $includeTime);
     }
 }

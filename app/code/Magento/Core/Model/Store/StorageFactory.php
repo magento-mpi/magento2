@@ -39,7 +39,7 @@ class StorageFactory
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_log;
 
@@ -56,7 +56,7 @@ class StorageFactory
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $log
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\App\State $appState
      * @param string $defaultStorageClassName
@@ -65,7 +65,7 @@ class StorageFactory
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $log,
+        \Magento\Logger $logger,
         \Magento\Core\Model\AppInterface $app,
         \Magento\App\State $appState,
         $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
@@ -75,7 +75,7 @@ class StorageFactory
         $this->_defaultStorageClassName = $defaultStorageClassName;
         $this->_installedStoreClassName = $installedStoreClassName;
         $this->_eventManager = $eventManager;
-        $this->_log = $log;
+        $this->_log = $logger;
         $this->_appState = $appState;
         $this->_app = $app;
     }

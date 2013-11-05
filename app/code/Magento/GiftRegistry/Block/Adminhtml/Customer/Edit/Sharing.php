@@ -101,7 +101,7 @@ class Sharing
      */
     public function getActionUrl()
     {
-        return $this->getUrl('*/*/share', array('_current' => true));
+        return $this->getUrl('adminhtml/*/share', array('_current' => true));
     }
 
     /**

@@ -121,7 +121,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 }
 
                 if (false
-                    !== strpos($layoutFile, 'app/code/Magento/Adminhtml/view/adminhtml/layout/adminhtml_sales_order')
+                    !== strpos($layoutFile, 'app/code/Magento/Sales/view/adminhtml/layout/sales_order')
                 ) {
                     $this->markTestIncomplete("The file {$layoutFile} has to use \\Magento\\Core\\Block\\Text\\List, \n"
                             . 'there is no solution to get rid of it right now.'
@@ -190,18 +190,15 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             'addBodyClass',
             'addButtons',
             'addColumnCountLayoutDepend',
-            'addColumnRender',
             'addCrumb',
             'addDatabaseBlock',
             'addInputTypeTemplate',
             'addNotice',
             'addPriceBlockType',
-            'addRenderer',
             'addReportTypeOption',
             'addTab',
             'addTabAfter',
             'addText',
-            'addToParentGroup',
             'append',
             'removeTab',
             'setActive',

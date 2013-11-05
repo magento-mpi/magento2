@@ -324,6 +324,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                 array(), array(), '', false),
             $this->_catalogDataMock,
             $coreStoreConfig,
+            new \Magento\Stdlib\DateTime,
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
@@ -434,7 +435,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $fetchStrategy = $this->getMockForAbstractClass(
             'Magento\Data\Collection\Db\FetchStrategyInterface', array('fetchAll')
         );
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
         $optionCollection = $this->getMock(
@@ -514,7 +515,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function getNewOptionMock()
     {
-        return $this->getMock('Magento\Catalog\Model\Product\Option', null, array(), '', false);
+        return $this->getMock('Magento\Catalog\Model\Product\Option', array('__wakeup'), array(), '', false);
     }
 
     /**

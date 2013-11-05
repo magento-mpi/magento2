@@ -8,19 +8,9 @@
  * @license    {license_link}
  */
 
-/**
- *
- * @category   Magento
- * @package    Magento_Data
- * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @method \Magento\Data\Form setParent($block)
- * @method \Magento\Backend\Block\Widget\Form getParent()
- * @method \Magento\Backend\Block\Widget\Form setUseContainer($flag)
- */
 namespace Magento\Data;
 
-use \Magento\Core\Model\Session;
+use \Magento\Core\Model\Session\AbstractSession;
 
 class Form extends \Magento\Data\Form\AbstractForm
 {
@@ -131,10 +121,11 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Add form element
      *
-     * @param   \Magento\Data\Form\Element\AbstractElement $element
-     * @return  \Magento\Data\Form
+     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param bool $after
+     * @return \Magento\Data\Form
      */
-    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after=false)
+    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
     {
         $this->checkElementId($element->getId());
         parent::addElement($element, $after);
@@ -153,6 +144,10 @@ class Form extends \Magento\Data\Form\AbstractForm
         return isset($this->_elementsIndex[$elementId]);
     }
 
+    /**
+     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @return $this
+     */
     public function addElementToCollection($element)
     {
         $this->_elementsIndex[$element->getId()] = $element;
@@ -160,14 +155,22 @@ class Form extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * @param string $elementId
+     * @return bool
+     * @throws \Exception
+     */
     public function checkElementId($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
-            throw new \Exception('Element with id "'.$elementId.'" already exists');
+            throw new \InvalidArgumentException('Element with id "' . $elementId . '" already exists');
         }
         return true;
     }
 
+    /**
+     * @return $this
+     */
     public function getForm()
     {
         return $this;
@@ -187,6 +190,10 @@ class Form extends \Magento\Data\Form\AbstractForm
         return null;
     }
 
+    /**
+     * @param array $values
+     * @return $this
+     */
     public function setValues($values)
     {
         foreach ($this->_allElements as $element) {
@@ -199,13 +206,18 @@ class Form extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * @param array $values
+     * @return $this
+     */
     public function addValues($values)
     {
         if (!is_array($values)) {
             return $this;
         }
-        foreach ($values as $elementId=>$value) {
-            if ($element = $this->getElement($elementId)) {
+        foreach ($values as $elementId => $value) {
+            $element = $this->getElement($elementId);
+            if ($element) {
                 $element->setValue($value);
             }
         }
@@ -229,6 +241,11 @@ class Form extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param string $suffix
+     * @return string
+     */
     public function addSuffixToName($name, $suffix)
     {
         if (!$name) {
@@ -236,15 +253,19 @@ class Form extends \Magento\Data\Form\AbstractForm
         }
         $vars = explode('[', $name);
         $newName = $suffix;
-        foreach ($vars as $index=>$value) {
-            $newName.= '['.$value;
-            if ($index==0) {
-                $newName.= ']';
+        foreach ($vars as $index => $value) {
+            $newName .= '[' . $value;
+            if ($index == 0) {
+                $newName .= ']';
             }
         }
         return $newName;
     }
 
+    /**
+     * @param string $elementId
+     * @return $this|Form\AbstractForm
+     */
     public function removeField($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
@@ -253,24 +274,36 @@ class Form extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * @param string $prefix
+     * @return $this
+     */
     public function setFieldContainerIdPrefix($prefix)
     {
         $this->setData('field_container_id_prefix', $prefix);
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldContainerIdPrefix()
     {
         return $this->getData('field_container_id_prefix');
     }
 
+    /**
+     * @return string
+     */
     public function toHtml()
     {
         \Magento\Profiler::start('form/toHtml');
-        $html = ''; if ($useContainer = $this->getUseContainer()) {
-            $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
+        $html = '';
+        $useContainer = $this->getUseContainer();
+        if ($useContainer) {
+            $html .= '<form ' . $this->serialize($this->getHtmlAttributes()) . '>';
             $html .= '<div>';
-            if (strtolower($this->getData('method')) == 'post') {
+            if (strtolower($this->getData('method')) == 'post' && null !== $this->_getSession()) {
                 $html .= '<input name="form_key" type="hidden" value="'
                     . $this->_getSession()->getFormKey()
                     . '" />';

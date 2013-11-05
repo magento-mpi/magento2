@@ -55,7 +55,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getDeleteHierarchiesUrl()
     {
-        return $this->getUrl('*/*/delete');
+        return $this->getUrl('adminhtml/*/delete');
     }
 
     /**
@@ -65,7 +65,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getCopyHierarchyUrl()
     {
-        return $this->getUrl('*/*/copy');
+        return $this->getUrl('adminhtml/*/copy');
     }
 
     /**

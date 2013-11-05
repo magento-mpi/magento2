@@ -165,7 +165,7 @@ class Css
         $downloadButtonConfig = array(
             'name'  => 'css_download_button',
             'value' => __('Download CSS File'),
-            'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
+            'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
         if (!$this->_customCssFile) {
@@ -180,7 +180,7 @@ class Css
             'label'     => __('Manage'),
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
-                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                . $this->getUrl('adminhtml/system_design_wysiwyg_files/index', array(
                     'target_element_id'                           => 'custom_css_content',
                     \Magento\Theme\Helper\Storage::PARAM_THEME_ID     =>
                         $this->_getCurrentTheme()->getId(),
@@ -188,7 +188,7 @@ class Css
                         \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
                 ))
                 . "', null, null,'"
-                . $this->quoteEscape(
+                . $this->escapeQuote(
                     __('Upload Images'), true
                 )
                 . "');"
@@ -206,13 +206,13 @@ class Css
             'label'     => __('Manage'),
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
-                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                . $this->getUrl('adminhtml/system_design_wysiwyg_files/index', array(
                     'target_element_id'                           => 'custom_css_content',
                     \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
                     \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
                 ))
                 . "', null, null,'"
-                . $this->quoteEscape(
+                . $this->escapeQuote(
                     __('Upload Fonts'), true
                 )
                 . "');",
@@ -284,7 +284,7 @@ class Css
      */
     public function getDownloadUrl($fileId, $themeId)
     {
-        return $this->getUrl('*/*/downloadCss', array(
+        return $this->getUrl('adminhtml/*/downloadCss', array(
             'theme_id' => $themeId,
             'file'     => $this->_helperFactory->get('Magento\Core\Helper\Data')->urlEncode($fileId)
         ));

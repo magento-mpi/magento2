@@ -83,7 +83,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     protected $_cartFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -101,7 +101,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Module\ModuleListInterface $moduleList,

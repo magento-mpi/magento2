@@ -38,25 +38,33 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_customerFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Locale $locale,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_locale = $locale;
         $this->_customerFactory = $customerFactory;
+        $this->dateTime = $dateTime;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
@@ -280,7 +288,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $locale = $this->_locale->getLocale();
         $expireAtLimit = new \Zend_Date($locale);
         $expireAtLimit->addDay($inDays);
-        $expireAtLimit = $this->formatDate($expireAtLimit);
+        $expireAtLimit = $this->dateTime->formatDate($expireAtLimit);
 
         $this->getSelect()
             ->columns(
@@ -288,8 +296,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             )
             ->where('points_delta-points_used > 0')
             ->where('is_expired=0')
-            ->where("{$field} IS NOT NULL") // expire_at - BEFORE_DAYS < NOW()
-            ->where("{$field} < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW()
+            ->where("{$field} IS NOT NULL") // expire_at - BEFORE_DAYS < NOW
+            ->where("{$field} < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW
             ->group(array('reward_table.customer_id', 'main_table.store_id'));
 
         if ($subscribedOnly) {

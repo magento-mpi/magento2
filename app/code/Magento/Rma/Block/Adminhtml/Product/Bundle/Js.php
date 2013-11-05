@@ -42,7 +42,7 @@ class Js extends \Magento\Adminhtml\Block\Template
      */
     public function getLoadBundleUrl()
     {
-        return $this->getUrl('*/*/showBundleItems');
+        return $this->getUrl('adminhtml/*/showBundleItems');
     }
 
     /**
@@ -52,7 +52,7 @@ class Js extends \Magento\Adminhtml\Block\Template
      */
     public function getLoadAttributesUrl()
     {
-        return $this->getUrl('*/*/loadNewAttributes', array(
+        return $this->getUrl('adminhtml/*/loadNewAttributes', array(
             'order_id' => $this->_coreRegistry->registry('current_order')->getId()
         ));
     }

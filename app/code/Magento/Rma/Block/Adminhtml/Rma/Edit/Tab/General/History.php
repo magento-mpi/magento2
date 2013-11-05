@@ -95,7 +95,7 @@ class History
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment', array('id'=>$this->getRmaData('entity_id')));
+        return $this->getUrl('adminhtml/*/addComment', array('id'=>$this->getRmaData('entity_id')));
     }
 
     /**

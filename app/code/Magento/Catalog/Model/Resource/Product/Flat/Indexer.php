@@ -119,7 +119,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_flatAttributeGroups;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -157,13 +157,11 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_resourceHelper;
 
     /**
-     * Construct
-     *
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -173,7 +171,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param $maxIndexCount
      * @param array $flatAttributeGroups
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -181,7 +179,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,

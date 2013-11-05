@@ -177,7 +177,7 @@ class Main
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -185,7 +185,7 @@ class Main
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
 

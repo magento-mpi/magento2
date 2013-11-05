@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Form;
 
-class Price extends \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price
+class Price extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
 {
 
 }

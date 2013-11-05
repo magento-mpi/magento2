@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Order\View;
 
-class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
+class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
 {
     const CREATE_RMA_BUTTON_DEFAULT_SORT_ORDER = 35;
 
@@ -57,7 +57,7 @@ class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
     {
         if ($this->_isCreateRmaButtonRequired()) {
             $parentBlock = $this->getParentBlock();
-            $buttonUrl = $this->_urlBuilder->getUrl('*/rma/new', array('order_id' => $parentBlock->getOrderId()));
+            $buttonUrl = $this->_urlBuilder->getUrl('adminhtml/rma/new', array('order_id' => $parentBlock->getOrderId()));
             $parentBlock->addButton('create_rma', array(
                 'label' => __('Create Returns'),
                 'onclick' => 'setLocation(\'' . $buttonUrl . '\')',

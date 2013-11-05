@@ -73,7 +73,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Db\Updater::updateScheme
+     * @covers \Magento\App\Updater::updateScheme
      */
     public function testUpdateSchemeWithUpdateSkip()
     {
@@ -88,7 +88,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Db\Updater::updateScheme
+     * @covers \Magento\App\Updater::updateScheme
      */
     public function testUpdateScheme()
     {
@@ -116,7 +116,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Db\Updater::updateData
+     * @covers \Magento\App\Updater::updateData
      */
     public function testUpdateData()
     {

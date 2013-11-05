@@ -37,24 +37,22 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreDate;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
      */
-    protected $_coreHttp = null;
+    protected $_remoteAddress;
 
     /**
-     * @param \Magento\Core\Model\Date $coreDate
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
-        \Magento\Core\Model\Date $coreDate,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\App\Resource $resource
+        \Magento\App\Resource $resource,
+        \Magento\Core\Model\Date $coreDate,        
+        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_coreDate = $coreDate;
-        $this->_coreHttp = $coreHttp;
+        $this->_remoteAddress = $remoteAddress;
         parent::__construct($resource);
     }
 
@@ -85,7 +83,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
-        $ip = $this->_coreHttp->getRemoteAddr();
+        $ip = $this->_remoteAddress->getRemoteAddress();
         if ($ip != null) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
@@ -113,7 +111,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array('type = ?' => self::TYPE_LOGIN, 'value = ?' => $login)
             );
         }
-        $ip = $this->_coreHttp->getRemoteAddr();
+        $ip = $this->_remoteAddress->getRemoteAddress();
         if ($ip != null) {
             $this->_getWriteAdapter()->delete(
                 $this->getMainTable(), array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
@@ -130,7 +128,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function countAttemptsByRemoteAddress()
     {
-        $ip = $this->_coreHttp->getRemoteAddr();
+        $ip = $this->_remoteAddress->getRemoteAddress();
         if (!$ip) {
             return 0;
         }

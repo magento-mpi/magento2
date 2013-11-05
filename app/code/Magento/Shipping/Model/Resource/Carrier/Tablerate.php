@@ -89,7 +89,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -115,9 +115,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 
 
     /**
-     * Class constructor
-     *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -126,7 +124,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\App\Resource $resource,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

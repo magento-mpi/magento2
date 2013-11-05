@@ -185,7 +185,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockLogger = $this->getMockBuilder('Magento\Core\Model\Logger')
+        $this->_mockLogger = $this->getMockBuilder('Magento\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 

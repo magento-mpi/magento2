@@ -30,7 +30,7 @@ class Controllers
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     * @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute
      */
     protected $_actionAttribute = null;
 
@@ -77,7 +77,7 @@ class Controllers
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Logging\Helper\Data $loggingData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $actionAttribute
+     * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -88,7 +88,7 @@ class Controllers
         \Magento\Backend\Model\Session $session,
         \Magento\Logging\Helper\Data $loggingData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $actionAttribute,
+        \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,

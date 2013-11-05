@@ -53,11 +53,17 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     protected $_couponFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -68,6 +74,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -75,6 +82,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
         $this->_salesRuleCoupon = $salesRuleCoupon;
         $this->_date = $date;
         $this->_couponFactory = $couponFactory;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -164,7 +172,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
             $this->setLength($length);
         }
 
-        $now = $this->getResource()->formatDate($this->_date->gmtTimestamp());
+        $now = $this->dateTime->formatDate($this->_date->gmtTimestamp());
 
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
@@ -178,7 +186,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
 
             $expirationDate = $this->getToDate();
             if ($expirationDate instanceof \Zend_Date) {
-                $expirationDate = $expirationDate->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+                $expirationDate = $expirationDate->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             }
 
             $coupon->setId(null)

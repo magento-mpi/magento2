@@ -38,31 +38,29 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_rangeDelimiter  = '...';
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     /**
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Factory $formFactory,
         \Magento\Backend\Block\Context $context,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        $this->_coreData = $coreData;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
     }
 
@@ -78,7 +76,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
             return '';
         }
 
-        $idSuffix = $this->_coreData->uniqHash();
+        $idSuffix = $this->mathRandom->getUniqueHash();
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $dateFields = array(
@@ -87,7 +85,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
         );
         foreach ($dateFields as $key => $label) {
             $form->addField("{$key}_{$idSuffix}", 'date', array(
-                'format'   => \Magento\Date::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
+                'format'   => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
                 'label'    => $label,
                 'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
                 'onchange' => "dateTimeChoose_{$idSuffix}()", // won't work through Event.observe()

@@ -3,16 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Archive
+ * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
 * Helper class that simplifies files stream reading and writing
-*
-* @category    Magento* @package     \Magento\Archive
-* @author      Magento Core Team <core@magentocommerce.com>
 */
 namespace Magento\Archive\Helper;
 

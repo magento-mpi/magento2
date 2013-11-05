@@ -108,7 +108,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -137,7 +137,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
                     __('The subscription \'%1\' has been saved.',
                     $subscriptionData[self::DATA_NAME])
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
             } else {
                 $this->_getSession()->addError(
                     __('The subscription \'%1\' has not been saved, as no data was provided.',
@@ -150,7 +150,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -184,7 +184,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -207,7 +207,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             $this->_getSession()->addError($e->getMessage());
         }
 
-        $this->_redirect('*/webhook_subscription/index');
+        $this->_redirect('adminhtml/webhook_subscription/index');
     }
 
     /**
@@ -230,7 +230,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             $this->_getSession()->addError($e->getMessage());
         }
 
-        $this->_redirect('*/webhook_subscription/index');
+        $this->_redirect('adminhtml/webhook_subscription/index');
     }
 
     /**

@@ -40,6 +40,7 @@ class ClassReader
                 }
             }
         }
+
         return $result;
     }
 

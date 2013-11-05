@@ -119,11 +119,15 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $store->expects($this->once())
+        $store->expects($this->at(0))
             ->method('getConfig')
-            ->with(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID)
+            ->with($this->equalTo(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID))
             ->will($this->returnValue(true));
 
+        $store->expects($this->at(1))
+            ->method('getConfig')
+            ->with($this->equalTo('dev/log/active'))
+            ->will($this->returnValue(true));
 
         $this->_objectManagerMock
             ->expects($this->once())
@@ -136,6 +140,10 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('initForStore')
             ->with($store);
+            ->method('unsetLoggers');
+        $this->_logMock
+            ->expects($this->exactly(2))
+            ->method('addStreamLog');
 
         $this->_appMock->expects($this->once())
             ->method('setUseSessionInUrl')->with(true);

@@ -16,7 +16,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
 
 class Creditmemos
-     extends \Magento\Adminhtml\Block\Sales\Order\View\Tab\Creditmemos
+     extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos
 {
     /**
      * Retrieve collection class

@@ -330,7 +330,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
                     $value = $this->_locale->date(
                         $value,
-                        \Magento\Date::DATE_INTERNAL_FORMAT,
+                        \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                         null,
                         false
                     );
@@ -372,8 +372,8 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
         }
 
         if ($fromDate && $toDate) {
-            $fromDate = new \Zend_Date($fromDate, \Magento\Date::DATE_INTERNAL_FORMAT);
-            $toDate = new \Zend_Date($toDate, \Magento\Date::DATE_INTERNAL_FORMAT);
+            $fromDate = new \Zend_Date($fromDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+            $toDate = new \Zend_Date($toDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             if ($fromDate->compare($toDate) === 1) {
                 $result[] = __('End Date must follow Start Date.');

@@ -17,8 +17,7 @@
  */
 namespace Magento\ImportExport\Model\Resource\Import\CustomerComposite;
 
-class Data
-    extends \Magento\ImportExport\Model\Resource\Import\Data
+class Data extends \Magento\ImportExport\Model\Resource\Import\Data
 {
     /**
      * Entity type

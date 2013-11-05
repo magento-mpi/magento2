@@ -38,7 +38,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $entityFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\EntityFactory');
         $logger = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Logger');
+            ->get('Magento\Logger');
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',

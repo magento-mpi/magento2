@@ -116,14 +116,14 @@ class Main
             'name'         => 'from_date',
             'label'        => __('From Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'         => 'to_date',
             'label'        => __('To Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
 

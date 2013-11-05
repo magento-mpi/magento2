@@ -133,7 +133,16 @@ class Installer extends \Magento\Object
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\App\CacheInterface $cache
@@ -145,16 +154,17 @@ class Installer extends \Magento\Object
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\User\Model\UserFactory $userModelFactory
-     * @param \Magento\Install\Model\Installer\Filesystem $filesystem
-     * @param \Magento\Install\Model\Installer\Pear $installerPear
-     * @param \Magento\Install\Model\Installer\Db $installerDb
-     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param Installer\Filesystem $filesystem
+     * @param Installer\Pear $installerPear
+     * @param Installer\Db $installerDb
+     * @param Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\App\Resource $resource
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Module\UpdaterInterface $dbUpdater,
         \Magento\App\CacheInterface $cache,
@@ -171,16 +181,19 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Math\Random $mathRandom,
         \Magento\App\Resource $resource,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
+        $this->_encryptor = $encryptor;
+        $this->mathRandom = $mathRandom;
         parent::__construct($data);
         $this->_localConfig = $localConfig;
         $this->_app = $app;
@@ -323,9 +336,9 @@ class Installer extends \Magento\Object
         }
 
         if (!empty($data['enable_charts'])) {
-            $setupModel->setConfigData(\Magento\Adminhtml\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
+            $setupModel->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
         } else {
-            $setupModel->setConfigData(\Magento\Adminhtml\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
+            $setupModel->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
         }
 
         if (!empty($data['admin_no_form_key'])) {
@@ -424,7 +437,7 @@ class Installer extends \Magento\Object
      */
     public function installEncryptionKey($key)
     {
-        $this->_coreData->validateKey($key);
+        $this->_encryptor->validateKey($key);
         $this->_installerConfig->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
@@ -439,9 +452,9 @@ class Installer extends \Magento\Object
     public function getValidEncryptionKey($key = null)
     {
         if (!$key) {
-            $key = md5($this->_coreData->getRandomString(10));
+            $key = md5($this->mathRandom->getRandomString(10));
         }
-        $this->_coreData->validateKey($key);
+        $this->_encryptor->validateKey($key);
         return $key;
     }
 

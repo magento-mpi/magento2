@@ -42,7 +42,6 @@ class NavigationMode extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Session $session
@@ -55,7 +54,6 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Session $session,
@@ -71,8 +69,7 @@ class NavigationMode extends \Magento\Core\Model\Url
             $this->_themeId = $data['themeId'];
         }
         parent::__construct(
-            $routeConfig, $request, $securityInfo, $coreStoreConfig,
-            $coreData, $app, $storeManager, $session, $areaCode, $data
+            $routeConfig, $request, $securityInfo, $coreStoreConfig, $app, $storeManager, $session, $areaCode, $data
         );
     }
 

@@ -44,7 +44,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
     {
         return $this->getMockBuilder('Magento\GoogleShopping\Model\Attribute\DefaultAttribute')
             ->disableOriginalConstructor()
-            ->setMethods(null)
+            ->setMethods(array('__wakeup'))
             ->getMock();
     }
 
@@ -60,7 +60,11 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\\' . $expected))
             ->will($this->returnValue($this->_createDefaultAttribute()));
-        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
+        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory(
+            $objectManager,
+            $this->_createGsData(),
+            new \Magento\Stdlib\String
+        );
         $attribute = $attributeFactory->createAttribute($name);
         $this->assertEquals($name, $attribute->getName());
     }
@@ -89,7 +93,11 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\DefaultAttribute'))
             ->will($this->returnValue($this->_createDefaultAttribute()));
-        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
+        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory(
+            $objectManager,
+            $this->_createGsData(),
+            new \Magento\Stdlib\String
+        );
         $attribute = $attributeFactory->createAttribute('name');
         $this->assertEquals('name', $attribute->getName());
     }
@@ -106,7 +114,11 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('Magento\GoogleShopping\Model\Attribute')
             ->will($this->returnValue('some value'));
-        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
+        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory(
+            $objectManager,
+            $this->_createGsData(),
+            new \Magento\Stdlib\String
+        );
         $attribute = $attributeFactory->create();
         $this->assertEquals('some value', $attribute);
     }

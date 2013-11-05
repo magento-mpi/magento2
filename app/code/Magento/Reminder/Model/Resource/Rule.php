@@ -51,14 +51,17 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+     * @param HelperFactory $resHelperFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_resHelperFactory = $resHelperFactory;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -261,7 +264,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $ruleId = $rule->getId();
         $adapter = $this->_getWriteAdapter();
         $couponsTable = $this->getTable('magento_reminder_rule_coupon');
-        $currentDate = $this->formatDate(time());
+        $currentDate = $this->dateTime->formatDate(time());
         $dataToInsert = array();
 
         $stmt = $adapter->query($select, array('rule_id' => $ruleId));
@@ -317,7 +320,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $ruleTable   = $this->getTable('magento_reminder_rule');
         $logTable    = $this->getTable('magento_reminder_rule_log');
         $adapter     = $this->_getReadAdapter();
-        $currentDate = $this->formatDate(time());
+        $currentDate = $this->dateTime->formatDate(time());
 
         $select = $adapter->select()
             ->from(
@@ -373,7 +376,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $data = array(
             'rule_id'     => $ruleId,
             'customer_id' => $customerId,
-            'sent_at'     => $this->formatDate(time())
+            'sent_at'     => $this->dateTime->formatDate(time())
         );
 
         $this->_getWriteAdapter()->insert($this->getTable('magento_reminder_rule_log'), $data);

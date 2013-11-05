@@ -78,7 +78,7 @@ class CustomTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_theme/downloadCustomCss', array('theme_id' => self::TEST_THEME_ID))
+            ->with('adminhtml/system_design_theme/downloadCustomCss', array('theme_id' => self::TEST_THEME_ID))
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_model->getDownloadCustomCssUrl());
@@ -90,7 +90,7 @@ class CustomTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_editor_tools/saveCssContent', array('theme_id' => self::TEST_THEME_ID))
+            ->with('adminhtml/system_design_editor_tools/saveCssContent', array('theme_id' => self::TEST_THEME_ID))
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_model->getSaveCustomCssUrl());

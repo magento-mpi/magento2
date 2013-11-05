@@ -81,7 +81,7 @@ class Gate extends \Magento\Payment\Model\Method\Cc
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -94,7 +94,7 @@ class Gate extends \Magento\Payment\Model\Method\Cc
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Module\ModuleListInterface $moduleList,

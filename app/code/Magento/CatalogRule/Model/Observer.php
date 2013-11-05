@@ -91,7 +91,11 @@ class Observer
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Session $backendSession
+     * @param Rule\Product\Price $productPrice
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Resource\RuleFactory $resourceRuleFactory,
@@ -104,7 +108,9 @@ class Observer
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\CatalogRule\Model\Rule\Product\Price $productPrice,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
@@ -117,6 +123,7 @@ class Observer
         $this->_customerSession = $customerSession;
         $this->_backendSession = $backendSession;
         $this->_coreRegistry = $coreRegistry;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -155,7 +162,7 @@ class Observer
      */
     public function applyAllRules($observer)
     {
-        $this->_resourceRule->applyAllRulesForDateRange($this->_resourceRule->formatDate(mktime(0,0,0)));
+        $this->_resourceRule->applyAllRulesForDateRange($this->dateTime->formatDate(mktime(0,0,0)));
         $this->_flagFactory->create()
             ->loadSelf()
             ->setState(0)

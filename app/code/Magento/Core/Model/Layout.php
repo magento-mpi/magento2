@@ -206,7 +206,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_coreStoreConfig;
     
     /**
-     * @var \Magento\Core\Model\Logger $logger
+     * @var \Magento\Logger $logger
      */
     protected $_logger;
 
@@ -223,7 +223,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param Resource\Theme\CollectionFactory $themeFactory
-     * @param Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
@@ -239,7 +239,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
@@ -851,10 +851,16 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             throw new \Magento\Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
+
         $configPath = (string)$node->getAttribute('ifconfig');
         if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
+        }
+
+        $group = (string)$node->getAttribute('group');
+        if (!empty($group)) {
+            $this->_structure->addToParentGroup($elementName, $group);
         }
 
         // create block

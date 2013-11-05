@@ -168,6 +168,11 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_shippingFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
@@ -177,15 +182,15 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
-     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
-     * @param \Magento\Rma\Model\GridFactory $rmaGridFactory
-     * @param \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory
-     * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
-     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
-     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $rmaShippingFactory
+     * @param Config $rmaConfig
+     * @param ItemFactory $rmaItemFactory
+     * @param Item\Attribute\Source\StatusFactory $attrSourceFactory
+     * @param GridFactory $rmaGridFactory
+     * @param Rma\Status\HistoryFactory $historyFactory
+     * @param Rma\Source\StatusFactory $statusFactory
+     * @param Resource\ItemFactory $itemFactory
+     * @param Resource\Item\CollectionFactory $itemsFactory
+     * @param Resource\Shipping\CollectionFactory $rmaShippingFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\Address\RateFactory $quoteRateFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
@@ -193,7 +198,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
-     * @param \Magento\Rma\Model\Resource\Rma $resource
+     * @param \Magento\Escaper $escaper
+     * @param Resource\Rma $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -223,6 +229,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
+        \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -250,6 +257,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $this->_ordersFactory = $ordersFactory;
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_shippingFactory = $shippingFactory;
+        $this->_escaper = $escaper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -681,7 +689,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
-                $escapedProductName = $this->_rmaData->escapeHtml($item->getProductName());
+                $escapedProductName = $this->_escaper->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
                         $errors[] = __('There is an error in quantities for item %1.', $escapedProductName);
@@ -731,7 +739,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $escapedProductName = $this->_rmaData->escapeHtml(
+            $escapedProductName = $this->_escaper->escapeHtml(
                 $availableItemsArray[$key]['name']
             );
             if (!array_key_exists($key, $availableItemsArray)) {

@@ -280,7 +280,7 @@ class Observer
         }
 
         $tabs = $observer->getEvent()->getTabs();
-        /* @var $tabs \Magento\Adminhtml\Block\Catalog\Category\Tabs */
+        /* @var $tabs \Magento\Catalog\Block\Adminhtml\Category\Tabs */
 
         //if ($this->_catalogPermissionsData->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(

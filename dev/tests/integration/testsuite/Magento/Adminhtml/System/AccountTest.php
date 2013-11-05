@@ -35,9 +35,11 @@ class AccountTest extends \Magento\Backend\Utility\Controller
         $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\User\Model\User')->load($userId);
         $this->assertNotEquals($oldPassword, $user->getPassword());
+
+
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->assertTrue(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
-                ->validateHash($password, $user->getPassword())
+            $objectManager->get('Magento\Encryption\EncryptorInterface')->validateHash($password, $user->getPassword())
         );
     }
 }

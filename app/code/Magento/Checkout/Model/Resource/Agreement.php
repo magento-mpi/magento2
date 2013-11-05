@@ -21,25 +21,19 @@ namespace Magento\Checkout\Model\Resource;
 class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * Checkout data
-     *
-     * @var \Magento\Checkout\Helper\Data
+     * @var \Magento\Filter\FilterManager
      */
-    protected $_checkoutData = null;
+    protected $filterManager;
 
     /**
-     * Class constructor
-     *
-     *
-     *
-     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\App\Resource $resource
      */
     public function __construct(
-        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Filter\FilterManager $filterManager,
         \Magento\App\Resource $resource
     ) {
-        $this->_checkoutData = $checkoutData;
+        $this->filterManager = $filterManager;
         parent::__construct($resource);
     }
 
@@ -62,7 +56,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         // format height
         $height = $object->getContentHeight();
-        $height = $this->_checkoutData->stripTags($height);
+        $height = $this->filterManager->stripTags($height);
         if (!$height) {
             $height = '';
         }

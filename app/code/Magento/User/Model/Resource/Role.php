@@ -35,15 +35,21 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_cache;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\App\CacheInterface $cache
+        \Magento\App\CacheInterface $cache,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
+        $this->dateTime = $dateTime;
         parent::__construct($resource);
         $this->_cache = $cache->getFrontend();
     }
@@ -69,9 +75,9 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $role)
     {
         if (!$role->getId()) {
-            $role->setCreated($this->formatDate(true));
+            $role->setCreated($this->dateTime->formatDate(true));
         }
-        $role->setModified($this->formatDate(true));
+        $role->setModified($this->dateTime->formatDate(true));
 
         if ($role->getId() == '') {
             if ($role->getIdFieldName()) {
