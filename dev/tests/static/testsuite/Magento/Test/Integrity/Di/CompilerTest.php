@@ -9,7 +9,9 @@
  */
 
 namespace Magento\Test\Integrity\Di;
-
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
     /**
