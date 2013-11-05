@@ -11,6 +11,8 @@
 
 namespace Magento\Sales\Test\Page;
 
+use Magento\Page\Test\Block\Html\Title;
+use Magento\Sales\Test\Block\Backend\Order\CustomerInformation;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -43,7 +45,15 @@ class SalesOrderView extends Page
      */
     private $orderHistoryBlock;
 
+    /**
+     * @var CustomerInformation
+     */
+    protected $_customerInformationBlock;
 
+    /**
+     * @var Title
+     */
+    protected $_titleBlock;
 
     /**
      * Custom constructor
@@ -52,10 +62,17 @@ class SalesOrderView extends Page
     {
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
         $this->orderTotalsBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderTotals(
-            $this->_browser->find('.order-totals', Locator::SELECTOR_CSS));
+            $this->_browser->find('.order-totals', Locator::SELECTOR_CSS)
+        );
         $this->orderHistoryBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderHistory(
-            $this->_browser->find('.order-comments-history', Locator::SELECTOR_CSS));
-
+            $this->_browser->find('.order-comments-history', Locator::SELECTOR_CSS)
+        );
+        $this->_customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
+            $this->_browser->find('.order-account-information')
+        );
+        $this->_titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+            $this->_browser->find('.page-title .title')
+        );
     }
 
     /**
@@ -76,5 +93,25 @@ class SalesOrderView extends Page
     public function getOrderHistoryBlock()
     {
         return $this->orderHistoryBlock;
+    }
+
+    /**
+     * Get order information block
+     *
+     * @return CustomerInformation
+     */
+    public function getOrderCustomerInformationBlock()
+    {
+        return $this->_customerInformationBlock;
+    }
+
+    /**
+     * Get page title block
+     *
+     * @return Title
+     */
+    public function getTitleBlock()
+    {
+        return $this->_titleBlock;
     }
 }

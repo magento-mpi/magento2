@@ -82,6 +82,11 @@ class Customer extends AbstractRepository
                     'email' => array(
                         'value' => 'John.Doe%isolation%@example.com',
                         'group' => 'customer_info_tabs_account'
+                    ),
+                    'website_id' => array(
+                        'value' => 'Main Website',
+                        'group' => 'customer_info_tabs_account',
+                        'input' => 'select'
                     )
                 )
             )

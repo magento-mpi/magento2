@@ -29,6 +29,7 @@ class CustomerGrid extends Grid
     protected function _init()
     {
         parent::_init();
+        $this->editLink = '//td[contains(@class, "col-action")]//a';
         $this->filters = array(
             'email' => array(
                 'selector' => '#customerGrid_filter_email'

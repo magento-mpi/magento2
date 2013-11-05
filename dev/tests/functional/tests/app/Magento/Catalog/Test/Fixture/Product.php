@@ -179,6 +179,21 @@ class Product extends DataFixture
     }
 
     /**
+     * Stab for filling product options
+     */
+    public function getProductOptions()
+    {
+        $selections = $this->getData('checkout/selections');
+        $options = array();
+        if (!empty($selection)) {
+            foreach ($selections as $selection) {
+                $options[$selection['attribute_name']] = $selection['option_name'];
+            }
+        }
+        return $options;
+    }
+
+    /**
      * Get Url params
      *
      * @param string $urlKey
