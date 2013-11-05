@@ -135,8 +135,12 @@ return array(
         'Magento\Catalog\Model\Resource\Product\Flat\Indexer',
         'XML_NODE_ATTRIBUTE_GROUPS'
     ),
+    array(
+        'XML_PATH_ALLOW_CURRENCIES',
+        'Magento\Core\Model\Locale',
+        'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
+    ),
     array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\LocaleInterface'),
-    array('XML_PATH_ALLOW_CURRENCIES', 'Magento\Core\Model\LocaleInterface'),
     array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
