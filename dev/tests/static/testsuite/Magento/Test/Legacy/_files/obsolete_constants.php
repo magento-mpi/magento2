@@ -153,6 +153,7 @@ return array(
     array(
         'XML_PATH_ALLOW_DUPLICATION',
         'Magento\Core\Model\Design\PackageInterface',
+    ),
     array('XML_NODE_ATTRIBUTE_NODES', 'Magento\Catalog\Model\Resource\Product\Flat\Indexer',
         'XML_NODE_ATTRIBUTE_GROUPS'),
     array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\Locale'),
