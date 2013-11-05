@@ -94,7 +94,6 @@ class Data extends \Magento\Core\Helper\Data
             $coreStoreConfig,
             $storeManager,
             $locale,
-            $dateModel,
             $appState,
             $dbCompatibleMode
         );
