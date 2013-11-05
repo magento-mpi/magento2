@@ -80,6 +80,11 @@ class Event extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Context $context
@@ -87,6 +92,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\CatalogEvent\Model\Resource\Event $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -97,6 +103,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\App\Dir $dir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\CatalogEvent\Model\Resource\Event $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -106,6 +113,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_dir = $dir;
         $this->_locale = $locale;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -292,8 +300,8 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function applyStatusByDates()
     {
         if ($this->getDateStart() && $this->getDateEnd()) {
-            $timeStart = $this->_getResource()->mktime($this->getDateStart()); // Date already in gmt, no conversion
-            $timeEnd = $this->_getResource()->mktime($this->getDateEnd()); // Date already in gmt, no conversion
+            $timeStart = $this->dateTime->toTimestamp($this->getDateStart()); // Date already in gmt, no conversion
+            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd()); // Date already in gmt, no conversion
             $timeNow = gmdate('U');
             if ($timeStart <= $timeNow && $timeEnd >= $timeNow) {
                 $this->setStatus(self::STATUS_OPEN);
@@ -430,8 +438,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_start', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+        $date = $this->_locale->utcDate($store, $value, true, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_start', $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -445,8 +453,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_end', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
+        $date = $this->_locale->utcDate($store, $value, true, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_end', $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -461,12 +469,12 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function getStoreDateStart($store = null)
     {
         if ($this->getData('date_start')) {
-            $value = $this->getResource()->mktime($this->getData('date_start'));
+            $value = $this->dateTime->toTimestamp($this->getData('date_start'));
             if (!$value) {
                 return null;
             }
             $date = $this->_locale->storeDate($store, $value, true);
-            return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_start');
@@ -483,12 +491,12 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function getStoreDateEnd($store = null)
     {
         if ($this->getData('date_end')) {
-            $value = $this->getResource()->mktime($this->getData('date_end'));
+            $value = $this->dateTime->toTimestamp($this->getData('date_end'));
             if (!$value) {
                 return null;
             }
             $date = $this->_locale->storeDate($store, $value, true);
-            return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_end');

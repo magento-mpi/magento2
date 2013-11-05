@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Block;
+
+use Magento\View\Element\BlockInterface;
 
 /**
  * Base Content Block class
@@ -15,15 +18,6 @@
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
  *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Block;
-
-use Magento\View\Element\BlockInterface;
-
-/**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -116,7 +110,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_helperFactory;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -133,14 +127,24 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_storeManager;
+    protected $_app;
+
+    /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filterManager;
 
     /**
      * @param \Magento\Core\Block\Context $context
@@ -163,7 +167,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_storeManager    = $context->getApp();
+        $this->_app    = $context->getApp();
+        $this->_escaper         = $context->getEscaper();
+        $this->filterManager    = $context->getFilterManager();
         parent::__construct($data);
         $this->_construct();
     }
@@ -540,23 +546,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Add self to the specified group of parent block
-     *
-     * @param string $groupName
-     * @return \Magento\Core\Block\AbstractBlock|bool
-     */
-    public function addToParentGroup($groupName)
-    {
-        $layout = $this->getLayout();
-        if (!$layout) {
-            return false;
-        }
-        $layout->addToParentGroup($this->getNameInLayout(), $groupName);
-
-        return $this;
-    }
-
-    /**
      * Get a group of child blocks
      *
      * Returns an array of <alias> => <block>
@@ -863,7 +852,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->helper('Magento\Core\Helper\Data')->escapeHtml($data, $allowedTags);
+        return $this->_escaper->escapeHtml($data, $allowedTags);
     }
 
     /**
@@ -876,7 +865,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->helper('Magento\Core\Helper\Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
+        return $this->filterManager->stripTags($data, array(
+            'allowableTags' => $allowableTags,
+            'escape'        => $allowHtmlEntities
+        ));
     }
 
     /**
@@ -887,7 +879,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function escapeUrl($data)
     {
-        return $this->helper('Magento\Core\Helper\Data')->escapeUrl($data);
+        return $this->_escaper->escapeUrl($data);
     }
 
     /**
@@ -898,9 +890,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param  bool $addSlashes
      * @return string
      */
-    public function quoteEscape($data, $addSlashes = false)
+    public function escapeQuote($data, $addSlashes = false)
     {
-        return $this->helper('Magento\Core\Helper\Data')->quoteEscape($data, $addSlashes);
+        return $this->_escaper->escapeQuote($data, $addSlashes);
     }
 
     /**
@@ -910,9 +902,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $quote
      * @return mixed
      */
-    public function jsQuoteEscape($data, $quote = '\'')
+    public function escapeJsQuote($data, $quote = '\'')
     {
-        return $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($data, $quote);
+        return $this->_escaper->escapeJsQuote($data, $quote);
     }
 
     /**

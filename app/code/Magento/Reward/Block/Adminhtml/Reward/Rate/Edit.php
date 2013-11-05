@@ -48,10 +48,10 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected function _construct()
     {
-        parent::_construct();
         $this->_objectId = 'rate_id';
         $this->_blockGroup = 'Magento_Reward';
         $this->_controller = 'adminhtml_reward_rate';
+        parent::_construct();
     }
 
     /**
@@ -75,6 +75,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
     }
 }

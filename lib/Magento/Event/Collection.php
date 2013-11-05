@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Event
+ * @package    Magento_Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,7 +13,7 @@
  * Collection of events
  *
  * @category   Magento
- * @package    \Magento\Event
+ * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Event;

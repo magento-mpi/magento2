@@ -11,10 +11,8 @@
 <?php
 /**
  * Create account form template
- *
- * @see \Magento\CustomerCustomAttributes\Block\Form\Renderer\Multiline
  */
-/* @var $this \Magento\CustomerCustomAttributes\Block\Form\Renderer\Multiline */
+/* @var $this \Magento\CustomAttribute\Block\Form\Renderer\Multiline */
 ?>
 <?php
 $fieldCssClass = 'field multiline field-' . $this->getHtmlId();
@@ -36,7 +34,7 @@ $fieldCssClass .= $this->isRequired() ? ' required' : '';
                     <input type="text" id="<?php echo $this->getHtmlId($i)?>" name="<?php echo $this->getFieldName('')?>" value="<?php echo $this->getEscapedValue($i) ?>" class="input-text<?php echo $this->getLineHtmlClass();?>" />
                 <?php if ($this->getLineCount() == $i+1 && $_message) : ?>
                     <div class="note"><?php echo $_message; ?></div>
-                <?php endif; ?
+                <?php endif; ?>
                 </div>
             </div>
             <?php endfor; ?>

@@ -31,13 +31,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_routerList;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @var \Magento\Core\Model\App
      */
     protected $_app;
@@ -58,33 +51,38 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_frontNameResolver;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\App\RouterList $routerList
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\App\RouterList $routerList,
-        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
-        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
+        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
+        \Magento\Math\Random $mathRandom
     ) {
         parent::__construct($context);
-        $this->_coreData = $coreData;
         $this->_primaryConfig = $primaryConfig;
         $this->_routerList = $routerList;
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
         $this->_frontNameResolver = $frontNameResolver;
+        $this->mathRandom = $mathRandom;
     }
 
     public function getPageHelpUrl()
@@ -175,7 +173,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return $this->_coreData->uniqHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**

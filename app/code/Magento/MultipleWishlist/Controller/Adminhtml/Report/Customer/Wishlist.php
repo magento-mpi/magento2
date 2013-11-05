@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer;
 
-class Wishlist extends \Magento\Adminhtml\Controller\Action
+class Wishlist extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Backend auth session

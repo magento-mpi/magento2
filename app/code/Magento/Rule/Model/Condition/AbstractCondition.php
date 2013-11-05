@@ -46,7 +46,7 @@ abstract class AbstractCondition
     protected $_arrayInputTypes = array();
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -347,7 +347,7 @@ abstract class AbstractCondition
             // date format intentionally hard-coded
             $this->setValue(
                 $this->_locale->date($this->getData('value'),
-                \Magento\Date::DATE_INTERNAL_FORMAT, null, false)->toString(\Magento\Date::DATE_INTERNAL_FORMAT)
+                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, null, false)->toString(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
             );
             $this->setIsValueParsed(true);
         }
@@ -548,8 +548,8 @@ abstract class AbstractCondition
         );
         if ($this->getInputType() == 'date') {
             // date format intentionally hard-coded
-            $elementParams['input_format'] = \Magento\Date::DATE_INTERNAL_FORMAT;
-            $elementParams['date_format']  = \Magento\Date::DATE_INTERNAL_FORMAT;
+            $elementParams['input_format'] = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+            $elementParams['date_format']  = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
         }
         return $this->getForm()->addField($this->getPrefix() . '__' . $this->getId() . '__value',
             $this->getValueElementType(),

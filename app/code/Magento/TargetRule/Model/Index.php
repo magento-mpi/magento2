@@ -84,7 +84,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_storeManger;
+    protected $_storeManager;
 
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -122,7 +122,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         array $data = array()
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
-        $this->_storeManger = $storeManager;
+        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_indexer = $indexer;
         $this->_session = $session;
@@ -195,7 +195,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         $storeId = $this->getData('store_id');
         if (is_null($storeId)) {
-            $storeId = $this->_storeManger->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         return $storeId;
     }
@@ -349,7 +349,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function cron()
     {
-        $websites = $this->_storeManger->getWebsites();
+        $websites = $this->_storeManager->getWebsites();
 
         foreach ($websites as $website) {
             /* @var $website \Magento\Core\Model\Website */

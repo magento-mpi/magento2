@@ -21,7 +21,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Logger instance
      *
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -33,7 +33,7 @@ class Context extends \Magento\Core\Block\Context
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -54,15 +54,17 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\App\Dir $dirs
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -76,19 +78,37 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\App\Dir $dirs,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEngineFactory $engineFactory,
-        \Magento\Core\Model\App $app
+        \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
-            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $storeConfig,
+            $frontController,
+            $helperFactory,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $logger,
+            $app,
+            $escaper,
+            $filterManager
         );
 
         $this->_dirs = $dirs;
@@ -120,7 +140,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get logger instance
      *
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {
@@ -130,7 +150,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get view file system model
      *
-     * @return \Magento\Core\Model\View\FileSystem
+     * @return \Magento\View\FileSystem
      */
     public function getViewFileSystem()
     {
