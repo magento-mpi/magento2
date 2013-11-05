@@ -25,13 +25,9 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     protected $_perFileSchema;
 
-    /**
-     * @param \Magento\App\Dir $dirs
-     * @param string $schema
-     */
-    public function __construct(\Magento\App\Dir $dirs, $schema)
+    public function __construct()
     {
-        $this->_schema = $dirs->getDir() . DIRECTORY_SEPARATOR . $schema;
+        $this->_schema = realpath(__DIR__ . '/../../etc/cache.xsd');
     }
 
     /**

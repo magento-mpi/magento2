@@ -159,11 +159,6 @@
             <value>config_cache</value>
         </param>
     </type>
-    <type name="Magento\Cache\Config\SchemaLocator">
-        <param name="schema">
-            <value>lib/Magento/</value>
-        </param>
-    </type>
     <type name="Magento\Interception\Config\Config">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Config" />
