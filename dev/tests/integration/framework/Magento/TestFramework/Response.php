@@ -18,7 +18,7 @@ namespace Magento\TestFramework;
  * @package Magento\TestFramework
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Response extends \Magento\Core\Controller\Response\Http
+class Response extends \Magento\App\Response\Http
 {
     /**
      * @inherit
@@ -42,6 +42,5 @@ class Response extends \Magento\Core\Controller\Response\Http
 
     public function sendResponse()
     {
-        $this->_eventManager->dispatch('http_response_send_before', array('response'=>$this));
     }
 }

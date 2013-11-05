@@ -44,7 +44,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_systemStore;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -58,18 +58,19 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -78,8 +79,8 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_dir = $dir;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_uploaderFactory = $uploaderFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

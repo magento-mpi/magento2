@@ -41,8 +41,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/ScheduledImportExport/_files/website.php
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPoints
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalance
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPointsForCustomer
+     * @codingStandardsIgnoreStart
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalanceForCustomer
+     * @codingStandardsIgnoreEnd
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_getComment
      */
     public function testImportData()

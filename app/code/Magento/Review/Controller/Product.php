@@ -39,7 +39,7 @@ class Product extends \Magento\Core\Controller\Front\Action
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlModel;
 
@@ -92,7 +92,7 @@ class Product extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\UrlInterface $urlModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Model\Logger $logger
@@ -107,7 +107,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\UrlInterface $urlModel,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Core\Model\Logger $logger,
@@ -375,6 +375,7 @@ class Product extends \Magento\Core\Controller\Front\Action
     protected function _initProductLayout($product)
     {
         $update = $this->getLayout()->getUpdate();
+        $update->addHandle('default');
         $this->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );

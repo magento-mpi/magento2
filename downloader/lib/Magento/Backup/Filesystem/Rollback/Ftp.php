@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Backup
+ * @category     Magento
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Rollback worker for rolling back via ftp
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Filesystem\Rollback;
@@ -30,7 +30,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
      * Files rollback implementation via ftp
      *
      * @see \Magento\Backup\Filesystem\Rollback\AbstractRollback::run()
-     * @throws Magento_MagentoException
+     * @throws \Magento\Exception
      */
     public function run()
     {
@@ -165,6 +165,10 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
         foreach ($filesystemIterator as $item) {
             $ftpPath = $this->_snapshot->getFtpPath() . DS . str_replace($tmpDir, '', $item->__toString());
             $ftpPath = str_replace(DS, '/', $ftpPath);
+
+            if ($item->isLink()) {
+                continue;
+            }
 
             if ($item->isDir()) {
                 $this->_ftpClient->mkdirRecursive($ftpPath);

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Backup
+ * @category     Magento
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Rollback worker for rolling back via local filesystem
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Filesystem\Rollback;
@@ -23,7 +23,7 @@ class Fs extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
      * Files rollback implementation via local filesystem
      *
      * @see \Magento\Backup\Filesystem\Rollback\AbstractRollback::run()
-     * @throws Magento_MagentoException
+     * @throws \Magento\Exception
      */
     public function run()
     {

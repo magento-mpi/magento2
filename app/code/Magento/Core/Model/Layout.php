@@ -25,7 +25,7 @@ namespace Magento\Core\Model;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Layout extends \Magento\Simplexml\Config
+class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutInterface
 {
     /**#@+
      * Supported layout directives
@@ -81,14 +81,14 @@ class Layout extends \Magento\Simplexml\Config
     const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
     /**
      * Layout Update module
      *
-     * @var \Magento\Core\Model\Layout\Merge
+     * @var \Magento\View\Layout\ProcessorInterface
      */
     protected $_update;
 
@@ -124,13 +124,6 @@ class Layout extends \Magento\Simplexml\Config
      * @var array
      */
     protected $_helpers = array();
-
-    /**
-     * Flag to have blocks' output go directly to browser as oppose to return result
-     *
-     * @var boolean
-     */
-    protected $_directOutput = false;
 
     /**
      * A variable for transporting output into observer during rendering
@@ -201,7 +194,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -218,9 +211,9 @@ class Layout extends \Magento\Simplexml\Config
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Layout\MergeFactory
+     * @var \Magento\View\Layout\ProcessorFactory
      */
-    protected $_mergeFactory;
+    protected $_processorFactory;
 
     /**
      * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
@@ -228,36 +221,36 @@ class Layout extends \Magento\Simplexml\Config
     protected $_themeFactory;
 
     /**
-     * @param \Magento\Core\Model\Layout\MergeFactory $mergeFactory
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Factory\Helper $factoryHelper
+     * @param \Magento\View\Layout\ProcessorFactory $processorFactory
+     * @param Resource\Theme\CollectionFactory $themeFactory
+     * @param Logger $logger
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\BlockFactory $blockFactory
+     * @param \Magento\View\DesignInterface $design
+     * @param BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
-     * @param \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor
-     * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param $area
+     * @param Layout\Argument\Processor $argumentProcessor
+     * @param Layout\ScheduledStructure $scheduledStructure
+     * @param DataService\Graph $dataServiceGraph
+     * @param Store\Config $coreStoreConfig
+     * @param string $area
      */
     public function __construct(
-        \Magento\Core\Model\Layout\MergeFactory $mergeFactory,
+        \Magento\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
         \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA
+        $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;
@@ -268,12 +261,12 @@ class Layout extends \Magento\Simplexml\Config
         $this->_area = $area;
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
-        $this->_elementClass = 'Magento\Core\Model\Layout\Element';
+        $this->_elementClass = 'Magento\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
-        $this->_mergeFactory = $mergeFactory;
+        $this->_processorFactory = $processorFactory;
         $this->_themeFactory = $themeFactory;
         $this->_logger = $logger;
     }
@@ -297,13 +290,13 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function getUpdate()
     {
         if (!$this->_update) {
             $theme = $this->_getThemeInstance($this->getArea());
-            $this->_update = $this->_mergeFactory->create(array('theme' => $theme));
+            $this->_update = $this->_processorFactory->create(array('theme' => $theme));
         }
         return $this->_update;
     }
@@ -349,28 +342,6 @@ class Layout extends \Magento\Simplexml\Config
     public function setArea($areaCode)
     {
         $this->_area = $areaCode;
-    }
-
-    /**
-     * Declaring layout direct output flag
-     *
-     * @param   bool $flag
-     * @return  \Magento\Core\Model\Layout
-     */
-    public function setDirectOutput($flag)
-    {
-        $this->_directOutput = $flag;
-        return $this;
-    }
-
-    /**
-     * Retrieve direct output flag
-     *
-     * @return bool
-     */
-    public function isDirectOutput()
-    {
-        return $this->_directOutput;
     }
 
     /**
@@ -480,13 +451,13 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
-     * @param \Magento\Core\Model\Layout\Element $parent
+     * @param \Magento\View\Layout\Element $parent
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readStructure($parent)
     {
         foreach ($parent as $node) {
-            /** @var $node \Magento\Core\Model\Layout\Element */
+            /** @var $node \Magento\View\Layout\Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                     $this->_scheduleStructure($node, $parent);
@@ -542,7 +513,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Grab information about data service from the node
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @return \Magento\Core\Model\Layout
      */
     protected function _initServiceCalls($node)
@@ -568,9 +539,9 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Merge Container attributes
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      */
-    protected function _mergeContainerAttributes(\Magento\Core\Model\Layout\Element $node)
+    protected function _mergeContainerAttributes(\Magento\View\Layout\Element $node)
     {
         $containerName = $node->getAttribute('name');
         $element = $this->_scheduledStructure->getStructureElement($containerName, array());
@@ -612,14 +583,14 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Parse argument nodes and create prepared array of items
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @return array
      */
-    protected function _parseArguments(\Magento\Core\Model\Layout\Element $node)
+    protected function _parseArguments(\Magento\View\Layout\Element $node)
     {
         $arguments = array();
         foreach ($node->xpath('argument') as $argument) {
-            /** @var $argument \Magento\Core\Model\Layout\Element */
+            /** @var $argument \Magento\View\Layout\Element */
             $argumentName = (string)$argument['name'];
             $arguments[$argumentName] = $this->_argumentProcessor->parse($argument);
         }
@@ -644,7 +615,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Schedule structural changes for move directive
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @throws \Magento\Exception
      * @return \Magento\Core\Model\Layout
      */
@@ -668,8 +639,8 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Populate queue for generating structural elements
      *
-     * @param \Magento\Core\Model\Layout\Element $node
-     * @param \Magento\Core\Model\Layout\Element $parent
+     * @param \Magento\View\Layout\Element $node
+     * @param \Magento\View\Layout\Element $parent
      * @see _scheduleElement() where the _scheduledStructure is used
      */
     protected function _scheduleStructure($node, $parent)
@@ -724,7 +695,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @return array
      */
     protected function _beforeAfterToSibling($node)
@@ -880,10 +851,16 @@ class Layout extends \Magento\Simplexml\Config
             throw new \Magento\Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
+
         $configPath = (string)$node->getAttribute('ifconfig');
         if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
+        }
+
+        $group = (string)$node->getAttribute('group');
+        if (!empty($group)) {
+            $this->_structure->addToParentGroup($elementName, $group);
         }
 
         // create block
@@ -955,8 +932,8 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Run action defined in layout update
      *
-     * @param \Magento\Core\Model\Layout\Element $node
-     * @param \Magento\Core\Model\Layout\Element $parent
+     * @param \Magento\View\Layout\Element $node
+     * @param \Magento\View\Layout\Element $parent
      */
     protected function _generateAction($node, $parent)
     {

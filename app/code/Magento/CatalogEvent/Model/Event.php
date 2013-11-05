@@ -68,7 +68,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Directory model
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -85,7 +85,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogEvent\Model\Resource\Event $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -95,7 +95,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogEvent\Model\Resource\Event $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -200,7 +200,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
-            $value->save($this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . strtr(self::IMAGE_PATH, '/', DS));
+            $value->save($this->_dir->getDir(\Magento\App\Dir::MEDIA) . DS . strtr(self::IMAGE_PATH, '/', DS));
             $value = $value->getUploadedFileName();
         }
 

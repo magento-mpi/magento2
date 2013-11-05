@@ -74,11 +74,19 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_arguments = array('test' => 'argument');
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
-        $this->_appMock = $this->getMock('Magento\Core\Model\App\Proxy', array(), array(), '', false);
-        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $this->_appMock = $this->getMockForAbstractClass(
+            'Magento\Core\Model\AppInterface',
+            [],
+            '',
+            false,
+            false,
+            false,
+            ['setUseSessionInUrl']
+        );
+        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
 
         $this->_model = new \Magento\Core\Model\Store\StorageFactory(
@@ -143,7 +151,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('initForStore')
             ->with($store, $this->_configMock);
 
-        $this->_appMock->expects($this->once())->method('setUseSessionInUrl')->with(true);
+        $this->_appMock->expects($this->once())
+            ->method('setUseSessionInUrl')->with(true);
 
         /** test create instance */
         $this->assertEquals($this->_storage, $this->_model->get($this->_arguments));

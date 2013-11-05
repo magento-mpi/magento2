@@ -177,7 +177,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -192,7 +192,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_itemOptionFactory;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -206,7 +206,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,

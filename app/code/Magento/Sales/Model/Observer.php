@@ -53,7 +53,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -78,7 +78,7 @@ class Observer
     protected $_resourceFactory;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddress
@@ -89,7 +89,7 @@ class Observer
      * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddress,

@@ -41,7 +41,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
             'baseController'  => 'Magento\Backend\Controller\AbstractAction',
             'routeConfig' => $this->_routeConfigMock
         );
-        $this->_frontMock = $this->getMock('Magento\Core\Controller\Varien\Front', array(), array(), '', false);
+        $this->_frontMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Backend\Controller\Router\DefaultRouter', $options);
         $this->_model->setFront($this->_frontMock);
@@ -49,7 +49,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
     public function testRouterCannotProcessRequestsWithWrongFrontName()
     {
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('frontend/admin/dashboard'));
@@ -60,7 +60,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
     public function testRouterCanProcessRequestsWithProperFrontName()
     {
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('backend/admin/dashboard'));
@@ -86,7 +86,6 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Backend\Controller\Router\DefaultRouter::fetchDefault
-     * @covers \Magento\Backend\Controller\Router\DefaultRouter::getDefaultModuleFrontName
      */
     public function testFetchDefault()
     {

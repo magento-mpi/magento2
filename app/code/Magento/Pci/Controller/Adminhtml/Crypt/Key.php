@@ -23,7 +23,7 @@ class Key extends \Magento\Adminhtml\Controller\Action
      */
     protected function _checkIsLocalXmlWriteable()
     {
-        $filename = $this->_objectManager->get('Magento\Core\Model\Dir')->getDir(\Magento\Core\Model\Dir::CONFIG)
+        $filename = $this->_objectManager->get('Magento\App\Dir')->getDir(\Magento\App\Dir::CONFIG)
             . DS . 'local.xml';
         if (!is_writeable($filename)) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(

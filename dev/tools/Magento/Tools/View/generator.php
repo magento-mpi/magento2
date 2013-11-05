@@ -46,14 +46,14 @@ try {
     $config = new \Magento\Tools\View\Generator\Config(BP, $options);
 
     $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-    $dirs = new \Magento\Core\Model\Dir($config->getSourceDir());
+    $dirs = new \Magento\App\Dir($config->getSourceDir());
     $objectManager = new \Magento\ObjectManager\ObjectManager();
 
     $themes = new \Magento\Core\Model\Theme\Collection($filesystem, $objectManager, $dirs);
     $themes->setItemObjectClass(' \Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
 
-    $fallbackFactory = new \Magento\Core\Model\Design\Fallback\Factory($dirs);
+    $fallbackFactory = new \Magento\View\Design\Fallback\Factory($dirs);
     $generator = new \Magento\Tools\View\Generator\CopyRule($filesystem, $themes,
         $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();

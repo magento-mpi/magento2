@@ -3,32 +3,24 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Event
+ * @package    Magento_Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-
-/**
- * Event observer object
- *
- * @category   Magento
- * @package    \Magento\Event
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Event;
 
 class Observer extends \Magento\Object
 {
     /**
-     * Checkes the observer's event_regex against event's name
+     * Checks the observer's event_regex against event's name
      *
      * @param \Magento\Event $event
      * @return boolean
      */
     public function isValidFor(\Magento\Event $event)
     {
-        return $this->getEventName()===$event->getName();
+        return $this->getEventName() === $event->getName();
     }
 
     /**

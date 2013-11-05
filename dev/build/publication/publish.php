@@ -9,6 +9,10 @@
  * @license     {license_link}
  */
 
+// User for Git, which will be the author of the commit
+define('GIT_USERNAME', 'mage2-team');
+define('GIT_EMAIL', 'mage2-team@magento.com');
+
 // get CLI options, define variables
 define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
@@ -55,6 +59,7 @@ try {
     }
 
     $logFile = $targetDir . DIRECTORY_SEPARATOR . $changelogFile;
+    echo "Source log file is '$logFile'" . PHP_EOL;
     $targetLog = file_exists($logFile) ? file_get_contents($logFile) : '';
 
     // copy new & override existing files in the working tree and index from the source repository
@@ -77,9 +82,6 @@ try {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
-    if (empty($commitMsg)) {
-        throw new Exception("No commit message found in the changelog file '$logFile'.");
-    }
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
@@ -96,7 +98,10 @@ try {
     // commit and push
     execVerbose("$gitCmd add --update");
     execVerbose("$gitCmd status");
+    execVerbose("$gitCmd config user.name " . GIT_USERNAME);
+    execVerbose("$gitCmd config user.email " . GIT_EMAIL);
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
+
     if ($canPush) {
         execVerbose("$gitCmd push origin $targetBranch");
     }
@@ -134,15 +139,19 @@ function execVerbose($command)
  *
  * @param string $contents
  * @return string
+ * @throws Exception
  * @link http://daringfireball.net/projects/markdown/syntax
  */
 function getTopMarkdownSection($contents)
 {
     $parts = preg_split('/^[=\-]+\s*$/m', $contents);
     if (!isset($parts[1])) {
-        return '';
+        throw new Exception("No commit message found in the changelog file.");
     }
     list($title, $body) = $parts;
+    if (!preg_match("/^\d(.\d+){3}[\w-.]*$/", $title)) {
+        throw new Exception("No version found on top of the changelog file.");
+    }
     $body = explode("\n", trim($body));
     array_pop($body);
     $body = implode("\n", $body);

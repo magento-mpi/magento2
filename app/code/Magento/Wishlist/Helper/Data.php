@@ -68,7 +68,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -102,22 +102,22 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Customer\Model\SessionProxy $customerSession
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Customer\Model\SessionProxy $customerSession,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {

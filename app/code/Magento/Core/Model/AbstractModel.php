@@ -96,7 +96,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Application Event Dispatcher
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventDispatcher;
 
@@ -137,7 +137,8 @@ abstract class AbstractModel extends \Magento\Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
         $this->_logger = $context->getLogger();
-        if ($this->_resource) {
+
+        if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Object) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
         }
 
@@ -180,7 +181,7 @@ abstract class AbstractModel extends \Magento\Object
     public function __wakeup()
     {
         $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
-        $this->_eventDispatcher = $objectManager->get('Magento\Core\Model\Event\Manager');
+        $this->_eventDispatcher = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_cacheManager = $objectManager->get('Magento\Core\Model\CacheInterface');
         $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
     }

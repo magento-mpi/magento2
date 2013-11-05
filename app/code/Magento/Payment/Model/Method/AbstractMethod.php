@@ -106,7 +106,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -120,14 +120,14 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
@@ -409,7 +409,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Core\Exception
      */
     public function validate()
@@ -437,7 +437,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Core\Exception
      */
     public function order(\Magento\Object $payment, $amount)
@@ -454,7 +454,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Core\Exception
      */
     public function authorize(\Magento\Object $payment, $amount)
@@ -471,13 +471,13 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Core\Exception
      */
     public function capture(\Magento\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            throw new \Magento\Core\Exception(__('Th capture action is not available.'));
+            throw new \Magento\Core\Exception(__('The capture action is not available.'));
         }
 
         return $this;
@@ -519,7 +519,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -547,7 +547,7 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -559,7 +559,7 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)
@@ -659,7 +659,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function prepareSave()
     {
@@ -758,7 +758,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param string $paymentAction
      * @param object $stateObject
      *
-     * @return \Magento\Payment\Model\AbstractModel
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function initialize($paymentAction, $stateObject)
     {

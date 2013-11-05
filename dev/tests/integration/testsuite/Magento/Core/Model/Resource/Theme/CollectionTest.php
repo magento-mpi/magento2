@@ -50,7 +50,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $themeCollection = self::_getThemesCollection();
         $hasFound = false;
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             if ($theme->getFullPath() == $fullPath) {
                 $hasFound = true;
@@ -82,7 +82,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture setThemeFixture
      * @magentoDbIsolation enabled
      * @dataProvider addAreaFilterDataProvider
-     * @covers \Magento\Core\Model\Theme::addAreaFilter
      */
     public function testAddAreaFilter($area, $themeCount)
     {
@@ -109,7 +108,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture setThemeFixture
      * @magentoDbIsolation enabled
      * @dataProvider addTypeFilterDataProvider
-     * @covers \Magento\Core\Model\Theme::addTypeFilter
+     * @covers \Magento\Core\Model\Resource\Theme\Collection::addAreaFilter
      */
     public function testAddTypeFilter($themeType, $themeCount)
     {
@@ -139,7 +138,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture setThemeFixture
      * @magentoDbIsolation enabled
-     * @covers \Magento\Core\Model\Theme::filterVisibleThemes
+     * @covers \Magento\Core\Model\Resource\Theme\Collection::filterVisibleThemes
      */
     public function testFilterVisibleThemes()
     {
@@ -148,7 +147,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
         $this->assertCount(2, $themeCollection);
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             $this->assertTrue(in_array(
                 $theme->getType(),
@@ -195,9 +194,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $themeCollection = self::_getThemesCollection();
         $themeCollection->load();
         foreach (self::getThemeList() as $themeData) {
-            /** @var $themeModel \Magento\Core\Model\Theme */
+            /** @var $themeModel \Magento\View\Design\ThemeInterface */
             $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Core\Model\Theme');
+                ->create('Magento\View\Design\ThemeInterface');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
         }
@@ -212,9 +211,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $fixture = self::getInheritedThemeList();
         $idByPath = array();
         foreach ($fixture as $themeData) {
-            /** @var $themeModel \Magento\Core\Model\Theme */
+            /** @var $themeModel \Magento\View\Design\ThemeInterface */
             $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Core\Model\Theme');
+                ->create('Magento\View\Design\ThemeInterface');
             $themeModel->setData($themeData);
 
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {
@@ -357,7 +356,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE, $collection->count()
         );
 
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
             $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
             $this->assertEquals(\Magento\Core\Model\Theme::TYPE_PHYSICAL, $theme->getType());
@@ -373,7 +372,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(0, $collection->count());
 
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
             $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
             $this->assertEquals(\Magento\Core\Model\Theme::TYPE_PHYSICAL, $theme->getType());

@@ -17,7 +17,7 @@ namespace Magento\Core\Model\Source\Urlrewrite;
 class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\Core\Model\Source\Urlrewrite\OptionsTest::getAllOptions
+     * @covers \Magento\Core\Model\Source\Urlrewrite\Options::getAllOptions
      */
     public function testGetAllOptions()
     {

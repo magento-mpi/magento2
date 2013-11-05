@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +11,8 @@
 
 <?php foreach ($this->getAttributes() as $code => $attribute): ?>
     <div class="field">
-        <label for="<?php echo $this->getFieldIdPrefix().$code ?>"><?php echo $attribute['label'] ?></label>
-        <div class="input-box">
+        <label for="<?php echo $this->getFieldIdPrefix().$code ?>" class="label"><span><?php echo $attribute['label'] ?></span></label>
+        <div class="control">
             <?php echo $this->renderField($code) ?>
         </div>
     </div>

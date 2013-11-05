@@ -79,9 +79,9 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Construct
      *
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\App\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -92,9 +92,9 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\App\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -222,7 +222,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function validate()
     {
@@ -235,7 +235,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -252,7 +252,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -269,7 +269,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -282,7 +282,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function void(\Magento\Object $payment)
     {
@@ -295,7 +295,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Cancel method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource\Soap
      */
     public function cancel(\Magento\Object $payment)
     {

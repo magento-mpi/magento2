@@ -174,11 +174,11 @@ class Fedex
      *
      * @param string $wsdl
      * @param bool|int $trace
-     * @return SoapClient
+     * @return \SoapClient
      */
     protected function _createSoapClient($wsdl, $trace = false)
     {
-        $client = new SoapClient($wsdl, array('trace' => $trace));
+        $client = new \SoapClient($wsdl, array('trace' => $trace));
         $client->__setLocation($this->getConfigFlag('sandbox_mode')
             ? 'https://wsbeta.fedex.com:443/web-services/rate'
             : 'https://ws.fedex.com:443/web-services/rate'
@@ -190,7 +190,7 @@ class Fedex
     /**
      * Create rate soap client
      *
-     * @return SoapClient
+     * @return \SoapClient
      */
     protected function _createRateSoapClient()
     {
@@ -200,7 +200,7 @@ class Fedex
     /**
      * Create ship soap client
      *
-     * @return SoapClient
+     * @return \SoapClient
      */
     protected function _createShipSoapClient()
     {
@@ -210,7 +210,7 @@ class Fedex
     /**
      * Create track soap client
      *
-     * @return SoapClient
+     * @return \SoapClient
      */
     protected function _createTrackSoapClient()
     {

@@ -14,7 +14,7 @@
  */
 namespace Magento\AdminGws\Controller;
 
-class Exception extends \Magento\Core\Controller\Varien\Exception
+class Exception extends \Magento\App\Action\Exception
 {
     protected $_defaultActionName = 'denied';
 }

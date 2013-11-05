@@ -75,12 +75,18 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_formFactory;
 
     /**
+     * @var \Magento\App\RequestFactory
+     */
+    protected $_requestFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
+     * @param \Magento\App\RequestFactory $requestFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -92,6 +98,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $formFactory,
+        \Magento\App\RequestFactory $requestFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -100,6 +107,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $this->_statusFactory = $statusFactory;
         $this->_itemFactory = $itemFactory;
         $this->_formFactory = $formFactory;
+        $this->_requestFactory = $requestFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -255,7 +263,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function prepareAttributes($itemPost, $key)
     {
-        $httpRequest = new \Zend_Controller_Request_Http();
+        $httpRequest = $this->_requestFactory->create();
         $httpRequest->setPost($itemPost);
 
         /** @var $itemForm \Magento\Rma\Model\Item\Form */

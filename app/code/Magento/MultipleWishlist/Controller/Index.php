@@ -51,7 +51,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Url|\Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
@@ -305,7 +305,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Item $item
      * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @param int $qty
-     * @throws \InvalidArgumentException|DomainException
+     * @throws \InvalidArgumentException|\DomainException
      */
     protected function _copyItem(\Magento\Wishlist\Model\Item $item, \Magento\Wishlist\Model\Wishlist $wishlist, $qty = null)
     {
@@ -313,7 +313,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             throw new \InvalidArgumentException();
         }
         if ($item->getWishlistId() == $wishlist->getId()) {
-            throw new DomainException();
+            throw new \DomainException();
         }
         $buyRequest = $item->getBuyRequest();
         if ($qty) {
@@ -369,7 +369,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $this->_getSession->addError(
                     __('The item was not found.')
                 );
-            } catch (DomainException $e) {
+            } catch (\DomainException $e) {
                 $this->_getSession()->addError(
                     __('"%1" is already present in %2.', $productName, $wishlistName)
                 );
@@ -423,7 +423,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                     $copied[$id] = $item;
                 } catch (\InvalidArgumentException $e) {
                     $notFound[] = $id;
-                } catch (DomainException $e) {
+                } catch (\DomainException $e) {
                     $alreadyPresent[$id] = $item;
                 } catch (\Exception $e) {
                     $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
@@ -472,7 +472,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $customerWishlists
      * @param int $qty
-     * @throws \InvalidArgumentException|DomainException
+     * @throws \InvalidArgumentException|\DomainException
      */
     protected function _moveItem(
         \Magento\Wishlist\Model\Item $item,
@@ -484,10 +484,10 @@ class Index extends \Magento\Wishlist\Controller\Index
             throw new \InvalidArgumentException();
         }
         if ($item->getWishlistId() == $wishlist->getId()) {
-            throw new DomainException(null, 1);
+            throw new \DomainException(null, 1);
         }
         if (!$customerWishlists->getItemById($item->getWishlistId())) {
-            throw new DomainException(null, 2);
+            throw new \DomainException(null, 2);
         }
 
         $buyRequest = $item->getBuyRequest();
@@ -539,7 +539,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $this->_getSession()->addError(
                     __("An item with this ID doesn't exist.")
                 );
-            } catch (DomainException $e) {
+            } catch (\DomainException $e) {
                 if ($e->getCode() == 1) {
                     $this->_getSession()->addError(
                         __('"%1" is already present in %2.', $productName, $wishlistName)
@@ -592,7 +592,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                     $moved[$id] = $item;
                 } catch (\InvalidArgumentException $e) {
                     $notFound[] = $id;
-                } catch (DomainException $e) {
+                } catch (\DomainException $e) {
                     if ($e->getCode() == 1) {
                         $alreadyPresent[$id] = $item;
                     } else {

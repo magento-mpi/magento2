@@ -117,7 +117,7 @@ class Main
     /**
      * Getter
      *
-     * @return Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
@@ -148,14 +148,14 @@ class Main
 
         if ($widgetInstance->getId()) {
             $fieldset->addField('instance_id', 'hidden', array(
-                'name' => 'isntance_id',
+                'name' => 'instance_id',
             ));
         }
 
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('instance_type', 'select', array(
-            'name'  => 'instance_type',
+        $fieldset->addField('instance_code', 'select', array(
+            'name'  => 'instance_code',
             'label' => __('Type'),
             'title' => __('Type'),
             'class' => '',
