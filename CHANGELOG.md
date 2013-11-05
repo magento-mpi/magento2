@@ -13,6 +13,10 @@
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
+  * Fixed Minimum Advertised Price link on Product view
+  * Fixed View Files Population Tool
+  * Fixed error on save of Google AdWords configuration
+  * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
 
 2.0.0.0-dev50
 =============
