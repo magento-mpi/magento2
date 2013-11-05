@@ -34,7 +34,7 @@ class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getByFullPath($fullPath)
+    public function getThemeByFullPath($fullPath)
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
         $themeCollection = $this->collectionFactory->create();
@@ -44,7 +44,20 @@ class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getById($themeId)
+    public function getThemeCustomizations(
+        $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
+        $type = \Magento\Core\Model\Theme::TYPE_VIRTUAL
+    ) {
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = $this->collectionFactory->create();
+        $themeCollection->addAreaFilter($area)->addTypeFilter($type);
+        return (array)$themeCollection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThemeById($themeId)
     {
         /** @var $themeModel \Magento\View\Design\ThemeInterface */
         $themeModel = $this->themeFactory->create();

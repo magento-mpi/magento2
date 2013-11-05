@@ -24,9 +24,9 @@ class Action extends \Magento\Core\Controller\Varien\Action
     protected $_viewDesign;
 
     /**
-     * @var \Magento\Core\Model\Theme\CollectionFactory
+     * @var \Magento\View\Design\Theme\ThemeProviderInterface
      */
-    protected $_collectionFactory;
+    protected $themeProvider;
 
     /**
      * Application
@@ -46,7 +46,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
+     * @param \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      */
@@ -54,16 +54,16 @@ class Action extends \Magento\Core\Controller\Varien\Action
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Config\Scope $configScope,
         \Magento\View\DesignInterface $viewDesign,
-        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
+        \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState
     ) {
         $this->_configScope = $configScope;
         $this->_viewDesign = $viewDesign;
-        $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context);
+        $this->themeProvider = $themeProvider;
         $this->_app = $app;
         $this->_appState = $appState;
+        parent::__construct($context);
     }
 
     protected function _construct()
@@ -98,12 +98,8 @@ class Action extends \Magento\Core\Controller\Varien\Action
      */
     protected function _initDefaultTheme($areaCode)
     {
-        /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
-        $themesCollection = $this->_collectionFactory->create();
-        $themeModel = $themesCollection->addDefaultPattern($areaCode)
-            ->addFilter('theme_path', $this->_viewDesign->getConfigurationDesignTheme($areaCode))
-            ->getFirstItem();
-        $this->_viewDesign->setArea($areaCode)->setDesignTheme($themeModel);
+        $this->_viewDesign->setArea($areaCode)
+            ->setDesignTheme($this->_viewDesign->getConfigurationDesignTheme($areaCode));
         return $this;
     }
 }

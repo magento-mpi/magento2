@@ -84,13 +84,13 @@ class Config
         $isReassigned = false;
 
         $this->_unassignThemeFromStores(
-            $theme->getId(), $stores, $scope, $isReassigned
+            $theme->getThemePath(), $stores, $scope, $isReassigned
         );
 
         if ($this->_storeManager->isSingleStoreMode()) {
-            $this->_assignThemeToDefaultScope($theme->getId(), $isReassigned);
+            $this->_assignThemeToDefaultScope($theme->getThemePath(), $isReassigned);
         } else {
-            $this->_assignThemeToStores($theme->getId(), $stores, $scope, $isReassigned);
+            $this->_assignThemeToStores($theme->getThemePath(), $stores, $scope, $isReassigned);
         }
 
         if ($isReassigned) {
@@ -126,17 +126,17 @@ class Config
     /**
      * Unassign given theme from stores that were unchecked
      *
-     * @param int $themeId
+     * @param string $themePath
      * @param array $stores
      * @param string $scope
      * @param bool $isReassigned
-     * @return $this
+     * @return Config
      */
-    protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
+    protected function _unassignThemeFromStores($themePath, $stores, $scope, &$isReassigned)
     {
-        $configPath = \Magento\Core\Model\View\Design::XML_PATH_THEME_ID;
+        $configPath = \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH;
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
-            if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
+            if ($config->getValue() == $themePath && !in_array($config->getScopeId(), $stores)) {
                 $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
                 $isReassigned = true;
             }
@@ -147,18 +147,18 @@ class Config
     /**
      * Assign given theme to stores
      *
-     * @param int $themeId
+     * @param string $themePath
      * @param array $stores
      * @param string $scope
      * @param bool $isReassigned
-     * @return $this
+     * @return Config
      */
-    protected function _assignThemeToStores($themeId, $stores, $scope, &$isReassigned)
+    protected function _assignThemeToStores($themePath, $stores, $scope, &$isReassigned)
     {
-        $configPath = \Magento\Core\Model\View\Design::XML_PATH_THEME_ID;
+        $configPath = \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH;
         if (count($stores) > 0) {
             foreach ($stores as $storeId) {
-                $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
+                $this->_configWriter->save($configPath, $themePath, $scope, $storeId);
                 $isReassigned = true;
             }
         }
@@ -168,14 +168,14 @@ class Config
     /**
      * Assign theme to default scope
      *
-     * @param int $themeId
+     * @param string $themePath
      * @param bool $isReassigned
-     * @return $this
+     * @return Config
      */
-    protected function _assignThemeToDefaultScope($themeId, &$isReassigned)
+    protected function _assignThemeToDefaultScope($themePath, &$isReassigned)
     {
-        $configPath = \Magento\Core\Model\View\Design::XML_PATH_THEME_ID;
-        $this->_configWriter->save($configPath, $themeId, \Magento\Core\Model\Config::SCOPE_DEFAULT);
+        $configPath = \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH;
+        $this->_configWriter->save($configPath, $themePath, \Magento\Core\Model\Config::SCOPE_DEFAULT);
         $isReassigned = true;
         return $this;
     }

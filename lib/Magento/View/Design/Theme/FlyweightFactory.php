@@ -18,7 +18,7 @@ class FlyweightFactory
     /**
      * @var ThemeProviderInterface
      */
-    protected $dataProvider;
+    protected $themeProvider;
 
     /**
      * @var \Magento\View\Design\ThemeInterface[]
@@ -31,18 +31,18 @@ class FlyweightFactory
     protected $themesByPath = array();
 
     /**
-     * @param ThemeProviderInterface $dataProvider
+     * @param ThemeProviderInterface $themeProvider
      */
     public function __construct(
-        ThemeProviderInterface $dataProvider
+        ThemeProviderInterface $themeProvider
     ) {
-        $this->dataProvider = $dataProvider;
+        $this->themeProvider = $themeProvider;
     }
 
     /**
      * Creates or returns a shared model of theme
      *
-     * @param string|int $themeKey
+     * @param string $themeKey
      * @param string $area
      * @return \Magento\View\Design\ThemeInterface|null
      * @throws \InvalidArgumentException
@@ -75,7 +75,7 @@ class FlyweightFactory
             return $this->themes[$themeId];
         }
 
-        return $this->dataProvider->getById($themeId);
+        return $this->themeProvider->getThemeById($themeId);
     }
 
     /**
@@ -92,7 +92,7 @@ class FlyweightFactory
             return $this->themesByPath[$fullPath];
         }
 
-        return $this->dataProvider->getByFullPath($fullPath);
+        return $this->themeProvider->getThemeByFullPath($fullPath);
     }
 
     /**

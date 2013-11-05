@@ -49,7 +49,7 @@ interface DesignInterface
      *
      * @param string $area
      * @param array $params
-     * @return string|int
+     * @return string
      */
     public function getConfigurationDesignTheme($area = null, array $params = array());
 

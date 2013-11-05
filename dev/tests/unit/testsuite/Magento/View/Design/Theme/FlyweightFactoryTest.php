@@ -12,7 +12,7 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design\Theme\ThemeProviderInterface
      */
-    protected $dataProviderMock;
+    protected $themeProviderMock;
 
     /**
      * @var FlyweightFactory
@@ -21,8 +21,8 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dataProviderMock = $this->getMock('Magento\View\Design\Theme\ThemeProviderInterface');
-        $this->factory = new FlyweightFactory($this->dataProviderMock);
+        $this->themeProviderMock = $this->getMock('Magento\View\Design\Theme\ThemeProviderInterface');
+        $this->factory = new FlyweightFactory($this->themeProviderMock);
     }
 
     /**
@@ -40,8 +40,8 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getFullPath')
             ->will($this->returnValue(null));
 
-        $this->dataProviderMock->expects($this->once())
-            ->method('getById')
+        $this->themeProviderMock->expects($this->once())
+            ->method('getThemeById')
             ->with($themeId)
             ->will($this->returnValue($theme));
 
@@ -64,8 +64,8 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getFullPath')
             ->will($this->returnValue($path));
 
-        $this->dataProviderMock->expects($this->once())
-            ->method('getByFullPath')
+        $this->themeProviderMock->expects($this->once())
+            ->method('getThemeByFullPath')
             ->with('frontend/frontend/magento_fixed_width')
             ->will($this->returnValue($theme));
 
@@ -80,8 +80,8 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($themeId));
 
-        $this->dataProviderMock->expects($this->once())
-            ->method('getById')
+        $this->themeProviderMock->expects($this->once())
+            ->method('getThemeById')
             ->with($themeId)
             ->will($this->returnValue($theme));
 

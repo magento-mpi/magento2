@@ -54,7 +54,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     /**
      * Return a disposable \Zend_Mail instance
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|Zend_Mail
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Zend_Mail
      */
     public function getMail()
     {
@@ -117,7 +117,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\View\Design\ThemeInterface');
         $theme->load('magento_blank', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore('fixturestore')->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $theme->getId());
+            ->getStore('fixturestore')->setConfig(
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH,
+                $theme->getThemePath()
+            );
     }
 
     /**
@@ -213,7 +216,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Email template 'wrong_id' is not defined
      */
     public function testSendTransactionalWrongId()

@@ -18,7 +18,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Common node path to theme design configuration
      */
-    const XML_PATH_THEME_ID = 'design/theme/theme_id';
+    const XML_PATH_THEME_PATH = 'design/theme/theme_path';
 
     /**
      * Regular expressions matches cache
@@ -144,7 +144,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Set theme path
      *
-     * @param \Magento\Core\Model\Theme|int|string $theme
+     * @param \Magento\View\Design\ThemeInterface|string $theme
      * @param string $area
      * @return \Magento\Core\Model\View\Design
      */
@@ -154,7 +154,7 @@ class Design implements \Magento\View\DesignInterface
             $this->setArea($area);
         }
 
-        if ($theme instanceof \Magento\Core\Model\Theme) {
+        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
             $this->_theme = $theme;
         } else {
             $this->_theme = $this->_flyweightFactory->create($theme, $this->getArea());
@@ -183,8 +183,8 @@ class Design implements \Magento\View\DesignInterface
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_ID, $store);
+                ? $this->_config->getValue(self::XML_PATH_THEME_PATH, 'default')
+                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_PATH, $store);
         }
 
         if (!$theme && isset($this->_themes[$area])) {

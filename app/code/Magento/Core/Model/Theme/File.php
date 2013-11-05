@@ -124,9 +124,9 @@ class File extends \Magento\Core\Model\AbstractModel
      */
     public function getTheme()
     {
-        $theme = $this->_themeFactory->create($this->getData('theme_id'));
+        $theme = $this->_themeFactory->create($this->getData('theme_path'));
         if (!$theme) {
-            throw new \Magento\Exception('Theme id should be set');
+            throw new \Magento\Exception(__('Theme path should be set'));
         }
         return $theme;
     }

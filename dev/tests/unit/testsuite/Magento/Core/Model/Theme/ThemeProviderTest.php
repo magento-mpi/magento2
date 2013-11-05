@@ -28,7 +28,7 @@ class ThemeProviderTest extends \PHPUnit_Framework_TestCase
         $themeFactory = $this->getMock('\Magento\Core\Model\ThemeFactory', array(), array(), '', false);
 
         $themeProvider = new ThemeProvider($collectionFactory, $themeFactory);
-        $this->assertSame($theme, $themeProvider->getByFullPath($path));
+        $this->assertSame($theme, $themeProvider->getThemeByFullPath($path));
     }
 
     public function testGetById()
@@ -48,7 +48,7 @@ class ThemeProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($theme));
 
         $themeProvider = new ThemeProvider($collectionFactory, $themeFactory);
-        $this->assertSame($theme, $themeProvider->getById($themeId));
+        $this->assertSame($theme, $themeProvider->getThemeById($themeId));
     }
 }
  
