@@ -34,7 +34,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
             ->method('getPathInfo')
             ->will($this->returnValue('backend/admin/dashboard'));
 
-        $this->assertInstanceOf('Magento\Adminhtml\Controller\Dashboard', $this->_model->match($request));
+        $this->assertInstanceOf('Magento\Backend\Controller\Adminhtml\Dashboard', $this->_model->match($request));
     }
 
     /**
