@@ -139,7 +139,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_logMock
             ->expects($this->once())
             ->method('initForStore')
-            ->with($store);
+            ->with($store)
             ->method('unsetLoggers');
         $this->_logMock
             ->expects($this->exactly(2))
