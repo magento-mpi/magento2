@@ -989,7 +989,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         try {
             $this->_initData();
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('customer/index');
             $this->_redirectFlag = true;
         }

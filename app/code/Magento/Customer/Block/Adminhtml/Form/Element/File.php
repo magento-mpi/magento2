@@ -178,7 +178,7 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     protected function _getPreviewUrl()
     {
         return $this->_adminhtmlData->getUrl('customer/index/viewfile', array(
-            'file' => $this->_coreData->urlEncode($this->getValue()),
+            'file' => $this->_escaper->urlEncode($this->getValue()),
         ));
     }
 

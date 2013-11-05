@@ -215,6 +215,6 @@ class Archive
      */
     public function getRelatedIds($archiveEntity, $ids)
     {
-        return $this->_resourceArchive->getRelatedIds($this, $archiveEntity, $ids);
+        return $this->_resourceArchive->getRelatedIds($archiveEntity, $ids);
     }
 }

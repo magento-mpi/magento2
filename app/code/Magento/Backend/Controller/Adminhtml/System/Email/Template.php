@@ -155,7 +155,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('An error occurred while deleting email template data. Please review log and try again.'));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 // save data in session
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->setFormData($this->getRequest()->getParams());
@@ -197,7 +197,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($template->getData())
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 

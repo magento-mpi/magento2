@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backend
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +11,6 @@
 
 /**
  * Dashboard search query column renderer
- *
- * @category   Magento
- * @package    Magento_Backend
  */
 namespace Magento\Backend\Block\Dashboard\Searches\Renderer;
 

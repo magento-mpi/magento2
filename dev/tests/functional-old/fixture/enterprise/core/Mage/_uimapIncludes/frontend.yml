@@ -1,0 +1,27 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+enterprice_frontend_header:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    global_header:
+                        xpath: //div[@class='header-container']
+                        links:
+                            my_cart: //strong[@id='cartHeader']
+                            empty_my_cart: //strong[@id='cartHeader'][.='My Cart (0)']
+                            checkout: //a[@title='Checkout']
+                            log_in: //a[@title='Log In']
+                            log_out: //a[@title='Log Out']
+                            your_language: //ul[@id='popup-language-select']//a[text()='%storeView%']
+                        pageelements:
+                            change_store_view: //div[@id='language-select']//span[text()='Change']
+                            selected_store_view: //div[@id='language-select']/strong[normalize-space(text())='%storeView%']

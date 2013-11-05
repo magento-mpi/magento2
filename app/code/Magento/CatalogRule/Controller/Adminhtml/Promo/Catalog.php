@@ -109,7 +109,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_coreRegistry->register('current_promo_catalog_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_catalog_edit')
-             ->setData('action', $this->getUrl('catalog_rule/promo_catalog/save'));
+            ->setData('action', $this->getUrl('catalog_rule/promo_catalog/save'));
 
         $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
         $this->_addBreadcrumb($breadcrumb, $breadcrumb)->renderLayout();
@@ -177,7 +177,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.')
                 );
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
@@ -208,7 +208,7 @@ class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.')
                 );
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }

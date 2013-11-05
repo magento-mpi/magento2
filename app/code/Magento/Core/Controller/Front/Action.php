@@ -50,13 +50,15 @@ class Action extends \Magento\Core\Controller\Varien\Action
      * If not authenticated, will try to do it using credentials from HTTP-request
      *
      * @param string $aclResource
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @return bool
      */
     public function authenticateAndAuthorizeAdmin($aclResource, $logger)
     {
-        $this->_objectManager->get('Magento\Core\Model\App')
-            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+        $this->_objectManager->get('Magento\Core\Model\App')->loadAreaPart(
+            \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            \Magento\Core\Model\App\Area::PART_CONFIG
+        );
 
         /** @var $auth \Magento\Backend\Model\Auth */
         $auth = $this->_objectManager->create('Magento\Backend\Model\Auth');
@@ -64,8 +66,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
 
         // Try to login using HTTP-authentication
         if (!$session->isLoggedIn()) {
-            list($login, $password) = $this->_objectManager->get('Magento\Core\Helper\Http')
-                ->getHttpAuthCredentials($this->getRequest());
+            list($login, $password) = $this->authentication->getCredentials();
             try {
                 $auth->login($login, $password);
             } catch (\Magento\Backend\Model\Auth\Exception $e) {
@@ -74,10 +75,10 @@ class Action extends \Magento\Core\Controller\Varien\Action
         }
 
         // Verify if logged in and authorized
-        if (!$session->isLoggedIn()
-            || !$this->_objectManager->get('Magento\AuthorizationInterface')->isAllowed($aclResource)) {
-            $this->_objectManager->get('Magento\Core\Helper\Http')
-                ->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
+        /** @var \Magento\AuthorizationInterface $authorization */
+        $authorization = $this->_objectManager->get('Magento\AuthorizationInterface');
+        if (!$session->isLoggedIn() || !$authorization->isAllowed($aclResource)) {
+            $this->authentication->setAuthenticationFailed('RSS Feeds');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }

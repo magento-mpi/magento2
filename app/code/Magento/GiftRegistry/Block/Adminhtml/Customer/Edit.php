@@ -52,7 +52,7 @@ class Edit
         $confirmMessage = __('Are you sure you want to delete this gift registry?');
         $this->_updateButton('delete', 'label', __('Delete Registry'));
         $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
     }
 

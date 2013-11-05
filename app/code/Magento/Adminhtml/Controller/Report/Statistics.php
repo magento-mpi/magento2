@@ -119,7 +119,7 @@ class Statistics extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('We can\'t refresh recent statistics.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
@@ -150,7 +150,7 @@ class Statistics extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('We can\'t refresh lifetime statistics.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {

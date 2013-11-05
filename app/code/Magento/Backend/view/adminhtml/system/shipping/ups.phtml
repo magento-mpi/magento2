@@ -109,7 +109,7 @@ if (!$storeCode && $websiteCode) {
             while (freeMethod.length > 0) {
                 freeMethod.remove(0);
             }
-            freeMethod.insert(new Element('option', {value:''}).update('<?php echo $_coreHelper->escapeHtml(__('None')); ?>'));
+            freeMethod.insert(new Element('option', {value:''}).update('<?php echo $this->escapeHtml(__('None')); ?>'));
 
             var code, option;
             for (code in originShipment) {

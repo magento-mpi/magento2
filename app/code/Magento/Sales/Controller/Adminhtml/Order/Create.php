@@ -282,7 +282,8 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
         if (!empty($couponCode)) {
             if ($this->_getQuote()->getCouponCode() !== $couponCode) {
                 $this->_getSession()->addError(
-                    __('"%1" coupon code is not valid.', $this->_getHelper()->escapeHtml($couponCode)));
+                    __('"%1" coupon code is not valid.', $this->_objectManager->get('Magento\Escaper')
+                            ->escapeHtml($couponCode)));
             } else {
                 $this->_getSession()->addSuccess(__('The coupon code has been accepted.'));
             }
