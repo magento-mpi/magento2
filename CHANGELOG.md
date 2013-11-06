@@ -21,6 +21,17 @@
   * Fixed impossibility to use spaces in credit card number
   * Fixed impossibility to print order from frontend
   * Fixed fatal error when trying to delete review with rating
+  * Browser is "Not Responds" when add to cart Virtual/Downloadable product(JS)
+  * Unable to delete row form 'Order By SKU' form in IE
+  * Impossible to enable Use Flat Catalog Product option
+  * Unable to configure Grouped and Configurable products during order creation on backend
+  * It's unable to insert widget and/or banner in cms page
+  * Impossible to set Quantity value for Gift Card
+  * Fatal Error on Customer Account > Gift Registry tab in admin
+  * Unable to Import Customer Main File
+  * "Recently Viewed/Compared products" option is missed on the New Frontend App Instance page
+  * Fatal error if "Manage Shopping Cart" from backend for customer that has placed order
+  * Fatal error on attempt to create RMA for Configurable product
 
 2.0.0.0-dev50
 =============
