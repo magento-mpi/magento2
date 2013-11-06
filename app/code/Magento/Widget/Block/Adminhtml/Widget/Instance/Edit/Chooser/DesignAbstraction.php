@@ -94,18 +94,28 @@ class DesignAbstraction extends \Magento\Core\Block\Html\Select
      */
     protected function _addDesignAbstractionOptions(array $designAbstractions)
     {
-        /** @todo ACB add logic to support optgroup */
         $label = array();
-        // Sort list of page types by label
+        // Sort list of design abstractions by label
         foreach ($designAbstractions as $key => $row) {
             $label[$key]  = $row['label'];
         }
         array_multisort($label, SORT_STRING, $designAbstractions);
 
-        foreach ($designAbstractions as $pageTypeName => $pageTypeInfo) {
-            $params = array();
+        // Group the layout options
+        $customLayouts = array();
+        $pageLayouts = array();
 
-            $this->addOption($pageTypeName, $pageTypeInfo['label'], $params);
+        foreach ($designAbstractions as $pageTypeName => $pageTypeInfo) {
+            if ($pageTypeInfo['design_abstraction'] ===
+                \Magento\Core\Model\Layout\Merge::DESIGN_ABSTRACTION_PAGE_LAYOUT) {
+                    $pageLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
+            }
+            else {
+                $customLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
+            }
         }
+        $params = array();
+        $this->addOption($customLayouts, __('Custom Layouts'), $params);
+        $this->addOption($pageLayouts, __('Page Layouts'), $params);
     }
 }
