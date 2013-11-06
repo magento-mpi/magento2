@@ -36,6 +36,8 @@ class BreakStatement extends AbstractControlStatement
         $line->add('break');
         // add in the break number, if specified
         if (null !== $this->node->num) {
+            // if there is a num we need a space
+            $line->add(' ');
             $this->resolveNode($this->node->num, $treeNode);
         }
         // terminate the line
