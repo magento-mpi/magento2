@@ -61,7 +61,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
@@ -75,7 +74,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Checkout\Helper\Data $checkoutData,

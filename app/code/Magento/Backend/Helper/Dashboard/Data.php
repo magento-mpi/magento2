@@ -30,7 +30,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param $installDate
      * @param bool $dbCompatibleMode
@@ -41,7 +40,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         $installDate,
         $dbCompatibleMode = true
@@ -52,7 +50,6 @@ class Data extends \Magento\Core\Helper\Data
             $coreStoreConfig,
             $storeManager,
             $locale,
-            $dateModel,
             $appState,
             $dbCompatibleMode
         );
