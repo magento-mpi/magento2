@@ -18,11 +18,12 @@ use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
+ * Class AdminCustomer
  * Customer backend grid page.
  *
  * @package Magento\Customer\Test\Page
  */
-class AdminCustomerView extends Page
+class AdminCustomer extends Page
 {
     /**
      * URL for customer login

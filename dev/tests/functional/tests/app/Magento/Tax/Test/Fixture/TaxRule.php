@@ -83,23 +83,44 @@ class TaxRule extends DataFixture
     }
 
     /**
-     * Get tax customer class
+     * Get tax rule priority
      *
-     * @return string|array
+     * @return string
      */
-    public function getTaxCustomerClass()
+    public function getTaxRulePriority()
     {
-        return $this->getData('fields/tax_customer_class/value');
+        return $this->getData('fields/priority/value');
     }
 
     /**
-     * Get tax product class
+     * Get tax rule position
+     *
+     * @return string
+     */
+    public function getTaxRulePosition()
+    {
+        return $this->getData('fields/position/value');
+    }
+
+    /**
+     * Get product/customer tax class
      *
      * @return string|array
      */
-    public function getTaxProductClass()
+    public function getTaxRate()
     {
-        return $this->getData('fields/tax_product_class/value');
+        return $this->getData('fields/tax_rate');
+    }
+
+    /**
+     * Get product/customer tax class
+     *
+     * @param string $taxClass (e.g. product|customer)
+     * @return string|array
+     */
+    public function getTaxClass($taxClass)
+    {
+        return $this->getData('fields/tax_' . $taxClass . '_class/value');
     }
 
     /**

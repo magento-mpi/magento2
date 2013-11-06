@@ -50,7 +50,7 @@ class BundleTest extends Functional
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
         //Verification
-        $createProductPage->assertProductSaveResult($bundle);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

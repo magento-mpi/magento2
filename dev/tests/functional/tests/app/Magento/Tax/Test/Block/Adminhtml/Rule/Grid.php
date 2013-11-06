@@ -9,19 +9,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\Tax;
+namespace Magento\Tax\Test\Block\Adminhtml\Rule;
 
-use Magento\Backend\Test\Block\Widget\Grid;
-use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+
 /**
  * Class Grid
  * Tax rules grid
  *
- * @package Magento\Backend\Test\Block\Tax
+ * @package Magento\Tax\Test\Block\Adminhtml\Rule
  */
-class Rule extends Grid
+class Grid extends GridInterface
 {
-
     /**
      * Initialize block elements
      */
@@ -48,15 +47,15 @@ class Rule extends Grid
     }
 
     /**
-     * @param array|string $filter
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
      * @return bool
      */
-    public function isRowVisible(array $filter)
+    public function isRowVisible(array $filter, $isSearchable = false)
     {
-        if (count($filter) == 1) {
-            $filter = implode('', $filter);
-            $location = '//div[@class="grid"]//tr[td[text()[normalize-space()="' . $filter . '"]]]';
-            return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
-        }
+//        $this->search(array('name' => $filter['name'])); TODO: remove comment after apply first pull request to MTF
+        return parent::isRowVisible($filter, $isSearchable);
     }
 }

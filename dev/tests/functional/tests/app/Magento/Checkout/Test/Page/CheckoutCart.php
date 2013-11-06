@@ -44,7 +44,6 @@ class CheckoutCart extends Page
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
         $this->cartBlock = Factory::getBlockFactory()->getMagentoCheckoutCart(
             $this->_browser->find('//div[contains(@class, "cart container")]', Locator::SELECTOR_XPATH));
-
     }
 
     /**

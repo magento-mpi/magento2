@@ -15,6 +15,7 @@ namespace Magento\Backend\Test\Block;
 use Mtf\Block\Block;
 
 /**
+ * Class PageActions
  * Class for page actions in backend block
  *
  * @package Magento\Backend\Test\Block

@@ -19,12 +19,12 @@ use Magento\Customer\Test\Block\Form;
 use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 
 /**
- * Class Login.
+ * Class CustomerAccountLogin
  * Customer frontend login page.
  *
  * @package Magento\Customer\Test\Page
  */
-class Login extends Page
+class CustomerAccountLogin extends Page
 {
     /**
      * URL for customer login

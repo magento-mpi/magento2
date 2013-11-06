@@ -30,28 +30,38 @@ class Product extends AbstractRepository
             'data' => $defaultData
         );
 
-        $this->_data['simple_required'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+        $this->_data['simple_required'] = $this->_data['default'];
+        $this->_data['simple'] = $this->_data['default'];
+        $this->_data['simple']['data']['category_name'] = '%category::getCategoryName%';
+        $this->_data['simple_advanced_inventory'] = $this->_getSimpleAdvancedInventory();
+    }
 
-        $this->_data['simple_with_category'] = $this->_data['simple'];
-        $this->_data['simple_with_category']['data']['category_name'] = '%category::getCategoryName%';
-        $this->_data['simple_with_category']['data']['fields']['category_ids'] = array(
-            'value' => array('%category::getCategoryId%')
+    /**
+     * Get simple product with advanced inventory
+     *
+     * @return array
+     */
+    protected function _getSimpleAdvancedInventory()
+    {
+        $inventory = array(
+            'data' => array(
+                'fields' => array(
+                    'inventory_manage_stock' => array(
+                        'value' => 'Yes',
+                        'input_value' => '1',
+                        'group' => 'product_info_tabs_advanced-inventory',
+                        'input' => 'select'
+                    ),
+                    'inventory_qty' => array(
+                        'value' => 1,
+                        'group' => 'product_info_tabs_advanced-inventory'
+                    )
+                )
+            )
         );
+        $product = array_merge_recursive($this->_data['simple'], $inventory);
+        unset($product['data']['fields']['qty']);
 
-        $this->_data['simple_advanced_inventory'] = $this->_data['simple_with_category'];
-        unset($this->_data['simple_advanced_inventory']['data']['fields']['qty']);
-        $this->_data['simple_advanced_inventory']['data']['fields']['inventory_manage_stock'] = array(
-            'value' => 'Yes',
-            'input_value' => '1',
-            'group' => 'product_info_tabs_advanced-inventory',
-            'input' => 'select'
-        );
-        $this->_data['simple_advanced_inventory']['data']['fields']['inventory_qty'] = array(
-            'value' => 1,
-            'group' => 'product_info_tabs_advanced-inventory'
-        );
+        return $product;
     }
 }

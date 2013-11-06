@@ -12,11 +12,10 @@
 namespace Magento\Core\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Fixture\DataFixture;
 
 /**
  * Class Messages
- * Messages block
+ * Global messages block
  *
  * @package Magento\Core\Test\Block
  */
@@ -30,22 +29,30 @@ class Messages extends Block
     private $successMessage;
 
     /**
+     * Error message
+     *
+     * @var string
+     */
+    private $errorMessage;
+
+    /**
      * Initialize block elements
      */
     protected function _init()
     {
         //Elements
         $this->successMessage = '[data-ui-id=messages-message-success]';
+        $this->errorMessage = '[data-ui-id=messages-message-error]';
     }
 
     /**
      * Check for success message
      *
-     * @return bool
+     * @return mixed
      */
-    public function waitForSuccessMessage()
+    public function assertSuccessMessage()
     {
-        $this->waitForElementVisible($this->successMessage);
+        return $this->waitForElementVisible($this->successMessage);
     }
 
     /**
@@ -58,5 +65,15 @@ class Messages extends Block
         return $this->_rootElement
             ->find($this->successMessage)
             ->getText();
+    }
+
+    /**
+     * Check for error message
+     *
+     * @return mixed
+     */
+    public function waitForProductSaveError()
+    {
+        return $this->waitForElementVisible($this->errorMessage);
     }
 }

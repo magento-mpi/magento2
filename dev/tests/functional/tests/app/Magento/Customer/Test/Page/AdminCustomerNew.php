@@ -14,7 +14,6 @@ namespace Magento\Customer\Test\Page;
 
 use Magento\Core\Test\Block\Messages;
 use Magento\Customer\Test\Block\Backend\CustomerForm;
-use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
@@ -23,7 +22,7 @@ use Mtf\Page\Page;
  *
  * @package Magento\Customer\Test\Page
  */
-class AdminCustomerCreate extends Page
+class AdminCustomerNew extends Page
 {
     /**
      * URL for customer login

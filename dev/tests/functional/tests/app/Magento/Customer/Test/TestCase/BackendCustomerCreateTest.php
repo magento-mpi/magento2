@@ -25,28 +25,30 @@ class BackendCustomerCreateTest extends Functional
     }
 
     /**
-     * Test creation customer on backend
+     * New customer creation in backend
+     *
+     * @ZephyrId MAGETWO-12516
      */
     public function testCreateCustomer()
     {
-        $customerViewPage = Factory::getPageFactory()->getAdminCustomer();
-        $gridBlock = $customerViewPage->getCustomerGridBlock();
-        $pageActionsBlock = $customerViewPage->getPageActionsBlock();
-        $customerCreatePage = Factory::getPageFactory()->getAdminCustomerNew();
-        $newCustomerForm = $customerCreatePage->getNewCustomerForm();
+        //Data
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_customer');
+        //Pages & Blocks
+        $adminCustomerPage = Factory::getPageFactory()->getAdminCustomer();
+        $gridBlock = $adminCustomerPage->getCustomerGridBlock();
+        $pageActionsBlock = $adminCustomerPage->getPageActionsBlock();
+        $customerCreatePage = Factory::getPageFactory()->getAdminCustomerNew();
+        $newCustomerForm = $customerCreatePage->getNewCustomerForm();
         $messagesBlock = $customerCreatePage->getMessageBlock();
-
-        $customerViewPage->open();
+        //Steps
+        $adminCustomerPage->open();
         $pageActionsBlock->clickAddNew();
-
         $newCustomerForm->fill($customerFixture);
         $newCustomerForm->clickSaveAndContinue();
-        $messagesBlock->waitForSuccessMessage($customerFixture);
-
-        //Check created customer
-        $customerViewPage->open();
+        $messagesBlock->assertSuccessMessage($customerFixture);
+        //Verifying
+        $adminCustomerPage->open();
         $this->assertTrue($gridBlock->isRowVisible(array(
             'email' => $customerFixture->getEmail()
         )), 'Customer email "' . $customerFixture->getEmail() . '" not found in the grid');

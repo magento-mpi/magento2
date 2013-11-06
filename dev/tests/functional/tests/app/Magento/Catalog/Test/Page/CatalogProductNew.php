@@ -15,6 +15,7 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 use Mtf\Client\Element\Locator;
+use Magento\Core\Test\Block\Messages;
 use Magento\Catalog\Test\Block\Backend\ProductForm;
 
 /**
@@ -36,6 +37,13 @@ class CatalogProductNew extends Page
     private $productFormBlock;
 
     /**
+     * Global messages block
+     *
+     * @var Messages
+     */
+    private $messagesBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -44,6 +52,9 @@ class CatalogProductNew extends Page
 
         $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
             $this->_browser->find('body', Locator::SELECTOR_CSS)
+        );
+        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find('#messages')
         );
     }
 
@@ -71,54 +82,13 @@ class CatalogProductNew extends Page
     }
 
     /**
-     * Assert result
+     * Get global messages block
      *
-     * @param DataFixture $fixture
-     * @return mixed
+     * @return \Magento\Core\Test\Block\Messages
      */
-    public function assertProductSaveResult(DataFixture $fixture)
+    public function getMessagesBlock()
     {
-        $dataConfig = $fixture->getDataConfig();
-        $method = 'waitForProductSave' . $dataConfig['constraint'];
-        return $this->$method($fixture);
-    }
-
-    /**
-     * Check for success message
-     *
-     * @param DataFixture $fixture
-     * @return bool
-     */
-    protected function waitForProductSaveSuccess(DataFixture $fixture)
-    {
-        $browser = $this->_browser;
-        $selector = '//span[@data-ui-id="messages-message-success"]';
-        $strategy = Locator::SELECTOR_XPATH;
-        return $this->_browser->waitUntil(
-            function () use ($browser, $selector, $strategy) {
-                $productSavedMessage = $browser->find($selector, $strategy);
-                return $productSavedMessage->isVisible() ? true : null;
-            }
-        );
-    }
-
-    /**
-     * Check for error message
-     *
-     * @param DataFixture $fixture
-     * @return bool
-     */
-    protected function waitForProductSaveError(DataFixture $fixture)
-    {
-        $browser = $this->_browser;
-        $selector = '//span[@data-ui-id="messages-message-error"]';
-        $strategy = Locator::SELECTOR_XPATH;
-        return $this->_browser->waitUntil(
-            function () use ($browser, $selector, $strategy) {
-                $productSavedMessage = $browser->find($selector, $strategy);
-                return $productSavedMessage->isVisible() ? true : null;
-            }
-        );
+        return $this->messagesBlock;
     }
 
     /**
@@ -127,7 +97,7 @@ class CatalogProductNew extends Page
      * @param DataFixture $fixture
      * @return mixed
      */
-    protected function waitForProductSaveJavascriptError(DataFixture $fixture)
+    protected function waitForProductSaveJavascriptError(DataFixture $fixture = null)
     {
         $browser = $this->_browser;
         $selector = '[class=mage-error]';

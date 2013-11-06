@@ -17,11 +17,12 @@ use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
- * Class for page with customer information in backend
+ * Class AdminCustomerEdit
+ * Customer information page in backend
  *
  * @package Magento\Customer\Test\Page
  */
-class AdminCustomerInformation extends Page
+class AdminCustomerEdit extends Page
 {
     /**
      * URL for customer login
