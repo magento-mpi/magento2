@@ -18,5 +18,5 @@
         <rest-route httpMethod="DELETE" method="delete" isSecure="true">/:id</rest-route>
     </service>
 
-    <service class="\Magento\TestModule1\Service\AllSoapAndRestV3Interface" baseUrl="/V3/testmodule1"/>
+    <service class="\Magento\TestModule1\Service\AllSoapAndRestV3Interface"/>
 </config>
