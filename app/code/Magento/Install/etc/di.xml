@@ -123,6 +123,7 @@
             <value>
                 <install>
                     <frontName>install</frontName>
+                    <router>install</router>
                 </install>
             </value>
         </param>
