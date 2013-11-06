@@ -30,6 +30,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_helper = null;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @var \DateTime
      */
     protected $_dateTime = null;
@@ -37,6 +42,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        $this->locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
         $this->_dateTime = new \DateTime;
         $this->_dateTime->setTimezone(new \DateTimeZone(self::DATE_TIMEZONE));
     }
@@ -58,16 +65,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatDate()
     {
-        $this->assertEquals($this->_dateTime->format(self::DATE_FORMAT_SHORT), $this->_helper->formatDate());
+        $this->assertEquals($this->_dateTime->format(self::DATE_FORMAT_SHORT), $this->locale->formatDate());
 
         $this->assertEquals(
-            $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatDate(null, 'short', true)
+            $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->locale->formatDate(null, 'short', true)
         );
 
         $zendDate = new \Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::DATETIME_FORMAT_SHORT_ISO),
-            $this->_helper->formatTime($zendDate, 'short', true)
+            $this->locale->formatTime($zendDate, 'short', true)
         );
     }
 
@@ -82,7 +89,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $zendDate = new \Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::TIME_FORMAT_SHORT_ISO),
-            $this->_helper->formatTime($zendDate, 'short')
+            $this->locale->formatTime($zendDate, 'short')
         );
     }
 
