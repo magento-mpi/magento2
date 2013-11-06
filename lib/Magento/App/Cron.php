@@ -16,11 +16,6 @@ use \Magento\Config\ScopeInterface,
 class Cron implements \Magento\AppInterface
 {
     /**
-     * @var \Magento\Config\ScopeInterface
-     */
-    protected $_configScope;
-
-    /**
      * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
@@ -31,16 +26,13 @@ class Cron implements \Magento\AppInterface
     protected $_state;
 
     /**
-     * @param ScopeInterface $configScope
      * @param ManagerInterface $eventManager
      * @param State $state
      */
     public function __construct(
-        ScopeInterface $configScope,
         ManagerInterface $eventManager,
         State $state
     ) {
-        $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
         $this->_state = $state;
     }
