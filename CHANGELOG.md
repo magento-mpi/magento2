@@ -1,3 +1,6 @@
+* Application Areas Rework:
+  * Single point of access to the current area code
+  * Declare Application Areas
 * Various improvements:
   * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
   * Moved all application bootstrapping behaviour to library

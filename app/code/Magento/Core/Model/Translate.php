@@ -173,6 +173,11 @@ class Translate
     protected $_app;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
@@ -185,6 +190,7 @@ class Translate
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Resource\Translate $translate
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -200,7 +206,8 @@ class Translate
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\Translate $translate,
-        \Magento\Core\Model\App $app
+        \Magento\Core\Model\App $app,
+        \Magento\App\State $appState
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -214,6 +221,7 @@ class Translate
         $this->_storeManager = $storeManager;
         $this->_translateResource = $translate;
         $this->_app = $app;
+        $this->_appState = $appState;
     }
 
     /**
@@ -224,12 +232,13 @@ class Translate
      * @param bool $forceReload
      * @return \Magento\Core\Model\Translate
      */
-    public function init($area, $initParams = null, $forceReload = false)
+    public function init($area = null, $initParams = null, $forceReload = false)
     {
+        $area = isset($area) ? $area : $this->_appState->getAreaCode();
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
         $this->_translateInline = $this->getInlineObject($initParams)->isAllowed(
-            $area == \Magento\Backend\Helper\Data::BACKEND_AREA_CODE ? 'admin' : null);
+            $area == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
             $this->_data = $this->_loadCache();

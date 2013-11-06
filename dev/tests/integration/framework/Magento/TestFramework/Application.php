@@ -289,6 +289,9 @@ class Application
         /* Initialize an application in non-installed mode */
         $this->initialize();
 
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadAreaPart('install', \Magento\Core\Model\App\Area::PART_CONFIG);
+
         /* Run all install and data-install scripts */
         /** @var $updater \Magento\Module\Updater */
         $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Module\Updater');

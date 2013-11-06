@@ -118,6 +118,15 @@
             <instance type="Magento\Install\Model\Installer\Proxy" />
         </param>
     </type>
+    <type name="Magento\App\AreaList">
+        <param name="areas">
+            <value>
+                <install>
+                    <frontName>install</frontName>
+                </install>
+            </value>
+        </param>
+    </type>
     <type name="Magento\Backend\Model\Url">
         <param name="areaCode">
             <value>adminhtml</value>

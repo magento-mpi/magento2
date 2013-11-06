@@ -43,6 +43,11 @@ class Context extends \Magento\Core\Block\Context
     protected $_engineFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -63,6 +68,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      */
@@ -87,6 +93,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\Core\Model\App $app,
+        \Magento\App\State $appState,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager
     ) {
@@ -111,6 +118,7 @@ class Context extends \Magento\Core\Block\Context
             $filterManager
         );
 
+        $this->_appState = $appState;
         $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
@@ -165,5 +173,15 @@ class Context extends \Magento\Core\Block\Context
     public function getEngineFactory()
     {
         return $this->_engineFactory;
+    }
+
+    /**
+     * Get app state object
+     *
+     * @return \Magento\App\State
+     */
+    public function getAppState()
+    {
+        return $this->_appState;
     }
 }

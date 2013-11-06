@@ -17,6 +17,11 @@ class FrontNameResolver implements \Magento\App\Area\FrontNameResolverInterface
     const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
 
     /**
+     * Backend area code
+     */
+    const AREA_CODE = 'adminhtml';
+
+    /**
      * @var string
      */
     protected $_defaultFrontName;

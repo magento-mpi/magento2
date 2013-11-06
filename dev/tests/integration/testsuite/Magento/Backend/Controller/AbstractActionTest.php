@@ -21,7 +21,7 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $this->dispatch('backend');
         /** @var $backendUrlModel \Magento\Backend\Model\Url */
         $backendUrlModel =
