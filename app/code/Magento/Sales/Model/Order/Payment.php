@@ -206,7 +206,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Sales\Model\Service\Order $serviceOrderFactory
+     * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
@@ -221,7 +221,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Sales\Model\Service\Order $serviceOrderFactory,
+        \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
