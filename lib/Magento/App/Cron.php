@@ -53,7 +53,6 @@ class Cron implements \Magento\AppInterface
     public function execute()
     {
         $this->_state->setAreaCode('crontab');
-        $this->_configScope->setCurrentScope('crontab');
         $this->_eventManager->dispatch('default');
         return 0;
     }

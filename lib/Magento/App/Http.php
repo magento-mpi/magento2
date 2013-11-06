@@ -93,7 +93,6 @@ class Http implements \Magento\AppInterface
         try {
             $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
             $this->_state->setAreaCode($areaCode);
-            $this->_configScope->setCurrentScope($areaCode);
             $this->_objectManager->configure($this->_configLoader->load($areaCode));
             $response = $this->_objectManager->get('Magento\App\FrontControllerInterface')->dispatch($this->_request);
             // This event gives possibility to launch something before sending output (allow cookie setting)
