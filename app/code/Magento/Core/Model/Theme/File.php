@@ -127,7 +127,7 @@ class File extends \Magento\Core\Model\AbstractModel
     {
         $theme = $this->_themeFactory->create($this->getData('theme_id'));
         if (!$theme) {
-            throw new \Magento\Exception(__('Theme path should be set'));
+            throw new \Magento\Exception('Theme path should be set');
         }
         return $theme;
     }
