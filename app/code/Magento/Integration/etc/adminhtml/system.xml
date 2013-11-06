@@ -12,7 +12,7 @@
         <section id="oauth" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>OAuth</label>
             <tab>service</tab>
-            <resource>Magento_Integration::oauth</resource>
+            <resource>Magento_Integration::config_oauth</resource>
             <group id="cleanup" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Cleanup Settings</label>
                 <field id="cleanup_probability" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">

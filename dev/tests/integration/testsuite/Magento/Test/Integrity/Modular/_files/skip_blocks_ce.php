@@ -21,8 +21,6 @@ return array(
     'Magento\Adminhtml\Block\Cms\Page',
     'Magento\Adminhtml\Block\Cms\Page\Edit',
     'Magento\Sales\Block\Adminhtml\Order',
-    'Magento\Oauth\Block\Adminhtml\Oauth\Consumer',
-    'Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid',
     'Magento\Paypal\Block\Adminhtml\Settlement\Report',
     'Magento\Sales\Block\Adminhtml\Billing\Agreement\View',
     'Magento\User\Block\Role\Tab\Edit',
