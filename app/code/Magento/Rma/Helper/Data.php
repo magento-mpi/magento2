@@ -58,6 +58,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_regionFactory;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -103,6 +110,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $dateTime;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
@@ -118,6 +126,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
@@ -132,6 +141,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime $dateTime
     ) {
+        $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
