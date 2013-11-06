@@ -69,6 +69,8 @@ class Addresses extends Block
      */
     public function fillAddresses(Order $fixture)
     {
+        $this->shippingAddressForm->uncheckSameAsBillingShippingAddress();
+        $this->templateBlock->waitLoader();
         $billingAddress = $fixture->getBillingAddress();
         if (empty($billingAddress)) {
             $this->billingAddressForm->fill($fixture->getCustomer()->getDefaultBillingAddress());

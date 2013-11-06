@@ -40,14 +40,14 @@ class CreateProductTest extends Functional
         $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product->switchData('simple_advanced_inventory');
         //Data
-        $createProductPage = Factory::getPageFactory()->getAdminCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $createProductPage->open();
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
-        $createProductPage->assertProductSaveResult($product);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -64,7 +64,7 @@ class CreateProductTest extends Functional
      */
     protected function assertOnGrid($product)
     {
-        $productGridPage = Factory::getPageFactory()->getAdminCatalogProductIndex();
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
@@ -72,19 +72,24 @@ class CreateProductTest extends Functional
     }
 
     /**
+     * Assert product data on category and product pages
+     *
      * @param Product $product
      */
     protected function assertOnCategory($product)
     {
-        //Steps
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $categoryPage->openCategory($product->getCategoryName());
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());

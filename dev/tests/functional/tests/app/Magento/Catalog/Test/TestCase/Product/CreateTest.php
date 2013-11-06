@@ -38,7 +38,7 @@ class CreateTest extends Functional
     public function testCreateProduct()
     {
         $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple_with_category');
+        $product->switchData('simple');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
@@ -48,7 +48,7 @@ class CreateTest extends Functional
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
         //Verifying
-        $createProductPage->assertProductSaveResult($product);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -91,7 +91,6 @@ class CreateTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());

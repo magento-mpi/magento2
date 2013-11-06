@@ -51,7 +51,10 @@ class PaymentMethods extends Block
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS)->click();
+        $paymentInput = $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS);
+        if ($paymentInput->isVisible()) {
+            $paymentInput->click();
+        }
         $this->templateBlock->waitLoader();
     }
 }

@@ -113,7 +113,8 @@ abstract class Grid extends Block
         //Blocks
         $this->editLink = '//td[@data-column="action"]//a';
         $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH));
+            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
+        );
     }
 
     /**
@@ -230,11 +231,14 @@ abstract class Grid extends Block
      * Check if specific row exists in grid
      *
      * @param array $filter
+     * @param bool $isSearchable
      * @return bool
      */
-    public function isRowVisible(array $filter)
+    public function isRowVisible(array $filter, $isSearchable = true)
     {
-        $this->search($filter);
+        if ($isSearchable) {
+            $this->search($filter);
+        }
         $location = '//div[@class="grid"]//tr[';
         $rows = array();
         foreach ($filter as $value) {
