@@ -256,6 +256,21 @@
                 <event controller_action="cms_page_delete" action_alias="delete" />
             </events>
         </group>
+        <group name="version_cms_pages">
+            <label translate="true">CMS Pages</label>
+            <expected_models>
+                <expected_model class="Magento\Cms\Model\Page" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_cms_page_edit" action_alias="view" />
+                <event controller_action="adminhtml_cms_page_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_cms_page_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_cms_page_delete" action_alias="delete" />
+            </events>
+        </group>
         <group name="cms_blocks">
             <label translate="true">CMS Blocks</label>
             <expected_models>
