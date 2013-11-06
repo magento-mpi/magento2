@@ -1070,4 +1070,9 @@ return array(
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),
+    array('Magento\Core\Model\Cache\Config', 'Magento\Cache\Config'),
+    array('Magento\Core\Model\Cache\Config\Converter', 'Magento\Cache\Config\Converter'),
+    array('Magento\Core\Model\Cache\Config\Data', 'Magento\Cache\Config\Data'),
+    array('Magento\Core\Model\Cache\Config\Reader', 'Magento\Cache\Config\Reader'),
+    array('Magento\Core\Model\Cache\Config\SchemaLocator', 'Magento\Cache\Config\SchemaLocator'),
 );
