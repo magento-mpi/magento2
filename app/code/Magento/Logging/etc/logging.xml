@@ -168,9 +168,9 @@
                 <expected_model class="Magento\Rating\Model\Rating" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_rating_edit" action_alias="view" />
-                <event controller_action="adminhtml_rating_save" action_alias="save" />
-                <event controller_action="adminhtml_rating_delete" action_alias="delete" />
+                <event controller_action="rating_edit" action_alias="view" />
+                <event controller_action="rating_save" action_alias="save" />
+                <event controller_action="rating_delete" action_alias="delete" />
             </events>
         </group>
         <group name="review">
@@ -903,13 +903,13 @@
                 <expected_model class="Magento\User\Model\Role" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_user_role_editrole" action_alias="view" />
-                <event controller_action="adminhtml_user_role_saverole" action_alias="save">
+                <event controller_action="user_role_editrole" action_alias="view" />
+                <event controller_action="user_role_saverole" action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_user_role_editrole" />
+                        <controller_action name="user_role_editrole" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_user_role_delete" action_alias="delete" />
+                <event controller_action="user_role_delete" action_alias="delete" />
             </events>
         </group>
         <group name="adminhtml_permission_users">
@@ -924,9 +924,9 @@
                 </expected_model>
             </expected_models>
             <events>
-                <event controller_action="adminhtml_user_edit" action_alias="view" />
-                <event controller_action="adminhtml_user_save" action_alias="save" />
-                <event controller_action="adminhtml_user_delete" action_alias="delete" />
+                <event controller_action="user_edit" action_alias="view" />
+                <event controller_action="user_save" action_alias="save" />
+                <event controller_action="user_delete" action_alias="delete" />
             </events>
         </group>
         <group name="adminhtml_system_websites">
