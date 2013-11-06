@@ -104,7 +104,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Email\Template $emailTemplateFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -123,7 +123,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function __construct(
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Email\Template $emailTemplateFactory,
+        \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory,
         \Magento\Core\Model\Translate $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManager $storeManager,

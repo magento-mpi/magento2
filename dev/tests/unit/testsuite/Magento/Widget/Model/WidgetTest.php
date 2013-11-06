@@ -82,4 +82,12 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($widgetOne, $this->_model->getWidgetByClassType('type1'));
         $this->assertNull($this->_model->getWidgetByClassType('type2'));
     }
+
+    public function testGetWidgetDeclarationTypeWithBackslashes()
+    {
+        $this->assertContains(
+            'Magento\\\\Widget\\\\Backslashed\\\\ClassName',
+            $this->_model->getWidgetDeclaration('Magento\Widget\Backslashed\ClassName')
+        );
+    }
 }
