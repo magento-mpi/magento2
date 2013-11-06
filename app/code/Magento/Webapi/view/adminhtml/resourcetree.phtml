@@ -15,7 +15,16 @@
 
 <fieldset class="fieldset form-inline entry-edit">
     <legend class="legend">
-        <span><?php echo __('Roles Resources') ?></span>
+        <span><?php echo __('General Settings') ?></span>
+    </legend><br />
+
+    <div class="field" align="center">
+        <input type="checkbox" id="enable_api_access_checkbox" />
+        <label for="enable_api_access_checkbox" class="normal"><?php echo __('Enable API access') ?></label>
+    </div>
+
+    <legend class="legend">
+        <span><?php echo __('Available APIs') ?></span>
     </legend><br />
 
     <div class="field">
