@@ -68,9 +68,9 @@ class File extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_themeFactory = $themeFactory;
         $this->_fileServiceFactory = $fileServiceFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -114,6 +114,7 @@ class File extends \Magento\Core\Model\AbstractModel
     {
         $this->_theme = $theme;
         $this->setData('theme_id', $theme->getId());
+        $this->setData('theme_path', $theme->getThemePath());
         return $this;
     }
 
