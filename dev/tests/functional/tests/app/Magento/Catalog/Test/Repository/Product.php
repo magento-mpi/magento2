@@ -49,8 +49,6 @@ class Product extends AbstractRepository
                     'inventory_manage_stock' => array(
                         'value' => 'Yes',
                         'input_value' => '1',
-                        'group' => 'product_info_tabs_advanced-inventory',
-                        'input' => 'select'
                     ),
                     'inventory_qty' => array(
                         'value' => 1,
@@ -59,7 +57,7 @@ class Product extends AbstractRepository
                 )
             )
         );
-        $product = array_merge_recursive($this->_data['simple'], $inventory);
+        $product = array_replace_recursive($this->_data['simple'], $inventory);
         unset($product['data']['fields']['qty']);
 
         return $product;
