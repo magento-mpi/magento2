@@ -37,12 +37,12 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
     protected $_urlValidator;
 
     /**
-     * @var Consumer\Validator\KeyLengthFactory
+     * @var \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory
      */
     protected $_keyLengthFactory;
 
     /**
-     * @param Consumer\Validator\KeyLengthFactory $keyLengthFactory
+     * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -51,7 +51,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
      * @param array $data
      */
     public function __construct(
-        Consumer\Validator\KeyLengthFactory $keyLengthFactory,
+        \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -107,7 +107,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
             }
         }
 
-        /** @var $validatorLength Consumer\Validator\KeyLength */
+        /** @var $validatorLength \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLength */
         $validatorLength = $this->_keyLengthFactory->create(
             array('options' => array('length' => \Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY))
         );
