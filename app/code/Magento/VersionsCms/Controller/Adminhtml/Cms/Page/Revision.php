@@ -302,8 +302,6 @@ class Revision
 
     /**
      * Generates preview of page. Assumed to be run in frontend area
-     *
-     * @return $this
      */
     public function previewFrontendPage()
     {

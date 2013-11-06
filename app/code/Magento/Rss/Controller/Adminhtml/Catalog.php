@@ -15,6 +15,11 @@ namespace Magento\Rss\Controller\Adminhtml;
 
 class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
 {
+    /**
+     * Return required ACL resource for current action
+     *
+     * @return bool|string
+     */
     protected function _getActionAclResource()
     {
         $acl = array(
@@ -25,6 +30,9 @@ class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
         return isset($acl[$action]) ? $acl[$action] : false;
     }
 
+    /**
+     * Notify stock action
+     */
     public function notifystockAction()
     {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
@@ -32,6 +40,9 @@ class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
         $this->renderLayout();
     }
 
+    /**
+     * Review action
+     */
     public function reviewAction()
     {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');

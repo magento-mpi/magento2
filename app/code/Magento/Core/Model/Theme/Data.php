@@ -17,6 +17,9 @@ namespace Magento\Core\Model\Theme;
  */
 class Data extends \Magento\Core\Model\Theme
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getArea()
     {
         return $this->getData('area');
