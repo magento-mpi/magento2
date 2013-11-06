@@ -342,4 +342,34 @@ return array(
         '\Magento\Core\Helper\Data',
         '\Magento\Adminhtml\Helper\Catalog::XML_PATH_PUBLIC_FILES_VALID_PATHS'
     ),
+    array(
+        'TYPE_PHYSICAL',
+        '\Magento\Core\Model\Theme',
+        '\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL'
+    ),
+    array(
+        'TYPE_VIRTUAL',
+        '\Magento\Core\Model\Theme',
+        '\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL'
+    ),
+    array(
+        'TYPE_STAGING',
+        '\Magento\Core\Model\Theme',
+        '\Magento\View\Design\ThemeInterface::TYPE_STAGING'
+    ),
+    array(
+        'PATH_SEPARATOR',
+        '\Magento\Core\Model\Theme',
+        '\Magento\View\Design\ThemeInterface::PATH_SEPARATOR'
+    ),
+    array(
+        'CODE_SEPARATOR',
+        '\Magento\Core\Model\Theme',
+        '\Magento\View\Design\ThemeInterface::CODE_SEPARATOR'
+    ),
+    array(
+        'XML_PATH_THEME_ID',
+        '\Magento\Core\Model\View\Design',
+        '\MMagento\Core\Model\View\Design::XML_PATH_THEME_PATH'
+    ),
 );

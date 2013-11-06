@@ -24,7 +24,7 @@ interface ThemeProviderInterface
      * @param int $type
      * @return array
      */
-    public function getThemeCustomizations($area, $type = \Magento\Core\Model\Theme::TYPE_VIRTUAL);
+    public function getThemeCustomizations($area, $type = \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
 
     /**
      * @param int $themeId

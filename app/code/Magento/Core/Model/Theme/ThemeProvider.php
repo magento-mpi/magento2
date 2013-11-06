@@ -46,7 +46,7 @@ class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
      */
     public function getThemeCustomizations(
         $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
-        $type = \Magento\Core\Model\Theme::TYPE_VIRTUAL
+        $type = \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
     ) {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
         $themeCollection = $this->collectionFactory->create();
