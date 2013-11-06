@@ -27,6 +27,7 @@
     <type id="checkout_cart_multishipping_success" label="Multishipping Checkout Success"/>
     <type id="checkout_onepage_failure" label="One Page Checkout Failure"/>
     <type id="checkout_onepage_index" label="One Page Checkout"/>
+    <type id="checkout_onepage_paymentmethod" label="One Page Checkout Choose Payment Method"/>
     <type id="checkout_onepage_review" label="One Page Checkout Overview"/>
     <type id="checkout_onepage_shippingmethod" label="One Page Checkout Choose Shipping Method"/>
     <type id="checkout_onepage_success" label="One Page Checkout Success"/>
