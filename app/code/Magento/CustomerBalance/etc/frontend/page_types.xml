@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!--
 /**
-* {license_notice}
-*
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 -->
 <page_types>
     <type id="magento_customerbalance_info_index" label="Customer My Account Store Credit"/>

@@ -4,38 +4,38 @@
  *
  * @category    Magento
  * @package     Magento_Core
- * @subpackage  integration_tests
+ * @subpackage  integrity_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Test\Integrity\Layout;
+namespace Magento\Test\Integrity\PageType;
 
 class FilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var string - xsd that will validate page_types.xml against
      */
     protected $_schemaFile;
 
     protected function setUp()
     {
         $this->_schemaFile = \Magento\TestFramework\Utility\Files::init()->getModuleFile(
-            'Magento', 'Core', 'etc' . DIRECTORY_SEPARATOR . 'layout_single.xsd'
+            'Magento', 'Core', 'etc' . DIRECTORY_SEPARATOR . 'page_types.xsd'
         );
     }
 
-    public function testLayouts()
+    public function testPageType()
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            function ($layout) {
+            function ($pageType) {
                 $dom = new \DOMDocument();
-                $dom->loadXML(file_get_contents($layout));
+                $dom->loadXML(file_get_contents($pageType));
                 $errors = \Magento\TestFramework\Utility\Validator::validateXml($dom, $this->_schemaFile);
                 $this->assertTrue(empty($errors), print_r($errors, true));
             },
-            \Magento\TestFramework\Utility\Files::init()->getLayoutFiles()
+            \Magento\TestFramework\Utility\Files::init()->getPageTypeFiles()
         );
     }
 }
