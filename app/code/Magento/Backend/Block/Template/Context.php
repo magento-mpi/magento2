@@ -57,6 +57,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Backend\Model\Session $backendSession
@@ -88,6 +89,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
+        \Magento\App\State $appState,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Backend\Model\Session $backendSession,
@@ -115,6 +117,7 @@ class Context extends \Magento\Core\Block\Template\Context
             $viewFileSystem,
             $engineFactory,
             $app,
+            $appState,
             $escaper,
             $filterManager
         );

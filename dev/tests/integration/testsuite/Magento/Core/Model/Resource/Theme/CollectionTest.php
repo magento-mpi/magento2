@@ -15,6 +15,15 @@ use \Magento\View\Design\ThemeInterface;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
+            'preferences' => array(
+                'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'
+            )
+        ));
+    }
+
     /**
      * @return \Magento\Core\Model\Resource\Theme\Collection
      */

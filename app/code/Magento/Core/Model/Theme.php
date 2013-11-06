@@ -33,7 +33,6 @@ namespace Magento\Core\Model;
  * @method \Magento\View\Design\ThemeInterface setThemeCode(string $themeCode)
  * @method \Magento\View\Design\ThemeInterface setThemePath(string $themePath)
  * @method \Magento\View\Design\ThemeInterface setThemeVersion(string $themeVersion)
- * @method \Magento\View\Design\ThemeInterface setArea(string $area)
  * @method \Magento\View\Design\ThemeInterface setThemeTitle(string $themeTitle)
  * @method \Magento\View\Design\ThemeInterface setType(int $type)
  * @method \Magento\View\Design\ThemeInterface setCode(string $code)
@@ -92,17 +91,23 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_customFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * Initialize dependencies
-     *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * 
+     * @param Context $context
+     * @param Registry $registry
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
      * @param \Magento\View\Design\Theme\ImageFactory $imageFactory
      * @param \Magento\View\Design\Theme\Validator $validator
      * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
-     * @param \Magento\Core\Model\Resource\Theme $resource
-     * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
+     * @param \Magento\App\State $appState
+     * @param Resource\Theme $resource
+     * @param Resource\Theme\Collection $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -115,6 +120,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         \Magento\View\Design\Theme\ImageFactory $imageFactory,
         \Magento\View\Design\Theme\Validator $validator,
         \Magento\View\Design\Theme\CustomizationFactory $customizationFactory,
+        \Magento\App\State $appState,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
@@ -125,10 +131,10 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         $this->_imageFactory = $imageFactory;
         $this->_validator = $validator;
         $this->_customFactory = $customizationFactory;
+        $this->_appState = $appState;
 
         $this->addData(array(
-            'type' => self::TYPE_VIRTUAL,
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND
+            'type' => self::TYPE_VIRTUAL
         ));
     }
 
@@ -262,10 +268,11 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
 
     /**
      * {@inheritdoc}
+     * @deprecated
      */
     public function getArea()
     {
-        return $this->getData('area');
+        return $this->_appState->getAreaCode();
     }
 
     /**

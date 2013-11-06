@@ -259,19 +259,6 @@ class App implements \Magento\Core\Model\AppInterface
     }
 
     /**
-     * Loading application area
-     *
-     * @param   string $code
-     * @return  \Magento\Core\Model\App
-     */
-    public function loadArea($code)
-    {
-        $this->_configScope->setCurrentScope($code);
-        $this->getArea($code)->load();
-        return $this;
-    }
-
-    /**
      * Loading part of area data
      *
      * @param   string $area
