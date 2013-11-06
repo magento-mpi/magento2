@@ -1066,7 +1066,7 @@ return array(
     array('Magento\Core\Model\TemplateEngine\EngineInterface','Magento\View\TemplateEngineInterface'),
     array('Magento\Core\Model\TemplateEngine\Factory','Magento\View\TemplateEngineFactory'),
     array('Magento\Core\Model\TemplateEngine\Php','Magento\View\TemplateEngine\Php'),
-    array('Magento\Core\Model\TemplateEngine\Pool'),
+    array('Magento\Core\Model\TemplateEngine\Pool','Magento\View\TemplateEnginePool'),
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),

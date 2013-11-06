@@ -54,7 +54,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\View\TemplateEngineFactory $engineFactory
+     * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
@@ -85,7 +85,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\View\TemplateEngineFactory $engineFactory,
+        \Magento\View\TemplateEnginePool $enginePool,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
@@ -113,7 +113,7 @@ class Context extends \Magento\Core\Block\Template\Context
             $logger,
             $filesystem,
             $viewFileSystem,
-            $engineFactory,
+            $enginePool,
             $app,
             $escaper,
             $filterManager

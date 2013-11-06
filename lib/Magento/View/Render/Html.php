@@ -9,7 +9,7 @@
 namespace Magento\View\Render;
 
 use Magento\View\RenderInterface;
-use Magento\View\TemplateEngineFactory;
+use Magento\View\TemplateEnginePool;
 
 class Html implements RenderInterface
 {
@@ -19,17 +19,17 @@ class Html implements RenderInterface
     const TYPE_HTML = 'html';
 
     /**
-     * @var TemplateEngineFactory
+     * @var TemplateEnginePool
      */
-    protected $templateFactory;
+    protected $templatePool;
 
     /**
-     * @param TemplateEngineFactory $templateFactory
+     * @param TemplateEnginePool $templatePool
      */
     public function __construct(
-        TemplateEngineFactory $templateFactory
+        TemplateEnginePool $templatePool
     ) {
-        $this->templateFactory = $templateFactory;
+        $this->templatePool = $templatePool;
     }
 
     /**
@@ -73,7 +73,7 @@ class Html implements RenderInterface
     protected function fetchView($template, array $data = array())
     {
         $extension = pathinfo($template, PATHINFO_EXTENSION);
-        $templateEngine = $this->templateFactory->get($extension);
+        $templateEngine = $this->templatePool->get($extension);
         return $templateEngine->render($template, $data);
     }
 }

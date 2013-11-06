@@ -64,9 +64,9 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_template;
 
     /**
-     * @var \Magento\View\TemplateEngineFactory
+     * @var \Magento\View\TemplateEnginePool
      */
-    protected $_templateEngineFactory;
+    protected $templatePool;
 
     /**
      * Core data
@@ -95,7 +95,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_dirs = $context->getDirs();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
-        $this->_templateEngineFactory = $context->getEngineFactory();
+        $this->templatePool = $context->getEnginePool();
         $this->_storeManager = $context->getApp();
         parent::__construct($context, $data);
     }
@@ -204,7 +204,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
         ) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $templateEngine = $this->_templateEngineFactory->get($extension);
+            $templateEngine = $this->templatePool->get($extension);
             $html = $templateEngine->render($this, $fileName, $this->_viewVars);
         } else {
             $html = '';
