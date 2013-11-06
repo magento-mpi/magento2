@@ -72,7 +72,7 @@ class Messages extends Block
      *
      * @return mixed
      */
-    public function waitForProductSaveError()
+    public function assertErrorMessage()
     {
         return $this->waitForElementVisible($this->errorMessage);
     }

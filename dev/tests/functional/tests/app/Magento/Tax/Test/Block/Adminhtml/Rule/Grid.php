@@ -55,7 +55,6 @@ class Grid extends GridInterface
      */
     public function isRowVisible(array $filter, $isSearchable = false)
     {
-//        $this->search(array('name' => $filter['name'])); TODO: remove comment after apply first pull request to MTF
         return parent::isRowVisible($filter, $isSearchable);
     }
 }

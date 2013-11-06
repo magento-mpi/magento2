@@ -63,7 +63,7 @@ class TaxRule extends Page
     /**
      * Get tax rules grid
      *
-     * @return \Magento\Tax\Test\Block\Adminhtml\Rule\Grid
+     * @return Grid
      */
     public function getRuleGrid()
     {
@@ -73,7 +73,7 @@ class TaxRule extends Page
     /**
      * Get page actions in backend block
      *
-     * @return \Magento\Backend\Test\Block\PageActions
+     * @return PageActions
      */
     public function getActionsBlock()
     {

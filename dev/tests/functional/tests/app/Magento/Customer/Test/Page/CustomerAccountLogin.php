@@ -15,7 +15,7 @@ namespace Magento\Customer\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Block\Form;
+use Magento\Customer\Test\Block\Form\Login;
 use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 
 /**
@@ -34,8 +34,7 @@ class CustomerAccountLogin extends Page
     /**
      * Form for customer login
      *
-     * @var Form\Login
-     * @private
+     * @var Login
      */
     private $loginBlock;
 
@@ -44,7 +43,7 @@ class CustomerAccountLogin extends Page
      *
      * @var DashboardHeaderPanelTitle
      */
-    private $_dashboardHeaderPanelTitle;
+    private $dashboardHeaderPanelTitle;
 
     /**
      * Custom constructor
@@ -54,16 +53,20 @@ class CustomerAccountLogin extends Page
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
 
         $this->loginBlock = Factory::getBlockFactory()->getMagentoCustomerFormLogin(
-            $this->_browser->find('login-form', Locator::SELECTOR_ID));
-        $this->_dashboardHeaderPanelTitle = Factory::getBlockFactory()->getMagentoCustomerDashboardHeaderPanelTitle(
-            $this->_browser->find('//div[@class="page-title"]/h1[contains(text(), "My Dashboard")]',
-                Locator::SELECTOR_XPATH));
+            $this->_browser->find('login-form', Locator::SELECTOR_ID)
+        );
+        $this->dashboardHeaderPanelTitle = Factory::getBlockFactory()->getMagentoCustomerDashboardHeaderPanelTitle(
+            $this->_browser->find(
+                '//div[@class="page-title"]/h1[contains(text(), "My Dashboard")]',
+                Locator::SELECTOR_XPATH
+            )
+        );
     }
 
     /**
      * Get customer login form
      *
-     * @return \Magento\Customer\Test\Block\Form\Login
+     * @return Login
      */
     public function getLoginBlock()
     {
@@ -73,10 +76,10 @@ class CustomerAccountLogin extends Page
     /**
      * Get dashboard panel title
      *
-     * @return \Magento\Customer\Test\Block\DashboardHeaderPanelTitle
+     * @return DashboardHeaderPanelTitle
      */
     public function getDashboardHeaderPanelTitle()
     {
-        return $this->_dashboardHeaderPanelTitle;
+        return $this->dashboardHeaderPanelTitle;
     }
 }

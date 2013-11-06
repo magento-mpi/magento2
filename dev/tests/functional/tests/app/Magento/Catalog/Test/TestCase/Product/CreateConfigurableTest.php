@@ -99,7 +99,6 @@ class CreateConfigurableTest extends Functional
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productListBlock = $categoryPage->getListProductBlock();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();

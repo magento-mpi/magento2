@@ -91,7 +91,6 @@ class BundleTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
 

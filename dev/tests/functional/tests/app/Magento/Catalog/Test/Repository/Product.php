@@ -33,7 +33,7 @@ class Product extends AbstractRepository
         $this->_data['simple_required'] = $this->_data['default'];
         $this->_data['simple'] = $this->_data['default'];
         $this->_data['simple']['data']['category_name'] = '%category::getCategoryName%';
-        $this->_data['simple_advanced_inventory'] = $this->_getSimpleAdvancedInventory();
+        $this->_data['simple_advanced_inventory'] = $this->getSimpleAdvancedInventory();
     }
 
     /**
@@ -41,7 +41,7 @@ class Product extends AbstractRepository
      *
      * @return array
      */
-    protected function _getSimpleAdvancedInventory()
+    protected function getSimpleAdvancedInventory()
     {
         $inventory = array(
             'data' => array(

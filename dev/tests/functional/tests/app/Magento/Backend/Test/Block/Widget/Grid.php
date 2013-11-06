@@ -113,7 +113,8 @@ abstract class Grid extends Block
         //Blocks
         $this->editLink = '//td[@data-column="action"]//a';
         $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH));
+            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
+        );
     }
 
     /**
