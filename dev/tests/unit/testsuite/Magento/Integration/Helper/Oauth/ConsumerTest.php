@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Oauth\Helper;
+namespace Magento\Integration\Helper\Oauth;
 
 class ConsumerTest extends \PHPUnit_Framework_TestCase
 {

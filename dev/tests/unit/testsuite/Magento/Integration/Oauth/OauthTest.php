@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Oauth\Oauth;
+namespace Magento\Integration\Oauth;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
