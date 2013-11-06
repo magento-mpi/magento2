@@ -8,7 +8,6 @@ app/design/frontend/magento_fixed_width
 app/design/frontend/magento_iphone_html5
 app/design/frontend/magento_plushe/Magento_AdvancedCheckout
 app/design/frontend/magento_plushe/Magento_CatalogEvent
-app/design/frontend/magento_plushe/Magento_CustomerCustomAttributes
 app/design/frontend/magento_plushe/Magento_Enterprise
 app/design/frontend/magento_plushe/Magento_GiftCard
 app/design/frontend/magento_plushe/Magento_GiftCardAccount
