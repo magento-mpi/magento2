@@ -66,7 +66,6 @@ class CreateProductTest extends Functional
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }

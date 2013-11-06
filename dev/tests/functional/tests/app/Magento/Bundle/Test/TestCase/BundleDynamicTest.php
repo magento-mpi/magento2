@@ -13,15 +13,8 @@ namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 use Magento\Bundle\Test\Fixture\Bundle;
 
-/**
- * Class BundleTest
- * Bundle product creation tests
- *
- * @package Magento\Bundle\Test\TestCase
- */
 class BundleDynamicTest extends Functional
 {
     /**
@@ -41,9 +34,7 @@ class BundleDynamicTest extends Functional
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleDynamic();
         $bundle->switchData('bundle_dynamic');
         //Pages & Blocks
-        /** @var $manageProductsGrid \Magento\Catalog\Test\Page\CatalogProductIndex */
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
-        /** @var $createProductPage \Magento\Catalog\Test\Page\CatalogProductNew */
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
@@ -52,9 +43,8 @@ class BundleDynamicTest extends Functional
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
         //Verification
-        $createProductPage->assertProductSaveResult($bundle);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
-        /** @var $cachePage \Magento\Backend\Test\Page\Cache */
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
@@ -66,14 +56,12 @@ class BundleDynamicTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param Bundle $product
      */
     protected function assertOnGrid($product)
     {
-        /** @var $productGridPage \Magento\Catalog\Test\Page\CatalogProductIndex */
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
@@ -95,7 +83,6 @@ class BundleDynamicTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
 

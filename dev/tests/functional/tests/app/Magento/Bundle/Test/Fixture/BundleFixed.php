@@ -13,7 +13,6 @@ namespace Magento\Bundle\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
-use Magento\Catalog\Test\Fixture\Product as Product;
 
 class BundleFixed extends Bundle
 {
@@ -24,14 +23,6 @@ class BundleFixed extends Bundle
     {
         parent::_initData();
         $this->_data['fields'] = array(
-            'name' => array(
-                'value' => 'Bundle Fixed Product Required %isolation%',
-                'group' => static::GROUP_PRODUCT_DETAILS
-            ),
-            'sku' => array(
-                'value' => 'bundle_sku_fixed_%isolation%',
-                'group' => static::GROUP_PRODUCT_DETAILS
-            ),
             'sku_type' => array(
                 'value' => 'Fixed',
                 'input_value' => '1',
@@ -72,7 +63,7 @@ class BundleFixed extends Bundle
             ),
             'bundle_selections' => array(
                 'value' => array(
-                    'bundle_item_1' => array(
+                    'bundle_item_0' => array(
                         'title' => array(
                             'value' => 'Drop-down Option'
                         ),
@@ -85,7 +76,7 @@ class BundleFixed extends Bundle
                             'input_value' => '1'
                         ),
                         'assigned_products' => array(
-                            'assigned_product_2' => array(
+                            'assigned_product_0' => array(
                                 'search_data' => array(
                                     'name' => '%item1_product1::getProductName%',
                                 ),
@@ -106,7 +97,7 @@ class BundleFixed extends Bundle
                                     )
                                 )
                             ),
-                            'assigned_product_3' => array(
+                            'assigned_product_1' => array(
                                 'search_data' => array(
                                     'name' => '%item1_product2::getProductName%',
                                 ),

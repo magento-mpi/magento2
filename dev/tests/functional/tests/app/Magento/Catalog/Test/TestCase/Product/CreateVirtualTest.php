@@ -2,20 +2,26 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
+ * @category    Mtf
+ * @package     Mtf
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Test\TestCase;
+namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Bundle\Test\Fixture\Bundle;
+use Magento\Catalog\Test\Fixture\VirtualProduct;
 
-class BundleFixedTest extends Functional
+/**
+ * Class CreateTest
+ * Test product creation
+ *
+ * @package Magento\Catalog\Test\TestCase\Product
+ */
+class CreateVirtualTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -26,55 +32,57 @@ class BundleFixedTest extends Functional
     }
 
     /**
-     * Create bundle
+     * Create product
+     *
+     * @ZephyrId MAGETWO-12514
      */
-    public function testCreate()
+    public function testCreateProduct()
     {
+        $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
+        $product->switchData('virtual');
         //Data
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_fixed');
-        //Pages & Blocks
-        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
+        $createProductPage->init($product);
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
-        $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct('bundle');
-        $productBlockForm->fill($bundle);
-        $productBlockForm->save($bundle);
-        //Verification
+        $createProductPage->open();
+        $productBlockForm->fill($product);
+        $productBlockForm->save($product);
+        //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        //Verification
-        $this->assertOnGrid($bundle);
-        $this->assertOnCategory($bundle);
+        //Verifying
+        $this->assertOnGrid($product);
+        $this->assertOnCategory($product);
     }
 
     /**
      * Assert existing product on admin product grid
      *
-     * @param Bundle $product
+     * @param Product $product
      */
     protected function assertOnGrid($product)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
+        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
 
     /**
-     * @param Bundle $product
+     * Assert product data on category and product pages
+     *
+     * @param Product $product
      */
     protected function assertOnCategory($product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
@@ -83,21 +91,9 @@ class BundleFixedTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-
-        $actualPrices = $productViewBlock->getProductPrice();
-        $expectedPrices = $product->getProductPrice();
-        foreach ($actualPrices as $priceType => $actualPrice) {
-            $this->assertContains($expectedPrices[$priceType], $actualPrice);
-        }
-
-        // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getOptionsBlock();
-        $actualOptions = $productOptionsBlock->getBundleOptions();
-        $expectedOptions = $product->getBundleOptions();
-        foreach ($actualOptions as $optionType => $actualOption) {
-            $this->assertContains($expectedOptions[$optionType], $actualOption);
-        }
+        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

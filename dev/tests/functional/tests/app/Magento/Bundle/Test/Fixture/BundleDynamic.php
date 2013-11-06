@@ -13,7 +13,6 @@ namespace Magento\Bundle\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
-use Magento\Catalog\Test\Fixture\Product as Product;
 
 class BundleDynamic extends Bundle
 {
@@ -25,14 +24,6 @@ class BundleDynamic extends Bundle
         parent::_initData();
 
         $this->_data['fields'] = array(
-            'name' => array(
-                'value' => 'Bundle Dynamic Product Required %isolation%',
-                'group' => static::GROUP_PRODUCT_DETAILS
-            ),
-            'sku' => array(
-                'value' => 'bundle_sku_dynamic_%isolation%',
-                'group' => static::GROUP_PRODUCT_DETAILS
-            ),
             'sku_type' => array(
                 'value' => 'Dynamic',
                 'input_value' => '1',

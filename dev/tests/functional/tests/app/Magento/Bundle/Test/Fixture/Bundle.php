@@ -13,14 +13,14 @@ namespace Magento\Bundle\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
-use Magento\Catalog\Test\Fixture\Product as Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 
 /**
  * Class Bundle
  *
  * @package Magento\Bundle\Test\Fixture
  */
-class Bundle extends Product
+class Bundle extends AbstractProduct
 {
     /**
      * Attribute set for mapping data into ui tabs
@@ -146,6 +146,7 @@ class Bundle extends Product
      */
     protected function _initData()
     {
+        parent::_initData();
         $this->_dataConfig = array(
             'constraint' => 'Success',
             'create_url_params' => array(
@@ -153,18 +154,6 @@ class Bundle extends Product
                 'set' => 4,
             ),
             'input_prefix' => 'product'
-        );
-        $this->_data = array(
-            'fields' => array(
-                'name' => array(
-                    'value' => 'Bundle Product Required %isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'sku' => array(
-                    'value' => 'bundle_sku_%isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                )
-            )
         );
 
         $this->_repository = Factory::getRepositoryFactory()
