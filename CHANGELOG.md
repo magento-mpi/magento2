@@ -1,3 +1,6 @@
+* Application Areas Rework:
+  * Single point of access to the current area code
+  * Declare Application Areas
 * Various improvements:
   * Global functions are called now from app\functions.php
   * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
@@ -11,6 +14,7 @@
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
+  * Removed residual page fragment code
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
   * Fixed Minimum Advertised Price link on Product view
@@ -20,6 +24,17 @@
   * Fixed impossibility to use spaces in credit card number
   * Fixed impossibility to print order from frontend
   * Fixed fatal error when trying to delete review with rating
+  * Browser is "Not Responds" when add to cart Virtual/Downloadable product(JS)
+  * Unable to delete row form 'Order By SKU' form in IE
+  * Impossible to enable Use Flat Catalog Product option
+  * Unable to configure Grouped and Configurable products during order creation on backend
+  * It's unable to insert widget and/or banner in cms page
+  * Impossible to set Quantity value for Gift Card
+  * Fatal Error on Customer Account > Gift Registry tab in admin
+  * Unable to Import Customer Main File
+  * "Recently Viewed/Compared products" option is missed on the New Frontend App Instance page
+  * Fatal error if "Manage Shopping Cart" from backend for customer that has placed order
+  * Fatal error on attempt to create RMA for Configurable product
   * Fixed error on admin dashboard if choose for "Select Range" dropdown any value except Last 24 Hours
   * Fixed backend RMA pages: options doubling in select
 
