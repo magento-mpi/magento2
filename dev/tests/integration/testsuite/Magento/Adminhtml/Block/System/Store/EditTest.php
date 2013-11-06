@@ -51,7 +51,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Adminhtml\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit', 'block');
-        $block->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $block->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
         $this->assertInstanceOf($expected, $block->getChildBlock('form'));
     }
@@ -102,7 +102,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Adminhtml\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit', 'block');
-        $block->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $block->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
         $this->assertEquals($expected, $block->getHeaderText());
     }

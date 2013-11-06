@@ -56,15 +56,17 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         }
 
         $area = 'frontend';
-        /** @var $layoutMock \Magento\Core\Model\Layout */
-        $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->getMockForAbstractClass();
-        $layoutMock->expects($this->once())
-            ->method('getArea')
-            ->will($this->returnValue($area));
+        /** @var $appStateMock \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject */
+        $appStateMock = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appStateMock->expects($this->once())->method('getAreaCode')->will($this->returnValue($area));
 
-        $arguments = array('layout' => $layoutMock);
+        $context = $objectManager->getObject('Magento\Core\Block\Template\Context');
+        $appStateProperty = new \ReflectionProperty('Magento\Core\Block\Template\Context', '_appState');
+        $appStateProperty->setAccessible(true);
+        $appStateProperty->setValue($context, $appStateMock);
+
         /** @var $template \Magento\Core\Block\Template */
-        $template = $objectManager->getObject('Magento\Core\Block\Template', $arguments);
+        $template = $objectManager->getObject('Magento\Core\Block\Template', array('context' => $context));
         $this->assertEquals($area, $template->getArea());
     }
 

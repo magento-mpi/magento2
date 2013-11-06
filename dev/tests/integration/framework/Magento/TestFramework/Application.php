@@ -225,6 +225,12 @@ class Application
         \Magento\TestFramework\Helper\Bootstrap::setObjectManager($objectManager);
         $objectManager->get('Magento\Core\Model\Resource')
             ->setCache($objectManager->get('Magento\Core\Model\CacheInterface'));
+        $objectManager->configure(array(
+            'preferences' => array(
+                'Magento\App\State' => 'Magento\TestFramework\App\State',
+                'Magento\Core\Model\App' => 'Magento\TestFramework\App',
+            ),
+        ));
 
         /** Register event observer of Integration Framework */
         /** @var \Magento\Event\Config\Data $eventConfigData */
@@ -323,6 +329,9 @@ class Application
 
         /* Initialize an application in non-installed mode */
         $this->initialize();
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadAreaPart('install', \Magento\Core\Model\App\Area::PART_CONFIG);
 
         /* Run all install and data-install scripts */
         /** @var $updater \Magento\App\Updater */
@@ -477,6 +486,8 @@ class Application
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
                 ->loadAreaPart($area, \Magento\Core\Model\App\Area::PART_CONFIG);
         } else {
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\Scope')
+                ->setCurrentScope($area);
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea($area);
         }
     }

@@ -62,14 +62,6 @@ interface AppInterface extends \Magento\Core\Model\StoreManagerInterface
     public function setErrorHandler($handler);
 
     /**
-     * Loading application area
-     *
-     * @param   string $code
-     * @return  \Magento\Core\Model\AppInterface
-     */
-    public function loadArea($code);
-
-    /**
      * Loading part of area data
      *
      * @param   string $area

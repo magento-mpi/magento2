@@ -49,11 +49,11 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
         $request = $this->_objectManager->get('Magento\App\RequestInterface');
         $areas = $this->_objectManager->get('Magento\App\AreaList');
         $areaCode = $areas->getCodeByFrontName($request->getFrontName());
-        $this->_objectManager->get('Magento\Config\Scope')->setCurrentScope($areaCode);
+        $this->_objectManager->get('Magento\App\State')->setAreaCode($areaCode);
         $this->_objectManager->configure(
             $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load($areaCode)
         );
-        /** @var \Magento\Webapi\Controller\Rest|\Magento\App\FrontController\Interceptor $frontController */
+        /** @var \Magento\App\FrontControllerInterface $frontController */
         $frontController = $this->_objectManager->get('Magento\App\FrontControllerInterface');
         $frontController->dispatch($request);
     }
