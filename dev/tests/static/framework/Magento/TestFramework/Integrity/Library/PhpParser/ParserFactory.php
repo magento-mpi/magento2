@@ -51,7 +51,7 @@ class ParserFactory
     {
         if (empty($this->parsers)) {
             $this->parsers = array(
-                $this->uses        = new Uses($tokens),
+                $this->uses        = new Uses(),
                 $this->staticCalls = new StaticCalls($tokens),
                 $this->throws      = new Throws($tokens),
             );

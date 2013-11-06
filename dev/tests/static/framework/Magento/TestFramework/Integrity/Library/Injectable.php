@@ -20,46 +20,34 @@ class Injectable
     /**
      * @var \ReflectionException[]
      */
-    protected $exceptions = array();
+    protected $dependencies = array();
 
     /**
      * @param FileReflection $fileReflection
+     * @return \ReflectionException[]
+     * @throws \ReflectionException
      */
-    public function checkDependencies(FileReflection $fileReflection)
+    public function getWrongDependencies(FileReflection $fileReflection)
     {
         foreach ($fileReflection->getClasses() as $class) {
             /** @var ClassReflection $class */
             foreach ($class->getMethods() as $method) {
                 /** @var \Zend\Code\Reflection\MethodReflection $method */
                 foreach ($method->getParameters() as $parameter) {
-                    /** @var ParameterReflection $parameter */
-                    $this->detectWrongDependencies($parameter, $class);
+                    try {
+                        /** @var ParameterReflection $parameter */
+                        $parameter->getClass();
+                    } catch (\ReflectionException $e) {
+                        if (preg_match('#^Class ([A-Za-z0-9_\\\\]+) does not exist$#', $e->getMessage(), $result)) {
+                            $this->dependencies[] = $result[1];
+                        } else {
+                            throw $e;
+                        }
+                    }
                 }
             }
         }
-    }
 
-    /**
-     * Detect wrong dependencies
-     *
-     * @param ParameterReflection $parameter
-     * @throws \Exception
-     * @throws \ReflectionException
-     */
-    protected function detectWrongDependencies(ParameterReflection $parameter)
-    {
-        try {
-            $parameter->getClass();
-        } catch (\ReflectionException $e) {
-            $this->exceptions[] = $e;
-        }
-    }
-
-    /**
-     * @return \ReflectionException[]
-     */
-    public function getDependencies()
-    {
-        return $this->exceptions;
+        return $this->dependencies;
     }
 }

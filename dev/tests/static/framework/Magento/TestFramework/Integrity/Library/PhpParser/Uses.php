@@ -61,7 +61,7 @@ class Uses implements Parser
 
         preg_match('#^([A-Za-z0-9_]+)(.*)$#', $class, $match);
         foreach ($this->uses as $use) {
-            if (preg_match('#^([^\s]+)\s+as\s+(.*)$#', $use, $useMatch) && $useMatch[2] == $match[1]) {
+            if (preg_match('#^([A-Za-z0-9_\\\\]+)\s+as\s+(.*)$#', $use, $useMatch) && $useMatch[2] == $match[1]) {
                 $class = $useMatch[1] . $match[2];
                 break;
             }
@@ -83,7 +83,7 @@ class Uses implements Parser
     protected function appendToLast($value)
     {
         end($this->uses);
-        $this->uses[key($this->uses)] .= trim($value);
+        $this->uses[key($this->uses)] = ltrim($this->uses[key($this->uses)] . $value);
     }
 
     /**

@@ -12,40 +12,30 @@ use Magento\TestFramework\Integrity\Library\Injectable;
 use Magento\TestFramework\Integrity\Library\PhpParser\ParserFactory;
 use Magento\TestFramework\Integrity\Library\PhpParser\Tokens;
 use Magento\TestFramework\Utility\Files;
-use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\FileReflection;
 
 /**
+ * Test check if Magento library components contain incorrect dependencies to application layer
+ *
  * @package Magento\Test
  */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Collect errors
+     *
      * @var array
      */
     protected $errors = array();
 
     /**
-     * @var Tokens
+     * Forbidden base namespaces
+     *
+     * @return array
      */
-    protected $tokens = array();
-
-    /**
-     * @var Injectable
-     */
-    protected $injectable;
-
-    /**
-     * @var
-     */
-    protected $fileReflection;
-
-    /**
-     * @inheritdoc
-     */
-    public function setUp()
+    protected function getForbiddenNamespaces()
     {
-        $this->injectable = new Injectable();
+        return array('Magento');
     }
 
     /**
@@ -57,22 +47,21 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function testCheckDependencies($file)
     {
         $fileReflection = new FileReflection($file);
-        $this->tokens   = new Tokens($fileReflection->getContents(), new ParserFactory());
-        $this->tokens->parseContent();
+        $tokens   = new Tokens($fileReflection->getContents(), new ParserFactory());
+        $tokens->parseContent();
 
-        $exceptions = array();
-        foreach ($this->tokens->getDependencies() as $dependency) {
-            try {
-                new ClassReflection($dependency);
-            } catch (\ReflectionException $e) {
-                $exceptions[] = $e;
+        $dependencies = array_merge(
+            (new Injectable())->getWrongDependencies($fileReflection),
+            $tokens->getDependencies()
+        );
+
+        foreach ($dependencies as $dependency) {
+            if (preg_match('#^(\\\\|)' . implode('|', $this->getForbiddenNamespaces()) . '\\\\#', $dependency)
+                && !class_exists($dependency)
+                && !interface_exists($dependency)
+            ) {
+                $this->errors[$fileReflection->getFileName()][] = $dependency;
             }
-        }
-
-        $this->injectable->checkDependencies($fileReflection);
-
-        foreach (array_merge($exceptions, $this->injectable->getDependencies()) as $exception) {
-            $this->addError($exception, $fileReflection->getFileName());
         }
 
         if ($this->hasErrors()) {
@@ -81,6 +70,8 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if error not empty
+     *
      * @return bool
      */
     protected function hasErrors()
@@ -123,31 +114,18 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function libraryDataProvider()
     {
         // @TODO: remove this code when class Magento\Data\Collection will fixed
-        include_once __DIR__ . '/../../../../../../../../app/code/Magento/Core/Model/Option/ArrayInterface.php';
+        include_once BP . '/app/code/Magento/Core/Model/Option/ArrayInterface.php';
         $blackList = file(__DIR__ . DIRECTORY_SEPARATOR . '_files/blacklist.txt', FILE_IGNORE_NEW_LINES);
         $dataProvider = Files::init()->getClassFiles(false, false, false, false, false, true, true);
 
         foreach ($dataProvider as $key => $data) {
-            include_once $data[0];
-            $file = str_replace(realpath(__DIR__ . '/../../../../../../../../') . '/', '', $data[0]);
+            $file = str_replace(BP . '/', '', $data[0]);
             if (in_array($file, $blackList)) {
                 unset($dataProvider[$key]);
+            } else {
+                include_once $data[0];
             }
         }
         return $dataProvider;
-    }
-
-    /**
-     * @param \ReflectionException $exception
-     * @param string $key
-     * @throws \ReflectionException
-     */
-    protected function addError($exception, $key)
-    {
-        if (preg_match('#^Class ([A-Za-z\\\\]+) does not exist$#', $exception->getMessage(), $result)) {
-            $this->errors[$key][] = $result[1];
-        } else {
-            throw $exception;
-        }
     }
 }
