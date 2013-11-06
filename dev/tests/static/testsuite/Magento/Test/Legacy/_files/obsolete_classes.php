@@ -1070,7 +1070,6 @@ return array(
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),
-    array('Magento\Core\Model\Theme\FlyweightFactory', 'Magento\View\Design\Theme\FlyweightFactory'),
     array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\View\PublicFilesManagerInterface'),
     array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\View\DeployedFilesManager'),
     array('Magento\Core\Model\View\Publisher', 'Magento\View\Publisher'),
