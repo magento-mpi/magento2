@@ -26,7 +26,6 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
             function ($layoutFile) {
                 $issues = array();
                 $node = simplexml_load_file($layoutFile);
-                $type = $node['type'];
                 $label = $node['label'];
                 $design_abstraction = $node['design_abstraction'];
                 if (!$label) {
