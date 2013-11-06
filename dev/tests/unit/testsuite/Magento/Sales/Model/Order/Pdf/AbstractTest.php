@@ -33,6 +33,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $coreDir = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $shippingConfig = $this->getMock('Magento\Shipping\Model\Config', array(), array(), '', false);
         $pdfItemsFactory = $this->getMock('Magento\Sales\Model\Order\Pdf\ItemsFactory', array(), array(), '', false);
+        $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false, false);
 
         // Setup config file totals
         $configTotals = array(
@@ -89,10 +90,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($valueMap));
 
         // Test model
-        /** @var \Magento\Sales\Model\Order\Pdf\AbstractPdf|\PHPUnit_Framework_MockObject_MockObject $model */
+        /** @var \Magento\Sales\Model\Order\Pdf\AbstractPdf $model */
         $model = $this->getMockForAbstractClass('Magento\Sales\Model\Order\Pdf\AbstractPdf',
             array($paymentData, $string, $coreStoreConfig, $translate, $coreDir, $shippingConfig,
-                $pdfConfig, $pdfTotalFactory, $pdfItemsFactory),
+                $pdfConfig, $pdfTotalFactory, $pdfItemsFactory, $localeMock),
             '', true, false, true, array('drawLineBlocks')
         );
         $model->expects($this->once())
