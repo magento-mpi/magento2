@@ -34,7 +34,8 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $html = $layout->getOutput();
 
         $this->assertContains('<div class="storecredit">', $html);
-        $format = '%A<div class="account-balance">%A<table id="customerbalance-history" class="data-table">%A';
+        $format =
+            '%A<div class="block balance">%A<table id="customerbalance-history" class="data table balance history">%A';
         $this->assertStringMatchesFormat($format, $html);
     }
 }

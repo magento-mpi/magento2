@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    Frontend Wishlist
- * @package     EE
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +13,7 @@
         options: {
             createTmplSelector: '#popup-tmpl',
             createTmplData: {
-                btnCloseClass: 'btn-close',
+                btnCloseClass: 'close',
                 popupWishlistBlockId: 'create-wishlist-block',
                 popupWishlistFormId: 'create-wishlist-form'
             },
@@ -52,9 +51,9 @@
         _initCreateTmpl: function() {
             this.createTmpl = $(this.options.createTmplSelector).tmpl(this.options.createTmplData);
             this.createTmpl.on('click', '.' + this.options.createTmplData.btnCloseClass, $.proxy(function() {
-                this.createTmpl.hide();
-            }, this))
-            .appendTo('body');
+                    this.createTmpl.hide();
+                }, this))
+                .appendTo('body');
             $('#' + this.options.createTmplData.popupWishlistFormId).validation({
                 submitHandler: $.proxy(function(form) {
                     if (this.createAjax) {
@@ -198,7 +197,7 @@
          * @return {Boolean}
          */
         _itemsSelected: function() {
-            return $(this.options.wishlistFormSelector).find('input.select:checked').length ? true : false;
+            return $(this.options.wishlistFormSelector).find('input.checkbox:checked').length ? true : false;
         }
     });
 
@@ -307,7 +306,7 @@
         options: {
             editTmplSelector: '#popup-tmpl',
             editTmplData: {
-                btnCloseClass: 'btn-close',
+                btnCloseClass: 'close',
                 popupWishlistBlockId: 'edit-wishlist-block',
                 popupWishlistFormId: 'edit-wishlist-form',
                 isEdit: true
@@ -406,7 +405,7 @@
                             isNew: true
                         });
                     }
-                    $(this.options.splitBtnTmpl).tmpl(tmplData).appendTo(element.parent());
+                    $(this.options.splitBtnTmpl).tmpl(tmplData).prependTo(element.parent());
                     element.remove();
                 }, this));
             }
