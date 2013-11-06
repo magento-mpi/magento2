@@ -56,7 +56,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     protected function _getTestTheme()
     {
         $theme = $this->_theme->getCollection()->getThemeByFullPath(
-            implode(\Magento\Core\Model\Theme::PATH_SEPARATOR, array('frontend', 'test_test_theme'))
+            implode(\Magento\View\Design\ThemeInterface::PATH_SEPARATOR, array('frontend', 'test_test_theme'))
         );
         $this->assertNotEmpty($theme->getId());
         return $theme;
