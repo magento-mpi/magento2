@@ -186,10 +186,10 @@
 
         },
 
-        renderPaths: function(paths, fieldId){
+        renderPaths: function(paths, fieldId) {
             var field = $(fieldId);
-            if(field){
-                field.down('td').next('td').update(this.parsePath(paths, '<span class="path-delimiter">&nbsp;-&gt;&nbsp;</span>', '<br />'));
+            if (field) {
+                field.down('div').update(this.parsePath(paths, '<span class="path-delimiter">&nbsp;-&gt;&nbsp;</span>', '<br />'));
             }
         },
 
