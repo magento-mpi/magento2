@@ -63,36 +63,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($priceHtml, $this->_helper->formatPrice($price));
     }
 
-    public function testFormatDate()
-    {
-        $this->assertEquals($this->_dateTime->format(self::DATE_FORMAT_SHORT), $this->locale->formatDate());
-
-        $this->assertEquals(
-            $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->locale->formatDate(null, 'short', true)
-        );
-
-        $zendDate = new \Zend_Date($this->_dateTime->format('U'));
-        $this->assertEquals(
-            $zendDate->toString(self::DATETIME_FORMAT_SHORT_ISO),
-            $this->locale->formatTime($zendDate, 'short', true)
-        );
-    }
-
-    public function testFormatTime()
-    {
-        $this->assertEquals($this->_dateTime->format(self::TIME_FORMAT_SHORT), $this->_helper->formatTime());
-
-        $this->assertEquals(
-            $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatTime(null, 'short', true)
-        );
-
-        $zendDate = new \Zend_Date($this->_dateTime->format('U'));
-        $this->assertEquals(
-            $zendDate->toString(self::TIME_FORMAT_SHORT_ISO),
-            $this->locale->formatTime($zendDate, 'short')
-        );
-    }
-
     /**
      * @magentoAppIsolation enabled
      */
