@@ -43,9 +43,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->_primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Indexer(
-            $this->_reportDir, $this->_filesystem, $this->_primaryConfig, $this->_objectManager
-        );
+        $this->_entryPoint = $this->getMock('\Magento\Index\Model\EntryPoint\Indexer', array('_initErrorHandler'),
+            array($this->_reportDir, $this->_filesystem, $this->_primaryConfig, $this->_objectManager));
     }
 
     public function testProcessRequest()

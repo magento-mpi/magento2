@@ -8,16 +8,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Convert;
 
 /**
  * Convert exception
- *
- * @category   Magento
- * @package    Magento_Convert
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Convert;
-
 class ConvertException extends \Magento\Exception
 {
     const NOTICE = 'NOTICE';

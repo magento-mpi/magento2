@@ -6,7 +6,7 @@
  * @license     {license_link}
  *
  */
-namespace Magento\Integration\Controller\Adminhtml\Integration;
+namespace Magento\Integration\Controller\Adminhtml;
 
 /**
  * \Magento\Integration\Controller\Adminhtml\Integration

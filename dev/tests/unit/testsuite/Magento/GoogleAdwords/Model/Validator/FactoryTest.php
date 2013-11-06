@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\GoogleAdwords\Model\Validator;
-
 /**
  * {license_notice}
  *
@@ -9,6 +6,12 @@ namespace Magento\GoogleAdwords\Model\Validator;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\GoogleAdwords\Model\Validator;
+
+use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Validator\Int;
+use Magento\Validator\Regex;
+
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -48,7 +51,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_vbMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento\GoogleAdwords\Model\Validator\Factory', array(
             'validatorBuilderFactory' => $this->_vbFactoryMock,
         ));
@@ -61,21 +64,23 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             $currentColor);
 
         $this->_vbFactoryMock->expects($this->once())->method('create')
-            ->with(array(
+            ->with('Magento\Validator\Builder', array(
                 'constraints' => array(
                     array(
                         'alias' => 'Regex',
                         'type' => '',
                         'class' => 'Magento\Validator\Regex',
                         'options' => array(
-                            'arguments' => array('/^[0-9a-f]{6}$/i'),
+                            'arguments' => array(
+                                'pattern' => '/^[0-9a-f]{6}$/i'
+                            ),
                             'methods' => array(
                                 array(
                                     'method' => 'setMessages',
                                     'arguments' => array(
                                         array(
-                                            \Magento\Validator\Regex::NOT_MATCH => $message,
-                                            \Magento\Validator\Regex::INVALID => $message,
+                                            Regex::NOT_MATCH => $message,
+                                            Regex::INVALID => $message,
                                         ),
                                     ),
                                 ),
@@ -98,7 +103,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $message = sprintf('Conversion Id value is not valid "%s". Conversion Id should be an integer.', $conversionId);
 
         $this->_vbFactoryMock->expects($this->once())->method('create')
-            ->with(array(
+            ->with('Magento\Validator\Builder', array(
                 'constraints' => array(
                     array(
                         'alias' => 'Int',
@@ -110,8 +115,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                                     'method' => 'setMessages',
                                     'arguments' => array(
                                         array(
-                                            \Magento\Validator\Int::NOT_INT => $message,
-                                            \Magento\Validator\Int::INVALID => $message,
+                                            Int::NOT_INT => $message,
+                                            Int::INVALID => $message,
                                         ),
                                     ),
                                 ),

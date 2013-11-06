@@ -8,17 +8,12 @@
  * @license     {license_link}
  */
 
-
-/**
- * Abstract model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\File\Storage;
 
-class File extends \Magento\Core\Model\File\Storage\AbstractStorage
+/**
+ * Class File
+ */
+class File
 {
     /**
      * Prefix of model events names
@@ -26,6 +21,25 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      * @var string
      */
     protected $_eventPrefix = 'core_file_storage_file';
+
+    /**
+     * Store media base directory path
+     *
+     * @var string
+     */
+    protected $_mediaBaseDirectory = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_storageHelper = null;
+
+    /**
+     * @var \Magento\Core\Helper\File\Media
+     */
+    protected $_mediaHelper = null;
 
     /**
      * Data at storage
@@ -42,33 +56,33 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     protected $_errors = array();
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
+     * @var \Magento\Core\Model\Resource\File\Storage\File
+     */
+    protected $_fileUtility;
+
+    /**
      * Class construct
      *
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\File\Storage\File $resource
-     * @param \Magento\Data\Collection\Db|null $resourceCollection
-     * @param array $data
+     * @param \Magento\Logger $logger
+     * @param \Magento\Core\Helper\File\Storage\Database $storageHelper
+     * @param \Magento\Core\Helper\File\Media $mediaHelper
+     * @param \Magento\Core\Model\Resource\File\Storage\File $fileUtility
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\File\Storage\File $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        \Magento\Logger $logger,
+        \Magento\Core\Helper\File\Storage\Database $storageHelper,
+        \Magento\Core\Helper\File\Media $mediaHelper,
+        \Magento\Core\Model\Resource\File\Storage\File $fileUtility
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
-        $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
-        $this->_logger = $logger;
+        $this->_fileUtility     = $fileUtility;
+        $this->_storageHelper   = $storageHelper;
+        $this->_logger          = $logger;
+        $this->_mediaHelper     = $mediaHelper;
     }
 
     /**
@@ -98,7 +112,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     public function getStorageData()
     {
-        return $this->_getResource()->getStorageData();
+        return $this->_fileUtility->getStorageData();
     }
 
     /**
@@ -118,7 +132,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     public function clear()
     {
-        $this->_getResource()->clear();
+        $this->_fileUtility->clear();
         return $this;
     }
 
@@ -139,16 +153,25 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         $offset = ((int) $offset >= 0) ? (int) $offset : 0;
         $count  = ((int) $count >= 1) ? (int) $count : 1;
 
-        if (is_null($this->_data)) {
+        if (empty($this->_data)) {
             $this->_data = $this->getStorageData();
         }
 
-        $slice = array_slice($this->_data[$type], $offset, $count);
-        if (empty($slice)) {
+        if (!array_key_exists($type, $this->_data)) {
             return false;
         }
+        $slice = array_slice($this->_data[$type], $offset, $count);
+        return $slice ?: false;
+    }
 
-        return $slice;
+    /**
+     * Retrieve connection name saved at config
+     *
+     * @return null
+     */
+    public function getConfigConnectionName()
+    {
+        return null;
     }
 
     /**
@@ -181,7 +204,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         $result = array();
         foreach ($slice as $fileName) {
             try {
-                $fileInfo = $this->collectFileInfo($fileName);
+                $fileInfo = $this->_mediaHelper->collectFileInfo($this->getMediaBaseDirectory(), $fileName);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
                 continue;
@@ -248,7 +271,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     public function saveDir($dir)
     {
-        return $this->_getResource()->saveDir($dir);
+        return $this->_fileUtility->saveDir($dir);
     }
 
     /**
@@ -269,7 +292,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
                     ? $file['directory'] . DS . $file['filename']
                     : $file['filename'];
 
-                return $this->_getResource()
+                return $this->_fileUtility
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
@@ -282,5 +305,18 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve media base directory path
+     *
+     * @return string
+     */
+    public function getMediaBaseDirectory()
+    {
+        if (is_null($this->_mediaBaseDirectory)) {
+            $this->_mediaBaseDirectory = $this->_storageHelper->getMediaBaseDir();
+        }
+        return $this->_mediaBaseDirectory;
     }
 }

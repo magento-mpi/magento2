@@ -74,7 +74,7 @@ class Observer
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
@@ -87,7 +87,7 @@ class Observer
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,

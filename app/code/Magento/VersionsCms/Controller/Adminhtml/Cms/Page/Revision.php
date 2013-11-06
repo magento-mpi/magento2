@@ -137,7 +137,7 @@ class Revision
         if ($revisionId && !$revision->getId()) {
             $this->_session->addError(__('We could not load the specified revision.'));
 
-            $this->_redirect('*/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+            $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
             return;
         }
 
@@ -169,7 +169,7 @@ class Revision
                 ->setUserId($this->_backendAuthSession->getUser()->getId());
 
             if (!$this->_validatePostData($data)) {
-                $this->_redirect('*/*/' . $this->getRequest()->getParam('back'), array(
+                $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'), array(
                     'page_id' => $revision->getPageId(),
                     'revision_id' => $revision->getId()
                 ));
@@ -187,14 +187,14 @@ class Revision
                 $this->_session->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/' . $this->getRequest()->getParam('back'), array(
+                    $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'), array(
                         'page_id' => $revision->getPageId(),
                         'revision_id' => $revision->getId()
                     ));
                     return;
                 }
                 // go to grid
-                $this->_redirect('*/cms_page_version/edit', array(
+                $this->_redirect('adminhtml/cms_page_version/edit', array(
                     'page_id' => $revision->getPageId(),
                     'version_id' => $revision->getVersionId()
                 ));
@@ -205,7 +205,7 @@ class Revision
                 // save data in session
                 $this->_session->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array(
+                $this->_redirect('adminhtml/*/edit', array(
                     'page_id' => $this->getRequest()->getParam('page_id'),
                     'revision_id' => $this->getRequest()->getParam('revision_id'),
                 ));
@@ -226,13 +226,13 @@ class Revision
             $revision->publish();
             // display success message
             $this->_session->addSuccess(__('You have published the revision.'));
-            $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
+            $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
         } catch (\Exception $e) {
             // display error message
             $this->_session->addError($e->getMessage());
             // redirect to edit form
-            $this->_redirect('*/*/edit', array(
+            $this->_redirect('adminhtml/*/edit', array(
                 'page_id' => $this->getRequest()->getParam('page_id'),
                 'revision_id' => $this->getRequest()->getParam('revision_id')
             ));
@@ -389,7 +389,7 @@ class Revision
                 $revision->delete();
                 // display success message
                 $this->_session->addSuccess(__('You have deleted the revision.'));
-                $this->_redirect('*/cms_page_version/edit', array(
+                $this->_redirect('adminhtml/cms_page_version/edit', array(
                         'page_id' => $revision->getPageId(),
                         'version_id' => $revision->getVersionId()
                     ));
@@ -399,21 +399,21 @@ class Revision
                 $this->_session->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_session->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }
 
             // go back to edit form
             if ($error) {
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
         }
         // display error message
         $this->_session->addError(__("We can't find a revision to delete."));
         // go to grid
-        $this->_redirect('*/cms_page/edit', array('_current' => true));
+        $this->_redirect('adminhtml/cms_page/edit', array('_current' => true));
     }
 
     /**
@@ -438,7 +438,7 @@ class Revision
     /**
      * Controller predispatch method
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     public function preDispatch()
     {

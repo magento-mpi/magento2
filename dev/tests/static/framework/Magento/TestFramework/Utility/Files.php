@@ -549,7 +549,7 @@ class Files
             '/dev/tests/api-functional/framework/', '/dev/tests/integration/framework/',
             '/dev/tests/integration/framework/tests/unit/testsuite/', '/dev/tests/integration/testsuite/',
             '/dev/tests/integration/testsuite/Magento/Test/Integrity/', '/dev/tests/performance/framework/',
-            '/dev/tests/static/framework/', '/dev/tests/static/testsuite/',
+            '/dev/tests/static/framework/', '/dev/tests/static/testsuite/', '/dev/tests/functional/tests/app/',
             '/dev/tests/unit/framework/', '/dev/tests/unit/testsuite/',
         );
 

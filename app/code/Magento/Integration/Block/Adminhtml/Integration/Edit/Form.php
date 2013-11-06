@@ -36,8 +36,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
-        if (isset($integrationData[Info::DATA_INTEGRATION_ID])) {
-            $form->addField(Info::DATA_INTEGRATION_ID, 'hidden', array('name' => 'id'));
+        if (isset($integrationData[Info::DATA_ID])) {
+            $form->addField(Info::DATA_ID, 'hidden', array('name' => 'id'));
             $form->setValues($integrationData);
         }
         $form->setUseContainer(true);

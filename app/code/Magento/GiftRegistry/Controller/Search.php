@@ -202,7 +202,7 @@ class Search extends \Magento\Core\Controller\Front\Action
             'date_format' => $this->locale->getDateFormat($format)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {

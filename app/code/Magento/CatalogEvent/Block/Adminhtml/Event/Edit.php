@@ -110,7 +110,7 @@ class Edit
     {
         if ($this->getRequest()->getParam('category')) {
             return $this->getUrl(
-                '*/catalog_category/edit',
+                'catalog/category/edit',
                 array('clear' => 1, 'id' => $this->getEvent()->getCategoryId())
             );
         } elseif ($this->getEvent() && !$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {

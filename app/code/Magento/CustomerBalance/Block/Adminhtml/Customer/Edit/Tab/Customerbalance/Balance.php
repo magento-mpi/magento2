@@ -69,7 +69,7 @@ class Balance extends \Magento\Adminhtml\Block\Template
      */
     public function getDeleteOrphanBalancesUrl()
     {
-        return $this->getUrl('*/customerbalance/deleteOrphanBalances', array(
+        return $this->getUrl('adminhtml/customerbalance/deleteOrphanBalances', array(
             '_current' => true,
             'tab' => 'customer_info_tabs_customerbalance'
         ));

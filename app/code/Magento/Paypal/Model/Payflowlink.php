@@ -124,7 +124,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     protected $_websiteFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ModuleListInterface $moduleList
@@ -132,9 +132,9 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -145,7 +145,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ModuleListInterface $moduleList,
@@ -153,9 +153,9 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
+        \Magento\Math\Random $mathRandom,
         \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -177,9 +177,9 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $logAdapterFactory,
             $locale,
             $centinelService,
-            $coreData,
             $storeManager,
             $configFactory,
+            $mathRandom,
             $data
         );
     }
@@ -557,7 +557,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _generateSecureTokenId()
     {
-        return $this->_coreData->uniqHash();
+        return $this->mathRandom->getUniqueHash();
     }
 
     /**
@@ -612,7 +612,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5($this->_coreData->getRandomString(10));
+        $secureHash = md5($this->mathRandom->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }

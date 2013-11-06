@@ -38,11 +38,17 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
     protected $_resourceIterator;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Block\Context $context
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -51,12 +57,14 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         $this->_rssFactory = $rssFactory;
         $this->_orderFactory = $orderFactory;
         $this->_resourceIterator = $resourceIterator;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $data);
     }
 
@@ -64,7 +72,7 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
     {
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
-        $passDate = $order->getResource()->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
+        $passDate = $this->dateTime->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
         $newUrl = $this->_adminhtmlData->getUrl(
             'adminhtml/sales_order', array('_secure' => true, '_nosecret' => true)
         );
@@ -106,7 +114,7 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
         if ($order && $order->getId()) {
             $title = __('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
             $url = $this->_adminhtmlData->getUrl(
-                'adminhtml/sales_order/view',
+                'sales/order/view',
                 array(
                     '_secure' => true,
                     'order_id' => $order->getId(),

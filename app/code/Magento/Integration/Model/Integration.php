@@ -43,6 +43,31 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**#@-*/
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $_dateTime;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Resource\Customer $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Data\Collection\Db|null $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_dateTime = $dateTime;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      * @return void
@@ -62,9 +87,9 @@ class Integration extends \Magento\Core\Model\AbstractModel
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->setCreatedAt($this->_getResource()->formatDate(true));
+            $this->setCreatedAt($this->_dateTime->formatDate(true));
         }
-        $this->setUpdatedAt($this->_getResource()->formatDate(true));
+        $this->setUpdatedAt($this->_dateTime->formatDate(true));
         return $this;
     }
 }

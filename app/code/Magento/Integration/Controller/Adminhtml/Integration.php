@@ -11,7 +11,7 @@ use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Adminhtml\Controller\Action
+class Integration extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
@@ -103,12 +103,12 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
             $restoredIntegration = $this->_getSession()->getIntegrationData();
-            if (isset($restoredIntegration[Info::DATA_INTEGRATION_ID])
-                && $integrationId == $restoredIntegration[Info::DATA_INTEGRATION_ID]
+            if (isset($restoredIntegration[Info::DATA_ID])
+                && $integrationId == $restoredIntegration[Info::DATA_ID]
             ) {
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
-            if (!$integrationData[Info::DATA_INTEGRATION_ID]) {
+            if (!$integrationData[Info::DATA_ID]) {
                 $this->_getSession()->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -141,7 +141,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             $integrationData = array();
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
-                if (!$integrationData[Info::DATA_INTEGRATION_ID]) {
+                if (!$integrationData[Info::DATA_ID]) {
                     $this->_getSession()->addError(__('This integration no longer exists.'));
                     $this->_redirect('*/*/');
                     return;
@@ -152,7 +152,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             //Merge Post-ed data
             $integrationData = array_merge($integrationData, $data);
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!isset($integrationData[Info::DATA_INTEGRATION_ID])) {
+            if (!isset($integrationData[Info::DATA_ID])) {
                 $this->_integrationService->create($integrationData);
             } else {
                 $this->_integrationService->update($integrationData);

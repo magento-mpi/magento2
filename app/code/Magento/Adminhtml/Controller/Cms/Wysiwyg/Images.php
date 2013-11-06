@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Cms\Wysiwyg;
 
-class Images extends \Magento\Adminhtml\Controller\Action
+class Images extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
