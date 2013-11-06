@@ -22,9 +22,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              * @param string $file
              */
             function ($application, $file) {
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+                    ->loadArea($application);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\View\DesignInterface')
-                    ->setArea($application)
                     ->setDefaultDesignTheme();
                 $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Core\Model\View\FileSystem')
@@ -126,9 +127,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              * @param string $file
              */
             function ($application, $file) {
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+                    ->setAreaCode($application);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\View\DesignInterface')
-                    ->setArea($application)
                     ->setDefaultDesignTheme();
                 $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Core\Model\View\FileSystem');

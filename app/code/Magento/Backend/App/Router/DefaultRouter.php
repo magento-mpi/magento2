@@ -105,7 +105,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         $parts = explode('_', $realModule);
         $parts = array_splice($parts, 0, 2);
         $parts[] = 'Controller';
-        $parts[] = \Magento\Backend\Helper\Data::BACKEND_AREA_CODE;
+        $parts[] = \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
         $parts[] = $controller;
 
         return \Magento\Core\Helper\String::buildClassName($parts);

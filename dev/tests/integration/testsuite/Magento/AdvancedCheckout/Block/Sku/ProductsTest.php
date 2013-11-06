@@ -15,6 +15,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\AdvancedCheckout\Block\Sku\Products')
             ->setTemplate('cart/sku/failed.phtml');

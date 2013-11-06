@@ -26,15 +26,23 @@ class Cron implements \Magento\AppInterface
     protected $_eventManager;
 
     /**
+     * @var State
+     */
+    protected $_state;
+
+    /**
      * @param ScopeInterface $configScope
      * @param ManagerInterface $eventManager
+     * @param State $state
      */
     public function __construct(
         ScopeInterface $configScope,
-        ManagerInterface $eventManager
+        ManagerInterface $eventManager,
+        State $state
     ) {
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
+        $this->_state = $state;
     }
 
     /**
@@ -44,6 +52,7 @@ class Cron implements \Magento\AppInterface
      */
     public function execute()
     {
+        $this->_state->setAreaCode('crontab');
         $this->_configScope->setCurrentScope('crontab');
         $this->_eventManager->dispatch('default');
         return 0;

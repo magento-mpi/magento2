@@ -38,7 +38,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         /** @var $block \Magento\Backend\Block\System\Config\Form */
         $block = $layout->createBlock('Magento\Backend\Block\System\Config\Form', 'block');
 
@@ -65,7 +65,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-9058');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
@@ -119,7 +119,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-9058');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
@@ -150,9 +150,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+            ->loadAreaPart(
+                \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
+                \Magento\Core\Model\App\Area::PART_CONFIG
+            );
 
         $configMock = $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false, false);
         $configMock->expects($this->any())->method('getConfigurationFiles')
