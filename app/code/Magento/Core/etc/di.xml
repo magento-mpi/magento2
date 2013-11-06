@@ -405,4 +405,9 @@
     <type name="Magento\View\TemplateEngineFactory">
         <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
     </type>
+    <type name="Magento\Core\Model\Locale">
+        <param name="dateModel">
+            <instance type="Magento\Core\Model\Date\Proxy" />
+        </param>
+    </type>
 </config>
