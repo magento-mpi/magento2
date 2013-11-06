@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento\Integration\Service\IntegrationV1Interface" type="Magento\Integration\Service\IntegrationV1" />
+</config>

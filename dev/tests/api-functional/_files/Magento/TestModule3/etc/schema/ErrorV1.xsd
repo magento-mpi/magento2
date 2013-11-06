@@ -23,14 +23,14 @@
     </xsd:complexType>
     <xsd:complexType name="ParameterizedServiceExceptionRequest">
         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" name="details" type="associativeArrayItem" />
+            <xsd:element maxOccurs="unbounded" name="details" type="associativeArrayItem"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="associativeArrayItem">
-          <xsd:sequence>
+        <xsd:sequence>
             <xsd:element name="key" type="xsd:string"/>
             <xsd:element name="value" type="xsd:string"/>
-          </xsd:sequence>
+        </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="ParameterizedServiceExceptionResponse">
         <xsd:sequence/>
@@ -47,6 +47,25 @@
     <xsd:complexType name="ReturnIncompatibleDataTypeResponse">
         <xsd:sequence>
             <xsd:element name="incompatibleDataType" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ReturnIncompatibleDataTypeIncompatibleTypeFault">
+        <xsd:sequence>
+            <xsd:element name="faultMessage" type="xsd:string"/>
+            <xsd:element name="providedType" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterizedServiceExceptionFirstFault">
+        <xsd:sequence>
+            <xsd:element name="firstFaultMessage" type="xsd:string"/>
+            <xsd:element name="firstFaultDetail1" type="xsd:double"/>
+            <xsd:element name="firstFaultDetail2" type="xsd:int"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterizedServiceExceptionSecondFault">
+        <xsd:sequence>
+            <xsd:element name="secondFaultMessage" type="xsd:string"/>
+            <xsd:element name="secondFaultDetail1" type="xsd:double"/>
         </xsd:sequence>
     </xsd:complexType>
 </xsd:schema>

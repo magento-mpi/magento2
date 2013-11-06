@@ -30,6 +30,13 @@ use PHPParser_Node_Stmt_Property;
 use PHPParser_Node_Stmt_Use;
 use PHPParser_PrettyPrinter_Default;
 
+/**
+ * Class PrettyPrinter
+ * @package Magento\Tools\Formatter
+ *
+ * In all likelihood, this class is going away, so don't really care about coupling.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 {
     const EOL = "\n";
@@ -64,7 +71,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      * @param PHPParser_Node_Expr_Array $node
      * @return string
      */
-    public function pExpr_Array(PHPParser_Node_Expr_Array $node) {
+    public function pExpr_Array(PHPParser_Node_Expr_Array $node)
+    {
         if (count($node->items) > 1) {
             // set a flag on the first argument to force multi-line arguments
             $node->items[0]->setAttribute(self::FORCE_MULTILINE_ARGUMENTS, true);
@@ -95,7 +103,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
     public function pExpr_ConstFetch(PHPParser_Node_Expr_ConstFetch $node)
     {
         $result = $this->p($node->name);
-        if (strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 || strcasecmp('NULL', $result) === 0) {
+        if (strcasecmp('FALSE', $result) === 0 || strcasecmp('TRUE', $result) === 0 ||
+            strcasecmp('NULL', $result) === 0) {
             $result = strtolower($result);
         }
         return $result;
@@ -118,7 +127,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      */
     public function pExpr_MethodCall(PHPParser_Node_Expr_MethodCall $node)
     {
-        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name) . '(' . $this->getParametersForCall($node->args) . ')';
+        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name) . '(' .
+            $this->getParametersForCall($node->args) . ')';
     }
 
     /**
@@ -139,7 +149,10 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      */
     public function pExpr_StaticCall(PHPParser_Node_Expr_StaticCall $node)
     {
-        return $this->p($node->class) . '::' . ($node->name instanceof PHPParser_Node_Expr ? $node->name instanceof PHPParser_Node_Expr_Variable || $node->name instanceof PHPParser_Node_Expr_ArrayDimFetch ? $this->p($node->name) : '{' . $this->p($node->name) . '}' : $node->name) . '(' . $this->getParametersForCall($node->args) . ')';
+        return $this->p($node->class) . '::' .
+            ($node->name instanceof PHPParser_Node_Expr ? $node->name instanceof PHPParser_Node_Expr_Variable ||
+            $node->name instanceof PHPParser_Node_Expr_ArrayDimFetch ? $this->p($node->name) : '{' .
+            $this->p($node->name) . '}' : $node->name) . '(' . $this->getParametersForCall($node->args) . ')';
     }
 
     /**
@@ -149,7 +162,12 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      */
     public function pModifiers($modifiers)
     {
-        return ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT ? 'abstract ' : '') . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_FINAL ? 'final ' : '') . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC ? 'public ' : '') . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED ? 'protected ' : '') . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE ? 'private ' : '') . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_STATIC ? 'static ' : '');
+        return ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT ? 'abstract ' : '') .
+            ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_FINAL ? 'final ' : '') .
+            ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC ? 'public ' : '') .
+            ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED ? 'protected ' : '') .
+            ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE ? 'private ' : '') .
+            ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_STATIC ? 'static ' : '');
     }
 
     /**
@@ -173,9 +191,12 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
         // remove blank lines between use statements
         do {
             $count = 0;
-            $result = preg_replace('~\\nuse (.*);\\n\\nuse ~', self::EOL . 'use $1;' . self::EOL .'use ', $result, 1, $count);
-        }
-        while ($count > 0);
+            $result = preg_replace(
+                '~\\nuse (.*);\\n\\nuse ~',
+                self::EOL . 'use $1;' . self::EOL .'use ',
+                $result, 1, $count
+            );
+        } while ($count > 0);
         return $result;
     }
 
@@ -265,7 +286,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      * @param PHPParser_Node_Scalar_LNumber $node
      * @return string
      */
-    public function pScalar_LNumber(PHPParser_Node_Scalar_LNumber $node) {
+    public function pScalar_LNumber(PHPParser_Node_Scalar_LNumber $node)
+    {
         $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (null === $result) {
             $result = parent::pScalar_LNumber($node);
@@ -278,7 +300,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      * @param PHPParser_Node_Scalar_DNumber $node
      * @return string
      */
-    public function pScalar_DNumber(PHPParser_Node_Scalar_DNumber $node) {
+    public function pScalar_DNumber(PHPParser_Node_Scalar_DNumber $node)
+    {
         $result = $node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (null === $result) {
             $result = parent::pScalar_DNumber($node);
@@ -361,7 +384,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
         foreach ($nodes as $node) {
             $pNodes[] = $this->p($node);
             // if the node a forced multiline or a heredoc, then flag it multiline
-            if (null !== $node->getAttribute(self::FORCE_MULTILINE_ARGUMENTS) || null !== $node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG)) {
+            if (null !== $node->getAttribute(self::FORCE_MULTILINE_ARGUMENTS) ||
+                null !== $node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG)) {
                 $multiline = true;
             }
         }
