@@ -34,9 +34,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getConnectionDataProvider
-     */
-    /**
      * @param string $connectionName
      * @param array|null $connectionDetail
      * @dataProvider getConnectionDataProvider
