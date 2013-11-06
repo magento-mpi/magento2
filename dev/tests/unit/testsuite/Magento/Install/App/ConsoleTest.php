@@ -33,6 +33,16 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     /** \PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\Installer\ConsoleFactory */
     protected $_instFactoryMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_appStateMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configLoaderMock;
+
     protected function setUp()
     {
         $this->_instFactoryMock = $this->getMock('\Magento\Install\Model\Installer\ConsoleFactory',
@@ -41,36 +51,19 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->_dirVerifierMock = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
         $this->_outputMock = $this->getMock('Magento\Install\App\Output', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_configLoaderMock = $this->getMockBuilder('Magento\Core\Model\ObjectManager\ConfigLoader')
+        $this->_configLoaderMock = $this->getMockBuilder('Magento\App\ObjectManager\ConfigLoader')
             ->disableOriginalConstructor()
             ->setMethods(array('load'))
             ->getMock();
-
-        $this->_configLoaderMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(array()));
-
-        $this->_objectManagerMock->expects($this->once())->method('create')
-            ->with('Magento\Install\Model\Installer\Console')
-            ->will($this->returnValue($this->_installerMock));
         $this->_instFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($this->_installerMock));
-        $this->_objectManagerMock->expects($this->any())->method('get')
-            ->will($this->returnCallback(function ($className) {
-                switch ($className) {
-                    case 'Magento\App\State':
-                        return $this->_appStateMock;
-                    case 'Magento\Core\Model\ObjectManager\ConfigLoader':
-                        return $this->_configLoaderMock;
-                    default:
-                        return null;
-                }
-            }));
     }
 
     protected function _createModel($params = array())
     {
-        return new \Magento\Install\App\Console($this->_instFactoryMock, $params, $this->_outputMock);
+        return new \Magento\Install\App\Console($this->_instFactoryMock, $this->_outputMock,
+            $this->_appStateMock, $this->_configLoaderMock, $params
+        );
     }
 
     /**

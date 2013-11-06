@@ -23,15 +23,31 @@ class Console implements \Magento\AppInterface
     protected $_output;
 
     /**
-     * @param \Magento\Install\Model\Installer\ConsoleFactory $installerFactory
-     * @param array $arguments
-     * @param \Magento\Install\App\Output $output
-     * @internal param \Magento\Install\Model\Installer\Console $installer
+     * @var \Magento\App\ObjectManager\ConfigLoader
      */
-    public function __construct(\Magento\Install\Model\Installer\ConsoleFactory $installerFactory,
-                                array $arguments = array(),
-                                \Magento\Install\App\Output $output
+    protected $_loader;
+
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_state;
+
+    /**
+     * @param \Magento\Install\Model\Installer\ConsoleFactory $installerFactory
+     * @param Output $output
+     * @param \Magento\App\State $state
+     * @param \Magento\App\ObjectManager\ConfigLoader $loader
+     * @param array $arguments
+     */
+    public function __construct(
+        \Magento\Install\Model\Installer\ConsoleFactory $installerFactory,
+        \Magento\Install\App\Output $output,
+        \Magento\App\State $state,
+        \Magento\App\ObjectManager\ConfigLoader $loader,
+        array $arguments = array()
     ) {
+        $this->_loader = $loader;
+        $this->_state  = $state;
         $this->_installerFactory = $installerFactory;
         $this->_arguments = $this->_buildInitArguments($arguments);
         $this->_output = $output;
@@ -92,6 +108,10 @@ class Console implements \Magento\AppInterface
      */
     public function execute()
     {
+        $areaCode = 'install';
+        $this->_state->setAreaCode($areaCode);
+        $this->_loader->load($areaCode);
+
         $installer = $this->_installerFactory->create(array('installArgs' => $this->_arguments));
         if (isset($this->_arguments['show_locales'])) {
             $this->_output->export($installer->getAvailableLocales());
