@@ -68,7 +68,7 @@ class SalesOrder extends Page
      */
     public function getMessagesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find('#messages'));
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find('#messages .messages'));
     }
 
     /**

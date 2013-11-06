@@ -83,8 +83,8 @@ class OrderCreateTest extends Functional
         $itemsOrderedGrid->addNewProducts();
         $productsAddGrid->addProducts($fixture);
         $addressesBlock->fillAddresses($fixture);
-        $paymentMethodsBlock->selectPaymentMethod($fixture);
         $shippingMethodsBlock->selectShippingMethod($fixture);
+        $paymentMethodsBlock->selectPaymentMethod($fixture);
         $orderSummaryBlock->clickSaveOrder();
     }
 

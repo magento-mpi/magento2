@@ -12,7 +12,7 @@
 
 namespace Magento\Sales\Test\Block\Backend\Order;
 
-use \Mtf\Block\Form;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -23,11 +23,35 @@ use Mtf\Client\Element\Locator;
 class ShippingAddress extends Form
 {
     /**
-     * Check the 'same as billing address' checkbox in shipping address
+     * 'Same as billing address' checkbox
+     *
+     * @var string
+     */
+    private $sameAsBilling;
+
+    /**
+     * Initialize for children classes
+     */
+    protected function _init()
+    {
+        $this->sameAsBilling = 'order-shipping_same_as_billing';
+    }
+
+    /**
+     * Check the 'Same as billing address' checkbox in shipping address
      */
     public function setSameAsBillingShippingAddress()
     {
         $this->_rootElement->click();
-        $this->_rootElement->find('order-shipping_same_as_billing', Locator::SELECTOR_ID, 'checkbox')->setValue('Yes');
+        $this->_rootElement->find($this->sameAsBilling, Locator::SELECTOR_ID, 'checkbox')->setValue('Yes');
+    }
+
+    /**
+     * Uncheck the 'Same as billing address' checkbox in shipping address
+     */
+    public function uncheckSameAsBillingShippingAddress()
+    {
+        $this->_rootElement->click();
+        $this->_rootElement->find($this->sameAsBilling, Locator::SELECTOR_ID, 'checkbox')->setValue('No');
     }
 }

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page;
+namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Block\Backend\ProductForm;
  * Class CatalogProductNew
  * Create product page
  *
- * @package Magento\Catalog\Test\Page\Catalog\Product
+ * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductNew extends Page
 {
@@ -54,7 +54,7 @@ class CatalogProductNew extends Page
             $this->_browser->find('body', Locator::SELECTOR_CSS)
         );
         $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages')
+            $this->_browser->find('#messages .messages')
         );
     }
 

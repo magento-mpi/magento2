@@ -49,7 +49,7 @@ class AdminCustomerNew extends Page
             $this->_browser->find('[id="page:main-container"]')
         );
         $this->_messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages')
+            $this->_browser->find('#messages .messages')
         );
     }
 
