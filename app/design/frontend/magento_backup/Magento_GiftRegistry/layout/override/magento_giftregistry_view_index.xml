@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Gift View" type="page" parent="magento_giftregistry_index_share">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Gift View" type="page">
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
