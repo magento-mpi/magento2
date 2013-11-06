@@ -29,6 +29,8 @@ class UsesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Covered hasUses method
+     *
      * @dataProvider usesDataProvider
      * @test
      *
@@ -114,6 +116,8 @@ class UsesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Covered getClassNameWithNamespace for global classes
+     *
      * @test
      */
     public function testGetClassNameWithNamespaceForGlobalClass()
@@ -125,6 +129,8 @@ class UsesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Covered getClassNameWithNamespace
+     *
      * @test
      * @dataProvider classNamesDataProvider
      */
@@ -141,6 +147,8 @@ class UsesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Return different uses token list and class name
+     *
      * @return array
      */
     public function classNamesDataProvider()

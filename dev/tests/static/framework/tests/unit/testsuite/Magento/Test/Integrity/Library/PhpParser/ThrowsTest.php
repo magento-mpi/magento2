@@ -36,6 +36,8 @@ class ThrowsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get throws dependencies
+     *
      * @test
      */
     public function testGetDependencies()

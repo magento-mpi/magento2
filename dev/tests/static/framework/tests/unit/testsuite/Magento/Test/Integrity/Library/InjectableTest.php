@@ -66,6 +66,8 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Covered getWrongDependencies
+     *
      * @test
      */
     public function testGetWrongDependencies()
@@ -84,6 +86,8 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Covered with some different exception method
+     *
      * @test
      * @expectedException \ReflectionException
      */
