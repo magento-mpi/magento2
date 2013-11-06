@@ -977,8 +977,11 @@ return array(
     array('Magento\Core\Model\Resource\Helper\Mysql4', 'Magento\Core\Model\Resource\Helper'),
     array('Magento\Catalog\Model\Resource\Helper\Mysql4', 'Magento\Catalog\Model\Resource\Helper'),
     array('Magento\Eav\Model\Resource\Helper\Mysql4', 'Magento\Eav\Model\Resource\Helper'),
-    array('Magento\Eav\Model\Entity\Attribute\Backend\Array', 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'),
-    array('Magento\Sales\Model\Resource\Helper\HelperInterface', 'Magento\Sales\Model\Resource\HelperInterface'),
+    array(
+        'Magento\Eav\Model\Entity\Attribute\Backend\Array',
+        'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'),
+    array('Magento\Sales\Model\Resource\Helper\HelperInterface', 'Magento\Sales\Model\Resource\HelperInterface'
+    ),
     array('Magento\Reports\Model\Resource\Helper\HelperInterface', 'Magento\Reports\Model\Resource\HelperInterface'),
     array('Magento\Poll\Block\ActivePoll'),
     array('Magento\Poll\Controller\Vote'),
