@@ -30,7 +30,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'preview_form',
-                'action' => $this->getUrl('adminhtml/*/drop', array('_current' => true)),
+                'action' => $this->getUrl('newsletter/*/drop', array('_current' => true)),
                 'method' => 'post',
             ))
         );

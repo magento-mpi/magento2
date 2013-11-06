@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Newsletter\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -38,7 +38,7 @@ class NewsletterQueueTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/newsletter_sample.php
+     * @magentoDataFixture Magento/Newsletter/_files/newsletter_sample.php
      * @magentoAppIsolation disabled
      */
     public function testSaveActionQueueTemplateAndVerifySuccessMessage()
@@ -50,7 +50,7 @@ class NewsletterQueueTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setPost($postForQueue);
         $this->_model->loadByCode('some_unique_code');
         $this->getRequest()->setParam('template_id', $this->_model->getId());
-        $this->dispatch('backend/admin/newsletter_queue/save');
+        $this->dispatch('backend/newsletter/queue/save');
 
         /**
          * Check that errors was generated and set to session

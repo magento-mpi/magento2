@@ -279,7 +279,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/*/save');
+        return $this->getUrl('newsletter/*/save');
     }
 
     /**
@@ -289,7 +289,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getPreviewUrl()
     {
-        return $this->getUrl('adminhtml/*/preview');
+        return $this->getUrl('newsletter/*/preview');
     }
 
     /**
@@ -309,7 +309,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('adminhtml/*/delete', array('id' => $this->getRequest()->getParam('id')));
+        return $this->getUrl('newsletter/*/delete', array('id' => $this->getRequest()->getParam('id')));
     }
 
     /**

@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Newsletter;
+namespace Magento\Newsletter\Controller\Adminhtml;
 
 class Problem extends \Magento\Backend\Controller\Adminhtml\Action
 {

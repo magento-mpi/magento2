@@ -33,7 +33,7 @@ class Template extends \Magento\Adminhtml\Block\Template
 
     public function getCreateUrl()
     {
-        return $this->getUrl('adminhtml/*/new');
+        return $this->getUrl('newsletter/*/new');
     }
 
     public function getHeaderText()

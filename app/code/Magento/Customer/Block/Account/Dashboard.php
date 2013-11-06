@@ -99,7 +99,7 @@ class Dashboard extends \Magento\Core\Block\Template
 
     public function getManageNewsletterUrl()
     {
-        return $this->getUrl('*/newsletter/manage');
+        return $this->getUrl('newsletter/manage');
     }
 
     public function getSubscriptionText()

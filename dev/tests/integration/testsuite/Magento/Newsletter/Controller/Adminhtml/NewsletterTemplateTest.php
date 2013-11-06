@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Newsletter\Controller\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -52,7 +52,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
     {
         $this->_model->loadByCode('some_unique_code');
         $this->getRequest()->setParam('id', $this->_model->getId());
-        $this->dispatch('backend/admin/newsletter_template/save');
+        $this->dispatch('backend/newsletter/template/save');
         /**
          * Check that errors was generated and set to session
          */
@@ -67,13 +67,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/newsletter_sample.php
+     * @magentoDataFixture Magento/Newsletter/_files/newsletter_sample.php
      */
     public function testSaveActionEditTemplateAndVerifySuccessMessage()
     {
         $this->_model->loadByCode('some_unique_code');
         $this->getRequest()->setParam('id', $this->_model->getId());
-        $this->dispatch('backend/admin/newsletter_template/save');
+        $this->dispatch('backend/newsletter/template/save');
 
         /**
          * Check that errors was generated and set to session
@@ -100,7 +100,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
                       'sender_name'=>'Test Sender Name',
                       'text'=>'Template Content');
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/admin/newsletter_template/save');
+        $this->dispatch('backend/newsletter/template/save');
 
         /**
          * Check that errors was generated and set to session
@@ -115,13 +115,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/newsletter_sample.php
+     * @magentoDataFixture Magento/Newsletter/_files/newsletter_sample.php
      */
     public function testDeleteActionTemplateAndVerifySuccessMessage()
     {
         $this->_model->loadByCode('some_unique_code');
         $this->getRequest()->setParam('id', $this->_model->getId());
-        $this->dispatch('backend/admin/newsletter_template/delete');
+        $this->dispatch('backend/newsletter/template/delete');
 
         /**
          * Check that errors was generated and set to session

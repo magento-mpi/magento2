@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Newsletter;
+namespace Magento\Newsletter\Controller\Adminhtml;
 
 class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -65,7 +65,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function dropAction()
     {
-        $this->loadLayout('newsletter_queue_preview');
+        $this->loadLayout('newsletter_queue_preview_popup');
         $this->renderLayout();
     }
 
@@ -106,7 +106,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
             if (!in_array($queue->getQueueStatus(),
                           array(\Magento\Newsletter\Model\Queue::STATUS_NEVER,
                                  \Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
-                   $this->_redirect('adminhtml/*');
+                   $this->_redirect('newsletter/queue');
                 return;
             }
 
@@ -115,7 +115,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
                 ->save();
         }
 
-        $this->_redirect('adminhtml/*');
+        $this->_redirect('newsletter/queue');
     }
 
     public function pauseAction()
@@ -125,14 +125,14 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!in_array($queue->getQueueStatus(),
                       array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
-               $this->_redirect('adminhtml/*');
+               $this->_redirect('newsletter/queue');
             return;
         }
 
         $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_PAUSE);
         $queue->save();
 
-        $this->_redirect('adminhtml/*');
+        $this->_redirect('newsletter/queue');
     }
 
     public function resumeAction()
@@ -142,14 +142,14 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!in_array($queue->getQueueStatus(),
                       array(\Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
-               $this->_redirect('adminhtml/*');
+               $this->_redirect('newsletter/queue');
             return;
         }
 
         $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING);
         $queue->save();
 
-        $this->_redirect('adminhtml/*');
+        $this->_redirect('newsletter/queue');
     }
 
     public function cancelAction()
@@ -159,14 +159,14 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 
         if (!in_array($queue->getQueueStatus(),
                       array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
-               $this->_redirect('adminhtml/*');
+               $this->_redirect('newsletter/queue');
             return;
         }
 
         $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_CANCEL);
         $queue->save();
 
-        $this->_redirect('adminhtml/*');
+        $this->_redirect('newsletter/queue');
     }
 
     public function sendingAction()
@@ -209,7 +209,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_addBreadcrumb(
             __('Newsletter Queue'),
             __('Newsletter Queue'),
-            $this->getUrl('adminhtml/newsletter_queue')
+            $this->getUrl('newsletter/queue')
         );
         $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
 
@@ -241,7 +241,7 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
                    array(\Magento\Newsletter\Model\Queue::STATUS_NEVER,
                          \Magento\Newsletter\Model\Queue::STATUS_PAUSE))
             ) {
-                $this->_redirect('adminhtml/*');
+                $this->_redirect('newsletter/queue');
                 return;
             }
 
@@ -266,12 +266,12 @@ class Queue extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addSuccess(__('The newsletter queue has been saved.'));
             $this->_getSession()->setFormData(false);
 
-            $this->_redirect('adminhtml/*');
+            $this->_redirect('newsletter/queue');
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {
-                $this->_redirect('adminhtml/*/edit', array('id' => $id));
+                $this->_redirect('newsletter/queue/edit', array('id' => $id));
             } else {
                 $this->_redirectReferer();
             }

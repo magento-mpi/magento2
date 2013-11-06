@@ -711,10 +711,10 @@ th.required:after {
 .sales-rule-promo-quote-index .col-1-layout,
 .adminhtml-reminder-index .col-1-layout,
 /* newsletter */
-.adminhtml-newsletter-template-index .col-1-layout,
-.adminhtml-newsletter-queue-index .col-1-layout,
-.adminhtml-newsletter-subscriber-index .col-1-layout,
-.adminhtml-newsletter-problem-index .col-1-layout,
+.newsletter-template-index .col-1-layout,
+.newsletter-queue-index .col-1-layout,
+.newsletter-subscriber-index .col-1-layout,
+.newsletter-problem-index .col-1-layout,
 /* cms */
 .adminhtml-cms-page-index .col-1-layout,
 .cms-page-index .col-1-layout,
@@ -810,7 +810,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions,
 .adminhtml-reminder-index .page-actions,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions,
+.newsletter-template-index .page-actions,
 /* cms */
 .adminhtml-cms-page-index .page-actions,
 .cms-page-index .page-actions,
@@ -870,7 +870,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions.fixed,
 .adminhtml-reminder-index .page-actions.fixed,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions.fixed,
+.newsletter-template-index .page-actions.fixed,
 /* cms */
 .adminhtml-cms-page-index .page-actions.fixed,
 .cms-page-index .page-actions.fixed,
@@ -929,7 +929,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions .add,
 .adminhtml-reminder-index .page-actions .add,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions .add,
+.newsletter-template-index .page-actions .add,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add,
 .cms-page-index .page-actions .add,
@@ -1001,7 +1001,7 @@ th.required:after {
 .eq-ie8 .sales-rule-promo-quote-index .page-actions .add,
 .eq-ie8 .adminhtml-reminder-index .page-actions .add,
 /* newsletter */
-.eq-ie8 .adminhtml-newsletter-template-index .page-actions .add,
+.eq-ie8 .newsletter-template-index .page-actions .add,
 /* cms */
 .eq-ie8 .adminhtml-cms-page-index .page-actions .add,
 .eq-ie8 .cms-page-index .page-actions .add,
@@ -1057,7 +1057,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions .add:hover,
 .adminhtml-reminder-index .page-actions .add:hover,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions .add:hover,
+.newsletter-template-index .page-actions .add:hover,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add:hover,
 .cms-page-index .page-actions .add:hover,
@@ -1121,7 +1121,7 @@ th.required:after {
 .eq-ie8 .sales-rule-promo-quote-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-reminder-index .page-actions .add:hover,
 /* newsletter */
-.eq-ie8 .adminhtml-newsletter-template-index .page-actions .add:hover,
+.eq-ie8 .newsletter-template-index .page-actions .add:hover,
 /* cms */
 .eq-ie8 .cms-page-index .page-actions .add:hover,
 .eq-ie8 .cms-block-index .page-actions .add:hover,
@@ -1176,7 +1176,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions .add:active,
 .adminhtml-reminder-index .page-actions .add:active,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions .add:active,
+.newsletter-template-index .page-actions .add:active,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add:active,
 .cms-page-index .page-actions .add:active,
@@ -1236,7 +1236,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions .add > span,
 .adminhtml-reminder-index .page-actions .add > span,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions .add > span,
+.newsletter-template-index .page-actions .add > span,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add > span,
 .cms-page-index .page-actions .add > span,
@@ -1295,7 +1295,7 @@ th.required:after {
 .sales-rule-promo-quote-index .page-actions .add > span:before,
 .adminhtml-reminder-index .page-actions .add > span:before,
 /* newsletter */
-.adminhtml-newsletter-template-index .page-actions .add > span:before,
+.newsletter-template-index .page-actions .add > span:before,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add > span:before,
 .cms-page-index .page-actions .add > span:before,
@@ -1463,7 +1463,7 @@ th.required:after {
 .sales-rule-promo-quote-index .grid-actions,
 .adminhtml-reminder-index .grid-actions,
 /* newsletter */
-.adminhtml-newsletter-template-index .grid-actions,
+.newsletter-template-index .grid-actions,
 /* cms */
 .adminhtml-cms-page-index .grid-actions,
 .cms-page-index .grid-actions,

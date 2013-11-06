@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Newsletter;
+namespace Magento\Newsletter\Controller\Adminhtml;
 
 class Subscriber extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -88,7 +88,7 @@ class Subscriber extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('newsletter/*/index');
     }
 
     public function massDeleteAction()
@@ -111,7 +111,7 @@ class Subscriber extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('newsletter/*/index');
     }
 
     protected function _isAllowed()

@@ -151,7 +151,7 @@ return array(
     array('_saveCustomers', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveSectionCache', 'Magento\Core\Model\Config'),
     array('_sendUploadResponse', 'Magento\Adminhtml\Controller\Customer'),
-    array('_sendUploadResponse', 'Magento\Adminhtml\Controller\Newsletter\Subscriber'),
+    array('_sendUploadResponse', 'Magento\Newsletter\Controller\Adminhtml\Subscriber'),
     array('_setAttribteValue'),
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),

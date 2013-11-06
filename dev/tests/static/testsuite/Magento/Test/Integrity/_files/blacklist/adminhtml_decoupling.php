@@ -30,7 +30,6 @@ return array(
     'Block/Widget',
 
     // Controllers
-    'Controller/Newsletter',
     'Controller/Report',
     'Controller/Urlrewrite',
 

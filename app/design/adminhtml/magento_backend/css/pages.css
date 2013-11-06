@@ -13,9 +13,9 @@
 [class^=" catalog-product-"] .page-actions .action-back,
 [class^=" catalog-product-"] .page-actions .action-back:hover,
 [class^=" catalog-product-"] .page-actions .action-back:active,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:active {
+[class^=" newsletter-"] .page-actions .action-back,
+[class^=" newsletter-"] .page-actions .action-back:hover,
+[class^=" newsletter-"] .page-actions .action-back:active {
     overflow: hidden;
     padding: 5px 6px 3px;
     margin-left: 12px;
@@ -25,9 +25,9 @@
 .eq-ie8 [class^=" catalog-product-"] .page-actions .action-back,
 .eq-ie8 [class^=" catalog-product-"] .page-actions .action-back:hover,
 .eq-ie8 [class^=" catalog-product-"] .page-actions .action-back:active,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" newsletter-"] .page-actions .action-back,
+.eq-ie8 [class^=" newsletter-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" newsletter-"] .page-actions .action-back:active,
 .sales-order-create-index .page-actions-inner .cancel,
 .sales-order-create-index .page-actions-inner .cancel:hover,
 .sales-order-create-index .page-actions-inner .cancel:active {
@@ -36,18 +36,18 @@
 }
 
 [class^=" catalog-product-"] .page-actions .action-back:hover,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+[class^=" newsletter-"] .page-actions .action-back:hover,
 .sales-order-create-index .page-actions-inner .cancel:hover {
     color: #000;
 }
 
 [class^=" catalog-product-"] .page-actions .action-back.mage-error,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back.mage-error {
+[class^=" newsletter-"] .page-actions .action-back.mage-error {
     color: #b57c72;
 }
 
 [class^=" catalog-product-"] .page-actions .action-back:before,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:before,
+[class^=" newsletter-"] .page-actions .action-back:before,
 .sales-order-create-index .page-actions-inner .cancel:before {
     display: inline-block;
     font-family: 'MUI-Icons';
@@ -60,7 +60,7 @@
 }
 
 [class^=" catalog-product-"] .page-actions .action-back span,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back span,
+[class^=" newsletter-"] .page-actions .action-back span,
 .sales-order-create-index .page-actions-inner .cancel span {
     display: inline-block;
     overflow: hidden;
@@ -1009,78 +1009,78 @@
 /*
     Newsletter
 -------------------------------------- */
-[class^=" adminhtml-newsletter-"] .page-actions .action-back {
+[class^=" newsletter-"] .page-actions .action-back {
     float: right;
 }
 
 /*
     Newsletter Templates
 -------------------------------------- */
-.adminhtml-newsletter-template-index .col-id {
+.newsletter-template-index .col-id {
     width: 35px;
 }
 
-.adminhtml-newsletter-template-index .col-actions {
+.newsletter-template-index .col-actions {
     width: 80px;
 }
 
-.adminhtml-newsletter-template-index .col-type {
+.newsletter-template-index .col-type {
     width: 100px;
 }
 
-.adminhtml-newsletter-template-index .col-added,
-.adminhtml-newsletter-template-index .col-updated {
+.newsletter-template-index .col-added,
+.newsletter-template-index .col-updated {
     width: 140px;
 }
 
-[class^=' adminhtml-newsletter-'] .buttons-set {
+[class^=' newsletter-'] .buttons-set {
     margin: 0 0 15px;
 }
 
-[class^=" adminhtml-newsletter-"] .buttons-set button {
+[class^=" newsletter-"] .buttons-set button {
     margin-right: 4px;
 }
 
 /*
     Newsletter - Queue
 -------------------------------------- */
-.adminhtml-newsletter-queue-index .col-id {
+.newsletter-queue-index .col-id {
     width: 35px;
 }
 
-.adminhtml-newsletter-queue-index .col-finish,
-.adminhtml-newsletter-queue-index .col-start {
+.newsletter-queue-index .col-finish,
+.newsletter-queue-index .col-start {
     width: 130px;
 }
 
-.adminhtml-newsletter-queue-index .col-status,
-.adminhtml-newsletter-queue-index .col-processed,
-.adminhtml-newsletter-queue-index .col-recipients {
+.newsletter-queue-index .col-status,
+.newsletter-queue-index .col-processed,
+.newsletter-queue-index .col-recipients {
     white-space: nowrap;
     width: 85px;
 }
 
-.adminhtml-newsletter-queue-index td.col-processed,
-.adminhtml-newsletter-queue-index td.col-recipients {
+.newsletter-queue-index td.col-processed,
+.newsletter-queue-index td.col-recipients {
     text-align: right;
 }
 
-.adminhtml-newsletter-queue-index .col-actions {
+.newsletter-queue-index .col-actions {
     width: 80px;
 }
 
 /*
     Newsletter - Subscribers
 -------------------------------------- */
-.adminhtml-newsletter-subscriber-index .col-id {
+.newsletter-subscriber-index .col-id {
     width: 35px;
 }
 
-.adminhtml-newsletter-subscriber-index .col-type {
+.newsletter-subscriber-index .col-type {
     width: 75px;
 }
 
-.adminhtml-newsletter-subscriber-index .col-status {
+.newsletter-subscriber-index .col-status {
     white-space: nowrap;
     width: 85px;
 }
@@ -1088,19 +1088,19 @@
 /*
     Newsletter - Problems
 -------------------------------------- */
-.adminhtml-newsletter-problem-index .col-select {
+.newsletter-problem-index .col-select {
     width: 25px;
 }
 
-.adminhtml-newsletter-problem-index .col-id {
+.newsletter-problem-index .col-id {
     width: 35px;
 }
 
-.adminhtml-newsletter-problem-index .col-start {
+.newsletter-problem-index .col-start {
     width: 130px;
 }
 
-.adminhtml-newsletter-problem-index .col-error-code {
+.newsletter-problem-index .col-error-code {
     width: 150px;
 }
 

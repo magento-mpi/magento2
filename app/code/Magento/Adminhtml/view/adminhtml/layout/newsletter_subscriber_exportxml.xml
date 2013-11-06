@@ -8,6 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_newsletter_subscriber_block"/>
+    <update handle="newsletter_subscriber_block"/>
     <block class="Magento\Backend\Block\Widget\Grid\Container" name="adminhtml.newsletter.subscriber.container" template="Magento_Backend::widget/grid/container/empty.phtml"/>
 </layout>

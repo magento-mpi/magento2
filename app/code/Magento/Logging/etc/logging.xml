@@ -611,8 +611,8 @@
                 <expected_model class="Magento\Newsletter\Model\Queue" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_newsletter_queue_edit" action_alias="view" />
-                <event controller_action="adminhtml_newsletter_queue_save" action_alias="save" />
+                <event controller_action="newsletter_queue_edit" action_alias="view" />
+                <event controller_action="newsletter_queue_save" action_alias="save" />
             </events>
         </group>
         <group name="newsletter_templates">
@@ -621,13 +621,13 @@
                 <expected_model class="Magento\Newsletter\Model\Template" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_newsletter_template_save"
+                <event controller_action="newsletter_template_save"
                        action_alias="save" />
-                <event controller_action="adminhtml_newsletter_template_edit"
+                <event controller_action="newsletter_template_edit"
                        action_alias="view" />
-                <event controller_action="adminhtml_newsletter_template_delete"
+                <event controller_action="newsletter_template_delete"
                        action_alias="delete" />
-                <event controller_action="adminhtml_newsletter_template_preview"
+                <event controller_action="newsletter_template_preview"
                        action_alias="preview" />
             </events>
         </group>
@@ -637,14 +637,14 @@
                 <expected_model class="Magento\Newsletter\Model\Subscriber" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_newsletter_subscriber_massUnsubscribe"
+                <event controller_action="newsletter_subscriber_massUnsubscribe"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_newsletter_subscriber_massDelete"
+                <event controller_action="newsletter_subscriber_massDelete"
                        action_alias="massDelete" />
-                <event controller_action="adminhtml_newsletter_subscriber_exportCsv"
+                <event controller_action="newsletter_subscriber_exportCsv"
                        action_alias="export"
                        post_dispatch="postDispatchSimpleSave" />
-                <event controller_action="adminhtml_newsletter_subscriber_exportXml"
+                <event controller_action="newsletter_subscriber_exportXml"
                        action_alias="export"
                        post_dispatch="postDispatchSimpleSave" />
             </events>
