@@ -16,35 +16,8 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
  * @method getArea()
  * @method getTheme()
  */
-class DesignAbstraction extends \Magento\Core\Block\Html\Select
+class DesignAbstraction extends Container
 {
-    /**
-     * @var \Magento\View\Layout\ProcessorFactory
-     */
-    protected $_layoutProcessorFactory;
-
-    /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
-     */
-    protected $_themesFactory;
-
-    /**
-     * @param \Magento\Core\Block\Context $context
-     * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Block\Context $context,
-        \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
-        array $data = array()
-    ) {
-        $this->_layoutProcessorFactory = $layoutProcessorFactory;
-        $this->_themesFactory = $themesFactory;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Add necessary options
      *
@@ -61,19 +34,6 @@ class DesignAbstraction extends \Magento\Core\Block\Html\Select
             $this->_addDesignAbstractionOptions($designAbstractions);
         }
         return parent::_beforeToHtml();
-    }
-
-    /**
-     * Retrieve theme instance by its identifier
-     *
-     * @param int $themeId
-     * @return \Magento\Core\Model\Theme|null
-     */
-    protected function _getThemeInstance($themeId)
-    {
-        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = $this->_themesFactory->create();
-        return $themeCollection->getItemById($themeId);
     }
 
     /**
