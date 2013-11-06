@@ -22,9 +22,6 @@ use \Magento\Integration\Controller\Adminhtml\Integration;
 class Info extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-    /** @var \Magento\Integration\Model\Integration\Source\Authentication */
-    protected $_authTypeSource;
-
     /**#@+
      * edit_form element names.
      */
@@ -34,6 +31,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_EMAIL = 'email';
     const DATA_AUTHENTICATION = 'authentication';
     const DATA_ENDPOINT = 'endpoint';
+
     /**#@-*/
 
     /**
@@ -44,18 +42,15 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
-     * @param \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
-        $this->_authTypeSource = $authTypeSource;
     }
 
     /**
@@ -97,19 +92,14 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
         $fieldset->addField(
-            self::DATA_AUTHENTICATION,
-            'select',
-            array(
-                'label' => __('Authentication'),
-                'name' => self::DATA_AUTHENTICATION,
-                'disabled' => false,
-                'options' => $this->_authTypeSource->toOptionArray()
-            )
-        );
-        $fieldset->addField(
             self::DATA_ENDPOINT,
             'text',
-            array('label' => __('Endpoint URL'), 'name' => self::DATA_ENDPOINT, 'required' => true, 'disabled' => false)
+            array(
+                'label' => __('Callback URL'),
+                'name' => self::DATA_ENDPOINT,
+                'disabled' => false,
+                'note'=> __('When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed.'),
+            )
         );
         $form->setValues($integrationData);
         $this->setForm($form);
@@ -154,26 +144,5 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     public function isHidden()
     {
         return false;
-    }
-
-    /**
-     * Get additional script for tabs block
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $oauth = \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH;
-        $authFieldIdSelector = '#' . self::HTML_ID_PREFIX . self::DATA_AUTHENTICATION;
-        $endpointIdSelector = '#' . self::HTML_ID_PREFIX . self::DATA_ENDPOINT;
-        $endpointClassSel = '.field-' . self::DATA_ENDPOINT;
-        $script = <<<HTML
-        jQuery(function(){
-            jQuery('$authFieldIdSelector')
-                .mage('integration', {"authType": $oauth, "formSelector": '#edit_form',
-                endpointIdSelector: '$endpointIdSelector', endpointContainerClassSelector: '$endpointClassSel'});
-        });
-HTML;
-        return parent::_toHtml() . sprintf('<script type="text/javascript">%s</script>', $script);
     }
 }

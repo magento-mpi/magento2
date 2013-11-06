@@ -24,16 +24,4 @@ class Integration extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $this->_init('integration', 'integration_id');
     }
-
-    /**
-     * Set updated_at automatically before saving
-     *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Integration\Model\Resource\Integration
-     */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
-    {
-        $object->setUpdatedAt($this->formatDate(time()));
-        return parent::_beforeSave($object);
-    }
 }

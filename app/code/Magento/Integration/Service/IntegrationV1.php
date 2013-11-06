@@ -35,7 +35,6 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     {
         $this->_checkIntegrationByName($integrationData['name']);
         $integration = $this->_integrationFactory->create($integrationData);
-        $this->_validateIntegration($integration);
         $integration->save();
         return $integration->getData();
     }
@@ -55,7 +54,6 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
             $this->_checkIntegrationByName($integrationData['name']);
         }
         $integration->addData($integrationData);
-        $this->_validateIntegration($integration);
         $integration->save();
         return $integration->getData();
     }
@@ -71,21 +69,6 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     {
         $integration = $this->_loadIntegrationById($integrationId);
         return $integration->getData();
-    }
-
-    /**
-     * Validate an integration
-     *
-     * @param \Magento\Integration\Model\Integration $integration
-     * @throws \Magento\Integration\Exception
-     */
-    private function _validateIntegration(\Magento\Integration\Model\Integration $integration)
-    {
-        if ($integration->getAuthentication() == \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH
-            && !$integration->getEndpoint()
-        ) {
-            throw new \Magento\Integration\Exception(__('Please enter endpoint for oAuth.'));
-        }
     }
 
     /**
