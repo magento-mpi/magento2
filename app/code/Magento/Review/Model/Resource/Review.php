@@ -413,12 +413,9 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($ratingIds && !is_array($ratingIds)) {
             $ratingIds = array((int)$ratingIds);
         }
-        $resource = $this->_ratingOptions;
-        if ($ratingIds && $entityPkValue && $resource) {
+        if ($ratingIds && $entityPkValue) {
             foreach ($ratingIds as $ratingId) {
-                $this->_ratingOption->aggregateEntityByRatingId(
-                    $ratingId, $entityPkValue
-                );
+                $this->_ratingOptions->aggregateEntityByRatingId($ratingId, $entityPkValue);
             }
         }
         return $this;

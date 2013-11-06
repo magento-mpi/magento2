@@ -228,7 +228,7 @@ class Widget
      */
     public function getWidgetDeclaration($type, $params = array(), $asIs = true)
     {
-        $directive = '{{widget type="' . $type . '"';
+        $directive = '{{widget type="' . preg_quote($type) . '"';
 
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
