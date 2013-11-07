@@ -5,12 +5,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Integration\Model\Resource;
 
 /**
  * Integration resource model
  */
-namespace Magento\Integration\Model\Resource;
-
 class Integration extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
