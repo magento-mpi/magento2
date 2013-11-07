@@ -47,7 +47,7 @@ class Content extends \Magento\Backend\Block\Widget
 
     protected function _prepareLayout()
     {
-        $this->addChild('uploader', 'Magento\Adminhtml\Block\Media\Uploader');
+        $this->addChild('uploader', 'Magento\Backend\Block\Media\Uploader');
 
         $this->getUploader()->getConfig()
             ->setUrl(
@@ -71,7 +71,7 @@ class Content extends \Magento\Backend\Block\Widget
     /**
      * Retrive uploader block
      *
-     * @return \Magento\Adminhtml\Block\Media\Uploader
+     * @return \Magento\Backend\Block\Media\Uploader
      */
     public function getUploader()
     {

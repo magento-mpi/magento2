@@ -39,7 +39,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_wishlistFactory;
 
     /**
-     * @var \Magento\Adminhtml\Model\Giftmessage\Save
+     * @var \Magento\GiftMessage\Model\Save
      */
     protected $_giftMessageSave;
 
@@ -50,7 +50,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
     /**
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave
+     * @param \Magento\GiftMessage\Model\Save $giftMessageSave
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
@@ -61,7 +61,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function __construct(
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave,
+        \Magento\GiftMessage\Model\Save $giftMessageSave,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,

@@ -13,8 +13,6 @@
 namespace Magento\Backend\Controller\Adminhtml;
 
 /**
- * Test class for \Magento\Backend\Controller\Adminhtml\Index.
- *
  * @magentoAppArea adminhtml
  */
 class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -70,6 +68,22 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_login();
         $this->dispatch('backend/admin/index/index');
         $this->assertRedirect();
+        $this->_logout();
+    }
+
+
+    /**
+     * @covers \Magento\Backend\Controller\Index::globalSearchAction
+     */
+    public function testGlobalSearchAction()
+    {
+        $this->_login();
+        $this->getRequest()->setParam('isAjax', 'true');
+        $this->getRequest()->setPost('query', 'dummy');
+        $this->dispatch('backend/admin/index/globalSearch');
+
+        $actual = $this->getResponse()->getBody();
+        $this->assertEquals(array(), json_decode($actual));
         $this->_logout();
     }
 }

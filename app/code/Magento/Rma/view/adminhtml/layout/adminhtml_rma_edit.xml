@@ -22,8 +22,8 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit" name="magento_rma_edit"/>
-        <block class="Magento\Adminhtml\Block\Template" template="Magento_Rma::edit/details.phtml"/>
-        <block class="Magento\Adminhtml\Block\Template" template="Magento_Rma::edit/reason.phtml"/>
+        <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/details.phtml"/>
+        <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/reason.phtml"/>
     </referenceContainer>
     <referenceContainer name="left">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tabs" name="magento_rma_edit_tabs">
@@ -50,7 +50,7 @@
         </block>
     </referenceContainer>
     <referenceContainer name="before_body_end">
-        <block class="Magento\Adminhtml\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
+        <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Js" template="edit/js.phtml" name="magento_rma_js_create"/>
     </referenceContainer>
 </layout>

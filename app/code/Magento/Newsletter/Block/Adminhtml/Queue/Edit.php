@@ -13,7 +13,7 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
-class Edit extends \Magento\Adminhtml\Block\Template
+class Edit extends \Magento\Backend\Block\Template
 {
     protected $_template = 'queue/edit.phtml';
 

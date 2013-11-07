@@ -98,7 +98,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     protected $_cache;
 
     /**
-     * @var \Magento\Adminhtml\Model\LayoutUpdate\Validator
+     * @var \Magento\Core\Model\Layout\Update\Validator
      */
     protected $_layoutValidator;
 
@@ -116,7 +116,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
+     * @param \Magento\Core\Model\Layout\Update\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
@@ -127,7 +127,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
+        \Magento\Core\Model\Layout\Update\Validator $validator,
         \Magento\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
@@ -357,7 +357,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         if ($this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
             if (!$this->_layoutValidator->isValid(
                     $layout,
-                    \Magento\Adminhtml\Model\LayoutUpdate\Validator::LAYOUT_SCHEMA_MERGED,
+                    \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_MERGED,
                     false
             )) {
                 $messages = $this->_layoutValidator->getMessages();

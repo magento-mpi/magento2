@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Shipment\View;
 
-class Tracking extends \Magento\Adminhtml\Block\Template
+class Tracking extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry

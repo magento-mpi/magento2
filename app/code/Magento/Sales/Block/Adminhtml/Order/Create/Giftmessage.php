@@ -21,12 +21,12 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
-     * @var \Magento\Adminhtml\Model\Giftmessage\Save
+     * @var \Magento\GiftMessage\Model\Save
      */
     protected $_giftMessageSave;
 
     /**
-     * @param \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave
+     * @param \Magento\GiftMessage\Model\Save $giftMessageSave
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
@@ -34,7 +34,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
      * @param array $data
      */
     public function __construct(
-        \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave,
+        \Magento\GiftMessage\Model\Save $giftMessageSave,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
@@ -91,7 +91,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
     /**
      * Retrieve gift message save model
      *
-     * @return \Magento\Adminhtml\Model\Giftmessage\Save
+     * @return \Magento\GiftMessage\Model\Save
      */
     protected function _getGiftmessageSaveModel()
     {

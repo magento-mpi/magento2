@@ -75,6 +75,7 @@ Magento/Sales/Model/Quote/Address/Total
 Magento/Sales/Model/Resource/Report/Order
 Magento/SalesRule/Block/Adminhtml/Promo/Quote/Edit/Tab
 Magento/Shipping/Model/Carrier
+Magento/Sitemap/Block/Adminhtml/Edit
 Magento/CatalogRule/Model
 Magento/Tax/Block/Checkout
 Magento/Tax/Model/Sales/Pdf

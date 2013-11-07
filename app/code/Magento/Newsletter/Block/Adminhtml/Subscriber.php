@@ -18,7 +18,7 @@
 
 namespace Magento\Newsletter\Block\Adminhtml;
 
-class Subscriber extends \Magento\Adminhtml\Block\Template
+class Subscriber extends \Magento\Backend\Block\Template
 {
     /**
      * Queue collection

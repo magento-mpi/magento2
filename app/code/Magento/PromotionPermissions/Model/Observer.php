@@ -115,7 +115,7 @@ class Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Template */
+        /** @var $block \Magento\Backend\Block\Template */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {

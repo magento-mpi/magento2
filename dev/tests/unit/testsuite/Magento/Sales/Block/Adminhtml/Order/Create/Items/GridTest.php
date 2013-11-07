@@ -63,7 +63,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('methods'))
             ->getMock();
 
-        $giftMessageSave = $this->getMockBuilder('Magento\Adminhtml\Model\Giftmessage\Save')
+        $giftMessageSave = $this->getMockBuilder('Magento\GiftMessage\Model\Save')
             ->disableOriginalConstructor()
             ->getMock();
 

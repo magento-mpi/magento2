@@ -18,7 +18,7 @@
 
 namespace Magento\Newsletter\Block\Adminhtml;
 
-class Template extends \Magento\Adminhtml\Block\Template
+class Template extends \Magento\Backend\Block\Template
 {
     protected $_template = 'template/list.phtml';
 

@@ -1035,16 +1035,16 @@
                        action_alias="delete" />
             </events>
         </group>
-        <group name="adminhtml_system_backups">
+        <group name="backups">
             <label translate="true">System Backups</label>
             <events>
-                <event controller_action="adminhtml_system_backup_create"
+                <event controller_action="backup_index_create"
                        action_alias="create"
                        post_dispatch="postDispatchSystemBackupsCreate" />
-                <event controller_action="adminhtml_system_backup_massDelete"
+                <event controller_action="backup_index_massDelete"
                        action_alias="massDelete"
                        post_dispatch="postDispatchSystemBackupsDelete" />
-                <event controller_action="adminhtml_system_backup_rollback"
+                <event controller_action="backup_index_rollback"
                        action_alias="rollback"
                        post_dispatch="postDispatchSystemRollback" />
             </events>

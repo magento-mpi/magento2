@@ -64,7 +64,7 @@ abstract class AbstractReport extends \Magento\Backend\Controller\Adminhtml\Acti
             $blocks = array($blocks);
         }
 
-        $requestData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
+        $requestData = $this->_objectManager->get('Magento\Backend\Helper\Data')
             ->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');

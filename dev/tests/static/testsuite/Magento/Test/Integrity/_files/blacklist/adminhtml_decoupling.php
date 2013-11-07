@@ -12,19 +12,6 @@
 return array(
     // Blocks
     'Block/Admin',
-    'Block/Backup',
-    'Block/Cache',
-    'Block/Denied',
-    'Block/Html',
-    'Block/Media',
-    'Block/Messages',
-    'Block/Page',
-    'Block/Report',
-    'Block/Review',
-    'Block/Shipping',
-    'Block/Sitemap',
-    'Block/Template',
-    'Block/Text',
     'Block/Urlrewrite',
     'Block/Widget',
 
@@ -34,39 +21,11 @@ return array(
     // Helpers
     'Helper/Addresses',
     'Helper/Media',
-    'Helper/Data',
     'Helper/Js',
 
     // Models
-    'Model/Email',
-    'Model/Giftmessage',
-    'Model/LayoutUpdate',
-    'Model/Observer',
-    'Model/Search',
     'Model/Session',
 
-    // Views
-    'view/adminhtml/admin',
-    'view/adminhtml/backup',
-    'view/adminhtml/email',
-    'view/adminhtml/images',
-    'view/adminhtml/media',
-    'view/adminhtml/page',
-    'view/adminhtml/review',
-    'view/adminhtml/store',
-    'view/adminhtml/urlrewrite',
-    'view/adminhtml/widget',
-
     // Layouts
-    'layout/adminhtml_cache',
-    'layout/adminhtml_denied',
-    'layout/adminhtml_noroute',
     'layout/adminhtml_urlrewrite',
-    'layout/default',
-    'layout/editor',
-    'layout/empty',
-    'layout/formkey',
-    'layout/overlay_popup',
-    'layout/popup',
-    'layout/preview',
 );
