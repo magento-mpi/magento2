@@ -63,12 +63,12 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\Date $date,
         \Magento\Math\Random $mathRandom
     ) {

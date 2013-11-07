@@ -83,6 +83,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $dateTime;
 
     /**
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
      * @param \Magento\Core\Model\Date $coreDate
@@ -90,17 +91,16 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Stdlib\DateTime $dateTime        
     ) {
         $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;

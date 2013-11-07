@@ -57,8 +57,9 @@ class CreateProduct extends Direct
      */
     public function execute(Fixture $fixture = null)
     {
-        $config = new \Magento\Core\Model\Config\Primary(BP, $_SERVER);
-        $objectManager = new \Magento\Core\Model\ObjectManager($config);
+        $factory = new \Magento\App\ObjectManagerFactory();
+        $objectManager = $factory->create(BP, $_SERVER);
+
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $objectManager->create('Magento\Catalog\Model\Product');
 

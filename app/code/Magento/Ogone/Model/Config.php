@@ -18,7 +18,7 @@ class Config extends \Magento\Payment\Model\Config
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
