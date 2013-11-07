@@ -17,7 +17,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
-            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
+            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
 
         $block = $objectManager->create('Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',

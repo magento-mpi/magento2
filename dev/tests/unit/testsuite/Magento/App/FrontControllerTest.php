@@ -49,7 +49,11 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
             'setModuleName', 'getActionName', 'setActionName', 'getParam'));
         $this->_router = $this->getMock('Magento\App\Router\AbstractRouter',
             array('setFront', 'match'), array(), '', false);
-        $this->_model = new \Magento\App\FrontController($this->_eventManager, $this->_response, $this->_routerList);
+        $this->_model = new \Magento\App\FrontController(
+            $this->_eventManager,
+            $this->_response,
+            $this->_routerList
+        );
     }
 
     /**

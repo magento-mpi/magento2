@@ -26,7 +26,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
+            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->setDefaultDesignTheme();
         $rule = $objectManager->create('Magento\CatalogRule\Model\Rule');
         $objectManager->get('Magento\Core\Model\Registry')->register('current_promo_catalog_rule', $rule);

@@ -64,6 +64,12 @@ class Console extends \Magento\Core\Model\AbstractEntryPoint
      */
     protected function _processRequest()
     {
+        $areaCode = 'install';
+        $this->_objectManager->get('Magento\App\State')->setAreaCode($areaCode);
+        $this->_objectManager->configure(
+            $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load($areaCode)
+        );
+
         /**
          * @var $installer \Magento\Install\Model\Installer\Console
          */

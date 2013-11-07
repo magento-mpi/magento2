@@ -95,15 +95,7 @@ class Ordered
         $this->_ordersFactory = $ordersFactory;
         $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
-        parent::__construct(
-            $collectionFactory,
-            $coreData,
-            $context,
-            $storeManager,
-            $urlModel,
-            $coreRegistry,
-            $data
-        );
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
     }
 
     /**

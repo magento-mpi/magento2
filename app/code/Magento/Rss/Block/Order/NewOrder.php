@@ -13,15 +13,8 @@
  */
 namespace Magento\Rss\Block\Order;
 
-class NewOrder extends \Magento\Core\Block\AbstractBlock
+class NewOrder extends \Magento\Backend\Block\AbstractBlock
 {
-    /**
-     * Adminhtml data
-     *
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $_adminhtmlData = null;
-
     /**
      * @var \Magento\Rss\Model\RssFactory
      */
@@ -40,11 +33,10 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
     /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
 
     /**
-     * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
@@ -52,19 +44,17 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Core\Block\Context $context,
+        \Magento\Backend\Block\Context $context,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
         \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
-        $this->_adminhtmlData = $adminhtmlData;
         $this->_rssFactory = $rssFactory;
         $this->_orderFactory = $orderFactory;
         $this->_resourceIterator = $resourceIterator;
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
         parent::__construct($context, $data);
     }
 
@@ -72,10 +62,8 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
     {
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
-        $passDate = $this->dateTime->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
-        $newUrl = $this->_adminhtmlData->getUrl(
-            'adminhtml/sales_order', array('_secure' => true, '_nosecret' => true)
-        );
+        $passDate = $this->_dateTime->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
+        $newUrl = $this->getUrl('rss/order/new', array('_secure' => true, '_nosecret' => true));
         $title = __('New Orders');
 
         /** @var $rssObj \Magento\Rss\Model\Rss */
@@ -113,13 +101,8 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
         $order->reset()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
             $title = __('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-            $url = $this->_adminhtmlData->getUrl(
-                'sales/order/view',
-                array(
-                    '_secure' => true,
-                    'order_id' => $order->getId(),
-                    '_nosecret' => true
-                )
+            $url = $this->getUrl('sales/order/view',
+                array('_secure' => true, 'order_id' => $order->getId(), '_nosecret' => true)
             );
             $detailBlock->setOrder($order);
             $rssObj->_addEntry(array(
