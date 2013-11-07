@@ -101,7 +101,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $page = $this->newPage();
 
         if ($shipment->getStoreId()) {
-            $this->_locale->emulate($shipment->getStoreId());
+            $this->locale->emulate($shipment->getStoreId());
             $this->_storeManager->setCurrentStore($shipment->getStoreId());
         }
 
@@ -114,7 +114,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_afterGetPdf();
 
         if ($shipment->getStoreId()) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
         return $pdf;
     }

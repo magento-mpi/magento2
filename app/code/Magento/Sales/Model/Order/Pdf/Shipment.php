@@ -127,7 +127,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_setFontBold($style, 10);
         foreach ($shipments as $shipment) {
             if ($shipment->getStoreId()) {
-                $this->_locale->emulate($shipment->getStoreId());
+                $this->locale->emulate($shipment->getStoreId());
                 $this->_storeManager->setCurrentStore($shipment->getStoreId());
             }
             $page  = $this->newPage();
@@ -160,7 +160,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
         $this->_afterGetPdf();
         if ($shipment->getStoreId()) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
         return $pdf;
     }

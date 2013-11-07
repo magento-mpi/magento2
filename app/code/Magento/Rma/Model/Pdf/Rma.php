@@ -117,7 +117,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
-            $this->_locale->emulate($storeId);
+            $this->locale->emulate($storeId);
             $this->_storeManager->setCurrentStore($storeId);
         }
 
@@ -247,7 +247,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
 
         if ($storeId) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
 
         $this->_afterGetPdf();

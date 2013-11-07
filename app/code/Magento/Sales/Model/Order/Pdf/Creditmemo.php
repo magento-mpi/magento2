@@ -156,7 +156,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         foreach ($creditmemos as $creditmemo) {
             if ($creditmemo->getStoreId()) {
-                $this->_locale->emulate($creditmemo->getStoreId());
+                $this->locale->emulate($creditmemo->getStoreId());
                 $this->_storeManager->setCurrentStore($creditmemo->getStoreId());
             }
             $page  = $this->newPage();
@@ -194,7 +194,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
         $this->_afterGetPdf();
         if ($creditmemo->getStoreId()) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
         return $pdf;
     }

@@ -18,7 +18,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * @var \Magento\Core\Model\LocaleInterface
      */
-    protected $_locale;
+    protected $locale;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -152,7 +152,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         foreach ($invoices as $invoice) {
             if ($invoice->getStoreId()) {
-                $this->_locale->emulate($invoice->getStoreId());
+                $this->locale->emulate($invoice->getStoreId());
                 $this->_storeManager->setCurrentStore($invoice->getStoreId());
             }
             $page  = $this->newPage();
@@ -185,7 +185,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             /* Add totals */
             $this->insertTotals($page, $invoice);
             if ($invoice->getStoreId()) {
-                $this->_locale->revert();
+                $this->locale->revert();
             }
         }
         $this->_afterGetPdf();
