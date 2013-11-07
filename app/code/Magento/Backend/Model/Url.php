@@ -66,7 +66,7 @@ class Url extends \Magento\Core\Model\Url
     protected $_menuConfig;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -76,7 +76,7 @@ class Url extends \Magento\Core\Model\Url
     protected $_encryptor;
 
     /**
-     * @param \Magento\App\RouterListInterface $routerList
+     * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -85,13 +85,14 @@ class Url extends \Magento\Core\Model\Url
      * @param Menu\Config $menuConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param null $areaCode
      * @param array $data
      */
     public function __construct(
-        \Magento\App\RouterListInterface $routerList,
+        \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -100,21 +101,16 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        $areaCode = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct(
-            $routerList,
-            $request,
-            $securityInfo,
-            $coreStoreConfig,
-            $app,
-            $storeManager,
-            $session,
-            $data
+            $routeConfig, $request, $securityInfo, $coreStoreConfig,
+            $app, $storeManager, $session, $areaCode, $data
         );
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;

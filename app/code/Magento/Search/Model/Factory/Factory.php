@@ -44,9 +44,9 @@ class Factory
     public function getFactory()
     {
         if ($this->_solrState->isActive()) {
-            return $this->_objectManager->create('Magento\Search\Model\SolrFactory');
+            return $this->_objectManager->get('Magento\Search\Model\SolrFactory');
         } else {
-            return $this->_objectManager->create('Magento\Search\Model\RegularFactory');
+            return $this->_objectManager->get('Magento\Search\Model\RegularFactory');
         }
     }
 }

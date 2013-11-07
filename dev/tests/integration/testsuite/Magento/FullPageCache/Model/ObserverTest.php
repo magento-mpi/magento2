@@ -11,6 +11,9 @@
 
 namespace Magento\FullPageCache\Model;
 
+/**
+ * @magentoAppArea frontend
+ */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -40,7 +43,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_observer = $objectManager->create(
-            'Magento\FullPageCache\Model\Observer', 
+            'Magento\FullPageCache\Model\Observer',
             array('cookie' => $this->_cookie)
         );
     }

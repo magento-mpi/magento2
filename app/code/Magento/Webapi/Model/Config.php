@@ -33,15 +33,20 @@ class Config
     protected $_configReader;
 
     /**
+     * Module configuration reader
+     *
+     * @var \Magento\Module\Dir\Reader
+     */
+    protected $_moduleReader;
+
+    /**
      * @var array
      */
     protected $_services;
 
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Webapi\Model\Cache\Type $configCacheType
-     * @param \Magento\Webapi\Model\Config\Reader $configReader
+     * @param Cache\Type $configCacheType
+     * @param Config\Reader $configReader
      */
     public function __construct(
         \Magento\Webapi\Model\Cache\Type $configCacheType,

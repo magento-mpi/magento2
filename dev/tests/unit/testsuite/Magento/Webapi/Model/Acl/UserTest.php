@@ -62,7 +62,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         return $this->_helper->getObject('Magento\Webapi\Model\Acl\User', array(
             'eventDispatcher' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
-            'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
+            'cacheManager' => $this->getMock('Magento\App\CacheInterface', array(), array(), '', false),
             'resource' => $userService,
             'resourceCollection' => $serviceCollection
         ));

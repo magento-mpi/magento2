@@ -20,7 +20,7 @@
             <instance type="Magento\Checkout\Model\Type\Onepage\Proxy"/>
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <customerbalance_setup>Magento\Sales\Model\Resource\Setup</customerbalance_setup>

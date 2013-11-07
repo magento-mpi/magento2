@@ -230,7 +230,7 @@ class Config implements \Magento\ObjectManager\Config
      *
      * @param array $configuration
      */
-    public function _mergeConfiguration(array $configuration)
+    protected function _mergeConfiguration(array $configuration)
     {
         foreach ($configuration as $key => $curConfig) {
             switch ($key) {

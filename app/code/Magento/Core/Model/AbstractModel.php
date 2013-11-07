@@ -103,7 +103,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Application Cache Manager
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cacheManager;
 
@@ -180,9 +180,9 @@ abstract class AbstractModel extends \Magento\Object
      */
     public function __wakeup()
     {
-        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->_eventDispatcher = $objectManager->get('Magento\Event\ManagerInterface');
-        $this->_cacheManager = $objectManager->get('Magento\Core\Model\CacheInterface');
+        $this->_cacheManager = $objectManager->get('Magento\App\CacheInterface');
         $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
     }
 
@@ -215,7 +215,7 @@ abstract class AbstractModel extends \Magento\Object
             throw new \Magento\Core\Exception(__('Resource is not set.'));
         }
 
-        return $this->_resource ?: \Magento\Core\Model\ObjectManager::getInstance()->get($this->_resourceName);
+        return $this->_resource ?: \Magento\App\ObjectManager::getInstance()->get($this->_resourceName);
     }
 
     /**
@@ -243,7 +243,7 @@ abstract class AbstractModel extends \Magento\Object
         }
         return $this->_resourceCollection
             ? clone $this->_resourceCollection
-            : \Magento\Core\Model\ObjectManager::getInstance()->create(
+            : \Magento\App\ObjectManager::getInstance()->create(
                 $this->_collectionName, array('resource' => $this->_getResource())
             );
     }
@@ -616,7 +616,7 @@ abstract class AbstractModel extends \Magento\Object
             return;
         }
         /* Store manager does not work well in this place when injected via context */
-        if (!\Magento\Core\Model\ObjectManager::getInstance()
+        if (!\Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\StoreManager')->getStore()->isAdmin()
         ) {
             throw new \Magento\Core\Exception(__('Cannot complete this operation from non-admin area.'));

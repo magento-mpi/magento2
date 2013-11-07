@@ -25,7 +25,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <giftcardaccount_setup>Magento\Sales\Model\Resource\Setup</giftcardaccount_setup>

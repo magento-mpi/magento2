@@ -19,20 +19,13 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 class Layout extends \Magento\Core\Block\Html\Select
 {
     /**
-     * @var \Magento\View\Layout\ProcessorFactory
+     * @var \Magento\Core\Model\Layout\PageType\Config
      */
-    protected $_layoutProcessorFactory;
-
-    /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
-     */
-    protected $_themesFactory;
-
     protected $_config;
 
     /**
      * @param \Magento\Core\Block\Context $context
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory
+     * @param \Magento\Core\Model\Layout\PageType\Config $config
      * @param array $data
      */
     public function __construct(

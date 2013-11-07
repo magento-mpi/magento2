@@ -24,11 +24,11 @@ class Address
     protected $_parentResourceModel;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Sales\Model\Resource\Quote\Address $parentResourceModel
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Sales\Model\Resource\Quote\Address $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;
