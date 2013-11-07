@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Block\Dashboard;
+namespace Magento\Customer\Test\Block\Account\Dashboard;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -20,7 +20,7 @@ use Mtf\Client\Element\Locator;
  *
  * @package Magento\Customer\Test\Block\Dashboard
  */
-class AddressBook extends Block
+class Address extends Block
 {
     /**
      *  Default Billing Address Edit link

@@ -17,6 +17,7 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
 use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
+use Magento\Customer\Test\Block\Account\Dashboard\Address;
 
 /**
  * Frontend Customer Dashboard page
@@ -33,16 +34,16 @@ class CustomerAccountIndex extends Page
     /**
      * Messages block
      *
-     * @var \Magento\Core\Test\Block\Messages
+     * @var Messages
      */
     protected $messages;
 
     /**
      * Address Book block
      *
-     * @var \Magento\Customer\Test\Block\Dashboard\AddressBook
+     * @var Address
      */
-    protected $addressBook;
+    protected $dashboardAddress;
 
     /**
      * Dashboard header panel title
@@ -59,18 +60,22 @@ class CustomerAccountIndex extends Page
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
 
         $this->messages = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('//ul[@class="messages"]', Locator::SELECTOR_XPATH));
-        $this->addressBook = Factory::getBlockFactory()->getMagentoCustomerDashboardAddressBook(
-            $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS));
+            $this->_browser->find('//ul[@class="messages"]', Locator::SELECTOR_XPATH)
+        );
+        $this->dashboardAddress = Factory::getBlockFactory()->getMagentoCustomerAccountDashboardAddress(
+            $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS)
+        );
         $this->dashboardHeaderPanelTitle = Factory::getBlockFactory()->getMagentoCustomerDashboardHeaderPanelTitle(
             $this->_browser->find('//*[@data-ui-id="page-title" and contains(text(), "My Dashboard")]',
-                Locator::SELECTOR_XPATH));
+                Locator::SELECTOR_XPATH
+            )
+        );
     }
 
     /**
      * Get Messages block
      *
-     * @return \Magento\Core\Test\Block\Messages
+     * @return Messages
      */
     public function getMessages()
     {
@@ -80,17 +85,17 @@ class CustomerAccountIndex extends Page
     /**
      * Get Address Book block
      *
-     * @return \Magento\Customer\Test\Block\Dashboard\AddressBook
+     * @return Address
      */
-    public function getAddressBook()
+    public function getDashboardAddress()
     {
-        return $this->addressBook;
+        return $this->dashboardAddress;
     }
 
     /**
      * Get dashboard panel title
      *
-     * @return \Magento\Customer\Test\Block\DashboardHeaderPanelTitle
+     * @return DashboardHeaderPanelTitle
      */
     public function getDashboardHeaderPanelTitle()
     {

@@ -48,24 +48,6 @@ class Create extends Form
     }
 
     /**
-     * Fill customer data
-     *
-     * @param array $fields
-     * @param Element $element
-     */
-    protected function _fill(array $fields, Element $element = null)
-    {
-        $loginData = array(
-            $fields['firstname'],
-            $fields['lastname'],
-            $fields['email'],
-            $fields['password'],
-            $fields['confirmation']
-        );
-        parent::_fill($loginData, $element);
-    }
-
-    /**
      * Fill form with customer data and submit
      *
      * @param Customer $fixture

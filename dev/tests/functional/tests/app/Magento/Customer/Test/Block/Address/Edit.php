@@ -50,18 +50,6 @@ class Edit extends Form
     }
 
     /**
-     * Fill form data. Unset 'email' field as it absent in current form
-     *
-     * @param array $fields
-     * @param Element $element
-     */
-    protected function _fill(array $fields, Element $element = null)
-    {
-        unset($fields['email']);
-        parent::_fill($fields);
-    }
-
-    /**
      * Edit customer address
      *
      * @param Address $fixture

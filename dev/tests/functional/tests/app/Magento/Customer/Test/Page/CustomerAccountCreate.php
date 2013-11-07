@@ -16,6 +16,7 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Customer\Test\Block\Form;
+use Magento\Customer\Test\Block\Form\Create;
 
 /**
  * Customer Create page on frontend
@@ -32,8 +33,7 @@ class CustomerAccountCreate extends Page
     /**
      * Customer Create form
      *
-     * @var Form\Create
-     * @private
+     * @var Create
      */
     private $createForm;
 
@@ -45,13 +45,14 @@ class CustomerAccountCreate extends Page
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
 
         $this->createForm = Factory::getBlockFactory()->getMagentoCustomerFormCreate(
-            $this->_browser->find('form-validate', Locator::SELECTOR_ID));
+            $this->_browser->find('form-validate', Locator::SELECTOR_ID)
+        );
     }
 
     /**
      * Get Customer Create form
      *
-     * @return \Magento\Customer\Test\Block\Form\Create
+     * @return Create
      */
     public function getCreateForm()
     {

@@ -17,6 +17,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Search;
 use Magento\Page\Test\Block\Html\Title;
 use Magento\Page\Test\Block\Html\Topmenu;
+use Magento\Page\Test\Block\Links;
 
 /**
  * Class Home
@@ -53,6 +54,13 @@ class Home extends Page
     private $titleBlock;
 
     /**
+     * Page Top Links block
+     *
+     * @var Links
+     */
+    private $topLinks;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -66,6 +74,9 @@ class Home extends Page
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
+        );
+        $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
+            $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
         );
     }
 
@@ -97,5 +108,15 @@ class Home extends Page
     public function getTitleBlock()
     {
         return $this->titleBlock;
+    }
+
+    /**
+     * Get Top Links block
+     *
+     * @return Links
+     */
+    public function getTopLinks()
+    {
+        return $this->topLinks;
     }
 }
