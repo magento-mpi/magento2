@@ -70,6 +70,7 @@ $testsuite = new \Magento\TestFramework\Performance\Testsuite(
 );
 
 $testsuite->getApplication()->reset();
+$testsuite->getApplication()->bootstrap();
 
 foreach ($files as $fixture) {
     echo 'Applying fixture ' . $fixture . PHP_EOL;

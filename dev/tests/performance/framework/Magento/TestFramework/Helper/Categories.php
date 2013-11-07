@@ -76,7 +76,8 @@ class Categories
         }
 
         /** Removing store root categories */
-        $this->_categories = array_filter($categories);
+        $this->_categories = array_values(array_filter($categories));
+        $this->_categoriesNumber = count($this->_categories);
     }
 
     /**

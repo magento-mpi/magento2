@@ -93,7 +93,7 @@ class Application
         if ($this->_config->getInstallOptions()) {
             $this->_uninstall()
                 ->_install()
-                ->_reindex()
+                ->reindex()
                 ->_updateFilesystemPermissions();
         } else {
             $this->_isInstalled = true;
@@ -121,6 +121,7 @@ class Application
         $this->_shell->execute(
             'php -f ' . $this->_config->getApplicationBaseDir() . '/dev/shell/indexer.php -- reindexall'
         );
+        return $this;
     }
 
     /**
@@ -173,33 +174,11 @@ class Application
     }
 
     /**
-     * Run all indexer processes
-     *
-     * @return \Magento\TestFramework\Application
-     */
-    protected function _reindex()
-    {
-        $this->_bootstrap();
-
-        /** @var $indexer \Magento\Index\Model\Indexer */
-        $indexer = $this->_objectManager->create('Magento\Index\Model\Indexer');
-        /** @var $process \Magento\Index\Model\Process */
-        foreach ($indexer->getProcessesCollection() as $process) {
-
-            if ($process->getIndexer()->isVisible()) {
-                $process->reindexEverything();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Update permissions for `var` directory
      */
     protected function _updateFilesystemPermissions()
     {
-        \Magento\Io\File::chmodRecursive($this->_objectManager->get('Magento\App\Dir')->getDir('var'), 0777);
+        \Magento\Io\File::chmodRecursive($this->getObjectManager()->get('Magento\App\Dir')->getDir('var'), 0777);
     }
 
     /**
@@ -209,18 +188,13 @@ class Application
      */
     protected function _bootstrap()
     {
-        if (!$this->_objectManager) {
-            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
-                new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
-            );
-        }
         /** @var $app \Magento\Core\Model\App */
-        $this->_application = $this->_objectManager->get('Magento\Core\Model\App');
-        $this->_objectManager->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
-        $this->_objectManager->configure(
-            $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
+        $this->_application = $this->getObjectManager()->get('Magento\Core\Model\App');
+        $this->getObjectManager()->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
+        $this->getObjectManager()->configure(
+            $this->getObjectManager()->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 
@@ -258,7 +232,7 @@ class Application
         }
         $this->_fixtures = $fixtures;
 
-        $this->_reindex()
+        $this->reindex()
             ->_updateFilesystemPermissions();
     }
 
@@ -292,6 +266,11 @@ class Application
      */
     public function getObjectManager()
     {
+        if (!$this->_objectManager instanceof \Magento\Core\Model\ObjectManager) {
+            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
+                new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
+            );
+        }
         return $this->_objectManager;
     }
 }
