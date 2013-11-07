@@ -68,7 +68,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
             $referer    = $this->getRequest()->getServer('HTTP_REFERER');
 
             if (strpos($referer, 'customer') !== false) {
-                $link = $this->getUrl('adminhtml/customer/edit/',
+                $link = $this->getUrl('customer/index/edit/',
                     array(
                         'id'  => $order->getCustomerId(),
                         'active_tab'=> 'orders'

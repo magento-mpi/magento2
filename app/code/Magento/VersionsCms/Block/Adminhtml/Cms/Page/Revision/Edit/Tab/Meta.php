@@ -20,7 +20,7 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 class Meta
-    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Meta
+    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
 {
     /**
      * Cms data

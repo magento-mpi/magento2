@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
