@@ -24,14 +24,14 @@ class Php implements TemplateEngineInterface
      * Include the named PHTML template using the given block as the $this
      * reference, though only public methods will be accessible.
      *
-     * @param \Magento\Core\Block\Template $block
+     * @param \Magento\View\Element\BlockInterface $block
      * @param string                   $fileName
      * @param array                    $dictionary
      *
      * @return string
      * @throws \Exception any exception that the template may throw
      */
-    public function render(Template $block, $fileName, array $dictionary = array())
+    public function render(\Magento\View\Element\BlockInterface $block, $fileName, array $dictionary = array())
     {
         ob_start();
         try {
