@@ -23,6 +23,13 @@ class Application
     protected $_config;
 
     /**
+     * Application object
+     *
+     * @var \Magento\Core\Model\App
+     */
+    protected $_application;
+
+    /**
      * Path to shell installer script
      *
      * @var string
@@ -90,6 +97,28 @@ class Application
     }
 
     /**
+     * Reset application (uninstall, install, reindex, update permissions)
+     *
+     * @return Application
+     */
+    public function reset()
+    {
+        return $this->_reset();
+    }
+
+    /**
+     * Run reindex
+     *
+     * @return Application
+     */
+    public function reindex()
+    {
+        $this->_shell->execute(
+            'php -f ' . $this->_config->getApplicationBaseDir() . '/dev/shell/indexer.php -- reindexall'
+        );
+    }
+
+    /**
      * Uninstall application
      *
      * @return \Magento\TestFramework\Application
@@ -151,6 +180,7 @@ class Application
         $indexer = $this->_objectManager->create('Magento\Index\Model\Indexer');
         /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
+
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();
             }
@@ -180,8 +210,18 @@ class Application
             );
         }
         /** @var $app \Magento\Core\Model\App */
-        $this->_objectManager->get('Magento\Core\Model\App');
+        $this->_application = $this->_objectManager->get('Magento\Core\Model\App');
         return $this;
+    }
+
+    /**
+     * Bootstrap
+     *
+     * @return Application
+     */
+    public function bootstrap()
+    {
+        return $this->_bootstrap();
     }
 
     /**
@@ -204,12 +244,22 @@ class Application
 
         $this->_bootstrap();
         foreach ($fixturesToApply as $fixtureFile) {
-            require $fixtureFile;
+            $this->applyFixture($fixtureFile);
         }
         $this->_fixtures = $fixtures;
 
         $this->_reindex()
             ->_updateFilesystemPermissions();
+    }
+
+    /**
+     * Apply fixture file
+     *
+     * @param $fixtureFilename
+     */
+    public function applyFixture($fixtureFilename)
+    {
+        require $this->_config->getTestsBaseDir() . DS . $fixtureFilename;
     }
 
     /**
@@ -226,6 +276,8 @@ class Application
     }
 
     /**
+     * Get object manager
+     *
      * @return \Magento\ObjectManager
      */
     public function getObjectManager()
