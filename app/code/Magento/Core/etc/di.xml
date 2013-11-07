@@ -223,7 +223,7 @@
     </type>
     <type name="Magento\View\Design\Theme\Image">
         <param name="uploader">
-            <instance type="Magento\View\Design\Theme\Image\UploaderProxy" />
+            <instance type="Magento\View\Design\Theme\Image\Uploader\Proxy" />
         </param>
     </type>
     <type name="Magento\Phrase\Renderer\Composite">
