@@ -45,16 +45,6 @@ $table = $installer->getConnection()
         'Email address of the contact person'
     )
     ->addColumn(
-        'authentication',
-        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        array(
-            'unsigned' => true,
-            'nullable' => false
-        ),
-        'Authentication mechanism'
-    )
-    ->addColumn(
         'endpoint',
         \Magento\DB\Ddl\Table::TYPE_TEXT,
         255,

@@ -17,7 +17,6 @@ use \Magento\Integration\Controller\Adminhtml\Integration;
  *
  * @category   Magento
  * @package    Magento_Integration
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Info extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -29,9 +28,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_ID = 'integration_id';
     const DATA_NAME = 'name';
     const DATA_EMAIL = 'email';
-    const DATA_AUTHENTICATION = 'authentication';
     const DATA_ENDPOINT = 'endpoint';
-
     /**#@-*/
 
     /**

@@ -8,8 +8,6 @@
 
 /**
  * Integration resource model
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Integration\Model\Resource;
 
