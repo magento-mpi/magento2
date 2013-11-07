@@ -24,12 +24,14 @@ $defaultStoreView = $storeManager->getDefaultStoreView();
 
 for ($i = 0; $i < $storesCount; $i++) {
     $store = clone $defaultStoreView;
-    $storeCode = sprintf('store_view_%1$d', $i);
-    $storeName = sprintf('Store View %1$d', $i);
+    $t = microtime(true) * 10000;
+    $storeCode = sprintf('store_view_%s', $t);
+    $storeName = sprintf('Store View %s', $t);
     $store->addData(array(
         'store_id' => null,
         'code'     => $storeCode,
         'name'     => $storeName
     ));
     $store->save();
+    usleep(20);
 }
