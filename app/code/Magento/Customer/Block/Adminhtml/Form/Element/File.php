@@ -33,15 +33,15 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     protected $_adminhtmlData = null;
 
     /**
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $attributes
      */
     public  function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Backend\Helper\Data $adminhtmlData,
@@ -50,7 +50,7 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         $this->_viewUrl = $viewUrl;
-        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
         $this->setType('file');
     }
 
