@@ -23,7 +23,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithNotEmptyAreaFrontName()
     {
         $options = array(
-            'areaCode'       => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'areaCode'       => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
             'baseController' => 'Magento\Backend\Controller\AbstractAction',
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

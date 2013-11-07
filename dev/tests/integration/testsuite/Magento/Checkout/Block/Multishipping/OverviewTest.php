@@ -27,8 +27,7 @@ class OverviewTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_objectManager->get('Magento\Core\Model\App')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-            ->load();
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $this->_block = $this->_objectManager->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Checkout\Block\Multishipping\Overview');
     }

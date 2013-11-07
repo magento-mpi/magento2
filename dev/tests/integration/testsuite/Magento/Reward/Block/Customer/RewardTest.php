@@ -18,6 +18,8 @@ class RewardTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->setAreaCode('frontend');
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer');
         $customer->load(1);

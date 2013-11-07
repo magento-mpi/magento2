@@ -37,7 +37,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
         $this->_routeConfigMock = $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false);
         $options = array(
-            'areaCode'        => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'areaCode'        => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
             'baseController'  => 'Magento\Backend\Controller\AbstractAction',
             'routeConfig' => $this->_routeConfigMock
         );
