@@ -149,7 +149,6 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'non-existing handle'  => array('non_existing_handle', false),
-            'non page type handle' => array('not_a_page_type',     false),
             'existing page type'   => array('default',             true),
         );
     }
