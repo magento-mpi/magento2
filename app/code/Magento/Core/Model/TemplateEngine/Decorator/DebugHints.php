@@ -38,7 +38,7 @@ class DebugHints implements \Magento\View\TemplateEngineInterface
      *
      * {@inheritdoc}
      */
-    public function render(\Magento\Core\Block\Template $block, $templateFile, array $dictionary = array())
+    public function render(\Magento\View\Element\BlockInterface $block, $templateFile, array $dictionary = array())
     {
         $result = $this->_subject->render($block, $templateFile, $dictionary);
         if ($this->_showBlockHints) {
