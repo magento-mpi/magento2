@@ -9,8 +9,8 @@
 -->
 <config>
     <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
-    <preference for="Magento\App\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
-    <preference for="Magento\App\Module\ResourceResolverInterface" type="Magento\App\Module\ResourceResolver" />
+    <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
+    <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
@@ -28,6 +28,7 @@
     <preference for="Magento\Config\ConverterInterface" type="Magento\Config\Converter\Dom"/>
     <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
+    <preference for="Magento\App\DefaultPathInterface" type="Magento\App\DefaultPath\DefaultPath" />
     <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Encryption\Encryptor" />
     <preference for="Magento\Filter\Encrypt\AdapterInterface" type=" Magento\Filter\Encrypt\Basic" />
     <preference for="Magento\View\Design\Theme\ThemeProviderInterface" type="Magento\Core\Model\Theme\ThemeProvider" />
@@ -36,15 +37,21 @@
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\AdapterInterface" type="Magento\Image\Adapter\Gd2" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />
-    <type name="Magento\App\FrontController">
-        <plugin name="install" type="Magento\Core\App\FrontController\Plugin\Install" sortOrder="40"/>
-        <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
+    <type name="Magento\App\DefaultPath\DefaultPath">
+        <param name="parts">
+            <value>
+                <module>core</module>
+                <controller>index</controller>
+                <action>index</action>
+            </value>
+        </param>
     </type>
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
                 <frontend>
                     <frontName />
+                    <router>standard</router>
                 </frontend>
             </value>
         </param>
@@ -249,29 +256,7 @@
             <instance type="Magento\Core\Model\Config\SectionPool\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\RouterList" shared="true">
-        <param name="routerList">
-            <value>
-                <standard>
-                    <instance>Magento\Core\Controller\Varien\Router\Base</instance>
-                    <disable type="bool">false</disable>
-                    <sortOrder>20</sortOrder>
-                </standard>
-                <default>
-                    <instance>Magento\App\Router\DefaultRouter</instance>
-                    <disable type="bool">false</disable>
-                    <sortOrder>100</sortOrder>
-                </default>
-            </value>
-        </param>
-    </type>
-    <type name="Magento\Core\Controller\Varien\Router\Base">
-        <param name="areaCode">
-            <value>frontend</value>
-        </param>
-        <param name="baseController">
-            <value>Magento\Core\Controller\Varien\Action</value>
-        </param>
+    <type name="Magento\Core\App\Router\Base">
         <param name="routerId">
             <value>standard</value>
         </param>
@@ -411,5 +396,18 @@
         <param name="adapter">
             <instance type="Magento\Image\Adapter\Gd2"/>
         </param>
+    </type>
+    <type name="Magento\Core\Model\Store\Storage\Db">
+        <param name="url">
+            <instance type="Magento\Backend\Model\Url\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\App">
+        <param name="frontController">
+            <instance type="Magento\App\FrontController\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\App\FrontController">
+        <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
     </type>
 </config>

@@ -66,8 +66,10 @@ class Instance extends \Magento\Core\Model\AbstractModel
     /** @var  \Magento\Widget\Model\Widget */
     protected $_widgetModel;
 
-    /** @var  \Magento\Core\Model\Config */
-    protected $_coreConfig;
+    /**
+     * @var \Magento\Widget\Model\NamespaceResolver
+     */
+    protected $_namespaceResolver;
 
     /**
      * @var \Magento\Core\Model\Cache\TypeListInterface
@@ -98,7 +100,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Widget\Model\Config\Reader $reader
      * @param \Magento\Widget\Model\Widget $widgetModel
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Widget\Model\NamespaceResolver $namespaceResolver
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -114,8 +116,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
-        \Magento\Core\Model\Config $coreConfig,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Widget\Model\NamespaceResolver $namespaceResolver,
+        \Magento\Math\Random $mathRandom,        
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
@@ -128,8 +130,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
         $this->_productType = $productType;
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
-        $this->_coreConfig = $coreConfig;
         $this->mathRandom = $mathRandom;
+        $this->_namespaceResolver = $namespaceResolver;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -391,7 +393,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
-                    'module' => $this->_coreConfig->determineOmittedNamespace(
+                    'module' => $this->_namespaceResolver->determineOmittedNamespace(
                         preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
                     ),
                 ));

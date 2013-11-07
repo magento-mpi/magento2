@@ -39,7 +39,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * DB Updater
      *
-     * @var \Magento\App\UpdaterInterface
+     * @var \Magento\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -60,7 +60,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Core\Model\Session\Generic $session
-     * @param \Magento\App\UpdaterInterface $dbUpdater
+     * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Session\Generic $session,
-        \Magento\App\UpdaterInterface $dbUpdater,
+        \Magento\Module\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_installer = $installer;
@@ -163,7 +163,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function indexAction()
     {
-        $this->_forward('begin');
+        $this->_redirect('*/*/begin');
     }
 
     /**

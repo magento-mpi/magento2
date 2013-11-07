@@ -35,6 +35,11 @@ class Sitemap extends \Magento\Core\Model\Config\Value
     protected $_configValueFactory;
 
     /**
+     * @var string
+     */
+    protected $_runModelPath = '';
+
+    /**
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -42,6 +47,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param string $runModelPath
      * @param array $data
      */
     public function __construct(
@@ -52,8 +58,10 @@ class Sitemap extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        $runModelPath = '',
         array $data = array()
     ) {
+        $this->_runModelPath = $runModelPath;
         $this->_configValueFactory = $configValueFactory;
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
@@ -85,7 +93,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
                 ->save();
             $this->_configValueFactory->create()
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string)$this->_config->getNode(self::CRON_MODEL_PATH))
+                ->setValue($this->_runModelPath)
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (\Exception $e) {

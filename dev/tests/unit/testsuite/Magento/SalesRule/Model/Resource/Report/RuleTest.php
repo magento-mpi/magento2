@@ -47,7 +47,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->with($select)
             ->will($this->returnCallback(array($this, 'fetchAllCallback')));
 
-        $resourceMock = $this->getMock('Magento\Core\Model\Resource',
+        $resourceMock = $this->getMock('Magento\App\Resource',
             array('getConnection', 'getTableName'), array(), '', false
         );
         $resourceMock->expects($this->any())

@@ -53,8 +53,8 @@ return array(
     ),
     array('DEFAULT_CURRENCY', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App'),
-    array('DEFAULT_READ_CONNECTION', 'Magento\Core\Model\Config\Resource'),
-    array('DEFAULT_WRITE_CONNECTION', 'Magento\Core\Model\Config\Resource'),
+    array('DEFAULT_READ_CONNECTION', 'Magento\App\Resource\Config'),
+    array('DEFAULT_WRITE_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_ERROR_HANDLER', 'Mage'),
     array('DEFAULT_LOCALE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
@@ -136,30 +136,19 @@ return array(
         'XML_NODE_ATTRIBUTE_GROUPS'
     ),
     array(
-        'XML_PATH_ALLOW_CODES',
-        'Magento\Core\Model\Locale',
-        'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CODES'
-    ),
-    array(
         'XML_PATH_ALLOW_CURRENCIES',
         'Magento\Core\Model\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
     ),
-    array(
-        'XML_PATH_ALLOW_CURRENCIES_INSTALLED',
-        'Magento\Core\Model\Locale',
-        'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES_INSTALLED'
-    ),
-    array(
-        'XML_PATH_ALLOW_DUPLICATION',
-        'Magento\Core\Model\Design\PackageInterface',
+    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\LocaleInterface'),
+    array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
     array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_CHECK_EXTENSIONS', 'Magento\Install\Model\Config'),
-    array('XML_PATH_CONNECTION_TYPE', 'Magento\Core\Model\Config\Resource'),
+    array('XML_PATH_CONNECTION_TYPE', 'Magento\App\Resource\Config'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS',
@@ -185,6 +174,7 @@ return array(
     array('XML_PATH_INDEXER_DATA', 'Magento\Index\Model\Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
     array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Helper\Data'),
+    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Model\CacheControlFactory'),
     array('XML_PATH_EXTERNAL_CACHE_CONTROL', 'Magento\PageCache\Helper\Data'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento\Wishlist\Model\Config'),
@@ -292,13 +282,14 @@ return array(
     array('XML_PATH_DISABLED_CACHE_TYPES', 'Magento\DesignEditor\Helper\Data'),
     array('XML_PATH_ENCRYPTION_MODEL', 'Magento\Core\Helper\Data'),
     array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento\Core\Model\Resource\Setup\Migration'),
-    array('XML_PATH_IGNORE_DEV_MODE', 'Magento\App\UpdaterInterface'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\App\UpdaterInterface'),
     array(
         'XML_NODE_SESSION_SAVE',
         'Magento\Core\Model\Session\AbstractSession',
         'Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD'
     ),
+    array('XML_PATH_IGNORE_DEV_MODE', 'Magento\Module\UpdaterInterface'),
+    array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\Module\UpdaterInterface'),
     array(
         'XML_NODE_SESSION_SAVE_PATH',
         'Magento\Core\Model\Session\AbstractSession',
@@ -387,4 +378,7 @@ return array(
         '\Magento\Core\Model\Image\AdapterFactory',
         '\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2'
     ),
+    array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
+    array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
+    array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
 );
