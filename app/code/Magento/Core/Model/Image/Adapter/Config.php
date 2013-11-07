@@ -14,14 +14,14 @@ class Config implements \Magento\Image\Adapter\ConfigInterface
     /**
      * @var \Magento\Core\Model\ConfigInterface
      */
-    protected $configModel;
+    protected $config;
 
     /**
-     * @param \Magento\Core\Model\ConfigInterface $configModel
+     * @param \Magento\Core\Model\ConfigInterface $config
      */
-    public function __construct(\Magento\Core\Model\ConfigInterface $configModel)
+    public function __construct(\Magento\Core\Model\ConfigInterface $config)
     {
-        $this->configModel = $configModel;
+        $this->config = $config;
     }
 
     /**
@@ -29,6 +29,6 @@ class Config implements \Magento\Image\Adapter\ConfigInterface
      */
     public function getAdapterName()
     {
-        return (string)$this->configModel->getNode(self::XML_PATH_IMAGE_ADAPTER);
+        return (string)$this->config->getValue(self::XML_PATH_IMAGE_ADAPTER);
     }
 }
