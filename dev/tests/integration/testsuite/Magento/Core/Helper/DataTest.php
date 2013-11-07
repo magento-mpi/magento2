@@ -15,15 +15,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
 {
     const DATE_TIMEZONE = 'America/Los_Angeles'; // hardcoded in the installation
 
-    const DATE_FORMAT_SHORT_ISO = 'M/d/yy'; // en_US
-    const DATE_FORMAT_SHORT = 'n/j/y';
-
-    const TIME_FORMAT_SHORT_ISO = 'h:mm a'; // en_US
-    const TIME_FORMAT_SHORT = 'g:i A'; // // but maybe "a"
-
-    const DATETIME_FORMAT_SHORT_ISO = 'M/d/yy h:mm a';
-    const DATETIME_FORMAT_SHORT = 'n/j/y g:i A';
-
     /**
      * @var \Magento\Core\Helper\Data
      */
