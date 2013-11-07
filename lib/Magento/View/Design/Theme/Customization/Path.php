@@ -26,13 +26,20 @@ class Path
     protected $_dir;
 
     /**
+     * @var string
+     */
+    protected $filename;
+
+    /**
      * Initialize dependencies
      *
      * @param \Magento\App\Dir $dir
+     * @param $filename
      */
-    public function __construct(\Magento\App\Dir $dir)
+    public function __construct(\Magento\App\Dir $dir, $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME)
     {
         $this->_dir = $dir;
+        $this->filename = $filename;
     }
 
     /**
@@ -78,8 +85,7 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR
-                . \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG;
+            $path = $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR . $this->filename;
         }
         return $path;
     }
