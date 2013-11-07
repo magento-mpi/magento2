@@ -32,7 +32,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
             $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
             $objectManager->get('Magento\ImportExport\Model\Export\Adapter\CsvFactory'),
-            $objectManager->get('Zend_File_Transfer_Adapter_HttpFactory'),
+            $objectManager->get('Magento\ImportExport\Model\HttpAdapterFactory'),
             $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
             $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
             $objectManager->get('Magento\Index\Model\Indexer'),

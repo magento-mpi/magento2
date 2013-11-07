@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 namespace Magento\Code\Plugin\GeneratorTest;
+use Magento\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -48,4 +49,16 @@ class SimpleObjectManager implements \Magento\ObjectManager
     public function configure(array $configuration)
     {
     }
+
+    /**
+     * Set factory
+     *
+     * @param ObjectManager\Factory $factory
+     */
+    public function setFactory(ObjectManager\Factory $factory)
+    {
+
+    }
+
+
 }

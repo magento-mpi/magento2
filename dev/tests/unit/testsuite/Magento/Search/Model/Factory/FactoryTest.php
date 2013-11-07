@@ -56,7 +56,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('isActive')
             ->will($this->returnValue(true));
         $this->_objectManager->expects($this->once())
-            ->method('create')
+            ->method('get')
             ->with('Magento\Search\Model\SolrFactory')
             ->will($this->returnValue($this->_solrFactoryMock));
         $this->_factoryObject->getFactory();
@@ -70,8 +70,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_solrStateMock->expects($this->once())
             ->method('isActive')
             ->will($this->returnValue(false));
+
         $this->_objectManager->expects($this->once())
-            ->method('create')
+            ->method('get')
             ->with('Magento\Search\Model\RegularFactory')
             ->will($this->returnValue($this->_regularFactoryMock));
         $this->_factoryObject->getFactory();

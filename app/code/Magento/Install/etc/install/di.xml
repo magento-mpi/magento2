@@ -9,4 +9,15 @@
 -->
 <config>
     <preference for="Magento\Core\Model\Theme" type="Magento\Core\Model\Theme\Data" />
+    <type name="Magento\App\RouterList" shared="true">
+        <param name="routerList">
+            <value>
+                <install>
+                    <instance>Magento\Core\App\Router\Base</instance>
+                    <disable type="bool">false</disable>
+                    <sortOrder>20</sortOrder>
+                </install>
+            </value>
+        </param>
+    </type>
 </config>

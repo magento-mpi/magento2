@@ -61,7 +61,7 @@ class Encrypted
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_encryptor = \Magento\Core\Model\ObjectManager::getInstance()
+        $this->_encryptor = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Encryption\EncryptorInterface');
     }
 

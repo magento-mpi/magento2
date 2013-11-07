@@ -15,7 +15,7 @@
 
 namespace Magento\Core\Model;
 
-class Cache implements \Magento\Core\Model\CacheInterface
+class Cache implements \Magento\App\CacheInterface
 {
     /**
      * @var string

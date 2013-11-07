@@ -21,7 +21,7 @@
             <instance type="Magento\CustomerCustomAttributes\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <customercustomattributes_setup>Magento\Customer\Model\Resource\Setup</customercustomattributes_setup>

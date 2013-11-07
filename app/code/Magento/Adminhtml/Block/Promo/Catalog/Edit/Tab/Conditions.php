@@ -28,7 +28,7 @@ class Conditions
      * @param \Magento\Rule\Block\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -37,7 +37,7 @@ class Conditions
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()

@@ -24,11 +24,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /**
-     * @var \Magento\Core\Model\Config\Primary
-     */
-    protected $_primaryConfigMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_frontResolverMock;
@@ -36,14 +31,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false);
-        $this->_primaryConfigMock =
-            $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false, false);
         $this->_frontResolverMock
             = $this->getMock('\Magento\Backend\App\Area\FrontNameResolver', array(), array(), '', false);
         $this->_helper = new \Magento\Backend\Helper\Data(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            $this->_primaryConfigMock,
-            $this->getMock('Magento\App\RouterList', array(), array(), '', false),
+            $this->getMock('\Magento\App\Route\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
             $this->getMock('\Magento\Backend\Model\Url', array(), array(), '', false),
             $this->getMock('\Magento\Backend\Model\Auth', array(), array(), '', false),

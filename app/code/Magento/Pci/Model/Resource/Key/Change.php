@@ -42,14 +42,14 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_structure;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Backend\Model\Config\Structure $structure,

@@ -138,35 +138,45 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * Constructor
      *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     * 
-     * @param \Magento\App\RouterListInterface $routerList
+     * @var \Magento\App\Route\ConfigInterface
+     */
+    protected $_routeConfig;
+
+    /**
+     * @var string
+     */
+    protected $_areaCode;
+
+    /**
+     * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param Url\SecurityInfoInterface $urlSecurityInfo
      * @param Store\Config $coreStoreConfig
      * @param App $app
      * @param StoreManager $storeManager
      * @param Session $session
+     * @param null $areaCode
      * @param array $data
      */
     public function __construct(
-        \Magento\App\RouterListInterface $routerList,
+        \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
         Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Session $session,
+        $areaCode = null,
         array $data = array()
     ) {
         $this->_request = $request;
-        $this->_routerList = $routerList;
+        $this->_routeConfig = $routeConfig;
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
         $this->_storeManager = $storeManager;
         $this->_session = $session;
+        $this->_areaCode = $areaCode;
         parent::__construct($data);
     }
 
@@ -568,10 +578,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRouteFrontName()
     {
         if (!$this->hasData('route_front_name')) {
-            $routeId = $this->getRouteName();
-            $router = $this->_routerList->getRouterByRoute($routeId);
-            $frontName = $router->getFrontNameByRoute($routeId);
-
+            $frontName = $this->_routeConfig->getRouteFrontName($this->getRouteName(), $this->_areaCode);
             $this->setRouteFrontName($frontName);
         }
 

@@ -16,7 +16,7 @@
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <salesarchive_setup>Magento\SalesArchive\Model\Resource\Setup</salesarchive_setup>
