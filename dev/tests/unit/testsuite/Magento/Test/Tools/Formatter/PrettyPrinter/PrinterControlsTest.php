@@ -157,10 +157,9 @@ class TestClass
 {
     public function main(\$abcdefghijklmnopqrstuvwxyz)
     {
-        if (
-            isset(
-                \$abcdefghijklmnopqrstuvwxyz
-            ) && isset(\$abcdefghijklmnopqrstuvwxyz) && isset(\$abcdefghijklmnopqrstuvwxyz)
+        if (isset(
+            \$abcdefghijklmnopqrstuvwxyz
+        ) && isset(\$abcdefghijklmnopqrstuvwxyz) && isset(\$abcdefghijklmnopqrstuvwxyz)
         ) {
             \$callback = 'hello';
             \$callback = 'good';
@@ -195,11 +194,10 @@ class TestClass
 {
     public function main(\$results)
     {
-        if (
-            strcasecmp(
-                'FALSE',
-                \$results
-            ) === 0 || strcasecmp('TRUE', \$results) === 0 || strcasecmp('NULL', \$results) === 0
+        if (strcasecmp(
+            'FALSE',
+            \$results
+        ) === 0 || strcasecmp('TRUE', \$results) === 0 || strcasecmp('NULL', \$results) === 0
         ) {
             \$tokens[sizeof(\$tokens) - 1] = strtolower(\$results);
             // reset the last item in the array due to php's "copy-on-write" rule for arrays

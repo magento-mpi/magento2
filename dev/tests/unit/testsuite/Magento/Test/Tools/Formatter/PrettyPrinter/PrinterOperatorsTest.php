@@ -133,8 +133,7 @@ class PrinterOperatorsTest extends TestBase
                 "<?php\nclass Zoo\n{".
                 "\n    public function zoo()".
                 "\n    {".
-                "\n        \$alligator = (" .
-                "\n            \$bear !== \$cat || \$dragon" .
+                "\n        \$alligator = (\$bear !== \$cat || \$dragon" .
                 "\n        ) > \$elephant && \$fox->isSlick() ? 'a' : (" .
                 "\n        (" .
                 "\n        \$bear !== \$cat || \$dragon" .
@@ -155,9 +154,8 @@ class PrinterOperatorsTest extends TestBase
                 "\$giraffe xor \$hippopotamus && \$iguana && !\$jackle) { \$x += \$y;\necho 'hi';}}}",
                 "<?php\nclass Zoo\n{\n    public function zoo()".
                 "\n    {".
-                "\n        if (".
-                "\n            \$alligator && \$bear || \$cat && !\$dragon || \$elephant and \$fox or".
-                "\n                \$giraffe xor \$hippopotamus && \$iguana && !\$jackle".
+                "\n        if (\$alligator && \$bear || \$cat && !\$dragon || \$elephant and \$fox or".
+                "\n            \$giraffe xor \$hippopotamus && \$iguana && !\$jackle".
                 "\n        ) {".
                 "\n            \$x += \$y;".
                 "\n            echo 'hi';".
