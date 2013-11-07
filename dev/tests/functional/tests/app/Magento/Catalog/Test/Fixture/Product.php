@@ -197,6 +197,26 @@ class Product extends DataFixture
     }
 
     /**
+     * Get new category name
+     *
+     * @return string
+     */
+    public function getNewCategoryName()
+    {
+        return $this->getData('category_new/category_name/value');
+    }
+
+    /**
+     * Get parent for new category
+     *
+     * @return string
+     */
+    public function getNewCategoryParent()
+    {
+        return $this->getData('category_new/parent_category/value');
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()
@@ -261,25 +281,5 @@ class Product extends DataFixture
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogProduct($this->_dataConfig, $this->_data);
-    }
-
-    /**
-     * Get new category name
-     *
-     * @return string
-     */
-    public function getNewCategoryName()
-    {
-        return $this->getData('category_new/category_name/value');
-    }
-
-    /**
-     * Get parent for new category
-     *
-     * @return mixed
-     */
-    public function getNewCategoryParent()
-    {
-        return $this->getData('category_new/parent_category/value');
     }
 }

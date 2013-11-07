@@ -13,6 +13,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class CreateSimpleTest
@@ -32,6 +33,8 @@ class CreateSimpleTest extends Functional
 
     /**
      * Test product create
+     *
+     * @ZephyrId MAGETWO-13345
      */
     public function testCreateProduct()
     {
@@ -41,18 +44,18 @@ class CreateSimpleTest extends Functional
 
         //Page & Blocks
         $productListPage = Factory::getPageFactory()->getCatalogProductIndex();
-        $productListPage->open();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-
         $addProductBlock = $productListPage->getProductBlock();
         $productBlockForm = $createProductPage->getProductBlockForm();
 
         //Steps
+        $productListPage->open();
         $addProductBlock->addProduct();
-        $productBlockForm->addCategory($product);
+        $productBlockForm->addNewCategory($product);
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
 
+        //Verifying
         $this->assertSuccessMessage("You saved the product.");
         $this->assertProductOnFrontend($product);
     }
@@ -69,16 +72,16 @@ class CreateSimpleTest extends Functional
         $this->assertContains(
             $messageText,
             $messageBlock->getSuccessMessages(),
-            sprintf('Message "%s" is not appear', $messageText)
+            sprintf('Message "%s" is not appear.', $messageText)
         );
     }
 
     /**
      * Assert simple product on Frontend
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @param Product $product
      */
-    protected function assertProductOnFrontend(\Magento\Catalog\Test\Fixture\Product $product)
+    protected function assertProductOnFrontend(Product $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -100,7 +103,5 @@ class CreateSimpleTest extends Functional
             'Product name does not correspond to specified.');
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice(),
             'Product price does not correspond to specified.');
-        $this->assertContains($product->getProductSku(), $productViewBlock->getProductSku(),
-            'Product sku does not correspond to specified.');
     }
 }

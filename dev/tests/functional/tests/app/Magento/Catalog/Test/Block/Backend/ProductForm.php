@@ -17,6 +17,7 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class ProductForm
@@ -94,7 +95,7 @@ class ProductForm extends FormTabs
     protected function fillCategory($name)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->_fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
+        $this->fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
     }
 
     /**
@@ -113,16 +114,16 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $fixture
+     * @param Product $fixture
      */
-    public function addCategory(\Magento\Catalog\Test\Fixture\Product $fixture)
+    public function addNewCategory(Product $fixture)
     {
-        $this->_openNewCategoryDialog();
+        $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
             ->setValue($fixture->getNewCategoryName());
 
-        $this->_clearCategorySelect();
-        $this->_selectParentCategory();
+        $this->clearCategorySelect();
+        $this->selectParentCategory();
 
         $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
         $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
@@ -131,7 +132,7 @@ class ProductForm extends FormTabs
     /**
      * Clear parent category field
      */
-    protected function _clearCategorySelect()
+    protected function clearCategorySelect()
     {
         $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
         if ($this->_rootElement->find($selectedCategory)->isVisible()) {
@@ -142,10 +143,10 @@ class ProductForm extends FormTabs
     /**
      * Select parent category for new one
      */
-    protected function _selectParentCategory()
+    protected function selectParentCategory()
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->_fillCategoryField(
+        $this->fillCategoryField(
             'Default Category',
             'new_category_parent-suggest',
             '//*[@id="new_category_form_fieldset"]'
@@ -159,7 +160,7 @@ class ProductForm extends FormTabs
      * @param string $elementId
      * @param string $parentLocation
      */
-    protected function _fillCategoryField($name, $elementId, $parentLocation)
+    protected function fillCategoryField($name, $elementId, $parentLocation)
     {
         // TODO should be removed after suggest widget implementation as typified element
         $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
@@ -173,7 +174,7 @@ class ProductForm extends FormTabs
     /**
      * Open new category dialog
      */
-    protected function _openNewCategoryDialog()
+    protected function openNewCategoryDialog()
     {
         $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
         $this->waitForElementVisible('input#new_category_name');

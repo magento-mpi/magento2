@@ -48,13 +48,6 @@ class View extends Block
     private $productName;
 
     /**
-     * Product sku
-     *
-     * @var string
-     */
-    private $productSku;
-
-    /**
      * Product price element
      *
      * @var string
@@ -78,7 +71,6 @@ class View extends Block
         $this->paypalCheckout = '[data-action=checkout-form-submit]';
         $this->productName = '.page.title.product span';
         $this->productPrice = '.price-box .price';
-        $this->productSku = '.product.attibute.sku div.value';
 
         //Blocks
         $this->bundleBlock = Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
@@ -209,15 +201,5 @@ class View extends Block
             }
         }
         return true;
-    }
-
-    /**
-     * Get product sku displayed on page
-     *
-     * @return string
-     */
-    public function getProductSku()
-    {
-        return $this->_rootElement->find($this->productSku, Locator::SELECTOR_CSS)->getText();
     }
 }

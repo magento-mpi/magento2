@@ -39,36 +39,30 @@ class Product extends AbstractRepository
         $this->_data['simple'] = $this->_data['simple_required'];
         $this->_data['simple']['data']['category_name'] = '%category::getCategoryName%';
 
-        $this->_data['simple_with_new_category'] = array_merge($defaultConfig, $this->_getNewCategoryData());
+        $this->_data['simple_with_new_category'] = array(
+            'config' => $defaultConfig,
+            'data' => $this->buildSimpleWithNewCategoryData($defaultData),
+        );
     }
 
-    protected function _getNewCategoryData()
+    /**
+     * Get data for simple product with new category
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function buildSimpleWithNewCategoryData($defaultData)
     {
         return array(
-            'data' => array(
-                'category_new' => array(
-                    'category_name' => array(
-                        'value' => 'New category %isolation%'
-                    ),
-                    'parent_category' => array(
-                        'value' => 'Default'
-                    )
+            'category_new' => array(
+                'category_name' => array(
+                    'value' => 'New category %isolation%',
                 ),
-                'fields' => array(
-                    'name' => array(
-                        'value' => 'Simple Product %isolation%',
-                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                    ),
-                    'sku' => array(
-                        'value' => 'simple_sku_%isolation%',
-                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                    ),
-                    'price' => array(
-                        'value' => '10',
-                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                    ),
+                'parent_category' => array(
+                    'value' => 'Default',
                 ),
-            )
+            ),
+            'fields' => array_intersect_key($defaultData['fields'], array_flip(array('name', 'sku', 'price'))),
         );
     }
 }
