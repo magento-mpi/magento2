@@ -110,7 +110,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $xml = $this->_composeXml($theme);
 
                 $xpath = '/layouts/*['
-                    . '@type="' . \Magento\Core\Model\Layout\Merge::TYPE_PAGE  . '"]';
+                    . '@design_abstraction="' . \Magento\Core\Model\Layout\Merge::DESIGN_ABSTRACTION_PAGE_LAYOUT  . '"]';
                 $handles = $xml->xpath($xpath) ?: array();
 
                 /** @var \Magento\View\Layout\Element $node */
