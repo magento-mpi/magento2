@@ -21,7 +21,7 @@ namespace Magento\Backend\Controller\Adminhtml\System\Config;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Save extends \Magento\Backend\Controller\System\AbstractConfig
+class Save extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {
     /**
      * Backend Config Model Factory

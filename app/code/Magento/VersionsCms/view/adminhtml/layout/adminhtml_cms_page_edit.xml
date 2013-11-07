@@ -8,6 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="cms_page_edit"/>
     <referenceBlock name="head.components">
         <block class="Magento\Page\Block\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
     </referenceBlock>

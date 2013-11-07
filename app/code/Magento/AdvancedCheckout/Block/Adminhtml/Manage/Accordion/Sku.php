@@ -73,7 +73,7 @@ class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
      */
     public function getFileUploadUrl()
     {
-        return $this->getUrl('adminhtml/checkout/uploadSkuCsv');
+        return $this->getUrl('checkout/index/uploadSkuCsv');
     }
 
     /**

@@ -248,8 +248,8 @@
         <callback class="magento_adminhtml_block_newsletter_queue_edit_form" method="setIsRequiredSubscribersFromFieldForNewsletterQueueForm" />
         <callback class="magento_catalog_block_adminhtml_product_edit_action_attribute_tab_websites" method="catalogProductMassUpdateWebsites" />
         <callback class="magento_catalog_block_adminhtml_product_grid" method="catalogProductPrepareMassaction" />
-        <callback class="magento_adminhtml_block_cms_page_edit" method="removeCmsPageButtons" />
-        <callback class="magento_adminhtml_block_cms_block_edit" method="removeCmsBlockButtons" />
+        <callback class="magento_cms_block_adminhtml_page_edit" method="removeCmsPageButtons" />
+        <callback class="magento_cms_block_adminhtml_block_edit" method="removeCmsBlockButtons" />
         <callback class="magento_adminhtml_block_poll_edit" method="removePollButtons" />
         <callback class="magento_reward_block_adminhtml_reward_rate_edit" method="removeRewardRateButtons" />
         <callback class="magento_adminhtml_block_sales_order_grid" method="removeNotAllowedMassactionsForOrders" />

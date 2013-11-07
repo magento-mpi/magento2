@@ -94,7 +94,7 @@ return array(
                         )
                     )
                 ),
-                'adminhtml_customer_save'=>
+                'customer_index_save'=>
                 array(
                     'group_name' => 'enterprise_checkout',
                     'skip_on_back'=>
@@ -102,7 +102,7 @@ return array(
 
                         'adminhtml_customerbalance_form',
 
-                        'adminhtml_customer_edit'
+                        'customer_index_edit'
                     ),
                     'expected_models'=>
                     array(
@@ -146,13 +146,13 @@ return array(
             ),
             'actions'=>
             array(
-                'adminhtml_customer_edit'=>
+                'customer_index_edit'=>
                 array(
                     'group_name' => 'customer',
                     'action'=>
                     'view'
                 ),
-                'adminhtml_customer_save'=>
+                'customer_index_save'=>
                 array(
                     'group_name' => 'customer',
                     'action'=>
@@ -160,7 +160,7 @@ return array(
                     'skip_on_back'=>
                     array(
 
-                        'adminhtml_customer_edit'
+                        'customer_index_edit'
                     )
                 )
             )

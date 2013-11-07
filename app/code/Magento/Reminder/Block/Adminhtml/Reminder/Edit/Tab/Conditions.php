@@ -65,7 +65,7 @@ class Conditions
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
         $renderer = $this->_fieldsetBlock
-            ->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
+            ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
             'legend'  => __('Conditions'),

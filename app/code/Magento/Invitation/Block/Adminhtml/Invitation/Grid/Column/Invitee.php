@@ -50,7 +50,7 @@ class Invitee
             if (!$row->getReferralId()) {
                 return '';
             }
-            return '<a href="' . $this->_url->getUrl('adminhtml/customer/edit', array('id' => $row->getReferralId())) . '">'
+            return '<a href="' . $this->_url->getUrl('customer/index/edit', array('id' => $row->getReferralId())) . '">'
                    . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
         } else {
             return parent::_getValue($row);
