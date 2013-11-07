@@ -40,11 +40,8 @@ lib/Magento/Filter/Object/Grid.php
 lib/Magento/Filter/Object.php
 
 lib/Magento/View/Context.php
-lib/Magento/View/DataSourcePool.php
 lib/Magento/View/Service.php
 lib/Magento/View/Config.php
-lib/Magento/View/BlockPool.php
-lib/Magento/View/TemplateEngine/Php.php
 lib/Magento/View/Layout/File/Source/Decorator/ModuleOutput.php
 
 lib/Magento/App/Module/ResourceResolver.php
