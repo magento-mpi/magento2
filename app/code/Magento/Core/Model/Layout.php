@@ -322,7 +322,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         }
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
         $result = $this->themeProvider->getThemeByFullPath(
-            $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier
+            $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier
         );
         return $result;
     }
