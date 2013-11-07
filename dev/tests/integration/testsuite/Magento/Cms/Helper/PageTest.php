@@ -21,6 +21,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $arguments = array(
             'request' => $objectManager->get('Magento\TestFramework\Request'),
             'response' => $objectManager->get('Magento\TestFramework\Response')

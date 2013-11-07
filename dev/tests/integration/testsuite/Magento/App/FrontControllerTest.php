@@ -64,7 +64,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_objectManager->get('Magento\Config\Scope')->setCurrentScope('frontend');
+        $this->_objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $request = $this->_objectManager->create('Magento\App\Request\Http');
         /* empty action */
         $request->setRequestUri('core/index/index');

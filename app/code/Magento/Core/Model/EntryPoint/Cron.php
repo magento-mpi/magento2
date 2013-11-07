@@ -21,9 +21,8 @@ class Cron extends \Magento\Core\Model\AbstractEntryPoint
 
         /** @var $eventManager \Magento\Event\ManagerInterface */
         $eventManager = $this->_objectManager->get('Magento\Event\ManagerInterface');
-        /** @var \Magento\Config\Scope $configScope */
-        $configScope = $this->_objectManager->get('Magento\Config\ScopeInterface');
-        $configScope->setCurrentScope('crontab');
+        $this->_objectManager->get('Magento\App\State')->setAreaCode('crontab');
+        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('crontab');
         $eventManager->dispatch('default');
     }
 }

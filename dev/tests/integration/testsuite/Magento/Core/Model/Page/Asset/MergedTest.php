@@ -47,6 +47,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                 \Magento\App\Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDesignTheme('vendor_default');
     }

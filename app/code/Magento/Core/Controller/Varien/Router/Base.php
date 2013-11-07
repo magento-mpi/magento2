@@ -363,7 +363,7 @@ class Base extends \Magento\App\Router\AbstractRouter
 
             // instantiate controller class
             $controllerInstance = $this->_controllerFactory->createController($controllerClassName,
-                array('request' => $request, 'areaCode' => $this->_areaCode)
+                array('request' => $request)
             );
         } else {
             return null;
