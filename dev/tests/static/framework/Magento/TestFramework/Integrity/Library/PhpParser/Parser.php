@@ -19,7 +19,7 @@ interface Parser
      * Parse specific token
      *
      * @param array|string $value
-     * @param int $k
+     * @param int $key
      */
-    public function parse($value, $k);
+    public function parse($value, $key);
 }

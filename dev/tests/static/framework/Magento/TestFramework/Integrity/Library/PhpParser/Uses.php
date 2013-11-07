@@ -115,7 +115,7 @@ class Uses implements Parser
     /**
      * @inheritdoc
      */
-    public function parse($token, $k)
+    public function parse($token, $key)
     {
         if (is_array($token)) {
             if ($this->isParseInProgress()) {
