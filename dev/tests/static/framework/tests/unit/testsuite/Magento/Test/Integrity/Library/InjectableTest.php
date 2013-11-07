@@ -66,11 +66,36 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Covered getWrongDependencies
+     * Covered getDependencies
      *
      * @test
      */
-    public function testGetWrongDependencies()
+    public function testGetDependencies()
+    {
+        $classReflection = $this->getMockBuilder('Zend\Code\Reflection\ClassReflection')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $classReflection->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue('Magento\Core\Model\Object'));
+
+        $this->parameterReflection->expects($this->once())
+            ->method('getClass')
+            ->will($this->returnValue($classReflection));
+
+        $this->assertEquals(
+            array('Magento\Core\Model\Object'),
+            $this->injectable->getDependencies($this->fileReflection)
+        );
+    }
+
+    /**
+     * Covered getDependencies
+     *
+     * @test
+     */
+    public function testGetDependenciesWithException()
     {
         $this->parameterReflection->expects($this->once())
             ->method('getClass')
@@ -82,7 +107,10 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->injectable->getWrongDependencies($this->fileReflection);
+        $this->assertEquals(
+            array('Magento\Core\Model\Object'),
+            $this->injectable->getDependencies($this->fileReflection)
+        );
     }
 
     /**
@@ -91,7 +119,7 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \ReflectionException
      */
-    public function testGetWrongDependenciesWithOtherException()
+    public function testGetDependenciesWithOtherException()
     {
         $this->parameterReflection->expects($this->once())
             ->method('getClass')
@@ -103,6 +131,6 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->injectable->getWrongDependencies($this->fileReflection);
+        $this->injectable->getDependencies($this->fileReflection);
     }
 }

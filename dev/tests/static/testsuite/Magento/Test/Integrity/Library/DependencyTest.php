@@ -51,7 +51,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $tokens->parseContent();
 
         $dependencies = array_merge(
-            (new Injectable())->getWrongDependencies($fileReflection),
+            (new Injectable())->getDependencies($fileReflection),
             $tokens->getDependencies()
         );
 
