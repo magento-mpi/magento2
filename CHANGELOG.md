@@ -2,6 +2,12 @@
   * Single point of access to the current area code
   * Declare Application Areas
 * Various improvements:
+  * Breakdown of the Adminhtml module:
+    * Moved Customer-related logic to Customer module
+    * Moved System-related logic to Backend module
+    * Moved Checkout-related logic to Checkout module
+    * Moved Cms-related logic to Cms module
+    * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
   * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
   * Moved all application bootstrapping behaviour to library
   * Moved application-specific behaviour from entry points to Magento\AppInterface implementations

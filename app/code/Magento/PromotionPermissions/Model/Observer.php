@@ -237,9 +237,9 @@ class Observer
 
         if (in_array($controllerActionName, $forbiddenActionNames)
             && ((!$this->_canEditSalesRules
-            && $controllerAction instanceof \Magento\Adminhtml\Controller\Promo\Quote)
+            && $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Quote)
             || (!$this->_canEditCatalogRules
-            && $controllerAction instanceof \Magento\Adminhtml\Controller\Promo\Catalog)
+            && $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog)
             || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
             && $controllerAction instanceof \Magento\Reminder\Controller\Adminhtml\Reminder))
         ) {

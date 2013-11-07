@@ -97,7 +97,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($customer->getId()) {
             $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>',
-                $this->getUrl('adminhtml/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')),
+                $this->getUrl('customer/index/edit', array('id' => $customer->getId(), 'active_tab'=>'review')),
                 $this->escapeHtml($customer->getFirstname()),
                 $this->escapeHtml($customer->getLastname()),
                 $this->escapeHtml($customer->getEmail()));
