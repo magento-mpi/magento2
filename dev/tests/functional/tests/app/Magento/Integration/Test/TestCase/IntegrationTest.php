@@ -11,12 +11,13 @@ namespace Magento\Integration\Test\TestCase;
 use Mtf\Factory\Factory;
 use Magento\Integration\Test\Repository\Integration as IntegrationRepository;
 use Magento\Integration\Test\Fixture\Integration as IntegrationFixture;
+use Mtf\TestCase\Functional as FunctionalTestCase;
 
 /**
  * Example of integration-related pages, blocks and fixtures usage.
  * @TODO Tests in current test case should be replaced with multiple independent tests according to test plan
  */
-class IntegrationTest extends \Mtf\TestCase\Functional
+class IntegrationTest extends FunctionalTestCase
 {
     /**
      * Login into backend area before tests.
@@ -37,7 +38,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $newIntegrationPage = Factory::getPageFactory()->getAdminIntegrationNew();
         $newIntegrationPage->open();
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture)->save($integrationFixture);
-        $this->_checkSaveSuccessMessage($integrationFixture);
+        $this->_checkSaveSuccessMessage();
         $this->_ensureMatchingIntegrationExists($integrationFixture);
 
         /** Update integration data */
@@ -46,7 +47,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
         $editForm = $editIntegrationPage->getIntegrationFormBlock();
         $editForm->update($integrationFixture)->save($integrationFixture);
-        $this->_checkSaveSuccessMessage($integrationFixture);
+        $this->_checkSaveSuccessMessage();
         $this->_ensureMatchingIntegrationExists($integrationFixture);
     }
 
@@ -62,18 +63,21 @@ class IntegrationTest extends \Mtf\TestCase\Functional
 
     /**
      * Check success message after integration save.
-     *
-     * @param IntegrationFixture $fixture
      */
-    protected function _checkSaveSuccessMessage($fixture)
+    protected function _checkSaveSuccessMessage()
     {
         /** TODO: Message validation functionality can be added to message block */
         $this->assertTrue(
-            Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->waitForSuccessMessage($fixture),
+            Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->waitForSuccessMessage(),
             'Integration save success message was not found.'
         );
     }
 
+    /**
+     * Verify that specified integration exists and that its fields values match to values in fixture.
+     *
+     * @param IntegrationFixture $integrationFixture
+     */
     protected function _ensureMatchingIntegrationExists(IntegrationFixture $integrationFixture)
     {
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();

@@ -19,16 +19,11 @@ class Integration extends AbstractRepository
     const INTEGRATION_MANUAL = 'manual_integration';
     const INTEGRATION_OAUTH = 'oauth_integration';
 
-    /** @var array */
-    protected $_authOptions;
-
     /**
      * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $authenticationSource = new \Magento\Integration\Model\Integration\Source\Authentication();
-        $this->_authOptions = $authenticationSource->toOptionArray();
         $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => $defaultData
@@ -52,12 +47,12 @@ class Integration extends AbstractRepository
                         'group' => 'integration_edit_tabs_info_section_content'
                     ),
                     'email' => array(
-                        'value' => 'email_%isolation%@null.com',
+                        'value' => 'email_%isolation%@example.com',
                         'group' => 'integration_edit_tabs_info_section_content'
                     ),
                     'authentication' => array(
-                        'value' => $this->_authOptions[IntegrationModel::AUTHENTICATION_MANUAL],
-                        'input_value' => IntegrationModel::AUTHENTICATION_MANUAL,
+                        'value' => 'Manual',
+                        'input_value' => 2,
                         'group' => 'integration_edit_tabs_info_section_content',
                         'input' => 'select'
                     ),
@@ -81,17 +76,17 @@ class Integration extends AbstractRepository
                         'group' => 'integration_edit_tabs_info_section_content'
                     ),
                     'email' => array(
-                        'value' => 'email_%isolation%@null.com',
+                        'value' => 'email_%isolation%@example.com',
                         'group' => 'integration_edit_tabs_info_section_content'
                     ),
                     'authentication' => array(
-                        'value' => $this->_authOptions[IntegrationModel::AUTHENTICATION_OAUTH],
-                        'input_value' => IntegrationModel::AUTHENTICATION_OAUTH,
+                        'value' => 'OAuth',
+                        'input_value' => 1,
                         'group' => 'integration_edit_tabs_info_section_content',
                         'input' => 'select'
                     ),
                     'endpoint' => array(
-                        'value' => 'http://endpoint.com',
+                        'value' => 'http://example.com/%isolation%',
                         'group' => 'integration_edit_tabs_info_section_content'
                     ),
                 )

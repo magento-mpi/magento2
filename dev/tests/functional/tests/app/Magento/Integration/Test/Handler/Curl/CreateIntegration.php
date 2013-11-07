@@ -12,6 +12,8 @@ use Mtf\Fixture;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\System\Config as SystemConfig;
 
 /**
  * cURL handler for integration creation.
@@ -33,7 +35,7 @@ class CreateIntegration extends Curl
             $fields[$key] = $field['value'];
         }
         /** Initialize cURL client which is authenticated to the Magento backend */
-        $curl = new \Mtf\Util\Protocol\CurlTransport\BackendDecorator(new CurlTransport(), new \Mtf\System\Config());
+        $curl = new BackendDecorator(new CurlTransport(), new SystemConfig());
         /** Create new integration via cURL */
         $url = $_ENV['app_backend_url'] . 'admin/integration/save';
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);

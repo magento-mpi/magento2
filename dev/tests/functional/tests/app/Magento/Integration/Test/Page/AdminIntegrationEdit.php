@@ -8,7 +8,6 @@
 
 namespace Magento\Integration\Test\Page;
 
-use Magento\Integration\Test\Block\Backend\IntegrationForm;
 use Mtf\Factory\Factory;
 
 /**

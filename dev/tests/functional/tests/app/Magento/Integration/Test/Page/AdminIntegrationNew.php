@@ -49,7 +49,8 @@ class AdminIntegrationNew extends Page
             $element
         );
         $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('messages', Locator::SELECTOR_ID));
+            $this->_browser->find('messages', Locator::SELECTOR_ID)
+        );
     }
 
     /**
