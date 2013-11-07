@@ -42,15 +42,15 @@ if (empty($args)) {
 $files = array_filter(explode(',', trim($shell->getOption('files'))));
 if (empty($files)) {
     $files = array(
-        'testsuite/fixtures/benchmark/store_views.php',
-        'testsuite/fixtures/benchmark/categories.php',
-        'testsuite/fixtures/benchmark/eav_variations.php',
-        'testsuite/fixtures/benchmark/configurable_products.php',
-        'testsuite/fixtures/benchmark/cart_price_rules.php',
-        'testsuite/fixtures/benchmark/simple_products.php',
-        'testsuite/fixtures/benchmark/tax_rates.php',
-        'testsuite/fixtures/benchmark/customer.php',
-        'testsuite/fixtures/shipping_flatrate_enabled.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/store_views.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/categories.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/eav_variations.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/configurable_products.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/cart_price_rules.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/simple_products.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/tax_rates.php',
+        __DIR__ . DS . 'testsuite/fixtures/benchmark/customer.php',
+        __DIR__ . DS . 'testsuite/fixtures/shipping_flatrate_enabled.php',
     );
 }
 
