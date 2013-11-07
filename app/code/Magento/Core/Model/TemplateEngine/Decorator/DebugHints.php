@@ -71,10 +71,10 @@ HTML;
      * Insert block debugging hints into the rendered block contents
      *
      * @param string $blockHtml
-     * @param \Magento\Core\Block\Template $block
+     * @param \Magento\View\Element\BlockInterface $block
      * @return string
      */
-    protected function _renderBlockHints($blockHtml, \Magento\Core\Block\Template $block)
+    protected function _renderBlockHints($blockHtml, \Magento\View\Element\BlockInterface $block)
     {
         $blockClass = get_class($block);
         return <<<HTML
