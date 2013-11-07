@@ -14,15 +14,12 @@ return array(
     'Block/Admin',
     'Block/Backup',
     'Block/Cache',
-    'Block/Checkout',
-    'Block/Dashboard',
     'Block/Denied',
     'Block/Html',
     'Block/Media',
     'Block/Messages',
     'Block/Newsletter',
     'Block/Page',
-    'Block/Rating',
     'Block/Report',
     'Block/Review',
     'Block/Shipping',
@@ -33,9 +30,7 @@ return array(
     'Block/Widget',
 
     // Controllers
-    'Controller/Checkout',
     'Controller/Newsletter',
-    'Controller/Report',
     'Controller/Report',
     'Controller/Urlrewrite',
 
@@ -85,5 +80,4 @@ return array(
     'layout/popup',
     'layout/preview',
     'layout/report_sales',
-    'layout/systemPreview',
 );
