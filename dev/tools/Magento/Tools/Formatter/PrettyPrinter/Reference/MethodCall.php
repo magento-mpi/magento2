@@ -43,7 +43,9 @@ class MethodCall extends AbstractFunctionReference
         $line->add(new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');
         // if the name is an expression, then use the framework to resolve
         if ($this->node->name instanceof PHPParser_Node_Expr) {
+            $line->add('{');
             $this->resolveNode($this->node->name, $treeNode);
+            $line->add('}');
         } else {
             // otherwise, just use the name
             $line->add($this->node->name);

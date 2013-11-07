@@ -92,6 +92,10 @@ class Foo extends Bar implements Zulu {
     }
     /** beta method */
     public function beta() {
+        // Property call
+        echo \$that->{\$this->getName()};
+        // Method call
+        echo \$that->{\$this->getName()}();
         return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
             ->alpha()->alpha()->alpha()->alpha();
     }
@@ -113,6 +117,10 @@ class Foo extends Bar implements Zulu
     /** beta method */
     public function beta()
     {
+        // Property call
+        echo \$that->{\$this->getName()};
+        // Method call
+        echo \$that->{\$this->getName()}();
         return \$this->alpha()
             ->alpha()
             ->alpha()
