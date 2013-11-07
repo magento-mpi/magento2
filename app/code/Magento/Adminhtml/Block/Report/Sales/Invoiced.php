@@ -39,6 +39,6 @@ class Invoiced extends \Magento\Adminhtml\Block\Widget\Grid\Container
     public function getFilterUrl()
     {
         $this->getRequest()->setParam('filter', null);
-        return $this->getUrl('adminhtml/*/invoiced', array('_current' => true));
+        return $this->getUrl('*/*/invoiced', array('_current' => true));
     }
 }

@@ -122,7 +122,7 @@ class Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserDaterange', array(
+        return $this->_adminhtmlData->getUrl('customersegment/index/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }

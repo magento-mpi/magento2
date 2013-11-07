@@ -511,8 +511,8 @@
 /*
     Reports - Customer Reviews
 -------------------------------------- */
-.adminhtml-report-review-customer .col-qty,
-.adminhtml-report-review-customer .col-actions {
+.reports-report-review-customer .col-qty,
+.reports-report-review-customer .col-actions {
     width: 85px;
 }
 
@@ -520,23 +520,23 @@
     Reports - Product Reviews
 -------------------------------------- */
 
-.adminhtml-report-review-product .col-id {
+.reports-report-review-product .col-id {
     width: 35px;
 }
 
-.adminhtml-report-review-product .col-qty,
-.adminhtml-report-review-product .col-rating,
-.adminhtml-report-review-product .col-avg-rating,
-.adminhtml-report-review-product .col-actions {
+.reports-report-review-product .col-qty,
+.reports-report-review-product .col-rating,
+.reports-report-review-product .col-avg-rating,
+.reports-report-review-product .col-actions {
     text-align: right;
     width: 85px;
 }
 
-.adminhtml-report-review-product .col-date {
+.reports-report-review-product .col-date {
     width: 140px;
 }
 
-.adminhtml-report-review-product .col-rating {
+.reports-report-review-product .col-rating {
     width: 104px;
 }
 
@@ -544,7 +544,7 @@
     Reports - New Accounts
 -------------------------------------- */
 
-.adminhtml-report-customer-accounts .col-period {
+.reports-report-customer-accounts .col-period {
     white-space: nowrap;
     width: 70px;
 }
@@ -553,76 +553,76 @@
     Reports - Refresh Statistics
 -------------------------------------- */
 
-.adminhtml-report-statistics-index .col-period {
+.reports-report-statistics-index .col-period {
     white-space: nowrap;
     width: 140px;
 }
 
-.adminhtml-report-statistics-index .col-select {
+.reports-report-statistics-index .col-select {
     width: 25px;
 }
 
 /*
     Reports - Products Ordered
 -------------------------------------- */
-.adminhtml-report-product-sold .col-period {
+.reports-report-product-sold .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-product-sold .col-qty {
+.reports-report-product-sold .col-qty {
     width: 110px;
 }
 
 /*
     Reports - Customers by Orders Total
 -------------------------------------- */
-.adminhtml-report-customer-totals .col-period {
+.reports-report-customer-totals .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-customer-totals .col-qty {
+.reports-report-customer-totals .col-qty {
     width: 65px;
 }
 
-.adminhtml-report-customer-totals .col-rating {
+.reports-report-customer-totals .col-rating {
     width: 100px;
 }
 
 /*
     Reports - Tag by popular
 -------------------------------------- */
-.adminhtml-report-tag-popular .col-qty,
-.adminhtml-report-tag-popular .col-actions {
+.reports-report-tag-popular .col-qty,
+.reports-report-tag-popular .col-actions {
     width: 80px;
 }
 
 /*
     Reports - Tag by customer
 -------------------------------------- */
-.adminhtml-report-tag-customer .col-id {
+.reports-report-tag-customer .col-id {
     width: 35px;
 }
 
-.adminhtml-report-tag-customer .col-qty,
-.adminhtml-report-tag-customer .col-actions {
+.reports-report-tag-customer .col-qty,
+.reports-report-tag-customer .col-actions {
     width: 80px;
 }
 
 /*
     Reports - Tag by product
 -------------------------------------- */
-.adminhtml-report-tag-product .col-id {
+.reports-report-tag-product .col-id {
     width: 35px;
 }
 
-.adminhtml-report-tag-product .col-actions {
+.reports-report-tag-product .col-actions {
     width: 70px;
 }
 
-.adminhtml-report-tag-product .col-unique-numbers,
-.adminhtml-report-tag-product .col-total-numbers {
+.reports-report-tag-product .col-unique-numbers,
+.reports-report-tag-product .col-total-numbers {
     text-align: right;
     width: 95px
 }
@@ -630,46 +630,46 @@
 /*
     Reports - Customers by Number of Orders
 -------------------------------------- */
-.adminhtml-report-customer-orders .col-period {
+.reports-report-customer-orders .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-customer-orders .col-qty,
-.adminhtml-report-customer-orders .col-average,
-.adminhtml-report-customer-orders .col-total {
+.reports-report-customer-orders .col-qty,
+.reports-report-customer-orders .col-average,
+.reports-report-customer-orders .col-total {
     width: 105px;
 }
 
 /*
    Reports - Customers by Orders Total
 -------------------------------------- */
-.adminhtml-report-customer-totals .col-period {
+.reports-report-customer-totals .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-customer-totals .col-qty,
-.adminhtml-report-customer-totals .col-average,
-.adminhtml-report-customer-totals .col-total {
+.reports-report-customer-totals .col-qty,
+.reports-report-customer-totals .col-average,
+.reports-report-customer-totals .col-total {
     width: 105px;
 }
 
 /*
     Reports - Customer's wishlists
 -------------------------------------- */
-.adminhtml-report-customer-wishlist-wishlist .col-period {
+.multiplewishlist-report-customer-wishlist-wishlist .col-period {
     width: 70px;
 }
 
-.adminhtml-report-customer-wishlist-wishlist .col-whishlist-qty,
-.adminhtml-report-customer-wishlist-wishlist .col-available-qty,
-.adminhtml-report-customer-wishlist-wishlist .col-qty-diff {
+.multiplewishlist-report-customer-wishlist-wishlist .col-whishlist-qty,
+.multiplewishlist-report-customer-wishlist-wishlist .col-available-qty,
+.multiplewishlist-report-customer-wishlist-wishlist .col-qty-diff {
     text-align: right;
     width: 100px;
 }
 
-.adminhtml-report-customer-wishlist-wishlist .grid .range {
+.multiplewishlist-report-customer-wishlist-wishlist .grid .range {
     text-align: left;
 }
 
@@ -681,29 +681,29 @@
     padding: 0;
 }
 
-.adminhtml-report-customer-customersegment-detail .col-id {
+.customersegment-report-customer-customersegment-detail .col-id {
     width: 35px;
 }
 
-.adminhtml-report-customer-customersegment-detail .col-period {
+.customersegment-report-customer-customersegment-detail .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-customer-customersegment-detail .col-zip {
+.customersegment-report-customer-customersegment-detail .col-zip {
     width: 50px;
 }
 
 /*
     Reports - Most Viewed
 -------------------------------------- */
-.adminhtml-report-product-viewed .col-period {
+.reports-report-product-viewed .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-product-viewed .col-qty,
-.adminhtml-report-product-viewed .col-price {
+.reports-report-product-viewed .col-qty,
+.reports-report-product-viewed .col-price {
     white-space: nowrap;
     width: 80px;
 }
@@ -711,24 +711,24 @@
 /*
     Reports - Search Terms
 -------------------------------------- */
-.adminhtml-report-search .col-id {
+.reports-report-search .col-id {
     width: 35px;
 }
 
-.adminhtml-report-search th.col-results,
-.adminhtml-report-search th.col-hits {
+.reports-report-search th.col-results,
+.reports-report-search th.col-hits {
     text-align: left;
     width: 117px;
 }
 
-.adminhtml-report-search td.col-results,
-.adminhtml-report-search td.col-hits {
+.reports-report-search td.col-results,
+.reports-report-search td.col-hits {
     text-align: right;
     width: 117px;
 }
 
-.adminhtml-report-search .col-results .range-line:first-child,
-.adminhtml-report-search .col-hits .range-line:first-child {
+.reports-report-search .col-results .range-line:first-child,
+.reports-report-search .col-hits .range-line:first-child {
     float: left;
     margin-right: 3px;
 }
@@ -737,36 +737,36 @@
     Reports - Bestsellers
 -------------------------------------- */
 
-.adminhtml-report-sales-bestsellers .col-period {
+.reports-report-sales-bestsellers .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-bestsellers .col-qty,
-.adminhtml-report-sales-bestsellers .col-price {
+.reports-report-sales-bestsellers .col-qty,
+.reports-report-sales-bestsellers .col-price {
     width: 80px;
 }
 
 /*
     Reports - Downloads
 -------------------------------------- */
-.adminhtml-report-product-downloads .col-qty,
-.adminhtml-report-product-downloads .col-price {
+.reports-report-product-downloads .col-qty,
+.reports-report-product-downloads .col-price {
     width: 80px;
 }
 
 /*
     Reports - Order Conversion Rate
 -------------------------------------- */
-.adminhtml-report-invitation-order .col-period {
+.invitations-report-invitation-order .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-invitation-order .col-inv-sent,
-.adminhtml-report-invitation-order .col-inv-acc,
-.adminhtml-report-invitation-order .col-acc,
-.adminhtml-report-invitation-order .col-rate {
+.invitations-report-invitation-order .col-inv-sent,
+.invitations-report-invitation-order .col-inv-acc,
+.invitations-report-invitation-order .col-acc,
+.invitations-report-invitation-order .col-rate {
     text-align: right;
     width: 23%;
 }
@@ -774,17 +774,17 @@
 /*
     Reports - Invitations - Customer
 -------------------------------------- */
-.adminhtml-report-invitation-customer .col-id {
+.invitations-report-invitation-customer .col-id {
     width: 35px;
 }
 
-.adminhtml-report-invitation-customer .col-period {
+.invitations-report-invitation-customer .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-invitation-customer .col-inv-sent,
-.adminhtml-report-invitation-customer .col-inv-acc {
+.invitations-report-invitation-customer .col-inv-sent,
+.invitations-report-invitation-customer .col-inv-acc {
     text-align: right;
     width: 120px;
 }
@@ -792,15 +792,15 @@
 /*
     Reports - Invitations - General
 -------------------------------------- */
-.adminhtml-report-invitation-index .col-period {
+.invitations-report-invitation-index .col-period {
     white-space: nowrap;
 }
 
-.adminhtml-report-invitation-index .col-inv-sent,
-.adminhtml-report-invitation-index .col-inv-acc,
-.adminhtml-report-invitation-index .col-inv-disc,
-.adminhtml-report-invitation-index .col-inv-acc-rate,
-.adminhtml-report-invitation-index .col-inv-disc-rate {
+.invitations-report-invitation-index .col-inv-sent,
+.invitations-report-invitation-index .col-inv-acc,
+.invitations-report-invitation-index .col-inv-disc,
+.invitations-report-invitation-index .col-inv-acc-rate,
+.invitations-report-invitation-index .col-inv-disc-rate {
     text-align: right;
     width: 19%;
 }
@@ -809,31 +809,31 @@
     Reports - Abandoned Carts
 -------------------------------------- */
 
-.adminhtml-report-shopcart-abandoned .col-ip,
-.adminhtml-report-shopcart-abandoned .col-subtotal,
-.adminhtml-report-shopcart-abandoned .col-number,
-.adminhtml-report-shopcart-abandoned .col-coupon {
+.reports-report-shopcart-abandoned .col-ip,
+.reports-report-shopcart-abandoned .col-subtotal,
+.reports-report-shopcart-abandoned .col-number,
+.reports-report-shopcart-abandoned .col-coupon {
     text-align: right;
 }
 
-.adminhtml-report-shopcart-abandoned .col-ip {
+.reports-report-shopcart-abandoned .col-ip {
     width: 105px;
 }
 
-.adminhtml-report-shopcart-abandoned .col-subtotal {
+.reports-report-shopcart-abandoned .col-subtotal {
     width: 65px;
 }
 
 /*
     Reports - Products in Carts
 -------------------------------------- */
-.adminhtml-report-shopcart-product .col-id {
+.reports-report-shopcart-product .col-id {
     width: 35px;
 }
 
-.adminhtml-report-shopcart-product .col-carts,
-.adminhtml-report-shopcart-product .col-qty,
-.adminhtml-report-shopcart-product .col-price {
+.reports-report-shopcart-product .col-carts,
+.reports-report-shopcart-product .col-qty,
+.reports-report-shopcart-product .col-price {
     text-align: right;
     width: 80px;
 }
@@ -842,14 +842,14 @@
     Reports - Refunds
 -------------------------------------- */
 
-.adminhtml-report-sales-refunded .col-period {
+.reports-report-sales-refunded .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-refunded .col-ref-total,
-.adminhtml-report-sales-refunded .col-ref-online,
-.adminhtml-report-sales-refunded .col-ref-offline {
+.reports-report-sales-refunded .col-ref-total,
+.reports-report-sales-refunded .col-ref-online,
+.reports-report-sales-refunded .col-ref-offline {
     text-align: right;
     width: 23%;
 }
@@ -858,14 +858,14 @@
     Reports - Shipping
 -------------------------------------- */
 
-.adminhtml-report-sales-shipping .col-period {
+.reports-report-sales-shipping .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-shipping .col-qty,
-.adminhtml-report-sales-shipping .col-total-sales-shipping,
-.adminhtml-report-sales-shipping .col-total-shipping {
+.reports-report-sales-shipping .col-qty,
+.reports-report-sales-shipping .col-total-sales-shipping,
+.reports-report-sales-shipping .col-total-shipping {
     text-align: right;
     width: 115px;
 }
@@ -874,16 +874,16 @@
     Reports - Invoiced
 -------------------------------------- */
 
-.adminhtml-report-sales-invoiced .col-period {
+.reports-report-sales-invoiced .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-invoiced .col-qty,
-.adminhtml-report-sales-invoiced .col-invoiced,
-.adminhtml-report-sales-invoiced .col-total-invoiced,
-.adminhtml-report-sales-invoiced .col-total-invoiced-paid,
-.adminhtml-report-sales-invoiced .col-total-invoiced-not-paid {
+.reports-report-sales-invoiced .col-qty,
+.reports-report-sales-invoiced .col-invoiced,
+.reports-report-sales-invoiced .col-total-invoiced,
+.reports-report-sales-invoiced .col-total-invoiced-paid,
+.reports-report-sales-invoiced .col-total-invoiced-not-paid {
     text-align: right;
     width: 19%;
 }
@@ -892,14 +892,14 @@
     Reports - Tax
 -------------------------------------- */
 
-.adminhtml-report-sales-tax .col-period {
+.reports-report-sales-tax .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-tax .col-rate,
-.adminhtml-report-sales-tax .col-qty,
-.adminhtml-report-sales-tax .col-tax-amount {
+.reports-report-sales-tax .col-rate,
+.reports-report-sales-tax .col-qty,
+.reports-report-sales-tax .col-tax-amount {
     text-align: right;
     width: 105px;
 }
@@ -907,20 +907,20 @@
 /*
     Reports - Orders
 -------------------------------------- */
-.adminhtml-report-sales-sales .col-period {
+.reports-report-sales-sales .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-sales .col-orders,
-.adminhtml-report-sales-sales .col-sales-items,
-.adminhtml-report-sales-sales .col-sales-total,
-.adminhtml-report-sales-sales .col-invoiced,
-.adminhtml-report-sales-sales .col-refunded,
-.adminhtml-report-sales-sales .col-sales-tax,
-.adminhtml-report-sales-sales .col-sales-shipping,
-.adminhtml-report-sales-sales .col-sales-discount,
-.adminhtml-report-sales-sales .col-canceled {
+.reports-report-sales-sales .col-orders,
+.reports-report-sales-sales .col-sales-items,
+.reports-report-sales-sales .col-sales-total,
+.reports-report-sales-sales .col-invoiced,
+.reports-report-sales-sales .col-refunded,
+.reports-report-sales-sales .col-sales-tax,
+.reports-report-sales-sales .col-sales-shipping,
+.reports-report-sales-sales .col-sales-discount,
+.reports-report-sales-sales .col-canceled {
     text-align: right;
     width: 10.5%;
 }
@@ -929,18 +929,18 @@
     Reports - Coupons
 -------------------------------------- */
 /* TODO: re-check styles for coupons table after coupons functionality will have been repaired */
-.adminhtml-report-sales-coupons .col-period {
+.reports-report-sales-coupons .col-period {
     white-space: nowrap;
     width: 70px;
 }
 
-.adminhtml-report-sales-coupons .col-sales,
-.adminhtml-report-sales-coupons .col-users,
-.adminhtml-report-sales-coupons .col-sales-discount,
-.adminhtml-report-sales-coupons .col-total-amount,
-.adminhtml-report-sales-coupons .col-subtotal,
-.adminhtml-report-sales-coupons .col-discount,
-.adminhtml-report-sales-coupons .col-total {
+.reports-report-sales-coupons .col-sales,
+.reports-report-sales-coupons .col-users,
+.reports-report-sales-coupons .col-sales-discount,
+.reports-report-sales-coupons .col-total-amount,
+.reports-report-sales-coupons .col-subtotal,
+.reports-report-sales-coupons .col-discount,
+.reports-report-sales-coupons .col-total {
     text-align: right;
 }
 
@@ -948,24 +948,24 @@
     Reports - Customer Segments
 -------------------------------------- */
 
-.adminhtml-report-customer-customersegment-segment .col-id {
+.customersegment-report-customer-customersegment-segment .col-id {
     width: 35px;
 }
 
-.adminhtml-report-customer-customersegment-segment .col-status {
+.customersegment-report-customer-customersegment-segment .col-status {
     width: 65px;
 }
 
-.adminhtml-report-customer-customersegment-segment .col-qty {
+.customersegment-report-customer-customersegment-segment .col-qty {
     width: 145px;
 }
 
-.adminhtml-report-customer-customersegment-segment .col-segment,
-.adminhtml-report-customer-customersegment-segment .col-website {
+.customersegment-report-customer-customersegment-segment .col-segment,
+.customersegment-report-customer-customersegment-segment .col-website {
     width: 35%;
 }
 
-.adminhtml-report-customer-customersegment-segment .col-select {
+.customersegment-report-customer-customersegment-segment .col-select {
     width: 45px;
 }
 
@@ -973,19 +973,19 @@
     Reports - Low Stock
 -------------------------------------- */
 
-.adminhtml-report-product-lowstock .col-qty {
+.reports-report-product-lowstock .col-qty {
     width: 10%;
 }
 
-.adminhtml-report-product-lowstock .range-line {
+.reports-report-product-lowstock .range-line {
     display: inline-block;
 }
 
-.adminhtml-report-product-lowstock .col-product {
+.reports-report-product-lowstock .col-product {
     width: 65%;
 }
 
-.adminhtml-report-product-lowstock .col-sku {
+.reports-report-product-lowstock .col-sku {
     width: 25%;
 }
 

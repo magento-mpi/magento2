@@ -102,7 +102,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        $actionUrl = $this->getUrl('adminhtml/*/sales');
+        $actionUrl = $this->getUrl('*/*/sales');
 
         /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
