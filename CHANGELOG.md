@@ -35,6 +35,8 @@
   * "Recently Viewed/Compared products" option is missed on the New Frontend App Instance page
   * Fatal error if "Manage Shopping Cart" from backend for customer that has placed order
   * Fatal error on attempt to create RMA for Configurable product
+  * Fixed error on admin dashboard if choose for "Select Range" dropdown any value except Last 24 Hours
+  * Fixed backend RMA pages: options doubling in select
 
 2.0.0.0-dev50
 =============
