@@ -38,7 +38,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_rangeDelimiter  = '...';
 
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -48,14 +48,13 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $mathRandom;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
-     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Context $context,
         \Magento\Math\Random $mathRandom,
         array $data = array()

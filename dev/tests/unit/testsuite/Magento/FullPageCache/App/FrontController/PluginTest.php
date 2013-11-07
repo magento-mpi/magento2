@@ -63,8 +63,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $arguments = array($requestMock);
         $this->_requestProcessor->expects($this->once())
             ->method('extractContent')->with($requestMock, $responseMock, false)->will($this->returnValue(true));
-        $responseMock->expects($this->once())->method('sendResponse');
-        $this->assertEquals(null, $this->_model->aroundDispatch($arguments, $this->_invocationChainMock));
+        $this->assertEquals($responseMock, $this->_model->aroundDispatch($arguments, $this->_invocationChainMock));
     }
 
     public function testAroundDispatchIfProcessorsExistAndContentNotExist()

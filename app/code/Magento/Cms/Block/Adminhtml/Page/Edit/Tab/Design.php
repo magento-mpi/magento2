@@ -30,7 +30,7 @@ class Design
      * @param \Magento\Page\Model\Source\Layout $pageLayout
      * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -39,7 +39,7 @@ class Design
         \Magento\Page\Model\Source\Layout $pageLayout,
         \Magento\Core\Model\Theme\LabelFactory $labelFactory,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()

@@ -32,12 +32,13 @@ class ApplyConfig extends Direct
      */
     public function execute(Fixture $fixture = null)
     {
-        $objectManager = new \Magento\Core\Model\ObjectManager(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
+        $factory = new \Magento\App\ObjectManagerFactory();
+        $objectManager = $factory->create(BP, $_SERVER);
 
         $objectManager->get('Magento\Config\Scope')->setCurrentScope('adminhtml');
 
         $objectManager->configure(
-            $objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('adminhtml')
+            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('adminhtml')
         );
 
         $objectManager->configure(

@@ -37,7 +37,7 @@ class Store
      * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -46,7 +46,7 @@ class Store
         \Magento\Core\Model\Store\Group\Factory $groupFactory,
         \Magento\Core\Model\Website\Factory $websiteFactory,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()

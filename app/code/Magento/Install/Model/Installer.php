@@ -26,14 +26,14 @@ class Installer extends \Magento\Object
     /**
      * DB updated model
      *
-     * @var \Magento\App\UpdaterInterface
+     * @var \Magento\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
      * Application chache model
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -62,16 +62,9 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
-     * @var \Magento\App\Updater\SetupFactory
+     * @var \Magento\Module\Updater\SetupFactory
      */
     protected $_setupFactory;
-
-    /**
-     * Core Primary config
-     *
-     * @var \Magento\Core\Model\Config\Primary
-     */
-    protected $_primaryConfig;
 
     /**
      * Install installer pear
@@ -136,6 +129,9 @@ class Installer extends \Magento\Object
      */
     protected $_session;
 
+    /** @var \Magento\App\Resource */
+    protected $_resource;
+
     /**
      * @var \Magento\Encryption\EncryptorInterface
      */
@@ -148,35 +144,34 @@ class Installer extends \Magento\Object
 
     /**
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\App\UpdaterInterface $dbUpdater
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\App\Updater\SetupFactory $setupFactory
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\Core\Model\Config\Local $localConfig
+     * @param \Magento\Module\Updater\SetupFactory $setupFactory
+     * @param \Magento\App\Config $localConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\User\Model\UserFactory $userModelFactory
-     * @param \Magento\Install\Model\Installer\Filesystem $filesystem
-     * @param \Magento\Install\Model\Installer\Pear $installerPear
-     * @param \Magento\Install\Model\Installer\Db $installerDb
-     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param Installer\Filesystem $filesystem
+     * @param Installer\Pear $installerPear
+     * @param Installer\Db $installerDb
+     * @param Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\App\Resource $resource
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\ConfigInterface $config,
-        \Magento\App\UpdaterInterface $dbUpdater,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Module\UpdaterInterface $dbUpdater,
+        \Magento\App\CacheInterface $cache,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\App\Updater\SetupFactory $setupFactory,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\Core\Model\Config\Local $localConfig,
+        \Magento\Module\Updater\SetupFactory $setupFactory,
+        \Magento\App\Config $localConfig,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -188,6 +183,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\Session\Generic $session,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
+        \Magento\App\Resource $resource,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -199,7 +195,6 @@ class Installer extends \Magento\Object
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
         parent::__construct($data);
-        $this->_primaryConfig = $primaryConfig;
         $this->_localConfig = $localConfig;
         $this->_app = $app;
         $this->_appState = $appState;
@@ -210,6 +205,7 @@ class Installer extends \Magento\Object
         $this->_installerDb = $installerDb;
         $this->_installerConfig = $installerConfig;
         $this->_session = $session;
+        $this->_resource = $resource;
     }
 
     /**
@@ -311,10 +307,10 @@ class Installer extends \Magento\Object
             ->setConfigData($data)
             ->install();
 
-        $this->_primaryConfig->reinit();
         $this->_localConfig->reload();
+        $this->_resource->setTablePrefix($data['db_prefix']);
 
-        $this->_config->reloadConfig();
+        $this->_config->reinit();
 
         return $this;
     }
@@ -469,11 +465,9 @@ class Installer extends \Magento\Object
     {
         $this->_installerConfig->replaceTmpInstallDate();
 
-        $this->_primaryConfig->reinit();
-
         $this->_refreshConfig();
 
-        $this->_config->reloadConfig();
+        $this->_config->reinit();
 
         /* Enable all cache types */
         foreach (array_keys($this->_cacheTypeList->getTypes()) as $cacheTypeCode) {

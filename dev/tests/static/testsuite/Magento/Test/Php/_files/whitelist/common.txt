@@ -48,14 +48,11 @@ app/code/Magento/Core/Model/DataService
 app/code/Magento/Core/Model/Design.php
 app/code/Magento/Core/Model/Email/Template/Config
 app/code/Magento/Core/Model/Email/Template/Config.php
-app/code/Magento/Core/Model/EntryPoint
-app/code/Magento/Core/Model/AbstractEntryPoint.php
 app/code/Magento/Core/Model/Layout/Factory.php
 app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
-app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
 app/code/Magento/Core/Model/Resource/Theme
@@ -103,11 +100,7 @@ app/code/Magento/Index/Model/Indexer/Config.php
 app/code/Magento/Index/Model/Indexer/ConfigInterface.php
 app/code/Magento/Index/Model/Indexer/Factory.php
 app/code/Magento/Index/Model/Indexer/AbstractIndexer.php
-app/code/Magento/Index/Model/EntryPoint/Shell.php
-app/code/Magento/Index/Model/EntryPoint/Indexer.php
 app/code/Magento/Index/Model/Shell.php
-app/code/Magento/Install/Model/EntryPoint
-app/code/Magento/Log/Model/EntryPoint
 app/code/Magento/Log/Model/Resource/Helper.php
 app/code/Magento/Log/Model/Resource/Shell.php
 app/code/Magento/Log/Model/Shell.php
@@ -151,4 +144,5 @@ lib/Magento/Convert
 lib/Magento/Stdlib/DateTime.php
 lib/Magento/Object.php
 lib/Magento/App
+lib/Magento/ObjectManager
 lib/Magento/View

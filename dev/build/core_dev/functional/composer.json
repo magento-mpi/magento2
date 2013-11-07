@@ -1,0 +1,16 @@
+{
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git://github.scm.corp.ebay.com/mtf/mtf.git"
+        }
+    ],
+    "require": {
+        "magento/mtf": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "": ["testsuites", "generated", "lib", "tests/app", "tests/design"]
+        }
+    }
+}

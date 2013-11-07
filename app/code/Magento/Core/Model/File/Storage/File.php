@@ -61,13 +61,6 @@ class File
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Resource\File\Storage\File
-     */
-    protected $_fileUtility;
-
-    /**
-     * Class construct
-     *
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $storageHelper
      * @param \Magento\Core\Helper\File\Media $mediaHelper

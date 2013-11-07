@@ -33,7 +33,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\FormFactory $customerFactory
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -45,7 +45,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\FormFactory $customerFactory,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,

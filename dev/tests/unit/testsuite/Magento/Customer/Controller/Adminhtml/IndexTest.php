@@ -40,7 +40,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * ObjectManager mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\ObjectManager
      */
     protected $_objectManager;
 
@@ -77,7 +77,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('X-Frame-Options'))
             ->will($this->returnValue(true));
 
-        $this->_objectManager = $this->getMockBuilder('Magento\Core\Model\ObjectManager')
+        $this->_objectManager = $this->getMockBuilder('Magento\App\ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();

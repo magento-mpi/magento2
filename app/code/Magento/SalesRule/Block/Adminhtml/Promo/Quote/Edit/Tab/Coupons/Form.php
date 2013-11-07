@@ -29,7 +29,7 @@ class Form
     protected $_salesRuleCoupon = null;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -37,7 +37,7 @@ class Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,

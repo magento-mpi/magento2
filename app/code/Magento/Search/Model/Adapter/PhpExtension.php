@@ -38,7 +38,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
@@ -47,8 +47,6 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
-     *
-     * @throws \Magento\Core\Exception
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -58,7 +56,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
