@@ -21,9 +21,9 @@ class Adapter implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            \Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM  =>
+            \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM  =>
                 __('ImageMagick'),
-            \Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2 =>
+            \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2 =>
                 __('PHP GD2'),
         );
     }

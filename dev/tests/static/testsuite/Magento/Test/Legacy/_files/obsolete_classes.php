@@ -1080,4 +1080,5 @@ return array(
     array('Magento\Core\Model\Image\Factory', 'Magento\Image\Factory'),
     array('Magento\Core\Model\Theme\Image', 'Magento\View\Design\Theme\Image'),
     array('Magento\Core\Model\Theme\FlyweightFactory', 'Magento\View\Design\Theme\FlyweightFactory'),
+    array('Magento\Core\Model\Image\AdapterFactory', 'Magento\Image\AdapterFactory'),
 );

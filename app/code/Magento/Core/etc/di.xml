@@ -34,6 +34,8 @@
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
+    <preference for="Magento\Image\Adapter\AdapterInterface" type="Magento\Image\Adapter\Gd2" />
+    <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Core\App\FrontController\Plugin\Install" sortOrder="40"/>
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>

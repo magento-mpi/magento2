@@ -41,6 +41,9 @@
                 <minify_files>0</minify_files>
                 <minify_adapter>Magento\Code\Minifier\Adapter\Js\Jsmin</minify_adapter>
             </js>
+            <image>
+                <adapter>Magento\Image\Adapter\AdapterInterface</adapter>
+            </image>
         </dev>
         <system>
             <smtp>

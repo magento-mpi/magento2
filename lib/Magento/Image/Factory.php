@@ -18,21 +18,32 @@ class Factory
     protected $objectManager;
 
     /**
-     * @param ObjectManager $objectManager
+     * @var AdapterFactory
      */
-    public function __construct(ObjectManager $objectManager)
-    {
+    protected $adapterFactory;
+
+    /**
+     * @param ObjectManager $objectManager
+     * @param AdapterFactory $adapterFactory
+     */
+    public function __construct(
+        ObjectManager $objectManager,
+        AdapterFactory $adapterFactory
+    ) {
         $this->objectManager = $objectManager;
+        $this->adapterFactory = $adapterFactory;
     }
 
     /**
-     * Return \Magento\Image
+     * Create instance of \Magento\Image
      *
-     * @param string $fileName
+     * @param string|null $fileName
+     * @param Adapter\AdapterInterface|null $adapterName
      * @return \Magento\Image
      */
-    public function create($fileName = null)
+    public function create($fileName = null, Adapter\AdapterInterface $adapterName = null)
     {
-        return $this->objectManager->create('\Magento\Image', array('fileName' => $fileName));
+        $adapter = $this->adapterFactory->create($adapterName);
+        return $this->objectManager->create('\Magento\Image', array('adapter' => $adapter, 'fileName' => $fileName));
     }
 }

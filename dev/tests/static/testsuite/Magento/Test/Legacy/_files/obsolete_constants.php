@@ -372,4 +372,19 @@ return array(
         '\Magento\Core\Model\View\Design',
         '\MMagento\Core\Model\View\Design::XML_PATH_THEME_PATH'
     ),
+    array(
+        'XML_PATH_IMAGE_ADAPTER',
+        '\Magento\Core\Model\Image\AdapterFactory',
+        '\Magento\Core\Model\Image\Adapter\Config::XML_PATH_IMAGE_ADAPTER'
+    ),
+    array(
+        'ADAPTER_IM',
+        '\Magento\Core\Model\Image\AdapterFactory',
+        '\Magento\Image\Adapter\AdapterInterface::ADAPTER_IM'
+    ),
+    array(
+        'ADAPTER_GD2',
+        '\Magento\Core\Model\Image\AdapterFactory',
+        '\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2'
+    ),
 );
