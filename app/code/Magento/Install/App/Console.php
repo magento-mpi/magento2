@@ -33,10 +33,16 @@ class Console implements \Magento\AppInterface
     protected $_state;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param \Magento\Install\Model\Installer\ConsoleFactory $installerFactory
      * @param Output $output
      * @param \Magento\App\State $state
      * @param \Magento\App\ObjectManager\ConfigLoader $loader
+     * @param \Magento\ObjectManager $objectManager
      * @param array $arguments
      */
     public function __construct(
@@ -44,6 +50,7 @@ class Console implements \Magento\AppInterface
         \Magento\Install\App\Output $output,
         \Magento\App\State $state,
         \Magento\App\ObjectManager\ConfigLoader $loader,
+        \Magento\ObjectManager $objectManager,
         array $arguments = array()
     ) {
         $this->_loader = $loader;
@@ -51,6 +58,7 @@ class Console implements \Magento\AppInterface
         $this->_installerFactory = $installerFactory;
         $this->_arguments = $this->_buildInitArguments($arguments);
         $this->_output = $output;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -110,7 +118,7 @@ class Console implements \Magento\AppInterface
     {
         $areaCode = 'install';
         $this->_state->setAreaCode($areaCode);
-        $this->_loader->load($areaCode);
+        $this->_objectManager->configure($this->_loader->load($areaCode));
 
         $installer = $this->_installerFactory->create(array('installArgs' => $this->_arguments));
         if (isset($this->_arguments['show_locales'])) {
