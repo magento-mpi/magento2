@@ -63,7 +63,6 @@ return array(
     // Layouts
     'layout/adminhtml_cache',
     'layout/adminhtml_denied',
-    'layout/adminhtml_newsletter',
     'layout/adminhtml_noroute',
     'layout/adminhtml_report',
     'layout/adminhtml_urlrewrite',
@@ -71,7 +70,6 @@ return array(
     'layout/editor',
     'layout/empty',
     'layout/formkey',
-    'layout/newsletter',
     'layout/overlay_popup',
     'layout/popup',
     'layout/preview',
