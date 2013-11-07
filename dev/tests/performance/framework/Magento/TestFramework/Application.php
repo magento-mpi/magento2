@@ -16,6 +16,11 @@ namespace Magento\TestFramework;
 class Application
 {
     /**
+     * Area code
+     */
+    const AREA_CODE = 'install';
+
+    /**
      * Configuration object
      *
      * @param \Magento\Config
@@ -211,6 +216,11 @@ class Application
         }
         /** @var $app \Magento\Core\Model\App */
         $this->_application = $this->_objectManager->get('Magento\Core\Model\App');
+        $this->_objectManager->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
+        $this->_objectManager->configure(
+            $this->_objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
+        );
+        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 
