@@ -62,7 +62,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         return $this->_helper->getObject('Magento\Webapi\Model\Acl\Rule', array(
             'eventDispatcher' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
-            'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
+            'cacheManager' => $this->getMock('Magento\App\CacheInterface', array(), array(), '', false),
             'resource' => $ruleResource,
             'resourceCollection' => $resourceCollection
         ));

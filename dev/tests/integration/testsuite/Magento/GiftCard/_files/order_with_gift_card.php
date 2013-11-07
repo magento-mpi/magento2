@@ -70,7 +70,7 @@ $order->save();
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->get('Magento\Core\Model\Config')
-    ->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
+    ->setValue(\Magento\GiftCardAccount\Model\Pool::XML_CONFIG_POOL_SIZE, 1, 'website', 'base');
 /** @var $pool \Magento\GiftCardAccount\Model\Pool */
 $pool = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\GiftCardAccount\Model\Pool');

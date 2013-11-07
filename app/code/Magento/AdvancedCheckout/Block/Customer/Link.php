@@ -31,9 +31,10 @@ class Link extends \Magento\Page\Block\Link\Current
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\AdvancedCheckout\Helper\Data $customerHelper,
+        \Magento\App\DefaultPathInterface $defaultPath,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $defaultPath, $data);
         $this->_customerHelper = $customerHelper;
     }
 

@@ -11,7 +11,6 @@ namespace Magento\FullPageCache\Model;
 
 class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterface
 {
-    const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
@@ -173,27 +172,33 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_processorFactory;
 
     /**
+     * @var array
+     */
+    protected $_allowedCache = array();
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
-     * @param \Magento\FullPageCache\Model\Cache $fpcCache
-     * @param \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory
-     * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
-     * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
-     * @param \Magento\FullPageCache\Model\Environment $environment
-     * @param \Magento\FullPageCache\Model\Request\Identifier $requestIdentifier
-     * @param \Magento\FullPageCache\Model\DesignPackage\Info $designInfo
-     * @param \Magento\FullPageCache\Model\Metadata $metadata
-     * @param \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier
+     * @param Processor\RestrictionInterface $restriction
+     * @param Cache $fpcCache
+     * @param Cache\SubProcessorFactory $subProcessorFactory
+     * @param Container\PlaceholderFactory $placeholderFactory
+     * @param ContainerFactory $containerFactory
+     * @param Environment $environment
+     * @param Request\Identifier $requestIdentifier
+     * @param DesignPackage\Info $designInfo
+     * @param Metadata $metadata
+     * @param Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\FullPageCache\Model\Cookie $fpcCookie
+     * @param Cookie $fpcCookie
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
-     * @param \Magento\FullPageCache\Model\ObserverFactory $fpcObserverFactory
-     * @param \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory
+     * @param ObserverFactory $fpcObserverFactory
+     * @param Cache\SubProcessorFactory $processorFactory
+     * @param array $allowedCache
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -211,12 +216,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
         \Magento\FullPageCache\Model\Cookie $fpcCookie,
         \Magento\Core\Model\Session $coreSession,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\FullPageCache\Model\ObserverFactory $fpcObserverFactory,
-        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory
+        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory,
+        array $allowedCache = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -234,12 +239,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $this->_storeManager = $storeManager;
         $this->_typeList = $typeList;
         $this->_requestTags = array(self::CACHE_TAG);
-        $this->_coreConfig = $coreConfig;
         $this->_fpcCookie = $fpcCookie;
         $this->_coreSession = $coreSession;
         $this->_urlHelper = $urlHelper;
         $this->_fpcObserverFactory = $fpcObserverFactory;
         $this->_processorFactory = $processorFactory;
+        $this->_allowedCache = $allowedCache;
     }
 
 
@@ -625,20 +630,16 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     {
         if ($this->_requestProcessor === null) {
             $this->_requestProcessor = false;
-            $configuration = $this->_coreConfig->getNode(self::XML_NODE_ALLOWED_CACHE);
-            if ($configuration) {
-                $configuration = $configuration->asArray();
-            }
             $module = $request->getModuleName();
-            if (isset($configuration[$module])) {
-                $model = $configuration[$module];
+            if (isset($this->_allowedCache[$module])) {
+                $model = $this->_allowedCache[$module];
                 $controller = $request->getControllerName();
-                if (is_array($configuration[$module]) && isset($configuration[$module][$controller])) {
-                    $model = $configuration[$module][$controller];
+                if (is_array($this->_allowedCache[$module]) && isset($this->_allowedCache[$module][$controller])) {
+                    $model = $this->_allowedCache[$module][$controller];
                     $action = $request->getActionName();
-                    if (is_array($configuration[$module][$controller])
-                            && isset($configuration[$module][$controller][$action])) {
-                        $model = $configuration[$module][$controller][$action];
+                    if (is_array($this->_allowedCache[$module][$controller])
+                            && isset($this->_allowedCache[$module][$controller][$action])) {
+                        $model = $this->_allowedCache[$module][$controller][$action];
                     }
                 }
                 if (is_string($model)) {

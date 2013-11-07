@@ -27,9 +27,9 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      */
-    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\Core\Model\Resource $resource)
+    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\App\Resource $resource)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);

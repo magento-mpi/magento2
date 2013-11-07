@@ -76,7 +76,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_dir;
 
     /**
-     * @var \Magento\App\Module\Dir
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -89,7 +89,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\App\Dir $dir
-     * @param \Magento\App\Module\Dir $modulesDir
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param $allowDuplication
      */
     public function __construct(
@@ -99,7 +99,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\App\Dir $dir,
-        \Magento\App\Module\Dir $modulesDir,
+        \Magento\Module\Dir\Reader $modulesReader,
         $allowDuplication
     ) {
         $this->_filesystem = $filesystem;
@@ -107,7 +107,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_dir = $dir;
-        $this->_modulesDir = $modulesDir;
+        $this->_modulesReader = $modulesReader;
         $this->_logger = $logger;
         $this->_allowDuplication = $allowDuplication;
     }
@@ -310,7 +310,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         } else {
             // modular file
             $module = $params['module'];
-            $moduleDir = $this->_modulesDir->getDir($module, 'theme') . DS;
+            $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . DS;
             $publicFile = substr($filename, strlen($moduleDir));
             $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
         }

@@ -27,7 +27,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
@@ -39,7 +39,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         \Magento\Core\Model\Config $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,

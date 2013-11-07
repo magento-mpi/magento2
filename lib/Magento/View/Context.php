@@ -23,7 +23,7 @@ use Magento\Core\Model\App;
 use Magento\App\State as AppState;
 
 use Magento\Core\Model\Session\AbstractSession;
-use Magento\Core\Model\CacheInterface as Cache;
+use Magento\App\CacheInterface as Cache;
 use Magento\Core\Model\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
 use Magento\Event\ManagerInterface;
@@ -58,7 +58,7 @@ class Context
     protected $translator;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $cache;
 
@@ -182,7 +182,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCache()
     {

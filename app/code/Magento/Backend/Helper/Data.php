@@ -20,14 +20,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_pageHelpUrl;
 
     /**
-     * @var \Magento\Core\Model\Config\Primary
+     * @var \Magento\App\Route\Config
      */
-    protected $_primaryConfig;
-
-    /**
-     * @var \Magento\App\RouterList
-     */
-    protected $_routerList;
+    protected $_routeConfig;
 
     /**
      * @var \Magento\Core\Model\App
@@ -56,8 +51,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\App\RouterList $routerList
+     * @param \Magento\App\Route\Config $routeConfig
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
@@ -66,8 +60,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\App\RouterList $routerList,
+        \Magento\App\Route\Config $routeConfig,
         \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
@@ -75,8 +68,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Math\Random $mathRandom
     ) {
         parent::__construct($context);
-        $this->_primaryConfig = $primaryConfig;
-        $this->_routerList = $routerList;
+        $this->_routeConfig = $routeConfig;
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
@@ -98,10 +90,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $request = $this->_app->getRequest();
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
-                $frontName = $request->getModuleName();
-                $router = $this->_routerList->getRouterByFrontName($frontName);
-
-                $frontModule = $router->getModulesByFrontName($frontName);
+                $frontModule = $this->_routeConfig->getModulesByFrontName($request->getModuleName());
                 if (empty($frontModule) === false) {
                     $frontModule = $frontModule[0];
                 } else {
