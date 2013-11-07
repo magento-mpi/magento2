@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="editor"/>
+    <referenceContainer name="integration_edit_tabs">
+        <block class="Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab\Webapi" name="integration_edit_tab_webapi" template="Magento_User::role/edit.phtml"/>
+        <action method="addTabAfter">
+            <argument name="name" xsi:type="string">api_section</argument>
+            <argument name="block" xsi:type="string">integration_edit_tab_webapi</argument>
+            <argument name="after" xsi:type="string">info_section</argument>
+        </action>
+    </referenceContainer>
+    <referenceContainer name="js">
+        <block class="Magento\Backend\Block\Template" name="adminhtml.integration.webapi.tree.js" template="Magento_User::user/roles_grid_js.phtml"/>
+    </referenceContainer>
+</layout>

@@ -1,24 +1,18 @@
 <?php
 /**
+ * Main Web API properties edit form.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Block\Adminhtml\Integration;
+namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
-/**
- * Main WebAPI properties on the integration edit form
- *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
- * @SuppressWarnings(PHPMD.LongVariable)
- */
-class EditTab extends \Magento\Backend\Block\Widget\Form
+class Webapi extends \Magento\Backend\Block\Widget\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-    protected $_template = 'resourcetree.phtml';
-
     /**
      * Root ACL Resource
      *
