@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="newsletter_subscriber_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Newsletter\Subscriber" name="adminhtml.newsletter.subscriber.container"/>
+        <block class="Magento\Newsletter\Block\Adminhtml\Subscriber" name="adminhtml.newsletter.subscriber.container"/>
     </referenceContainer>
 </layout>

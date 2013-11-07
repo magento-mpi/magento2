@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="adminhtml.newsletter.subscriber.container">
-        <block class="Magento\Adminhtml\Block\Newsletter\Subscriber\Grid" name="adminhtml.newslettrer.subscriber.grid" as="grid">
+        <block class="Magento\Newsletter\Block\Adminhtml\Subscriber\Grid" name="adminhtml.newslettrer.subscriber.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">subscriberGrid</argument>
                 <argument name="dataSource" xsi:type="object">Magento\Newsletter\Model\Resource\Subscriber\Grid\Collection</argument>

@@ -73,7 +73,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
-        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template', 'template'));
         $this->renderLayout();
     }
 
@@ -84,7 +84,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
     public function gridAction()
     {
         $this->loadLayout();
-        $grid = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
+        $grid = $this->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template\Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
     }

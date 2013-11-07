@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="newsletter_problem_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Newsletter\Problem" name="adminhtml.newsletter.problem.container"/>
+        <block class="Magento\Newsletter\Block\Adminhtml\Problem" name="adminhtml.newsletter.problem.container"/>
     </referenceContainer>
 </layout>

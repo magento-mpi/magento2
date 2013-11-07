@@ -9,7 +9,7 @@
  */
 
 /**
- * Adminhtml newsletter queue controller
+ * Newsletter queue controller
  *
  * @category   Magento
  * @package    Magento_Newsletter

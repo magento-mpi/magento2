@@ -42,6 +42,6 @@
         </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Newsletter\Template\Edit" name="template_edit" template="newsletter/template/edit.phtml"/>
+        <block class="Magento\Newsletter\Block\Adminhtml\Template\Edit" name="template_edit" template="template/edit.phtml"/>
     </referenceContainer>
 </layout>

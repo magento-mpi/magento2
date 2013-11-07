@@ -9,7 +9,7 @@
  */
 
 /**
- * Adminhtml newsletter subscribers controller
+ * Newsletter subscribers controller
  *
  * @category    Magento
  * @package     Magento_Newsletter

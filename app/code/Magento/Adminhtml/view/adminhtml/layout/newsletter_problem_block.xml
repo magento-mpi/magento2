@@ -25,8 +25,8 @@
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="checkbox">
                     <arguments>
                         <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="filter" xsi:type="string">Magento\Adminhtml\Block\Newsletter\Problem\Grid\Filter\Checkbox</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Newsletter\Problem\Grid\Renderer\Checkbox</argument>
+                        <argument name="filter" xsi:type="string">Magento\Newsletter\Block\Adminhtml\Problem\Grid\Filter\Checkbox</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Newsletter\Block\Adminhtml\Problem\Grid\Renderer\Checkbox</argument>
                         <argument name="header_css_class" xsi:type="string">col-select</argument>
                         <argument name="column_css_class" xsi:type="string">col-select</argument>
                     </arguments>
