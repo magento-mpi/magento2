@@ -287,9 +287,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $app = $this->_objectManager->create('Magento\Core\Model\App');
         $this->_objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
         $this->_objectManager->addSharedInstance($app, 'Magento\Core\Model\App');
+        $this->_objectManager->addSharedInstance($app, 'Magento\TestFramework\App');
+        $app->loadArea($expectedArea);
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $context = $this->_objectManager->create($context, array(
             'response' => $this->_objectManager->get('Magento\TestFramework\Response')
