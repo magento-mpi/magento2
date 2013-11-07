@@ -16,12 +16,6 @@ namespace Magento\Core\Model\Layout;
 class Merge implements \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
-     * Available item type names
-     */
-    const TYPE_PAGE = 'page';
-    /**#@-*/
-
-    /**#@+
      * Layout abstraction based on designer prerogative.
      */
     const DESIGN_ABSTRACTION_CUSTOM = 'custom';
@@ -268,8 +262,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         if (empty($handles)) {
             return null;
         }
-        $condition = '@type="' . self::TYPE_PAGE . '"';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\"]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -281,43 +274,6 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     public function getPageHandles()
     {
         return $this->_pageHandles;
-    }
-
-    /**
-     * Retrieve all page and fragment types that exist in the system.
-     *
-     * Result format:
-     * array(
-     *     'handle_name_1' => array(
-     *         'name'     => 'handle_name_1',
-     *         'label'    => 'Handle Name 1',
-     *         'type'     => self::TYPE_PAGE,
-     *     ),
-     *     // ...
-     * )
-     *
-     * @return array
-     */
-    public function getAllPageHandles()
-    {
-        $result = array();
-
-        $conditions = array(
-            '(@type="' . self::TYPE_PAGE . '")'
-        );
-        $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
-        /** @var $node \Magento\View\Layout\Element */
-        foreach ($nodes as $node) {
-            $name = $node->getAttribute('id');
-            $info = array(
-                'name'     => $name,
-                'label'    => __((string)$node->getAttribute('label')),
-                'type'     => $node->getAttribute('type'),
-            );
-            $result[$name] = $info;
-        }
-        return $result;
     }
 
     /**
