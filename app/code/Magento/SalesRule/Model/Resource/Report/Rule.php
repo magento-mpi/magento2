@@ -32,16 +32,16 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory $createdatFactory
-     * @param \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory $updatedatFactory
+     * @param Rule\CreatedatFactory $createdatFactory
+     * @param Rule\UpdatedatFactory $updatedatFactory
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime,

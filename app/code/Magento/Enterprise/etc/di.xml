@@ -23,7 +23,7 @@
             <value>LICENSE_EE.html</value>
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <enterprise_setup>Magento\Enterprise\Model\Resource\Setup</enterprise_setup>

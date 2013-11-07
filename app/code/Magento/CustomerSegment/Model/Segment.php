@@ -79,7 +79,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -95,7 +95,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Log\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
