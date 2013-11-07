@@ -268,6 +268,46 @@ class TestIfCase
 }
 
 FORMATTEDCODESNIPPET;
+        $originalCodeSnippet5 = <<<ORIGINALCODESNIPPET
+<?php
+function alpha() {
+if (\$ftp) {
+    \$cwd=\$ftpObj->getcwd();
+    \$dir=\$cwd . DIRECTORY_SEPARATOR .\$config->downloader_path . DIRECTORY_SEPARATOR
+        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( \$pChan, "\\/");
+    \$ftpObj->mkdirRecursive(\$dir,0777);
+    \$ftpObj->chdir(\$cwd);
+} else {
+    \$dir = \$config->getChannelCacheDir(\$pChan);
+    @mkdir(\$dir, 0777, true);
+}}
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet5 = <<<FORMATTEDCODESNIPPET
+<?php
+function alpha()
+{
+    if (\$ftp) {
+        \$cwd = \$ftpObj->getcwd();
+        \$dir = \$cwd .
+            DIRECTORY_SEPARATOR .
+            \$config->downloader_path .
+            DIRECTORY_SEPARATOR .
+            \Magento\Connect\Config::DEFAULT_CACHE_PATH .
+            DIRECTORY_SEPARATOR .
+            trim(
+            \$pChan,
+            "\\/"
+        );
+        \$ftpObj->mkdirRecursive(\$dir, 0777);
+        \$ftpObj->chdir(\$cwd);
+    } else {
+        \$dir = \$config->getChannelCacheDir(\$pChan);
+        @mkdir(\$dir, 0777, true);
+    }
+}
+
+FORMATTEDCODESNIPPET;
+
 
         return array(
             array(
@@ -286,6 +326,7 @@ FORMATTEDCODESNIPPET;
             array($originalCodeSnippet2, $formattedCodeSnippet2),
             array($originalCodeSnippet3, $formattedCodeSnippet3),
             array($originalCodeSnippet4, $formattedCodeSnippet4),
+            array($originalCodeSnippet5, $formattedCodeSnippet5),
         );
     }
 }

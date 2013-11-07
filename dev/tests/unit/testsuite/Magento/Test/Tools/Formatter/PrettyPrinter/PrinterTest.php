@@ -679,6 +679,28 @@ class Foo
 }
 
 FORMATTEDCODESNIPPET;
+        $originalCodeSnippet19 = <<<ORIGINALCODESNIPPET
+<?php
+function foo(){
+    if (true) {
+?>
+<html><body>Hi</body></html>
+<?php
+}
+}
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet19 = <<<FORMATTEDCODESNIPPET
+<?php
+function foo()
+{
+    if (true) {
+?>
+<html><body>Hi</body></html>
+<?php
+    }
+}
+
+FORMATTEDCODESNIPPET;
 
         return array(
             array($originalCodeSnippet, $formattedCodeSnippet),
@@ -699,6 +721,7 @@ FORMATTEDCODESNIPPET;
             array($originalCodeSnippet16, $formattedCodeSnippet16),
             array($originalCodeSnippet17, $formattedCodeSnippet17),
             array($originalCodeSnippet18, $formattedCodeSnippet18),
+            array($originalCodeSnippet19, $formattedCodeSnippet19),
         );
     }
 

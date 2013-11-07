@@ -42,6 +42,22 @@ class NodeLevelerSortOrder extends LineSizeCheck
     }
 
     /**
+     * This method returns the first child of the passed in node.
+     * @param TreeNode $treeNode Node to find the first child.
+     * @return TreeNode|null First child of the passed in node or null if no children.
+     */
+    protected function getFirstChild(TreeNode $treeNode)
+    {
+        $firstChild = null;
+        // if the node has children, just grab the first one
+        if ($treeNode->hasChildren()) {
+            $children = $treeNode->getChildren();
+            $firstChild = $children[0];
+        }
+        return $firstChild;
+    }
+
+    /**
      * This method splits the passed in line based on sort order of the line breaks and adds the
      * results to the passed in node.
      * @param Line $line Line to check.
@@ -55,13 +71,14 @@ class NodeLevelerSortOrder extends LineSizeCheck
         if (sizeof($currentLines) > 1) {
             // determine where the lines go
             $lastTerminator = null;
+            $originalFirstChild = $this->getFirstChild($treeNode);
             /** @var Line $currentLine */
             foreach ($currentLines as $currentLine) {
                 // if this is the first pass, replace the current line
                 if (null === $lastTerminator) {
                     $treeNode->getData()->line = $currentLine;
                 } elseif ($lastTerminator instanceof HardIndentLineBreak) {
-                    $treeNode->addChild(AbstractSyntax::getNodeLine($currentLine));
+                    $treeNode->addChild(AbstractSyntax::getNodeLine($currentLine), $originalFirstChild, false);
                 } else {
                     $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($currentLine));
                 }
