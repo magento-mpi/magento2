@@ -27,7 +27,7 @@ class CatalogProductEdit extends Page
     const MCA = 'catalog/product/edit';
 
     /*
-     * Messages css selector
+     * Selector for message block
      *
      * @var string
      */

@@ -46,7 +46,7 @@ class Product extends AbstractRepository
     }
 
     /**
-     * Get data for simple product with new category
+     * Build data for simple product with new category
      *
      * @param array $defaultData
      * @return array
