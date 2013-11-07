@@ -272,11 +272,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Controller\Varien\Action\Context">
-        <param name="isRenderInherited">
-            <value type="bool">false</value>
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
