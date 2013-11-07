@@ -24,13 +24,13 @@
         </group>
         <group name="customer">
             <events>
-                <event controller_action="adminhtml_customer_save">
+                <event controller_action="customer_index_save">
                     <expected_models merge_group="true">
                         <expected_model class="Magento\CustomerBalance\Model\Balance" />
                     </expected_models>
                     <skip_on_back>
                         <controller_action name="adminhtml_customerbalance_form" />
-                        <controller_action name="adminhtml_customer_edit" />
+                        <controller_action name="customer_index_edit" />
                     </skip_on_back>
                 </event>
             </events>

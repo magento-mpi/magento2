@@ -86,7 +86,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             $this->loadLayout()->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-            $this->_redirect('adminhtml/customer/edit', array(
+            $this->_redirect('customer/index/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
                 'active_tab' => 'giftregistry'
             ));
@@ -94,7 +94,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('Something went wrong while editing the gift registry.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_redirect('adminhtml/customer/edit', array(
+            $this->_redirect('customer/index/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
                 'active_tab' => 'giftregistry'
             ));
@@ -200,10 +200,10 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
                 foreach ($emails as $email) {
                     if (!empty($email)) {
                         if ($model->sendShareRegistryEmail(
-                                $email,
-                                $storeId,
-                                $this->getRequest()->getParam('message')
-                            )
+                            $email,
+                            $storeId,
+                            $this->getRequest()->getParam('message')
+                        )
                         ) {
                             $sentCount++;
                         } else {
@@ -251,7 +251,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't delete this gift registry entity."));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $this->_redirect('adminhtml/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
+        $this->_redirect('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }
 
     /**

@@ -301,7 +301,7 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange');
+        $block = $this->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));
