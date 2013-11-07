@@ -23,11 +23,6 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_usaData = null;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
