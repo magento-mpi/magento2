@@ -63,11 +63,13 @@ class Dashboard extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $output   = '';
         $blockTab = $this->getRequest()->getParam('block');
-        $blockClassSuffix = str_replace(' ', \Magento\Autoload\IncludePath::NS_SEPARATOR,
-            ucwords(str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, ' ', $blockTab)));
-
+        $blockClassSuffix = str_replace(
+            ' ',
+            \Magento\Autoload\IncludePath::NS_SEPARATOR,
+            ucwords(str_replace('_', ' ', $blockTab))
+        );
         if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {
-            $output = $this->getLayout()->createBlock('Magento\\Adminhtml\\Block\\Dashboard\\' . $blockClassSuffix)
+            $output = $this->getLayout()->createBlock('Magento\\Backend\\Block\\Dashboard\\' . $blockClassSuffix)
                 ->toHtml();
         }
         $this->getResponse()->setBody($output);
