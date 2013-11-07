@@ -68,7 +68,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                             ->create('Magento\Core\Model\Website')
                 ),
-                'Magento\Adminhtml\Block\System\Store\Edit\Form\Website'
+                'Magento\Backend\Block\System\Store\Edit\Form\Website'
             ),
             array(
                 array(
@@ -76,7 +76,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                             ->create('Magento\Core\Model\Store\Group')
                 ),
-                'Magento\Adminhtml\Block\System\Store\Edit\Form\Group'
+                'Magento\Backend\Block\System\Store\Edit\Form\Group'
             ),
             array(
                 array(
@@ -84,7 +84,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                             ->create('Magento\Core\Model\Store')
                 ),
-                'Magento\Adminhtml\Block\System\Store\Edit\Form\Store'
+                'Magento\Backend\Block\System\Store\Edit\Form\Store'
             )
         );
     }
