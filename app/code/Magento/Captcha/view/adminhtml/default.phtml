@@ -2,14 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<?php $captcha = $this->getCaptchaModel() ?>
+<?php /* @var $captcha \Magento\Captcha\Model\DefaultModel */ ?>
 <?php /* @var $this \Magento\Captcha\Block\Captcha\DefaultCaptcha */ ?>
+<?php $captcha = $this->getCaptchaModel() ?>
 <div class="clear"></div>
 <div class="captcha">
     <div class="captcha-input input-box input-left">

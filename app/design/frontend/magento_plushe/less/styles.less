@@ -4491,6 +4491,19 @@ img[align="right"] {
 
 // Move to other place
 .form.search.advanced,
+.form.orders.search {
+    .action {
+        &:extend(.primary.action all);
+    }
+}
+
+.form.contact {
+    .action:not(.reload) {
+        &:extend(.primary.action all);
+    }
+}
+
+.form.search.advanced,
 .form.orders.search,
 .form.contact {
     .box-sizing();
@@ -4508,9 +4521,6 @@ img[align="right"] {
         width: auto;
         padding-right: 30px;
         text-align: right;
-    }
-    .action {
-        &:extend(.primary.action all);
     }
     .fields.range {
         .field:first-child {

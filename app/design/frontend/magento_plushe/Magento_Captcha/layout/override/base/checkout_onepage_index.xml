@@ -40,5 +40,23 @@
                 <argument name="width" xsi:type="string">50</argument>
             </action>
         </block>
+        <block class="Magento\Captcha\Block\Captcha" name="captcha.register.during.checkout">
+            <referenceBlock name="head">
+                <block class="Magento\Page\Block\Html\Head\Script" name="magento-captcha-onepage-js">
+                    <arguments>
+                        <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+            <action method="setFormId">
+                <argument name="formId" xsi:type="string">register_during_checkout</argument>
+            </action>
+            <action method="setImgWidth">
+                <argument name="width" xsi:type="string">230</argument>
+            </action>
+            <action method="setImgHeight">
+                <argument name="width" xsi:type="string">50</argument>
+            </action>
+        </block>
     </referenceContainer>
 </layout>

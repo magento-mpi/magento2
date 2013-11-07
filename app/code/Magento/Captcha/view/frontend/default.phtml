@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
+<?php /* @var $captcha \Magento\Captcha\Model\DefaultModel */ ?>
 <?php /* @var $this \Magento\Captcha\Block\Captcha\DefaultCaptcha */ ?>
-
-<?php /* @var $captcha \Magento\Captcha\Model\ModelInterface */ ?>
 <?php $captcha = $this->getCaptchaModel() ?>
 <li role="<?php echo $this->getFormId()?>">
     <label for="captcha_<?php echo $this->getFormId() ?>" class="required"><em>*</em><?php echo __('Please enter the letters below')?></label>
