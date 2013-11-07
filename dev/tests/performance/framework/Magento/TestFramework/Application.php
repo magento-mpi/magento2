@@ -265,11 +265,11 @@ class Application
     /**
      * Apply fixture file
      *
-     * @param $fixtureFilename
+     * @param string $fixtureFilename
      */
     public function applyFixture($fixtureFilename)
     {
-        require $this->_config->getTestsBaseDir() . DS . $fixtureFilename;
+        require $fixtureFilename;
     }
 
     /**
