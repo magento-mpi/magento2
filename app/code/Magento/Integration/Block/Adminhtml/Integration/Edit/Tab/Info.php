@@ -61,7 +61,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix(self::HTML_ID_PREFIX);
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Integration')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General')));
         if (isset($integrationData[self::DATA_ID])) {
             $fieldset->addField(self::DATA_ID, 'hidden', array('name' => 'id'));
         }
@@ -69,7 +69,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             self::DATA_NAME,
             'text',
             array(
-                'label' => __('Integration Name'),
+                'label' => __('Name'),
                 'name' => self::DATA_NAME,
                 'required' => true,
                 'disabled' => false,
@@ -82,7 +82,6 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             array(
                 'label' => __('Email'),
                 'name' => self::DATA_EMAIL,
-                'required' => true,
                 'disabled' => false,
                 'class' => 'validate-email',
                 'maxlength' => '254',
@@ -95,7 +94,8 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Callback URL'),
                 'name' => self::DATA_ENDPOINT,
                 'disabled' => false,
-                'note'=> __('When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed.'),
+                'note'=> __('When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed.
+                                We strongly recommend you to use https://'),
             )
         );
         $form->setValues($integrationData);
