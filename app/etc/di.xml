@@ -149,12 +149,12 @@
             <instance type="Magento\Core\Model\Cache\Type\Config"/>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Config\Reader">
+    <type name="Magento\Cache\Config\Reader">
         <param name="fileName">
             <value>cache.xml</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Config\Data">
+    <type name="Magento\Cache\Config\Data">
         <param name="cacheId">
             <value>config_cache</value>
         </param>

@@ -12,7 +12,7 @@ class TypeList implements \Magento\Core\Model\Cache\TypeListInterface
     const INVALIDATED_TYPES = 'core_cache_invalidate';
 
     /**
-     * @var \Magento\Core\Model\Cache\Config
+     * @var \Magento\Cache\ConfigInterface
      */
     protected $_config;
 
@@ -32,13 +32,13 @@ class TypeList implements \Magento\Core\Model\Cache\TypeListInterface
     protected $_cache;
 
     /**
-     * @param \Magento\Core\Model\Cache\Config $config
+     * @param \Magento\Cache\ConfigInterface $config
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Cache\InstanceFactory $factory
      * @param \Magento\Core\Model\CacheInterface $cache
      */
     public function __construct(
-        \Magento\Core\Model\Cache\Config $config,
+        \Magento\Cache\ConfigInterface $config,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Cache\InstanceFactory $factory,
         \Magento\Core\Model\CacheInterface $cache

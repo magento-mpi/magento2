@@ -7,27 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Cache;
+namespace Magento\Cache;
 
-class Config
+class Config implements ConfigInterface
 {
     /**
-     * @var \Magento\Core\Model\Cache\Config\Data
+     * @var \Magento\Cache\Config\Data
      */
     protected $_dataStorage;
 
     /**
-     * @param \Magento\Core\Model\Cache\Config\Data $dataStorage
+     * @param \Magento\Cache\Config\Data $dataStorage
      */
-    public function __construct(\Magento\Core\Model\Cache\Config\Data $dataStorage)
+    public function __construct(\Magento\Cache\Config\Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }
 
     /**
-     * Get configuration of all cache types
-     *
-     * @return array
+     * {inheritdoc}
      */
     public function getTypes()
     {
@@ -35,10 +33,7 @@ class Config
     }
 
     /**
-     * Get configuration of specified cache type
-     *
-     * @param string $type
-     * @return array
+     * {inheritdoc}
      */
     public function getType($type)
     {

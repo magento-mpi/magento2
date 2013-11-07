@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Cache\Config;
+namespace Magento\Cache\Config;
 
 class Data extends \Magento\Config\Data\Scoped
 {
@@ -19,13 +19,13 @@ class Data extends \Magento\Config\Data\Scoped
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param \Magento\Core\Model\Cache\Config\Reader $reader
+     * @param \Magento\Cache\Config\Reader $reader
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Core\Model\Cache\Config\Reader $reader,
+        \Magento\Cache\Config\Reader $reader,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Config\CacheInterface $cache,
         $cacheId

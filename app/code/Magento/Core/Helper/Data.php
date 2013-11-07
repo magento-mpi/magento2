@@ -37,7 +37,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Cache\Config
+     * @var \Magento\Cache\ConfigInterface
      */
     protected $_cacheConfig;
 

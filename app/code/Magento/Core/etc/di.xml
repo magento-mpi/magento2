@@ -28,7 +28,8 @@
     <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Encryption\Encryptor" />
-    <preference for="Magento\Filter\Encrypt\AdapterInterface" type=" Magento\Filter\Encrypt\Basic" />
+    <preference for="Magento\Filter\Encrypt\AdapterInterface" type="Magento\Filter\Encrypt\Basic" />
+    <preference for="Magento\Cache\ConfigInterface" type="Magento\Cache\Config" />
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Core\App\FrontController\Plugin\Install" sortOrder="40"/>
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
