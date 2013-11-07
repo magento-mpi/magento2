@@ -77,8 +77,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     {
         $this->getResponse()
             ->setHeader('HTTP/1.1', '403 Session Expired')
-            ->setHeader('Login-Required', 'true')
-            ->sendResponse();
+            ->setHeader('Login-Required', 'true');
         return $this;
     }
 

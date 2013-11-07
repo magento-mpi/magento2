@@ -88,6 +88,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
         $model = $this->_buildModel($area, $themePath, null);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
@@ -145,6 +146,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetI18nCsvFile($area, $themePath, $locale, $expectedFilename)
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
         $model = $this->_buildModel($area, $themePath, $locale);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
@@ -191,7 +193,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetViewFile($file, $area, $themePath, $locale, $module, $expectedFilename)
     {
-        $model = $this->_buildModel($area, $themePath, $locale);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
+        $model = $this->_buildModel();
         $themeModel = $this->_getThemeModel($area, $themePath);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);

@@ -25,14 +25,14 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         \Magento\Core\Model\Config $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,

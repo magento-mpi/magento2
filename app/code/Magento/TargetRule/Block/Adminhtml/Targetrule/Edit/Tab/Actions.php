@@ -36,7 +36,7 @@ class Actions
      * @param \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -45,7 +45,7 @@ class Actions
         \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()

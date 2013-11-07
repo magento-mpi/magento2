@@ -139,9 +139,9 @@ class Db implements StorageInterface
     protected $_appState;
 
     /**
-     * @var Proxy
+     * @var \Magento\Backend\Model\Url\Proxy
      */
-    protected $_proxy;
+    protected $_url;
 
     /**
      * @param StoreFactory $storeFactory
@@ -150,20 +150,20 @@ class Db implements StorageInterface
      * @param Config $config
      * @param Cookie $cookie
      * @param State $appState
-     * @param Proxy $proxy
-     * @param bool $isSingleStoreAllowed
-     * @param string $scopeCode
-     * @param string $scopeType
-     * @param string $currentStore
+     * @param \Magento\Backend\Model\Url $url
+     * @param $isSingleStoreAllowed
+     * @param $scopeCode
+     * @param $scopeType
+     * @param null $currentStore
      */
     public function __construct(
-        StoreFactory $storeFactory,
-        Website\Factory $websiteFactory,
-        Group\Factory $groupFactory,
-        Config $config,
-        Cookie $cookie,
-        State $appState,
-        Proxy $proxy,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Store\Group\Factory $groupFactory,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\App\State $appState,
+        \Magento\Backend\Model\Url $url,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,
@@ -178,7 +178,7 @@ class Db implements StorageInterface
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
-        $this->_proxy = $proxy;
+        $this->_url = $url;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -398,7 +398,7 @@ class Db implements StorageInterface
             }
 
             if (0 == $store->getId()) {
-                $store->setUrlModel($this->_proxy);
+                $store->setUrlModel($this->_url);
             }
         }
 

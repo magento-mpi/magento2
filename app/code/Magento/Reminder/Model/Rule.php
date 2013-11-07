@@ -112,7 +112,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param \Magento\Reminder\Helper\Data $reminderData
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -131,7 +131,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,
         \Magento\Reminder\Helper\Data $reminderData,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,

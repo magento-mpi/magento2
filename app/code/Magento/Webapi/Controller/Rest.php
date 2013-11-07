@@ -73,7 +73,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Handle REST request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -106,7 +106,6 @@ class Rest implements \Magento\App\FrontControllerInterface
         } catch (\Exception $e) {
             $this->_response->setException($e);
         }
-        $this->_response->sendResponse();
-        return $this;
+        return $this->_response;
     }
 }

@@ -20,7 +20,7 @@ class Generate
     /**
      * Pool factory
      *
-     * @var \Magento\GiftCardAccount\Model\Pool\Factory
+     * @var \Magento\GiftCardAccount\Model\PoolFactory
      */
     protected $_poolFactory;
 
@@ -28,14 +28,14 @@ class Generate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\App $application
-     * @param \Magento\GiftCardAccount\Model\Pool\Factory $poolFactory
+     * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\App $application,
-        \Magento\GiftCardAccount\Model\Pool\Factory $poolFactory,
+        \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $application, $data);

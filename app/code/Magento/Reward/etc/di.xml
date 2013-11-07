@@ -15,7 +15,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <reward_setup>Magento\Reward\Model\Resource\Setup</reward_setup>
