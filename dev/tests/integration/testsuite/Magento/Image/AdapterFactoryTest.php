@@ -22,7 +22,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Image\AdapterFactory');
         $this->_config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Store\Config');
+            ->create('Magento\Core\Model\ConfigInterface');
     }
 
     /**
@@ -34,7 +34,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
         $result = $this->_model->create();
         $this->assertInstanceOf('Magento\Image\Adapter\AbstractAdapter', $result);
         $this->assertNotEmpty(
-            $this->_config->getConfig(\Magento\Core\Model\Image\Adapter\Config::XML_PATH_IMAGE_ADAPTER)
+            $this->_config->getNode(\Magento\Core\Model\Image\Adapter\Config::XML_PATH_IMAGE_ADAPTER)
         );
     }
 }
