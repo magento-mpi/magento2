@@ -42,7 +42,6 @@ return array(
     'Model/Email',
     'Model/Giftmessage',
     'Model/LayoutUpdate',
-    'Model/Newsletter',
     'Model/Observer',
     'Model/Report',
     'Model/Search',

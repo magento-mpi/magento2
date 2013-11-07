@@ -12,10 +12,10 @@
  * Template text preview field renderer
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Model\Newsletter\Renderer;
+namespace Magento\Newsletter\Model\Renderer;
 
 class Text implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
