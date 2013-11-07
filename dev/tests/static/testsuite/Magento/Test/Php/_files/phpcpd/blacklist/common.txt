@@ -57,6 +57,8 @@ Magento/GiftMessage/Block/Adminhtml/Sales/Order
 Magento/ImportExport/Model
 Magento/Index/Model/Process
 Magento/Install/Block/Db
+Magento/Newsletter/Block/Adminhtml/Template/Preview
+Magento/Newsletter/Block/Adminhtml/Queue/Preview
 Magento/Payment/Block/Form
 Magento/Payment/Model/Method
 Magento/Payment/Model/Config
