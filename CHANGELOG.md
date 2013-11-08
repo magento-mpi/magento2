@@ -1,3 +1,5 @@
+2.0.0.0-dev51
+=============
 * Application Areas Rework:
   * Single point of access to the current area code
   * Declare Application Areas
@@ -7,11 +9,11 @@
     * Moved the relevant Oauth logic in the Magento\Oauth module into the Magento\Integration module
     * Removed the Magento\Oauth module, getting rid of obsolete logic that was no longer needed
   * Breakdown of the Adminhtml module:
-    * Moved Customer-related logic to Customer module
-    * Moved System-related logic to Backend module
-    * Moved Checkout-related logic to Checkout module
-    * Moved Cms-related logic to Cms module
-    * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
+     * Moved Customer-related logic to Customer module
+     * Moved System-related logic to Backend module
+     * Moved Checkout-related logic to Checkout module
+     * Moved Cms-related logic to Cms module
+     * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
   * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
   * Moved all application bootstrapping behaviour to library
   * Moved application-specific behaviour from entry points to Magento\AppInterface implementations
@@ -25,13 +27,13 @@
   * Added constructor integrity verification to Compiler tool
   * Added strict naming rules for auto-generated Factory and Proxy classes
   * Global functions are called now from app\functions.php
-  * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
   * Eliminated functions.php from Magento\Core module
+  * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
   * Methods from Core Helpers were moved to appropriate libraries:
-    * from AbstractHelper to Magento\Escaper and Magento\Filter libraries
-    * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
-    * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
-    * from Http Magento Helper to Magento\HTTP libraries
+     * from AbstractHelper to Magento\Escaper and Magento\Filter libraries
+     * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
+     * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
+     * from Http Magento Helper to Magento\HTTP libraries
   * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
@@ -67,8 +69,8 @@
 =============
 * Modularity improvements:
   * Breakdown of the Adminhtml module:
-    * Moved Sales, Catalog, Tax-related logic to respective modules
-    * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
+     * Moved Sales, Catalog, Tax-related logic to respective modules
+     * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
   * View abstraction was moved into library
   * Eliminated dependency in Magento\Data\Form from Magento\Core module
   * Eliminated Magento\Media module
