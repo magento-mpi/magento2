@@ -36,8 +36,9 @@ class Injectable
                 foreach ($method->getParameters() as $parameter) {
                     try {
                         /** @var ParameterReflection $parameter */
-                        if ($parameter->getClass() instanceof ClassReflection) {
-                            $this->dependencies[] = $parameter->getClass()->getName();
+                        $dependency = $parameter->getClass();
+                        if ($dependency instanceof ClassReflection) {
+                            $this->dependencies[] = $dependency->getName();
                         }
                     } catch (\ReflectionException $e) {
                         if (preg_match('#^Class ([A-Za-z0-9_\\\\]+) does not exist$#', $e->getMessage(), $result)) {
