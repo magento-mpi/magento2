@@ -37,6 +37,9 @@
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
   * Removed residual page fragment code
   * Framework part of Cache functionality moved out of modules
+* Themes update:
+  * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
+  * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
   * Fixed Minimum Advertised Price link on Product view

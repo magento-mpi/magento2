@@ -38,6 +38,7 @@ class Remember extends \Magento\Core\Block\Template
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Persistent\Helper\Data $persistentData,
