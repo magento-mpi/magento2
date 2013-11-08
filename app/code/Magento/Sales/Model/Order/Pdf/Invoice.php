@@ -16,11 +16,6 @@ namespace Magento\Sales\Model\Order\Pdf;
 class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
