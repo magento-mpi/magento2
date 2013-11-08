@@ -145,8 +145,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/theme_path one
-     * @magentoConfigFixture fixturestore_store design/theme/theme_path two
+     * @magentoConfigFixture current_store design/theme/theme_id one
+     * @magentoConfigFixture fixturestore_store design/theme/theme_id two
      * @magentoDataFixture Magento/Core/_files/store.php
      */
     public function testGetConfigurationDesignThemeStore()

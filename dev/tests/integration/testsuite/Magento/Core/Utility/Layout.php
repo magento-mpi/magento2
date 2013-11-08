@@ -79,7 +79,7 @@ class Layout
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
             'processorFactory'   => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
-            'themeProvider'      => $objectManager->get('Magento\View\Design\Theme\ThemeProviderInterface'),
+            'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'logger'             => $objectManager->get('Magento\Logger'),
             'eventManager'       => $objectManager->get('Magento\Event\ManagerInterface'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
