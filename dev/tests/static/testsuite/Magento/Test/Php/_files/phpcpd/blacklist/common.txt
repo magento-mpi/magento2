@@ -76,7 +76,6 @@ Magento/Sales/Model/Resource/Report/Order
 Magento/SalesRule/Block/Adminhtml/Promo/Quote/Edit/Tab
 Magento/Shipping/Model/Carrier
 Magento/CatalogRule/Model
-Magento/TargetRule/Block/Checkout/Cart/Crosssell
 Magento/Tax/Block/Checkout
 Magento/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
