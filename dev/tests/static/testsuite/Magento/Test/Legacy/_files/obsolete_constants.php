@@ -359,11 +359,6 @@ return array(
         '\Magento\View\Design\ThemeInterface::CODE_SEPARATOR'
     ),
     array(
-        'XML_PATH_THEME_ID',
-        '\Magento\Core\Model\View\Design',
-        '\MMagento\Core\Model\View\Design::XML_PATH_THEME_PATH'
-    ),
-    array(
         'XML_PATH_IMAGE_ADAPTER',
         '\Magento\Core\Model\Image\AdapterFactory',
         '\Magento\Core\Model\Image\Adapter\Config::XML_PATH_IMAGE_ADAPTER'

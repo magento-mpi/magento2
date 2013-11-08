@@ -218,9 +218,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_processorFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\ThemeProviderInterface
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
-    protected $themeProvider;
+    protected $themeFactory;
 
     /**
      * @var \Magento\App\State
@@ -229,7 +229,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
-     * @param \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
+     * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param Factory\Helper $factoryHelper
@@ -246,7 +246,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
@@ -277,7 +277,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
         $this->_processorFactory = $processorFactory;
-        $this->themeProvider = $themeProvider;
+        $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
     }
 
@@ -322,10 +322,15 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if ($this->_design->getDesignTheme()->getArea() == $area || $this->_design->getArea() == $area) {
             return $this->_design->getDesignTheme();
         }
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
+        $themeCollection = $this->_themeFactory->create();
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
-        $result = $this->themeProvider->getThemeByFullPath(
-            $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier
-        );
+        if (is_numeric($themeIdentifier)) {
+            $result = $themeCollection->getItemById($themeIdentifier);
+        } else {
+            $themeFullPath = $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier;
+            $result = $themeCollection->getThemeByFullPath($themeFullPath);
+        }
         return $result;
     }
 

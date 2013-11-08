@@ -96,20 +96,11 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     {
         $this->_designPackage->expects($this->once())
             ->method('getConfigurationDesignTheme')
-            ->will($this->returnValue($this->_getAssignedTheme()->getThemePath()));
+            ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
         $this->_storeManager->expects($this->once())
             ->method('getStores')
             ->will($this->returnValue(array($this->_getStore())));
-
-        $fullPath = \Magento\Core\Model\App\Area::AREA_FRONTEND
-            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR
-            . $this->_getAssignedTheme()->getThemePath();
-
-        $this->themeProviderMock->expects($this->once())
-            ->method('getThemeByFullPath')
-            ->with($fullPath)
-            ->will($this->returnValue($this->_getAssignedTheme()));
 
         $this->themeProviderMock->expects($this->once())
             ->method('getThemeCustomizations')
@@ -131,16 +122,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
 
         $this->_designPackage->expects($this->once())
             ->method('getConfigurationDesignTheme')
-            ->will($this->returnValue($this->_getAssignedTheme()->getThemePath()));
-
-        $fullPath = \Magento\Core\Model\App\Area::AREA_FRONTEND
-            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR
-            . $this->_getAssignedTheme()->getThemePath();
-
-        $this->themeProviderMock->expects($this->once())
-            ->method('getThemeByFullPath')
-            ->with($fullPath)
-            ->will($this->returnValue($this->_getAssignedTheme()));
+            ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
         $this->themeProviderMock->expects($this->once())
             ->method('getThemeCustomizations')
@@ -162,16 +144,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
 
         $this->_designPackage->expects($this->once())
             ->method('getConfigurationDesignTheme')
-            ->will($this->returnValue($this->_getAssignedTheme()->getThemePath()));
-
-        $fullPath = \Magento\Core\Model\App\Area::AREA_FRONTEND
-            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR
-            . $this->_getAssignedTheme()->getThemePath();
-
-        $this->themeProviderMock->expects($this->once())
-            ->method('getThemeByFullPath')
-            ->with($fullPath)
-            ->will($this->returnValue($this->_getAssignedTheme()));
+            ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
         $stores = $this->_model->getStoresByThemes();
         $this->assertArrayHasKey($this->_getAssignedTheme()->getId(), $stores);
@@ -188,15 +161,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
 
         $this->_designPackage->expects($this->once())
             ->method('getConfigurationDesignTheme')
-            ->will($this->returnValue($this->_getAssignedTheme()->getThemePath()));
-
-        $fullPath = \Magento\Core\Model\App\Area::AREA_FRONTEND
-            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR
-            . $this->_getAssignedTheme()->getThemePath();
-        $this->themeProviderMock->expects($this->once())
-            ->method('getThemeByFullPath')
-            ->with($fullPath)
-            ->will($this->returnValue($this->_getAssignedTheme()));
+            ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
         $this->themeProviderMock->expects($this->once())
             ->method('getThemeCustomizations')
@@ -214,15 +179,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     {
         $this->_designPackage->expects($this->once())
             ->method('getConfigurationDesignTheme')
-            ->will($this->returnValue($this->_getAssignedTheme()->getThemePath()));
-
-        $fullPath = \Magento\Core\Model\App\Area::AREA_FRONTEND
-            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR
-            . $this->_getAssignedTheme()->getThemePath();
-        $this->themeProviderMock->expects($this->once())
-            ->method('getThemeByFullPath')
-            ->with($fullPath)
-            ->will($this->returnValue($this->_getAssignedTheme()));
+            ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
         $themeUnassigned = $this->_model->isThemeAssignedToStore($this->_getUnassignedTheme(), $this->_getStore());
         $this->assertEquals(false, $themeUnassigned);

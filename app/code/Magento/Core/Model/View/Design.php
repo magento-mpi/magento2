@@ -18,7 +18,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Common node path to theme design configuration
      */
-    const XML_PATH_THEME_PATH = 'design/theme/theme_path';
+    const XML_PATH_THEME_ID = 'design/theme/theme_id';
 
     /**
      * Regular expressions matches cache
@@ -192,8 +192,8 @@ class Design implements \Magento\View\DesignInterface
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_config->getValue(self::XML_PATH_THEME_PATH, 'default')
-                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_PATH, $store);
+                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
+                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_ID, $store);
         }
 
         if (!$theme && isset($this->_themes[$area])) {

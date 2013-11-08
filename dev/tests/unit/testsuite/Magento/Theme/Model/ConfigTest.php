@@ -104,7 +104,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $themePath = 'magento_blank';
         /** Unassign themes from store */
-        $configEntity = new \Magento\Object(array('value' => $themePath, 'scope_id' => 8));
+        $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')
@@ -117,7 +117,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH)
+            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())
@@ -147,7 +147,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $themePath = 'magento_blank';
         /** Unassign themes from store */
-        $configEntity = new \Magento\Object(array('value' => $themePath, 'scope_id' => 8));
+        $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')
@@ -160,7 +160,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_PATH)
+            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())
