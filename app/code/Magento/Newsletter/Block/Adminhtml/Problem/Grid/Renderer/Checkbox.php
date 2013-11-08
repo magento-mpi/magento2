@@ -30,4 +30,4 @@ class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abst
     {
         return '<input type="checkbox" name="problem[]" value="' . $row->getId() . '" class="problemCheckbox"/>';
     }
-}// Class \Magento\Newsletter\Block\Adminhtml\Subscriber\Grid\Renderer\Checkbox END
+}

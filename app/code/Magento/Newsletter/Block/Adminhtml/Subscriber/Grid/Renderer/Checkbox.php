@@ -35,4 +35,4 @@ class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abst
         }
 
     }
-}// Class \Magento\Newsletter\Block\Adminhtml\Subscriber\Grid\Renderer\Checkbox END
+}

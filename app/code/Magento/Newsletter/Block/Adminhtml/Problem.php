@@ -89,4 +89,4 @@ class Problem extends \Magento\Adminhtml\Block\Template
     {
         return $this->_problemCollection->getSize() > 0;
     }
-}// Class \Magento\Newsletter\Block\Adminhtml\Problem END
+}

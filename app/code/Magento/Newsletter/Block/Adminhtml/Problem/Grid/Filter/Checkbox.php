@@ -29,4 +29,4 @@ class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Abstra
     {
         return '<input type="checkbox" onclick="problemController.checkCheckboxes(this)"/>';
     }
-}// Class \Magento\Newsletter\Block\Adminhtml\Subscriber\Grid\Filter\Checkbox END
+}
