@@ -9,15 +9,10 @@
 /**
  * Theme Image Path
  */
-namespace Magento\View\Design\Theme\Image;
+namespace Magento\Core\Model\Theme\Image;
 
-class Path
+class Path implements \Magento\View\Design\Theme\Image\PathInterface
 {
-    /**
-     * Image preview path
-     */
-    const PREVIEW_DIRECTORY_PATH = 'theme/preview';
-
     /**
      * Default theme preview image
      */
@@ -36,23 +31,23 @@ class Path
     /**
      * @var \Magento\UrlInterface
      */
-    protected $url;
+    protected $storeManager;
 
     /**
      * Initialize dependencies
      *
      * @param \Magento\App\Dir $dir
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\UrlInterface $storeManager
      */
     public function __construct(
         \Magento\App\Dir $dir,
         \Magento\View\Url $viewUrl,
-        \Magento\UrlInterface $url
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->dir = $dir;
         $this->viewUrl = $viewUrl;
-        $this->url = $url;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -62,7 +57,7 @@ class Path
      */
     public function getPreviewImageDirectoryUrl()
     {
-        return $this->url->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
+        return $this->storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
             . self::PREVIEW_DIRECTORY_PATH . '/';
     }
 

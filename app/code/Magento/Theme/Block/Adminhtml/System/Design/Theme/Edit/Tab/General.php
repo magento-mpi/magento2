@@ -26,7 +26,7 @@ class General
     protected $_isThemeEditable = false;
 
     /**
-     * @var \Magento\View\Design\Theme\Image\Path
+     * @var \Magento\View\Design\Theme\Image\PathInterface
      */
     protected $_themeImagePath;
 
@@ -41,7 +41,7 @@ class General
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\Design\Theme\Image\Path $themeImagePath
+     * @param \Magento\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
@@ -51,7 +51,7 @@ class General
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\ObjectManager $objectManager,
-        \Magento\View\Design\Theme\Image\Path $themeImagePath,
+        \Magento\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {

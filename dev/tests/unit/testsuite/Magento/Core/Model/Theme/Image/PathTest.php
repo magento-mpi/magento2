@@ -12,12 +12,12 @@
 /**
  * Test of image path model
  */
-namespace Magento\View\Design\Theme\Image;
+namespace Magento\Core\Model\Theme\Image;
 
 class PathTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Design\Theme\Image\Path|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme\Image\Path|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,28 +27,28 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $_dirMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Url
      */
     protected $_viewUrlMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\StoreManager
      */
-    protected $_url;
+    protected $_storeManagerMock;
 
     protected function setUp()
     {
         $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
-        $this->_url = $this->getMock('Magento\UrlInterface', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $this->_dirMock->expects($this->any())->method('getDir')->with(\Magento\App\Dir::MEDIA)
             ->will($this->returnValue('/media'));
 
-        $this->_model = new \Magento\View\Design\Theme\Image\Path(
+        $this->_model = new Path(
             $this->_dirMock,
             $this->_viewUrlMock,
-            $this->_url
+            $this->_storeManagerMock
         );
     }
 
@@ -57,31 +57,33 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->_model = null;
         $this->_dirMock = null;
         $this->_viewUrlMock = null;
-        $this->_url = null;
+        $this->_storeManagerMock = null;
     }
 
     /**
-     * @covers \Magento\View\Design\Theme\Image\Path::__construct
-     * @covers \Magento\View\Design\Theme\Image\Path::getPreviewImageDirectoryUrl
+     * @covers \Magento\Core\Model\Theme\Image\Path::__construct
+     * @covers \Magento\Core\Model\Theme\Image\Path::getPreviewImageDirectoryUrl
      */
     public function testPreviewImageDirectoryUrlGetter()
     {
-        $this->_url->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://localhost/'));
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://localhost/'));
+        $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $this->assertEquals('http://localhost/theme/preview/', $this->_model->getPreviewImageDirectoryUrl());
     }
 
     /**
-     * @covers \Magento\View\Design\Theme\Image\Path::getPreviewImageDefaultUrl
+     * @covers \Magento\Core\Model\Theme\Image\PathMagento\Core\Model\Theme\Image\Path::getPreviewImageDefaultUrl
      */
     public function testDefaultPreviewImageUrlGetter()
     {
         $this->_viewUrlMock->expects($this->once())->method('getViewFileUrl')
-            ->with(\Magento\View\Design\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE);
+            ->with(\Magento\Core\Model\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE);
         $this->_model->getPreviewImageDefaultUrl();
     }
 
     /**
-     * @covers \Magento\View\Design\Theme\Image\Path::getImagePreviewDirectory
+     * @covers \Magento\Core\Model\Theme\Image\Path::getImagePreviewDirectory
      */
     public function testImagePreviewDirectoryGetter()
     {
@@ -92,7 +94,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\View\Design\Theme\Image\Path::getTemporaryDirectory
+     * @covers \Magento\Core\Model\Theme\Image\Path::getTemporaryDirectory
      */
     public function testTemporaryDirectoryGetter()
     {

@@ -16,7 +16,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
 class Image extends \Magento\Data\Form\Element\Image
 {
     /**
-     * @var \Magento\View\Design\Theme\Image\Path
+     * @var \Magento\View\Design\Theme\Image\PathInterface
      */
     protected $_imagePath;
 
@@ -25,7 +25,7 @@ class Image extends \Magento\Data\Form\Element\Image
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\View\Design\Theme\Image\Path $imagePath
+     * @param \Magento\View\Design\Theme\Image\PathInterface $imagePath
      * @param array $attributes
      */
     public function __construct(
@@ -33,17 +33,11 @@ class Image extends \Magento\Data\Form\Element\Image
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\View\Design\Theme\Image\Path $imagePath,
+        \Magento\View\Design\Theme\Image\PathInterface $imagePath,
         $attributes = array()
     ) {
         $this->_imagePath = $imagePath;
-        parent::__construct(
-            $escaper,
-            $factoryElement,
-            $factoryCollection,
-            $urlBuilder,
-            $attributes
-        );
+        parent::__construct($escaper, $factoryElement, $factoryCollection, $urlBuilder, $attributes);
     }
 
     /**

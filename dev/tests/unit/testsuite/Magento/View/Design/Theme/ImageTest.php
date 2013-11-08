@@ -59,7 +59,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_model = new \Magento\View\Design\Theme\Image(
+        $this->_model = new Image(
             $this->_filesystemMock,
             $imageFactory,
             $this->_uploaderMock,
@@ -79,11 +79,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design\Theme\Image\Path
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Theme\Image\Path
      */
     protected function _getImagePathMock()
     {
-        $imagePathMock = $this->getMock('Magento\View\Design\Theme\Image\Path', array(), array(), '', false);
+        $imagePathMock = $this->getMock('Magento\Core\Model\Theme\Image\Path', array(), array(), '', false);
         $testBaseUrl = 'http://localhost/media_path/';
         $imagePathMock->expects($this->any())->method('getPreviewImageDirectoryUrl')
             ->will($this->returnValue($testBaseUrl));

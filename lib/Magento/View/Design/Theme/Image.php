@@ -39,7 +39,7 @@ class Image
     protected $_uploader;
 
     /**
-     * @var Image\Path
+     * @var Image\PathInterface
      */
     protected $_themeImagePath;
 
@@ -59,7 +59,7 @@ class Image
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
      * @param Image\Uploader $uploader
-     * @param Image\Path $themeImagePath
+     * @param Image\PathInterface $themeImagePath
      * @param \Magento\Logger $logger
      * @param \Magento\View\Design\ThemeInterface $theme
      */
@@ -67,7 +67,7 @@ class Image
         \Magento\Filesystem $filesystem,
         \Magento\Image\Factory $imageFactory,
         Image\Uploader $uploader,
-        Image\Path $themeImagePath,
+        Image\PathInterface $themeImagePath,
         \Magento\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
