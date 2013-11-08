@@ -82,7 +82,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
 
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => "window.location.href = '" . $this->getUrl('newsletter/*') . "'",
+            'onclick'   => "window.location.href = '" . $this->getUrl('*/*') . "'",
             'class'     => 'action-back'
         ));
 
@@ -279,7 +279,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('newsletter/*/save');
+        return $this->getUrl('*/*/save');
     }
 
     /**
@@ -289,7 +289,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getPreviewUrl()
     {
-        return $this->getUrl('newsletter/*/preview');
+        return $this->getUrl('*/*/preview');
     }
 
     /**
@@ -309,7 +309,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('newsletter/*/delete', array('id' => $this->getRequest()->getParam('id')));
+        return $this->getUrl('*/*/delete', array('id' => $this->getRequest()->getParam('id')));
     }
 
     /**

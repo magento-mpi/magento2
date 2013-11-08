@@ -161,7 +161,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $request = $this->getRequest();
         if (!$request->isPost()) {
-            $this->getResponse()->setRedirect($this->getUrl('newsletter/template'));
+            $this->getResponse()->setRedirect($this->getUrl('*/template'));
         }
         $template = $this->_objectManager->create('Magento\Newsletter\Model\Template');
 
@@ -196,7 +196,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addSuccess(__('The newsletter template has been saved.'));
             $this->_getSession()->setFormData(false);
 
-            $this->_redirect('newsletter/template');
+            $this->_redirect('*/template');
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError(nl2br($e->getMessage()));
@@ -233,7 +233,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
                 );
             }
         }
-        $this->_redirect('newsletter/template');
+        $this->_redirect('*/template');
     }
 
     /**

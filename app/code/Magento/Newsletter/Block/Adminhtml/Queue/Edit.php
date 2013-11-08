@@ -82,7 +82,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
         } else {
             $params = array('id' => $this->getRequest()->getParam('id'));
         }
-        return $this->getUrl('newsletter/*/save', $params);
+        return $this->getUrl('*/*/save', $params);
     }
 
     protected function _prepareLayout()
@@ -134,7 +134,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
         $this->addChild('back_button','Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Back'),
             'onclick' => "window.location.href = '" . $this->getUrl((
-                $this->getTemplateId() ? 'newsletter/template' : '*/*')) . "'",
+                $this->getTemplateId() ? '*/template' : '*/*')) . "'",
             'class'   => 'action-back'
         ));
 
@@ -148,7 +148,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
      */
     public function getPreviewUrl()
     {
-        return $this->getUrl('newsletter/*/preview');
+        return $this->getUrl('*/*/preview');
     }
 
     /**
