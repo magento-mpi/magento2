@@ -54,7 +54,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
+     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      * @param \Magento\Install\Model\Installer $installer
@@ -67,7 +67,7 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Config\Scope $configScope,
         \Magento\View\DesignInterface $viewDesign,
-        \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider,
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\Install\Model\Installer $installer,
@@ -81,7 +81,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_session = $session;
         $this->_dbUpdater = $dbUpdater;
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $configScope, $viewDesign, $themeProvider, $app, $appState);
+        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
     }
 
     /**

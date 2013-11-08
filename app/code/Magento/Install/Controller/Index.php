@@ -27,7 +27,7 @@ class Index extends \Magento\Install\Controller\Action
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
+     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      * @param \Magento\App\Dir $coreDir
@@ -36,13 +36,13 @@ class Index extends \Magento\Install\Controller\Action
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Config\Scope $configScope,
         \Magento\View\DesignInterface $viewDesign,
-        \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider,
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\App\Dir $coreDir
     ) {
         $this->_coreDir = $coreDir;
-        parent::__construct($context, $configScope, $viewDesign, $themeProvider, $app, $appState);
+        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
     }
 
     /**
