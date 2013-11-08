@@ -35,7 +35,7 @@ Magento/Search
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
 Magento/TargetRule/Block/Catalog/Product/ProductList/Related
 Magento/TargetRule/Block/Catalog/Product/ProductList
-Magento/TargetRule/Block/Checkout/Cart/Crosssell.php
+Magento/TargetRule/Block/Checkout/Cart
 Magento/TargetRule/Model/Rule/Condition
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit
 Magento/TargetRule/Block/Adminhtml
