@@ -107,7 +107,7 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      */
-    public function save(Fixture $fixture)
+    public function save(Fixture $fixture = null)
     {
         parent::save($fixture);
         if ($this->getAffectedAttributeSetBlock()->isVisible()) {
