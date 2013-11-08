@@ -43,6 +43,11 @@ namespace Magento\Newsletter\Model;
 class Template extends \Magento\Core\Model\Template
 {
     /**
+     * Config path to mail sending setting that shows if email communications are disabled
+     */
+    const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
+
+    /**
      * Template Text Preprocessed flag
      *
      * @var bool
@@ -335,7 +340,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->getConfigFlag(\Magento\Core\Helper\Data::XML_PATH_SYSTEM_SMTP_DISABLE)
+        return !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_SYSTEM_SMTP_DISABLE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

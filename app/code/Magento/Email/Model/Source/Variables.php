@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Store Contact Information source model
  *
  * @category   Magento
- * @package    Magento_Core
+ * @package    Magento_Email
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Source\Email;
+namespace Magento\Email\Model\Source;
 
 class Variables implements \Magento\Core\Model\Option\ArrayInterface
 {
