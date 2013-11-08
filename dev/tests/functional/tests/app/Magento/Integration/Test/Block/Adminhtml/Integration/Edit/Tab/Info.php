@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Integration\Test\Block\Backend\IntegrationForm;
+namespace Magento\Integration\Test\Block\Adminhtml\Integration\Edit\Tab;
 
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Integration tab of integration edit page.
  */
-class IntegrationTab extends Tab
+class Info extends Tab
 {
     /**
      * {@inheritdoc}

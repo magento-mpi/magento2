@@ -32,6 +32,20 @@ class Form extends FormInstance
     protected $saveButton;
 
     /**
+     * Back button
+     *
+     * @var string
+     */
+    protected $backButton;
+
+    /**
+     * Reset button
+     *
+     * @var string
+     */
+    protected $resetButton;
+
+    /**
      * Delete button
      *
      * @var string
@@ -45,6 +59,8 @@ class Form extends FormInstance
     {
         //Elements
         $this->saveButton = '#save';
+        $this->backButton = 'back';
+        $this->resetButton = 'reset';
         $this->deleteButton = 'delete-button-button';
     }
 
@@ -69,6 +85,28 @@ class Form extends FormInstance
     public function save(Fixture $fixture)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
+        return $this;
+    }
+
+    /**
+     * Back action
+     *
+     * @return Form
+     */
+    public function back()
+    {
+        $this->_rootElement->find($this->backButton, Locator::SELECTOR_ID)->click();
+        return $this;
+    }
+
+    /**
+     * Reset the form
+     *
+     * @return Form
+     */
+    public function reset()
+    {
+        $this->_rootElement->find($this->resetButton, Locator::SELECTOR_ID)->click();
         return $this;
     }
 

@@ -93,4 +93,31 @@ class Integration extends AbstractRepository
             )
         );
     }
+
+    /**
+     * Generate data for integration fixture with oAuth tokens exchange.
+     *
+     * @return array
+     */
+    protected function _getXssIntegrationDataAll()
+    {
+        $xssData = $this->_getOauthIntegrationData();
+        $xssData['data']['fields']['name']['value'] = "<script>alert('XSS')</script>";
+        $xssData['data']['fields']['email']['value'] = "<script>alert('XSS')</script>";
+        $xssData['data']['fields']['endpoint']['value'] = "<script>alert('XSS')</script>";
+        return $xssData;
+    }
+
+    /**
+     * Generate data for integration fixture with oAuth tokens exchange.
+     *
+     * @return array
+     */
+    protected function _getXssIntegrationData()
+    {
+        $xssData = $this->_getOauthIntegrationData();
+        $xssData['data']['fields']['name']['value'] = "<script>alert('XSS')</script>";
+        $xssData['data']['fields']['endpoint']['value'] = "<script>alert('XSS')</script>";
+        return $xssData;
+    }
 }

@@ -48,6 +48,28 @@ class FormTabs extends Form
     }
 
     /**
+     * Verify form with tabs
+     *
+     * @param Fixture $fixture
+     * @param Element $element
+     * @throws \Exception
+     * @return FormTabs
+     */
+    public function verify(Fixture $fixture, Element $element = null)
+    {
+        $tabs = $this->getFieldsByTabs($fixture);
+        foreach ($tabs as $tab => $tabFields) {
+            $tabElement = $this->getTabElement($tab);
+            $tabElement->open($this->_rootElement);
+            $tabElement->verifyFormTab($tabFields, $this->_rootElement);
+            if(!$tabElement->verifyFormTab($tabFields, $this->_rootElement)){
+                throw new \Exception('Invalid form data.');
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Update form with tabs
      *
      * @param Fixture $fixture

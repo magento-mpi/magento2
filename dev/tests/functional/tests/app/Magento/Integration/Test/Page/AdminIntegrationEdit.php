@@ -27,16 +27,4 @@ class AdminIntegrationEdit extends AdminIntegrationNew
     {
         throw new \LogicException("Please use openByName() instead.");
     }
-
-    /**
-     * Open existing integration page by integration name.
-     *
-     * @param string $integrationName
-     */
-    public function openByName($integrationName)
-    {
-        $integrationGridPage = Factory::getPageFactory()->getAdminIntegration();
-        $integrationGridPage->open();
-        $integrationGridPage->getGridBlock()->searchAndOpen(array('name' => $integrationName));
-    }
 }
