@@ -18,7 +18,8 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 class DesignAbstractionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\DesignAbstraction|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\DesignAbstraction|
+     *      \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_block;
 
@@ -60,6 +61,9 @@ class DesignAbstractionTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtml()
     {
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/design-abstraction_select.html', $this->_block->toHtml());
+        $this->assertXmlStringEqualsXmlFile(
+            __DIR__ . '/_files/design-abstraction_select.html',
+            $this->_block->toHtml()
+        );
     }
 }
