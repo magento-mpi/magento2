@@ -18,17 +18,15 @@
 ?>
 <?php if ($this->hasUserDefinedAttributes()): ?>
     <?php if ($this->isShowContainer()): ?>
-<div>
-    <ul class="form-list">
+    <fieldset class="fieldset">
     <?php endif;?>
     <?php foreach ($this->getUserDefinedAttributes() as $attribute):?>
         <?php $attributeContent = $this->getAttributeHtml($attribute);?>
         <?php if ($attributeContent): ?>
-        <li><?php echo $attributeContent;?></li>
+            <?php echo $attributeContent;?>
         <?php endif;?>
     <?php endforeach;?>
     <?php if ($this->isShowContainer()): ?>
-    </ul>
-</div>
+    </fieldset>
     <?php endif;?>
 <?php endif; ?>

@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    Frontend Wishlist
- * @package     EE
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +13,7 @@
         options: {
             createTmplSelector: '#popup-tmpl',
             createTmplData: {
-                btnCloseClass: 'btn-close',
+                btnCloseClass: 'close',
                 popupWishlistBlockId: 'create-wishlist-block',
                 popupWishlistFormId: 'create-wishlist-form'
             },
@@ -52,9 +51,9 @@
         _initCreateTmpl: function() {
             this.createTmpl = $(this.options.createTmplSelector).tmpl(this.options.createTmplData);
             this.createTmpl.on('click', '.' + this.options.createTmplData.btnCloseClass, $.proxy(function() {
-                this.createTmpl.hide();
-            }, this))
-            .appendTo('body');
+                    this.createTmpl.hide();
+                }, this))
+                .appendTo('body');
             $('#' + this.options.createTmplData.popupWishlistFormId).validation({
                 submitHandler: $.proxy(function(form) {
                     if (this.createAjax) {
@@ -117,9 +116,9 @@
          * @param e - Item in wishlist got clicked
          */
         _moveItemTo: function(e) {
-            var json = $(e.target).data('wishlist-move-item'),
+            var json = $(e.currentTarget).data('wishlist-move-item'),
                 tmplJson = {
-                    qty: this._getQty($(e.target)),
+                    qty: this._getQty($(e.currentTarget)),
                     itemId: json['itemId'],
                     url: this.moveWishlistJson.moveItemUrl
                 };
@@ -149,7 +148,7 @@
          * @param e - move to wishlist button
          */
         _moveSelectedTo: function(e) {
-            var json = $(e.target).data('wishlist-move-selected'),
+            var json = $(e.currentTarget).data('wishlist-move-selected'),
                 wishlistId = json['wishlistId'];
             if (!this._itemsSelected()) {
                 alert($.mage.__('You must select items to move'));
@@ -198,7 +197,7 @@
          * @return {Boolean}
          */
         _itemsSelected: function() {
-            return $(this.options.wishlistFormSelector).find('input.select:checked').length ? true : false;
+            return $(this.options.wishlistFormSelector).find('input.checkbox:checked').length ? true : false;
         }
     });
 
@@ -217,9 +216,9 @@
          * @param e - Item in wishlist got clicked
          */
         _copyItemTo: function(e) {
-            var json = $(e.target).data('wishlist-copy-item'),
+            var json = $(e.currentTarget).data('wishlist-copy-item'),
                 tmplJson = {
-                    qty: this._getQty($(e.target)),
+                    qty: this._getQty($(e.currentTarget)),
                     itemId: json['itemId'],
                     url: this.copyWishlistJson.copyItemUrl
                 };
@@ -238,7 +237,7 @@
          * @param e - copy to wishlist button
          */
         _copySelectedTo: function(e) {
-            var json = $(e.target).data('wishlist-copy-selected'),
+            var json = $(e.currentTarget).data('wishlist-copy-selected'),
                 wishlistId = json['wishlistId'];
             if (!this._itemsSelected()) {
                 alert($.mage.__('You must select items to copy'));
@@ -289,7 +288,7 @@
         _deleteWishlist: function(e)  {
             e.preventDefault();
             if (confirm(this.options.deleteMsg)) {
-                var json = $(e.target).data('wishlist-delete');
+                var json = $(e.currentTarget).data('wishlist-delete');
                 $.ajax({
                     url: json['deleteUrl'].replace('%item%', json['wishlistId']),
                     type: 'post',
@@ -307,7 +306,7 @@
         options: {
             editTmplSelector: '#popup-tmpl',
             editTmplData: {
-                btnCloseClass: 'btn-close',
+                btnCloseClass: 'close',
                 popupWishlistBlockId: 'edit-wishlist-block',
                 popupWishlistFormId: 'edit-wishlist-form',
                 isEdit: true
@@ -325,7 +324,7 @@
          * @param e - Edit wishlist button
          */
         _editWishlist: function(e)  {
-            var json = $(e.target).data('wishlist-edit');
+            var json = $(e.currentTarget).data('wishlist-edit');
             this.options.editTmplData.url = json['url'];
             this.options.editTmplData.name = json['name'];
             this.options.editTmplData.isPublic = json['isPublic'];
@@ -356,10 +355,10 @@
         _create: function() {
             this._super();
             this.element.on('click', '[data-wishlist-add]', $.proxy(function(e) {
-                window.location.href = $(e.target).data('wishlist-add').url;
+                window.location.href = $(e.currentTarget).data('wishlist-add').url;
             }, this));
             this.element.on('click', '[data-wishlist-add-to]', $.proxy(function(e) {
-                var json = $(e.target).data('wishlist-add-to');
+                var json = $(e.currentTarget).data('wishlist-add-to');
                 if (json.isNew) {
                     this._addToNew(json.url);
                 } else {
@@ -406,7 +405,7 @@
                             isNew: true
                         });
                     }
-                    $(this.options.splitBtnTmpl).tmpl(tmplData).appendTo(element.parent());
+                    $(this.options.splitBtnTmpl).tmpl(tmplData).prependTo(element.parent());
                     element.remove();
                 }, this));
             }

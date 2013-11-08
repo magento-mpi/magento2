@@ -439,6 +439,7 @@ input[type="button"],
 .form.wishlist.share .action.save,
 .form.password.reset .action.save,
 .form.paypal.review .action.save,
+.form.send.confirmation .action.save,
 .form.send.friend .action.submit,
 .form.address.edit .action.submit,
 .form.edit.account .action.submit,
@@ -450,6 +451,7 @@ input[type="button"],
 .form.wishlist.share .action.submit,
 .form.password.reset .action.submit,
 .form.paypal.review .action.submit,
+.form.send.confirmation .action.submit,
 .form.send.friend .action.add,
 .form.address.edit .action.add,
 .form.edit.account .action.add,
@@ -461,12 +463,14 @@ input[type="button"],
 .form.wishlist.share .action.add,
 .form.password.reset .action.add,
 .form.paypal.review .action.add,
-.form.search.advanced .action,
-.form.orders.search .action,
-.form.contact .action,
+.form.send.confirmation .action.add,
+.form.search.advanced .actions .action,
+.form.orders.search .actions .action,
+.form.contact .actions .action,
 .data.table.wishlist + .actions .primary .action.share,
 .data.table.wishlist + .actions .primary .action.update,
 .recurring.order.details > .actions .primary .action,
+.form.send.confirmation .action.send,
 .action.myPrimary,
 input[type="submit"],
 input[type="button"],
@@ -501,6 +505,7 @@ input[type="button"],
 .form.wishlist.share .action.save,
 .form.password.reset .action.save,
 .form.paypal.review .action.save,
+.form.send.confirmation .action.save,
 .form.send.friend .action.submit,
 .form.address.edit .action.submit,
 .form.edit.account .action.submit,
@@ -512,6 +517,7 @@ input[type="button"],
 .form.wishlist.share .action.submit,
 .form.password.reset .action.submit,
 .form.paypal.review .action.submit,
+.form.send.confirmation .action.submit,
 .form.send.friend .action.add,
 .form.address.edit .action.add,
 .form.edit.account .action.add,
@@ -523,12 +529,14 @@ input[type="button"],
 .form.wishlist.share .action.add,
 .form.password.reset .action.add,
 .form.paypal.review .action.add,
-.form.search.advanced .action,
-.form.orders.search .action,
-.form.contact .action,
+.form.send.confirmation .action.add,
+.form.search.advanced .actions .action,
+.form.orders.search .actions .action,
+.form.contact .actions .action,
 .data.table.wishlist + .actions .primary .action.share,
 .data.table.wishlist + .actions .primary .action.update,
-.recurring.order.details > .actions .primary .action {
+.recurring.order.details > .actions .primary .action,
+.form.send.confirmation .action.send {
   background-color: #da370a;
   color: #ffffff;
 }
@@ -637,6 +645,9 @@ input[type="button"]:hover,
 .form.paypal.review .action.save:focus,
 .form.paypal.review .action.save:active,
 .form.paypal.review .action.save:hover,
+.form.send.confirmation .action.save:focus,
+.form.send.confirmation .action.save:active,
+.form.send.confirmation .action.save:hover,
 .form.send.friend .action.submit:focus,
 .form.send.friend .action.submit:active,
 .form.send.friend .action.submit:hover,
@@ -670,6 +681,9 @@ input[type="button"]:hover,
 .form.paypal.review .action.submit:focus,
 .form.paypal.review .action.submit:active,
 .form.paypal.review .action.submit:hover,
+.form.send.confirmation .action.submit:focus,
+.form.send.confirmation .action.submit:active,
+.form.send.confirmation .action.submit:hover,
 .form.send.friend .action.add:focus,
 .form.send.friend .action.add:active,
 .form.send.friend .action.add:hover,
@@ -703,15 +717,18 @@ input[type="button"]:hover,
 .form.paypal.review .action.add:focus,
 .form.paypal.review .action.add:active,
 .form.paypal.review .action.add:hover,
-.form.search.advanced .action:focus,
-.form.search.advanced .action:active,
-.form.search.advanced .action:hover,
-.form.orders.search .action:focus,
-.form.orders.search .action:active,
-.form.orders.search .action:hover,
-.form.contact .action:focus,
-.form.contact .action:active,
-.form.contact .action:hover,
+.form.send.confirmation .action.add:focus,
+.form.send.confirmation .action.add:active,
+.form.send.confirmation .action.add:hover,
+.form.search.advanced .actions .action:focus,
+.form.search.advanced .actions .action:active,
+.form.search.advanced .actions .action:hover,
+.form.orders.search .actions .action:focus,
+.form.orders.search .actions .action:active,
+.form.orders.search .actions .action:hover,
+.form.contact .actions .action:focus,
+.form.contact .actions .action:active,
+.form.contact .actions .action:hover,
 .data.table.wishlist + .actions .primary .action.share:focus,
 .data.table.wishlist + .actions .primary .action.share:active,
 .data.table.wishlist + .actions .primary .action.share:hover,
@@ -720,7 +737,10 @@ input[type="button"]:hover,
 .data.table.wishlist + .actions .primary .action.update:hover,
 .recurring.order.details > .actions .primary .action:focus,
 .recurring.order.details > .actions .primary .action:active,
-.recurring.order.details > .actions .primary .action:hover {
+.recurring.order.details > .actions .primary .action:hover,
+.form.send.confirmation .action.send:focus,
+.form.send.confirmation .action.send:active,
+.form.send.confirmation .action.send:hover {
   background-color: #a92b08;
 }
 .secondary.action,
@@ -865,6 +885,7 @@ input[type="reset"],
 .form.wishlist.share .action.save,
 .form.password.reset .action.save,
 .form.paypal.review .action.save,
+.form.send.confirmation .action.save,
 .form.send.friend .action.submit,
 .form.address.edit .action.submit,
 .form.edit.account .action.submit,
@@ -876,6 +897,7 @@ input[type="reset"],
 .form.wishlist.share .action.submit,
 .form.password.reset .action.submit,
 .form.paypal.review .action.submit,
+.form.send.confirmation .action.submit,
 .form.send.friend .action.add,
 .form.address.edit .action.add,
 .form.edit.account .action.add,
@@ -887,15 +909,17 @@ input[type="reset"],
 .form.wishlist.share .action.add,
 .form.password.reset .action.add,
 .form.paypal.review .action.add,
+.form.send.confirmation .action.add,
 .form.send.friend .actions > .primary .action.add,
-.form.search.advanced .action,
-.form.orders.search .action,
-.form.contact .action,
+.form.search.advanced .actions .action,
+.form.orders.search .actions .action,
+.form.contact .actions .action,
 .paypal.review.view .actions .action.update,
 .data.table.wishlist + .actions .primary .action.share,
 .data.table.wishlist + .actions .primary .action.update,
 .shipping-tracking-popup .action.close,
-.recurring.order.details > .actions .primary .action {
+.recurring.order.details > .actions .primary .action,
+.form.send.confirmation .action.send {
   border: none;
   border-radius: 0;
   font: 600 14px/16px;
@@ -3704,14 +3728,14 @@ ul.messages {
   padding: 20px;
   position: relative;
 }
-.popup .close {
+.popup > .close {
   color: #999999;
   cursor: pointer;
   position: absolute;
   right: 5px;
   top: 3px;
 }
-.popup .close:before {
+.popup > .close:before {
   font-family: "icons";
   font-size: 12px;
   line-height: 12px;
@@ -3727,7 +3751,7 @@ ul.messages {
   vertical-align: middle;
   text-align: center;
 }
-.popup .close:hover {
+.popup > .close:hover {
   color: #675f55;
 }
 .fade .popup {
@@ -7087,7 +7111,7 @@ body {
 .form.newsletter.manage .fieldset .legend {
   float: left;
   margin: 0 0 20px;
-  font-weight: 600;
+  font-weight: 200;
 }
 .form.newsletter.manage .fieldset .legend + br {
   display: block;
@@ -8313,6 +8337,10 @@ body {
   float: left;
   margin-right: 15px;
 }
+.product.info.main .product.alert {
+  font-size: 12px;
+  margin: 5px 0;
+}
 .product.main.info .product.options.wrapper .field {
   margin: 0 0 10px;
   -moz-box-sizing: border-box;
@@ -9274,6 +9302,15 @@ img[align="right"] {
   padding-right: 10px;
   text-align: right;
 }
+.form.login .field.persistent .link.tip,
+.step.login .field.persistent .link.tip {
+  display: inline-block;
+  padding-top: 7px;
+}
+.form.login .field.persistent .checkbox,
+.step.login .field.persistent .checkbox {
+  margin-top: 10px;
+}
 .action.reload {
   border: none;
   border-radius: 0;
@@ -9335,7 +9372,8 @@ img[align="right"] {
 .form.create.account .fieldset,
 .form.wishlist.share .fieldset,
 .form.password.reset .fieldset,
-.form.paypal.review .fieldset {
+.form.paypal.review .fieldset,
+.form.send.confirmation .fieldset {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -9362,7 +9400,8 @@ img[align="right"] {
 .form.create.account .fieldset .field,
 .form.wishlist.share .fieldset .field,
 .form.password.reset .fieldset .field,
-.form.paypal.review .fieldset .field {
+.form.paypal.review .fieldset .field,
+.form.send.confirmation .fieldset .field {
   display: inline-block;
   padding-right: 20px;
   vertical-align: top;
@@ -9378,7 +9417,8 @@ img[align="right"] {
 .form.create.account .fieldset .nested .field,
 .form.wishlist.share .fieldset .nested .field,
 .form.password.reset .fieldset .nested .field,
-.form.paypal.review .fieldset .nested .field {
+.form.paypal.review .fieldset .nested .field,
+.form.send.confirmation .fieldset .nested .field {
   width: 100%;
 }
 .form.send.friend .fieldset .actions,
@@ -9391,7 +9431,8 @@ img[align="right"] {
 .form.create.account .fieldset .actions,
 .form.wishlist.share .fieldset .actions,
 .form.password.reset .fieldset .actions,
-.form.paypal.review .fieldset .actions {
+.form.paypal.review .fieldset .actions,
+.form.send.confirmation .fieldset .actions {
   margin-right: 30px;
 }
 .form.send.friend .fieldset > *,
@@ -9404,7 +9445,8 @@ img[align="right"] {
 .form.create.account .fieldset > *,
 .form.wishlist.share .fieldset > *,
 .form.password.reset .fieldset > *,
-.form.paypal.review .fieldset > * {
+.form.paypal.review .fieldset > *,
+.form.send.confirmation .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -9418,7 +9460,8 @@ img[align="right"] {
 .form.create.account .fieldset > .legend,
 .form.wishlist.share .fieldset > .legend,
 .form.password.reset .fieldset > .legend,
-.form.paypal.review .fieldset > .legend {
+.form.paypal.review .fieldset > .legend,
+.form.send.confirmation .fieldset > .legend {
   float: left;
   font: 400 20px/1.2 "sourcesanspro";
   margin: -30px 30px 50px -30px;
@@ -9434,7 +9477,8 @@ img[align="right"] {
 .form.create.account .fieldset > .legend + br,
 .form.wishlist.share .fieldset > .legend + br,
 .form.password.reset .fieldset > .legend + br,
-.form.paypal.review .fieldset > .legend + br {
+.form.paypal.review .fieldset > .legend + br,
+.form.send.confirmation .fieldset > .legend + br {
   display: block;
   *zoom: 1;
 }
@@ -9449,6 +9493,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .legend + br:before,
 .form.password.reset .fieldset > .legend + br:before,
 .form.paypal.review .fieldset > .legend + br:before,
+.form.send.confirmation .fieldset > .legend + br:before,
 .form.send.friend .fieldset > .legend + br:after,
 .form.address.edit .fieldset > .legend + br:after,
 .form.edit.account .fieldset > .legend + br:after,
@@ -9459,7 +9504,8 @@ img[align="right"] {
 .form.create.account .fieldset > .legend + br:after,
 .form.wishlist.share .fieldset > .legend + br:after,
 .form.password.reset .fieldset > .legend + br:after,
-.form.paypal.review .fieldset > .legend + br:after {
+.form.paypal.review .fieldset > .legend + br:after,
+.form.send.confirmation .fieldset > .legend + br:after {
   content: "";
   display: table;
 }
@@ -9473,7 +9519,8 @@ img[align="right"] {
 .form.create.account .fieldset > .legend + br:after,
 .form.wishlist.share .fieldset > .legend + br:after,
 .form.password.reset .fieldset > .legend + br:after,
-.form.paypal.review .fieldset > .legend + br:after {
+.form.paypal.review .fieldset > .legend + br:after,
+.form.send.confirmation .fieldset > .legend + br:after {
   clear: both;
 }
 .form.send.friend .fieldset .legend,
@@ -9486,7 +9533,8 @@ img[align="right"] {
 .form.create.account .fieldset .legend,
 .form.wishlist.share .fieldset .legend,
 .form.password.reset .fieldset .legend,
-.form.paypal.review .fieldset .legend {
+.form.paypal.review .fieldset .legend,
+.form.send.confirmation .fieldset .legend {
   float: left;
   line-height: 1.2;
   font-size: 20px;
@@ -9507,7 +9555,8 @@ img[align="right"] {
 .form.create.account .fieldset .legend + br,
 .form.wishlist.share .fieldset .legend + br,
 .form.password.reset .fieldset .legend + br,
-.form.paypal.review .fieldset .legend + br {
+.form.paypal.review .fieldset .legend + br,
+.form.send.confirmation .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -9521,7 +9570,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field,
 .form.wishlist.share .fieldset > .field,
 .form.password.reset .fieldset > .field,
-.form.paypal.review .fieldset > .field {
+.form.paypal.review .fieldset > .field,
+.form.send.confirmation .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -9540,7 +9590,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .label,
 .form.wishlist.share .fieldset > .field > .label,
 .form.password.reset .fieldset > .field > .label,
-.form.paypal.review .fieldset > .field > .label {
+.form.paypal.review .fieldset > .field > .label,
+.form.send.confirmation .fieldset > .field > .label {
   display: block;
   padding-bottom: 5px;
 }
@@ -9554,7 +9605,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .nested .field,
 .form.wishlist.share .fieldset > .field .nested .field,
 .form.password.reset .fieldset > .field .nested .field,
-.form.paypal.review .fieldset > .field .nested .field {
+.form.paypal.review .fieldset > .field .nested .field,
+.form.send.confirmation .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.send.friend .fieldset > .field.choice > .control,
@@ -9567,7 +9619,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.choice > .control,
 .form.wishlist.share .fieldset > .field.choice > .control,
 .form.password.reset .fieldset > .field.choice > .control,
-.form.paypal.review .fieldset > .field.choice > .control {
+.form.paypal.review .fieldset > .field.choice > .control,
+.form.send.confirmation .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.send.friend .fieldset > .field.choice > .label,
@@ -9580,7 +9633,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.choice > .label,
 .form.wishlist.share .fieldset > .field.choice > .label,
 .form.password.reset .fieldset > .field.choice > .label,
-.form.paypal.review .fieldset > .field.choice > .label {
+.form.paypal.review .fieldset > .field.choice > .label,
+.form.send.confirmation .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.send.friend .fieldset > .field.choice > input,
@@ -9593,7 +9647,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.choice > input,
 .form.wishlist.share .fieldset > .field.choice > input,
 .form.password.reset .fieldset > .field.choice > input,
-.form.paypal.review .fieldset > .field.choice > input {
+.form.paypal.review .fieldset > .field.choice > input,
+.form.send.confirmation .fieldset > .field.choice > input {
   vertical-align: top;
   margin-top: 2px;
   margin-right: 5px;
@@ -9608,7 +9663,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.required > .label > span:first-child:after,
 .form.wishlist.share .fieldset > .field.required > .label > span:first-child:after,
 .form.password.reset .fieldset > .field.required > .label > span:first-child:after,
-.form.paypal.review .fieldset > .field.required > .label > span:first-child:after {
+.form.paypal.review .fieldset > .field.required > .label > span:first-child:after,
+.form.send.confirmation .fieldset > .field.required > .label > span:first-child:after {
   content: '*';
   color: #da370a;
 }
@@ -9622,7 +9678,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon,
 .form.wishlist.share .fieldset > .field .addon,
 .form.password.reset .fieldset > .field .addon,
-.form.paypal.review .fieldset > .field .addon {
+.form.paypal.review .fieldset > .field .addon,
+.form.send.confirmation .fieldset > .field .addon {
   display: table;
   padding: 0;
   width: 100%;
@@ -9638,6 +9695,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon textarea,
 .form.password.reset .fieldset > .field .addon textarea,
 .form.paypal.review .fieldset > .field .addon textarea,
+.form.send.confirmation .fieldset > .field .addon textarea,
 .form.send.friend .fieldset > .field .addon select,
 .form.address.edit .fieldset > .field .addon select,
 .form.edit.account .fieldset > .field .addon select,
@@ -9649,6 +9707,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon select,
 .form.password.reset .fieldset > .field .addon select,
 .form.paypal.review .fieldset > .field .addon select,
+.form.send.confirmation .fieldset > .field .addon select,
 .form.send.friend .fieldset > .field .addon input,
 .form.address.edit .fieldset > .field .addon input,
 .form.edit.account .fieldset > .field .addon input,
@@ -9659,7 +9718,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon input,
 .form.wishlist.share .fieldset > .field .addon input,
 .form.password.reset .fieldset > .field .addon input,
-.form.paypal.review .fieldset > .field .addon input {
+.form.paypal.review .fieldset > .field .addon input,
+.form.send.confirmation .fieldset > .field .addon input {
   box-shadow: none;
   display: table-cell;
   margin: 0;
@@ -9676,6 +9736,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon .addbefore,
 .form.password.reset .fieldset > .field .addon .addbefore,
 .form.paypal.review .fieldset > .field .addon .addbefore,
+.form.send.confirmation .fieldset > .field .addon .addbefore,
 .form.send.friend .fieldset > .field .addon .addafter,
 .form.address.edit .fieldset > .field .addon .addafter,
 .form.edit.account .fieldset > .field .addon .addafter,
@@ -9686,7 +9747,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter,
 .form.wishlist.share .fieldset > .field .addon .addafter,
 .form.password.reset .fieldset > .field .addon .addafter,
-.form.paypal.review .fieldset > .field .addon .addafter {
+.form.paypal.review .fieldset > .field .addon .addafter,
+.form.send.confirmation .fieldset > .field .addon .addafter {
   height: 0;
   white-space: nowrap;
   display: inline-block;
@@ -9720,6 +9782,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon .addbefore:focus,
 .form.password.reset .fieldset > .field .addon .addbefore:focus,
 .form.paypal.review .fieldset > .field .addon .addbefore:focus,
+.form.send.confirmation .fieldset > .field .addon .addbefore:focus,
 .form.send.friend .fieldset > .field .addon .addafter:focus,
 .form.address.edit .fieldset > .field .addon .addafter:focus,
 .form.edit.account .fieldset > .field .addon .addafter:focus,
@@ -9730,7 +9793,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter:focus,
 .form.wishlist.share .fieldset > .field .addon .addafter:focus,
 .form.password.reset .fieldset > .field .addon .addafter:focus,
-.form.paypal.review .fieldset > .field .addon .addafter:focus {
+.form.paypal.review .fieldset > .field .addon .addafter:focus,
+.form.send.confirmation .fieldset > .field .addon .addafter:focus {
   border-color: #999999;
 }
 .control .form.send.friend .fieldset > .field .addon .addbefore,
@@ -9744,6 +9808,7 @@ img[align="right"] {
 .control .form.wishlist.share .fieldset > .field .addon .addbefore,
 .control .form.password.reset .fieldset > .field .addon .addbefore,
 .control .form.paypal.review .fieldset > .field .addon .addbefore,
+.control .form.send.confirmation .fieldset > .field .addon .addbefore,
 .control .form.send.friend .fieldset > .field .addon .addafter,
 .control .form.address.edit .fieldset > .field .addon .addafter,
 .control .form.edit.account .fieldset > .field .addon .addafter,
@@ -9754,7 +9819,8 @@ img[align="right"] {
 .control .form.create.account .fieldset > .field .addon .addafter,
 .control .form.wishlist.share .fieldset > .field .addon .addafter,
 .control .form.password.reset .fieldset > .field .addon .addafter,
-.control .form.paypal.review .fieldset > .field .addon .addafter {
+.control .form.paypal.review .fieldset > .field .addon .addafter,
+.control .form.send.confirmation .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:disabled,
@@ -9768,6 +9834,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon .addbefore:disabled,
 .form.password.reset .fieldset > .field .addon .addbefore:disabled,
 .form.paypal.review .fieldset > .field .addon .addbefore:disabled,
+.form.send.confirmation .fieldset > .field .addon .addbefore:disabled,
 .form.send.friend .fieldset > .field .addon .addafter:disabled,
 .form.address.edit .fieldset > .field .addon .addafter:disabled,
 .form.edit.account .fieldset > .field .addon .addafter:disabled,
@@ -9778,7 +9845,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter:disabled,
 .form.wishlist.share .fieldset > .field .addon .addafter:disabled,
 .form.password.reset .fieldset > .field .addon .addafter:disabled,
-.form.paypal.review .fieldset > .field .addon .addafter:disabled {
+.form.paypal.review .fieldset > .field .addon .addafter:disabled,
+.form.send.confirmation .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.send.friend .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
@@ -9792,6 +9860,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.password.reset .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.paypal.review .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.send.confirmation .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.send.friend .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.address.edit .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.edit.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
@@ -9802,7 +9871,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.wishlist.share .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.password.reset .fieldset > .field .addon .addafter::-webkit-input-placeholder,
-.form.paypal.review .fieldset > .field .addon .addafter::-webkit-input-placeholder {
+.form.paypal.review .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.send.confirmation .fieldset > .field .addon .addafter::-webkit-input-placeholder {
   line-height: 1.333;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:-ms-input-placeholder,
@@ -9816,6 +9886,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.password.reset .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.paypal.review .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.send.confirmation .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.send.friend .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.address.edit .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.edit.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
@@ -9826,7 +9897,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.wishlist.share .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.password.reset .fieldset > .field .addon .addafter:-ms-input-placeholder,
-.form.paypal.review .fieldset > .field .addon .addafter:-ms-input-placeholder {
+.form.paypal.review .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.send.confirmation .fieldset > .field .addon .addafter:-ms-input-placeholder {
   line-height: 1.333;
 }
 .eq-ie8 .form.send.friend .fieldset > .field .addon .addbefore,
@@ -9840,6 +9912,7 @@ img[align="right"] {
 .eq-ie8 .form.wishlist.share .fieldset > .field .addon .addbefore,
 .eq-ie8 .form.password.reset .fieldset > .field .addon .addbefore,
 .eq-ie8 .form.paypal.review .fieldset > .field .addon .addbefore,
+.eq-ie8 .form.send.confirmation .fieldset > .field .addon .addbefore,
 .eq-ie8 .form.send.friend .fieldset > .field .addon .addafter,
 .eq-ie8 .form.address.edit .fieldset > .field .addon .addafter,
 .eq-ie8 .form.edit.account .fieldset > .field .addon .addafter,
@@ -9850,7 +9923,8 @@ img[align="right"] {
 .eq-ie8 .form.create.account .fieldset > .field .addon .addafter,
 .eq-ie8 .form.wishlist.share .fieldset > .field .addon .addafter,
 .eq-ie8 .form.password.reset .fieldset > .field .addon .addafter,
-.eq-ie8 .form.paypal.review .fieldset > .field .addon .addafter {
+.eq-ie8 .form.paypal.review .fieldset > .field .addon .addafter,
+.eq-ie8 .form.send.confirmation .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
 .form.send.friend .fieldset > .field .note,
@@ -9863,7 +9937,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .note,
 .form.wishlist.share .fieldset > .field .note,
 .form.password.reset .fieldset > .field .note,
-.form.paypal.review .fieldset > .field .note {
+.form.paypal.review .fieldset > .field .note,
+.form.send.confirmation .fieldset > .field .note {
   font-size: 12px;
   margin-top: 3px;
   padding-left: 15px;
@@ -9878,7 +9953,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .note:before,
 .form.wishlist.share .fieldset > .field .note:before,
 .form.password.reset .fieldset > .field .note:before,
-.form.paypal.review .fieldset > .field .note:before {
+.form.paypal.review .fieldset > .field .note:before,
+.form.send.confirmation .fieldset > .field .note:before {
   border-bottom: 5px solid #675f55;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
@@ -9901,7 +9977,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field:last-child,
 .form.wishlist.share .fieldset > .field:last-child,
 .form.password.reset .fieldset > .field:last-child,
-.form.paypal.review .fieldset > .field:last-child {
+.form.paypal.review .fieldset > .field:last-child,
+.form.send.confirmation .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.send.friend .fieldset > .field .nested,
@@ -9914,7 +9991,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .nested,
 .form.wishlist.share .fieldset > .field .nested,
 .form.password.reset .fieldset > .field .nested,
-.form.paypal.review .fieldset > .field .nested {
+.form.paypal.review .fieldset > .field .nested,
+.form.send.confirmation .fieldset > .field .nested {
   padding: 0 0 0;
 }
 .form.send.friend .fieldset > .field .nested .field,
@@ -9927,7 +10005,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .nested .field,
 .form.wishlist.share .fieldset > .field .nested .field,
 .form.password.reset .fieldset > .field .nested .field,
-.form.paypal.review .fieldset > .field .nested .field {
+.form.paypal.review .fieldset > .field .nested .field,
+.form.send.confirmation .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.send.friend .fieldset > .field > .label,
@@ -9940,7 +10019,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .label,
 .form.wishlist.share .fieldset > .field > .label,
 .form.password.reset .fieldset > .field > .label,
-.form.paypal.review .fieldset > .field > .label {
+.form.paypal.review .fieldset > .field > .label,
+.form.send.confirmation .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
@@ -9955,6 +10035,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset > .field.note,
 .form.password.reset .fieldset > .field.note,
 .form.paypal.review .fieldset > .field.note,
+.form.send.confirmation .fieldset > .field.note,
 .form.send.friend .fieldset .field.street,
 .form.address.edit .fieldset .field.street,
 .form.edit.account .fieldset .field.street,
@@ -9966,6 +10047,7 @@ img[align="right"] {
 .form.wishlist.share .fieldset .field.street,
 .form.password.reset .fieldset .field.street,
 .form.paypal.review .fieldset .field.street,
+.form.send.confirmation .fieldset .field.street,
 .form.send.friend .fieldset .field.choice.newsletter,
 .form.address.edit .fieldset .field.choice.newsletter,
 .form.edit.account .fieldset .field.choice.newsletter,
@@ -9976,7 +10058,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.choice.newsletter,
 .form.wishlist.share .fieldset .field.choice.newsletter,
 .form.password.reset .fieldset .field.choice.newsletter,
-.form.paypal.review .fieldset .field.choice.newsletter {
+.form.paypal.review .fieldset .field.choice.newsletter,
+.form.send.confirmation .fieldset .field.choice.newsletter {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname,
@@ -9989,7 +10072,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.fullname,
 .form.wishlist.share .fieldset .field.fullname,
 .form.password.reset .fieldset .field.fullname,
-.form.paypal.review .fieldset .field.fullname {
+.form.paypal.review .fieldset .field.fullname,
+.form.send.confirmation .fieldset .field.fullname {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname .fields.group-5 .field,
@@ -10002,7 +10086,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.fullname .fields.group-5 .field,
 .form.wishlist.share .fieldset .field.fullname .fields.group-5 .field,
 .form.password.reset .fieldset .field.fullname .fields.group-5 .field,
-.form.paypal.review .fieldset .field.fullname .fields.group-5 .field {
+.form.paypal.review .fieldset .field.fullname .fields.group-5 .field,
+.form.send.confirmation .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.send.friend .fieldset .field.dob .fields.group .field,
@@ -10015,7 +10100,12 @@ img[align="right"] {
 .form.create.account .fieldset .field.dob .fields.group .field,
 .form.wishlist.share .fieldset .field.dob .fields.group .field,
 .form.password.reset .fieldset .field.dob .fields.group .field,
-.form.paypal.review .fieldset .field.dob .fields.group .field {
+.form.paypal.review .fieldset .field.dob .fields.group .field,
+.form.send.confirmation .fieldset .field.dob .fields.group .field {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   width: 33%;
   position: relative;
   z-index: 1;
@@ -10030,24 +10120,41 @@ img[align="right"] {
 .form.create.account .fieldset .field.dob .fields.group .field .label,
 .form.wishlist.share .fieldset .field.dob .fields.group .field .label,
 .form.password.reset .fieldset .field.dob .fields.group .field .label,
-.form.paypal.review .fieldset .field.dob .fields.group .field .label {
+.form.paypal.review .fieldset .field.dob .fields.group .field .label,
+.form.send.confirmation .fieldset .field.dob .fields.group .field .label {
   position: absolute;
-  bottom: 0;
+  top: 10px;
   font-size: 12px;
   line-height: 16px;
 }
-.form.send.friend .fieldset .field.dob .fields.group .field input,
-.form.address.edit .fieldset .field.dob .fields.group .field input,
-.form.edit.account .fieldset .field.dob .fields.group .field input,
-.form.search.advanced .fieldset .field.dob .fields.group .field input,
-.form.orders.search .fieldset .field.dob .fields.group .field input,
-.form.contact .fieldset .field.dob .fields.group .field input,
-.form.password.forget .fieldset .field.dob .fields.group .field input,
-.form.create.account .fieldset .field.dob .fields.group .field input,
-.form.wishlist.share .fieldset .field.dob .fields.group .field input,
-.form.password.reset .fieldset .field.dob .fields.group .field input,
-.form.paypal.review .fieldset .field.dob .fields.group .field input {
-  margin-bottom: 16px;
+.form.send.friend .fieldset .field.dob .fields.group .field .control,
+.form.address.edit .fieldset .field.dob .fields.group .field .control,
+.form.edit.account .fieldset .field.dob .fields.group .field .control,
+.form.search.advanced .fieldset .field.dob .fields.group .field .control,
+.form.orders.search .fieldset .field.dob .fields.group .field .control,
+.form.contact .fieldset .field.dob .fields.group .field .control,
+.form.password.forget .fieldset .field.dob .fields.group .field .control,
+.form.create.account .fieldset .field.dob .fields.group .field .control,
+.form.wishlist.share .fieldset .field.dob .fields.group .field .control,
+.form.password.reset .fieldset .field.dob .fields.group .field .control,
+.form.paypal.review .fieldset .field.dob .fields.group .field .control,
+.form.send.confirmation .fieldset .field.dob .fields.group .field .control {
+  margin-left: 27px;
+}
+.form.send.friend .fieldset .field.dob .fields.group .field:last-child,
+.form.address.edit .fieldset .field.dob .fields.group .field:last-child,
+.form.edit.account .fieldset .field.dob .fields.group .field:last-child,
+.form.search.advanced .fieldset .field.dob .fields.group .field:last-child,
+.form.orders.search .fieldset .field.dob .fields.group .field:last-child,
+.form.contact .fieldset .field.dob .fields.group .field:last-child,
+.form.password.forget .fieldset .field.dob .fields.group .field:last-child,
+.form.create.account .fieldset .field.dob .fields.group .field:last-child,
+.form.wishlist.share .fieldset .field.dob .fields.group .field:last-child,
+.form.password.reset .fieldset .field.dob .fields.group .field:last-child,
+.form.paypal.review .fieldset .field.dob .fields.group .field:last-child,
+.form.send.confirmation .fieldset .field.dob .fields.group .field:last-child {
+  padding-right: 0;
+  width: 34%;
 }
 .form.send.friend .actions,
 .form.address.edit .actions,
@@ -10059,7 +10166,8 @@ img[align="right"] {
 .form.create.account .actions,
 .form.wishlist.share .actions,
 .form.password.reset .actions,
-.form.paypal.review .actions {
+.form.paypal.review .actions,
+.form.send.confirmation .actions {
   *zoom: 1;
   width: 690px;
 }
@@ -10074,6 +10182,7 @@ img[align="right"] {
 .form.wishlist.share .actions:before,
 .form.password.reset .actions:before,
 .form.paypal.review .actions:before,
+.form.send.confirmation .actions:before,
 .form.send.friend .actions:after,
 .form.address.edit .actions:after,
 .form.edit.account .actions:after,
@@ -10084,7 +10193,8 @@ img[align="right"] {
 .form.create.account .actions:after,
 .form.wishlist.share .actions:after,
 .form.password.reset .actions:after,
-.form.paypal.review .actions:after {
+.form.paypal.review .actions:after,
+.form.send.confirmation .actions:after {
   content: "";
   display: table;
 }
@@ -10098,7 +10208,8 @@ img[align="right"] {
 .form.create.account .actions:after,
 .form.wishlist.share .actions:after,
 .form.password.reset .actions:after,
-.form.paypal.review .actions:after {
+.form.paypal.review .actions:after,
+.form.send.confirmation .actions:after {
   clear: both;
 }
 .form.send.friend .actions .primary,
@@ -10111,7 +10222,8 @@ img[align="right"] {
 .form.create.account .actions .primary,
 .form.wishlist.share .actions .primary,
 .form.password.reset .actions .primary,
-.form.paypal.review .actions .primary {
+.form.paypal.review .actions .primary,
+.form.send.confirmation .actions .primary {
   float: right;
 }
 .form.send.friend .actions .secondary,
@@ -10124,7 +10236,8 @@ img[align="right"] {
 .form.create.account .actions .secondary,
 .form.wishlist.share .actions .secondary,
 .form.password.reset .actions .secondary,
-.form.paypal.review .actions .secondary {
+.form.paypal.review .actions .secondary,
+.form.send.confirmation .actions .secondary {
   float: left;
 }
 .form.send.friend .fieldset.create.account:after,
@@ -10137,7 +10250,8 @@ img[align="right"] {
 .form.create.account .fieldset.create.account:after,
 .form.wishlist.share .fieldset.create.account:after,
 .form.password.reset .fieldset.create.account:after,
-.form.paypal.review .fieldset.create.account:after {
+.form.paypal.review .fieldset.create.account:after,
+.form.send.confirmation .fieldset.create.account:after {
   content: attr(data-hasrequired);
   display: block;
   position: absolute;
@@ -10417,68 +10531,74 @@ img[align="right"] {
 .block.account.nav .item strong {
   font-weight: 400;
 }
-.my-account .pager .amount,
-.my-account .pager .limiter {
+.account .pager .amount,
+.account .pager .limiter {
   display: inline-block;
 }
-.my-account .form .fieldset > .legend {
+.account .form .fieldset > .legend {
   margin: 0 0 30px;
 }
-.my-account > .actions,
-.my-account .form > .actions,
-.my-account .block > .actions {
+.account .column.main > .actions,
+.account .column.main .form > .actions,
+.account .column.main .block > .actions {
   *zoom: 1;
   margin: 30px 0 0;
 }
-.my-account > .actions:before,
-.my-account .form > .actions:before,
-.my-account .block > .actions:before,
-.my-account > .actions:after,
-.my-account .form > .actions:after,
-.my-account .block > .actions:after {
+.account .column.main > .actions:before,
+.account .column.main .form > .actions:before,
+.account .column.main .block > .actions:before,
+.account .column.main > .actions:after,
+.account .column.main .form > .actions:after,
+.account .column.main .block > .actions:after {
   content: "";
   display: table;
 }
-.my-account > .actions:after,
-.my-account .form > .actions:after,
-.my-account .block > .actions:after {
+.account .column.main > .actions:after,
+.account .column.main .form > .actions:after,
+.account .column.main .block > .actions:after {
   clear: both;
 }
-.my-account > .actions > .primary,
-.my-account .form > .actions > .primary,
-.my-account .block > .actions > .primary {
+.account .column.main > .actions > .primary,
+.account .column.main .form > .actions > .primary,
+.account .column.main .block > .actions > .primary {
   float: right;
 }
-.my-account > .actions > .secondary,
-.my-account .form > .actions > .secondary,
-.my-account .block > .actions > .secondary {
+.account .column.main > .actions > .secondary,
+.account .column.main .form > .actions > .secondary,
+.account .column.main .block > .actions > .secondary {
   float: left;
 }
-.my-account .data.table {
+.account .data.table {
   width: 100%;
 }
-.my-account .data.table td,
-.my-account .data.table th {
+.account .data.table td,
+.account .data.table th {
   padding: 10px 20px;
   text-align: left;
 }
-.my-account .data.table td.col.actions,
-.my-account .data.table th.col.actions {
+.account .data.table td.col.actions,
+.account .data.table th.col.actions {
   white-space: nowrap;
 }
-.my-account .data.table td.col.actions .action:last-child,
-.my-account .data.table th.col.actions .action:last-child {
+.account .data.table td.col.actions .action:last-child,
+.account .data.table th.col.actions .action:last-child {
   margin-left: 20px;
 }
-.my-account .data.table td em,
-.my-account .data.table th em {
+.account .data.table td.col.actions .action:first-child,
+.account .data.table th.col.actions .action:first-child,
+.account .data.table td.col.actions .action.details,
+.account .data.table th.col.actions .action.details {
+  margin-left: 0;
+}
+.account .data.table td em,
+.account .data.table th em {
   font-style: normal;
 }
-.my-account .data.table th {
+.account .data.table th {
   font-size: 16px;
   font-weight: 400;
 }
-.my-account .data.table tr:nth-child(odd) td {
+.account .data.table tr:nth-child(odd) td {
   background: #f8f8f8;
 }
 .block.dashboard .title .action,
@@ -10648,64 +10768,9 @@ img[align="right"] {
 .data.table.wishlist .col.actions {
   width: 200px;
 }
-.data.table.wishlist .item-options {
-  background: rgba(0, 0, 0, 0.8);
-  color: #ffffff;
-  display: none;
-  position: absolute;
-  border-radius: 5px;
-  padding: 10px;
-  right: 100%;
-  top: 50%;
-  margin-top: -20px;
-  margin-right: 15px;
-  max-width: 200px;
-  min-width: 100px;
-}
-.data.table.wishlist .item-options > p {
-  margin-top: 0;
-}
-.data.table.wishlist .item-options dl {
-  margin: 0;
-}
-.data.table.wishlist .item-options dl dt {
-  display: inline;
-  float: left;
-  clear: left;
-  font-weight: 600;
-}
-.data.table.wishlist .item-options dl dt:after {
-  content: ':';
-  margin-right: 5px;
-}
-.data.table.wishlist .item-options dl dd {
-  margin: 0;
-}
-.data.table.wishlist .truncated .truncated_full_value {
-  position: relative;
-}
-.data.table.wishlist .truncated .truncated_full_value.show:before {
-  content: '';
-  border-left: 10px solid rgba(0, 0, 0, 0.8);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  height: 0;
-  width: 0;
-  overflow: hidden;
+.data.table.wishlist .col.actions .price-excluding-tax,
+.data.table.wishlist .col.actions .price-including-tax {
   display: block;
-  position: absolute;
-  top: 3px;
-  margin-top: 0;
-  left: -15px;
-  z-index: 2;
-}
-.data.table.wishlist .truncated .truncated_full_value.show .item-options {
-  display: block;
-}
-.data.table.wishlist .truncated .details {
-  font-size: 12px;
-  border-bottom: 1px dotted #332e29;
-  cursor: help;
 }
 /*
     Page -> Advanced Search
@@ -11102,6 +11167,9 @@ img[align="right"] {
   text-align: right;
 }
 /*
+    My Account -> Send confirmation link
+-------------------------------------- */
+/*
     Overlay popup
 -------------------------------------- */
 .window.overlay {
@@ -11131,7 +11199,7 @@ img[align="right"] {
 .popup.active {
   display: block;
 }
-.popup .close span {
+.popup > .action.close span {
   width: 16px;
   display: block;
   line-height: 0;
@@ -11140,15 +11208,94 @@ img[align="right"] {
   text-align: center;
   text-indent: -999em;
 }
-.popup .close span:active {
+.popup > .action.close span:active {
   outline: 0;
 }
-.popup .close span:after {
+.popup > .action.close span:after {
   text-indent: 0;
   display: block;
   margin: 0;
 }
+.popup > .action.close span:after {
+  content: "";
+}
 .popup .title {
   font-size: 18px;
   margin: 0 0 30px;
+}
+.popup .title strong {
+  font-weight: 400;
+}
+.popup .fieldset .action.close span {
+  line-height: inherit;
+  text-indent: 0;
+  width: auto;
+}
+.popup .fieldset .action.close span:after {
+  content: "";
+  display: none;
+}
+.truncated {
+  position: relative;
+}
+.truncated .truncated.full.value {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  padding: 10px;
+  right: 100%;
+  top: 50%;
+  margin-top: -20px;
+  margin-right: 15px;
+  max-width: 200px;
+  min-width: 100px;
+}
+.truncated .truncated.full.value.show {
+  display: block;
+}
+.truncated .truncated.full.value.show:before {
+  content: '';
+  border-left: 10px solid rgba(0, 0, 0, 0.8);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 12px;
+  margin-top: 0;
+  right: -10px;
+  z-index: 2;
+}
+.truncated .truncated.full.value > p {
+  margin-top: 0;
+}
+.truncated .truncated.full.value dl {
+  margin: 0;
+}
+.truncated .truncated.full.value dl dt {
+  display: inline;
+  font-weight: 600;
+}
+.truncated .truncated.full.value dl dt:after {
+  content: ':';
+}
+.truncated .truncated.full.value dl dd {
+  margin: 0;
+  white-space: normal;
+}
+.truncated .action.details {
+  font-size: 12px;
+  border-bottom: 1px dotted #332e29;
+  cursor: help;
+}
+.map-popup {
+  background: #ffffff;
+  border: 1px solid #c2c2c2;
+  position: absolute;
+  padding: 20px;
+  z-index: 10;
 }
