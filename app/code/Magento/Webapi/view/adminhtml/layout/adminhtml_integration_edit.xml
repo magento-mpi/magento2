@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="editor"/>
     <referenceContainer name="integration_edit_tabs">
-        <block class="Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab\Webapi" name="integration_edit_tab_webapi" template="Magento_User::role/edit.phtml"/>
+        <block class="Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab\Webapi" name="integration_edit_tab_webapi" template="Magento_Webapi::resourcetree.phtml"/>
         <action method="addTabAfter">
             <argument name="name" xsi:type="string">api_section</argument>
             <argument name="block" xsi:type="string">integration_edit_tab_webapi</argument>

@@ -25,7 +25,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      *
      * @var \Magento\User\Model\Resource\Rules\CollectionFactory
      */
-    protected $_rulesCollectionFactory;
+    protected $_rulesCollFactory;
 
     /**
      * Acl builder
@@ -47,7 +47,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
-     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
+     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param array $data
@@ -56,14 +56,14 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,
-        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
+        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_rootResource = $rootResource;
-        $this->_rulesCollectionFactory = $rulesCollectionFactory;
+        $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
         parent::__construct($coreData, $context, $data);
     }
@@ -118,7 +118,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         $rid = $this->_request->getParam('rid', false);
 
         $acl = $this->_aclBuilder->getAcl();
-        $rulesSet = $this->_rulesCollectionFactory->create()->getByRoles($rid)->load();
+        $rulesSet = $this->_rulesCollFactory->create()->getByRoles($rid)->load();
 
         $selectedResourceIds = array();
 
