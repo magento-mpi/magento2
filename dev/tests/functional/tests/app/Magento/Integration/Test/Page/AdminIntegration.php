@@ -9,7 +9,7 @@
 namespace Magento\Integration\Test\Page;
 
 use Magento\Core\Test\Block\Messages;
-use Magento\Integration\Test\Block\Backend\IntegrationGrid;
+use Magento\Integration\Test\Block\Adminhtml\IntegrationGrid;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -44,7 +44,7 @@ class AdminIntegration extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->gridBlock = Factory::getBlockFactory()->getMagentoIntegrationBackendIntegrationGrid(
+        $this->gridBlock = Factory::getBlockFactory()->getMagentoIntegrationAdminhtmlIntegrationGrid(
             $this->_browser->find('integrationGrid', Locator::SELECTOR_ID)
         );
         $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(

@@ -13,7 +13,7 @@ use Magento\Integration\Test\Repository\Integration as IntegrationRepository;
 use Magento\Integration\Test\Fixture\Integration as IntegrationFixture;
 
 /**
- * Example of integration-related pages, blocks and fixtures usage.
+ * Integration functionality verification
  */
 class IntegrationTest extends \Mtf\TestCase\Functional
 {
@@ -26,64 +26,77 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     }
 
     /**
-     * Creating new Integration with different authentication types
+     * Create new Integration with valid data
+     *
+     * @param string $integrationDataSet
+     *
+     * @dataProvider integrationDataProvider
      *
      * @ZephyrId MAGETWO-16694
-     *
-     * @param IntegrationFixture $integrationFixture injectable
      */
-    public function testBasicFlow(IntegrationFixture $integrationFixture)
+    public function testCreateIntegration($integrationDataSet)
     {
-        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_MANUAL);
-
-        /** Create integration using UI */
+        //Data
+        $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
+        $integrationFixture->switchData($integrationDataSet);
+        //Steps
         $newIntegrationPage = Factory::getPageFactory()->getAdminIntegrationNew();
         $newIntegrationPage->open();
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture)->save($integrationFixture);
-        $this->_checkSaveSuccessMessage($integrationFixture);
+        //Verification
+        $this->_checkSaveSuccessMessage();
         $this->_ensureMatchingIntegrationExists($integrationFixture);
+    }
 
-        /** Update integration data */
-        $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-        $this->_openByName($integrationFixture->getName());
-        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
-        $editForm = $editIntegrationPage->getIntegrationFormBlock();
-        $editForm->update($integrationFixture)->save($integrationFixture);
-        $this->_checkSaveSuccessMessage($integrationFixture);
-        $this->_ensureMatchingIntegrationExists($integrationFixture);
+    /**
+     * Integration data
+     *
+     * @return array
+     */
+    public function integrationDataProvider()
+    {
+        return array(
+            array(IntegrationRepository::INTEGRATION_MANUAL),
+            array(IntegrationRepository::INTEGRATION_OAUTH)
+        );
     }
 
     /**
      * Edit Integration
      *
-     * @ZephyrId MAGETWO-16759
-     *
      * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16759
      */
     public function testEditIntegration(IntegrationFixture $integrationFixture)
     {
+        //Precondition
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
         $integrationFixture->persist();
+        //Steps
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
         $this->_openByName($integrationFixture->getName());
         $editForm = $editIntegrationPage->getIntegrationFormBlock();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_MANUAL);
         $editForm->update($integrationFixture)->save($integrationFixture);
-        $this->_checkSaveSuccessMessage($integrationFixture);
+        //Verification
+        $this->_checkSaveSuccessMessage();
         $this->_ensureMatchingIntegrationExists($integrationFixture);
     }
 
     /**
      * Search Integration in the Integration's grid
      *
-     * @ZephyrId MAGETWO-16721
-     *
      * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16721
      */
-    public function testSearch(IntegrationFixture $integrationFixture)
+    public function testSearchIntegration(IntegrationFixture $integrationFixture)
     {
+        //Preconditions
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
         $integrationFixture->persist();
+        //Steps
         Factory::getPageFactory()->getAdminIntegrationEdit();
         $this->_openByName($integrationFixture->getName());
     }
@@ -91,21 +104,24 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Reset data in the New Integration form
      *
-     * @ZephyrId MAGETWO-16722
-     *
      * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16822
      */
     public function testResetData(IntegrationFixture $integrationFixture)
     {
+        //Data
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
         $originalFixture = clone $integrationFixture;
+        //Preconditions
         $integrationFixture->persist();
+        //Steps
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
         $this->_openByName($integrationFixture->getName());
         $editForm = $editIntegrationPage->getIntegrationFormBlock();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_MANUAL);
         $editForm->update($integrationFixture)->reset($integrationFixture);
-
+        //Verification
         $editForm = $editIntegrationPage->getIntegrationFormBlock();
         $editForm->reinitRootElement();
         $editForm->verify($originalFixture);
@@ -114,33 +130,32 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Navigate to the Integration page from Edit Integration page
      *
-     * @ZephyrId MAGETWO-16723
-     *
      * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16823
      */
     public function testNavigation(IntegrationFixture $integrationFixture)
     {
-        /** Create integration using fixtures mechanisms */
+        //Preconditions
         $integrationFixture->persist();
+        //Steps
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-
         $this->_openByName($integrationFixture->getName());
         $editIntegrationPage->getIntegrationFormBlock()->back();
-
-        $this->_ensureMatchingIntegrationExists($integrationFixture);
+        //Verification
+        $this->assertTrue(
+            Factory::getPageFactory()->getAdminIntegration()->getGridBlock()->isVisible(),
+            'Integration grid is not visible'
+        );
     }
-
 
     /**
      * Check success message after integration save.
-     *
-     * @param IntegrationFixture $fixture
      */
-    protected function _checkSaveSuccessMessage($fixture)
+    protected function _checkSaveSuccessMessage()
     {
-        /** TODO: Message validation functionality can be added to message block */
         $this->assertTrue(
-            Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->waitForSuccessMessage($fixture),
+            Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->waitForSuccessMessage(),
             'Integration save success message was not found.'
         );
     }

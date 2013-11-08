@@ -45,34 +45,4 @@ class Integration extends DataFixture
     {
         return $this->getData('fields/name/value');
     }
-
-    /**
-     * Get integration email.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->getData('fields/email/value');
-    }
-
-    /**
-     * Get integration authentication type.
-     *
-     * @return int
-     */
-    public function getAuthenticationType()
-    {
-        return $this->getData('fields/authentication/input_value');
-    }
-
-    /**
-     * Get oAuth authentication endpoint for integration.
-     *
-     * @return string
-     */
-    public function getAuthenticationEndpoint()
-    {
-        return $this->getData('fields/endpoint/value');
-    }
 }

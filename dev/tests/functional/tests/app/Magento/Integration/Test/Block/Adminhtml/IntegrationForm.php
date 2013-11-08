@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Integration\Test\Block\Backend;
+namespace Magento\Integration\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 

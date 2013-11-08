@@ -8,8 +8,6 @@
 
 namespace Magento\Integration\Test\Page;
 
-use Mtf\Factory\Factory;
-
 /**
  * Edit integration page.
  */
