@@ -63,9 +63,9 @@ class Customization implements CustomizationInterface
     public function getFiles()
     {
         if (!$this->themeFiles) {
-            $this->themeFiles = $this->fileProvider->getCollection($this->theme);
+            $this->themeFiles = $this->fileProvider->getItems($this->theme);
         }
-        return $this->themeFiles->getItems();
+        return $this->themeFiles;
     }
 
     /**
@@ -77,11 +77,11 @@ class Customization implements CustomizationInterface
     public function getFilesByType($type)
     {
         if (!isset($this->themeFilesByType[$type])) {
-            $this->themeFilesByType[$type] = $this->fileProvider->getCollection(
+            $this->themeFilesByType[$type] = $this->fileProvider->getItems(
                 $this->theme, array('file_type' => $type)
             );
         }
-        return $this->themeFilesByType[$type]->getItems();
+        return $this->themeFilesByType[$type];
     }
 
     /**

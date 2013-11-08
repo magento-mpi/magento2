@@ -25,7 +25,7 @@ class FileProvider implements \Magento\View\Design\Theme\FileProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getCollection(\Magento\View\Design\ThemeInterface $theme, array $filters  = array())
+    public function getItems(\Magento\View\Design\ThemeInterface $theme, array $filters  = array())
     {
         /** @var \Magento\View\Design\Theme\File\CollectionInterface $themeFiles */
         $themeFiles = $this->fileFactory->create();
@@ -34,6 +34,6 @@ class FileProvider implements \Magento\View\Design\Theme\FileProviderInterface
             $themeFiles->addFieldToFilter($field, $value);
         }
         $themeFiles->setDefaultOrder();
-        return $themeFiles;
+        return $themeFiles->getItems();
     }
 }

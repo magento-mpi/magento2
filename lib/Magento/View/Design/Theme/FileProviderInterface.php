@@ -12,7 +12,7 @@ interface FileProviderInterface
     /**
      * @param \Magento\View\Design\ThemeInterface $theme
      * @param array $filters
-     * @return \Magento\View\Design\Theme\File\CollectionInterface
+     * @return \Magento\View\Design\Theme\FileInterface[]
      */
-    public function getCollection(\Magento\View\Design\ThemeInterface $theme, array $filters  = array());
+    public function getItems(\Magento\View\Design\ThemeInterface $theme, array $filters  = array());
 }

@@ -75,14 +75,10 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiles()
     {
-        $collection = $this->getMock('Magento\Core\Model\Resource\Theme\File\Collection', array(), array(), '', false);
-        $collection->expects($this->once())
-            ->method('getItems')
-            ->will($this->returnValue(array()));
         $this->fileProvider->expects($this->once())
-            ->method('getCollection')
+            ->method('getItems')
             ->with($this->theme)
-            ->will($this->returnValue($collection));
+            ->will($this->returnValue(array()));
         $this->assertEquals(array(), $this->model->getFiles());
     }
 
@@ -92,14 +88,10 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     public function testGetFilesByType()
     {
         $type = 'sample-type';
-        $collection = $this->getMock('Magento\Core\Model\Resource\Theme\File\Collection', array(), array(), '', false);
-        $collection->expects($this->once())
-            ->method('getItems')
-            ->will($this->returnValue(array()));
         $this->fileProvider->expects($this->once())
-            ->method('getCollection')
+            ->method('getItems')
             ->with($this->theme, array('file_type' => $type))
-            ->will($this->returnValue($collection));
+            ->will($this->returnValue(array()));
         $this->assertEquals(array(), $this->model->getFilesByType($type));
     }
 
@@ -183,7 +175,6 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     {
         $files = array();
         $type = 'sample-type';
-        $collection = $this->getMock('Magento\Core\Model\Resource\Theme\File\Collection', array(), array(), '', false);
         foreach ($filesContent as $fileContent) {
             $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup', 'save'), array(), '', false);
             $file->expects($fileContent['isCalled'])
@@ -192,13 +183,10 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
             $file->setData($fileContent['content']);
             $files[] = $file;
         }
-        $collection->expects($this->once())
-            ->method('getItems')
-            ->will($this->returnValue($files));
         $this->fileProvider->expects($this->once())
-            ->method('getCollection')
+            ->method('getItems')
             ->with($this->theme, array('file_type' => $type))
-            ->will($this->returnValue($collection));
+            ->will($this->returnValue($files));
         $this->assertInstanceOf(
             'Magento\View\Design\Theme\CustomizationInterface', $this->model->reorder($type, $sequence)
         );
@@ -253,7 +241,6 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete()
     {
-        $collection = $this->getMock('Magento\Core\Model\Resource\Theme\File\Collection', array(), array(), '', false);
         $file = $this->getMock('Magento\Core\Model\Theme\File', array('__wakeup', 'delete'), array(), '', false);
         $file->expects($this->once())->method('delete')->will($this->returnSelf());
         $file->setData(array(
@@ -263,13 +250,10 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
             'content'    => 'css content',
             'sort_order' => 1
         ));
-        $collection->expects($this->once())
-            ->method('getItems')
-            ->will($this->returnValue(array($file)));
         $this->fileProvider->expects($this->once())
-            ->method('getCollection')
+            ->method('getItems')
             ->with($this->theme)
-            ->will($this->returnValue($collection));
+            ->will($this->returnValue(array($file)));
 
         $this->assertInstanceOf('Magento\View\Design\Theme\CustomizationInterface', $this->model->delete(array(1)));
     }
