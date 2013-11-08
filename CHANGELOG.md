@@ -2,6 +2,10 @@
   * Single point of access to the current area code
   * Declare Application Areas
 * Various improvements:
+  * Refactored the Oauth service implementation and the Oauth module
+    * Moved the Oauth service into a new Magento\Oauth library with an improved Oauth interface
+    * Moved the relevant Oauth logic in the Magento\Oauth module into the Magento\Integration module
+    * Removed the Magento\Oauth module, getting rid of obsolete logic that was no longer needed
   * Breakdown of the Adminhtml module:
     * Moved Customer-related logic to Customer module
     * Moved System-related logic to Backend module
