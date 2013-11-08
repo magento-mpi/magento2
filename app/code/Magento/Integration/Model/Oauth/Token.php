@@ -36,6 +36,7 @@ namespace Magento\Integration\Model\Oauth;
  * @method \Magento\Integration\Model\Oauth\Token setRevoked() setRevoked(int $revoked)
  * @method int getAuthorized()
  * @method \Magento\Integration\Model\Oauth\Token setAuthorized() setAuthorized(int $authorized)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Token extends \Magento\Core\Model\AbstractModel
 {
