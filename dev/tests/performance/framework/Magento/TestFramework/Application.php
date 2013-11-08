@@ -192,7 +192,7 @@ class Application
         $this->_application = $this->getObjectManager()->get('Magento\Core\Model\App');
         $this->getObjectManager()->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
         $this->getObjectManager()->configure(
-            $this->getObjectManager()->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
+            $this->getObjectManager()->get('Magento\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
         $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
@@ -266,10 +266,9 @@ class Application
      */
     public function getObjectManager()
     {
-        if (!$this->_objectManager instanceof \Magento\Core\Model\ObjectManager) {
-            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
-                new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
-            );
+        if (!$this->_objectManager) {
+            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
         }
         return $this->_objectManager;
     }

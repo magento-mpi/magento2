@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml dashboard most recent customers grid
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -122,6 +122,6 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/customer/edit', array('id'=>$row->getId()));
+        return $this->getUrl('customer/index/edit', array('id'=>$row->getId()));
     }
 }

@@ -88,13 +88,9 @@ class Categories
     protected function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
-                new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
-            );
-            /** @var $app \Magento\Core\Model\App */
-            $this->_objectManager->get('Magento\Core\Model\App');
+            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
         }
-
         return $this->_objectManager;
     }
 

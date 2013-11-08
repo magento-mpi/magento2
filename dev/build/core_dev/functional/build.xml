@@ -87,6 +87,9 @@
             <param name="product_edition_code" value="ee"/>
         </antcall>
 
+        <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
+              tofile="${basedir}/dev/tests/functional/composer.json"/>
+
         <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
             <arg line="install"/>
         </exec>
@@ -117,7 +120,7 @@
         <exec executable="phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap-with-cleanup-enabled.php
-                testsuites/Mtf/TestSuite/BatTests.php
+                 ${env.bamboo_executer_options}
                 "/>
         </exec>
     </target>
@@ -169,19 +172,7 @@
 
     <target name="_run_compiler" description="Run DI compiler tool">
         <exec executable="php" failonerror="true" >
-            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php -- --log error --verbose'/>
-            <redirector outputproperty="compilationErrors" />
+            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php'/>
         </exec>
-
-        <available file="${product_root_dir}/var/di/definitions.php" property="definitionsFile" />
-        <fail unless="definitionsFile" message="Definition file does not exists" />
-
-        <fail message="${compilationErrors}">
-            <condition>
-                <not>
-                    <equals arg1="${compilationErrors}" arg2=""/>
-                </not>
-            </condition>
-        </fail>
     </target>
 </project>

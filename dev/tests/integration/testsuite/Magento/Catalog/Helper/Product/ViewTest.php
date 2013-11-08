@@ -13,6 +13,9 @@ namespace Magento\Catalog\Helper\Product;
 require \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir()
     . '/app/code/Magento/Catalog/Controller/Product.php';
 
+/**
+ * @magentoAppArea frontend
+ */
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**

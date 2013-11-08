@@ -12,6 +12,7 @@ namespace Magento\App;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @magentoAppArea frontend
  */
 class FrontControllerTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,16 +30,6 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento\App\FrontController');
-    }
-
-    public function testSetGetDefault()
-    {
-        $this->_model->setDefault('test', 'value');
-        $this->assertEquals('value', $this->_model->getDefault('test'));
-
-        $default = array('some_key' => 'some_value');
-        $this->_model->setDefault($default);
-        $this->assertEquals($default, $this->_model->getDefault());
     }
 
     public function testGetRequest()

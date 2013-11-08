@@ -35,13 +35,17 @@ class Logger
      */
     protected $_fileSystem;
 
+
     /**
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Io\File $fileSystem
      * @param string $defaultFile
      */
-    public function __construct(\Magento\App\Dir $dirs, \Magento\Io\File $fileSystem, $defaultFile = '')
-    {
+    public function __construct(
+        \Magento\App\Dir $dirs,
+        \Magento\Io\File $fileSystem,
+        $defaultFile = ''
+    ) {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;
         $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)

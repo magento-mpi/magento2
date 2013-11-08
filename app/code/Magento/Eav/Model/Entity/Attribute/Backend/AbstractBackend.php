@@ -71,9 +71,8 @@ abstract class AbstractBackend
     /**
      * @param \Magento\Logger $logger
      */
-    public function __construct(
-        \Magento\Logger $logger
-    ) {
+    public function __construct(\Magento\Logger $logger)
+    {
         $this->_logger = $logger;
     }
 

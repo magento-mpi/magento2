@@ -70,8 +70,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $headName = 'product_table_head',
         $lineName = 'product_line',
         $skipFields = array('move_to_wishlist', 'remove')
-    )
-    {
+    ) {
         $productValues = array();
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($headName);
         /** @var $element PHPUnit_Extensions_Selenium2TestCase_Element */

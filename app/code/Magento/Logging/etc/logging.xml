@@ -101,20 +101,20 @@
                 <expected_model class="Magento\Catalog\Model\Product" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_catalog_product_edit" action_alias="view" />
-                <event controller_action="adminhtml_catalog_product_save" action_alias="save">
+                <event controller_action="catalog_product_edit" action_alias="view" />
+                <event controller_action="catalog_product_save" action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_catalog_product_edit" />
+                        <controller_action name="catalog_product_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_catalog_product_delete"
+                <event controller_action="catalog_product_delete"
                        action_alias="delete" />
-                <event controller_action="adminhtml_catalog_product_massStatus"
+                <event controller_action="catalog_product_massStatus"
                        action_alias="massUpdate"
                        post_dispatch="postDispatchProductUpdateAttributes" />
-                <event controller_action="adminhtml_catalog_product_massDelete"
+                <event controller_action="catalog_product_massDelete"
                        action_alias="massDelete" />
-                <event controller_action="adminhtml_catalog_product_action_attribute_save"
+                <event controller_action="catalog_product_action_attribute_save"
                        action_alias="massUpdate"
                        post_dispatch="postDispatchProductUpdateAttributes" />
             </events>
@@ -125,12 +125,12 @@
                 <expected_model class="Magento\Catalog\Model\Category" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_catalog_category_edit" action_alias="view" />
-                <event controller_action="adminhtml_catalog_category_save" action_alias="save" />
-                <event controller_action="adminhtml_catalog_category_move"
+                <event controller_action="catalog_category_edit" action_alias="view" />
+                <event controller_action="catalog_category_save" action_alias="save" />
+                <event controller_action="catalog_category_move"
                        action_alias="move"
                        post_dispatch="postDispatchCategoryMove" />
-                <event controller_action="adminhtml_catalog_category_delete"
+                <event controller_action="catalog_category_delete"
                        action_alias="delete" />
             </events>
         </group>
@@ -151,11 +151,11 @@
                 <expected_model class="Magento\CatalogSearch\Model\Query" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_catalog_search_edit" action_alias="view" />
-                <event controller_action="adminhtml_catalog_search_save" action_alias="save" />
-                <event controller_action="adminhtml_catalog_search_delete"
+                <event controller_action="catalog_search_edit" action_alias="view" />
+                <event controller_action="catalog_search_save" action_alias="save" />
+                <event controller_action="catalog_search_delete"
                        action_alias="delete" />
-                <event controller_action="adminhtml_catalog_search_massDelete"
+                <event controller_action="catalog_search_massDelete"
                        action_alias="massDelete" />
                 <event controller_action="adminhtml_index_globalSearch"
                        action_alias="global_search"
@@ -168,9 +168,9 @@
                 <expected_model class="Magento\Rating\Model\Rating" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_rating_edit" action_alias="view" />
-                <event controller_action="adminhtml_rating_save" action_alias="save" />
-                <event controller_action="adminhtml_rating_delete" action_alias="delete" />
+                <event controller_action="rating_edit" action_alias="view" />
+                <event controller_action="rating_save" action_alias="save" />
+                <event controller_action="rating_delete" action_alias="delete" />
             </events>
         </group>
         <group name="review">
@@ -179,17 +179,17 @@
                 <expected_model class="Magento\Review\Model\Review" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_catalog_product_review_edit"
+                <event controller_action="catalog_product_review_edit"
                        action_alias="view" />
-                <event controller_action="adminhtml_catalog_product_review_save"
+                <event controller_action="catalog_product_review_save"
                        action_alias="save" />
-                <event controller_action="adminhtml_catalog_product_review_post"
+                <event controller_action="catalog_product_review_post"
                        action_alias="save" />
-                <event controller_action="adminhtml_catalog_product_review_delete"
+                <event controller_action="catalog_product_review_delete"
                        action_alias="delete" />
-                <event controller_action="adminhtml_catalog_product_review_massUpdateStatus"
+                <event controller_action="catalog_product_review_massUpdateStatus"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_catalog_product_review_massDelete"
+                <event controller_action="catalog_product_review_massDelete"
                        action_alias="massDelete" />
             </events>
         </group>
@@ -199,15 +199,15 @@
                 <expected_model class="Magento\Catalog\Model\Resource\Eav\Attribute" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_catalog_product_attribute_edit"
+                <event controller_action="catalog_product_attribute_edit"
                        action_alias="view" />
-                <event controller_action="adminhtml_catalog_product_attribute_save"
+                <event controller_action="catalog_product_attribute_save"
                        action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_catalog_product_attribute_edit" />
+                        <controller_action name="catalog_product_attribute_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_catalog_product_attribute_delete"
+                <event controller_action="catalog_product_attribute_delete"
                        action_alias="delete" />
             </events>
         </group>
@@ -217,15 +217,15 @@
                 <expected_model class="Magento\Eav\Model\Entity\Attribute\Set" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_catalog_product_set_edit"
+                <event controller_action="catalog_product_set_edit"
                        action_alias="view" />
-                <event controller_action="adminhtml_catalog_product_set_save"
+                <event controller_action="catalog_product_set_save"
                        action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_catalog_product_set_edit" />
+                        <controller_action name="catalog_product_set_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_catalog_product_set_delete"
+                <event controller_action="catalog_product_set_delete"
                        action_alias="delete" />
             </events>
         </group>
@@ -247,6 +247,21 @@
                 <expected_model class="Magento\Cms\Model\Page" />
             </expected_models>
             <events>
+                <event controller_action="cms_page_edit" action_alias="view" />
+                <event controller_action="cms_page_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="cms_page_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="cms_page_delete" action_alias="delete" />
+            </events>
+        </group>
+        <group name="version_cms_pages">
+            <label translate="true">CMS Pages</label>
+            <expected_models>
+                <expected_model class="Magento\Cms\Model\Page" />
+            </expected_models>
+            <events>
                 <event controller_action="adminhtml_cms_page_edit" action_alias="view" />
                 <event controller_action="adminhtml_cms_page_save" action_alias="save">
                     <skip_on_back>
@@ -262,9 +277,9 @@
                 <expected_model class="Magento\Cms\Model\Block" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_cms_block_edit" action_alias="view" />
-                <event controller_action="adminhtml_cms_block_save" action_alias="save" />
-                <event controller_action="adminhtml_cms_block_delete" action_alias="delete" />
+                <event controller_action="cms_block_edit" action_alias="view" />
+                <event controller_action="cms_block_save" action_alias="save" />
+                <event controller_action="cms_block_delete" action_alias="delete" />
             </events>
         </group>
         <group name="customer">
@@ -279,29 +294,29 @@
                 </expected_model>
             </expected_models>
             <events>
-                <event controller_action="adminhtml_customer_edit" action_alias="view" />
-                <event controller_action="adminhtml_customer_save" action_alias="save">
+                <event controller_action="customer_index_edit" action_alias="view" />
+                <event controller_action="customer_index_save" action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_customer_edit" />
+                        <controller_action name="customer_index_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_customer_validate"
+                <event controller_action="customer_index_validate"
                        action_alias="save"
                        post_dispatch="postDispatchCustomerValidate" />
-                <event controller_action="adminhtml_customer_delete" action_alias="delete" />
-                <event controller_action="adminhtml_customer_massSubscribe"
+                <event controller_action="customer_index_delete" action_alias="delete" />
+                <event controller_action="customer_index_massSubscribe"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_customer_massUnsubscribe"
+                <event controller_action="customer_index_massUnsubscribe"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_customer_massDelete"
+                <event controller_action="customer_index_massDelete"
                        action_alias="massDelete" />
-                <event controller_action="adminhtml_customer_exportCsv"
+                <event controller_action="customer_index_exportCsv"
                        action_alias="export"
                        post_dispatch="postDispatchSimpleSave" />
-                <event controller_action="adminhtml_customer_exportXml"
+                <event controller_action="customer_index_exportXml"
                        action_alias="export"
                        post_dispatch="postDispatchSimpleSave" />
-                <event controller_action="adminhtml_customer_massAssignGroup"
+                <event controller_action="customer_index_massAssignGroup"
                        action_alias="massUpdate" />
             </events>
         </group>
@@ -311,9 +326,9 @@
                 <expected_model class="Magento\Customer\Model\Group" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_customer_group_edit" action_alias="view" />
-                <event controller_action="adminhtml_customer_group_save" action_alias="save" />
-                <event controller_action="adminhtml_customer_group_delete"
+                <event controller_action="customer_group_edit" action_alias="view" />
+                <event controller_action="customer_group_save" action_alias="save" />
+                <event controller_action="customer_group_delete"
                        action_alias="delete" />
             </events>
         </group>
@@ -544,17 +559,17 @@
                 <expected_model class="Magento\CatalogRule\Model\Rule" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_promo_catalog_edit" action_alias="view" />
-                <event controller_action="adminhtml_promo_catalog_save"
+                <event controller_action="catalog_rule_promo_catalog_edit" action_alias="view" />
+                <event controller_action="catalog_rule_promo_catalog_save"
                        action_alias="save"
                        post_dispatch="postDispatchPromoCatalogSaveAndApply">
                     <skip_on_back>
-                        <controller_action name="adminhtml_promo_catalog_edit" />
+                        <controller_action name="catalog_rule_promo_catalog_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_promo_catalog_delete"
+                <event controller_action="catalog_rule_promo_catalog_delete"
                        action_alias="delete" />
-                <event controller_action="adminhtml_promo_catalog_applyRules"
+                <event controller_action="catalog_rule_promo_catalog_applyRules"
                        action_alias="apply"
                        post_dispatch="postDispatchPromoCatalogApply" />
             </events>
@@ -565,13 +580,13 @@
                 <expected_model class="Magento\SalesRule\Model\Rule" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_promo_quote_edit" action_alias="view" />
-                <event controller_action="adminhtml_promo_quote_save" action_alias="save">
+                <event controller_action="catalog_promo_quote_edit" action_alias="view" />
+                <event controller_action="sales_rule_promo_quote_save" action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_promo_quote_edit" />
+                        <controller_action name="catalog_promo_quote_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_promo_quote_delete" action_alias="delete" />
+                <event controller_action="sales_rule_promo_quote_delete" action_alias="delete" />
             </events>
         </group>
         <group name="adminhtml_system_account">
@@ -855,15 +870,15 @@
                 <expected_model class="Magento\Checkout\Model\Agreement" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_checkout_agreement_edit"
+                <event controller_action="checkout_agreement_edit"
                        action_alias="view" />
-                <event controller_action="adminhtml_checkout_agreement_save"
+                <event controller_action="checkout_agreement_save"
                        action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_checkout_agreement_edit" />
+                        <controller_action name="checkout_agreement_edit" />
                     </skip_on_back>
                 </event>
-                <event controller_action="adminhtml_checkout_agreement_delete"
+                <event controller_action="checkout_agreement_delete"
                        action_alias="delete" />
             </events>
         </group>
@@ -906,7 +921,7 @@
                 <event controller_action="adminhtml_user_role_editrole" action_alias="view" />
                 <event controller_action="adminhtml_user_role_saverole" action_alias="save">
                     <skip_on_back>
-                        <controller_action name="adminhtml_user_role_editrole" />
+                        <controller_action name="user_role_editrole" />
                     </skip_on_back>
                 </event>
                 <event controller_action="adminhtml_user_role_delete" action_alias="delete" />

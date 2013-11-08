@@ -10,13 +10,8 @@
 
 namespace Magento\Data;
 
-use \Magento\Core\Model\Session\AbstractSession;
+use \Magento\Core\Model\Session;
 
-/**
- * Data form
- *
- * @method \Magento\Data\Form setParent($block)
- */
 class Form extends \Magento\Data\Form\AbstractForm
 {
     /**
@@ -45,15 +40,18 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param Session $session
+     * @param Form\Element\Factory $factoryElement
+     * @param Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
+        Session $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
+        $this->_session = $session;
         parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
     }
@@ -61,10 +59,10 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Set session instance
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\Session $session
      * @return \Magento\Data\Form
      */
-    public function setSession(AbstractSession $session)
+    public function setSession(Session $session)
     {
         $this->_session = $session;
         return $this;
@@ -78,9 +76,6 @@ class Form extends \Magento\Data\Form\AbstractForm
      */
     protected function _getSession()
     {
-        if (null == $this->_session) {
-            throw new \Magento\Exception('Session is not set');
-        }
         return $this->_session;
     }
 
