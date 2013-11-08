@@ -28,6 +28,9 @@
     * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
     * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
     * from Http Magento Helper to Magento\HTTP libraries
+    * from Data Helper date format related functions moved to \Magento\Core\Model\Locale
+    * from Data Helper array decoration related functions moved to Magento\Stdlib\ArrayUtils
+    * from Data Helper functions that copy data from one object to another moved to \Magento\Object\Copy
   * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
