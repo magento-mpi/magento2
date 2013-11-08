@@ -2,6 +2,24 @@
   * Single point of access to the current area code
   * Declare Application Areas
 * Various improvements:
+  * Breakdown of the Adminhtml module:
+    * Moved Customer-related logic to Customer module
+    * Moved System-related logic to Backend module
+    * Moved Checkout-related logic to Checkout module
+    * Moved Cms-related logic to Cms module
+    * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
+  * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
+  * Moved all application bootstrapping behaviour to library
+  * Moved application-specific behaviour from entry points to Magento\AppInterface implementations
+  * Removed obsolete behaviour from routing and front-controller
+  * Refactored route configuration loading
+  * Extracted modularity support behaviour to Magento\Module component
+  * Refactored Resource configuration loading
+  * Removed obsolete configuration loaders
+  * Removed obsolete configuration from config.xml
+  * Refactored code-generation mechanism
+  * Added constructor integrity verification to Compiler tool
+  * Added strict naming rules for auto-generated Factory and Proxy classes
   * Global functions are called now from app\functions.php
   * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
   * Eliminated functions.php from Magento\Core module

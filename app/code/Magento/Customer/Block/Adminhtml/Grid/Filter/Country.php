@@ -1,0 +1,50 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Customer
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Country customer grid column filter
+ *
+ * @category   Magento
+ * @package    Magento_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Customer\Block\Adminhtml\Grid\Filter;
+
+class Country
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
+{
+    /**
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($context, $resourceHelper, $data);
+    }
+
+    protected function _getOptions()
+    {
+        $options = $this->_collectionFactory->load()->toOptionArray();
+        array_unshift($options, array('value'=>'', 'label'=>__('All countries')));
+        return $options;
+    }
+}

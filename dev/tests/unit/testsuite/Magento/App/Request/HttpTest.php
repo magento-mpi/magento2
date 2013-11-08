@@ -22,7 +22,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_routerListMock = $this->getMock('\Magento\App\RouterList', array(), array(), '', false);
+        $this->_routerListMock = $this->getMock('Magento\App\Route\ConfigInterface');
     }
 
     public function testGetOriginalPathInfoWithTestUri()
@@ -106,8 +106,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testSetRouteNameWithRouter()
     {
         $router = $this->getMock('\Magento\App\Router\AbstractRouter', array(), array(), '', false);
-        $this->_routerListMock->expects($this->any())->method('getRouterByRoute')->will($this->returnValue($router));
-        $router->expects($this->once())->method('getFrontNameByRoute')->will($this->returnValue('string'));
+        $this->_routerListMock->expects($this->any())->method('getRouteFrontName')->will($this->returnValue($router));
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
         $this->_model->setRouteName('RouterName');
         $this->assertEquals('RouterName', $this->_model->getRouteName());
@@ -116,9 +115,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testSetRouteNameWithNullRouterValue()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $router = $this->getMock('\Magento\App\Router\AbstractRouter', array(), array(), '', false);
-        $this->_routerListMock->expects($this->once())->method('getRouterByRoute')->will($this->returnValue(null));
-        $router->expects($this->never())->method('getFrontNameByRoute');
+        $this->_routerListMock->expects($this->once())->method('getRouteFrontName')->will($this->returnValue(null));
         $this->_model->setRouteName('RouterName');
     }
 
@@ -171,15 +168,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedRouteNameWithRewritePathInfo()
     {
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
-        $routerAbstract = $this->getMock('\Magento\App\Router\AbstractRouter', array(), array(), '', false);
         $expected = 'TestValue';
         $this->_model->setPathInfo($expected);
         $this->_model->rewritePathInfo($expected . '/other');
-        $this->_routerListMock->expects($this->any())->method('getRouterByFrontName')->with($expected)
-            ->will($this->returnValue($routerAbstract));
-        $routerAbstract->expects($this->any())->method('getRouteByFrontName')->with($expected)
+        $this->_routerListMock->expects($this->once())->method('getRouteByFrontName')->with($expected)
             ->will($this->returnValue($expected));
-
         $this->assertEquals($expected, $this->_model->getRequestedRouteName());
     }
 

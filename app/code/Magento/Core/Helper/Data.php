@@ -32,11 +32,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config;
-
-    /**
      * @var \Magento\Cache\ConfigInterface
      */
     protected $_cacheConfig;
@@ -75,7 +70,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -84,7 +78,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -94,7 +87,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
-        $this->_config = $config;
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;

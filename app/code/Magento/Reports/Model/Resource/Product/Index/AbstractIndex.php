@@ -26,12 +26,12 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_helperFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Reports\Model\Resource\HelperFactory $helperFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Reports\Model\Resource\HelperFactory $helperFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {

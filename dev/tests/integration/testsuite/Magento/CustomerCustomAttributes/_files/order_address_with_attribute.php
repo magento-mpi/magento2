@@ -15,7 +15,7 @@
  */
 
 /** @var $connection \Magento\TestFramework\Db\Adapter\TransactionInterface */
-$connection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource')
+$connection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Resource')
     ->getConnection('core_write');
 $connection->commitTransparentTransaction();
 

@@ -65,12 +65,11 @@ class Session extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
-     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
@@ -78,7 +77,6 @@ class Session extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -95,7 +93,6 @@ class Session extends \Magento\Core\Helper\Data
         $this->_sessionFactory = $sessionFactory;
         parent::__construct(
             $context,
-            $config,
             $coreStoreConfig,
             $storeManager,
             $locale,

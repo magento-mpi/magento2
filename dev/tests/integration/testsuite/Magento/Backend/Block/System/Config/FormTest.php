@@ -22,14 +22,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_formFactory = $this->_objectManager->create('Magento\Data\Form\Factory');
+        $this->_formFactory = $this->_objectManager->create('Magento\Data\FormFactory');
     }
 
     public function testDependenceHtml()
@@ -157,7 +157,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 \Magento\Core\Model\App\Area::PART_CONFIG
             );
 
-        $configMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false);
+        $configMock = $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false, false);
         $configMock->expects($this->any())->method('getConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')

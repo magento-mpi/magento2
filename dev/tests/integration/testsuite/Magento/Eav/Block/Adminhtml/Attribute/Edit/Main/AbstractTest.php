@@ -39,7 +39,7 @@ class AbstractTest
             'Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain',
             array(
                 $objectManager->get('Magento\Core\Model\Registry'),
-                $objectManager->get('Magento\Data\Form\Factory'),
+                $objectManager->get('Magento\Data\FormFactory'),
                 $objectManager->get('Magento\Core\Helper\Data'),
                 $objectManager->get('Magento\Backend\Block\Template\Context'),
                 $objectManager->get('Magento\Eav\Helper\Data'),

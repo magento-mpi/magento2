@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <!--  Example of manual addition locale code with language code to support new language -->
-        <!--
-        <magento_search>
-            <supported_languages>
-                <solr>
-                    <bg_BG>bg</bg_BG>
-                </solr>
-            </supported_languages>
-        </magento_search>
-        -->
-    </global>
     <default>
         <catalog>
             <search>

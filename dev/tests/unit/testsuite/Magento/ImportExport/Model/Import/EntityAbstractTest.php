@@ -63,7 +63,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $resourceHelper = $this->getMock(
             'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
         );
-        $resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+        $resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
 
         $data = array(
             'coreData'   => $coreHelper,

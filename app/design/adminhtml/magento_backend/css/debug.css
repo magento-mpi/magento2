@@ -678,7 +678,7 @@ th.required:after {
 .sales-recurring-profile-index .col-1-layout,
 .adminhtml-giftwrapping-index .col-1-layout,
 .sales-billing-agreement-index .col-1-layout,
-.adminhtml-checkout-agreement-index .col-1-layout,
+.checkout-agreement-index .col-1-layout,
 /* catalog */
 .catalog-product-index .col-1-layout,
 .adminhtml-catalog-event-index .col-1-layout,
@@ -696,19 +696,19 @@ th.required:after {
 .adminhtml-googleshopping-types-index .col-1-layout,
 .adminhtml-sitemap-index .col-1-layout,
 /* customers */
-.adminhtml-customer-online-index .col-1-layout,
-.adminhtml-customer-index .col-1-layout,
+.customer-online-index .col-1-layout,
+.customer-index-index .col-1-layout,
 .adminhtml-customer-attribute-index .col-1-layout,
 .adminhtml-customer-address-attribute-index .col-1-layout,
-.adminhtml-customer-group-index .col-1-layout,
+.customer-group-index .col-1-layout,
 .adminhtml-customersegment-index .col-1-layout,
 .adminhtml-reward-rate-index .col-1-layout,
 .adminhtml-giftcardaccount-index .col-1-layout,
 .adminhtml-giftregistry-index .col-1-layout,
 .adminhtml-invitation-index .col-1-layout,
 /* promotions */
-.adminhtml-promo-catalog-index .col-1-layout,
-.adminhtml-promo-quote-index .col-1-layout,
+.catalog-rule-promo-catalog-index .col-1-layout,
+.sales-rule-promo-quote-index .col-1-layout,
 .adminhtml-reminder-index .col-1-layout,
 /* newsletter */
 .adminhtml-newsletter-template-index .col-1-layout,
@@ -717,7 +717,8 @@ th.required:after {
 .adminhtml-newsletter-problem-index .col-1-layout,
 /* cms */
 .adminhtml-cms-page-index .col-1-layout,
-.adminhtml-cms-block-index .col-1-layout,
+.cms-page-index .col-1-layout,
+.cms-block-index .col-1-layout,
 .adminhtml-widget-instance-index .col-1-layout,
 .adminhtml-banner-index .col-1-layout,
 /* reports */
@@ -780,7 +781,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions,
 .adminhtml-giftwrapping-index .page-actions,
 .adminhtml-rma-item-attribute-index .page-actions,
-.adminhtml-checkout-agreement-index .page-actions,
+.checkout-agreement-index .page-actions,
 /* catalog */
 .catalog-product-index .page-actions,
 .adminhtml-catalog-event-index .page-actions,
@@ -795,24 +796,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions,
 .adminhtml-sitemap-index .page-actions,
 /* customers */
-.adminhtml-customer-index .page-actions,
+.customer-index-index .page-actions,
 .adminhtml-customer-attribute-index .page-actions,
 .adminhtml-customer-address-attribute-index .page-actions,
-.adminhtml-customer-group-index .page-actions,
+.customer-group-index .page-actions,
 .adminhtml-customersegment-index .page-actions,
 .adminhtml-reward-rate-index .page-actions,
 .adminhtml-giftcardaccount-index .page-actions,
 .adminhtml-giftregistry-index .page-actions,
 .adminhtml-invitation-index .page-actions,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions,
-.adminhtml-promo-quote-index .page-actions,
+.catalog-rule-promo-catalog-index .page-actions,
+.sales-rule-promo-quote-index .page-actions,
 .adminhtml-reminder-index .page-actions,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions,
 /* cms */
 .adminhtml-cms-page-index .page-actions,
-.adminhtml-cms-block-index .page-actions,
+.cms-page-index .page-actions,
+.cms-block-index .page-actions,
 .adminhtml-widget-instance-index .page-actions,
 .adminhtml-banner-index .page-actions,
 /* reports */
@@ -839,7 +841,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions.fixed,
 .adminhtml-giftwrapping-index .page-actions.fixed,
 .adminhtml-rma-item-attribute-index .page-actions.fixed,
-.adminhtml-checkout-agreement-index .page-actions.fixed,
+.checkout-agreement-index .page-actions.fixed,
 /* catalog */
 .catalog-product-index .page-actions.fixed,
 .adminhtml-catalog-event-index .page-actions.fixed,
@@ -854,24 +856,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions.fixed,
 .adminhtml-sitemap-index .page-actions.fixed,
 /* customers */
-.adminhtml-customer-index .page-actions.fixed,
+.customer-index-index .page-actions.fixed,
 .adminhtml-customer-attribute-index .page-actions.fixed,
 .adminhtml-customer-address-attribute-index .page-actions.fixed,
-.adminhtml-customer-group-index .page-actions.fixed,
+.customer-group-index .page-actions.fixed,
 .adminhtml-customersegment-index .page-actions.fixed,
 .adminhtml-reward-rate-index .page-actions.fixed,
 .adminhtml-giftcardaccount-index .page-actions.fixed,
 .adminhtml-giftregistry-index .page-actions.fixed,
 .adminhtml-invitation-index .page-actions.fixed,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions.fixed,
-.adminhtml-promo-quote-index .page-actions.fixed,
+.catalog-rule-promo-catalog-index .page-actions.fixed,
+.sales-rule-promo-quote-index .page-actions.fixed,
 .adminhtml-reminder-index .page-actions.fixed,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions.fixed,
 /* cms */
 .adminhtml-cms-page-index .page-actions.fixed,
-.adminhtml-cms-block-index .page-actions.fixed,
+.cms-page-index .page-actions.fixed,
+.cms-block-index .page-actions.fixed,
 .adminhtml-widget-instance-index .page-actions.fixed,
 .adminhtml-banner-index .page-actions.fixed,
 /* reports */
@@ -897,7 +900,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions .add,
 .adminhtml-giftwrapping-index .page-actions .add,
 .adminhtml-rma-item-attribute-index .page-actions .add,
-.adminhtml-checkout-agreement-index .page-actions .add,
+.checkout-agreement-index .page-actions .add,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default,
 .adminhtml-catalog-event-index .page-actions .add,
@@ -912,24 +915,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add,
 .adminhtml-sitemap-index .page-actions .add,
 /* customers */
-.adminhtml-customer-index .page-actions .add,
+.customer-index-index .page-actions .add,
 .adminhtml-customer-attribute-index .page-actions .add,
 .adminhtml-customer-address-attribute-index .page-actions .add,
-.adminhtml-customer-group-index .page-actions .add,
+.customer-group-index .page-actions .add,
 .adminhtml-customersegment-index .page-actions .add,
 .adminhtml-reward-rate-index .page-actions .add,
 .adminhtml-giftcardaccount-index .page-actions .add,
 .adminhtml-giftregistry-index .page-actions .add,
 .adminhtml-invitation-index .page-actions .add,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions .add,
-.adminhtml-promo-quote-index .page-actions .add,
+.catalog-rule-promo-catalog-index .page-actions .add,
+.sales-rule-promo-quote-index .page-actions .add,
 .adminhtml-reminder-index .page-actions .add,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions .add,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add,
-.adminhtml-cms-block-index .page-actions .add,
+.cms-page-index .page-actions .add,
+.cms-block-index .page-actions .add,
 .adminhtml-widget-instance-index .page-actions .add,
 .adminhtml-banner-index .page-actions .add,
 /* reports */
@@ -968,7 +972,7 @@ th.required:after {
 .eq-ie8 .adminhtml-rma-index .page-actions .add,
 .eq-ie8 .adminhtml-giftwrapping-index .page-actions .add,
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add,
-.eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add,
+.eq-ie8 .checkout-agreement-index .page-actions .add,
 /* catalog */
 .eq-ie8 .catalog-product-index .page-actions .btn-round > .action-default,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add,
@@ -983,24 +987,25 @@ th.required:after {
 .eq-ie8 .adminhtml-googleshopping-types-index .page-actions .add,
 .eq-ie8 .adminhtml-sitemap-index .page-actions .add,
 /* customers */
-.eq-ie8 .adminhtml-customer-index .page-actions .add,
+.eq-ie8 .customer-index-index .page-actions .add,
 .eq-ie8 .adminhtml-customer-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-customer-address-attribute-index .page-actions .add,
-.eq-ie8 .adminhtml-customer-group-index .page-actions .add,
+.eq-ie8 .customer-group-index .page-actions .add,
 .eq-ie8 .adminhtml-customersegment-index .page-actions .add,
 .eq-ie8 .adminhtml-reward-rate-index .page-actions .add,
 .eq-ie8 .adminhtml-giftcardaccount-index .page-actions .add,
 .eq-ie8 .adminhtml-giftregistry-index .page-actions .add,
 .eq-ie8 .adminhtml-invitation-index .page-actions .add,
 /* promotions */
-.eq-ie8 .adminhtml-promo-catalog-index .page-actions .add,
-.eq-ie8 .adminhtml-promo-quote-index .page-actions .add,
+.eq-ie8 .catalog-rule-promo-catalog-index .page-actions .add,
+.eq-ie8 .sales-rule-promo-quote-index .page-actions .add,
 .eq-ie8 .adminhtml-reminder-index .page-actions .add,
 /* newsletter */
 .eq-ie8 .adminhtml-newsletter-template-index .page-actions .add,
 /* cms */
 .eq-ie8 .adminhtml-cms-page-index .page-actions .add,
-.eq-ie8 .adminhtml-cms-block-index .page-actions .add,
+.eq-ie8 .cms-page-index .page-actions .add,
+.eq-ie8 .cms-block-index .page-actions .add,
 .eq-ie8 .adminhtml-widget-instance-index .page-actions .add,
 .eq-ie8 .adminhtml-banner-index .page-actions .add,
 /* reports */
@@ -1023,7 +1028,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions .add:hover,
 .adminhtml-giftwrapping-index .page-actions .add:hover,
 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
-.adminhtml-checkout-agreement-index .page-actions .add:hover,
+.checkout-agreement-index .page-actions .add:hover,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default:hover,
 .adminhtml-catalog-event-index .page-actions .add:hover,
@@ -1038,24 +1043,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add:hover,
 .adminhtml-sitemap-index .page-actions .add:hover,
 /* customers */
-.adminhtml-customer-index .page-actions .add:hover,
+.customer-index-index .page-actions .add:hover,
 .adminhtml-customer-attribute-index .page-actions .add:hover,
 .adminhtml-customer-address-attribute-index .page-actions .add:hover,
-.adminhtml-customer-group-index .page-actions .add:hover,
+.customer-group-index .page-actions .add:hover,
 .adminhtml-customersegment-index .page-actions .add:hover,
 .adminhtml-reward-rate-index .page-actions .add:hover,
 .adminhtml-giftcardaccount-index .page-actions .add:hover,
 .adminhtml-giftregistry-index .page-actions .add:hover,
 .adminhtml-invitation-index .page-actions .add:hover,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions .add:hover,
-.adminhtml-promo-quote-index .page-actions .add:hover,
+.catalog-rule-promo-catalog-index .page-actions .add:hover,
+.sales-rule-promo-quote-index .page-actions .add:hover,
 .adminhtml-reminder-index .page-actions .add:hover,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions .add:hover,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add:hover,
-.adminhtml-cms-block-index .page-actions .add:hover,
+.cms-page-index .page-actions .add:hover,
+.cms-block-index .page-actions .add:hover,
 .adminhtml-widget-instance-index .page-actions .add:hover,
 .adminhtml-banner-index .page-actions .add:hover,
 /* reports */
@@ -1086,7 +1092,7 @@ th.required:after {
 .eq-ie8 .adminhtml-rma-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-giftwrapping-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add:hover,
+.eq-ie8 .checkout-agreement-index .page-actions .add:hover,
 /* catalog */
 .eq-ie8 .catalog-product-index .page-actions .btn-round > .action-default:hover,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add:hover,
@@ -1101,24 +1107,24 @@ th.required:after {
 .eq-ie8 .adminhtml-googleshopping-types-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-sitemap-index .page-actions .add:hover,
 /* customers */
-.eq-ie8 .adminhtml-customer-index .page-actions .add:hover,
+.eq-ie8 .customer-index-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-customer-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-customer-address-attribute-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-customer-group-index .page-actions .add:hover,
+.eq-ie8 .customer-group-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-customersegment-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-reward-rate-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-giftcardaccount-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-giftregistry-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-invitation-index .page-actions .add:hover,
 /* promotions */
-.eq-ie8 .adminhtml-promo-catalog-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-promo-quote-index .page-actions .add:hover,
+.eq-ie8 .catalog-rule-promo-catalog-index .page-actions .add:hover,
+.eq-ie8 .sales-rule-promo-quote-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-reminder-index .page-actions .add:hover,
 /* newsletter */
 .eq-ie8 .adminhtml-newsletter-template-index .page-actions .add:hover,
 /* cms */
-.eq-ie8 .adminhtml-cms-page-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-cms-block-index .page-actions .add:hover,
+.eq-ie8 .cms-page-index .page-actions .add:hover,
+.eq-ie8 .cms-block-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-widget-instance-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-banner-index .page-actions .add:hover,
 /* reports */
@@ -1141,7 +1147,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions .add:active,
 .adminhtml-giftwrapping-index .page-actions .add:active,
 .adminhtml-rma-item-attribute-index .page-actions .add:active,
-.adminhtml-checkout-agreement-index .page-actions .add:active,
+.checkout-agreement-index .page-actions .add:active,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default:active,
 .adminhtml-catalog-event-index .page-actions .add:active,
@@ -1156,24 +1162,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add:active,
 .adminhtml-sitemap-index .page-actions .add:active,
 /* customers */
-.adminhtml-customer-index .page-actions .add:active,
+.customer-index-index .page-actions .add:active,
 .adminhtml-customer-attribute-index .page-actions .add:active,
 .adminhtml-customer-address-attribute-index .page-actions .add:active,
-.adminhtml-customer-group-index .page-actions .add:active,
+.customer-group-index .page-actions .add:active,
 .adminhtml-customersegment-index .page-actions .add:active,
 .adminhtml-reward-rate-index .page-actions .add:active,
 .adminhtml-giftcardaccount-index .page-actions .add:active,
 .adminhtml-giftregistry-index .page-actions .add:active,
 .adminhtml-invitation-index .page-actions .add:active,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions .add:active,
-.adminhtml-promo-quote-index .page-actions .add:active,
+.catalog-rule-promo-catalog-index .page-actions .add:active,
+.sales-rule-promo-quote-index .page-actions .add:active,
 .adminhtml-reminder-index .page-actions .add:active,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions .add:active,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add:active,
-.adminhtml-cms-block-index .page-actions .add:active,
+.cms-page-index .page-actions .add:active,
+.cms-block-index .page-actions .add:active,
 .adminhtml-widget-instance-index .page-actions .add:active,
 .adminhtml-banner-index .page-actions .add:active,
 /* reports */
@@ -1200,7 +1207,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions .add > span,
 .adminhtml-rma-item-attribute-index .page-actions .add > span,
 .adminhtml-giftwrapping-index .page-actions .add > span,
-.adminhtml-checkout-agreement-index .page-actions .add > span,
+.checkout-agreement-index .page-actions .add > span,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default > span,
 .adminhtml-catalog-event-index .page-actions .add > span,
@@ -1215,24 +1222,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add > span,
 .adminhtml-sitemap-index .page-actions .add > span,
 /* customers */
-.adminhtml-customer-index .page-actions .add > span,
+.customer-index-index .page-actions .add > span,
 .adminhtml-customer-attribute-index .page-actions .add > span,
 .adminhtml-customer-address-attribute-index .page-actions .add > span,
-.adminhtml-customer-group-index .page-actions .add > span,
+.customer-group-index .page-actions .add > span,
 .adminhtml-customersegment-index .page-actions .add > span,
 .adminhtml-reward-rate-index .page-actions .add > span,
 .adminhtml-giftcardaccount-index .page-actions .add > span,
 .adminhtml-giftregistry-index .page-actions .add > span,
 .adminhtml-invitation-index .page-actions .add > span,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions .add > span,
-.adminhtml-promo-quote-index .page-actions .add > span,
+.catalog-rule-promo-catalog-index .page-actions .add > span,
+.sales-rule-promo-quote-index .page-actions .add > span,
 .adminhtml-reminder-index .page-actions .add > span,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions .add > span,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add > span,
-.adminhtml-cms-block-index .page-actions .add > span,
+.cms-page-index .page-actions .add > span,
+.cms-block-index .page-actions .add > span,
 .adminhtml-widget-instance-index .page-actions .add > span,
 .adminhtml-banner-index .page-actions .add > span,
 /* reports */
@@ -1258,7 +1266,7 @@ th.required:after {
 .adminhtml-rma-index .page-actions .add > span:before,
 .adminhtml-giftwrapping-index .page-actions .add > span:before,
 .adminhtml-rma-item-attribute-index .page-actions .add > span:before,
-.adminhtml-checkout-agreement-index .page-actions .add > span:before,
+.checkout-agreement-index .page-actions .add > span:before,
 /* catalog */
 .catalog-product-index .page-actions .btn-round > .action-default > span:before,
 .adminhtml-catalog-event-index .page-actions .add > span:before,
@@ -1273,24 +1281,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .page-actions .add > span:before,
 .adminhtml-sitemap-index .page-actions .add > span:before,
 /* customers */
-.adminhtml-customer-index .page-actions .add > span:before,
+.customer-index-index .page-actions .add > span:before,
 .adminhtml-customer-attribute-index .page-actions .add > span:before,
 .adminhtml-customer-address-attribute-index .page-actions .add > span:before,
-.adminhtml-customer-group-index .page-actions .add > span:before,
+.customer-group-index .page-actions .add > span:before,
 .adminhtml-customersegment-index .page-actions .add > span:before,
 .adminhtml-reward-rate-index .page-actions .add > span:before,
 .adminhtml-giftcardaccount-index .page-actions .add > span:before,
 .adminhtml-giftregistry-index .page-actions .add > span:before,
 .adminhtml-invitation-index .page-actions .add > span:before,
 /* promotions */
-.adminhtml-promo-catalog-index .page-actions .add > span:before,
-.adminhtml-promo-quote-index .page-actions .add > span:before,
+.catalog-rule-promo-catalog-index .page-actions .add > span:before,
+.sales-rule-promo-quote-index .page-actions .add > span:before,
 .adminhtml-reminder-index .page-actions .add > span:before,
 /* newsletter */
 .adminhtml-newsletter-template-index .page-actions .add > span:before,
 /* cms */
 .adminhtml-cms-page-index .page-actions .add > span:before,
-.adminhtml-cms-block-index .page-actions .add > span:before,
+.cms-page-index .page-actions .add > span:before,
+.cms-block-index .page-actions .add > span:before,
 .adminhtml-widget-instance-index .page-actions .add > span:before,
 .adminhtml-banner-index .page-actions .add > span:before,
 /* reports */
@@ -1425,7 +1434,7 @@ th.required:after {
 .adminhtml-rma-index .grid-actions,
 .adminhtml-giftwrapping-index .grid-actions,
 .adminhtml-rma-item-attribute-index .grid-actions,
-.adminhtml-checkout-agreement-index .grid-actions,
+.checkout-agreement-index .grid-actions,
 /* catalog */
 .catalog-product-index .grid-actions,
 .adminhtml-catalog-event-index .grid-actions,
@@ -1440,24 +1449,25 @@ th.required:after {
 .adminhtml-googleshopping-types-index .grid-actions,
 .adminhtml-sitemap-index .grid-actions,
 /* customers */
-.adminhtml-customer-index .grid-actions,
+.customer-index-index .grid-actions,
 .adminhtml-customer-attribute-index .grid-actions,
 .adminhtml-customer-address-attribute-index .grid-actions,
-.adminhtml-customer-group-index .grid-actions,
+.customer-group-index .grid-actions,
 .adminhtml-customersegment-index .grid-actions,
 .adminhtml-reward-rate-index .grid-actions,
 .adminhtml-giftcardaccount-index .grid-actions,
 .adminhtml-giftregistry-index .grid-actions,
 .adminhtml-invitation-index .grid-actions,
 /* promotions */
-.adminhtml-promo-catalog-index .grid-actions,
-.adminhtml-promo-quote-index .grid-actions,
+.catalog-rule-promo-catalog-index .grid-actions,
+.sales-rule-promo-quote-index .grid-actions,
 .adminhtml-reminder-index .grid-actions,
 /* newsletter */
 .adminhtml-newsletter-template-index .grid-actions,
 /* cms */
 .adminhtml-cms-page-index .grid-actions,
-.adminhtml-cms-block-index .grid-actions,
+.cms-page-index .grid-actions,
+.cms-block-index .grid-actions,
 .adminhtml-widget-instance-index .grid-actions,
 .adminhtml-banner-index .grid-actions,
 /* reports */
@@ -1532,11 +1542,11 @@ th.required:after {
     padding-left: 80px;
 }
 
-.adminhtml-promo-catalog-index .grid-actions {
+.catalog-rule-promo-catalog-index .grid-actions {
     padding-left: 210px;
 }
 
-.adminhtml-promo-catalog-index .page-actions .apply {
+.catalog-rule-promo-catalog-index .page-actions .apply {
     float: right;
     margin: 3px 0 0 10px;
 }

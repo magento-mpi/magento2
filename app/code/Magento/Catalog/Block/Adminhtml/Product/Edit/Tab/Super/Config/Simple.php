@@ -35,7 +35,7 @@ class Simple
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -45,7 +45,7 @@ class Simple
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,

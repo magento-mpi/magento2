@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 class Content
-    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Content
+    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 {
     /**
      * Cms data
@@ -32,7 +32,7 @@ class Content
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -43,7 +43,7 @@ class Content
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Registry $coreRegistry,

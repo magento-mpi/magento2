@@ -27,7 +27,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManagerMock = $this->getMockBuilder('Magento\Core\Model\ObjectManager')
+        $objectManagerMock = $this->getMockBuilder('Magento\App\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         $fileSystemMock = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();

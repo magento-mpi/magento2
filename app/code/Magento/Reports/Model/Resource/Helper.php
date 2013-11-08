@@ -22,11 +22,11 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     implements \Magento\Reports\Model\Resource\HelperInterface
 {
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param string $modulePrefix
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         $modulePrefix = 'reports'
     ) {
         parent::__construct($resource, $modulePrefix);

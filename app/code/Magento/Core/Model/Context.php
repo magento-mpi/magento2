@@ -17,7 +17,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventDispatcher;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cacheManager;
 
@@ -35,13 +35,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventDispatcher
-     * @param \Magento\Core\Model\CacheInterface $cacheManager
+     * @param \Magento\App\CacheInterface $cacheManager
      * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventDispatcher,
-        \Magento\Core\Model\CacheInterface $cacheManager,
+        \Magento\App\CacheInterface $cacheManager,
         \Magento\App\State $appState
     ) {
         $this->_eventDispatcher = $eventDispatcher;
@@ -51,7 +51,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCacheManager()
     {

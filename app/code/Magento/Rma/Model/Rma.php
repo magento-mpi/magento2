@@ -73,7 +73,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_templateFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate\Proxy
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
@@ -178,7 +178,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
-     * @param \Magento\Core\Model\Translate\Proxy $translate
+     * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Config $rmaConfig
@@ -209,7 +209,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
-        \Magento\Core\Model\Translate\Proxy $translate,
+        \Magento\Core\Model\Translate $translate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,

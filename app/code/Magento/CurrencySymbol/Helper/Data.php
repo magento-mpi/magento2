@@ -20,34 +20,31 @@ namespace Magento\CurrencySymbol\Helper;
 class Data extends \Magento\Core\Helper\Data
 {
     /**
-     * @var \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory
+     * @var \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory
      */
     protected $_symbolFactory;
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
-     * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory
+     * @param \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
-        \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
+        \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory,
         $dbCompatibleMode = true
     ) {
         $this->_symbolFactory = $symbolFactory;
         parent::__construct(
             $context,
-            $config,
             $coreStoreConfig,
             $storeManager,
             $locale,
@@ -66,7 +63,7 @@ class Data extends \Magento\Core\Helper\Data
     {
         $currencyOptions = array();
         $currencySymbol = $this->_symbolFactory->create();
-        if($currencySymbol) {
+        if ($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);
 
             if ($customCurrencySymbol) {
