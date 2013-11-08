@@ -45,7 +45,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture)->save($integrationFixture);
         //Verification
         $this->_checkSaveSuccessMessage();
-        $this->_ensureMatchingIntegrationExists($integrationFixture);
+        $this->_ensureMatchingIntegrationData($integrationFixture);
     }
 
     /**
@@ -81,7 +81,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $editForm->update($integrationFixture)->save($integrationFixture);
         //Verification
         $this->_checkSaveSuccessMessage();
-        $this->_ensureMatchingIntegrationExists($integrationFixture);
+        $this->_ensureMatchingIntegrationData($integrationFixture);
     }
 
     /**
@@ -98,6 +98,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $integrationFixture->persist();
         //Steps
         Factory::getPageFactory()->getAdminIntegrationEdit();
+        //Verification
         $this->_openByName($integrationFixture->getName());
     }
 
@@ -161,11 +162,11 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     }
 
     /**
-     * Check if integration exists
+     * Check integration data
      *
      * @param IntegrationFixture $integrationFixture
      */
-    protected function _ensureMatchingIntegrationExists(IntegrationFixture $integrationFixture)
+    protected function _ensureMatchingIntegrationData(IntegrationFixture $integrationFixture)
     {
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
         $this->_openByName($integrationFixture->getName());
