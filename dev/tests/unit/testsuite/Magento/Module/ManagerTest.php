@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento\Module;
 
-class ModuleManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * XPath in the configuration of a module output flag
@@ -16,7 +16,7 @@ class ModuleManagerTest extends \PHPUnit_Framework_TestCase
     const XML_PATH_OUTPUT_ENABLED = 'custom/is_module_output_enabled';
 
     /**
-     * @var \Magento\Core\Model\ModuleManager
+     * @var \Magento\Module\Manager
      */
     private $_model;
 
@@ -28,15 +28,15 @@ class ModuleManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_storeConfig;
+    private $_outputConfig;
 
     protected function setUp()
     {
         $this->_moduleList = $this->getMockForAbstractClass('Magento\Module\ModuleListInterface');
-        $this->_storeConfig = $this->getMockForAbstractClass('Magento\Core\Model\Store\ConfigInterface');
-        $this->_model = new \Magento\Core\Model\ModuleManager($this->_storeConfig, $this->_moduleList, array(
+        $this->_outputConfig = $this->getMockForAbstractClass('Magento\Module\Output\ConfigInterface');
+        $this->_model = new \Magento\Module\Manager($this->_outputConfig, $this->_moduleList, array(
             'Module_DisabledOutputOne' => self::XML_PATH_OUTPUT_ENABLED,
-            'Module_DisabledOutputTwo' => 'Magento\Core\Model\ModuleManagerTest::XML_PATH_OUTPUT_ENABLED',
+            'Module_DisabledOutputTwo' => 'Magento\Module\ManagerTest::XML_PATH_OUTPUT_ENABLED',
         ));
     }
 
@@ -55,9 +55,9 @@ class ModuleManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testIsOutputEnabledReturnsFalseForDisabledModule()
     {
-        $this->_storeConfig
+        $this->_outputConfig
             ->expects($this->any())
-            ->method('getConfigFlag')
+            ->method('getFlag')
             ->will($this->returnValue(true));
         $this->assertFalse($this->_model->isOutputEnabled('Nonexisting_Module'));
     }
@@ -72,10 +72,10 @@ class ModuleManagerTest extends \PHPUnit_Framework_TestCase
         $this->_moduleList->expects($this->any())->method('getModule')->will(
             $this->returnValue(array('name' => 'Module_EnabledOne'))
         );
-        $this->_storeConfig
+        $this->_outputConfig
             ->expects($this->once())
-            ->method('getConfigFlag')
-            ->with('advanced/modules_disable_output/Module_EnabledOne')
+            ->method('isEnabled')
+            ->with('Module_EnabledOne')
             ->will($this->returnValue($configValue))
         ;
         $this->assertEquals($expectedResult, $this->_model->isOutputEnabled('Module_EnabledOne'));
@@ -100,9 +100,9 @@ class ModuleManagerTest extends \PHPUnit_Framework_TestCase
         $this->_moduleList->expects($this->any())->method('getModule')->will(
             $this->returnValue(array('name' => $moduleName))
         );
-        $this->_storeConfig
+        $this->_outputConfig
             ->expects($this->at(0))
-            ->method('getConfigFlag')
+            ->method('getFlag')
             ->with(self::XML_PATH_OUTPUT_ENABLED)
             ->will($this->returnValue($configValue))
         ;

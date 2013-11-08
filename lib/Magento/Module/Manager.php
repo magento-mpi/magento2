@@ -9,19 +9,14 @@
 /**
  * Module statuses manager
  */
-namespace Magento\Core\Model;
+namespace Magento\Module;
 
-class ModuleManager
+class Manager
 {
     /**
-     * XPath in the configuration where module statuses are stored
+     * @var \Magento\Module\Output\ConfigInterface
      */
-    const XML_PATH_MODULE_OUTPUT_STATUS = 'advanced/modules_disable_output/%s';
-
-    /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
-     */
-    private $_storeConfig;
+    private $_outputConfig;
 
     /**
      * @var \Magento\Module\ModuleListInterface
@@ -34,16 +29,16 @@ class ModuleManager
     private $_outputConfigPaths;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
-     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param Output\ConfigInterface $outputConfig
+     * @param ModuleListInterface $moduleList
      * @param array $outputConfigPaths
      */
     public function __construct(
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Module\Output\ConfigInterface $outputConfig,
         \Magento\Module\ModuleListInterface $moduleList,
         array $outputConfigPaths = array()
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_outputConfig = $outputConfig;
         $this->_moduleList = $moduleList;
         $this->_outputConfigPaths = $outputConfigPaths;
     }
@@ -73,7 +68,7 @@ class ModuleManager
         if (!$this->_isCustomOutputConfigEnabled($moduleName)) {
             return false;
         }
-        if ($this->_storeConfig->getConfigFlag(sprintf(self::XML_PATH_MODULE_OUTPUT_STATUS, $moduleName))) {
+        if ($this->_outputConfig->isEnabled($moduleName)) {
             return false;
         }
         return true;
@@ -92,7 +87,7 @@ class ModuleManager
             if (defined($configPath)) {
                 $configPath = constant($configPath);
             }
-            return $this->_storeConfig->getConfigFlag($configPath);
+            return $this->_outputConfig->getFlag($configPath);
         }
         return true;
     }
