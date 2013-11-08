@@ -84,7 +84,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => self::DATA_EMAIL,
                 'disabled' => false,
                 'class' => 'validate-email',
-                'maxlength' => '254',
+                'maxlength' => '254'
             )
         );
         $fieldset->addField(
@@ -94,8 +94,9 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Callback URL'),
                 'name' => self::DATA_ENDPOINT,
                 'disabled' => false,
-                'note'=> __('When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed.
-                                We strongly recommend you to use https://'),
+                // @codingStandardsIgnoreStart
+                'note'=> __('When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed. We strongly recommend you to use https://')
+                // @codingStandardsIgnoreEnd
             )
         );
         $form->setValues($integrationData);
