@@ -13,6 +13,15 @@ namespace Magento\Authz\Model;
  */
 interface UserContextInterface
 {
+    /**#@+
+     * Authorization user types
+     */
+    const USER_TYPE_GUEST = 'Guest';
+    const USER_TYPE_CUSTOMER = 'Customer';
+    const USER_TYPE_ADMIN = 'Admin';
+    const USER_TYPE_INTEGRATION = 'Integration';
+    /**#@-*/
+
     /**
      * Set user type (admin, customer, guest, web API integration)
      *
