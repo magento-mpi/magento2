@@ -58,6 +58,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productCollectionFactory;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
