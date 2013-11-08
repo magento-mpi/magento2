@@ -22,23 +22,6 @@ class Sku
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
-     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Math\Random $mathRandom
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Math\Random $mathRandom,
-        array $data = array()
-    ) {
-        $this->mathRandom = $mathRandom;
-        parent::__construct($checkoutData, $coreData, $context, $mathRandom, $data);
-    }
-    /**
      * Retrieve form action URL
      *
      * @return string
