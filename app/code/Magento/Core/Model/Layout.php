@@ -328,7 +328,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
         } else {
-            $themeFullPath = $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier;
+            $themeFullPath = $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier;
             $result = $themeCollection->getThemeByFullPath($themeFullPath);
         }
         return $result;
