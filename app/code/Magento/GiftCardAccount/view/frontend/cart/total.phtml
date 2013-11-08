@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,20 +15,15 @@ if (!$_cards) {
 ?>
 <?php if ($this->getTotal()->getValue()): ?>
 <?php foreach ($_cards as $_c): ?>
-    <tr>
-        <th colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right">
-            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
-                <?php $_title = __('Remove'); ?>
-                <?php $_url = $this->getUrl('magento_giftcardaccount/cart/remove', array('code'=>$_c['c'])); ?>
-                <a href="<?php echo $_url; ?>" title="<?php echo $_title; ?>" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo __('Remove')?>" /></a>
-
-                <?php echo __('Gift Card (%1)', $_c['c']); ?>
-            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
-        </th>
-        <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right">
-            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
-                -<?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_c['a']) ?>
-            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+    <tr class="giftcard totals">
+        <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>" class="mark">
+            <?php $_title = __('Remove'); ?>
+            <?php $_url = $this->getUrl('magento_giftcardaccount/cart/remove', array('code'=>$_c['c'])); ?>
+            <a href="<?php echo $_url; ?>" title="<?php echo $_title; ?>" class="action delete"><span><?php echo __('Remove')?></span></a>
+            <?php echo __('Gift Card (%1)', $_c['c']); ?>
+        </td>
+        <td style="<?php echo $this->getTotal()->getStyle() ?>" class="amount">
+            <span class="discount">-<?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_c['a']) ?></span>
         </td>
     </tr>
 <?php endforeach; ?>

@@ -8,11 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Gift Card Balance Check Form" design_abstraction="custom">
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </referenceBlock>
+    <update handle="page_one_column"/>
     <referenceContainer name="content">
         <block class="Magento\GiftCardAccount\Block\Check" template="check.phtml" name="check.result" as="check_result"/>
     </referenceContainer>

@@ -2,19 +2,22 @@
 /**
  * {license_notice}
  *
+ * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /** @var $this \Magento\Page\Block\Links */
 ?>
 <?php /** @var $this \Magento\Customer\Block\Account\Navigation */ ?>
-<div class="block block-account">
-    <div class="block-title">
-        <strong><span><?php echo __('My Account'); ?></span></strong>
+<div class="block account nav">
+    <div class="title">
+        <strong><?php echo __('My Account'); ?></strong>
     </div>
-    <div class="block-content">
-        <ul>
-            <?php echo $this->getChildHtml();?>
-        </ul>
+    <div class="content">
+        <navigation class="account nav">
+            <ul class="nav items">
+                <?php echo $this->getChildHtml();?>
+            </ul>
+        </navigation>
     </div>
 </div>

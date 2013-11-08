@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
     </referenceContainer>
 </layout>
