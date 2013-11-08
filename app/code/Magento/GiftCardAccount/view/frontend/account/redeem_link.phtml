@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +12,10 @@
  */
 ?>
 <?php if ($this->canRedeem()): ?>
-    <div class="account-balance">
-        <h2 class="sub-title"><?php echo __('Redeem Gift Card'); ?></h2>
-        <p><?php echo __('Have a gift card? <a href="%1">Click here</a> to redeem it.', $this->getUrl('magento_giftcardaccount/customer')); ?></p>
+    <div class="block balance giftcard">
+        <div class="title" class="title"><strong><?php echo __('Redeem Gift Card'); ?></strong></div>
+        <div class="content">
+          <p><?php echo __('Have a gift card? <a href="%1">Click here</a> to redeem it.', $this->getUrl('magento_giftcardaccount/customer')); ?></p>
+        </div>
     </div>
 <?php endif; ?>

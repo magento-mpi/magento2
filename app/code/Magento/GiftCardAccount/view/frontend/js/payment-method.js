@@ -29,7 +29,7 @@
                 if (this.name === options.paymentName && this.value === options.paymentValue) {
                     // Show 'No Payment Information Required' with checked radio button.
                     $(this).prop({'checked': true, 'disabled': false}).parent().show();
-                } else if ($(this).closest("div.buttons-set").length === 0) {
+                } else if ($(this).closest("div.actions").length === 0) {
                     // Hide all other objects beside the buttons.
                     $(this).parent().prop('disabled', true).hide();
                 }
