@@ -18,13 +18,12 @@
 
 namespace Magento\Email\Block\Adminhtml\Template\Grid\Filter;
 
-class Type
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
+class Type extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
     protected static $_types = array(
-        null                                        =>  null,
-        \Magento\Newsletter\Model\Template::TYPE_HTML   => 'HTML',
-        \Magento\Newsletter\Model\Template::TYPE_TEXT   => 'Text',
+        null => null,
+        \Magento\Email\Model\Template::TYPE_HTML => 'HTML',
+        \Magento\Email\Model\Template::TYPE_TEXT => 'Text',
     );
 
     protected function _getOptions()
@@ -40,7 +39,7 @@ class Type
 
     public function getCondition()
     {
-        if(is_null($this->getValue())) {
+        if (is_null($this->getValue())) {
             return null;
         }
 

@@ -9,7 +9,7 @@
  */
 
 /**
- * Adminhtml newsletter templates grid block action item renderer
+ * Email templates grid block action item renderer
  *
  * @category   Magento
  * @package    Magento_Email

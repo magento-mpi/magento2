@@ -121,6 +121,12 @@ class Template extends \Magento\Core\Model\Template
     protected $_dir;
 
     /**
+     * Types of template
+     */
+    const TYPE_TEXT = 1;
+    const TYPE_HTML = 2;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -362,7 +368,7 @@ class Template extends \Magento\Core\Model\Template
             $variables['this'] = $this;
         }
 
-        if (isset($variables['subscriber']) && ($variables['subscriber'] instanceof \Magento\Newsletter\Model\Subscriber)) {
+        if (isset($variables['subscriber'])) {
             $processor->setStoreId($variables['subscriber']->getStoreId());
         }
 
