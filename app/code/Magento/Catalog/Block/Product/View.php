@@ -51,11 +51,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productFactory;
 
     /**
-     * @var \Magento\Math\Random
-     */
-    protected $mathRandom;
-
-    /**
      * Construct
      *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
