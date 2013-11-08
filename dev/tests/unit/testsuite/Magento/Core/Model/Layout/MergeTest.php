@@ -234,4 +234,22 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($expected, $this->_model->getContainers());
     }
+
+    public function testGetAllDesignAbstractions()
+    {
+        $expected = array(
+            'customer_account'  => array(
+                'name' => 'customer_account',
+                'label' => 'Customer My Account (All Pages)',
+                'design_abstraction' => 'custom'
+            ),
+            'page_empty'  => array(
+                'name' => 'page_empty',
+                'label' => 'All Empty Layout Pages',
+                'design_abstraction' => 'page_layout'
+            )
+        );
+
+        $this->assertSame($expected, $this->_model->getAllDesignAbstractions());
+    }
 }

@@ -21,6 +21,7 @@
     <handle id="catalog_product_view_type_grouped"/>
     <handle id="catalog_product_view_type_simple"/>
     <handle id="checkout_onepage_index"/>
+    <handle id="customer_account" label="Customer My Account (All Pages)" design_abstraction="custom"/>
     <handle id="default">
         <container name="content" as="content" label="Main Content Area"/>
     </handle>
@@ -31,6 +32,7 @@
         <block class="Magento\Core\Block\Template" template="fixture_template_two.phtml"/>
     </handle>
     <handle id="not_a_page_type" label="Handle that Is Not a Page Type"/>
+    <handle id="page_empty" label="All Empty Layout Pages" design_abstraction="page_layout"/>
     <handle id="print"/>
     <handle id="sales_guest_print"/>
     <handle id="sales_order_print"/>
