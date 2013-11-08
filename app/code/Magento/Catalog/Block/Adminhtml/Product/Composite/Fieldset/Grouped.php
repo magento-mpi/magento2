@@ -24,8 +24,6 @@ class Grouped
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -33,8 +31,9 @@ class Grouped
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param array $data
      */
     public function __construct(
@@ -45,13 +44,24 @@ class Grouped
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
-            $arrayUtils, $data);
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $arrayUtils,
+            $data
+        );
     }
 
     /**
