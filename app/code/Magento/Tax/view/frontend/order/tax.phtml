@@ -27,7 +27,7 @@
             $isFirst    = 1;
         ?>
         <?php foreach ($rates as $rate): ?>
-        <tr class="summary-details-<?php echo $taxIter; ?> summary-details<?php if ($isTop): echo ' summary-details-first'; endif; ?>"<?php if (!$this->getIsPlaneMode()):?> style="display:none;"<?php endif;?>>
+        <tr class="totals tax details details-<?php echo $taxIter; ?> <?php echo ($this->getIsPlaneMode()) ? ' plane' : '';?>">
             <td <?php echo $this->getLabelProperties()?>>
                 <?php echo $this->escapeHtml($rate['title']); ?>
                 <?php if (!is_null($rate['percent'])): ?>
@@ -48,15 +48,15 @@
 <?php endif;?>
 
 <?php if ($this->displayFullSummary() && $_fullInfo && !$this->getIsPlaneMode()): ?>
-<tr class="summary-total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')">
+<tr class="totals tax summary">
 <?php elseif ($this->displayFullSummary() && $_fullInfo && $this->getIsPlaneMode()): ?>
-<tr class="show-details">
+<tr class="totals tax summary plane">
 <?php else: ?>
-<tr>
+<tr class="totals tax">
 <?php endif; ?>
     <td <?php echo $this->getLabelProperties()?>>
         <?php if ($this->displayFullSummary()): ?>
-            <div class="summary-collapse"><?php echo __('Tax'); ?></div>
+            <div class="detailed"><?php echo __('Tax'); ?></div>
         <?php else: ?>
             <?php echo __('Tax'); ?>
         <?php endif;?>

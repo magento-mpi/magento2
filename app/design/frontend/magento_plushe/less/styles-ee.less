@@ -1332,6 +1332,55 @@
 }
 
 /*
+    GiftWrapping
+-------------------------------------- */
+
+.gift.message {
+    .field.gift.wrapping {
+        width: 100%;
+        img {
+            display: inline-block;
+            width:auto;
+            height:80px;
+            margin:10px;
+            vertical-align: middle;
+        }
+        .label {
+            display: block;
+            padding-bottom: 5px;
+        }
+        .control {
+            select {
+                width: 100%;
+            }
+        }
+    }
+    .field.gift.wrapping .design > .price-box,
+    dt > .price-box {
+        display: inline-block;
+        vertical-align: middle;
+        margin:10px;
+        > .price-box {
+            display: block;
+            > span {
+                display: inline-block;
+            }
+        }
+    }
+}
+.data.table .gift.wrapping {
+    font-size: 13px;
+    margin: 0;
+    dt {
+        font-weight: 600;
+        margin: 5px 0 0;
+    }
+    dd {
+        margin: 0 0 5px;
+    }
+}
+
+/*
     My Account -> Advanced Checkout -> Order by SKU
 -------------------------------------- */
 .cart.table.failed {

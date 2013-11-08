@@ -5376,6 +5376,23 @@ body {
   text-align: left;
   padding-left: 20px;
 }
+.checkout.agreements {
+  margin: 10px 0;
+}
+.checkout.agreements .item {
+  margin: 0 0 10px;
+}
+.checkout.agreements .item:last-child {
+  margin: 0;
+}
+.checkout.agreements .agreement {
+  background-color: #f8f8f8;
+  border: 1px solid #e5e5e5;
+  font-size: 11px;
+  overflow: auto;
+  margin: 0 0 10px;
+  padding: 15px;
+}
 /*
     Magento_Checkout
     Multishipping
@@ -5523,27 +5540,6 @@ body {
 }
 .multicheckout.overview > .block.shipping .content:last-child {
   margin-bottom: 0;
-}
-.multicheckout.overview .checkout.agreements {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  list-style-image: none;
-  margin: 10px 0;
-}
-.multicheckout.overview .checkout.agreements .item {
-  margin: 0 0 10px;
-}
-.multicheckout.overview .checkout.agreements .item:last-child {
-  margin: 0;
-}
-.multicheckout.overview .checkout.agreements .agreement {
-  background-color: #f8f8f8;
-  border: 1px solid #e5e5e5;
-  font-size: 11px;
-  overflow: auto;
-  margin: 0 0 10px;
-  padding: 15px;
 }
 .multicheckout.overview > .checkout.review .grand.total {
   margin: 15px 0;
@@ -5724,9 +5720,8 @@ body {
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #e5e5e5;
-  height: 310px;
-  overflow: auto;
+  background: #e5e5e5;
+  margin: 0 -20px;
   padding: 20px;
 }
 .gift.message dt {
@@ -5750,34 +5745,6 @@ body {
   margin-top: 2px;
   vertical-align: top;
 }
-.gift.message .design {
-  *zoom: 1;
-  margin: 10px 0 0;
-}
-.gift.message .design:before,
-.gift.message .design:after {
-  content: "";
-  display: table;
-}
-.gift.message .design:after {
-  clear: both;
-}
-.gift.message .design img {
-  height: 75px;
-  width: 75px;
-  float: left;
-  margin-right: 15px;
-}
-.gift.message .design > .price {
-  float: left;
-}
-.gift.message .field.gift.wrapping .label {
-  display: block;
-  padding-bottom: 5px;
-}
-.gift.message .field.gift.wrapping .control select {
-  width: 100%;
-}
 .gift.message .activate.message {
   display: inline-block;
   margin: 10px 0 0;
@@ -5785,18 +5752,9 @@ body {
 .gift.message .activate.message + div .fieldset {
   margin-top: 0;
 }
-.gift.message .field.gift.wrapping .design > .price > .price,
-.gift.message dt > .price > .price {
-  display: block;
-}
-.gift.message .field.gift.wrapping .design > .price > .price > span,
-.gift.message dt > .price > .price > span {
-  display: inline-block;
-}
 .gift.message .no-display {
   display: none;
 }
-.gift.message .options.order .field.gift.wrapping,
 .gift.message .options.order .field.text {
   width: 100%;
 }
@@ -5878,17 +5836,6 @@ body {
   padding-right: 20px;
   vertical-align: top;
   width: 50%;
-}
-.data.table .gift.wrapping {
-  font-size: 13px;
-  margin: 0;
-}
-.data.table .gift.wrapping dt {
-  font-weight: 600;
-  margin: 5px 0 0;
-}
-.data.table .gift.wrapping dd {
-  margin: 0 0 5px;
 }
 /*
     Magento_Checkout
@@ -6033,6 +5980,9 @@ body {
   font-weight: 200;
   margin: 0 0 10px 10px;
   padding: 0;
+}
+.items.data .item.options dd em:after {
+  content: ':';
 }
 .cart.table.wrapper {
   float: left;
@@ -11007,6 +10957,10 @@ img[align="right"] {
 .shipping-tracking-popup .action.close span:after {
   content: "";
   display: none;
+}
+.data.table th,
+.data.table td {
+  border-right-width: 0;
 }
 .data.table.order {
   margin-bottom: 45px;

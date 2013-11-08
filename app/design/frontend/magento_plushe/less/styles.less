@@ -1158,6 +1158,24 @@ body {
     }
 }
 
+.checkout.agreements {
+    margin: 10px 0;
+    .item {
+        margin: 0 0 10px;
+        &:last-child {
+            margin: 0;
+        }
+    }
+    .agreement {
+        background-color: @primary1;
+        border: 1px solid @primary2;
+        font-size: 11px;
+        overflow: auto;
+        margin: 0 0 10px;
+        padding: 15px;
+    }
+}
+
 /*
     Magento_Checkout
     Multishipping
@@ -1280,24 +1298,6 @@ body {
                 &:last-child {
                     margin-bottom: 0;
                 }
-            }
-        }
-        .checkout.agreements {
-            .resetList();
-            margin: 10px 0;
-            .item {
-                margin: 0 0 10px;
-                &:last-child {
-                    margin: 0;
-                }
-            }
-            .agreement {
-                background-color: @primary1;
-                border: 1px solid @primary2;
-                font-size: 11px;
-                overflow: auto;
-                margin: 0 0 10px;
-                padding: 15px;
             }
         }
         > .checkout.review {
@@ -1516,11 +1516,11 @@ body {
     }
     .block.items {
         .box-sizing();
-        border: 1px solid @primary2;
-        height: 310px;
-        overflow: auto;
+        background: @primary2;
+        margin:0 -20px;
+        //height: 310px;
+        //overflow: auto;
         padding: 20px;
-
     }
     dt {
         margin: 30px 0 0;
@@ -1543,30 +1543,6 @@ body {
         margin-top: 2px;
         vertical-align: top;
     }
-    .design {
-        .clearfix();
-        margin: 10px 0 0;
-        img {
-            height: 75px;
-            width: 75px;
-            float: left;
-            margin-right: 15px;
-        }
-        > .price {
-            float: left;
-        }
-    }
-    .field.gift.wrapping {
-        .label {
-            display: block;
-            padding-bottom: 5px;
-        }
-        .control {
-            select {
-                width: 100%;
-            }
-        }
-    }
     .activate.message {
         display: inline-block;
         margin: 10px 0 0;
@@ -1576,20 +1552,10 @@ body {
             }
         }
     }
-    .field.gift.wrapping .design > .price,
-    dt > .price {
-        > .price {
-            display: block;
-            > span {
-                display: inline-block;
-            }
-        }
-    }
     .no-display {
         display: none;
     }
     .options.order {
-        .field.gift.wrapping,
         .field.text {
             width: 100%;
         }
@@ -1660,17 +1626,6 @@ body {
             vertical-align: top;
             width: 50%;
         }
-    }
-}
-.data.table .gift.wrapping {
-    font-size: 13px;
-    margin: 0;
-    dt {
-        font-weight: 600;
-        margin: 5px 0 0;
-    }
-    dd {
-        margin: 0 0 5px;
     }
 }
 
@@ -1817,6 +1772,9 @@ body {
             font-weight: @baseFontWeightLighter;
             margin: 0 0 10px 10px;
             padding: 0;
+            em:after {
+                content:':';
+            }
         }
 
     }
@@ -5181,6 +5139,11 @@ img[align="right"] {
     }
 }
 
+.data.table {
+    th, td {
+        border-right-width:0;
+    }
+}
 .data.table.order {
     margin-bottom: 45px;
     width: 100%;

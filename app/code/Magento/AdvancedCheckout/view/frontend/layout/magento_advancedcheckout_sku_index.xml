@@ -8,15 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Checkout by SKU" type="page">
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Order by SKU</argument>
+        </action>
+    </referenceBlock>
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento\Core\Block\Template" name="checkout.customer.order" template="Magento_AdvancedCheckout::customer/sku.phtml">
-            <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
-                <action method="setIsTitleHidden">
-                    <argument name="value" xsi:type="string">true</argument>
-                </action>
-                <block class="Magento\Core\Block\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
-            </block>
+        <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
+            <action method="setIsTitleHidden">
+                <argument name="value" xsi:type="string">true</argument>
+            </action>
+            <block class="Magento\Core\Block\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
         </block>
     </referenceContainer>
 </layout>
