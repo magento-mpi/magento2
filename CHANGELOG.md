@@ -1,4 +1,25 @@
+* Application Areas Rework:
+  * Single point of access to the current area code
+  * Declare Application Areas
 * Various improvements:
+  * Breakdown of the Adminhtml module:
+    * Moved Customer-related logic to Customer module
+    * Moved System-related logic to Backend module
+    * Moved Checkout-related logic to Checkout module
+    * Moved Cms-related logic to Cms module
+    * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
+  * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
+  * Moved all application bootstrapping behaviour to library
+  * Moved application-specific behaviour from entry points to Magento\AppInterface implementations
+  * Removed obsolete behaviour from routing and front-controller
+  * Refactored route configuration loading
+  * Extracted modularity support behaviour to Magento\Module component
+  * Refactored Resource configuration loading
+  * Removed obsolete configuration loaders
+  * Removed obsolete configuration from config.xml
+  * Refactored code-generation mechanism
+  * Added constructor integrity verification to Compiler tool
+  * Added strict naming rules for auto-generated Factory and Proxy classes
   * Global functions are called now from app\functions.php
   * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
   * Eliminated functions.php from Magento\Core module
@@ -11,12 +32,32 @@
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
+  * Removed residual page fragment code
+* Themes update:
+  * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
+  * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
   * Fixed Minimum Advertised Price link on Product view
   * Fixed View Files Population Tool
   * Fixed error on save of Google AdWords configuration
   * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
+  * Fixed impossibility to use spaces in credit card number
+  * Fixed impossibility to print order from frontend
+  * Fixed fatal error when trying to delete review with rating
+  * Browser is "Not Responds" when add to cart Virtual/Downloadable product(JS)
+  * Unable to delete row form 'Order By SKU' form in IE
+  * Impossible to enable Use Flat Catalog Product option
+  * Unable to configure Grouped and Configurable products during order creation on backend
+  * It's unable to insert widget and/or banner in cms page
+  * Impossible to set Quantity value for Gift Card
+  * Fatal Error on Customer Account > Gift Registry tab in admin
+  * Unable to Import Customer Main File
+  * "Recently Viewed/Compared products" option is missed on the New Frontend App Instance page
+  * Fatal error if "Manage Shopping Cart" from backend for customer that has placed order
+  * Fatal error on attempt to create RMA for Configurable product
+  * Fixed error on admin dashboard if choose for "Select Range" dropdown any value except Last 24 Hours
+  * Fixed backend RMA pages: options doubling in select
 
 2.0.0.0-dev50
 =============

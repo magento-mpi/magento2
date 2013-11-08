@@ -225,7 +225,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
-     * @param \Magento\App\ModuleListInterface $moduleList
+     * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
@@ -242,7 +242,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,
-        \Magento\App\ModuleListInterface $moduleList,
+        \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,

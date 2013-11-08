@@ -70,7 +70,7 @@ class SourceClassWithoutNamespaceProxy
      */
     public function __wakeup()
     {
-        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_objectManager = \Magento\App\ObjectManager::getInstance();
     }
 
     /**

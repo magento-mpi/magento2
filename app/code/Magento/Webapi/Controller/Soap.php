@@ -89,7 +89,7 @@ class Soap implements \Magento\App\FrontControllerInterface
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @return $this
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -115,8 +115,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         } catch (\Exception $e) {
             $this->_prepareErrorResponse($e);
         }
-        $this->_response->sendResponse();
-        return $this;
+        return $this->_response;
     }
 
     /**

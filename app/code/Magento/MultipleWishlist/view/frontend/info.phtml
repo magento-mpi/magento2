@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,46 +10,48 @@
 <?php
     $wishlistItems = $this->getWishlistItems();
 ?>
-<div class="page-title title-buttons">
-    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isRssAllow() && count($this->getWishlistItems())): ?>
-        <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
-    <?php endif; ?>
-    <h1><?php echo __('Wish List Info') ?></h1>
-</div>
-<?php echo $this->getLayout()->renderElement('messages');?>
-<div class="info-box">
-    <div class="box-content">
-        <table class="info-table">
-            <col width="1" />
-            <col />
-            <tbody>
-                <tr>
-                    <th><span class="nobr"><?php echo __('Owner');?></span></th>
-                    <td><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></td>
-                </tr>
-                <tr>
-                    <th><span class="nobr"><?php echo __('Name');?></span></th>
-                    <td><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></td>
-                </tr>
-                <tr>
-                    <th><span class="nobr"><?php echo __('Updated at');?></span></th>
-                    <td><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
-                </tr>
-            </tbody>
-        </table>
+<div class="block wishlist info">
+    <div class="actions">
+        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isRssAllow() && count($this->getWishlistItems())): ?>
+            <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="action rss"><span><?php echo __('RSS Feed') ?></span></a>
+        <?php endif; ?>
     </div>
+    <table class="data table wishlist info">
+        <tbody>
+        <tr>
+            <th class="col owner"><?php echo __('Owner');?></th>
+            <td class="col owner"><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></td>
+        </tr>
+        <tr>
+            <th class="col name"><?php echo __('Name');?></th>
+            <td class="col name"><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></td>
+        </tr>
+        <tr>
+            <th class="col updated"><?php echo __('Updated at');?></th>
+            <td class="col updated">
+                <?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);?>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="title">
+        <strong><?php echo __('Wish List Items') ?></strong>
+    </div>
+    <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form" class="form wishlist">
+        <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
+        <?php echo $this->getChildHtml('items');?>
+        <?php if (count($wishlistItems) && $this->isSaleable()): ?>
+            <div class="actions">
+                <div class="primary">
+                    <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></button>
+                </div>
+                <div class="secondary">
+                    <a href="<?php echo $this->getBackUrl() ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+                </div>
+            </div>
+        <?php endif; ?>
+    </form>
 </div>
-
-<h2 class="subtitle"><?php echo __('Wish List Items') ?></h2>
-<form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form">
-    <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
-    <?php echo $this->getChildHtml('items');?>
-    <?php if (count($wishlistItems) && $this->isSaleable()): ?>
-        <div class="buttons-set buttons-set2">
-            <button type="submit" title="<?php echo __('Add to Cart') ?>" class="button btn-add"><span><span><?php echo __('Add to Cart') ?></span></span></button>
-        </div>
-    <?php endif; ?>
-</form>
 <script>
     (function($) {
         head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
@@ -65,6 +66,3 @@
             });
     })(jQuery);
 </script>
-<div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
-</div>

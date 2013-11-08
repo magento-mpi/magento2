@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\App\Router;
 
-class NoRouteHandler implements \Magento\Appl\Router\NoRouteHandlerInterface
+class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
 {
     /**
      * @var \Magento\Backend\Helper\Data
@@ -38,7 +37,7 @@ class NoRouteHandler implements \Magento\Appl\Router\NoRouteHandlerInterface
 
         if ($areaFrontName == $this->_helper->getAreaFrontName()) {
 
-            $moduleName     = 'core';
+            $moduleName     = 'admin';
             $controllerName = 'index';
             $actionName     = 'noRoute';
 

@@ -81,7 +81,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
-            ->setMethods(array('create', 'get', 'configure'))
+            ->setMethods(array('create', 'get', 'configure', 'setFactory'))
             ->disableOriginalConstructor()
             ->getMock();
 

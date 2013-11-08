@@ -61,6 +61,7 @@ class Directory
      */
     public function compile($path)
     {
+        $validator = new \Magento\Code\Validator\ConstructorIntegrity();
         $rdi = new \RecursiveDirectoryIterator(realpath($path));
         $recursiveIterator = new \RecursiveIteratorIterator($rdi, 1);
         /** @var $item \SplFileInfo */
@@ -74,9 +75,12 @@ class Directory
                         require_once $item->getRealPath();
                     }
                     try {
+                        $validator->validate($className);
                         $signatureReader = new \Magento\Code\Reader\ClassReader();
                         $this->_definitions[$className] = $signatureReader->getConstructor($className);
                         $this->_relations[$className] = $signatureReader->getParents($className);
+                    } catch (\Magento\Code\ValidationException $exception) {
+                        $this->_log->add(Log::COMPILATION_ERROR, $className, $exception->getMessage());
                     } catch (\ReflectionException $e) {
                         $this->_log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());
                     }

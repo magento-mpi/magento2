@@ -37,6 +37,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Stdlib\String $string,
@@ -49,7 +50,8 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         \Magento\View\LayoutInterface $layout,
         \Magento\View\LayoutFactory $layoutFactory,
         \Magento\Widget\Model\Resource\Widget $widgetResource,
-        \Magento\Widget\Model\Widget $widget
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\App\State $appState
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
@@ -62,7 +64,8 @@ class Filter extends \Magento\Cms\Model\Template\Filter
             $coreVariableFactory,
             $storeManager,
             $layout,
-            $layoutFactory
+            $layoutFactory,
+            $appState
         );
     }
 

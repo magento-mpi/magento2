@@ -55,7 +55,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -67,7 +67,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -278,6 +278,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
          */
         $parent = array();
 
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $this->_productFactory->create();
+
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
             if ($parentId && ($item->getId() != $parentId) && ($item->getParentItemId() != $parentId)) {
@@ -293,10 +296,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
 
             /* checks enable on product level */
-            /** @var $product \Magento\Catalog\Model\Product */
-            $product = $this->_productFactory->create()
-                ->setStoreId($item->getStoreId())
-                ->load($item->getProductId());
+            $product->reset();
+            $product->setStoreId($item->getStoreId());
+            $product->load($item->getProductId());
 
             if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;

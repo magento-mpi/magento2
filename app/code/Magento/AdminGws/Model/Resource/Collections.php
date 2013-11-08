@@ -33,11 +33,11 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      *
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      */
     public function __construct(
         \Magento\AdminGws\Helper\Data $adminGwsData,
-        \Magento\Core\Model\Resource $resource
+        \Magento\App\Resource $resource
     ) {
         $this->_adminGwsData = $adminGwsData;
         parent::__construct($resource);

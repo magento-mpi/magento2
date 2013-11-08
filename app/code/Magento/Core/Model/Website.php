@@ -510,7 +510,6 @@ class Website extends \Magento\Core\Model\AbstractModel
     {
         $this->_storeManager->clearWebsiteCache($this->getId());
         parent::_afterDelete();
-        $this->_coreConfig->removeCache();
         return $this;
     }
 

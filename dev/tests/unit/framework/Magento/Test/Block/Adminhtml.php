@@ -92,7 +92,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_dirMock             = $this->_makeMock('Magento\App\Dir');
         $this->_loggerMock          = $this->_makeMock('Magento\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
-        $this->_cacheMock           = $this->_makeMock('Magento\Core\Model\CacheInterface');
+        $this->_cacheMock           = $this->_makeMock('Magento\App\CacheInterface');
         $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
         $this->_storeManagerMock    = $this->_makeMock('Magento\Core\Model\StoreManager');
         $this->_helperFactoryMock   = $this->_makeMock('Magento\Core\Model\Factory\Helper');
@@ -107,7 +107,10 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $filterManagerMock          = $this->_makeMock('Magento\Filter\FilterManager');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
+        $appState                   = $this->_makeMock('Magento\App\State');
         $this->_mathMock            = $this->_makeMock('Magento\Math\Random');
+
+        $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
         $this->_translatorMock
             ->expects($this->any())
@@ -137,6 +140,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $templateFactoryMock,
             $authorizationMock,
             $appMock,
+            $appState,
             $escaperMock,
             $filterManagerMock,
             $backendSessionMock,
