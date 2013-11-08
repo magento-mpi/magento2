@@ -130,21 +130,21 @@ $table = $installer->getConnection()
         array('token'),
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
-        $installer->getFkName('oauth_token', 'admin_id', $installer->getTable('admin_user'), 'user_id'),
+        $installer->getFkName('oauth_token', 'admin_id', 'admin_user', 'user_id'),
         'admin_id',
         $installer->getTable('admin_user'),
         'user_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('oauth_token', 'consumer_id', $installer->getTable('oauth_consumer'), 'entity_id'),
+        $installer->getFkName('oauth_token', 'consumer_id', 'oauth_consumer', 'entity_id'),
         'consumer_id',
         $installer->getTable('oauth_consumer'),
         'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('oauth_token', 'customer_id', $installer->getTable('customer_entity'), 'entity_id'),
+        $installer->getFkName('oauth_token', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id',
         $installer->getTable('customer_entity'),
         'entity_id',
@@ -179,7 +179,7 @@ $table = $installer->getConnection()
         array('nonce', 'consumer_id'),
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
-        $installer->getFkName('oauth_nonce', 'consumer_id', $installer->getTable('oauth_consumer'), 'entity_id'),
+        $installer->getFkName('oauth_nonce', 'consumer_id', 'oauth_consumer', 'entity_id'),
         'consumer_id',
         $installer->getTable('oauth_consumer'),
         'entity_id',

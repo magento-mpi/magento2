@@ -21,8 +21,5 @@
         <param name="date">
             <instance type="Magento\Core\Model\Date\Proxy"/>
         </param>
-        <param name="dataHelper">
-            <instance type="Magento\Integration\Helper\Oauth\Data\Proxy"/>
-        </param>
     </type>
 </config>

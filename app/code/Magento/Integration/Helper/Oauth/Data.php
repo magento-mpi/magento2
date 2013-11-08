@@ -11,20 +11,16 @@
  */
 namespace Magento\Integration\Helper\Oauth;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data
 {
     /** @var \Magento\Core\Model\Store\Config */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
-    public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig
-    ) {
-        parent::__construct($context);
+    public function __construct(\Magento\Core\Model\Store\Config $storeConfig)
+    {
         $this->_storeConfig = $storeConfig;
     }
 

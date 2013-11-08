@@ -10,9 +10,6 @@ namespace Magento\Integration\Helper\Oauth;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Helper\Context */
-    protected $_coreContextMock;
-
     /** @var \Magento\Core\Model\Store\Config */
     protected $_storeConfigMock;
 
@@ -21,22 +18,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_coreContextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_dataHelper = new \Magento\Integration\Helper\Oauth\Data(
-            $this->_coreContextMock,
-            $this->_storeConfigMock
-        );
+        $this->_dataHelper = new \Magento\Integration\Helper\Oauth\Data($this->_storeConfigMock);
     }
 
     protected function tearDown()
     {
-        unset($this->_coreContextMock);
         unset($this->_storeConfigMock);
         unset($this->_dataHelper);
     }
