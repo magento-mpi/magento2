@@ -81,8 +81,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
      * @dataProvider initFieldsUseDefaultCheckboxDataProvider
      */
     public function testInitFieldsUseDefaultCheckbox($useConfigField, $isConfigDataEmpty, $configDataValue,
-        $expectedUseDefault)
-    {
+        $expectedUseDefault
+    ) {
         $this->_setupFieldsInheritCheckbox($useConfigField, $isConfigDataEmpty, $configDataValue);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
