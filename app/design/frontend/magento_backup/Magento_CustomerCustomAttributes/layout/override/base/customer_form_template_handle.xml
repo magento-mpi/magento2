@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="content">
+        <block class="Magento\Core\Block\Template" name="customer_form_template">
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Text" name="customer_form_template_text" as="text" template="form/renderer/text.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Textarea" name="customer_form_template_textarea" as="textarea" template="form/renderer/textarea.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Multiline" name="customer_form_template_multiline" as="multiline" template="form/renderer/multiline.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Date" name="customer_form_template_date" as="date" template="form/renderer/date.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Select" name="customer_form_template_select" as="select" template="form/renderer/select.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Multiselect" name="customer_form_template_multiselect" as="multiselect" template="form/renderer/multiselect.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Boolean" name="customer_form_template_boolean" as="boolean" template="form/renderer/boolean.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\File" name="customer_form_template_file" as="file" template="form/renderer/file.phtml"/>
+            <block class="Magento\CustomAttribute\Block\Form\Renderer\Image" name="customer_form_template_image" as="image" template="form/renderer/image.phtml"/>
+        </block>
+    </referenceContainer>
+</layout>
