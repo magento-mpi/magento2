@@ -16,8 +16,43 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
  * @method getArea()
  * @method getTheme()
  */
-class DesignAbstraction extends Container
+class DesignAbstraction extends \Magento\Core\Block\Html\Select
 {
+    /**
+     * @var \Magento\View\Layout\ProcessorFactory
+     */
+    protected $_layoutProcessorFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     */
+    protected $_themesFactory;
+
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory
+     * @param \Magento\App\State $appState
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Block\Context $context,
+        \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
+        \Magento\App\State $appState,
+        array $data = array()
+    ) {
+        $this->_layoutProcessorFactory = $layoutProcessorFactory;
+        $this->_themesFactory = $themesFactory;
+        $this->_appState = $appState;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Add necessary options
      *
@@ -30,10 +65,26 @@ class DesignAbstraction extends Container
             $layoutUpdateParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
-            $designAbstractions = $this->_getLayoutProcessor($layoutUpdateParams)->getAllDesignAbstractions();
+            $designAbstractions = $this->_appState->emulateAreaCode(
+                'frontend',
+                array($this->_getLayoutProcessor($layoutUpdateParams), 'getAllDesignAbstractions')
+            );
             $this->_addDesignAbstractionOptions($designAbstractions);
         }
         return parent::_beforeToHtml();
+    }
+
+    /**
+     * Retrieve theme instance by its identifier
+     *
+     * @param int $themeId
+     * @return \Magento\Core\Model\Theme|null
+     */
+    protected function _getThemeInstance($themeId)
+    {
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
+        $themeCollection = $this->_themesFactory->create();
+        return $themeCollection->getItemById($themeId);
     }
 
     /**
