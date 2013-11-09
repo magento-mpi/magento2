@@ -11,10 +11,7 @@
     <event name="controller_action_predispatch">
         <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPredispatch" />
     </event>
-    <event name="controller_action_postdispatch_adminhtml">
-        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPostdispatch" />
-    </event>
-    <event name="controller_action_postdispatch_tax">
+    <event name="controller_action_postdispatch">
         <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPostdispatch" />
     </event>
     <event name="model_save_after">

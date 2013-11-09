@@ -217,7 +217,7 @@ class User
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->_eventManager    = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_sender          = $objectManager->get('Magento\Email\Model\Sender');
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');

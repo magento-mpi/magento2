@@ -13,6 +13,11 @@
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
     </referenceBlock>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument name="title" translate="true" xsi:type="string">You are now logged out</argument>
+        </action>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Core\Block\Template" name="customer_logout" template="Magento_Customer::logout.phtml"/>
     </referenceContainer>

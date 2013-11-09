@@ -41,7 +41,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -57,6 +57,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Backend\Model\Session $backendSession
@@ -72,7 +73,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
@@ -88,6 +89,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\View\TemplateEngineFactory $engineFactory,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
+        \Magento\App\State $appState,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Backend\Model\Session $backendSession,
@@ -115,6 +117,7 @@ class Context extends \Magento\Core\Block\Template\Context
             $viewFileSystem,
             $engineFactory,
             $app,
+            $appState,
             $escaper,
             $filterManager
         );

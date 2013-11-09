@@ -33,11 +33,11 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->dateTime = $dateTime;

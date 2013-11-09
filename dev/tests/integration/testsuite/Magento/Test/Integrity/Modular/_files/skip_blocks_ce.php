@@ -18,11 +18,9 @@ return array(
     'Magento\Backend\Block\System\Config\Tabs',
     'Magento\Review\Block\Form',
     // Fails because of bug in \Magento\Webapi\Model\Acl\Loader\Resource\ConfigReader constructor
-    'Magento\Adminhtml\Block\Cms\Page',
-    'Magento\Adminhtml\Block\Cms\Page\Edit',
+    'Magento\Cms\Block\Adminhtml\Page',
+    'Magento\Cms\Block\Adminhtml\Page\Edit',
     'Magento\Sales\Block\Adminhtml\Order',
-    'Magento\Oauth\Block\Adminhtml\Oauth\Consumer',
-    'Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid',
     'Magento\Paypal\Block\Adminhtml\Settlement\Report',
     'Magento\Sales\Block\Adminhtml\Billing\Agreement\View',
     'Magento\User\Block\Role\Tab\Edit',

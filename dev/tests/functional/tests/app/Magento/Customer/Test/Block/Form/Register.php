@@ -59,7 +59,7 @@ class Register extends Form
     public function registerCustomer(Customer $fixture)
     {
         $this->fill($fixture);
-        $this->fill($fixture->getDefaultAddress());
+        $this->fill($fixture->getDefaultBillingAddress());
         $this->_rootElement->find('//button[@class="action submit"]', Locator::SELECTOR_XPATH)->click();
     }
 }

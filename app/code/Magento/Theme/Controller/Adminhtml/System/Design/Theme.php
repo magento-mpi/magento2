@@ -39,7 +39,6 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_eventManager->dispatch('theme_registration_from_filesystem');
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
         $this->renderLayout();

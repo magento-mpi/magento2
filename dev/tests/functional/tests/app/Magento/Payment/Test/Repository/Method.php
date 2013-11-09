@@ -35,6 +35,7 @@ class Method extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPayPalExpress();
         $this->_data['paypal_direct'] = $this->_getPayPalDirect();
         $this->_data['paypal_payflow_pro'] = $this->_getPayPalPayflowPro();
+        $this->_data['check_money_order'] = $this->_getCheckMoneyOrder();
     }
 
     protected function _getAuthorizeNet()
@@ -90,6 +91,22 @@ class Method extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'verisign'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides Check money order data for the according payment method
+     *
+     * @return array
+     */
+    protected function _getCheckMoneyOrder()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'checkmo'
                 ),
             )
         );

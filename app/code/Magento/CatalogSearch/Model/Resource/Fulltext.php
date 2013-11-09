@@ -129,22 +129,22 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Status $catalogProductStatus
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollFactory
-     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param EngineProvider $engineProvider
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+     * @param Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product\Status $catalogProductStatus,

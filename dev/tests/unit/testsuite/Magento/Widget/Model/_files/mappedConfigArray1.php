@@ -21,7 +21,7 @@ return array(
             ),
             'type' => 'label',
             'helper_block' => array(
-                'type' => 'Magento\Adminhtml\Block\Cms\Page\Widget\Chooser',
+                'type' => 'Magento\Cms\Block\Adminhtml\Page\Widget\Chooser',
                 'data' => array(
                     'button' => array(
                         'open' => 'Select Page...',

@@ -58,7 +58,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
-            'Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento\App\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource

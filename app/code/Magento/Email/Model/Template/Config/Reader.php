@@ -12,7 +12,7 @@ namespace Magento\Email\Model\Template\Config;
 class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @var \Magento\App\Module\Dir\ReverseResolver
+     * @var \Magento\Module\Dir\ReverseResolver
      */
     private $_moduleDirResolver;
 
@@ -21,14 +21,14 @@ class Reader extends \Magento\Config\Reader\Filesystem
      * @param \Magento\Email\Model\Template\Config\Converter $converter
      * @param \Magento\Email\Model\Template\Config\SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
-     * @param \Magento\App\Module\Dir\ReverseResolver $moduleDirResolver
+     * @param \Magento\Module\Dir\ReverseResolver $moduleDirResolver
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
         \Magento\Email\Model\Template\Config\Converter $converter,
         \Magento\Email\Model\Template\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
-        \Magento\App\Module\Dir\ReverseResolver $moduleDirResolver
+        \Magento\Module\Dir\ReverseResolver $moduleDirResolver
     ) {
         $fileName = 'email_templates.xml';
         $idAttributes = array(

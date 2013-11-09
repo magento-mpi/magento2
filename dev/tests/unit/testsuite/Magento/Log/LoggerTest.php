@@ -80,6 +80,17 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers \Magento\Core\Model\Logger::hasLog
+     */
+    public function testAddLogWithSpecificKey()
+    {
+        $this->_filesystemMock->expects($this->once())->method('checkAndCreateFolder');
+        $key = uniqid();
+        $this->_model->addStreamLog($key);
+        $this->assertTrue($this->_model->hasLog($key));
+    }
+
     public function testLog()
     {
         $messageOne = uniqid();

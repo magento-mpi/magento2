@@ -1,19 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Authorizenet
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Admihtml DirtectPost Payment Controller
  *
- * @category   Magento
- * @package    Magento_DirtectPost
- * @author     Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet\Directpost;
 

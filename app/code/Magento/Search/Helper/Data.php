@@ -73,11 +73,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper implements \Magento\Searc
     protected $_engineProvider;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -104,32 +99,37 @@ class Data extends \Magento\Core\Helper\AbstractHelper implements \Magento\Searc
     protected $dateTime;
 
     /**
+     * @var array
+     */
+    protected $_languages;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param array $supportedLanguages
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Stdlib\DateTime $dateTime,
+        array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
+        $this->_languages = $supportedLanguages;
         parent::__construct($context);
     }
 
@@ -205,26 +205,22 @@ class Data extends \Magento\Core\Helper\AbstractHelper implements \Magento\Searc
         );
 
         /**
-         * Merging languages that specified manualy
+         * Merging languages that specified manually
          */
-        $node = $this->_coreConfig->getNode('global/magento_search/supported_languages/solr');
-        if ($node && $node->children()) {
-            foreach ($node->children() as $_node) {
-                $localeCode = $_node->getName();
-                $langCode   = $_node . '';
-                if (isset($default[$langCode])) {
-                    if (is_array($default[$langCode])) {
-                        if (!in_array($localeCode, $default[$langCode])) {
-                            $default[$langCode][] = $localeCode;
-                        }
-                    } elseif ($default[$langCode] != $localeCode) {
-                        $default[$langCode] = array($default[$langCode], $localeCode);
+        foreach ($this->_languages as $localeCode => $langCode) {
+            if (isset($default[$langCode])) {
+                if (is_array($default[$langCode])) {
+                    if (!in_array($localeCode, $default[$langCode])) {
+                        $default[$langCode][] = $localeCode;
                     }
-                } else {
-                    $default[$langCode] = $localeCode;
+                } elseif ($default[$langCode] != $localeCode) {
+                    $default[$langCode] = array($default[$langCode], $localeCode);
                 }
+            } else {
+                $default[$langCode] = $localeCode;
             }
         }
+
 
         return $default;
     }

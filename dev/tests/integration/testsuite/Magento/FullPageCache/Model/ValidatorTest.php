@@ -26,7 +26,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\FullPageCache\Model\Validator');
+            ->create('Magento\FullPageCache\Model\Validator', array(
+                'changeDependencies' => array('Test_Change_Dependency'),
+                'deleteDependencies' => array('Test_Delete_Dependency'),
+            ));
     }
 
     /**
@@ -74,9 +77,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getDataDependenciesDataProvider
      * @covers \Magento\FullPageCache\Model\Validator::_getDataChangeDependencies
      * @covers \Magento\FullPageCache\Model\Validator::_getDataDeleteDependencies
-     *
-     * @magentoConfigFixture adminhtml/cache/dependency/change/test Test_Change_Dependency
-     * @magentoConfigFixture adminhtml/cache/dependency/delete/test Test_Delete_Dependency
      */
     public function testGetDataDependencies($type, $object, $isInvalidated)
     {

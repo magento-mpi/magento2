@@ -22,7 +22,7 @@ use Magento\Backend\Test\Block\Catalog\Category\Edit\Form;
 
 /**
  * Class CatalogCategory
- * Categories page
+ * Manage categories page in backend
  *
  * @package Magento\Catalog\Test\Page\Category
  */
@@ -72,7 +72,7 @@ class CatalogCategory extends Page
         $this->treeBlock = Factory::getBlockFactory()->getMagentoBackendCatalogCategoryTree(
             $this->_browser->find('.categories-side-col', Locator::SELECTOR_CSS, 'tree'), $this->getTemplateBlock());
         $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages', Locator::SELECTOR_CSS));
+            $this->_browser->find('#messages .messages', Locator::SELECTOR_CSS));
     }
 
     /**

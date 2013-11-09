@@ -31,7 +31,7 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rmaConfig;
 
     /**
-     * @var \Magento\Core\Model\Translate\Proxy
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 

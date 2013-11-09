@@ -34,11 +34,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -95,7 +90,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -106,7 +100,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -118,7 +111,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
-        $this->_config = $config;
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_fieldsetConfig = $context->getFieldsetConfig();
         $this->_storeManager = $storeManager;
@@ -198,8 +190,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param   bool                $showTime Whether to include time
      * @return  string
      */
-    public function formatDate($date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
-    {
+    public function formatDate(
+        $date = null,
+        $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT,
+        $showTime = false
+    ) {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $date;
         }
@@ -233,8 +228,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param   bool                $showDate
      * @return  string
      */
-    public function formatTime($time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
-    {
+    public function formatTime(
+        $time = null,
+        $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT,
+        $showDate = false
+    ) {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $time;
         }

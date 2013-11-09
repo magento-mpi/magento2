@@ -70,7 +70,7 @@ class CloseOrderTest extends Functional
         );
 
         $orderPage->getOrderActionsBlock()->ship();
-        $newShipmentPage->getOrderGridBlock()->submit();
+        $newShipmentPage->getTotalsBlock()->submit();
         $this->assertContains(
             $orderPage->getMessagesBlock()->getSuccessMessages(),
             'The shipment has been created.',
