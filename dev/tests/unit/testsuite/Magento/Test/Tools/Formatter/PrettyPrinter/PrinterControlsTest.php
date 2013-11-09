@@ -307,7 +307,28 @@ function alpha()
 }
 
 FORMATTEDCODESNIPPET;
+        $originalClosure = <<<ORIGINALCLOSURE
+<?php
+class CSample {
+public function cS() {
+\$trimFunction = function (&\$value) {
+    \$value = trim(\$value, PHP_EOL . ' $');
+};
+}}
+ORIGINALCLOSURE;
+        $formattedClosure = <<<FORMATTEDCLOSURE
+<?php
+class CSample
+{
+    public function cS()
+    {
+        \$trimFunction = function (&\$value) {
+            \$value = trim(\$value, PHP_EOL . ' $');
+        };
+    }
+}
 
+FORMATTEDCLOSURE;
 
         return array(
             array(
@@ -327,6 +348,7 @@ FORMATTEDCODESNIPPET;
             array($originalCodeSnippet3, $formattedCodeSnippet3),
             array($originalCodeSnippet4, $formattedCodeSnippet4),
             array($originalCodeSnippet5, $formattedCodeSnippet5),
+            array($originalClosure, $formattedClosure),
         );
     }
 }

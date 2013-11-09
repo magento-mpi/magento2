@@ -9,8 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\SyntaxFactory;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\WrapperLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
@@ -54,6 +52,7 @@ abstract class AbstractOperator extends AbstractSyntax
     */
     protected function resolvePrecedence(PHPParser_Node $node, TreeNode $treeNode, $childPosition)
     {
+        $newNode = null;
         /** @var AbstractSyntax $statement */
         $child = SyntaxFactory::getInstance()->getStatement($node);
         if ($child instanceof AbstractOperator) {
@@ -73,10 +72,11 @@ abstract class AbstractOperator extends AbstractSyntax
                 $child->resolve($treeNode);
                 $treeNode->getData()->line->add($lineBreak)->add(')');
             } else {
-                $child->resolve($treeNode);
+                $newNode = $child->resolve($treeNode);
             }
         } else {
-            $child->resolve($treeNode);
+            $newNode = $child->resolve($treeNode);
         }
+        return $newNode;
     }
 }

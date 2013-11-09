@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Closure;
@@ -55,8 +55,8 @@ class ClosureReference extends AbstractFunctionReference
             $line->add(')');
         }
         // add in enclosures and children
-        $line->add(' {')->add(new HardLineBreak());
+        $line->add(' {')->add(new HardIndentLineBreak());
         $this->processNodes($this->node->stmts, $treeNode);
-        $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line('}')));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line('}')));
     }
 }

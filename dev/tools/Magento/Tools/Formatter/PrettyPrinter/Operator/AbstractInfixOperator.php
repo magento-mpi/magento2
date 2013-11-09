@@ -27,7 +27,7 @@ abstract class AbstractInfixOperator extends AbstractOperator
         // Resolve the children according to precedence.
         $this->resolvePrecedence($this->left(), $treeNode, -1);
         $this->addOperatorToLine($treeNode);
-        $this->resolvePrecedence($this->right(), $treeNode, 1);
+        return $this->resolvePrecedence($this->right(), $treeNode, 1);
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class AbstractInfixOperator extends AbstractOperator
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        $this->resolveInfixOperator($treeNode);
+        return $this->resolveInfixOperator($treeNode);
     }
 
     public function left()
