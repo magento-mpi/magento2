@@ -36,7 +36,8 @@ class StringReference extends AbstractScalarReference
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($line, $heredocCloseTag, array($this->node->value), $treeNode);
+            $isNowDoc = $this->node->getAttribute(ParserLexer::IS_NOWDOC, false);
+            $this->processHeredoc($line, $heredocCloseTag, array($this->node->value), $treeNode, $isNowDoc);
         } elseif (null === $stringValue) {
             // if nothing there, then use the raw data
             $line->add('\'')->add(addcslashes($this->node->value, '\'\\'))->add('\'');

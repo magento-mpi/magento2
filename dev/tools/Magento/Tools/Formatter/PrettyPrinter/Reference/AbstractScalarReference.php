@@ -55,10 +55,20 @@ class AbstractScalarReference extends AbstractReference
      * @param Line $line
      * @param $heredocCloseTag
      * @param array $bodyLines
+     * @param boolean $isNowDoc
      */
-    protected function processHeredoc(Line $line, $heredocCloseTag, array $bodyLines, TreeNode $treeNode)
+    protected function processHeredoc(Line $line, $heredocCloseTag, array $bodyLines, TreeNode $treeNode, $isNowDoc)
     {
-        $line->add('<<<')->add($heredocCloseTag)->add(new HardLineBreak());
+        $line->add('<<<');
+        // If this is a now doc add the single quote to the open tag
+        if ($isNowDoc) {
+            $line->add("'");
+        }
+        $line->add($heredocCloseTag);
+        if ($isNowDoc) {
+            $line->add("'");
+        }
+        $line->add(new HardLineBreak());
         foreach ($bodyLines as $bodyLine) {
             if (is_string($bodyLine)) {
                 $heredocLines = explode(HardLineBreak::EOL, $bodyLine);

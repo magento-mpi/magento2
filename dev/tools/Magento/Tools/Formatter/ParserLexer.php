@@ -26,6 +26,10 @@ class ParserLexer extends PHPParser_Lexer
      */
     const HEREDOC_CLOSE_TAG = 'heredocCloseTag';
     /**
+     * This constant is used to tag the heredoc value.
+     */
+    const IS_NOWDOC = 'isNowDoc';
+    /**
      * Constant for comment key
      */
     const COMMENT_KEY = 'comments';
@@ -84,7 +88,7 @@ class ParserLexer extends PHPParser_Lexer
                     break;
                 }
             } else {
-                $newlineCount = substr_count($token[1], "\n");
+                $newlineCount = substr_count($token[1], PHP_EOL);
                 $this->line += $newlineCount;
 
                 if (T_COMMENT === $token[0]) {
@@ -92,6 +96,7 @@ class ParserLexer extends PHPParser_Lexer
                     $this->commentMap[$token[2]] = $token[1];
                 } elseif (T_DOC_COMMENT === $token[0]) {
                     $startAttributes[self::COMMENT_KEY][] = new PHPParser_Comment_Doc($token[1], $token[2]);
+                    $this->commentMap[$token[2]] = $token[1];
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
                     $startAttributes[self::START_LINE_KEY] = $token[2];
@@ -107,7 +112,7 @@ class ParserLexer extends PHPParser_Lexer
         // Add line to start attributes
         $startAttributes[self::START_LINE_KEY] = $this->line;
         // Handle Strings so that original values are preserved
-        $this->handleStrings($tokenId, $value, $endAttributes);
+        $this->handleStrings($tokenId, $value, $startAttributes, $endAttributes);
         // Return Token Id
         return $tokenId;
     }
@@ -118,13 +123,17 @@ class ParserLexer extends PHPParser_Lexer
      * @param $value
      * @param $endAttributes
      */
-    private function handleStrings($tokenId, $value, &$endAttributes)
+    private function handleStrings($tokenId, $value, &$startAttributes, &$endAttributes)
     {
         // if a string or number is encountered, save off the original so that it can be used in the generated code.
         if (PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING === $tokenId ||
             PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE === $tokenId ||
             PHPParser_Parser::T_LNUMBER === $tokenId || PHPParser_Parser::T_DNUMBER === $tokenId) {
             $endAttributes[self::ORIGINAL_VALUE] = $value;
+        } elseif ($tokenId == PHPParser_Parser::T_START_HEREDOC) {
+            if (preg_match('/<<<\'.*?\'/', $value)) {
+                $startAttributes[self::IS_NOWDOC] = true;
+            }
         } elseif ($tokenId == PHPParser_Parser::T_END_HEREDOC) {
             // only need to save the close tag and recreate the open take
             // because the parser saves the text with the closing element

@@ -35,7 +35,8 @@ class EncapsedReference extends AbstractScalarReference
         // need to deal with heredoc
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($line, $heredocCloseTag, $this->node->parts, $treeNode);
+            $isNowDoc = $this->node->getAttribute(ParserLexer::IS_NOWDOC, false);
+            $this->processHeredoc($line, $heredocCloseTag, $this->node->parts, $treeNode, $isNowDoc);
         } else {
             $line->add('"');
             $this->encapsList($this->node->parts, '"', $treeNode);

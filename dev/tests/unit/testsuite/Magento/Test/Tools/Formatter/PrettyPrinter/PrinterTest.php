@@ -80,7 +80,7 @@ class PrinterTest extends TestBase
      */
     public function dataProviderBasics()
     {
-        $originalCodeSnippet = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet = <<<'ORIGINALCODESNIPPET'
 <?php
 /**
  * Class Foo
@@ -88,20 +88,20 @@ class PrinterTest extends TestBase
 class Foo extends Bar implements Zulu {
     /** alpha method */
     public function alpha() {
-        return \$this;
+        return $this;
     }
     /** beta method */
     public function beta() {
         // Property call
-        echo \$that->{\$this->getName()};
+        echo $that->{$this->getName()};
         // Method call
-        echo \$that->{\$this->getName()}();
-        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
+        echo $that->{$this->getName()}();
+        return $this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
             ->alpha()->alpha()->alpha()->alpha();
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet = <<<'FORMATTEDCODESNIPPET'
 <?php
 /**
  * Class Foo
@@ -111,17 +111,17 @@ class Foo extends Bar implements Zulu
     /** alpha method */
     public function alpha()
     {
-        return \$this;
+        return $this;
     }
 
     /** beta method */
     public function beta()
     {
         // Property call
-        echo \$that->{\$this->getName()};
+        echo $that->{$this->getName()};
         // Method call
-        echo \$that->{\$this->getName()}();
-        return \$this->alpha()
+        echo $that->{$this->getName()}();
+        return $this->alpha()
             ->alpha()
             ->alpha()
             ->alpha()
@@ -137,73 +137,73 @@ class Foo extends Bar implements Zulu
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet2 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet2 = <<<'ORIGINALCODESNIPPET'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
         // bob
-        \$d = 1+1;
+        $d = 1+1;
 
     }
 };
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet2 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet2 = <<<'FORMATTEDCODESNIPPET'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
         // bob
-        \$d = 1 + 1;
+        $d = 1 + 1;
     }
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet3 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet3 = <<<'ORIGINALCODESNIPPET'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
-        \$d = 1+1;
+        $d = 1+1;
 
     }
 };
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet3 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet3 = <<<'FORMATTEDCODESNIPPET'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
-        \$d = 1 + 1;
+        $d = 1 + 1;
     }
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet4 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet4 = <<<'ORIGINALCODESNIPPET'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
-        unset(\$d);
+        unset($d);
 
     }
 };
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet4 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet4 = <<<'FORMATTEDCODESNIPPET'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
-        unset(\$d);
+        unset($d);
     }
 }
 
@@ -231,7 +231,7 @@ class Foo
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet6 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet6 = <<<'ORIGINALCODESNIPPET'
 <?php
 require_once __DIR__.'processor.php';
 require __DIR__.'processor.php';
@@ -248,11 +248,11 @@ require('processor'.'.php');
 require_once('processor'.'.php');
 require 'processor'.'.php';
 
-\$processor = 1+2;
+$processor = 1+2;
 
 
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet6 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet6 = <<<'FORMATTEDCODESNIPPET'
 <?php
 require_once __DIR__ . 'processor.php';
 require __DIR__ . 'processor.php';
@@ -269,29 +269,29 @@ require 'processor' . '.php';
 require_once 'processor' . '.php';
 require 'processor' . '.php';
 
-\$processor = 1 + 2;
+$processor = 1 + 2;
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet7 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet7 = <<<'ORIGINALCODESNIPPET'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
-        \$d=1+1;
+        $d=1+1;
         echo 1 + (2 - 2) * 3;
 
     }
 };
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet7 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet7 = <<<'FORMATTEDCODESNIPPET'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
-        \$d = 1 + 1;
+        $d = 1 + 1;
         echo 1 + (2 - 2) * 3;
     }
 }
