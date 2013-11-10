@@ -80,7 +80,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_viewConfig;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -123,7 +123,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
@@ -145,7 +145,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
@@ -279,7 +279,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Cache\StateInterface
+     * @return \Magento\App\Cache\StateInterface
      */
     public function getCacheState()
     {

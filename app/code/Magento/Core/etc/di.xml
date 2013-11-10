@@ -56,7 +56,7 @@
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>collection_</value>
@@ -80,7 +80,7 @@
     </type>
     <virtualType name="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
@@ -96,7 +96,7 @@
     </virtualType>
     <virtualType name="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
@@ -112,7 +112,7 @@
     </virtualType>
     <virtualType name="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
@@ -153,12 +153,12 @@
             <instance type="Magento\View\Layout\File\Source\Aggregated" />
         </param>
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Layout" />
+            <instance type="Magento\App\Cache\Type\Layout" />
         </param>
     </type>
     <type name="Magento\Core\Model\Resource\Layout\Update">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Layout" />
+            <instance type="Magento\App\Cache\Type\Layout" />
         </param>
     </type>
     <virtualType name="layoutFileSourceBaseFiltered" type="Magento\View\Layout\File\Source\Decorator\ModuleOutput">
@@ -237,7 +237,7 @@
     </type>
     <type name="Magento\Core\Model\Config\SectionPool">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config" />
+            <instance type="Magento\App\Cache\Type\Config" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\Section\Reader\Website">

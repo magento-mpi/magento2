@@ -43,7 +43,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Cache group Tag
      */
-    const CACHE_GROUP = \Magento\Core\Model\Cache\Type\Block::TYPE_IDENTIFIER;
+    const CACHE_GROUP = \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER;
     /**
      * Block name in layout
      *
@@ -122,7 +122,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_viewConfig;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 

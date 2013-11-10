@@ -33,7 +33,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\App $app
@@ -58,7 +58,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Logger $logger,
         \Magento\Core\Model\App $app,
