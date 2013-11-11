@@ -49,3 +49,4 @@ lib/Magento/Event/Invoker/InvokerDefault.php
 lib/Magento/Phrase/Renderer/Translate.php
 lib/Magento/Backup/Snapshot.php
 lib/Magento/Outbound/Authentication/Hmac.php
+lib/Magento/Oauth/Exception.php
