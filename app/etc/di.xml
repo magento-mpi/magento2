@@ -44,7 +44,6 @@
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
-    <preference for="Magento\Image\Adapter\AdapterInterface" type="Magento\Image\Adapter\Gd2" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <type name="Magento\App\State">

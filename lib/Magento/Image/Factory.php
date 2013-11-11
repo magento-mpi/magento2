@@ -38,12 +38,12 @@ class Factory
      * Create instance of \Magento\Image
      *
      * @param string|null $fileName
-     * @param Adapter\AdapterInterface|null $adapterName
+     * @param string|null $adapterName
      * @return \Magento\Image
      */
-    public function create($fileName = null, Adapter\AdapterInterface $adapterName = null)
+    public function create($fileName = null, $adapterName = null)
     {
         $adapter = $this->adapterFactory->create($adapterName);
-        return $this->objectManager->create('\Magento\Image', array('adapter' => $adapter, 'fileName' => $fileName));
+        return $this->objectManager->create('Magento\Image', array('adapter' => $adapter, 'fileName' => $fileName));
     }
 }
