@@ -37,19 +37,17 @@ class Uploader
 
 
     /**
-     * Initialize dependencies
-     *
      * @param \Magento\Filesystem $filesystem
-     * @param \Zend_File_Transfer_Adapter_Http $transferAdapter
+     * @param \Magento\HTTP\Adapter\FileTransferFactory $transferAdapterFactory
      * @param \Magento\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Zend_File_Transfer_Adapter_Http $transferAdapter,
+        \Magento\HTTP\Adapter\FileTransferFactory $transferAdapterFactory,
         \Magento\File\UploaderFactory $uploaderFactory
     ) {
         $this->_filesystem = $filesystem;
-        $this->_transferAdapter = $transferAdapter;
+        $this->_transferAdapter = $transferAdapterFactory->create();
         $this->_uploaderFactory = $uploaderFactory;
     }
 

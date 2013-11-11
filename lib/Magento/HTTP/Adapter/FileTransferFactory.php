@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model;
+namespace Magento\HTTP\Adapter;
 
-class HttpAdapterFactory
+class FileTransferFactory
 {
     /**
      * Create HTTP adapter
