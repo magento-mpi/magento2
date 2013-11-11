@@ -51,8 +51,7 @@ class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
         $themeCollection = $this->collectionFactory->create();
         $themeCollection->addAreaFilter($area)
-            ->addTypeFilter($type)
-            ->addFieldToSelect('theme_id');
+            ->addTypeFilter($type);
         return $themeCollection;
     }
 
