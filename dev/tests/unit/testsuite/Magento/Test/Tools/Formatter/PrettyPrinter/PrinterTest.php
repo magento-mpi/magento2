@@ -869,7 +869,56 @@ FORMATTEDCODESNIPPET18;
 
     public function dataMethodDeclarations()
     {
+        $originalMethod0 = <<<'ORIGINALMETHOD0'
+<?php class OM {
+    public function testIsValid($attributeData, $result, $expected, $messages, $data = array('attribute' => 'new_test'))
+    {}}
+ORIGINALMETHOD0;
+        $formattedMethod0 = <<<'FORMATTEDMETHOD0'
+<?php
+class OM
+{
+    public function testIsValid(
+        $attributeData,
+        $result,
+        $expected,
+        $messages,
+        $data = array('attribute' => 'new_test')
+    ) {
+    }
+}
+
+FORMATTEDMETHOD0;
+        $originalMethod1 = <<<'ORIGINALMETHOD1'
+<?php class OM {
+    public function testIsValid($attributeData, $result, $expected, $messages,
+    $data = array('attribute' => 'new_test', 'longattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghij',
+    'longerattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij'))
+    {}}
+ORIGINALMETHOD1;
+        $formattedMethod1 = <<<'FORMATTEDMETHOD1'
+<?php
+class OM
+{
+    public function testIsValid(
+        $attributeData,
+        $result,
+        $expected,
+        $messages,
+        $data = array(
+            'attribute' => 'new_test',
+            'longattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghij',
+            'longerattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij'
+        )
+    ) {
+    }
+}
+
+FORMATTEDMETHOD1;
+
         return array(
+            array($originalMethod0, $formattedMethod0),
+            array($originalMethod1, $formattedMethod1),
             array(
                 "<?php class MD {public function alpha() {}}",
                 "<?php\nclass MD\n{\n    public function alpha()\n    {\n    }\n}\n"
