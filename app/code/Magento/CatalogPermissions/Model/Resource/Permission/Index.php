@@ -101,7 +101,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
@@ -110,7 +110,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_eavConfig = $eavConfig;

@@ -34,7 +34,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -44,7 +44,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,

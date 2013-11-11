@@ -39,7 +39,7 @@ class General
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -49,7 +49,7 @@ class General
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -108,7 +108,7 @@ class General
         ));
 
         $model->unsSalesruleId();
-        $helperBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser');
+        $helperBlock = $this->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser');
 
         if ($helperBlock instanceof \Magento\Object) {
             $helperBlock->setConfig($this->getChooserConfig())

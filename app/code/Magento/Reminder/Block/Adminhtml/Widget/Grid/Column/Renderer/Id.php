@@ -46,7 +46,7 @@ class Id
     protected function _getValue(\Magento\Object $row)
     {
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
-        return '<a href="' . $this->_urlBuilder->getUrl('adminhtml/customer/edit',
+        return '<a href="' . $this->_urlBuilder->getUrl('customer/index/edit',
             array('id' => $customerId)) . '">' . $customerId . '</a>';
     }
 }

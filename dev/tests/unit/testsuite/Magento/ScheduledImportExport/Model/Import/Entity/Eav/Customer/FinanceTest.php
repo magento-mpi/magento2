@@ -180,7 +180,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $coreStoreConfig,
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\App\Resource', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),

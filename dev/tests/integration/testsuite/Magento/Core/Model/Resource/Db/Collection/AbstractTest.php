@@ -18,7 +18,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Resource');
+            ->get('Magento\App\Resource');
         $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array($resourceModel), '', true, true, true, array('getMainTable', 'getIdFieldName')
         );

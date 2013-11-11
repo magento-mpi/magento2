@@ -42,11 +42,8 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var \Magento\Core\Model\App */
     protected $_application;
 
-    /** @var \Magento\Oauth\Service\OauthV1Interface */
+    /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
-
-    /** @var  \Magento\Oauth\Helper\Service */
-    protected $_oauthHelper;
 
     /**
      * Initialize dependencies.
@@ -58,8 +55,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\AppInterface $application
-     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Oauth\Helper\Service $oauthHelper
+     * @param \Magento\Oauth\OauthInterface $oauthService
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -69,8 +65,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
         \Magento\App\State $appState,
         \Magento\Core\Model\AppInterface $application,
-        \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Oauth\Helper\Service $oauthHelper
+        \Magento\Oauth\OauthInterface $oauthService
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -80,7 +75,6 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_appState = $appState;
         $this->_application = $application;
         $this->_oauthService = $oauthService;
-        $this->_oauthHelper = $oauthHelper;
     }
 
     /**
@@ -95,7 +89,7 @@ class Soap implements \Magento\App\FrontControllerInterface
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @return $this
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -113,7 +107,7 @@ class Soap implements \Magento\App\FrontControllerInterface
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
-                $this->_oauthService->validateAccessToken(array('token' => $this->_getAccessToken()));
+                $this->_oauthService->validateAccessToken($this->_getAccessToken());
                 $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
@@ -121,8 +115,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         } catch (\Exception $e) {
             $this->_prepareErrorResponse($e);
         }
-        $this->_response->sendResponse();
-        return $this;
+        return $this->_response;
     }
 
     /**

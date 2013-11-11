@@ -33,7 +33,6 @@ class RootTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @magentoConfigFixture customer/account_share/scope 1
      * @dataProvider prepareConditionsSqlDataProvider
      * @param mixed $customer
      * @param int $website
