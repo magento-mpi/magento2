@@ -18,7 +18,7 @@ class Categories
     /**
      * Object manager
      *
-     * @var \Magento\Core\Model\ObjectManager
+     * @var \Magento\ObjectManager\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -83,7 +83,7 @@ class Categories
     /**
      * Get object manager
      *
-     * @return \Magento\Core\Model\ObjectManager|null
+     * @return \Magento\ObjectManager\ObjectManager|null
      */
     protected function getObjectManager()
     {
