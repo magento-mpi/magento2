@@ -31,7 +31,7 @@ class Pbridge extends \Magento\Backend\App\Action
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+        $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
         return $this;
     }
 

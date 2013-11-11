@@ -66,7 +66,7 @@ class View extends \Magento\App\Action\Action
         $this->_coreRegistry->register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));

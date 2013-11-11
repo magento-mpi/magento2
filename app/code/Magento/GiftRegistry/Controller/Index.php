@@ -62,7 +62,7 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $block = $this->getLayout()->getBlock('giftregistry_list');
         if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
@@ -204,7 +204,7 @@ class Index extends \Magento\App\Action\Action
         try {
             $entity = $this->_initEntity();
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
+            $this->getLayout()->initMessages('Magento\Customer\Model\Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Share Gift Registry'));
@@ -229,8 +229,7 @@ class Index extends \Magento\App\Action\Action
         try {
             $this->_coreRegistry->register('current_entity', $this->_initEntity());
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
-            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
+            $this->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session'));
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Gift Registry Items'));
@@ -332,7 +331,7 @@ class Index extends \Magento\App\Action\Action
     public function addSelectAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $block = $this->getLayout()->getBlock('giftregistry_addselect');
         if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
@@ -376,7 +375,7 @@ class Index extends \Magento\App\Action\Action
             $this->_coreRegistry->register('magento_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
+            $this->getLayout()->initMessages('Magento\Customer\Model\Session');
 
             if ($model->getId()) {
                 $pageTitle = __('Edit Gift Registry');

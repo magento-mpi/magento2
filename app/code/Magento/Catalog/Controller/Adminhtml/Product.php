@@ -622,7 +622,7 @@ class Product extends \Magento\Backend\App\Action
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+            $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

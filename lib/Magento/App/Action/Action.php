@@ -567,45 +567,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
-     *
-     * @param string|array $messagesStorage
-     * @throws \Magento\Core\Exception
-     * @return \Magento\App\ActionInterface
-     */
-    protected function _initLayoutMessages($messagesStorage) // Kill ???
-    {
-        if (!is_array($messagesStorage)) {
-            $messagesStorage = array($messagesStorage);
-        }
-        foreach ($messagesStorage as $storageName) {
-            $storage = $this->_objectManager->get($storageName);
-            if ($storage) {
-                $block = $this->getLayout()->getMessagesBlock();
-                $block->addMessages($storage->getMessages(true));
-                $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
-                $block->addStorageType($storageName);
-            } else {
-                throw new \Magento\Core\Exception(
-                     __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
-                );
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
-     *
-     * @param string|array $messagesStorage
-     * @return \Magento\App\ActionInterface
-     */
-    public function initLayoutMessages($messagesStorage) // Roots, bloody roots
-    {
-        return $this->_initLayoutMessages($messagesStorage);
-    }
-
-    /**
      * Set redirect url into response
      *
      * @param   string $url

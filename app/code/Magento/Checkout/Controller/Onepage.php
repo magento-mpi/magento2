@@ -202,8 +202,9 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->getLayout()->getBlock('head')->setTitle(__('Checkout'));
+        $layout = $this->getLayout();
+        $layout->initMessages('Magento\Customer\Model\Session');
+        $layout->getBlock('head')->setTitle(__('Checkout'));
         $this->renderLayout();
     }
 
@@ -261,7 +262,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
 
         $session->clear();
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Checkout\Model\Session');
+        $this->getLayout()->initMessages('Magento\Checkout\Model\Session');
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
         );

@@ -92,8 +92,7 @@ class Result extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Catalog\Model\Session');
-            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
+            $this->getLayout()->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
             $this->renderLayout();
 
             if (!$this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {

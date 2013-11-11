@@ -36,7 +36,7 @@ class Order extends \Magento\Sales\Controller\AbstractController
     public function historyAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
         $this->getLayout()->getBlock('head')->setTitle(__('My Orders'));
 

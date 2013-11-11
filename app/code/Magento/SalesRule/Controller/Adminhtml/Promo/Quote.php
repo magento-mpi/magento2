@@ -393,7 +393,7 @@ class Quote extends \Magento\Backend\App\Action
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
                     $this->_getSession()->addSuccess(__('%1 coupon(s) have been generated.', $generated));
-                    $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+                    $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                     $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
             } catch (\Magento\Core\Exception $e) {

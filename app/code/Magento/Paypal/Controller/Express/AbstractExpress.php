@@ -255,7 +255,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Paypal\Model\Session');
+            $this->getLayout()->initMessages('Magento\Paypal\Model\Session');
             $reviewBlock = $this->getLayout()->getBlock('paypal.express.review');
             $reviewBlock->setQuote($this->_getQuote());
             $reviewBlock->getChildBlock('details')->setQuote($this->_getQuote());

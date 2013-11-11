@@ -150,11 +150,12 @@ class Cart
         $this->_checkoutSession->setCartWasUpdated(true);
 
         \Magento\Profiler::start(__METHOD__ . 'cart_display');
-        $this
-            ->loadLayout()
-            ->_initLayoutMessages('Magento\Checkout\Model\Session')
-            ->_initLayoutMessages('Magento\Catalog\Model\Session')
-            ->getLayout()->getBlock('head')->setTitle(__('Shopping Cart'));
+        $messageStores = array('Magento\Checkout\Model\Session', 'Magento\Catalog\Model\Session');
+
+        $this->loadLayout();
+        $layout = $this->getLayout();
+        $layout->initMessages($messageStores);
+        $layout->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->renderLayout();
         \Magento\Profiler::stop(__METHOD__ . 'cart_display');
     }

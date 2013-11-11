@@ -62,7 +62,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {

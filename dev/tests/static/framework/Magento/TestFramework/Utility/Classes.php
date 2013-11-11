@@ -283,7 +283,7 @@ class Classes
             | (?:addBlock | createBlock | getBlockSingleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
 
             # various methods, first argument
-            | \->(?:initReport | setDataHelperName | setEntityModelClass | _?initLayoutMessages
+            | \->(?:initReport | setDataHelperName | setEntityModelClass
                 | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
             )\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
 

@@ -174,7 +174,7 @@ class Attribute extends \Magento\Backend\App\Action
                     __('An attribute with the same code already exists.')
                 );
 
-                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+                $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

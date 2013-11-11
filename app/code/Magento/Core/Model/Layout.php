@@ -226,6 +226,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_appState;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
@@ -240,6 +245,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param DataService\Graph $dataServiceGraph
      * @param Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
+     * @param \Magento\ObjectManager $objectManager
      * @param string $area
      */
     public function __construct(
@@ -257,6 +263,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
+        \Magento\ObjectManager $objectManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
@@ -277,6 +284,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_processorFactory = $processorFactory;
         $this->_themeFactory = $themeFactory;
         $this->_logger = $logger;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -1636,6 +1644,32 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 ->assign($data);
 
             echo $block->toHtml();
+        }
+    }
+
+    /**
+     * Init messages by message storage(s), loading and adding messages to layout messages block
+     *
+     * @throws \UnexpectedValueException
+     * @param string|array $messages
+     */
+    public function initMessages($messages)
+    {
+        if (!is_array($messages)) {
+            $messages = array($messages);
+        }
+        foreach ($messages as $storageName) {
+            $storage = $this->_objectManager->get($storageName);
+            if ($storage) {
+                $block = $this->getMessagesBlock();
+                $block->addMessages($storage->getMessages(true));
+                $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
+                $block->addStorageType($storageName);
+            } else {
+                throw new \UnexpectedValueException(
+                    __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
+                );
+            }
         }
     }
 }

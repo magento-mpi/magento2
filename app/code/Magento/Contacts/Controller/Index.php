@@ -45,8 +45,8 @@ class Index extends \Magento\App\Action\Action
         $this->getLayout()->getBlock('contactForm')
             ->setFormAction($this->_objectManager->create('Magento\Core\Model\Url')->getUrl('*/*/post'));
 
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
+        $this->getLayout()->initMessages($messageStores);
         $this->renderLayout();
     }
 

@@ -81,7 +81,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+        $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')

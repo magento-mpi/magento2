@@ -200,7 +200,7 @@ class Attribute
                     __('An attribute with this code already exists.')
                 );
 
-                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+                $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

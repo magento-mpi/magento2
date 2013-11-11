@@ -180,8 +180,8 @@ class Account extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
+        $this->getLayout()->initMessages($messageStores);
         $this->getLayout()->getBlock('head')->setTitle(__('My Account'));
         $this->renderLayout();
     }
@@ -197,8 +197,8 @@ class Account extends \Magento\App\Action\Action
         }
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
+        $this->getLayout()->initMessages($messageStores);
         $this->renderLayout();
     }
 
@@ -330,7 +330,7 @@ class Account extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -631,7 +631,7 @@ class Account extends \Magento\App\Action\Action
         $this->getLayout()->getBlock('accountConfirmation')
             ->setEmail($this->getRequest()->getParam('email', $email));
 
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -647,7 +647,7 @@ class Account extends \Magento\App\Action\Action
         );
         $this->_getSession()->unsForgottenEmail();
 
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -837,8 +837,8 @@ class Account extends \Magento\App\Action\Action
     public function editAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
+        $this->getLayout()->initMessages($messageStores);
 
         $block = $this->getLayout()->getBlock('customer_edit');
         if ($block) {
