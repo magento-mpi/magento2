@@ -1,0 +1,56 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\TestFramework\Integrity\Library;
+
+use Zend\Code\Reflection\ClassReflection;
+use Zend\Code\Reflection\FileReflection;
+use Zend\Code\Reflection\ParameterReflection;
+
+/**
+ * @package Magento\TestFramework
+ */
+class Injectable
+{
+    /**
+     * @var \ReflectionException[]
+     */
+    protected $dependencies = array();
+
+    /**
+     * @param FileReflection $fileReflection
+     * @return \ReflectionException[]
+     * @throws \ReflectionException
+     */
+    public function getDependencies(FileReflection $fileReflection)
+    {
+        foreach ($fileReflection->getClasses() as $class) {
+            /** @var ClassReflection $class */
+            foreach ($class->getMethods() as $method) {
+                /** @var \Zend\Code\Reflection\MethodReflection $method */
+                foreach ($method->getParameters() as $parameter) {
+                    try {
+                        /** @var ParameterReflection $parameter */
+                        $dependency = $parameter->getClass();
+                        if ($dependency instanceof ClassReflection) {
+                            $this->dependencies[] = $dependency->getName();
+                        }
+                    } catch (\ReflectionException $e) {
+                        if (preg_match('#^Class ([A-Za-z0-9_\\\\]+) does not exist$#', $e->getMessage(), $result)) {
+                            $this->dependencies[] = $result[1];
+                        } else {
+                            throw $e;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->dependencies;
+    }
+}

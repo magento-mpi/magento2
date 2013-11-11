@@ -16,18 +16,12 @@ namespace Magento\Sales\Model\Order\Pdf;
 class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
@@ -44,7 +38,6 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
@@ -57,11 +50,9 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         parent::__construct(
             $paymentData,
-            $coreData,
             $string,
             $coreStoreConfig,
             $translate,
@@ -70,6 +61,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
+            $locale,
             $data
         );
     }
@@ -135,7 +127,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_setFontBold($style, 10);
         foreach ($shipments as $shipment) {
             if ($shipment->getStoreId()) {
-                $this->_locale->emulate($shipment->getStoreId());
+                $this->locale->emulate($shipment->getStoreId());
                 $this->_storeManager->setCurrentStore($shipment->getStoreId());
             }
             $page  = $this->newPage();
@@ -168,7 +160,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
         $this->_afterGetPdf();
         if ($shipment->getStoreId()) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
         return $pdf;
     }

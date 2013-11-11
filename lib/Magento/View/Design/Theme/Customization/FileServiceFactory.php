@@ -1,0 +1,52 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Theme customization files factory
+ */
+namespace Magento\View\Design\Theme\Customization;
+
+class FileServiceFactory
+{
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\View\Design\Theme\Customization\ConfigInterface $config
+     */
+    public function __construct(\Magento\ObjectManager $objectManager, ConfigInterface $config)
+    {
+        $this->_objectManager = $objectManager;
+        $this->_types = $config->getFileTypes();
+    }
+
+    /**
+     * Create new instance
+     *
+     * @param $type
+     * @param array $data
+     * @return \Magento\View\Design\Theme\Customization\FileInterface
+     * @throws \InvalidArgumentException
+     */
+    public function create($type, array $data = array())
+    {
+        if (empty($this->_types[$type])) {
+            throw new \InvalidArgumentException('Unsupported file type');
+        }
+        $fileService = $this->_objectManager->get($this->_types[$type], array($data));
+        if (!$fileService instanceof \Magento\View\Design\Theme\Customization\FileInterface) {
+            throw new \InvalidArgumentException('Service don\'t implement interface');
+        }
+        return $fileService;
+    }
+}

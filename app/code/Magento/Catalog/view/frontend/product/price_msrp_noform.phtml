@@ -27,7 +27,7 @@
             <?php $_msrpPrice = $this->helper('Magento\Core\Helper\Data')->currency($_product->getMsrp(),true,true) ?>
             <span class="old-price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo $_msrpPrice ?></span>
         <?php endif; ?>
-        <?php $helpLinkId = 'msrp-click-' . $_product->getId() . $this->helper('Magento\Core\Helper\Data')->getRandomString(20); ?>
+        <?php $helpLinkId = 'msrp-click-' . $_product->getId() . $this->getRandomString(20); ?>
         <a href="#" id="<?php echo($helpLinkId);?>"><?php echo __('Click for price') ?></a>
     </div>
 

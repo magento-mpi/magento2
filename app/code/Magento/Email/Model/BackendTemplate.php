@@ -30,8 +30,8 @@ class BackendTemplate extends \Magento\Email\Model\Template
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
@@ -49,8 +49,8 @@ class BackendTemplate extends \Magento\Email\Model\Template
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\View\Url $viewUrl,
+        \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,

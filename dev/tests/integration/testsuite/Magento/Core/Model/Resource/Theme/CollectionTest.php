@@ -11,6 +11,8 @@
 
 namespace Magento\Core\Model\Resource\Theme;
 
+use \Magento\View\Design\ThemeInterface;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
@@ -137,9 +139,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function addTypeFilterDataProvider()
     {
         return array(
-            array('themeType' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'themeCount' => 1),
-            array('themeType' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'themeCount' => 1),
-            array('themeType' => \Magento\Core\Model\Theme::TYPE_STAGING, 'themeCount' => 1),
+            array('themeType' => ThemeInterface::TYPE_PHYSICAL, 'themeCount' => 1),
+            array('themeType' => ThemeInterface::TYPE_VIRTUAL, 'themeCount' => 1),
+            array('themeType' => ThemeInterface::TYPE_STAGING, 'themeCount' => 1),
             array('themeType' => false, 'themeCount' => 3)
         );
     }
@@ -160,7 +162,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         foreach ($themeCollection as $theme) {
             $this->assertTrue(in_array(
                 $theme->getType(),
-                array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, \Magento\Core\Model\Theme::TYPE_VIRTUAL)
+                array(ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_VIRTUAL)
             ));
         }
     }
@@ -251,7 +253,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL,
+                'type'                 => ThemeInterface::TYPE_PHYSICAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -262,7 +264,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area2',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL,
+                'type'                 => ThemeInterface::TYPE_VIRTUAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -273,7 +275,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area3',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_STAGING,
+                'type'                 => ThemeInterface::TYPE_STAGING,
             ),
             array(
                 'parent_id'            => '0',
@@ -284,7 +286,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area3',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL,
+                'type'                 => ThemeInterface::TYPE_PHYSICAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -295,7 +297,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area3',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL,
+                'type'                 => ThemeInterface::TYPE_VIRTUAL,
             )
         );
     }
@@ -315,7 +317,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test1_test1.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL
+                'type'                 => ThemeInterface::TYPE_PHYSICAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test1',
@@ -326,7 +328,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test1_test2.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
+                'type'                 => ThemeInterface::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test2',
@@ -337,7 +339,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test1_test3.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
+                'type'                 => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test0',
@@ -348,7 +350,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'preview_image'        => 'test1_test4.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
+                'type'                 => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
             ),
         );
     }
@@ -368,7 +370,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
             $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
-            $this->assertEquals(\Magento\Core\Model\Theme::TYPE_PHYSICAL, $theme->getType());
+            $this->assertEquals(ThemeInterface::TYPE_PHYSICAL, $theme->getType());
         }
     }
 
@@ -384,7 +386,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
             $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
-            $this->assertEquals(\Magento\Core\Model\Theme::TYPE_PHYSICAL, $theme->getType());
+            $this->assertEquals(ThemeInterface::TYPE_PHYSICAL, $theme->getType());
         }
     }
 }
