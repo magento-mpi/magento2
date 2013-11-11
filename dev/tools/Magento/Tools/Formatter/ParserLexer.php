@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter;
 
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use PHPParser_Comment;
 use PHPParser_Comment_Doc;
 use PHPParser_Lexer;
@@ -88,7 +89,7 @@ class ParserLexer extends PHPParser_Lexer
                     break;
                 }
             } else {
-                $newlineCount = substr_count($token[1], PHP_EOL);
+                $newlineCount = substr_count($token[1], HardLineBreak::EOL);
                 $this->line += $newlineCount;
 
                 if (T_COMMENT === $token[0]) {
