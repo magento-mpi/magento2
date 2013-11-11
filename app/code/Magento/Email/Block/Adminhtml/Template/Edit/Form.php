@@ -36,7 +36,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Email\Model\Source\Variables $variables
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -46,7 +46,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Email\Model\Source\Variables $variables,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
@@ -101,6 +101,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add fields to form and create template info form
      *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
@@ -144,22 +145,18 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'required' => true
 
         ));
-
         $fieldset->addField('template_subject', 'text', array(
             'name'=>'template_subject',
             'label' => __('Template Subject'),
             'required' => true
         ));
-
         $fieldset->addField('orig_template_variables', 'hidden', array(
             'name' => 'orig_template_variables',
         ));
-
         $fieldset->addField('variables', 'hidden', array(
             'name' => 'variables',
             'value' => \Zend_Json::encode($this->getVariables())
         ));
-
         $fieldset->addField('template_variables', 'hidden', array(
             'name' => 'template_variables',
         ));

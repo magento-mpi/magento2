@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Email\Model;
+
 /**
  * Template model
  *
@@ -47,12 +49,8 @@
  * @method string getOrigTemplateVariables()
  * @method \Magento\Email\Model\Template setOrigTemplateVariables(string $value)
  *
- * @category    Magento
- * @package     Magento_Email
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Email\Model;
-
 class Template extends \Magento\Core\Model\Template
 {
     /**
@@ -430,6 +428,8 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Send mail to recipient
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param   array|string       $email        E-mail(s)
      * @param   array|string|null  $name         receiver name(s)
      * @param   array              $variables    template variables
@@ -438,7 +438,9 @@ class Template extends \Magento\Core\Model\Template
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
-            $this->_logger->logException(new \Exception('This letter cannot be sent.')); // translation is intentionally omitted
+            $this->_logger->logException(
+                new \Exception('This letter cannot be sent.') // translation is intentionally omitted
+            );
             return false;
         }
 
@@ -558,8 +560,12 @@ class Template extends \Magento\Core\Model\Template
         }
 
         if (!is_array($sender)) {
-            $this->setSenderName($this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/name', $storeId));
-            $this->setSenderEmail($this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/email', $storeId));
+            $this->setSenderName(
+                $this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/name', $storeId)
+            );
+            $this->setSenderEmail(
+                $this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/email', $storeId)
+            );
         } else {
             $this->setSenderName($sender['name']);
             $this->setSenderEmail($sender['email']);

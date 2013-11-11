@@ -37,7 +37,7 @@ class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
 
     protected function _getEscapedValue($value)
     {
-        return addcslashes(htmlspecialchars($value),'\\\'');
+        return addcslashes(htmlspecialchars($value), '\\\'');
     }
 
     protected function _actionsToHtml(array $actions)

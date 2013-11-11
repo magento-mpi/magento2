@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Email\Model;
+
 /**
  * Adminhtml email template model
  *
- * @category   Magento
- * @package    Magento_Email
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-
-namespace Magento\Email\Model;
-
 class BackendTemplate extends \Magento\Email\Model\Template
 {
     /**

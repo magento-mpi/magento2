@@ -21,6 +21,11 @@
                 <forgot_email_template>system_emails_forgot_email_template</forgot_email_template>
                 <forgot_email_identity>general</forgot_email_identity>
             </emails>
+            <smtp>
+                <disable>0</disable>
+                <host>localhost</host>
+                <port>25</port>
+            </smtp>
         </system>
         <trans_email>
             <ident_custom1>

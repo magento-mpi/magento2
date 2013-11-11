@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Email\Model\Template;
 
 /**
  * Core Email Template Filter Model
  *
- * @category   Magento
- * @package    Magento_Email
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Email\Model\Template;
-
 class Filter extends \Magento\Filter\Template
 {
     /**
@@ -43,6 +40,9 @@ class Filter extends \Magento\Filter\Template
 
     protected $_storeId = null;
 
+    /**
+     * @var bool
+     */
     protected $_plainTemplateMode = false;
 
     /**
@@ -105,6 +105,7 @@ class Filter extends \Magento\Filter\Template
     protected $_appState;
 
     /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
@@ -179,16 +180,6 @@ class Filter extends \Magento\Filter\Template
     }
 
     /**
-     * Getter
-     *
-     * @return boolean
-     */
-    public function getPlainTemplateMode()
-    {
-        return $this->_plainTemplateMode;
-    }
-
-    /**
      * Setter
      *
      * @param integer $storeId
@@ -217,6 +208,8 @@ class Filter extends \Magento\Filter\Template
     /**
      * Retrieve Block html directive
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param array $construction
      * @return string
      */
@@ -557,7 +550,7 @@ class Filter extends \Magento\Filter\Template
             $variable = $this->_variableFactory->create()
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
-            $mode = $this->getPlainTemplateMode()
+            $mode = $this->_plainTemplateMode
                 ? \Magento\Core\Model\Variable::TYPE_TEXT
                 : \Magento\Core\Model\Variable::TYPE_HTML;
             $value = $variable->getValue($mode);
@@ -572,6 +565,7 @@ class Filter extends \Magento\Filter\Template
      * Filter the string as template.
      * Rewrited for logging exceptions
      *
+     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      * @param string $value
      * @return string
      */

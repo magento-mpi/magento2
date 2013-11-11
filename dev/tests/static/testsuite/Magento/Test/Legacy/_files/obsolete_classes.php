@@ -1403,5 +1403,8 @@ return array(
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
-    array('\Magento\Core\Model\EntryPoint\Media', '\Magento\Core\App\Media'),
+    array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Module\Dir\Reader'),
+    array('Magento\Core\Model\Email\Template\Filter', 'Magento\Email\Model\Template\Filter'),
+    array('Magento\Core\Model\EntryPoint\Media', 'Magento\Core\App\Media'),
+    array('Magento\Data\Form\Factory', 'Magento\Data\FormFactory'),
 );

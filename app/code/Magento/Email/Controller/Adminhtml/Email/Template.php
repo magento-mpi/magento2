@@ -15,7 +15,7 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Controller\Adminhtml;
+namespace Magento\Email\Controller\Adminhtml\Email;
 
 class Template extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -154,7 +154,9 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(__('An error occurred while deleting email template data. Please review log and try again.'));
+                $this->_getSession()->addError(
+                    __('An error occurred while deleting email template data. Please review log and try again.')
+                );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 // save data in session
                 $this->_objectManager->get('Magento\Backend\Model\Session')

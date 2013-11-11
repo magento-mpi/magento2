@@ -84,7 +84,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -94,7 +93,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -105,7 +103,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('to_plain_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -116,7 +113,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('to_html_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -128,7 +124,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('toggle_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -139,7 +134,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('preview_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -149,7 +143,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('save_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -160,7 +153,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->setChild('load_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -172,7 +164,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
         $this->addChild('form', 'Magento\Email\Block\Adminhtml\Template\Edit\Form');
         return parent::_prepareLayout();
     }
@@ -263,7 +254,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     /**
      * Return edit flag for block
      *
-     * @return boolean
+     * @return int|null
      */
     public function getEditMode()
     {
@@ -387,6 +378,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     /**
      * Convert xml config pathes to decorated names
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param array $paths
      * @return array
      */

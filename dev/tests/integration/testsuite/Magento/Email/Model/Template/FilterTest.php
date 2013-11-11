@@ -100,7 +100,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
             )
         ));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Email\Template\Filter');
+            ->create('Magento\Email\Model\Template\Filter');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea($area);
 

@@ -24,15 +24,15 @@ class Sender extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abstra
     {
         $str = '';
         
-        if($row->getTemplateSenderName()) {
+        if ($row->getTemplateSenderName()) {
             $str .= htmlspecialchars($row->getTemplateSenderName()) . ' ';
         }        
         
-        if($row->getTemplateSenderEmail()) {
+        if ($row->getTemplateSenderEmail()) {
             $str .= '[' . $row->getTemplateSenderEmail() . ']';
         }        
         
-        if($str == '') {
+        if ($str == '') {
             $str .= '---';
         }
             

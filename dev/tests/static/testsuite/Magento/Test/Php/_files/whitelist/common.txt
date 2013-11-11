@@ -46,8 +46,6 @@ app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
 app/code/Magento/Core/Model/Design.php
-app/code/Magento/Core/Model/EntryPoint
-app/code/Magento/Core/Model/AbstractEntryPoint.php
 app/code/Magento/Core/Model/Layout/Factory.php
 app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
@@ -79,14 +77,12 @@ app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/Eav/Model/Cache/Type.php
-app/code/Magento/Email/Model/Sender.php
-app/code/Magento/Email/Model/Template/Config
-app/code/Magento/Email/Model/Template/Config.php
 app/code/Magento/GiftMessage/Model/Plugin
 app/code/Magento/GoogleShopping/Block/SiteVerification.php
 app/code/Magento/GoogleShopping/Model/AttributeFactory.php
 app/code/Magento/Eav/Model/Entity/Attribute/Config
 app/code/Magento/Eav/Model/Entity/Attribute/Config.php
+app/code/Magento/Email
 app/code/Magento/ImportExport/Model/Import/Entity/CustomerComposite.php
 app/code/Magento/ImportExport/Model/Export/Config
 app/code/Magento/ImportExport/Model/Export/Config.php

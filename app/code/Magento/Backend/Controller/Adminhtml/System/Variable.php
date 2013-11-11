@@ -62,7 +62,7 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
-        /* @var $emailVariable \Magento\Core\Model\Variable */
+        /* @var $variable \Magento\Core\Model\Variable */
         $variable = $this->_objectManager->create('Magento\Core\Model\Variable');
         if ($variableId) {
             $variable->setStoreId($storeId)
