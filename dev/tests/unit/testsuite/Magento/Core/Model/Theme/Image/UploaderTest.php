@@ -47,12 +47,17 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
         $this->_transferAdapterMock = $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false);
         $this->_fileUploader = $this->getMock('Magento\File\Uploader', array(), array(), '', false);
 
+        $adapterFactory = $this->getMock('Magento\HTTP\Adapter\FileTransferFactory');
+        $adapterFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->_transferAdapterMock));
+
         $uploaderFactory = $this->getMock('Magento\File\UploaderFactory', array('create'), array(), '', false);
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileUploader));
 
         $this->_model = new \Magento\View\Design\Theme\Image\Uploader(
             $this->_filesystemMock,
-            $this->_transferAdapterMock,
+            $adapterFactory,
             $uploaderFactory
         );
     }
@@ -62,18 +67,6 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
         $this->_model = null;
         $this->_transferAdapterMock = null;
         $this->_fileUploader = null;
-    }
-
-    /**
-     * @covers \Magento\View\Design\Theme\Image\Uploader::__construct
-     */
-    public function testCunstructor()
-    {
-        $this->assertNotEmpty(new \Magento\View\Design\Theme\Image\Uploader(
-            $this->getMock('Magento\Filesystem', array(), array(), '', false),
-            $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false),
-            $this->getMock('Magento\File\UploaderFactory', array('create'), array(), '', false)
-        ));
     }
 
     /**
