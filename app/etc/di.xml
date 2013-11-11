@@ -39,6 +39,7 @@
     <preference for="Magento\View\Layout\ProcessorInterface" type="Magento\Core\Model\Layout\Merge" />
     <preference for="Magento\App\Route\ConfigInterface" type="Magento\App\Route\Config" />
     <preference for="Magento\App\Resource\ConfigInterface" type="Magento\App\Resource\Config\Proxy" />
+    <preference for="Magento\Oauth\OauthInterface" type="Magento\Oauth\Oauth"/>
     <type name="Magento\View\Layout\Structure" shared="false" />
     <type name="Magento\View\BlockPool" shared="false" />
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
