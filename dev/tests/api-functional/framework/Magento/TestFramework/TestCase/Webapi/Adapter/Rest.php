@@ -16,10 +16,10 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
 
-    /** @var \Magento\Oauth\Model\Consumer */
+    /** @var \Magento\Integration\Model\Oauth\Consumer */
     protected static $_consumer;
 
-    /** @var \Magento\Oauth\Model\Token */
+    /** @var \Magento\Integration\Model\Oauth\Token */
     protected static $_token;
 
     /** @var string */
