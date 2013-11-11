@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Adminhtml\Model\Report;
+namespace Magento\Reports\Model;
 
 class Item extends \Magento\Object
 {
