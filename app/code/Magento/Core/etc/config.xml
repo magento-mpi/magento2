@@ -42,7 +42,17 @@
                 <minify_adapter>Magento\Code\Minifier\Adapter\Js\Jsmin</minify_adapter>
             </js>
             <image>
-                <adapter>Magento\Image\Adapter\AdapterInterface</adapter>
+                <default_adapter>GD2</default_adapter>
+                <adapters>
+                    <GD2>
+                        <title>PHP GD2</title>
+                        <class>Magento\Image\Adapter\Gd2</class>
+                    </GD2>
+                    <IMAGEMAGICK>
+                        <title>ImageMagick</title>
+                        <class>Magento\Image\Adapter\ImageMagick</class>
+                    </IMAGEMAGICK>
+                </adapters>
             </image>
         </dev>
         <system>

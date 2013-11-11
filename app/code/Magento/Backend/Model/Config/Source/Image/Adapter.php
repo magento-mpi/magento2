@@ -8,11 +8,23 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Backend\Model\Config\Source\Image;
 
 class Adapter implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @var \Magento\Image\Adapter\ConfigInterface
+     */
+    protected $config;
+
+    /**
+     * @param \Magento\Image\Adapter\ConfigInterface $config
+     */
+    public function __construct(\Magento\Image\Adapter\ConfigInterface $config)
+    {
+        $this->config = $config;
+    }
+
     /**
      * Return hash of image adapter codes and labels
      *
@@ -20,11 +32,11 @@ class Adapter implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM  =>
-                __('ImageMagick'),
-            \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2 =>
-                __('PHP GD2'),
-        );
+        $result = array();
+        foreach ($this->config->getAdapters() as $alias => $adapter) {
+            $result[$alias] = $adapter['title'];
+        }
+
+        return $result;
     }
 }

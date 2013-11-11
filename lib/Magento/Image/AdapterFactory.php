@@ -23,15 +23,23 @@ class AdapterFactory
     protected $objectManager;
 
     /**
+     * @var array
+     */
+    protected $adapterMap;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param Adapter\ConfigInterface $config
+     * @param array $adapterMap
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Image\Adapter\ConfigInterface $config
+        \Magento\Image\Adapter\ConfigInterface $config,
+        array $adapterMap = array()
     ) {
         $this->objectManager = $objectManager;
         $this->config = $config;
+        $this->adapterMap = array_merge($config->getAdapters(), $adapterMap);
     }
 
     /**
@@ -47,10 +55,13 @@ class AdapterFactory
         if (empty($adapterName)) {
             throw new \InvalidArgumentException('Image adapter is not selected.');
         }
-        $imageAdapter = $this->objectManager->create($adapterName);
+        if (empty($this->adapterMap[$adapterName]['class'])) {
+            throw new \InvalidArgumentException('Image adapter is not setup.');
+        }
+        $imageAdapter = $this->objectManager->create($this->adapterMap[$adapterName]['class']);
         if (!$imageAdapter instanceof Adapter\AdapterInterface) {
             throw new \InvalidArgumentException(
-                $adapterName . ' is not instance of \Magento\Image\Adapter\AdapterInterface'
+                $this->adapterMap[$adapterName]['class'] . ' is not instance of \Magento\Image\Adapter\AdapterInterface'
             );
         }
         $imageAdapter->checkDependencies();

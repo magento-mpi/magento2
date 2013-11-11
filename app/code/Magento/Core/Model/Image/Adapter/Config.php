@@ -9,7 +9,8 @@ namespace Magento\Core\Model\Image\Adapter;
 
 class Config implements \Magento\Image\Adapter\ConfigInterface
 {
-    const XML_PATH_IMAGE_ADAPTER = 'dev/image/adapter';
+    const XML_PATH_IMAGE_ADAPTER = 'dev/image/default_adapter';
+    const XML_PATH_IMAGE_ADAPTERS = 'dev/image/adapters';
 
     /**
      * @var \Magento\Core\Model\ConfigInterface
@@ -30,5 +31,13 @@ class Config implements \Magento\Image\Adapter\ConfigInterface
     public function getAdapterName()
     {
         return (string)$this->config->getValue(self::XML_PATH_IMAGE_ADAPTER);
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function getAdapters()
+    {
+        return $this->config->getValue(self::XML_PATH_IMAGE_ADAPTERS);
     }
 }

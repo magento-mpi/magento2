@@ -47,9 +47,9 @@ interface AdapterInterface
     public function refreshImageDimensions();
 
     /**
-     * Checks required dependecies
+     * Checks required dependencies
      *
-     * @throws \Exception if some of dependecies are missing
+     * @throws \Exception if some of dependencies are missing
      */
     public function checkDependencies();
 

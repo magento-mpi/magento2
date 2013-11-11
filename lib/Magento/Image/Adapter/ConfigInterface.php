@@ -13,4 +13,9 @@ interface ConfigInterface
      * @return string
      */
     public function getAdapterName();
+
+    /**
+     * @return array
+     */
+    public function getAdapters();
 }
