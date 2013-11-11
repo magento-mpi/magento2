@@ -2,6 +2,7 @@
   * Single point of access to the current area code
   * Declare Application Areas
 * Various improvements:
+  * Consistent declaration of page-types
   * Refactored the Oauth service implementation and the Oauth module
     * Moved the Oauth service into a new Magento\Oauth library with an improved Oauth interface
     * Moved the relevant Oauth logic in the Magento\Oauth module into the Magento\Integration module
