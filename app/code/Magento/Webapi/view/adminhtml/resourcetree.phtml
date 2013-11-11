@@ -19,7 +19,7 @@
     </legend><br />
 
     <div class="field" align="center">
-        <input type="checkbox" id="enable_api_access_checkbox" />
+        <input type="checkbox" id="enable_api_access_checkbox" name="enable_api_access" <?php if ($this->isApiEnabled() === 'Y') :?> checked="checked"<?php endif; ?> />
         <label for="enable_api_access_checkbox" class="normal"><?php echo __('Enable API access') ?></label>
     </div>
 
@@ -52,4 +52,17 @@
             ?>"></div>
         </div>
     </div>
+    <script type="text/javascript">
+        (function($){
+            $('#edit_form').on('submit', function(){
+                var csvResourceVal = $("input#resource\\[\\]:checked").
+                    map(function(){return $(this).val()}).get().join();
+                $('<input />').attr('type', 'hidden').attr('name', 'api_permissions').attr('value', csvResourceVal)
+                    .appendTo('#edit_form');
+                var isApiEnabled = $('#enable_api_access_checkbox').prop('checked') ? 'Y' : 'N';
+                $('<input />').attr('type', 'hidden').attr('name', 'is_api_enabled').attr('value', isApiEnabled)
+                    .appendTo('#edit_form');
+            });
+        })(jQuery);
+    </script>
 </fieldset>
