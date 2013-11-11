@@ -80,7 +80,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * Match provided request and if matched - return corresponding controller
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\Core\App\Action\Plugin\LastUrl|null
+     * @return \Magento\App\Action\Action|null
      */
     public function match(\Magento\App\RequestInterface $request)
     {

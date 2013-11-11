@@ -383,7 +383,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             ))
         );
 
-        $urlParamName = \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED;
+        $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl
@@ -405,7 +405,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             '_store_to_url' => true,
         )));
 
-        $urlParamName = \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED;
+        $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl

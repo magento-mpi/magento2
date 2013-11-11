@@ -113,33 +113,9 @@ class Action extends \Magento\App\Action\AbstractAction
 
     /**
      * @param Context $context
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Url $url
-     * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Cookie $cookie
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Helper\Data $helper
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Session $session,
-        \Magento\Core\Model\Url $url,
-        \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Cookie $cookie,
-        \Magento\Core\Model\App $app,
-        \Magento\Core\Helper\Data $helper
+        \Magento\App\Action\Context $context
     ) {
         parent::__construct($context->getRequest(), $context->getResponse());
 
@@ -150,18 +126,18 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
         $this->authentication     = $context->getAuthentication();
-        $this->_configScope       = $configScope;
-        $this->_storeManager      = $storeManager;
-        $this->_appState          = $appState;
-        $this->_locale            = $locale;
-        $this->_session           = $session;
-        $this->_filesystem        = $filesystem;
-        $this->_url               = $url;
-        $this->_translate         = $translate;
-        $this->_storeConfig       = $storeConfig;
-        $this->_cookie            = $cookie;
-        $this->_app               = $app;
-        $this->_helper            = $helper;
+        $this->_configScope       = $context->getConfigScope();
+        $this->_storeManager      = $context->getStoreManager();
+        $this->_appState          = $context->getAppState();
+        $this->_locale            = $context->getLocale();
+        $this->_session           = $context->getSession();
+        $this->_filesystem        = $context->getFilesystem();
+        $this->_url               = $context->getUrl();
+        $this->_translate         = $context->getTranslate();
+        $this->_storeConfig       = $context->getStoreConfig();
+        $this->_cookie            = $context->getCookie();
+        $this->_app               = $context->getApp();
+        $this->_helper            = $context->getHelper();
     }
 
     /**

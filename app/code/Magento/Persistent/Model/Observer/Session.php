@@ -232,7 +232,7 @@ class Session
             return;
         }
 
-        /** @var $controllerAction \Magento\Core\App\Action\Plugin\LastUrl */
+        /** @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
 
         if ($this->_customerSession->isLoggedIn()

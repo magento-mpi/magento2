@@ -54,7 +54,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @var \Magento\HTTP\Authentication
      */
-    protected $authentication;
+    protected $_authentication;
 
     /**
      * @param \Magento\Logger $logger
@@ -76,17 +76,145 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\HTTP\Authentication $authentication,
+        \Magento\App\State $appState,
+        \Magento\Filesystem $filesystem,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Helper\AbstractHelper $helper,
         $isRenderInherited
     ) {
-        $this->_request           = $request;
-        $this->_response          = $response;
-        $this->_objectManager     = $objectManager;
-        $this->_frontController   = $frontController;
-        $this->_layout            = $layout;
-        $this->_eventManager      = $eventManager;
+        $this->_request = $request;
+        $this->_response = $response;
+        $this->_objectManager = $objectManager;
+        $this->_frontController = $frontController;
+        $this->_layout = $layout;
+        $this->_eventManager = $eventManager;
+        $this->_logger = $logger;
+        $this->_authentication = $authentication;
+        $this->_appState = $appState;
+        $this->_filesystem = $filesystem;
+        $this->_configScope = $configScope;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_session = $session;
+        $this->_url = $translate;
+        $this->_translate = $translate;
+        $this->_storeConfig = $storeConfig;
+        $this->_cookie = $cookie;
+        $this->_app = $app;
+        $this->_helper = $helper;
         $this->_isRenderInherited = $isRenderInherited;
-        $this->_logger            = $logger;
-        $this->authentication     = $authentication;
+    }
+
+    /**
+     * @return \Magento\Core\Model\App
+     */
+    public function getApp()
+    {
+        return $this->_app;
+    }
+
+    /**
+     * @return \Magento\App\State
+     */
+    public function getAppState()
+    {
+        return $this->_appState;
+    }
+
+    /**
+     * @return \Magento\Config\ScopeInterface
+     */
+    public function getConfigScope()
+    {
+        return $this->_configScope;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Cookie
+     */
+    public function getCookie()
+    {
+        return $this->_cookie;
+    }
+
+    /**
+     * @return \Magento\Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->_filesystem;
+    }
+
+    /**
+     * @return \Magento\Core\Helper\Data
+     */
+    public function getHelper()
+    {
+        return $this->_helper;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsRenderInherited()
+    {
+        return $this->_isRenderInherited;
+    }
+
+    /**
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Session
+     */
+    public function getSession()
+    {
+        return $this->_session;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Store\Config
+     */
+    public function getStoreConfig()
+    {
+        return $this->_storeConfig;
+    }
+
+    /**
+     * @return \Magento\Core\Model\StoreManagerInterface
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Translate
+     */
+    public function getTranslate()
+    {
+        return $this->_translate;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Translate
+     */
+    public function getUrl()
+    {
+        return $this->_url;
     }
 
     /**
@@ -160,6 +288,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function getAuthentication()
     {
-        return $this->authentication;
+        return $this->_authentication;
     }
 }

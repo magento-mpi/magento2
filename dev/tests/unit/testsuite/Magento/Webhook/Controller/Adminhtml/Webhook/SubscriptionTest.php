@@ -562,8 +562,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper
-            ->getObject('Magento\Backend\Controller\Context',
-                $contextParameters);
+            ->getObject('Magento\Backend\App\Action\Context', $contextParameters);
 
         $subControllerParams = array(
             'context' => $this->_mockBackendCntCtxt,

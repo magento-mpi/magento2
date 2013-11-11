@@ -41,7 +41,7 @@ class Add extends \Magento\App\Action\Action
     public function priceAction()
     {
         $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
-        $backUrl    = $this->getRequest()->getParam(\Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED);
+        $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -81,7 +81,7 @@ class Add extends \Magento\App\Action\Action
     {
         $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
         /* @var $session \Magento\Catalog\Model\Session */
-        $backUrl    = $this->getRequest()->getParam(\Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED);
+        $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');

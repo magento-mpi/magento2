@@ -194,7 +194,7 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * Get Breadcrumbs for current controller action
      *
-     * @param  \Magento\Core\App\Action\Plugin\LastUrl $controller
+     * @param  \Magento\App\Action\Action $controller
      */
     public function getBreadcrumbs($controller)
     {

@@ -87,7 +87,7 @@ class Account extends \Magento\Customer\Controller\Account
      */
     public function preDispatch()
     {
-        \Magento\Core\App\Action\Plugin\LastUrl::preDispatch();
+        \Magento\App\Action\Action::preDispatch();
 
         if (!preg_match('/^(create|createpost)/i', $this->getRequest()->getActionName())) {
             $this->norouteAction();

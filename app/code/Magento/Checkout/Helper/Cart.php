@@ -91,7 +91,7 @@ class Cart extends \Magento\Core\Helper\Url
     public function getAddUrl($product, $additional = array())
     {
         $continueUrl    = $this->_coreData->urlEncode($this->getCurrentUrl());
-        $urlParamName   = \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED;
+        $urlParamName   = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(
             $urlParamName   => $continueUrl,
@@ -125,7 +125,7 @@ class Cart extends \Magento\Core\Helper\Url
     {
         $params = array(
             'id'=>$item->getId(),
-            \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
+            \Magento\App\Action\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
         );
         return $this->_getUrl('checkout/cart/delete', $params);
     }

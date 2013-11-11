@@ -20,7 +20,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Backend\Controller\Context">
+    <type name="Magento\Backend\App\Action\Context">
         <param name="translator">
             <instance type="Magento\Core\Model\Translate\Proxy" />
         </param>

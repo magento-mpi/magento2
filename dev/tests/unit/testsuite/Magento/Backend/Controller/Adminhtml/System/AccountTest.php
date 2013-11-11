@@ -102,7 +102,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
             'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
-        $contextMock = $this->getMockBuilder('Magento\Backend\Controller\Context')
+        $contextMock = $this->getMockBuilder('Magento\Backend\App\Action\Context')
             ->disableOriginalConstructor()
             ->setMethods($contextArgs)
             ->getMock();

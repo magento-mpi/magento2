@@ -124,7 +124,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      * Match provided request and if matched - return corresponding controller
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\Core\App\Action\Plugin\LastUrl|null
+     * @return \Magento\App\Action\Action|null
      */
     public function match(\Magento\App\RequestInterface $request)
     {
@@ -252,7 +252,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      *
      * @param \Magento\App\RequestInterface $request
      * @param array $params
-     * @return \Magento\Core\App\Action\Plugin\LastUrl|null
+     * @return \Magento\App\Action\Action|null
      */
     protected function _matchController(\Magento\App\RequestInterface $request, array $params)
     {

@@ -87,8 +87,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     public function __construct(Action\Context $context)
     {
         parent::__construct($context);
-        $this->_helper = $context->getHelper();
-        $this->_session = $context->getSession();
         $this->_authorization = $context->getAuthorization();
         $this->_translator = $context->getTranslator();
         $this->_auth = $context->getAuth();

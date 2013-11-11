@@ -284,7 +284,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper
             ->getObject(
-                'Magento\Backend\Controller\Context',
+                'Magento\Backend\App\Action\Context',
                 $contextParameters
             );
         $subControllerParams = array(

@@ -29,6 +29,13 @@ class LastUrl
     protected $_url;
 
     /**
+     * Namespace for session.
+     *
+     * @var string
+     */
+    protected $_sessionNamespace = self::SESSION_NAMESPACE;
+
+    /**
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Url $url
      */
@@ -37,13 +44,6 @@ class LastUrl
         $this->_session = $session;
         $this->_url = $url;
     }
-
-    /**
-     * Namespace for session.
-     *
-     * @var string
-     */
-    protected $_sessionNamespace = self::SESSION_NAMESPACE;
 
     /**
      * @param $result

@@ -1243,7 +1243,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRedirectUrl($url)
     {
         $this->_prepareSessionUrlWithParams($url, array(
-            'name' => \Magento\Core\App\Action\Plugin\LastUrl::SESSION_NAMESPACE
+            'name' => \Magento\App\Action\Action::SESSION_NAMESPACE
         ));
 
         $query = $this->getQuery(false);

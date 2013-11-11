@@ -459,7 +459,7 @@ class Observer
             return;
         }
 
-        /** @var $controllerAction \Magento\Core\App\Action\Plugin\LastUrl */
+        /** @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (method_exists($controllerAction, 'redirectLogin')) {
             $this->_session->addNotice(__('To check out, please log in using your email address.'));

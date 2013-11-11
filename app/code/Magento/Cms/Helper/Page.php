@@ -135,11 +135,11 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      *
      * Call from controller action
      *
-     * @param \Magento\Core\App\Action\Plugin\LastUrl $action
+     * @param \Magento\App\Action\Action $action
      * @param integer $pageId
      * @return boolean
      */
-    public function renderPage(\Magento\Core\App\Action\Plugin\LastUrl $action, $pageId = null)
+    public function renderPage(\Magento\App\Action\Action $action, $pageId = null)
     {
         return $this->_renderPage($action, $pageId);
     }
@@ -147,7 +147,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Renders CMS page
      *
-     * @param \Magento\Core\App\Action\Plugin\LastUrl|\Magento\App\Action\Action $action
+     * @param \Magento\App\Action\Action|\Magento\App\Action\Action $action
      * @param integer $pageId
      * @param bool $renderLayout
      * @return boolean

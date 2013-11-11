@@ -86,7 +86,7 @@ class Observer
      */
     public function restrictWebsite($observer)
     {
-        /* @var $controller \Magento\Core\App\Action\Plugin\LastUrl */
+        /* @var $controller \Magento\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
         if (!$this->_storeManager->getStore()->isAdmin()) {

@@ -18,7 +18,7 @@ return array(
     '/config/general/locale'                   =>
         'This configuration moved to Di configuration of \Magento\Core\Model\Locale\Config model',
     '/config/global/can_use_base_url'          =>
-        'This configuration moved to Di configuration of \Magento\Backend\Controller\Context class',
+        'This configuration moved to Di configuration of \Magento\Backend\App\Action\Context class',
     '/config/global/locale/allow/codes'        =>
         'This configuration moved to Di configuration of \Magento\Core\Model\Locale\Config model',
     '/config/global/locale/allow/currencies'   =>

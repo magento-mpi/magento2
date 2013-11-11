@@ -43,7 +43,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             'objectManager' => $this->_objectManagerMock,
 
         );
-        $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
+        $context = $helper->getObject('Magento\Backend\App\Action\Context', $arguments);
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_model = $this->getMock('Magento\Theme\Controller\Adminhtml\System\Design\Theme',

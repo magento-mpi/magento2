@@ -66,6 +66,16 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\HTTP\Authentication $authentication
+     * @param \Magento\App\State $appState
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Model\App $app
      * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
@@ -75,7 +85,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param bool $canUseBaseUrl
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -87,6 +97,16 @@ class Context extends \Magento\App\Action\Context
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\HTTP\Authentication $authentication,
+        \Magento\App\State $appState,
+        \Magento\Filesystem $filesystem,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Model\App $app,
         $isRenderInherited,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
@@ -97,8 +117,10 @@ class Context extends \Magento\App\Action\Context
         \Magento\Core\Model\LocaleInterface $locale,
         $canUseBaseUrl = false
     ) {
-        parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
-            $authentication, $isRenderInherited
+        parent::__construct(
+            $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, $authentication,
+            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translate,
+            $storeConfig, $cookie, $app, $helper, $isRenderInherited
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;
@@ -108,22 +130,6 @@ class Context extends \Magento\App\Action\Context
         $this->_auth = $auth;
         $this->_backendUrl = $backendUrl;
         $this->_locale = $locale;
-    }
-
-    /**
-     * @return \Magento\Backend\Helper\Data
-     */
-    public function getHelper()
-    {
-        return $this->_helper;
-    }
-
-    /**
-     * @return \Magento\Backend\Model\Session
-     */
-    public function getSession()
-    {
-        return $this->_session;
     }
 
     /**

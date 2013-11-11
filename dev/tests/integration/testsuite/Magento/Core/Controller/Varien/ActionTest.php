@@ -332,7 +332,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'adminhtml',
                 'admin',
                 'magento_backend',
-                'Magento\Backend\Controller\Context'
+                'Magento\Backend\App\Action\Context'
             ),
         );
     }
