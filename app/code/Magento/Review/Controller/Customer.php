@@ -18,7 +18,7 @@
 
 namespace Magento\Review\Controller;
 
-class Customer extends \Magento\Core\Controller\Front\Action
+class Customer extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -26,11 +26,11 @@ class Customer extends \Magento\Core\Controller\Front\Action
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;

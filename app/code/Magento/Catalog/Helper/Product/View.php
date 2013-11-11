@@ -108,7 +108,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
      * Inits layout for viewing product page
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Core\Controller\Front\Action $controller
+     * @param \Magento\Core\App\Action\Plugin\LastUrl $controller
      *
      * @return \Magento\Catalog\Helper\Product\View
      */
@@ -170,7 +170,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
      *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
-     * @param \Magento\Core\Controller\Front\Action $controller
+     * @param \Magento\Core\App\Action\Plugin\LastUrl $controller
      * @param null|\Magento\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View

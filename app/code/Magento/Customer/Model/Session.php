@@ -309,11 +309,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Authenticate controller action by login customer
      *
-     * @param   \Magento\Core\Controller\Varien\Action $action
+     * @param   \Magento\App\Action\Action $action
      * @param   bool $loginUrl
      * @return  bool
      */
-    public function authenticate(\Magento\Core\Controller\Varien\Action $action, $loginUrl = null)
+    public function authenticate(\Magento\App\Action\Action $action, $loginUrl = null)
     {
         if ($this->isLoggedIn()) {
             return true;

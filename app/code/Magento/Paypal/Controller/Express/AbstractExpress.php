@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Controller\Express;
 
-abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
+abstract class AbstractExpress extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Paypal\Model\Express\Checkout
@@ -94,7 +94,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     protected $_paypalSession;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -104,7 +104,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\Session\Generic $paypalSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -121,14 +121,6 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
         $this->_checkoutFactory = $checkoutFactory;
         $this->_paypalSession = $paypalSession;
         parent::__construct($context);
-    }
-
-    /**
-     * Instantiate config
-     */
-    protected function _construct()
-    {
-        parent::_construct();
         $parameters = array('params' => array($this->_configMethod));
         $this->_config = $this->_objectManager->create($this->_configType, $parameters);
     }

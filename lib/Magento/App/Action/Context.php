@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Controller\Varien\Action;
+namespace Magento\App\Action;
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {

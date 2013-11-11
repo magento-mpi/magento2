@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Controller;
 
-class Cart extends \Magento\Core\Controller\Front\Action
+class Cart extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -20,11 +20,11 @@ class Cart extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;

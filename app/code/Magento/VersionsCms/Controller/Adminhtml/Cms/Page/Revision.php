@@ -42,7 +42,7 @@ class Revision
     protected $_design;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
@@ -57,7 +57,7 @@ class Revision
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Config\Scope $configScope,
         \Magento\VersionsCms\Model\Config $cmsConfig,

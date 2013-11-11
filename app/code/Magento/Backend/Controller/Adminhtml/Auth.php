@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-class Auth extends \Magento\Backend\Controller\AbstractAction
+class Auth extends \Magento\Backend\App\AbstractAction
 {
     /**
      * Administrator login action

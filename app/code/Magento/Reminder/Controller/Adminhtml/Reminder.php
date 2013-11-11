@@ -13,7 +13,9 @@
  */
 namespace Magento\Reminder\Controller\Adminhtml;
 
-class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Reminder extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -35,13 +37,13 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_conditionFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
         \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory

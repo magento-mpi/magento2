@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Controller;
 
-class Category extends \Magento\Core\Controller\Front\Action
+class Category extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -61,7 +61,7 @@ class Category extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
@@ -69,7 +69,7 @@ class Category extends \Magento\Core\Controller\Front\Action
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_categoryFactory = $categoryFactory;

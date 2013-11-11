@@ -11,7 +11,7 @@
  */
 namespace Magento\Paypal\Controller;
 
-class Ipn extends \Magento\Core\Controller\Front\Action
+class Ipn extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Logger
@@ -29,12 +29,12 @@ class Ipn extends \Magento\Core\Controller\Front\Action
     protected $_curlFactory;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Paypal\Model\IpnFactory $ipnFactory
      * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Paypal\Model\IpnFactory $ipnFactory,
         \Magento\HTTP\Adapter\CurlFactory $curlFactory
     ) {

@@ -18,7 +18,7 @@
 
 namespace Magento\Tax\Controller\Adminhtml;
 
-class Rate extends \Magento\Backend\Controller\Adminhtml\Action
+class Rate extends \Magento\Backend\App\Action
 {
     /**
      * Show Main Grid
@@ -285,7 +285,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Initialize action
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      */
     protected function _initAction()
     {

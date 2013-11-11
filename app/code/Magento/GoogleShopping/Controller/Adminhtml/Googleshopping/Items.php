@@ -18,7 +18,7 @@
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Items extends \Magento\Backend\Controller\Adminhtml\Action
+class Items extends \Magento\Backend\App\Action
 {
     /**
      * Initialize general settings for action

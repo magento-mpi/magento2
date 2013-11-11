@@ -14,7 +14,7 @@
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
 class Attribute
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Customer Address Entity Type instance
@@ -46,14 +46,14 @@ class Attribute
     protected $_attrSetFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\AttributeFactory $attrFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\AttributeFactory $attrFactory,

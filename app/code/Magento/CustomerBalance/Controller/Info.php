@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Controller;
 
-class Info extends \Magento\Core\Controller\Front\Action
+class Info extends \Magento\App\Action\Action
 {
     /**
      * Only logged in users can use this functionality,

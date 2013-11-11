@@ -75,7 +75,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     /**
      * Init layout of product configuration update result
      *
-     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
+     * @param \Magento\Backend\App\Action $controller
      * @return \Magento\Catalog\Helper\Product\Composite
      */
     protected function _initUpdateResultLayout($controller)
@@ -90,7 +90,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      * Prepares and render result of composite product configuration update for a case
      * when single configuration submitted
      *
-     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
+     * @param \Magento\Backend\App\Action $controller
      * @param \Magento\Object $updateResult
      * @return \Magento\Catalog\Helper\Product\Composite
      */
@@ -108,7 +108,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
       * $isOk - true or false, whether action was completed nicely or with some error
       * If $isOk is FALSE (some error during configuration), so $productType must be null
       *
-      * @param \Magento\Backend\Controller\Adminhtml\Action $controller
+      * @param \Magento\Backend\App\Action $controller
       * @param bool $isOk
       * @param string $productType
       * @return \Magento\Catalog\Helper\Product\Composite
@@ -133,7 +133,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      *  - 'ok' = true, and 'product_id', 'buy_request', 'current_store_id', 'current_customer' or 'current_customer_id'
      *  - 'error' = true, and 'message' to show
      *
-     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
+     * @param \Magento\Backend\App\Action $controller
      * @param \Magento\Object $configureResult
      * @return \Magento\Catalog\Helper\Product\Composite
      */

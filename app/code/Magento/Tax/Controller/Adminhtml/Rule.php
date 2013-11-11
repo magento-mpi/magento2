@@ -17,7 +17,9 @@
  */
 namespace Magento\Tax\Controller\Adminhtml;
 
-class Rule extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Rule extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,11 +29,11 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -145,7 +147,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Initialize action
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      */
     protected function _initAction()
     {

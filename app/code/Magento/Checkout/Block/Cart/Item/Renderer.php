@@ -300,7 +300,7 @@ class Renderer extends \Magento\Core\Block\Template
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $encodedUrl
+                \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED => $encodedUrl
             )
         );
     }

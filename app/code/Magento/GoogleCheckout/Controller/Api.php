@@ -10,7 +10,7 @@
 
 namespace Magento\GoogleCheckout\Controller;
 
-class Api extends \Magento\Core\Controller\Front\Action
+class Api extends \Magento\App\Action\Action
 {
     public function indexAction()
     {

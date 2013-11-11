@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Customer\System\Config;
 
-class Validatevat extends \Magento\Backend\Controller\Adminhtml\Action
+class Validatevat extends \Magento\Backend\App\Action
 {
     /**
      * Perform customer VAT ID validation

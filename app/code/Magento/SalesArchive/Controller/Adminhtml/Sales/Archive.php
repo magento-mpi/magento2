@@ -14,7 +14,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
 
-class Archive extends \Magento\Backend\Controller\Adminhtml\Action
+class Archive extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -22,11 +22,11 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_archiveModel;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\SalesArchive\Model\Archive $archiveModel
     ) {
         $this->_archiveModel = $archiveModel;

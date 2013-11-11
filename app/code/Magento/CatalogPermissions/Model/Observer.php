@@ -533,10 +533,10 @@ class Observer
 
         $action = $observer->getEvent()->getControllerAction();
         if (!$this->_catalogPermData->isAllowedCatalogSearch()
-            && !$action->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH)
+            && !$action->getFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH)
             && $action->getRequest()->isDispatched()
         ) {
-            $action->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+            $action->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
             $action->getResponse()->setRedirect($this->_catalogPermData->getLandingPageUrl());
         }
 

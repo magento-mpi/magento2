@@ -17,7 +17,9 @@
  */
 namespace Magento\Widget\Controller\Adminhtml;
 
-class Widget extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -39,13 +41,13 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param \Magento\Widget\Model\Widget $widget
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Widget\Model\Widget\Config $widgetConfig,
         \Magento\Widget\Model\Widget $widget,
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_widgetConfig = $widgetConfig;

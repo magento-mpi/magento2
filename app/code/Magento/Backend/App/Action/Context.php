@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Controller;
+namespace Magento\Backend\App\Action;
 
 /**
  * Controller context
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\Core\Controller\Varien\Action\Context
+class Context extends \Magento\App\Action\Context
 {
     /**
      * @var \Magento\Backend\Model\Session

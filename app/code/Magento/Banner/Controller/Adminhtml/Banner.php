@@ -10,7 +10,9 @@
 
 namespace Magento\Banner\Controller\Adminhtml;
 
-class Banner extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Banner extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -20,11 +22,11 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_registry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $registry
     ) {
         $this->_registry = $registry;

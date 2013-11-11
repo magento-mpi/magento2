@@ -17,7 +17,7 @@
  */
 namespace Magento\Contacts\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action
+class Index extends \Magento\App\Action\Action
 {
     const XML_PATH_EMAIL_RECIPIENT  = 'contacts/email/recipient_email';
     const XML_PATH_EMAIL_SENDER     = 'contacts/email/sender_email_identity';

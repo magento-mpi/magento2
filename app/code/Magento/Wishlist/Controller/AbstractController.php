@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Controller;
 
-abstract class AbstractController extends \Magento\Core\Controller\Front\Action
+abstract class AbstractController extends \Magento\App\Action\Action
 {
     /**
      * Filter to convert localized values to internal ones

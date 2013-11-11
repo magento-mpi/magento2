@@ -14,7 +14,9 @@
  */
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
-class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Customerbalance extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -36,13 +38,13 @@ class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * @param \Magento\CustomerBalance\Model\Balance $balance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\CustomerBalance\Model\Balance $balance,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;

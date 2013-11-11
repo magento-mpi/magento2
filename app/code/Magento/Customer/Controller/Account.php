@@ -13,7 +13,7 @@ namespace Magento\Customer\Controller;
 /**
  * Customer account controller
  */
-class Account extends \Magento\Core\Controller\Front\Action
+class Account extends \Magento\App\Action\Action
 {
     /**
      * Action list where need check enabled cookie
@@ -87,7 +87,7 @@ class Account extends \Magento\Core\Controller\Front\Action
     protected $string;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -98,7 +98,7 @@ class Account extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Stdlib\String $string
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -113,7 +113,7 @@ class Data extends \Magento\Core\Helper\Url
     {
         return $this->_getUrl('productalert/add/' . $type, array(
             'product_id'    => $this->getProduct()->getId(),
-            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         ));
     }
 

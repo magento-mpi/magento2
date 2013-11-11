@@ -12,7 +12,7 @@ namespace Magento\Webhook\Controller\Adminhtml\Webhook;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Subscription extends \Magento\Backend\Controller\AbstractAction
+class Subscription extends \Magento\Backend\App\AbstractAction
 {
     /** Param Key for extracting subscription id from Request */
     const PARAM_SUBSCRIPTION_ID = 'id';
@@ -42,12 +42,12 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
      *
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Backend\Controller\Context $context
+        \Magento\Backend\App\Action\Context $context
     ) {
         parent::__construct($context);
 

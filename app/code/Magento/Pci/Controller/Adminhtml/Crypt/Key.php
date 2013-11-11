@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Controller\Adminhtml\Crypt;
 
-class Key extends \Magento\Backend\Controller\Adminhtml\Action
+class Key extends \Magento\Backend\App\Action
 {
     /**
      * Check whether local.xml is writeable

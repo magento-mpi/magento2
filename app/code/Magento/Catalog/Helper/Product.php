@@ -392,7 +392,7 @@ class Product extends \Magento\Core\Helper\Url
      *     If empty (except FALSE) - will be guessed (e.g. from last visited) to load as current.
      *
      * @param int $productId
-     * @param \Magento\Core\Controller\Front\Action $controller
+     * @param \Magento\Core\App\Action\Plugin\LastUrl $controller
      * @param \Magento\Object $params
      *
      * @return false|\Magento\Catalog\Model\Product

@@ -13,7 +13,9 @@
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml;
 
-class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Customersegment extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -29,12 +31,12 @@ class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
 
     /**
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_conditionFactory = $conditionFactory;

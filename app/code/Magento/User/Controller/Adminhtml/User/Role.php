@@ -11,7 +11,7 @@
  */
 namespace Magento\User\Controller\Adminhtml\User;
 
-class Role extends \Magento\Backend\Controller\AbstractAction
+class Role extends \Magento\Backend\App\AbstractAction
 {
 
     /**
@@ -52,7 +52,7 @@ class Role extends \Magento\Backend\Controller\AbstractAction
     /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\User\Model\UserFactory $userFactory
@@ -60,7 +60,7 @@ class Role extends \Magento\Backend\Controller\AbstractAction
      * @param \Magento\Backend\Model\Auth\Session $authSession
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\User\Model\UserFactory $userFactory,

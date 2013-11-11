@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Controller\Payment;
 
-class Profile extends \Magento\Core\Controller\Front\Action
+class Profile extends \Magento\App\Action\Action
 {
     /**
      * Customer session
@@ -29,11 +29,11 @@ class Profile extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;

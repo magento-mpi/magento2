@@ -272,7 +272,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Controller\Varien\Action\Context">
+    <type name="Magento\App\Action\Context">
         <param name="isRenderInherited">
             <value type="bool">false</value>
         </param>

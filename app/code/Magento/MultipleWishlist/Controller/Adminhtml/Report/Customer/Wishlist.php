@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer;
 
-class Wishlist extends \Magento\Backend\Controller\Adminhtml\Action
+class Wishlist extends \Magento\Backend\App\Action
 {
     /**
      * Backend auth session
@@ -25,11 +25,11 @@ class Wishlist extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
         $this->_backendAuthSession = $backendAuthSession;

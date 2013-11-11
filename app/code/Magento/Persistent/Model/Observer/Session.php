@@ -204,7 +204,7 @@ class Session
             return;
         }
 
-        /** @var $controllerAction \Magento\Core\Controller\Varien\Action */
+        /** @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if ($controllerAction) {
             $rememberMeCheckbox = $controllerAction->getRequest()->getPost('persistent_remember_me');
@@ -232,7 +232,7 @@ class Session
             return;
         }
 
-        /** @var $controllerAction \Magento\Core\Controller\Front\Action */
+        /** @var $controllerAction \Magento\Core\App\Action\Plugin\LastUrl */
         $controllerAction = $observer->getEvent()->getControllerAction();
 
         if ($this->_customerSession->isLoggedIn()

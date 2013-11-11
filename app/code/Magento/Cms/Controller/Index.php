@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action
+class Index extends \Magento\App\Action\Action
 {
     /**
      * Renders CMS Home page

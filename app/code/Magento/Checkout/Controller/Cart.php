@@ -14,7 +14,7 @@
 namespace Magento\Checkout\Controller;
 
 class Cart
-    extends \Magento\Core\Controller\Front\Action
+    extends \Magento\App\Action\Action
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
@@ -35,12 +35,12 @@ class Cart
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {

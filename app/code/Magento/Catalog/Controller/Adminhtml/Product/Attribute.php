@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
+class Attribute extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Cache\FrontendInterface
@@ -33,12 +33,12 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Cache\FrontendInterface $attributeLabelCache
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Cache\FrontendInterface $attributeLabelCache,
         \Magento\Core\Model\Registry $coreRegistry
     ) {

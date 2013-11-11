@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Controller;
 
-class Ajax extends \Magento\Core\Controller\Front\Action
+class Ajax extends \Magento\App\Action\Action
 {
     /**
      * Url
@@ -29,11 +29,11 @@ class Ajax extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Url $url
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Url $url
     ) {
         $this->_url = $url;

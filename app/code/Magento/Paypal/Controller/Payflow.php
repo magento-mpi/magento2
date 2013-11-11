@@ -11,7 +11,7 @@
  */
 namespace Magento\Paypal\Controller;
 
-class Payflow extends \Magento\Core\Controller\Front\Action
+class Payflow extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -39,14 +39,14 @@ class Payflow extends \Magento\Core\Controller\Front\Action
     protected $_checkoutHelper;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory
      * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory,

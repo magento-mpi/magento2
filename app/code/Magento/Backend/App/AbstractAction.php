@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Controller;
+namespace Magento\Backend\App;
 
 /**
  * Generic backend controller
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
+abstract class AbstractAction extends \Magento\App\Action\Action
 {
     /**
      * Name of "is URLs checked" flag
@@ -82,9 +82,9 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
     protected $_canUseBaseUrl;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      */
-    public function __construct(\Magento\Backend\Controller\Context $context)
+    public function __construct(Action\Context $context)
     {
         parent::__construct($context);
         $this->_helper = $context->getHelper();
@@ -416,7 +416,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         }
 
         $this->getResponse()->setRedirect($requestUri);
-        $this->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+        $this->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
         return true;
     }
 
@@ -437,7 +437,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
      * @param string|null|bool|array $ids
      * @param bool $generateBlocks
      * @param bool $generateXml
-     * @return \Magento\Backend\Controller\AbstractAction|\Magento\Core\Controller\Varien\Action
+     * @return \Magento\Backend\Controller\AbstractAction|\Magento\App\Action\Action
      */
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {

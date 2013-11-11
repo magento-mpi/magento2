@@ -12,7 +12,7 @@
 namespace Magento\Core\Controller\Varien\Action;
 
 /**
- * Test class \Magento\Core\Controller\Varien\Action\Factory
+ * Test class \Magento\App\ActionFactory
  */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {

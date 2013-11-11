@@ -652,7 +652,7 @@ class Observer
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
-        /* @var $action \Magento\Core\Controller\Varien\Action */
+        /* @var $action \Magento\App\Action\Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page

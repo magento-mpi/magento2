@@ -10,7 +10,9 @@
 
 namespace Magento\Backend\Controller\Adminhtml;
 
-class Cache extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Cache extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Core\Model\Cache\TypeListInterface
@@ -28,13 +30,13 @@ class Cache extends \Magento\Backend\Controller\Adminhtml\Action
     private $_cacheFrontendPool;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool

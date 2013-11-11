@@ -18,7 +18,7 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-class Unsubscribe extends \Magento\Core\Controller\Front\Action
+class Unsubscribe extends \Magento\App\Action\Action
 {
     public function preDispatch()
     {

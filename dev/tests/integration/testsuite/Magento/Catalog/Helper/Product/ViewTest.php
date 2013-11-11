@@ -46,7 +46,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 ->get('Magento\TestFramework\Response'),
         );
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+            ->create('Magento\App\Action\Context', $arguments);
         $this->_controller = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Controller\Product',
             array(

@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
 
-class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
+class Attribute extends \Magento\Backend\App\Action
 {
     public function editAction()
     {

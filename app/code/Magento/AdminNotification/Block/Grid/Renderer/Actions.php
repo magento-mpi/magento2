@@ -37,7 +37,7 @@ class Actions
             $this->getUrl('*/*/remove/', array(
                 '_current'=>true,
                 'id' => $row->getId(),
-                \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
+                \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED => $encodedUrl)
             ),
             __('Are you sure?'),
             __('Remove')

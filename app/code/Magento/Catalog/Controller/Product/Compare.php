@@ -15,7 +15,7 @@ namespace Magento\Catalog\Controller\Product;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Compare extends \Magento\Core\Controller\Front\Action
+class Compare extends \Magento\App\Action\Action
 {
     /**
      * Action list where need check enabled cookie
@@ -106,7 +106,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -118,7 +118,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Controller\Varien\Action\Context $context
+        \Magento\App\Action\Context $context
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_compareItemFactory = $compareItemFactory;

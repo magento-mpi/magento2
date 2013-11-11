@@ -18,7 +18,7 @@
  */
 namespace Magento\Newsletter\Controller;
 
-class Manage extends \Magento\Core\Controller\Front\Action
+class Manage extends \Magento\App\Action\Action
 {
     /**
      * Customer session
@@ -37,12 +37,12 @@ class Manage extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession
     ) {

@@ -15,7 +15,7 @@ namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Editor extends \Magento\Backend\Controller\Adminhtml\Action
+class Editor extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Theme\Model\Config
@@ -28,12 +28,12 @@ class Editor extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_customizationConfig;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Theme\Model\Config $themeConfig
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Theme\Model\Config $themeConfig,
         \Magento\Theme\Model\Config\Customization $customizationConfig
     ) {

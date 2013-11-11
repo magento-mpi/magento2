@@ -10,8 +10,8 @@
 
 namespace Magento\Core\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action {
-
+class Index extends \Magento\App\Action\Action
+{
     function indexAction()
     {
 

@@ -17,7 +17,7 @@
  */
 namespace Magento\Paygate\Controller\Adminhtml\Paygate\Authorizenet;
 
-class Payment extends \Magento\Backend\Controller\Adminhtml\Action
+class Payment extends \Magento\Backend\App\Action
 {
     /**
      * Session quote
@@ -27,11 +27,11 @@ class Payment extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_sessionQuote;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote
     ) {
         $this->_sessionQuote = $sessionQuote;

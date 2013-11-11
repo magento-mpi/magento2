@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Controller;
 
-class Customer extends \Magento\Core\Controller\Front\Action
+class Customer extends \Magento\App\Action\Action
 {
     /**
      * Only logged in users can use this functionality,

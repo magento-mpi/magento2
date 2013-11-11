@@ -17,7 +17,7 @@ namespace Magento\Core\Controller\Varien;
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\Action|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Action\Action|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -43,7 +43,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         );
         $this->_objectManager->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
-        $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $context = $this->_objectManager->create('Magento\App\Action\Context', $arguments);
         $this->_object = $this->getMockForAbstractClass(
             'Magento\Core\Controller\Varien\Action',
             array('context' => $context)
@@ -102,7 +102,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->loadArea($expectedArea);
 
         $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope($expectedArea);
-        /** @var $controller \Magento\Core\Controller\Varien\Action */
+        /** @var $controller \Magento\App\Action\Action */
         $controller = $this->_objectManager->create($controllerClass);
         $this->assertInstanceOf('Magento\Core\Model\Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
@@ -233,7 +233,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
         );
-        $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $context = $this->_objectManager->create('Magento\App\Action\Context', $arguments);
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
         $this->_object = $this->_objectManager->create(
@@ -290,7 +290,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager->addSharedInstance($app, 'Magento\TestFramework\App');
         $app->loadArea($expectedArea);
 
-        /** @var $controller \Magento\Core\Controller\Varien\Action */
+        /** @var $controller \Magento\App\Action\Action */
         $context = $this->_objectManager->create($context, array(
             'response' => $this->_objectManager->get('Magento\TestFramework\Response')
         ));
@@ -318,14 +318,14 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'install',
                 'default',
                 'magento_basic',
-                'Magento\Core\Controller\Varien\Action\Context'
+                'Magento\App\Action\Context'
             ),
             'frontend' => array(
                 'Magento\Core\Controller\Front\Action',
                 'frontend',
                 'default',
                 'magento_blank',
-                'Magento\Core\Controller\Varien\Action\Context'
+                'Magento\App\Action\Context'
             ),
             'backend' => array(
                 'Magento\Backend\Controller\Adminhtml\Action',

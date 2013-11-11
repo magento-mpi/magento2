@@ -86,7 +86,7 @@ class Observer
      */
     public function restrictWebsite($observer)
     {
-        /* @var $controller \Magento\Core\Controller\Front\Action */
+        /* @var $controller \Magento\Core\App\Action\Plugin\LastUrl */
         $controller = $observer->getEvent()->getControllerAction();
 
         if (!$this->_storeManager->getStore()->isAdmin()) {
@@ -156,7 +156,7 @@ class Observer
 
                         if ($redirectUrl) {
                             $response->setRedirect($redirectUrl);
-                            $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+                            $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                         }
                         if ($this->_storeConfig->getConfigFlag(
                             \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
@@ -170,7 +170,7 @@ class Observer
                         $response->setRedirect(
                             $this->_session->getWebsiteRestrictionAfterLoginUrl(true)
                         );
-                        $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+                        $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     break;
             }

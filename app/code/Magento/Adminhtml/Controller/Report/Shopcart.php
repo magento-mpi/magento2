@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-class Shopcart extends \Magento\Backend\Controller\Adminhtml\Action
+class Shopcart extends \Magento\Backend\App\Action
 {
     public function _initAction()
     {

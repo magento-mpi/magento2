@@ -17,8 +17,25 @@
  */
 namespace Magento\Sales\Controller;
 
-class Download extends \Magento\Core\Controller\Front\Action
+class Download extends \Magento\App\Action\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileResponseFactory;
+
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory
+    ) {
+        $this->_fileResponseFactory = $fileResponseFactory;
+        parent::__construct($context);
+    }
+
     /**
      * Custom options downloader
      *
@@ -42,7 +59,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                     throw new \Exception();
                 }
             }
-            $this->_prepareDownloadResponse($info['title'], array(
+            $this->_fileResponseFactory->create($info['title'], array(
                'value' => $filePath,
                'type'  => 'filename'
             ));

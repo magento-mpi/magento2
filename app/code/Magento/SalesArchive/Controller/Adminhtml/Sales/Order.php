@@ -26,12 +26,12 @@ class Order extends  \Magento\Sales\Controller\Adminhtml\Order
     protected $_archiveModel;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\SalesArchive\Model\Archive $archiveModel
     ) {

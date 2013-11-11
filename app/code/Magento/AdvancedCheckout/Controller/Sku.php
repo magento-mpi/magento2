@@ -18,7 +18,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class Sku extends \Magento\Core\Controller\Front\Action
+class Sku extends \Magento\App\Action\Action
 {
     /**
      * Check functionality is enabled and applicable to the Customer

@@ -107,7 +107,7 @@ class Observer
      */
     public function controllerPredispatch($observer)
     {
-        /* @var $action \Magento\Core\Controller\Varien\Action */
+        /* @var $action \Magento\App\Action\Action */
         $action = $observer->getEvent()->getControllerAction();
         /* @var $request \Magento\App\RequestInterface */
         $request = $observer->getEvent()->getControllerAction()->getRequest();

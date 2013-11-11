@@ -21,12 +21,12 @@ class Config extends \Magento\Backend\Controller\System\AbstractConfig
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {

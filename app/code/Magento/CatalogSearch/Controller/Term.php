@@ -11,7 +11,7 @@
 
 namespace Magento\CatalogSearch\Controller;
 
-class Term extends \Magento\Core\Controller\Front\Action {
+class Term extends \Magento\App\Action\Action {
 
     public function preDispatch(){
         parent::preDispatch();

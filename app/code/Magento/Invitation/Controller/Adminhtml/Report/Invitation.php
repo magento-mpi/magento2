@@ -17,7 +17,7 @@
 
 namespace Magento\Invitation\Controller\Adminhtml\Report;
 
-class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
+class Invitation extends \Magento\Backend\App\Action
 {
     /**
      * Invitation Config
@@ -27,11 +27,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_config;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Invitation\Model\Config $config
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Invitation\Model\Config $config
     ) {
         parent::__construct($context);

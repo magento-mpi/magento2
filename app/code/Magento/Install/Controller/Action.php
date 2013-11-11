@@ -11,7 +11,7 @@
 
 namespace Magento\Install\Controller;
 
-class Action extends \Magento\Core\Controller\Varien\Action
+class Action extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Config\Scope
@@ -43,7 +43,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
@@ -51,7 +51,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
      * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Config\Scope $configScope,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
@@ -62,16 +62,10 @@ class Action extends \Magento\Core\Controller\Varien\Action
         $this->_viewDesign = $viewDesign;
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context);
-        $this->_app = $app;
-        $this->_appState = $appState;
-    }
-
-    protected function _construct()
-    {
-        parent::_construct();
-
         $this->_configScope->setCurrentScope('install');
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
+        $this->_app = $app;
+        $this->_appState = $appState;
     }
 
     /**

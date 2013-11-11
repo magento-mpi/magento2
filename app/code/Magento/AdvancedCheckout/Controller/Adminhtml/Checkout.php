@@ -17,7 +17,9 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
-class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Checkout extends \Magento\Backend\App\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -34,11 +36,11 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_registry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $registry
     ) {
         parent::__construct($context);
@@ -155,7 +157,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Renderer for page title
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      */
     protected function _initTitle()
     {

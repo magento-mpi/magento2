@@ -1,26 +1,13 @@
 <?php
 /**
+ * Default implementation of application action controller
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Custom \Zend_Controller_Action class (formally)
- *
- * Allows dispatching before and after events for each controller action
- *
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Controller\Varien;
-
-use Magento\App\Action\AbstractAction;
+namespace Magento\App\Action;
 
 class Action extends \Magento\App\Action\AbstractAction
 {
@@ -28,7 +15,6 @@ class Action extends \Magento\App\Action\AbstractAction
     const FLAG_NO_DISPATCH              = 'no-dispatch';
     const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
-    const FLAG_NO_START_SESSION         = 'no-startSession';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
     const FLAG_NO_COOKIES_REDIRECT      = 'no-cookies-redirect';
 
@@ -126,36 +112,56 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $authentication;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param Context $context
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\State $appState
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Helper\Data $helper
      */
-    public function __construct(\Magento\Core\Controller\Varien\Action\Context $context)
-    {
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\App\State $appState,
+        \Magento\Filesystem $filesystem,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Helper\Data $helper
+    ) {
         parent::__construct($context->getRequest(), $context->getResponse());
 
-        $this->_objectManager   = $context->getObjectManager();
-        $this->_frontController = $context->getFrontController();
-        $this->_layout          = $context->getLayout();
-        $this->_eventManager    = $context->getEventManager();
+        $this->_objectManager     = $context->getObjectManager();
+        $this->_frontController   = $context->getFrontController();
+        $this->_layout            = $context->getLayout();
+        $this->_eventManager      = $context->getEventManager();
         $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
-        $this->authentication = $context->getAuthentication();
-
-        $this->_construct();
-    }
-
-    protected function _construct()
-    {
-    }
-
-    /**
-     * Check is controller method exist
-     *
-     * @param string $action
-     * @return bool
-     */
-    public function hasAction($action)
-    {
-        return method_exists($this, $this->getActionMethodName($action));
+        $this->authentication     = $context->getAuthentication();
+        $this->_configScope       = $configScope;
+        $this->_storeManager      = $storeManager;
+        $this->_appState          = $appState;
+        $this->_locale            = $locale;
+        $this->_session           = $session;
+        $this->_filesystem        = $filesystem;
+        $this->_url               = $url;
+        $this->_translate         = $translate;
+        $this->_storeConfig       = $storeConfig;
+        $this->_cookie            = $cookie;
+        $this->_app               = $app;
+        $this->_helper            = $helper;
     }
 
     /**
@@ -165,7 +171,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   string $flag
      * @return  bool
      */
-    public function getFlag($action, $flag = '')
+    public function getFlag($action, $flag = '') // Leave
     {
         if ('' === $action) {
             $action = $this->getRequest()->getActionName();
@@ -185,9 +191,9 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   string $action
      * @param   string $flag
      * @param   string $value
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    public function setFlag($action, $flag, $value)
+    public function setFlag($action, $flag, $value)  // Leave
     {
         if ('' === $action) {
             $action = $this->getRequest()->getActionName();
@@ -201,11 +207,9 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return \Magento\View\LayoutInterface
      */
-    public function getLayout()
+    public function getLayout()  // Leave
     {
-        /** @var \Magento\Config\ScopeInterface $configScope */
-        $configScope = $this->_objectManager->get('Magento\Config\ScopeInterface');
-        $this->_layout->setArea($configScope->getCurrentScope());
+        $this->_layout->setArea($this->_configScope->getCurrentScope());
         return $this->_layout;
     }
 
@@ -218,7 +222,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @return  $this
      * @throws  \RuntimeException
      */
-    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
+    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)  // Leave
     {
         if ($this->_isLayoutLoaded) {
             throw new \RuntimeException('Layout must be loaded only once.');
@@ -252,7 +256,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return string
      */
-    public function getDefaultLayoutHandle()
+    public function getDefaultLayoutHandle()  // Leave
     {
         return strtolower($this->getFullActionName());
     }
@@ -260,9 +264,9 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * Add layout handle by full controller action name
      *
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
-    public function addActionLayoutHandles()
+    public function addActionLayoutHandles()  // Leave
     {
         if (!$this->_isRenderInherited || !$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
@@ -276,7 +280,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param array $parameters page parameters
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array())
+    public function addPageLayoutHandles(array $parameters = array())  // Leave
     {
         $handle = $this->getDefaultLayoutHandle();
         $pageHandles = array($handle);
@@ -292,7 +296,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function loadLayoutUpdates()
+    public function loadLayoutUpdates()  // Leave
     {
         \Magento\Profiler::start('LAYOUT');
 
@@ -316,7 +320,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function generateLayoutXml()
+    public function generateLayoutXml()  // Leave
     {
         \Magento\Profiler::start('LAYOUT');
 
@@ -342,7 +346,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function generateLayoutBlocks()
+    public function generateLayoutBlocks()  // Leave
     {
         \Magento\Profiler::start('LAYOUT');
 
@@ -374,9 +378,9 @@ class Action extends \Magento\App\Action\AbstractAction
      * Rendering layout
      *
      * @param   string $output
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    public function renderLayout($output = '')
+    public function renderLayout($output = '')  // Leave
     {
         if ($this->getFlag('', 'no-renderLayout')) {
             return;
@@ -396,7 +400,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
 
         $output = $this->getLayout()->getOutput();
-        $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
+        $this->_translate->processResponseBody($output);
         $this->getResponse()->appendBody($output);
         \Magento\Profiler::stop('layout_render');
 
@@ -409,7 +413,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param string $action
      */
-    public function dispatch($action)
+    public function dispatch($action)   // Leave
     {
         $this->getRequest()->setDispatched(true);
         try {
@@ -473,7 +477,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param string $action
      * @return string
      */
-    public function getActionMethodName($action)
+    public function getActionMethodName($action)  // Leave
     {
         return $action . 'Action';
     }
@@ -481,31 +485,29 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * Start session if it is not restricted
      *
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
-    protected function _startSession()
+    protected function _startSession() // Extract
     {
-        if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
-                && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = $this->_objectManager->get('Magento\Core\Model\Cookie')->get();
-            /** @var $session \Magento\Core\Model\Session */
-            $session = $this->_objectManager->get('Magento\Core\Model\Session')->start();
+        $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
+            && !$this->getRequest()->getParam('nocookie', false);
+        $cookies = $this->_cookie->get();
+        /** @var $session \Magento\Core\Model\Session */
+        $session = $this->_session->start();
 
-            if (empty($cookies)) {
-                if ($session->getCookieShouldBeReceived()) {
+        if (empty($cookies)) {
+            if ($session->getCookieShouldBeReceived()) {
+                $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+                $session->unsCookieShouldBeReceived();
+                $session->setSkipSessionIdFlag(true);
+            } elseif ($checkCookie) {
+                if (isset($_GET[$session->getSessionIdQueryParam()])
+                    && $this->_url->getUseSession()
+                    && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
+                ) {
+                    $session->setCookieShouldBeReceived(true);
+                } else {
                     $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
-                    $session->unsCookieShouldBeReceived();
-                    $session->setSkipSessionIdFlag(true);
-                } elseif ($checkCookie) {
-                    if (isset($_GET[$session->getSessionIdQueryParam()])
-                        && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
-                        && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
-                    ) {
-                        $session->setCookieShouldBeReceived(true);
-                    } else {
-                        $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
-                    }
                 }
             }
         }
@@ -515,11 +517,11 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * Initialize area and design
      *
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
-    protected function _initDesign()
+    protected function _initDesign()  // Extract
     {
-        $area = $this->_objectManager->get('Magento\Core\Model\App')->getArea($this->getLayout()->getArea());
+        $area = $this->_app->getArea($this->getLayout()->getArea());
         $area->load(\Magento\Core\Model\App\Area::PART_DESIGN);
         $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         $area->detectDesign($this->getRequest());
@@ -531,24 +533,8 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return null
      */
-    public function preDispatch()
+    public function preDispatch() // Remove???
     {
-        if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                $this->_redirect('install');
-                return;
-            }
-        }
-
-        // Prohibit disabled store actions
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($this->_objectManager->get('Magento\App\State')->isInstalled()
-            && !$storeManager->getStore()->getIsActive()
-        ) {
-            $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
-        }
-
         // Start session
         $this->_startSession();
 
@@ -556,7 +542,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('web/browser_capabilities/cookies')
+            && $this->_storeConfig->getConfig('web/browser_capabilities/cookies')
         ) {
             $this->_forward('noCookies', 'index', 'core');
             return;
@@ -572,7 +558,7 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * Fire predispatch events, execute extra logic after predispatch
      */
-    protected function _firePreDispatchEvents()
+    protected function _firePreDispatchEvents() // Inline
     {
         $this->_eventManager->dispatch('controller_action_predispatch', array('controller_action' => $this));
         $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
@@ -584,7 +570,7 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * Dispatches event after action
      */
-    public function postDispatch()
+    public function postDispatch() // Kill
     {
         if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
             return;
@@ -606,7 +592,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param null $coreRoute
      */
-    public function norouteAction($coreRoute = null)
+    public function norouteAction($coreRoute = null) // Extract
     {
         $status = $this->getRequest()->getParam('__status__');
         if (!$status instanceof \Magento\Object) {
@@ -634,7 +620,7 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * No cookies action
      */
-    public function noCookiesAction()
+    public function noCookiesAction() // Extract
     {
         $redirect = new \Magento\Object();
         $this->_eventManager->dispatch('controller_action_nocookies', array(
@@ -663,7 +649,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param string|null $module
      * @param array|null $params
      */
-    protected function _forward($action, $controller = null, $module = null, array $params = null)
+    protected function _forward($action, $controller = null, $module = null, array $params = null) // Leave
     {
         $request = $this->getRequest();
 
@@ -691,9 +677,9 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param string|array $messagesStorage
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
-    protected function _initLayoutMessages($messagesStorage)
+    protected function _initLayoutMessages($messagesStorage) // Kill ???
     {
         if (!is_array($messagesStorage)) {
             $messagesStorage = array($messagesStorage);
@@ -718,9 +704,9 @@ class Action extends \Magento\App\Action\AbstractAction
      * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
-    public function initLayoutMessages($messagesStorage)
+    public function initLayoutMessages($messagesStorage) // Roots, bloody roots
     {
         return $this->_initLayoutMessages($messagesStorage);
     }
@@ -729,9 +715,9 @@ class Action extends \Magento\App\Action\AbstractAction
      * Set redirect url into response
      *
      * @param   string $url
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    protected function _redirectUrl($url)
+    protected function _redirectUrl($url) // Inline
     {
         $this->getResponse()->setRedirect($url);
         return $this;
@@ -742,9 +728,9 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param   string $path
      * @param   array $arguments
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    protected function _redirect($path, $arguments = array())
+    protected function _redirect($path, $arguments = array()) // Inline/leave
     {
         return $this->setRedirectWithCookieCheck($path, $arguments);
     }
@@ -755,22 +741,20 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param   string $path
      * @param   array $arguments
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    public function setRedirectWithCookieCheck($path, array $arguments = array())
+    public function setRedirectWithCookieCheck($path, array $arguments = array()) // Refactor session usage/ Inline?
     {
-        /** @var $session \Magento\Core\Model\Session */
-        $session = $this->_objectManager->get('Magento\Core\Model\Session');
-        if ($session->getCookieShouldBeReceived()
-            && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
-            && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
+        if ($this->_session->getCookieShouldBeReceived()
+            && $this->_url->getUseSession()
+            && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
-                $session->getSessionIdQueryParam() => $session->getSessionId()
+                $this->_session->getSessionIdQueryParam() => $this->_session->getSessionId()
             ));
         }
         $this->getResponse()->setRedirect(
-            $this->_objectManager->create('Magento\Core\Model\Url')->getUrl($path, $arguments)
+            $this->_url->getUrl($path, $arguments)
         );
         return $this;
     }
@@ -780,16 +764,16 @@ class Action extends \Magento\App\Action\AbstractAction
      * Redirect to success page
      *
      * @param string $defaultUrl
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
-    protected function _redirectSuccess($defaultUrl)
+    protected function _redirectSuccess($defaultUrl) // leave, inline?
     {
         $successUrl = $this->getRequest()->getParam(self::PARAM_NAME_SUCCESS_URL);
         if (empty($successUrl)) {
             $successUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($successUrl)) {
-            $successUrl = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getBaseUrl();
+            $successUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($successUrl);
         return $this;
@@ -799,16 +783,16 @@ class Action extends \Magento\App\Action\AbstractAction
      * Redirect to error page
      *
      * @param string $defaultUrl
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    protected function _redirectError($defaultUrl)
+    protected function _redirectError($defaultUrl) // extract
     {
         $errorUrl = $this->getRequest()->getParam(self::PARAM_NAME_ERROR_URL);
         if (empty($errorUrl)) {
             $errorUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($errorUrl)) {
-            $errorUrl = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getBaseUrl();
+            $errorUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($errorUrl);
         return $this;
@@ -818,15 +802,15 @@ class Action extends \Magento\App\Action\AbstractAction
      * Set referer url for redirect in response
      *
      * @param   string $defaultUrl
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  \Magento\App\ActionInterface
      */
-    protected function _redirectReferer($defaultUrl=null)
+    protected function _redirectReferer($defaultUrl=null) // extract
     {
 
         $refererUrl = $this->_getRefererUrl();
         if (empty($refererUrl)) {
             $refererUrl = empty($defaultUrl)
-                ? $this->_objectManager->get('Magento\Core\Model\StoreManager')->getBaseUrl()
+                ? $this->_storeManager->getBaseUrl()
                 : $defaultUrl;
         }
 
@@ -839,7 +823,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return string
      */
-    protected function _getRefererUrl()
+    protected function _getRefererUrl() // extract
     {
         $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
         $url = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL);
@@ -848,15 +832,15 @@ class Action extends \Magento\App\Action\AbstractAction
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
         if ($url) {
-            $refererUrl = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($url);
+            $refererUrl = $this->_urlCoder->decode($url);
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($url) {
-            $refererUrl = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($url);
+            $refererUrl = $this->_urlCoder->decode($url);
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {
-            $refererUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getBaseUrl();
+            $refererUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $refererUrl;
     }
@@ -867,14 +851,14 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   string $url
      * @return  bool
      */
-    protected function _isUrlInternal($url)
+    protected function _isUrlInternal($url) // extract
     {
         if (strpos($url, 'http') !== false) {
             /**
              * Url must start from base secure or base unsecure url
              */
             /** @var $store \Magento\Core\Model\StoreManagerInterface */
-            $store = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore();
+            $store = $this->_storeManager->getStore();
             if ((strpos($url, $store->getBaseUrl()) === 0)
                 || (strpos($url, $store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true)) === 0)
             ) {
@@ -889,10 +873,10 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return bool
      */
-    protected function _validateFormKey()
+    protected function _validateFormKey() // Extract ?
     {
         if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != $this->_objectManager->get('Magento\Core\Model\Session')->getFormKey()
+            || $formKey != $this->_session->getFormKey()
         ) {
             return false;
         }
@@ -908,13 +892,13 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @see self::_renderTitles()
      * @param string $text
-     * @return \Magento\Core\Controller\Varien\Action
+     * @return \Magento\App\ActionInterface
      */
     protected function _title($text)
     {
         $this->_titles[] = $text;
         return $this;
-    }
+    } // Leave
 
     /**
      * Prepare titles in the 'head' layout block
@@ -924,7 +908,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @see self::loadLayout()
      * @see self::renderLayout()
      */
-    protected function _renderTitles()
+    protected function _renderTitles() // leave/ KILLLLL
     {
         if ($this->_isLayoutLoaded && $this->_titles) {
             $titleBlock = $this->getLayout()->getBlock('head');
@@ -947,14 +931,13 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   array $dateFields
      * @return  array
      */
-    protected function _filterDates($array, $dateFields)
+    protected function _filterDates($array, $dateFields)  // LKILL
     {
         if (empty($dateFields)) {
             return $array;
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
-                ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
@@ -976,14 +959,13 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   array $dateFields
      * @return  array
      */
-    protected function _filterDateTime($array, $dateFields)
+    protected function _filterDateTime($array, $dateFields) // LKill
     {
         if (empty($dateFields)) {
             return $array;
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
-                ->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
@@ -998,70 +980,4 @@ class Action extends \Magento\App\Action\AbstractAction
         return $array;
     }
 
-    /**
-     * Declare headers and content file in response for file download
-     *
-     * @param string $fileName
-     * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
-     *                              that case
-     * @param string $contentType
-     * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Controller\Varien\Action
-     */
-    protected function _prepareDownloadResponse(
-        $fileName,
-        $content,
-        $contentType = 'application/octet-stream',
-        $contentLength = null
-    ) {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->create('Magento\Filesystem');
-        $isFile = false;
-        $file   = null;
-        if (is_array($content)) {
-            if (!isset($content['type']) || !isset($content['value'])) {
-                return $this;
-            }
-            if ($content['type'] == 'filename') {
-                $isFile         = true;
-                $file           = $content['value'];
-                $contentLength  = $filesystem->getFileSize($file);
-            }
-        }
-
-        $this->getResponse()
-            ->setHttpResponseCode(200)
-            ->setHeader('Pragma', 'public', true)
-            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-            ->setHeader('Content-type', $contentType, true)
-            ->setHeader('Content-Length', is_null($contentLength) ? strlen($content) : $contentLength, true)
-            ->setHeader('Content-Disposition', 'attachment; filename="'.$fileName.'"', true)
-            ->setHeader('Last-Modified', date('r'), true);
-
-        if (!is_null($content)) {
-            if ($isFile) {
-                $this->getResponse()->clearBody();
-                $this->getResponse()->sendHeaders();
-
-                if (!$filesystem->isFile($file)) {
-                    throw new \Magento\Core\Exception(__('File not found'));
-                }
-                $stream = $filesystem->createAndOpenStream($file, 'r');
-                while ($buffer = $stream->read(1024)) {
-                    print $buffer;
-                }
-                flush();
-                $stream->close();
-                if (!empty($content['rm'])) {
-                    $filesystem->delete($file);
-                }
-
-                exit(0);
-            } else {
-                $this->getResponse()->setBody($content);
-            }
-        }
-        return $this;
-    }
 }

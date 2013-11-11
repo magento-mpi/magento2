@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Controller\Adminhtml\Paypal;
 
-class Reports extends \Magento\Backend\Controller\Adminhtml\Action
+class Reports extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -38,13 +38,13 @@ class Reports extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_logger;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory
      * @param \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory

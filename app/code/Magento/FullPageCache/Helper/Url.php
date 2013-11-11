@@ -91,7 +91,7 @@ class Url
      */
     public function replaceUenc($content)
     {
-        $search = '/\/(' . \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
+        $search = '/\/(' . \Magento\Core\App\Action\Plugin\LastUrl::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
         $replace = '/$1/' . $this->_urlHelper->getEncodedUrl() . '/';
         $content = preg_replace($search, $replace, $content);
         return $content;

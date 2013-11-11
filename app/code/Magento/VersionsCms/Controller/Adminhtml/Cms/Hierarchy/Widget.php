@@ -17,7 +17,7 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 
-class Widget extends \Magento\Backend\Controller\Adminhtml\Action
+class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Chooser Source action

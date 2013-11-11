@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Controller\Adminhtml;
 
-class Pbridge extends \Magento\Backend\Controller\Adminhtml\Action
+class Pbridge extends \Magento\Backend\App\Action
 {
     /**
      * Load only action layout handles

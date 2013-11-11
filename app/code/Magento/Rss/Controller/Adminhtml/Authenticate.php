@@ -13,7 +13,9 @@
  */
 namespace Magento\Rss\Controller\Adminhtml;
 
-class Authenticate extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Authenticate extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Core\Model\Logger
@@ -21,9 +23,9 @@ class Authenticate extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_logger;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      */
-    public function __construct(\Magento\Backend\Controller\Context $context)
+    public function __construct(Action\Context $context)
     {
         $this->_logger = $context->getLogger();
         parent::__construct($context);
@@ -41,7 +43,7 @@ class Authenticate extends \Magento\Backend\Controller\Adminhtml\Action
 
     /**
      * Replace standard admin login form with HTTP Basic authentication
-     * @return bool|\Magento\Backend\Controller\AbstractAction
+     * @return bool|\Magento\Backend\App\AbstractAction
      */
     protected function _initAuthentication()
     {

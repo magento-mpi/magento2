@@ -13,7 +13,7 @@
  */
 namespace Magento\Ogone\Controller;
 
-class Api extends \Magento\Core\Controller\Front\Action
+class Api extends \Magento\App\Action\Action
 {
     /**
      * Order instance
@@ -33,12 +33,12 @@ class Api extends \Magento\Core\Controller\Front\Action
     /**
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      */
     public function __construct(
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
-        \Magento\Core\Controller\Varien\Action\Context $context
+        \Magento\App\Action\Context $context
     ) {
         parent::__construct($context);
         $this->_transactionFactory = $transactionFactory;

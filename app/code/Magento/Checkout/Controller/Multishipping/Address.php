@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Controller\Multishipping;
 
-class Address extends \Magento\Core\Controller\Front\Action
+class Address extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\UrlInterface
@@ -25,11 +25,11 @@ class Address extends \Magento\Core\Controller\Front\Action
     protected $_urlBuilder;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\UrlInterface $urlBuilder
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\UrlInterface $urlBuilder
     ) {
         $this->_urlBuilder = $urlBuilder;

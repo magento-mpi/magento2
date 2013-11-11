@@ -10,8 +10,9 @@
 
 namespace Magento\Rma\Controller;
 
-class Tracking extends \Magento\Core\Controller\Front\Action
+class Tracking extends \Magento\App\Action\Action
 {
+
     /**
      * Core registry
      *
@@ -20,14 +21,22 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileResponseFactory;
+
+    /**
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileResponseFactory = $fileResponseFactory;
         parent::__construct($context);
     }
 
@@ -166,7 +175,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
                     $pdfContent = $pdf->render();
                 }
 
-                return $this->_prepareDownloadResponse(
+                return $this->_fileResponseFactory->create(
                     'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
                     'application/pdf'
@@ -209,7 +218,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
             $pdf = $orderPdf->getPdf($shippingInfoModel);
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
-            $this->_prepareDownloadResponse(
+            $this->_fileResponseFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(), 'application/pdf'
             );
         }

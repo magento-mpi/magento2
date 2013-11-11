@@ -16,7 +16,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Invoice;
 
 class AbstractInvoice
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Init layout, menu and breadcrumb

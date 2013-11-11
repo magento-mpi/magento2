@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-class Review extends \Magento\Backend\Controller\Adminhtml\Action
+class Review extends \Magento\Backend\App\Action
 {
     public function _initAction()
     {

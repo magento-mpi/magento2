@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-class Search extends \Magento\Core\Controller\Front\Action
+class Search extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -33,13 +33,13 @@ class Search extends \Magento\Core\Controller\Front\Action
     protected $locale;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale

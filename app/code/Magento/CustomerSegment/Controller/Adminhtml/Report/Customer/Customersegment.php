@@ -18,7 +18,7 @@
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
 
 class Customersegment
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Admin session
@@ -41,12 +41,12 @@ class Customersegment
 
     /**
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_collectionFactory = $collectionFactory;

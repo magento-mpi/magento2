@@ -17,7 +17,7 @@
  */
 namespace Magento\Connect\Controller\Adminhtml\Extension;
 
-class Custom extends \Magento\Backend\Controller\Adminhtml\Action
+class Custom extends \Magento\Backend\App\Action
 {
     /**
      * Redirect to edit Extension Package action

@@ -212,15 +212,6 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canProcess($observer)
     {
-        $action = $observer->getEvent()->getAction();
-        $controllerAction = $observer->getEvent()->getControllerAction();
-
-        if ($action instanceof \Magento\Core\Controller\Varien\Action) {
-            return !$action->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_START_SESSION);
-        }
-        if ($controllerAction instanceof \Magento\Core\Controller\Varien\Action) {
-            return !$controllerAction->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_START_SESSION);
-        }
         return true;
     }
 

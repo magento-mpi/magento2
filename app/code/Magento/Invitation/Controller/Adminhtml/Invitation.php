@@ -13,7 +13,9 @@
  */
 namespace Magento\Invitation\Controller\Adminhtml;
 
-class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Invitation extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -44,14 +46,14 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_config;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

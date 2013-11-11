@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-class Event extends \Magento\Backend\Controller\Adminhtml\Action
+class Event extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -37,13 +37,13 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogEvent\Model\EventFactory $eventFactory

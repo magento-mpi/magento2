@@ -13,7 +13,7 @@
  */
 namespace Magento\CatalogSearch\Controller;
 
-class Result extends \Magento\Core\Controller\Front\Action
+class Result extends \Magento\App\Action\Action
 {
     /**
      * Store manager
@@ -32,12 +32,12 @@ class Result extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {

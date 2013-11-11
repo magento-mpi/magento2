@@ -15,7 +15,7 @@ namespace Magento\MultipleWishlist\Controller;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Search extends \Magento\Core\Controller\Front\Action
+class Search extends \Magento\App\Action\Action
 {
     /**
      * Localization filter
@@ -97,7 +97,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -110,7 +110,7 @@ class Search extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,

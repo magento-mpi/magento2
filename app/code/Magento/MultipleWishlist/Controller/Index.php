@@ -48,7 +48,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
@@ -59,10 +59,11 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Url $url,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\Session\Generic $wishlistSession,
@@ -74,7 +75,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig, $url);
+        parent::__construct($context, $coreRegistry, $wishlistConfig, $url, $fileResponseFactory);
     }
 
     /**
@@ -209,7 +210,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Edit wishlist properties
      *
-     * @return \Magento\Core\Controller\Varien\Action|\Zend_Controller_Response_Abstract
+     * @return \Magento\App\Action\Action|\Zend_Controller_Response_Abstract
      */
     public function editwishlistAction()
     {

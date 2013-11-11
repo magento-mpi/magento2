@@ -18,7 +18,7 @@
 
 namespace Magento\Customer\Controller;
 
-class Review extends \Magento\Core\Controller\Front\Action
+class Review extends \Magento\App\Action\Action
 {
     public function indexAction()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-class Dashboard extends \Magento\Backend\Controller\Adminhtml\Action
+class Dashboard extends \Magento\Backend\App\Action
 {
     public function indexAction()
     {

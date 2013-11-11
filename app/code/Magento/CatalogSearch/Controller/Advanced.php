@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Controller;
 
-class Advanced extends \Magento\Core\Controller\Front\Action
+class Advanced extends \Magento\App\Action\Action
 {
 
     /**
@@ -44,13 +44,13 @@ class Advanced extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Session\Generic $catalogSearchSession
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Session\Generic $catalogSearchSession,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Core\Model\UrlFactory $urlFactory

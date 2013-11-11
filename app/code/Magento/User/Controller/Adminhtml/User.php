@@ -7,7 +7,7 @@
  */
 namespace Magento\User\Controller\Adminhtml;
 
-class User extends \Magento\Backend\Controller\AbstractAction
+class User extends \Magento\Backend\App\AbstractAction
 {
     /**
      * Core registry
@@ -26,12 +26,12 @@ class User extends \Magento\Backend\Controller\AbstractAction
     /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\User\Model\UserFactory $userFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\User\Model\UserFactory $userFactory
     ) {

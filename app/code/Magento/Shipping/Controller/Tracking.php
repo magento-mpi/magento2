@@ -18,7 +18,7 @@
 
 namespace Magento\Shipping\Controller;
 
-class Tracking extends \Magento\Core\Controller\Front\Action
+class Tracking extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -38,14 +38,14 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Shipping\Model\InfoFactory $shippingInfoFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Shipping\Model\InfoFactory $shippingInfoFactory,

@@ -23,6 +23,11 @@ class Index
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileResponseFactory;
+
+    /**
      * @var \Magento\Wishlist\Model\Config
      */
     protected $_wishlistConfig;
@@ -54,20 +59,23 @@ class Index
     protected $_url;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Url $url
+     * @param \Magento\App\Response\Http\FileFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\Core\Model\Url $url
+        \Magento\Core\Model\Url $url,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistConfig = $wishlistConfig;
         $this->_url = $url;
+        $this->_fileResponseFactory = $fileResponseFactory;
         parent::__construct($context);
     }
 
@@ -615,7 +623,7 @@ class Index
     /**
      * Share wishlist
      *
-     * @return \Magento\Core\Controller\Varien\Action|void
+     * @return \Magento\App\Action\Action|void
      */
     public function sendAction()
     {
@@ -764,7 +772,7 @@ class Index
             $secretKey = $this->getRequest()->getParam('key');
 
             if ($secretKey == $info['secret_key']) {
-                $this->_prepareDownloadResponse($info['title'], array(
+                $this->_fileResponseFactory->create($info['title'], array(
                     'value' => $filePath,
                     'type'  => 'filename'
                 ));

@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-abstract class AbstractReport extends \Magento\Backend\Controller\Adminhtml\Action
+abstract class AbstractReport extends \Magento\Backend\App\Action
 {
     /**
      * Admin session model

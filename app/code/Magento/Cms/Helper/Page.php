@@ -135,11 +135,11 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      *
      * Call from controller action
      *
-     * @param \Magento\Core\Controller\Front\Action $action
+     * @param \Magento\Core\App\Action\Plugin\LastUrl $action
      * @param integer $pageId
      * @return boolean
      */
-    public function renderPage(\Magento\Core\Controller\Front\Action $action, $pageId = null)
+    public function renderPage(\Magento\Core\App\Action\Plugin\LastUrl $action, $pageId = null)
     {
         return $this->_renderPage($action, $pageId);
     }
@@ -147,12 +147,12 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Renders CMS page
      *
-     * @param \Magento\Core\Controller\Front\Action|\Magento\Core\Controller\Varien\Action $action
+     * @param \Magento\Core\App\Action\Plugin\LastUrl|\Magento\App\Action\Action $action
      * @param integer $pageId
      * @param bool $renderLayout
      * @return boolean
      */
-    protected function _renderPage(\Magento\Core\Controller\Varien\Action  $action, $pageId = null, $renderLayout = true)
+    protected function _renderPage(\Magento\App\Action\Action  $action, $pageId = null, $renderLayout = true)
     {
         if (!is_null($pageId) && $pageId!==$this->_page->getId()) {
             $delimeterPosition = strrpos($pageId, '|');
@@ -239,12 +239,12 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * Allows to use also backend action as first parameter.
      * Also takes third parameter which allows not run renderLayout method.
      *
-     * @param \Magento\Core\Controller\Varien\Action $action
+     * @param \Magento\App\Action\Action $action
      * @param $pageId
      * @param $renderLayout
      * @return bool
      */
-    public function renderPageExtended(\Magento\Core\Controller\Varien\Action $action, $pageId = null, $renderLayout = true)
+    public function renderPageExtended(\Magento\App\Action\Action $action, $pageId = null, $renderLayout = true)
     {
         return $this->_renderPage($action, $pageId, $renderLayout);
     }

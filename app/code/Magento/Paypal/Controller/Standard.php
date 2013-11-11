@@ -15,7 +15,7 @@
  */
 namespace Magento\Paypal\Controller;
 
-class Standard extends \Magento\Core\Controller\Front\Action
+class Standard extends \Magento\App\Action\Action
 {
     /**
      * Order instance

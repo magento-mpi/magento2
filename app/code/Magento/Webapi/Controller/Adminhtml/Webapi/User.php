@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Adminhtml\Webapi;
 
-class User extends \Magento\Backend\Controller\AbstractAction
+class User extends \Magento\Backend\App\AbstractAction
 {
     /**
      * @var \Magento\Core\Model\Validator\Factory
@@ -19,11 +19,11 @@ class User extends \Magento\Backend\Controller\AbstractAction
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Validator\Factory $validatorFactory
     ) {
         parent::__construct($context);

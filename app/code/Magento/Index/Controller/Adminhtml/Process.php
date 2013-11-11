@@ -9,7 +9,9 @@
  */
 namespace Magento\Index\Controller\Adminhtml;
 
-class Process extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Process extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -29,13 +31,13 @@ class Process extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_indexer;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\Index\Model\Indexer $indexer
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Index\Model\ProcessFactory $processFactory,
         \Magento\Index\Model\Indexer $indexer

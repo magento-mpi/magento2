@@ -17,7 +17,7 @@
  */
 namespace Magento\Review\Controller;
 
-class Product extends \Magento\Core\Controller\Front\Action
+class Product extends \Magento\App\Action\Action
 {
     /**
      * Action list where need check enabled cookie
@@ -89,7 +89,7 @@ class Product extends \Magento\Core\Controller\Front\Action
     protected $_catalogDesign;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlInterface $urlModel
@@ -104,7 +104,7 @@ class Product extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\Session\Generic $reviewSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\UrlInterface $urlModel,

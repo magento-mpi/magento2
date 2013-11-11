@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Controller;
 
-class Cart extends \Magento\Core\Controller\Front\Action
+class Cart extends \Magento\App\Action\Action
 {
     /**
      * Only logged in users can use this functionality,

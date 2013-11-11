@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Checkout;
 
-class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
+class Agreement extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,11 +27,11 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -146,7 +146,7 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Initialize action
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      */
     protected function _initAction()
     {

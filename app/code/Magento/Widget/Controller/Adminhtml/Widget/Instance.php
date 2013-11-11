@@ -13,7 +13,7 @@
  */
 namespace Magento\Widget\Controller\Adminhtml\Widget;
 
-class Instance extends \Magento\Backend\Controller\Adminhtml\Action
+class Instance extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -38,14 +38,14 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
     protected $mathRandom;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Logger $logger,

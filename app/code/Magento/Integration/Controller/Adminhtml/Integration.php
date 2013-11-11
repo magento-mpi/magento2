@@ -7,11 +7,12 @@
  */
 namespace Magento\Integration\Controller\Adminhtml;
 
+use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Backend\Controller\Adminhtml\Action
+class Integration extends \Magento\Backend\App\Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
@@ -30,12 +31,12 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
     private $_integrationService;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         \Magento\Core\Model\Registry $registry
     ) {

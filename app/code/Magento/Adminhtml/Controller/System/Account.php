@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Controller\System;
 
-class Account extends \Magento\Backend\Controller\Adminhtml\Action
+class Account extends \Magento\Backend\App\Action
 {
     public function indexAction()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
 
-class Currencysymbol extends \Magento\Backend\Controller\Adminhtml\Action
+class Currencysymbol extends \Magento\Backend\App\Action
 {
     /**
      * Show Currency Symbols Management dialog

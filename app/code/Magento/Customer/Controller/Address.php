@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Controller;
 
-class Address extends \Magento\Core\Controller\Front\Action
+class Address extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -35,7 +35,7 @@ class Address extends \Magento\Core\Controller\Front\Action
     protected $_addressFormFactory;
 
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Address\FormFactory $addressFormFactory

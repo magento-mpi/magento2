@@ -15,7 +15,7 @@
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
 class Formtype
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -45,7 +45,7 @@ class Formtype
     protected $_elementsFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Eav\Model\Form\TypeFactory $formTypeFactory
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
@@ -53,7 +53,7 @@ class Formtype
      * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Eav\Model\Form\TypeFactory $formTypeFactory,
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,

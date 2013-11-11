@@ -10,7 +10,7 @@
 
 namespace Magento\Adminhtml\Controller\System;
 
-class Design extends \Magento\Backend\Controller\Adminhtml\Action
+class Design extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -20,11 +20,11 @@ class Design extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;

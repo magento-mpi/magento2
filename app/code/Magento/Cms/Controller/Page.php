@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Controller;
 
-class Page extends \Magento\Core\Controller\Front\Action
+class Page extends \Magento\App\Action\Action
 {
     /**
      * View CMS page action

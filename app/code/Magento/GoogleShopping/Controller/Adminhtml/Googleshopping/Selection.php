@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Selection extends \Magento\Backend\Controller\Adminhtml\Action
+class Selection extends \Magento\Backend\App\Action
 {
     /**
      * Search result grid with available products for Google Content

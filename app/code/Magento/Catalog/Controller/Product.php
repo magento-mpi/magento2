@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Controller;
 
 class Product
-    extends \Magento\Core\Controller\Front\Action
+    extends \Magento\App\Action\Action
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**

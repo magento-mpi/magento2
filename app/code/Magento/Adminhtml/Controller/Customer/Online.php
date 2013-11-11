@@ -9,7 +9,7 @@
  */
 namespace Magento\Adminhtml\Controller\Customer;
 
-class Online extends \Magento\Backend\Controller\Adminhtml\Action
+class Online extends \Magento\Backend\App\Action
 {
 
     public function indexAction()

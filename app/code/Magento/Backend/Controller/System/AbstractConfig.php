@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Controller\System;
 
-abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
+abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure
@@ -21,11 +21,11 @@ abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
     protected $_configStructure;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure
     ) {
         parent::__construct($context);
@@ -36,7 +36,7 @@ abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
      * Controller pre-dispatch method
      * Check if current section is found and is allowed
      *
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     public function preDispatch()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Controller;
 
-class Download extends \Magento\Core\Controller\Front\Action
+class Download extends \Magento\App\Action\Action
 {
 
     /**

@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-class Ajax extends \Magento\Backend\Controller\Adminhtml\Action
+class Ajax extends \Magento\Backend\App\Action
 {
     /**
      * Ajax action for inline translation

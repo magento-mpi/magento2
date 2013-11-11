@@ -36,7 +36,7 @@ class Account extends \Magento\Customer\Controller\Account
     protected $_invitationFactory;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -49,7 +49,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -87,7 +87,7 @@ class Account extends \Magento\Customer\Controller\Account
      */
     public function preDispatch()
     {
-        \Magento\Core\Controller\Front\Action::preDispatch();
+        \Magento\Core\App\Action\Plugin\LastUrl::preDispatch();
 
         if (!preg_match('/^(create|createpost)/i', $this->getRequest()->getActionName())) {
             $this->norouteAction();

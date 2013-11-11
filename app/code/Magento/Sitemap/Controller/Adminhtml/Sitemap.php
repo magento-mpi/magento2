@@ -14,7 +14,9 @@
  */
 namespace Magento\Sitemap\Controller\Adminhtml;
 
-class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Sitemap extends  \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -24,11 +26,11 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;

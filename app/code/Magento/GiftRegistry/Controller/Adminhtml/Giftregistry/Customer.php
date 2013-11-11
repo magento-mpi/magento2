@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-class Customer extends \Magento\Backend\Controller\Adminhtml\Action
+class Customer extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -32,12 +32,12 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
     protected $storeManager;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {

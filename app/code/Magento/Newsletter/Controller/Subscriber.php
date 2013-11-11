@@ -17,7 +17,7 @@
  */
 namespace Magento\Newsletter\Controller;
 
-class Subscriber extends \Magento\Core\Controller\Front\Action
+class Subscriber extends \Magento\App\Action\Action
 {
     /**
      * Session
@@ -57,7 +57,7 @@ class Subscriber extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -65,7 +65,7 @@ class Subscriber extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\Session $session
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

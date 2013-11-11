@@ -15,7 +15,7 @@
  */
 namespace Magento\GoogleCheckout\Controller;
 
-class Redirect extends \Magento\Core\Controller\Front\Action
+class Redirect extends \Magento\App\Action\Action
 {
     /**
      *  Send request to Google Checkout and return Response Api

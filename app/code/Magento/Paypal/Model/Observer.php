@@ -130,7 +130,7 @@ class Observer
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && in_array($payment->getMethod(), $this->_paypalHss->getHssMethods())) {
-                /* @var $controller \Magento\Core\Controller\Varien\Action */
+                /* @var $controller \Magento\App\Action\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = $this->_coreData->jsonDecode(
                     $controller->getResponse()->getBody('default'),

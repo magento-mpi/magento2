@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Controller;
 
-class Ajax extends \Magento\Core\Controller\Front\Action
+class Ajax extends \Magento\App\Action\Action
 {
     /**
      * Ajax action for inline translation

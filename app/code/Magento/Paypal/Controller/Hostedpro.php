@@ -15,7 +15,7 @@
  */
 namespace Magento\Paypal\Controller;
 
-class Hostedpro extends \Magento\Core\Controller\Front\Action
+class Hostedpro extends \Magento\App\Action\Action
 {
     /**
      * When a customer return to website from gateway.

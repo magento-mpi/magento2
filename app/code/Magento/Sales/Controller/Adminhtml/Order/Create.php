@@ -17,16 +17,18 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-class Create extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Create extends \Magento\Backend\App\Action
 {
     /**
-     * Additional initialization
-     *
+     * @param Action\Context $context
+     * @param \Magento\Catalog\Helper\Product $productHelper
      */
-    protected function _construct()
+    public function __construct(Action\Context $context, \Magento\Catalog\Helper\Product $productHelper)
     {
-        // During order creation in the backend admin has ability to add any products to order
-        $this->_objectManager->get('Magento\Catalog\Helper\Product')->setSkipSaleableCheck(true);
+        parent::__construct($context);
+        $productHelper->setSkipSaleableCheck(true);
     }
 
     /**

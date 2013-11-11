@@ -315,8 +315,8 @@ class Observer
                     $controller->getResponse()->setRedirect(
                         $this->_url->getUrl('adminhtml/system_account/')
                     );
-                    $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
-                    $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_POST_DISPATCH, true);
+                    $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                    $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH, true);
                 } else {
                     /*
                      * if admin password is expired and access to 'My Account' page is denied

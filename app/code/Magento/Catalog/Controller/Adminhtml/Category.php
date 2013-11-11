@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml;
 
-class Category extends \Magento\Backend\Controller\Adminhtml\Action
+class Category extends \Magento\Backend\App\Action
 {
     /**
      * Initialize requested category and put it into registry.

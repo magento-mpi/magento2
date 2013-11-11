@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action
+class Index extends \Magento\App\Action\Action
 {
     /**
      * Customer Session
@@ -40,13 +40,13 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected $invitationFactory;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory

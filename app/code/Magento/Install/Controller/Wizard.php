@@ -51,7 +51,7 @@ class Wizard extends \Magento\Install\Controller\Action
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
@@ -64,7 +64,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Config\Scope $configScope,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,

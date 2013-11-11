@@ -11,7 +11,9 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-class Logging extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Logging extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -37,13 +39,13 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory

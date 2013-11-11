@@ -13,7 +13,7 @@ namespace Magento\Webhook\Controller\Adminhtml\Webhook;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Registration extends \Magento\Backend\Controller\AbstractAction
+class Registration extends \Magento\Backend\App\AbstractAction
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_TOPICS = 'topics';
@@ -43,13 +43,13 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
      * @param \Magento\Webhook\Model\Webapi\User\Factory $userFactory
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(
         \Magento\Webhook\Model\Webapi\User\Factory $userFactory,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\Controller\Context $context
+        \Magento\Backend\App\Action\Context $context
     ) {
         parent::__construct($context);
         $this->_userFactory = $userFactory;
