@@ -157,7 +157,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Init active menu and set breadcrumb
      *
-     * @return \Magento\CustomerSegment\Controller\Adminhtml\Customersegment
+     * @return \Magento\CustomerSegment\Controller\Adminhtml\Index
      */
     protected function _initAction()
     {

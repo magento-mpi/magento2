@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml grid item renderer number or blank line
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

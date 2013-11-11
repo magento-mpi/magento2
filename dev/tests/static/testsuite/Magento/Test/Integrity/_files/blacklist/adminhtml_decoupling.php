@@ -29,7 +29,6 @@ return array(
     'Block/Widget',
 
     // Controllers
-    'Controller/Report',
     'Controller/Urlrewrite',
 
     // Helpers
@@ -43,7 +42,6 @@ return array(
     'Model/Giftmessage',
     'Model/LayoutUpdate',
     'Model/Observer',
-    'Model/Report',
     'Model/Search',
     'Model/Session',
 
@@ -54,7 +52,6 @@ return array(
     'view/adminhtml/images',
     'view/adminhtml/media',
     'view/adminhtml/page',
-    'view/adminhtml/report',
     'view/adminhtml/review',
     'view/adminhtml/store',
     'view/adminhtml/urlrewrite',
@@ -64,7 +61,6 @@ return array(
     'layout/adminhtml_cache',
     'layout/adminhtml_denied',
     'layout/adminhtml_noroute',
-    'layout/adminhtml_report',
     'layout/adminhtml_urlrewrite',
     'layout/default',
     'layout/editor',
@@ -73,5 +69,4 @@ return array(
     'layout/overlay_popup',
     'layout/popup',
     'layout/preview',
-    'layout/report_sales',
 );

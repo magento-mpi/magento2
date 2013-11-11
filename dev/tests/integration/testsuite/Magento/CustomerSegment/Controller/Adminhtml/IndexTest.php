@@ -14,7 +14,7 @@ namespace Magento\CustomerSegment\Controller\Adminhtml;
 /**
  * @magentoAppArea adminhtml
  */
-class CustomersegmentTest extends \Magento\Backend\Utility\Controller
+class IndexTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
@@ -23,7 +23,7 @@ class CustomersegmentTest extends \Magento\Backend\Utility\Controller
      */
     public function testNewAction()
     {
-        $this->dispatch('backend/admin/customersegment/new/');
+        $this->dispatch('backend/customersegment/index/new/');
         $body = $this->getResponse()->getBody();
         $this->assertSelectCount('form#edit_form', 1, $body);
         $this->assertSelectCount('#magento_customersegment_segment_tabs', 1, $body);
@@ -39,7 +39,7 @@ class CustomersegmentTest extends \Magento\Backend\Utility\Controller
         $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
-        $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());
+        $this->dispatch('backend/customersegment/index/save/id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
         $this->assertNotContains('Unable to save the segment.', $content);
     }
@@ -59,7 +59,7 @@ class CustomersegmentTest extends \Magento\Backend\Utility\Controller
         $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
-        $this->dispatch('backend/admin/customersegment/match/id/' . $segment->getId());
+        $this->dispatch('backend/customersegment/index/match/id/' . $segment->getId());
 
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertNotEmpty($result->getId());

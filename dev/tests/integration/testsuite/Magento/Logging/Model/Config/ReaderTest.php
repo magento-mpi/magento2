@@ -1,9 +1,10 @@
 <?php
 /**
- * \Magento\Logging\Model\Config\Reader
- *
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Logging
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

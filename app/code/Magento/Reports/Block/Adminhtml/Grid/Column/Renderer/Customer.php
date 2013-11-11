@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Adminhtml Report Customers Reviews renderer
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;

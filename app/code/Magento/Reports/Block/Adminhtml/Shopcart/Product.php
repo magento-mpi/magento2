@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml Shopping cart products report page content block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reports\Block\Adminhtml\Shopcart;
