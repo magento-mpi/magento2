@@ -51,9 +51,9 @@ class Observer
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Core\Model\Store\Config
      */
-    protected $_coreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\CollectionFactory
@@ -75,7 +75,7 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
@@ -85,7 +85,7 @@ class Observer
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
         \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Sales\Model\ResourceFactory $resourceFactory
@@ -94,7 +94,7 @@ class Observer
         $this->_customerData = $customerData;
         $this->_customerAddress = $customerAddress;
         $this->_catalogData = $catalogData;
-        $this->_coreConfig = $coreConfig;
+        $this->_storeConfig = $storeConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
         $this->_coreLocale = $coreLocale;
         $this->_resourceFactory = $resourceFactory;
@@ -110,7 +110,7 @@ class Observer
     {
         $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
-        $lifetimes = $this->_coreConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        $lifetimes = $this->_storeConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
             $lifetime *= 86400;
 

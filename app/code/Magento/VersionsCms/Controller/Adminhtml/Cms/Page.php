@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
-class Page extends \Magento\Adminhtml\Controller\Cms\Page
+class Page extends \Magento\Cms\Controller\Adminhtml\Page
 {
     /**
      * @var array

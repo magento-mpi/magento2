@@ -104,7 +104,7 @@ class Customerbalance extends \Magento\Backend\App\Action
         $this->_balance->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
-        $this->_redirect('adminhtml/customer/edit/', array('_current' => true));
+        $this->_redirect('customer/index/edit/', array('_current' => true));
     }
 
     /**

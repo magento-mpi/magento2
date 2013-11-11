@@ -20,7 +20,7 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 class Design
-    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design
+    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
 {
     /**
      * Cms data
