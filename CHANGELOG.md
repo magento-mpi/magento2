@@ -42,6 +42,7 @@
   * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
   * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
+  * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
   * Fixed Minimum Advertised Price link on Product view
