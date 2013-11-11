@@ -7,6 +7,8 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
+use Magento\Tools\Formatter\ParserLexer;
+use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
@@ -57,17 +59,12 @@ class AbstractScalarReference extends AbstractReference
      * @param array $bodyLines
      * @param boolean $isNowDoc
      */
-    protected function processHeredoc(Line $line, $heredocCloseTag, array $bodyLines, TreeNode $treeNode, $isNowDoc)
+    protected function processHeredoc(Line $line, $heredocCloseTag, array $bodyLines, TreeNode $treeNode)
     {
         $line->add('<<<');
-        // If this is a now doc add the single quote to the open tag
-        if ($isNowDoc) {
-            $line->add("'");
-        }
-        $line->add($heredocCloseTag);
-        if ($isNowDoc) {
-            $line->add("'");
-        }
+        // if this is a now doc add the single quote to the open tag
+        $isNowDoc = $this->node->getAttribute(ParserLexer::IS_NOWDOC, false);
+        $line->add($isNowDoc ? "'" . $heredocCloseTag . "'" : $heredocCloseTag);
         $line->add(new HardLineBreak());
         foreach ($bodyLines as $bodyLine) {
             if (is_string($bodyLine)) {
@@ -89,6 +86,9 @@ class AbstractScalarReference extends AbstractReference
                 $line->add('}');
             }
         }
-        $line->add(new HardLineBreak())->add(new IndentConsumer())->add($heredocCloseTag);
+        $line->add(new HardLineBreak())
+            ->add(new IndentConsumer())
+            ->add($heredocCloseTag)
+            ->add(new HardConditionalLineBreak(';'));
     }
 }

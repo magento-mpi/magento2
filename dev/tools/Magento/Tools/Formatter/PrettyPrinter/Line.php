@@ -71,6 +71,14 @@ class Line
             if ($tokenCount > 0 && is_string($this->tokens[$tokenCount - 1]) && is_string($token)) {
                 $this->tokens[$tokenCount - 1] .= $token;
             } else {
+                $lastToken = $this->getLastToken();
+                // if the last token depends on the next value, give it a chance to operate
+                if ($lastToken instanceof LineCondition) {
+                    if ($lastToken->removeToken($token)) {
+                        // remove the last token from the string before adding the new token
+                        array_pop($this->tokens);
+                    }
+                }
                 // just add the token to the end of the list
                 $this->tokens[] = $token;
                 // persist line break information

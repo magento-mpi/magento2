@@ -7,8 +7,6 @@
  */
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Printer;
-
 class PrinterOperatorsTest extends TestBase
 {
     /**
@@ -29,13 +27,13 @@ class PrinterOperatorsTest extends TestBase
     public function dataOperators()
     {
         return array(
-            array("<?php\n\$d=(int)1;", "<?php\n\$d = (int) 1;\n"),
-            array("<?php\n\$d=(double)1;", "<?php\n\$d = (double) 1;\n"),
-            array("<?php\n\$d=(string)1;", "<?php\n\$d = (string) 1;\n"),
-            array("<?php\n\$d=(array)1;", "<?php\n\$d = (array) 1;\n"),
-            array("<?php\n\$d=(object)1;", "<?php\n\$d = (object) 1;\n"),
-            array("<?php\n\$d=(bool)1;", "<?php\n\$d = (bool) 1;\n"),
-            array("<?php\n\$d=(unset)1;", "<?php\n\$d = (unset) 1;\n"),
+            array("<?php\n\$d=(int)  1;", "<?php\n\$d = (int)1;\n"),
+            array("<?php\n\$d=(double)  1;", "<?php\n\$d = (double)1;\n"),
+            array("<?php\n\$d=(string)  1;", "<?php\n\$d = (string)1;\n"),
+            array("<?php\n\$d=(array)  1;", "<?php\n\$d = (array)1;\n"),
+            array("<?php\n\$d=(object)  1;", "<?php\n\$d = (object)1;\n"),
+            array("<?php\n\$d=(bool) 1;", "<?php\n\$d = (bool)1;\n"),
+            array("<?php\n\$d=(unset) 1;", "<?php\n\$d = (unset)1;\n"),
             array("<?php\n\$d=1<<1;", "<?php\n\$d = 1 << 1;\n"),
             array("<?php\n\$d=1>>1;", "<?php\n\$d = 1 >> 1;\n"),
             array("<?php\n\$d=1+1;", "<?php\n\$d = 1 + 1;\n"),

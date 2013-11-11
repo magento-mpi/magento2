@@ -9,6 +9,7 @@ namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
@@ -208,36 +209,14 @@ class LineBreakTest extends TestBase
         );
 
         return array(
-            array(
-                $constAlpha,
-                0,
-                "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"
-            ),
-            array(
-                $constAlpha,
-                1,
-                "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"
-            ),
-            array(
-                $constAlpha,
-                2,
-                "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"
-            ),
-            array(
-                $constNumber,
-                0,
-                "const ONE = '1';\n"
-            ),
-            array(
-                $constNumber,
-                1,
-                "const ONE = '1';\n"
-            ),
-            array(
-                $constNumber,
-                2,
-                "const ONE = '1';\n"
-            ),
+            array($constAlpha, 0, "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"),
+            array($constAlpha, 1, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"),
+            array($constAlpha, 2, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"),
+            array($constNumber, 0, "const ONE = '1';\n"),
+            array($constNumber, 1, "const ONE = '1';\n"),
+            array($constNumber, 2, "const ONE = '1';\n"),
+            array(array("HEREDOC", new HardConditionalLineBreak(';'), ';'), 0, "HEREDOC;"),
+            array(array("HEREDOC", new HardConditionalLineBreak(';'), ',"other")'), 0, "HEREDOC\n,\"other\")"),
         );
     }
 

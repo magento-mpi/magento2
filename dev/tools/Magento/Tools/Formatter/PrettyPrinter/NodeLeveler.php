@@ -192,6 +192,10 @@ class NodeLeveler extends LevelNodeVisitor
         // determine which sort order produces the best results
         $sortOrders = $line->getSortedLineBreaks();
         if (sizeof($sortOrders) > 0) {
+            // already checked the 0 level, so shift it out if there
+            if ($sortOrders[0] === 0) {
+                array_shift($sortOrders);
+            }
             foreach ($sortOrders as $sortOrder) {
                 // traverse the new tree, resolving by passed in sort order
                 $visitor = new NodeLevelerSortOrder($sortOrder, $this->level);
