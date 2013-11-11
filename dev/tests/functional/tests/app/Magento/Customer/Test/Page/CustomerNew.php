@@ -22,12 +22,12 @@ use Mtf\Page\Page;
  *
  * @package Magento\Customer\Test\Page
  */
-class AdminCustomerNew extends Page
+class CustomerNew extends Page
 {
     /**
      * URL for customer login
      */
-    const MCA = 'admin/customer/new';
+    const MCA = 'customer/new';
 
     /**
      * @var CustomerForm

@@ -55,6 +55,7 @@ class Grid extends GridInterface
      */
     public function isRowVisible(array $filter, $isSearchable = false)
     {
+        $this->search(array('name' => $filter['name']));
         return parent::isRowVisible($filter, $isSearchable);
     }
 }

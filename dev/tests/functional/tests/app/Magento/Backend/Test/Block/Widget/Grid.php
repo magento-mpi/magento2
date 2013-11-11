@@ -152,6 +152,7 @@ abstract class Grid extends Block
         $this->_prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
         $this->templateBlock->waitLoader();
+        $this->reinitRootElement();
     }
 
     /**
@@ -195,6 +196,7 @@ abstract class Grid extends Block
     {
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
         $this->templateBlock->waitLoader();
+        $this->reinitRootElement();
     }
 
     /**

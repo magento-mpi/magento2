@@ -23,7 +23,7 @@ use Mtf\Block\Block;
 class PageActions extends Block
 {
     /**
-     * Click "add new" button
+     * Click "Add new" button
      */
     public function clickAddNew()
     {

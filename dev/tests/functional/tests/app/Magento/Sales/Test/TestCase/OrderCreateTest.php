@@ -120,8 +120,8 @@ class OrderCreateTest extends Functional
     protected function _checkCustomer($fixture, $email)
     {
         //Pages
-        $customerGridPage = Factory::getPageFactory()->getAdminCustomer();
-        $customerViewPage = Factory::getPageFactory()->getAdminCustomerEdit();
+        $customerGridPage = Factory::getPageFactory()->getCustomer();
+        $customerViewPage = Factory::getPageFactory()->getCustomerEdit();
         //Block
         $customerGrid = $customerGridPage->getCustomerGridBlock();
 

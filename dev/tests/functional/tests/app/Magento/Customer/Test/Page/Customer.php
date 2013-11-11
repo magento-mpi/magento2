@@ -18,17 +18,17 @@ use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
- * Class AdminCustomer
+ * Class Customer
  * Customer backend grid page.
  *
  * @package Magento\Customer\Test\Page
  */
-class AdminCustomer extends Page
+class Customer extends Page
 {
     /**
      * URL for customer login
      */
-    const MCA = 'admin/customer';
+    const MCA = 'customer';
 
     /**
      * @var CustomerGrid

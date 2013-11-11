@@ -17,17 +17,17 @@ use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
- * Class AdminCustomerEdit
+ * Class CustomerEdit
  * Customer information page in backend
  *
  * @package Magento\Customer\Test\Page
  */
-class AdminCustomerEdit extends Page
+class CustomerEdit extends Page
 {
     /**
      * URL for customer login
      */
-    const MCA = 'admin/customer/edit';
+    const MCA = 'customer/edit';
 
     /**
      * @var Title

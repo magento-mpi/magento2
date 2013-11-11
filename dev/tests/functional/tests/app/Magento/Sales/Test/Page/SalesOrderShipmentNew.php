@@ -11,10 +11,8 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Magento\Backend\Test\Block\PageActions;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Magento\Backend\Test\Block\Sales\Order\Shipment\Totals;
 
 /**
  * Class SalesOrder
@@ -30,50 +28,34 @@ class SalesOrderShipmentNew extends Page
     const MCA = 'sales/order/shipment/new';
 
     /**
-     * @var Totals
-     */
-    private $totalsBlock;
-
-    /**
-     * @var PageActions
-     */
-    protected $_pageActionsBlock;
-
-    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->totalsBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderShipmentTotals(
-            $this->_browser->find('.order-totals')
-        );
-        $this->orderGridBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderGrid(
-            $this->_browser->find('#sales_order_grid', Locator::SELECTOR_CSS));
-        $this->_pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
-            $this->_browser->find('.page-actions')
-        );
     }
 
     /**
-     * Get sales order grid
+     * Get shipment totals
      *
-     * @return Totals
+     * @return \Magento\Backend\Test\Block\Sales\Order\Shipment\Totals
      */
-    public function getOrderGridBlock()
+    public function getTotalsBlock()
     {
-        return $this->totalsBlock;
-        return $this->orderGridBlock;
+        return Factory::getBlockFactory()->getMagentoBackendSalesOrderShipmentTotals(
+            $this->_browser->find('.order-totals')
+        );
     }
 
     /**
      * Getter for page actions block
      *
-     * @return PageActions
+     * @return \Magento\Backend\Test\Block\PageActions
      */
     public function getPageActionsBlock()
     {
-        return $this->_pageActionsBlock;
+        return Factory::getBlockFactory()->getMagentoBackendPageActions(
+            $this->_browser->find('.page-actions')
+        );
     }
 }
