@@ -67,7 +67,7 @@ class Cart extends Block
      */
     public function clearShoppingCart()
     {
-        $clearShoppingCart = $this->_rootElement->find($this->$clearShoppingCart);
+        $clearShoppingCart = $this->_rootElement->find($this->clearShoppingCart);
         if ($clearShoppingCart->isVisible()) {
             $clearShoppingCart->click();
         }
