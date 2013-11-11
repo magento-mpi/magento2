@@ -11619,13 +11619,6 @@ img[align="right"] {
   padding: 20px;
   z-index: 10;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @copyright   {copyright}
- * @license     {license_link}
- */
 .mobileAction {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -13441,23 +13434,6 @@ img[align="right"] {
     float: none;
     width: 100%;
   }
-  .giftcardaccount {
-    margin-bottom: 20px;
-  }
-  .giftcardaccount .fieldset {
-    border: none;
-    padding: 0;
-  }
-  .giftcardaccount .form.giftcard .primary,
-  .giftcardaccount .form.giftcard .secondary {
-    display: block;
-    margin: 0 0 15px;
-    text-align: center;
-  }
-  .giftcardaccount .form.giftcard .primary .action,
-  .giftcardaccount .form.giftcard .secondary .action {
-    width: 100%;
-  }
   .form.newsletter .action.save {
     width: 100%;
   }
@@ -13777,16 +13753,6 @@ img[align="right"] {
   .product.info.main .product.addto.links .action.tocompare {
     display: none;
   }
-  .product.info.main fieldset.giftcard.amount {
-    clear: both;
-  }
-  .product.info.main fieldset.giftcard.amount .field.amounts {
-    width: 100%;
-  }
-  .product.info.main .fieldset.giftcard.send .field {
-    width: 100%;
-    padding-right: 0;
-  }
   .product.info.main .table.data.grouped {
     width: 100%;
     clear: both;
@@ -14043,10 +14009,6 @@ img[align="right"] {
   }
   .fieldset > .field .note:before {
     display: none;
-  }
-  .fieldset.giftcard.send .field {
-    padding-right: 0;
-    width: 100%;
   }
   .bundle.options.container {
     margin: 0;

@@ -1,16 +1,33 @@
-/**
- * {license_notice}
- *
- * @category    design
- * @copyright   {copyright}
- * @license     {license_link}
- */
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 
 @breakPoint1: 640px;
 
 @media only screen
 and (max-width : @breakPoint1) {
+    /*
+         Gift Card
+    -------------------------------------- */
+
+    .product.info.main {
+        fieldset.giftcard.amount {
+            clear: both;
+            .field.amounts {
+                width: 100%;
+            }
+        }
+        .fieldset.giftcard.send .field {
+            width: 100%;
+            padding-right: 0;
+        }
+    }
+
     /*
          My Account -> Gift Card
     -------------------------------------- */
@@ -27,6 +44,29 @@ and (max-width : @breakPoint1) {
                 width: 100%;
                 text-align: center;
                 margin-bottom: 15px;
+            }
+        }
+    }
+
+    /*
+         My Account -> Gift Card Account
+    -------------------------------------- */
+
+    .giftcardaccount {
+        margin-bottom: 20px;
+        .fieldset {
+            border: none;
+            padding: 0;
+        }
+        .form.giftcard {
+            .primary,
+            .secondary {
+                display: block;
+                margin: 0 0 15px;
+                text-align: center;
+                .action {
+                    width: 100%;
+                }
             }
         }
     }
