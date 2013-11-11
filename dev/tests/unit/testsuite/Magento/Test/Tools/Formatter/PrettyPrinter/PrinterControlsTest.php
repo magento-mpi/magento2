@@ -83,6 +83,36 @@ class PrinterControlsTest extends TestBase
      */
     public function dataIf()
     {
+        $originalIf5 = <<<ORIGINALIF5
+<?php class If5 {
+protected function alpha() {
+        if (\$response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
+            throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
+        } elseif (\$response->getResultCode() != self::RESPONSE_CODE_APPROVED
+            && \$response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        ) {
+            throw new \Magento\Core\Exception(\$response->getRespmsg());
+        }
+}}
+ORIGINALIF5;
+        $formattedIf5 = <<<FORMATTEDIF5
+<?php
+class If5
+{
+    protected function alpha()
+    {
+        if (\$response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
+            throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
+        } elseif (\$response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
+            \$response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        ) {
+            throw new \Magento\Core\Exception(\$response->getRespmsg());
+        }
+    }
+}
+
+FORMATTEDIF5;
+
         return array(
             array(
                 "<?php class If1 {public function a(){if (\$b) {echo 'hi';}}}",
@@ -111,6 +141,7 @@ class PrinterControlsTest extends TestBase
                 "            case 1:\n                break;\n            default:\n                break;\n" .
                 "        }\n    }\n}\n"
             ),
+            array($originalIf5, $formattedIf5),
         );
     }
 

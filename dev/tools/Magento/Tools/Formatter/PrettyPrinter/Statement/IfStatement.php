@@ -10,7 +10,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\WrapperLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_If;
 
@@ -32,16 +31,8 @@ class IfStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        // add the if line
-        $lineBreak = new WrapperLineBreak();
-        $line->add('if (')->add($lineBreak);
-        // add in the condition
-        $this->resolveNode($this->node->cond, $treeNode);
-        $line->add($lineBreak)->add(') {')->add(new HardLineBreak());
-        // processing the child nodes
-        $this->processNodes($this->node->stmts, $treeNode, true);
+        // use the base class to add in the conditional
+        $this->addConditional($treeNode, 'if');
         // process elseif statements
         if (!empty($this->node->elseifs)) {
             $treeNode = $this->processNodes($this->node->elseifs, $treeNode, false);
