@@ -256,22 +256,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoAppArea frontend
-     */
-    public function testNoCookiesAction()
-    {
-        $this->assertEmpty($this->_object->getResponse()->getBody());
-        $this->_object->noCookiesAction();
-        $redirect = array(
-            'name' => 'Location',
-            'value' => 'http://localhost/index.php/enable-cookies',
-            'replace' => true,
-        );
-        $this->assertEquals($redirect, $this->_object->getResponse()->getHeader('Location'));
-    }
-
-    /**
-     * @magentoAppIsolation enabled
      * @dataProvider controllerAreaDesignDataProvider
      *
      * @param string $controllerClass

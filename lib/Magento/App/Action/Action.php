@@ -594,30 +594,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * No cookies action
-     */
-    public function noCookiesAction() // Extract
-    {
-        $redirect = new \Magento\Object();
-        $this->_eventManager->dispatch('controller_action_nocookies', array(
-            'action'    => $this,
-            'redirect'  => $redirect
-        ));
-
-        $url = $redirect->getRedirectUrl();
-        if ($url) {
-            $this->_redirectUrl($url);
-        } elseif ($redirect->getRedirect()) {
-            $this->_redirect($redirect->getPath(), $redirect->getArguments());
-        } else {
-            $this->loadLayout(array('default', 'noCookie'));
-            $this->renderLayout();
-        }
-
-        $this->getRequest()->setDispatched(true);
-    }
-
-    /**
      * Throw control to different action (control and module if was specified).
      *
      * @param string $action

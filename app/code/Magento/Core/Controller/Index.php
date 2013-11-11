@@ -26,4 +26,28 @@ class Index extends \Magento\App\Action\Action
         $this->getResponse()->setHttpResponseCode(404);
         $this->getResponse()->setBody(__('Requested resource not found'));
     }
+
+    /**
+     * No cookies action
+     */
+    public function noCookiesAction()
+    {
+        $redirect = new \Magento\Object();
+        $this->_eventManager->dispatch('controller_action_nocookies', array(
+            'action' => $this,
+            'redirect' => $redirect
+        ));
+
+        $url = $redirect->getRedirectUrl();
+        if ($url) {
+            $this->_redirectUrl($url);
+        } elseif ($redirect->getRedirect()) {
+            $this->_redirect($redirect->getPath(), $redirect->getArguments());
+        } else {
+            $this->loadLayout(array('default', 'noCookie'));
+            $this->renderLayout();
+        }
+
+        $this->getRequest()->setDispatched(true);
+    }
 }
