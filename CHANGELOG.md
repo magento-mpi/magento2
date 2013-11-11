@@ -1,10 +1,15 @@
+* Various improvements:
+  * Consistent declaration of page-types
+* Fixed bugs:
+  * Fixed unable to print order, invoice, or creditmemo in the front-end
+  * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+
 2.0.0.0-dev51
 =============
 * Application areas rework:
     * Single point of access to the current area code
     * Declare Application Areas
 * Various improvements:
-  * Consistent declaration of page-types
   * Breakdown of the Adminhtml module:
      * Moved the Customer-related logic to the Customer module
      * Moved the System-related logic to the Backend module
@@ -40,8 +45,6 @@
   * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
   * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
-  * Fixed unable to print order, invoice, or creditmemo in the front-end
-  * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
   * Fixed inability to create an Invoice/Shipment/Credit Memo if the Sales Archive functionality is enabled
   * Fixed the Minimum Advertised Price link on the Product view
   * Fixed the View Files Population Tool
