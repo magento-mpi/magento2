@@ -25,26 +25,5 @@ $connection->changeColumn(
         'comment' => 'Secret used for authentication.'
     )
 );
-$integrationTable = $installer->getTable('integration');
-$connection->addColumn(
-    $integrationTable,
-    'api_permissions',
-    array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
-        'length' => '64k',
-        'nullable' => true,
-        'comment' => 'API resource permissions as csv for the integration'
-    )
-);
-$connection->addColumn(
-    $integrationTable,
-    'is_api_enabled',
-    array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
-        'nullable'  => false,
-        'length' => 255,
-        'default'   => 'N',
-        'comment' => 'API access enabled or disabled',
-    )
-);
+
 $installer->endSetup();

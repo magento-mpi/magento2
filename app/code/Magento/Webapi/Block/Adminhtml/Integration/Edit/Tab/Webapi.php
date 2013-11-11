@@ -10,6 +10,11 @@
 
 namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
+use Magento\Integration\Controller\Adminhtml\Integration;
+
+/**
+ * Class for handling API section within integration
+ */
 class Webapi extends \Magento\Backend\Block\Widget\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
@@ -133,8 +138,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected function _construct()
     {
         parent::_construct();
-        $integrationId = $this->_request->
-            getParam(\Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID, false);
+        $integrationId = $this->_request->getParam(Integration::PARAM_INTEGRATION_ID, false);
         if ($integrationId) {
             $data = $this->_integrationService->get($integrationId);
             $this->_isApiEnabled = $data[self::IS_API_ENABLED];
