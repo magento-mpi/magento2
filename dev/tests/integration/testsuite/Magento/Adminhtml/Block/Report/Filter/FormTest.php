@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Report\Filter;
+namespace Magento\Reports\Block\Adminhtml\Filter;
 
 /**
- * Test class for \Magento\Adminhtml\Block\Report\Filter\Form
+ * Test class for \Magento\Reports\Block\Adminhtml\Filter\Form
  * @magentoAppArea adminhtml
  */
 class FormTest extends \PHPUnit_Framework_TestCase
@@ -26,9 +26,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->setDefaultDesignTheme();
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
-        $block = $layout->addBlock('Magento\Adminhtml\Block\Report\Filter\Form');
+        $block = $layout->addBlock('Magento\Reports\Block\Adminhtml\Filter\Form');
         $prepareFormMethod = new \ReflectionMethod(
-            'Magento\Adminhtml\Block\Report\Filter\Form', '_prepareForm');
+            'Magento\Reports\Block\Adminhtml\Filter\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

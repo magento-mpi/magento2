@@ -711,24 +711,24 @@
 /*
     Reports - Search Terms
 -------------------------------------- */
-.reports-report-search .col-id {
+.reports-index-search .col-id {
     width: 35px;
 }
 
-.reports-report-search th.col-results,
-.reports-report-search th.col-hits {
+.reports-index-search th.col-results,
+.reports-index-search th.col-hits {
     text-align: left;
     width: 117px;
 }
 
-.reports-report-search td.col-results,
-.reports-report-search td.col-hits {
+.reports-index-search td.col-results,
+.reports-index-search td.col-hits {
     text-align: right;
     width: 117px;
 }
 
-.reports-report-search .col-results .range-line:first-child,
-.reports-report-search .col-hits .range-line:first-child {
+.reports-index-search .col-results .range-line:first-child,
+.reports-index-search .col-hits .range-line:first-child {
     float: left;
     margin-right: 3px;
 }

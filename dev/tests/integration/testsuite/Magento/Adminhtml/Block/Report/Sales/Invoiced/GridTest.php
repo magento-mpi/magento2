@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Report\Sales\Invoiced;
+namespace Magento\Reports\Block\Adminhtml\Sales\Invoiced;
 
 /**
  * @magentoAppArea adminhtml
@@ -20,12 +20,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * Creates and inits block
      *
      * @param string|null $reportType
-     * @return \Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid
+     * @return \Magento\Reports\Block\Adminhtml\Sales\Invoiced\Grid
      */
     protected function _createBlock($reportType = null)
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid');
+            ->createBlock('Magento\Reports\Block\Adminhtml\Sales\Invoiced\Grid');
 
         $filterData = new \Magento\Object();
         if ($reportType) {

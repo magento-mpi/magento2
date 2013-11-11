@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="reports_index_search_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Report\Search" name="report.search.grid.container"/>
+        <block class="Magento\Reports\Block\Adminhtml\Search" name="report.search.grid.container"/>
     </referenceContainer>
 </layout>

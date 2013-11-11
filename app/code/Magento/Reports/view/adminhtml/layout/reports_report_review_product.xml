@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="reports_report_review_product_grid"/>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Report\Review\Product" name="adminhtml.report.grid.container"/>
+        <block class="Magento\Reports\Block\Adminhtml\Review\Product" name="adminhtml.report.grid.container"/>
     </referenceContainer>
 </layout>

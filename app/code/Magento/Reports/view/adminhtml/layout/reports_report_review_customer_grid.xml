@@ -67,7 +67,7 @@
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="is_system" xsi:type="string">1</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Customer</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Customer</argument>
                         <argument name="id" xsi:type="string">action</argument>
                         <argument name="column_css_class" xsi:type="string">col-actions</argument>
                         <argument name="header_css_class" xsi:type="string">col-actions</argument>
