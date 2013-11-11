@@ -197,7 +197,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     /**
      * Check if everything is allowed
      *
-     * @return boolean
+     * @return string 'Y' if the integration Api is enabled else N
      */
     public function isApiEnabled()
     {
