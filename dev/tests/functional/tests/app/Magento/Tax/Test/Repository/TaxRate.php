@@ -35,6 +35,8 @@ class TaxRate extends AbstractRepository
 
         $this->_data['us_ca_rate_8_25'] = array_replace_recursive($this->_data['default'], $this->_getRateUSCA());
         $this->_data['us_ny_rate_8_375'] = array_replace_recursive($this->_data['default'], $this->_getRateUSNY());
+        $this->_data['us_ny_rate_8_1'] = array_replace_recursive($this->_data['default'], $this->_getRateUSNYCustom());
+        $this->_data['paypal_rate_8_25'] = array_replace_recursive($this->_data['default'], $this->_getRatePayPal());
     }
 
     /**
@@ -62,6 +64,30 @@ class TaxRate extends AbstractRepository
     }
 
     /**
+     * Rate US CA with 8.25%
+     *
+     * @return array
+     */
+    protected function _getRatePayPal()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'rate' => array(
+                        'value' => '8.25'
+                    ),
+                    'tax_postcode' => array(
+                        'value' => '95131'
+                    ),
+                    'tax_region_id' => array(
+                        'value' => '12' // California
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Rate US NY with 8.375%
      *
      * @return array
@@ -76,6 +102,31 @@ class TaxRate extends AbstractRepository
                     ),
                     'tax_region_id' => array(
                         'value' => '43' // New York
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Rate US NY with 8.1%
+     *
+     * @return array
+     */
+    protected function _getRateUSNYCustom()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'code' => array(
+                        'value' => 'US-NY-*-%isolation%'
+                    ),
+                    'rate' => array(
+                        'value' => '8.1'
+                    ),
+                    'tax_region_id' => array(
+                        'value' => 'New York',
+                        'input' => 'select'
                     )
                 )
             )
