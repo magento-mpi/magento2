@@ -15,13 +15,6 @@ namespace Magento\Invitation\Controller\Customer;
 class Account extends \Magento\Customer\Controller\Account
 {
     /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('createPost');
-
-    /**
      * Invitation Config
      *
      * @var \Magento\Invitation\Model\Config

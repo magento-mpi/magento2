@@ -16,4 +16,11 @@
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="copy_quote_files_to_order" type="Magento\Catalog\Model\Plugin\QuoteItemProductOption"/>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="cookieCheckActions">
+            <value>
+                <compareProduct>Magento_Catalog::product/compare/add</compareProduct>
+            </value>
+        </param>
+    </type>
 </config>

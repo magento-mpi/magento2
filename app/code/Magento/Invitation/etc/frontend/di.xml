@@ -18,4 +18,11 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="cookieCheckActions">
+            <value>
+                <customerInvitationCreate>Magento_Invitation::invitation/account/createPost</customerInvitationCreate>
+            </value>
+        </param>
+    </type>
 </config>

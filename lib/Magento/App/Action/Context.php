@@ -57,6 +57,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_authentication;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_flag;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -65,7 +70,20 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\HTTP\Authentication $authentication
-     * @param bool $isRenderInherited
+     * @param \Magento\App\State $appState
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Helper\AbstractHelper $helper
+     * @param \Magento\App\ActionFlag $flag
+     * @param $isRenderInherited
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -88,6 +106,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App $app,
         \Magento\Core\Helper\AbstractHelper $helper,
+        \Magento\App\ActionFlag $flag,
         $isRenderInherited
     ) {
         $this->_request = $request;
@@ -104,13 +123,22 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_session = $session;
-        $this->_url = $translate;
+        $this->_url = $url;
         $this->_translate = $translate;
         $this->_storeConfig = $storeConfig;
         $this->_cookie = $cookie;
         $this->_app = $app;
         $this->_helper = $helper;
         $this->_isRenderInherited = $isRenderInherited;
+        $this->_flag = $flag;
+    }
+
+    /**
+     * @return \Magento\App\ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->_response;
     }
 
     /**
@@ -130,6 +158,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
+     * @return \Magento\HTTP\Authentication
+     */
+    public function getAuthentication()
+    {
+        return $this->_authentication;
+    }
+
+    /**
      * @return \Magento\Config\ScopeInterface
      */
     public function getConfigScope()
@@ -146,6 +182,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
+     * @return \Magento\Event\ManagerInterface
+     */
+    public function getEventManager()
+    {
+        return $this->_eventManager;
+    }
+
+    /**
      * @return \Magento\Filesystem
      */
     public function getFilesystem()
@@ -154,7 +198,23 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Helper\Data
+     * @return \Magento\App\ActionFlag
+     */
+    public function getFlag()
+    {
+        return $this->_flag;
+    }
+
+    /**
+     * @return \Magento\App\FrontController
+     */
+    public function getFrontController()
+    {
+        return $this->_frontController;
+    }
+
+    /**
+     * @return \Magento\Core\Helper\AbstractHelper
      */
     public function getHelper()
     {
@@ -164,9 +224,17 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @return boolean
      */
-    public function getIsRenderInherited()
+    public function isRenderInherited()
     {
         return $this->_isRenderInherited;
+    }
+
+    /**
+     * @return \Magento\View\LayoutInterface
+     */
+    public function getLayout()
+    {
+        return $this->_layout;
     }
 
     /**
@@ -178,7 +246,31 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Session
+     * @return \Magento\Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
+    }
+
+    /**
+     * @return \Magento\ObjectManager
+     */
+    public function getObjectManager()
+    {
+        return $this->_objectManager;
+    }
+
+    /**
+     * @return \Magento\App\RequestInterface
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function getSession()
     {
@@ -210,84 +302,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Translate
+     * @return \Magento\Core\Model\Url
      */
     public function getUrl()
     {
         return $this->_url;
     }
 
-    /**
-     * Should inherited page be rendered
-     *
-     * @return bool
-     */
-    public function isRenderInherited()
-    {
-        return $this->_isRenderInherited;
-    }
-
-    /**
-     * @return \Magento\App\FrontController
-     */
-    public function getFrontController()
-    {
-        return $this->_frontController;
-    }
-
-    /**
-     * @return \Magento\View\LayoutInterface
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
-    }
-
-    /**
-     * @return \Magento\ObjectManager
-     */
-    public function getObjectManager()
-    {
-        return $this->_objectManager;
-    }
-
-    /**
-     * @return \Magento\App\RequestInterface
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
-     * @return \Magento\App\ResponseInterface
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
-     * @return \Magento\Event\ManagerInterface
-     */
-    public function getEventManager()
-    {
-        return $this->_eventManager;
-    }
-
-    /**
-     * @return \Magento\Logger
-     */
-    public function getLogger()
-    {
-        return $this->_logger;
-    }
-
-    /**
-     * @return \Magento\HTTP\Authentication
-     */
-    public function getAuthentication()
-    {
-        return $this->_authentication;
-    }
 }

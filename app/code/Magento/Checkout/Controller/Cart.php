@@ -18,13 +18,6 @@ class Cart
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('add');
-
-    /**
      * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_storeConfig;

@@ -20,13 +20,6 @@ namespace Magento\Review\Controller;
 class Product extends \Magento\App\Action\Action
 {
     /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('post');
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry

@@ -37,22 +37,6 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_realModuleName;
 
     /**
-     * Action flags
-     *
-     * for example used to disable rendering default layout
-     *
-     * @var array
-     */
-    protected $_flags = array();
-
-    /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array();
-
-    /**
      * Namespace for session.
      * Should be defined for proper working session.
      *
@@ -112,11 +96,15 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $authentication;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_flag;
+
+    /**
      * @param Context $context
      */
-    public function __construct(
-        \Magento\App\Action\Context $context
-    ) {
+    public function __construct(\Magento\App\Action\Context $context)
+    {
         parent::__construct($context->getRequest(), $context->getResponse());
 
         $this->_objectManager     = $context->getObjectManager();
@@ -138,6 +126,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_cookie            = $context->getCookie();
         $this->_app               = $context->getApp();
         $this->_helper            = $context->getHelper();
+        $this->_flag              = $context->getFlag();
     }
 
     /**
@@ -149,16 +138,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function getFlag($action, $flag = '') // Leave
     {
-        if ('' === $action) {
-            $action = $this->getRequest()->getActionName();
-        }
-        if ('' === $flag) {
-            return $this->_flags;
-        } elseif (isset($this->_flags[$action][$flag])) {
-            return $this->_flags[$action][$flag];
-        } else {
-            return false;
-        }
+        return $this->_flag->get($action, $flag);
     }
 
     /**
@@ -171,10 +151,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function setFlag($action, $flag, $value)  // Leave
     {
-        if ('' === $action) {
-            $action = $this->getRequest()->getActionName();
-        }
-        $this->_flags[$action][$flag] = $value;
+        $this->_flag->set($action, $flag, $value);
         return $this;
     }
 
@@ -459,38 +436,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Start session if it is not restricted
-     *
-     * @return \Magento\App\ActionInterface
-     */
-    protected function _startSession() // Extract
-    {
-        $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
-            && !$this->getRequest()->getParam('nocookie', false);
-        $cookies = $this->_cookie->get();
-        /** @var $session \Magento\Core\Model\Session */
-        $session = $this->_session->start();
-
-        if (empty($cookies)) {
-            if ($session->getCookieShouldBeReceived()) {
-                $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
-                $session->unsCookieShouldBeReceived();
-                $session->setSkipSessionIdFlag(true);
-            } elseif ($checkCookie) {
-                if (isset($_GET[$session->getSessionIdQueryParam()])
-                    && $this->_url->getUseSession()
-                    && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
-                ) {
-                    $session->setCookieShouldBeReceived(true);
-                } else {
-                    $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Initialize area and design
      *
      * @return \Magento\App\ActionInterface
@@ -511,9 +456,6 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function preDispatch() // Remove???
     {
-        // Start session
-        $this->_startSession();
-
         // Load area and initialize design depend on loaded area
         $this->_initDesign();
 

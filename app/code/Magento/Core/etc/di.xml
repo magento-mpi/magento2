@@ -401,4 +401,7 @@
     <type name="Magento\App\FrontController">
         <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
     </type>
+    <type name="Magento\App\Action\Action">
+        <plugin name="sessionInitializer" type="Magento\Core\App\Action\Plugin\Session" sortOrder="10"/>
+    </type>
 </config>

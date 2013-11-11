@@ -20,4 +20,12 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="cookieCheckActions">
+            <value>
+                <customerLogin>Magento_Customer::customer/account/loginPost</customerLogin>
+                <customerCreate>Magento_Customer::customer/account/createpost</customerCreate>
+            </value>
+        </param>
+    </type>
 </config>

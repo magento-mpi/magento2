@@ -21,4 +21,11 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="cookieCheckActions">
+            <value>
+                <cartAdd>Magento_Checkout::checkout/cart/add</cartAdd>
+            </value>
+        </param>
+    </type>
 </config>

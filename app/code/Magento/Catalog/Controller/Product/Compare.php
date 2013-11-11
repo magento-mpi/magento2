@@ -18,13 +18,6 @@ namespace Magento\Catalog\Controller\Product;
 class Compare extends \Magento\App\Action\Action
 {
     /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('add');
-
-    /**
      * Customer id
      *
      * @var null|int

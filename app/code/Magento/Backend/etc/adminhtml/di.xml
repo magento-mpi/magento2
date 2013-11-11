@@ -114,4 +114,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="sessionNamespace">
+            <value type="const">Magento\Backend\App\AbstractAction::SESSION_NAMESPACE</value>
+        </param>
+    </type>
 </config>

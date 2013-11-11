@@ -31,4 +31,11 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="cookieCheckActions">
+            <value>
+                <wishlist>Magento_Wishlist::wishlist/index/add</wishlist>
+            </value>
+        </param>
+    </type>
 </config>

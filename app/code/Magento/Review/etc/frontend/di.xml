@@ -33,4 +33,11 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Core\App\Action\Plugin\Session">
+        <param name="cookieCheckActions">
+            <value>
+                <productReview>Magento_Review::review/product/post</productReview>
+            </value>
+        </param>
+    </type>
 </config>

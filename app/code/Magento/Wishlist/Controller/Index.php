@@ -33,13 +33,6 @@ class Index
     protected $_wishlistConfig;
 
     /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('add');
-
-    /**
      * If true, authentication in this controller (wishlist) could be skipped
      *
      * @var bool

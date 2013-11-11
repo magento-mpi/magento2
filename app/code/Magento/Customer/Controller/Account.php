@@ -16,13 +16,6 @@ namespace Magento\Customer\Controller;
 class Account extends \Magento\App\Action\Action
 {
     /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('loginPost', 'createpost');
-
-    /**
      * List of actions that are allowed for not authorized users
      *
      * @var array
