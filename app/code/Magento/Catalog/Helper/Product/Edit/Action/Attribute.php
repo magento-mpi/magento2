@@ -53,8 +53,7 @@ class Attribute extends \Magento\Backend\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\App\RouterList $routerList
+     * @param \Magento\App\Route\Config $routeConfig
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
@@ -66,8 +65,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\App\RouterList $routerList,
+        \Magento\App\Route\Config $routeConfig,
         \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
@@ -80,16 +78,7 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
-        parent::__construct(
-            $context,
-            $primaryConfig,
-            $routerList,
-            $app,
-            $backendUrl,
-            $auth,
-            $frontNameResolver,
-            $mathRandom
-        );
+        parent::__construct($context, $routeConfig, $app, $backendUrl, $auth, $frontNameResolver, $mathRandom);
     }
 
     /**

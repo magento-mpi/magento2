@@ -48,4 +48,5 @@ return array(
     array('XML_NODE_RESTRICTION_ALLOWED_GENERIC', 'Magento_WebsiteRestriction_Helper_Data'),
     array('XML_NODE_RESTRICTION_ALLOWED_REGISTER', 'Magento_WebsiteRestriction_Helper_Data'),
     array('XML_PATH_CONTEXT_MENU_LAYOUTS', 'Magento\VersionsCms\Model\Hierarchy\Config'),
+    array('XML_NODE_ALLOWED_CACHE', 'Magento\FullPageCache\Model\Processor'),
 );

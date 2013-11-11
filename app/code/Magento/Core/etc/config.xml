@@ -41,8 +41,24 @@
                 <minify_files>0</minify_files>
                 <minify_adapter>Magento\Code\Minifier\Adapter\Js\Jsmin</minify_adapter>
             </js>
+            <image>
+                <default_adapter>GD2</default_adapter>
+                <adapters>
+                    <GD2>
+                        <title>PHP GD2</title>
+                        <class>Magento\Image\Adapter\Gd2</class>
+                    </GD2>
+                    <IMAGEMAGICK>
+                        <title>ImageMagick</title>
+                        <class>Magento\Image\Adapter\ImageMagick</class>
+                    </IMAGEMAGICK>
+                </adapters>
+            </image>
         </dev>
         <system>
+            <filesystem>
+                <media>{{media_dir}}</media>
+            </filesystem>
             <smtp>
                 <disable>0</disable>
                 <host>localhost</host>
@@ -140,6 +156,8 @@
             <locale>
                 <firstday>0</firstday>
                 <weekend>0,6</weekend>
+                <code>en_US</code>
+                <timezone>America/Los_Angeles</timezone>
             </locale>
             <file>
                 <protected_extensions>
@@ -168,8 +186,8 @@
         </general>
         <theme>
             <customization>
-                <css>Magento\Core\Model\Theme\Customization\File\Css</css>
-                <js>Magento\Core\Model\Theme\Customization\File\Js</js>
+                <css>Magento\View\Design\Theme\Customization\File\Css</css>
+                <js>Magento\View\Design\Theme\Customization\File\Js</js>
             </customization>
         </theme>
     </default>

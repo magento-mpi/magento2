@@ -156,7 +156,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_categoryColFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resourceModel;
 
@@ -183,7 +183,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * @param \Magento\Core\Model\LocaleInterface $localeInterface
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
@@ -199,7 +199,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     public function __construct(
         \Magento\Core\Model\LocaleInterface $localeInterface,
         \Magento\Eav\Model\Config $config,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,

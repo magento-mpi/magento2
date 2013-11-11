@@ -59,9 +59,6 @@ class Customer extends AbstractRepository
                         'value' => '123123q'
                     )
                 ),
-                'addresses' => array(
-                    'default_billing' => $this->_getDefaultAddress()->getData(),
-                )
             )
         );
     }
@@ -82,19 +79,22 @@ class Customer extends AbstractRepository
                     'email' => array(
                         'value' => 'John.Doe%isolation%@example.com',
                         'group' => 'customer_info_tabs_account'
+                    ),
+                    'website_id' => array(
+                        'value' => 'Main Website',
+                        'group' => 'customer_info_tabs_account',
+                        'input' => 'select',
+                        'input_value' => '1'
+                    ),
+                    'group_id' => array(
+                        'value' => 'General',
+                        'group' => 'customer_info_tabs_account',
+                        'input' => 'select',
+                        'input_value' => '1'
                     )
-                )
+                ),
+                'addresses' => array()
             )
         );
-    }
-
-    /**
-     * @return \Magento\Customer\Test\Fixture\Address
-     */
-    protected function _getDefaultAddress()
-    {
-        $address = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $address->switchData('address_data_US_1');
-        return $address;
     }
 }

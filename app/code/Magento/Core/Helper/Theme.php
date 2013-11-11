@@ -201,7 +201,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
             throw new \LogicException(__('Theme path "%1/%2" is incorrect', $area, $theme));
         }
         $themeModel = $this->_themeCollection->getThemeByFullPath(
-            $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $theme
+            $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $theme
         );
 
         if (!$themeModel || !$themeModel->getThemeId()) {

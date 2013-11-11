@@ -30,16 +30,17 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         /** @var $appEmulation \Magento\Core\Model\App\Emulation */
         $appEmulation = $objectManager->create('Magento\Core\Model\App\Emulation', array('viewDesign' => $design));
         $objectManager->addSharedInstance($appEmulation, 'Magento\Core\Model\App\Emulation');
-        /** @var $app \Magento\Core\Model\App */
+        /** @var $app \Magento\TestFramework\App */
         $app = $objectManager->get('Magento\Core\Model\App');
-        $app->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $app->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
-        /** @var $collection \Magento\Core\Model\Resource\Theme\Collection */
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
         /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
-        $storeManager->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
+        $storeManager->getStore('fixturestore')->setConfig(
+            \Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId
+        );
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
         $subscriberOne->expects($this->any())->method('send');
@@ -94,7 +95,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
     public function testSendPerSubscriberProblem()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());

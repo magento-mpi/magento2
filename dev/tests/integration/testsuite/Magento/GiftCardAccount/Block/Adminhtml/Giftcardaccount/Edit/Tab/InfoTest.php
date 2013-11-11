@@ -52,7 +52,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     public function testPrepareFormSingleStore()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
+            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->setDefaultDesignTheme();
         $this->_block->initForm();
         $form = $this->_block->getForm();
@@ -71,7 +71,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     public function testPrepareFormMultipleStore()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
+            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->setDefaultDesignTheme();
         $this->_block->initForm();
         $form = $this->_block->getForm();
@@ -101,7 +101,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     public function testInitForm()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
+            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->setDefaultDesignTheme();
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');

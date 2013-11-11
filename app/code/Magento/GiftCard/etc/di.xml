@@ -21,7 +21,7 @@
             <instance type="Magento\GiftCard\Model\Resource\Helper" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <giftcard_setup>Magento\Catalog\Model\Resource\Setup</giftcard_setup>

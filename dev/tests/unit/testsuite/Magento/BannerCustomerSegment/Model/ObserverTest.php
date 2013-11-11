@@ -36,6 +36,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     private $_segmentCollection;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_sessionMock;
+
+    /**
      * @var \Zend_Db_Select
      */
     private $_select;
@@ -62,6 +67,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_select = new \Zend_Db_Select(
             $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
+        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -162,7 +168,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $form = new \Magento\Data\Form($factory, $collectionFactory);
+        $form = new \Magento\Data\Form($this->_sessionMock, $factory, $collectionFactory);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
@@ -180,7 +186,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $form = new \Magento\Data\Form($factory, $collectionFactory);
+
+        $form = new \Magento\Data\Form($this->_sessionMock, $factory, $collectionFactory);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 

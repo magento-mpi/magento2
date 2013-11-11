@@ -64,12 +64,12 @@ class Design implements \Magento\View\DesignInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_flyweightFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var \Magento\Core\Model\ThemeFactory
      */
     protected $_themeFactory;
 
@@ -89,21 +89,28 @@ class Design implements \Magento\View\DesignInterface
     protected $_app;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory
+     * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      * @param array $themes
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Core\Model\App $app,
+        \Magento\App\State $appState,
         array $themes
     ) {
         $this->_storeManager = $storeManager;
@@ -111,6 +118,7 @@ class Design implements \Magento\View\DesignInterface
         $this->_themeFactory = $themeFactory;
         $this->_config = $config;
         $this->_storeConfig = $storeConfig;
+        $this->_appState = $appState;
         $this->_themes = $themes;
         $this->_app = $app;
     }
@@ -118,6 +126,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Set package area
      *
+     * @deprecated
      * @param string $area
      * @return \Magento\Core\Model\View\Design
      */
@@ -131,20 +140,18 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Retrieve package area
      *
+     * @deprecated
      * @return string
      */
     public function getArea()
     {
-        if (is_null($this->_area)) {
-            $this->_area = self::DEFAULT_AREA;
-        }
-        return $this->_area;
+        return $this->_appState->getAreaCode();
     }
 
     /**
      * Set theme path
      *
-     * @param \Magento\Core\Model\Theme|int|string $theme
+     * @param \Magento\View\Design\ThemeInterface|string $theme
      * @param string $area
      * @return \Magento\Core\Model\View\Design
      */
@@ -152,12 +159,14 @@ class Design implements \Magento\View\DesignInterface
     {
         if ($area) {
             $this->setArea($area);
+        } else {
+            $area = $this->getArea();
         }
 
-        if ($theme instanceof \Magento\Core\Model\Theme) {
+        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_flyweightFactory->create($theme, $this->getArea());
+            $this->_theme = $this->_flyweightFactory->create($theme, $area);
         }
 
         return $this;
@@ -262,7 +271,7 @@ class Design implements \Magento\View\DesignInterface
     public function getDesignParams()
     {
         $params = array(
-            'area'       => $this->getArea(),
+            'area'       => $this->_appState->getAreaCode(),
             'themeModel' => $this->getDesignTheme(),
             'locale'     => $this->_app->getLocale()->getLocaleCode()
         );

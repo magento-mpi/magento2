@@ -26,6 +26,8 @@ class FilterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Isolation level has been raised in order to flush themes configuration in-memory cache
+     *
+     * @magentoAppArea frontend
      */
     public function testViewDirective()
     {
@@ -93,16 +95,23 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+            \Magento\App\Dir::PARAM_APP_DIRS => array(
                 \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template\Filter');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea($area);
 
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
+            ->getStore()->setConfig(
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
+                $themeId
+            );
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
@@ -111,7 +120,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
         /** @var $layout \Magento\View\LayoutInterface */
-        $layout = $objectManager->create('Magento\Core\Model\Layout', array('area' => $area));
+        $layout = $objectManager->create('Magento\Core\Model\Layout');
         $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals(

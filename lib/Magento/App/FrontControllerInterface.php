@@ -15,6 +15,7 @@ interface FrontControllerInterface
      * Dispatch application action
      *
      * @param RequestInterface $request
+     * @return ResponseInterface
      */
     public function dispatch(RequestInterface $request);
 }

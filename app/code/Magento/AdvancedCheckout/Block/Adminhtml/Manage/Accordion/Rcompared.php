@@ -157,6 +157,6 @@ class Rcompared
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/viewRecentlyCompared', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewRecentlyCompared', array('_current'=>true));
     }
 }

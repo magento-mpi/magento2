@@ -50,7 +50,7 @@ class BundleTest extends Functional
         $productBlockForm->fill($bundle);
         $productBlockForm->save($bundle);
         //Verification
-        $createProductPage->assertProductSaveResult($bundle);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -91,7 +91,6 @@ class BundleTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
 

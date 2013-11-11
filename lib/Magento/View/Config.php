@@ -25,7 +25,7 @@ class Config implements \Magento\View\ConfigInterface
     /**
      * Module configuration reader
      *
-     * @var \Magento\Config\FileResolverInterface
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_moduleReader;
 
@@ -47,23 +47,31 @@ class Config implements \Magento\View\ConfigInterface
     protected $_viewFileSystem;
 
     /**
+     * @var string
+     */
+    protected $filename;
+
+    /**
      * View config model
      *
-     * @param \Magento\Config\FileResolverInterface $moduleReader
+     * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
+     * @param string $filename
      */
     public function __construct(
-        \Magento\Config\FileResolverInterface $moduleReader,
+        \Magento\Module\Dir\Reader $moduleReader,
         \Magento\Filesystem $filesystem,
         \Magento\View\Service $viewService,
-        \Magento\View\FileSystem $viewFileSystem
+        \Magento\View\FileSystem $viewFileSystem,
+        $filename = self::CONFIG_FILE_NAME
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->filename = $filename;
     }
 
     /**
@@ -82,11 +90,11 @@ class Config implements \Magento\View\ConfigInterface
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->get(\Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG, 'global');
+        $configFiles = $this->_moduleReader->getConfigurationFiles($this->filename);
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
             $themeConfigFile = $this->_viewFileSystem->getFilename(
-                \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG, $params
+                $this->filename, $params
             );
         }
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {

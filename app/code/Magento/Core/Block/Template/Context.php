@@ -43,12 +43,17 @@ class Context extends \Magento\Core\Block\Context
     protected $enginePool;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -63,6 +68,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      */
@@ -72,7 +78,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
@@ -87,6 +93,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
         \Magento\Core\Model\App $app,
+        \Magento\App\State $appState,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager
     ) {
@@ -111,6 +118,7 @@ class Context extends \Magento\Core\Block\Context
             $filterManager
         );
 
+        $this->_appState = $appState;
         $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
@@ -165,5 +173,15 @@ class Context extends \Magento\Core\Block\Context
     public function getEnginePool()
     {
         return $this->enginePool;
+    }
+
+    /**
+     * Get app state object
+     *
+     * @return \Magento\App\State
+     */
+    public function getAppState()
+    {
+        return $this->_appState;
     }
 }

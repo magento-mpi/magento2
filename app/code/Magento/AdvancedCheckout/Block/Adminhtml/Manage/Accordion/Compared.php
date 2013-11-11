@@ -121,6 +121,6 @@ class Compared
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/viewCompared', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewCompared', array('_current'=>true));
     }
 }

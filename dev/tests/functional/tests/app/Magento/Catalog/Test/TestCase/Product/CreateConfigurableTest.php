@@ -51,7 +51,7 @@ class CreateConfigurableTest extends Functional
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
         //Verifying
-        $createProductPage->assertProductSaveResult($product);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -99,7 +99,6 @@ class CreateConfigurableTest extends Functional
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productListBlock = $categoryPage->getListProductBlock();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();

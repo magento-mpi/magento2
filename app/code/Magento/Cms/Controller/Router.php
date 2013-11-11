@@ -65,7 +65,7 @@ class Router extends \Magento\App\Router\AbstractRouter
     /**
      * Construct
      *
-     * @param \Magento\App\ActionFactory $controllerFactory
+     * @param \Magento\App\ActionFactory $actionFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\State $appState
@@ -74,7 +74,7 @@ class Router extends \Magento\App\Router\AbstractRouter
      * @param \Magento\App\ResponseInterface $response
      */
     public function __construct(
-        \Magento\App\ActionFactory $controllerFactory,
+        \Magento\App\ActionFactory $actionFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $url,
         \Magento\App\State $appState,
@@ -82,7 +82,7 @@ class Router extends \Magento\App\Router\AbstractRouter
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ResponseInterface $response
     ) {
-        parent::__construct($controllerFactory);
+        parent::__construct($actionFactory);
         $this->_eventManager = $eventManager;
         $this->_url = $url;
         $this->_appState = $appState;
@@ -120,10 +120,9 @@ class Router extends \Magento\App\Router\AbstractRouter
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
-            $this->_response->setRedirect($condition->getRedirectUrl())
-                ->sendResponse();
+            $this->_response->setRedirect($condition->getRedirectUrl());
             $request->setDispatched(true);
-            return $this->_controllerFactory->createController('Magento\App\Action\Redirect',
+            return $this->_actionFactory->createController('Magento\App\Action\Redirect',
                 array('request' => $request)
             );
         }
@@ -148,7 +147,7 @@ class Router extends \Magento\App\Router\AbstractRouter
             $identifier
         );
 
-        return $this->_controllerFactory->createController('Magento\App\Action\Forward',
+        return $this->_actionFactory->createController('Magento\App\Action\Forward',
             array('request' => $request)
         );
     }

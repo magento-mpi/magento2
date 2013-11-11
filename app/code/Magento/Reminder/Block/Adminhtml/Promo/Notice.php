@@ -58,7 +58,7 @@ class Notice extends \Magento\Adminhtml\Block\Template
                 $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.',
                     $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');
-                if ($block instanceof \Magento\Adminhtml\Block\Promo\Quote\Edit) {
+                if ($block instanceof \Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit) {
                     $block->updateButton(
                         'delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
                 }

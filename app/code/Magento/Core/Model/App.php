@@ -15,6 +15,8 @@
  */
 namespace Magento\Core\Model;
 
+use Magento\App\CacheInterface;
+
 class App implements \Magento\Core\Model\AppInterface
 {
     /**#@+
@@ -35,32 +37,8 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev50';
+    const VERSION = '2.0.0.0-dev51';
 
-    /**
-     * Custom application dirs
-     */
-    const PARAM_APP_DIRS = 'app_dirs';
-
-    /**
-     * Custom application uris
-     */
-    const PARAM_APP_URIS = 'app_uris';
-
-    /**
-     * Custom local configuration file name
-     */
-    const PARAM_CUSTOM_LOCAL_FILE = 'custom_local_xml';
-
-    /**
-     * Custom local configuration
-     */
-    const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
-
-    /**
-     * Application run code
-     */
-    const PARAM_MODE = 'MAGE_MODE';
 
     /**
      * Application run code
@@ -125,7 +103,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Cache object
      *
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -168,7 +146,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Data base updater object
      *
-     * @var \Magento\App\UpdaterInterface
+     * @var \Magento\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -206,7 +184,7 @@ class App implements \Magento\Core\Model\AppInterface
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
@@ -255,19 +233,6 @@ class App implements \Magento\Core\Model\AppInterface
     public function setErrorHandler($handler)
     {
         set_error_handler($handler);
-        return $this;
-    }
-
-    /**
-     * Loading application area
-     *
-     * @param   string $code
-     * @return  \Magento\Core\Model\App
-     */
-    public function loadArea($code)
-    {
-        $this->_configScope->setCurrentScope($code);
-        $this->getArea($code)->load();
         return $this;
     }
 
@@ -367,7 +332,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Get core cache model
      *
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCacheInstance()
     {
@@ -820,7 +785,7 @@ class App implements \Magento\Core\Model\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '50',
+            'number'    => '51',
         );
     }
 }

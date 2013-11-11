@@ -12,7 +12,7 @@ namespace Magento\View\Layout\File\Source\Decorator;
 
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Layout\File;
-use Magento\Core\Model\ModuleManager;
+use Magento\Module\Manager;
 use Magento\View\Design\ThemeInterface;
 
 class ModuleOutput implements SourceInterface
@@ -23,17 +23,17 @@ class ModuleOutput implements SourceInterface
     private $subject;
 
     /**
-     * @var \Magento\Core\Model\ModuleManager
+     * @var \Magento\Module\Manager
      */
     private $moduleManager;
 
     /**
      * @param SourceInterface $subject
-     * @param ModuleManager $moduleManager
+     * @param Manager $moduleManager
      */
     public function __construct(
         SourceInterface $subject,
-        ModuleManager $moduleManager
+        Manager $moduleManager
     ) {
         $this->subject = $subject;
         $this->moduleManager = $moduleManager;
