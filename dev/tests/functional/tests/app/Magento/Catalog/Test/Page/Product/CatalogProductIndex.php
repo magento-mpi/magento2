@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page;
+namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Block\Backend\ProductGrid;
  * Class CatalogProductIndex
  * Catalog manage products grid page
  *
- * @package Magento\Catalog\Test\Page
+ * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductIndex extends Page
 {
