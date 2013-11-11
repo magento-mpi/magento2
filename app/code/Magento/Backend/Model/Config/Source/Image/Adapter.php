@@ -34,7 +34,7 @@ class Adapter implements \Magento\Core\Model\Option\ArrayInterface
     {
         $result = array();
         foreach ($this->config->getAdapters() as $alias => $adapter) {
-            $result[$alias] = $adapter['title'];
+            $result[$alias] = __($adapter['title']);
         }
 
         return $result;

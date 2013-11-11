@@ -12,7 +12,7 @@ interface ConfigInterface
     /**
      * @return string
      */
-    public function getAdapterName();
+    public function getAdapterAlias();
 
     /**
      * @return array

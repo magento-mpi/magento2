@@ -28,7 +28,7 @@ class Config implements \Magento\Image\Adapter\ConfigInterface
     /**
      * {@inherit}
      */
-    public function getAdapterName()
+    public function getAdapterAlias()
     {
         return (string)$this->config->getValue(self::XML_PATH_IMAGE_ADAPTER);
     }

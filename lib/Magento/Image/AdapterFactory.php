@@ -45,23 +45,23 @@ class AdapterFactory
     /**
      * Return specified image adapter
      *
-     * @param string $adapterName
+     * @param string $adapterAlias
      * @return \Magento\Image\Adapter\AdapterInterface
      * @throws \InvalidArgumentException
      */
-    public function create($adapterName = null)
+    public function create($adapterAlias = null)
     {
-        $adapterName = !empty($adapterName) ? $adapterName : $this->config->getAdapterName();
-        if (empty($adapterName)) {
+        $adapterAlias = !empty($adapterAlias) ? $adapterAlias : $this->config->getAdapterAlias();
+        if (empty($adapterAlias)) {
             throw new \InvalidArgumentException('Image adapter is not selected.');
         }
-        if (empty($this->adapterMap[$adapterName]['class'])) {
-            throw new \InvalidArgumentException('Image adapter is not setup.');
+        if (empty($this->adapterMap[$adapterAlias]['class'])) {
+            throw new \InvalidArgumentException("Image adapter for '{$adapterAlias}' is not setup.");
         }
-        $imageAdapter = $this->objectManager->create($this->adapterMap[$adapterName]['class']);
+        $imageAdapter = $this->objectManager->create($this->adapterMap[$adapterAlias]['class']);
         if (!$imageAdapter instanceof Adapter\AdapterInterface) {
             throw new \InvalidArgumentException(
-                $this->adapterMap[$adapterName]['class'] . ' is not instance of \Magento\Image\Adapter\AdapterInterface'
+                $this->adapterMap[$adapterAlias]['class'] . ' is not instance of \Magento\Image\Adapter\AdapterInterface'
             );
         }
         $imageAdapter->checkDependencies();
