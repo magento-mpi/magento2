@@ -56,12 +56,10 @@
         (function($){
             $('#edit_form').on('submit', function(){
                 var csvResourceVal = $("input#resource\\[\\]:checked").
-                    map(function(){return $(this).val()}).get().join();
-                $('<input />').attr('type', 'hidden').attr('name', 'api_permissions').attr('value', csvResourceVal)
-                    .appendTo('#edit_form');
-                var isApiEnabled = $('#enable_api_access_checkbox').prop('checked') ? 'Y' : 'N';
-                $('<input />').attr('type', 'hidden').attr('name', 'is_api_enabled').attr('value', isApiEnabled)
-                    .appendTo('#edit_form');
+                    map(function(){return $(this).val()}).get().join(),
+                    isApiEnabled = $('#enable_api_access_checkbox').prop('checked') ? 'Y' : 'N';
+                $('<input />', {type: 'hidden', name: 'api_permissions', value: csvResourceVal}).appendTo('#edit_form');
+                $('<input />', {type: 'hidden', name: 'is_api_enabled', value: isApiEnabled}).appendTo('#edit_form');
             });
         })(jQuery);
     </script>
