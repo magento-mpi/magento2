@@ -149,6 +149,7 @@ class CreateConfigurable extends Curl
      *
      * @param Fixture $fixture [optional]
      * @return mixed|string
+     * @throws \Exception
      */
     public function execute(Fixture $fixture = null)
     {
@@ -160,6 +161,10 @@ class CreateConfigurable extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
         $response = $curl->read();
         $curl->close();
+
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
+        }
         return $response;
     }
 }

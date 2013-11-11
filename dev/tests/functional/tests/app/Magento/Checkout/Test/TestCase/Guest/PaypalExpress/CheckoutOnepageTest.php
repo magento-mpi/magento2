@@ -30,34 +30,37 @@ class CheckoutOnepageTest extends Functional
      */
     public function testOnepageCheckout()
     {
+        //Data
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress();
         $fixture->persist();
-
-        $this->_createAndAddProducts($fixture);
-
+        //Steps
+        $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
-
         $this->_processPaypal($fixture);
-
         $this->_reviewOrder();
-
+        //Verifying
         $this->_verifyOrder($fixture);
-
     }
 
     /**
-     * Create and add to cart products
+     * Add products to cart
      *
      * @param Checkout $fixture
      */
-    protected function _createAndAddProducts(Checkout $fixture)
+    protected function _addProducts(Checkout $fixture)
     {
+        //Ensure shopping cart is empty
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
+            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
     }
 
@@ -108,7 +111,14 @@ class CheckoutOnepageTest extends Functional
      */
     protected function _verifyOrder(Checkout $fixture)
     {
-        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
+        //Verify order in Backend
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->assertContains(
+            'Your order has been received.',
+            $successPage->getTitleBlock()->getTitle(),
+            'Order success page was not opened.');
+        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
+
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
