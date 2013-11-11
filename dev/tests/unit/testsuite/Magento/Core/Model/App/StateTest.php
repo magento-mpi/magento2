@@ -24,7 +24,11 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode)
     {
-        $model = new \Magento\App\State(time(), $mode);
+        $model = new \Magento\App\State(
+            $this->getMockForAbstractClass('Magento\Config\ScopeInterface', array(), '', false),
+            time(),
+            $mode
+        );
         $this->assertEquals($mode, $model->getMode());
     }
 
@@ -52,6 +56,10 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new \Magento\App\State(time(), "unknown mode");
+        new \Magento\App\State(
+            $this->getMockForAbstractClass('Magento\Config\ScopeInterface', array(), '', false),
+            time(),
+            "unknown mode"
+        );
     }
 }

@@ -11,7 +11,7 @@
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="gift_registry_item_from_quote_item" type="Magento\GiftRegistry\Model\Plugin\QuoteItem"/>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <giftregistry_setup>Magento\GiftRegistry\Model\Resource\Setup</giftregistry_setup>

@@ -19,7 +19,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <banner_setup>Magento\Banner\Model\Resource\Setup</banner_setup>

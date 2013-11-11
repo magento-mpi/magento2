@@ -75,6 +75,20 @@ class Address extends AbstractRepository
         );
     }
 
+    protected function _getBackendUS1()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'save_in_address_book' => array(
+                        'value' => 'Yes',
+                        'input' => 'checkbox'
+                    )
+                )
+            )
+        );
+    }
+
     protected function _getUS2()
     {
         return array(
@@ -119,6 +133,12 @@ class Address extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
+                    'firstname' => array(
+                        'value' => 'John'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe'
+                    ),
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),

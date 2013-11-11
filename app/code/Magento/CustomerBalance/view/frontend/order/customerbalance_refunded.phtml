@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +13,9 @@
 ?>
 <?php if ($_source->getCustomerBalTotalRefunded()): ?>
 <tr>
-    <td <?php echo $this->getLabelProperties()?>>
+    <td <?php echo $this->getLabelProperties()?> class="col name">
         <?php echo __('Refunded to Store Credit'); ?>
     </td>
-    <td <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getCustomerBalTotalRefunded()) ?></td>
+    <td <?php echo $this->getValueProperties()?> class="col price"><?php echo $_order->formatPrice($_source->getCustomerBalTotalRefunded()) ?></td>
 </tr>
 <?php endif; ?>

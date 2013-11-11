@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="head">
+        <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
+            <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="customer.wishlist">
+        <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
+            <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>
+        </action>
+        <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Management" name="customer.wishlist.management" as="top" template="view/management.phtml">
+        </block>
+        <referenceBlock name="customer.wishlist.items">
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector" name="customer.wishlist.item.selector" before="-" template="item/column/selector.phtml"/>
+            <referenceBlock name="customer.wishlist.item.info">
+                <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management" name="customer.wishlist.item.mananagement" before="-" template="item/column/management.phtml"/>
+            </referenceBlock>
+        </referenceBlock>
+        <referenceContainer name="customer.wishlist.buttons">
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Button\Delete" name="customer.wishlist.button.delete" template="button/delete.phtml"/>
+        </referenceContainer>
+    </referenceBlock>
+</layout>

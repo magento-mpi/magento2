@@ -104,20 +104,15 @@
                 if ($(this.options.checkout.loginGuestSelector).is(':checked')) {
                     this._ajaxContinue(this.options.checkout.saveUrl, {method:'guest'}, this.options.billingSection);
                     this.element.find(this.options.checkout.registerCustomerPasswordSelector).hide();
-                    this.element.trigger('login:setMethod');
-                    return true;
                 } else if ($(this.options.checkout.loginRegisterSelector).is(':checked')) {
                     this._ajaxContinue(this.options.checkout.saveUrl, {method:'register'}, this.options.billingSection);
                     this.element.find(this.options.checkout.registerCustomerPasswordSelector).show();
-                    this.element.trigger('login:setMethod');
-                    return true;
                 } else {
                     alert($.mage.__('Please choose to register or to checkout as a guest.'));
                     return false;
                 }
             }
             this.element.trigger('login');
-            return true;
         },
 
         /**

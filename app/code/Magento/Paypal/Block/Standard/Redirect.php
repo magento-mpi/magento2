@@ -12,7 +12,7 @@ namespace Magento\Paypal\Block\Standard;
 class Redirect extends \Magento\Core\Block\AbstractBlock
 {
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -32,7 +32,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     protected $mathRandom;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Core\Block\Context $context
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
@@ -40,7 +40,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Core\Block\Context $context,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,

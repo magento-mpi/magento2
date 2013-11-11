@@ -38,11 +38,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_appMock;
 
     /**
@@ -76,16 +71,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
-        $this->_appMock = $this->getMockForAbstractClass(
-            'Magento\Core\Model\AppInterface',
-            [],
-            '',
-            false,
-            false,
-            false,
-            ['setUseSessionInUrl']
-        );
+        $this->_appMock
+            = $this->getMock('\Magento\Core\Model\AppInterface');
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
 
@@ -93,7 +80,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             $this->_objectManagerMock,
             $this->_eventManagerMock,
             $this->_logMock,
-            $this->_configMock,
             $this->_appMock,
             $this->_appStateMock,
             $this->_defaultStorage,

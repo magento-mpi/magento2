@@ -520,11 +520,20 @@ class Files
      * Look for DI config through the system
      * @return array
      */
-    public function getDiConfigs()
+    public function getDiConfigs($asDataSet = false)
     {
         $primaryConfigs = glob($this->_path . '/app/etc/{di.xml,*/di.xml}', GLOB_BRACE);
         $moduleConfigs = glob($this->_path . '/app/code/*/*/etc/{di,*/di}.xml', GLOB_BRACE);
         $configs = array_merge($primaryConfigs, $moduleConfigs);
+
+        if ($asDataSet) {
+            $output = array();
+            foreach ($configs as $file) {
+                $output[$file] = array($file);
+            }
+
+            return $output;
+        }
         return $configs;
     }
 

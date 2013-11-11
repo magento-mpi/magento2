@@ -26,14 +26,11 @@
         </param>
     </type>
     <type name="Magento\CustomerSegment\Helper\Data">
-        <param name="storeConfig">
-            <instance type="Magento\Core\Model\Store\Config" />
-        </param>
         <param name="segmentCollection">
             <instance type="Magento\CustomerSegment\Model\Resource\Segment\Collection" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <customersegment_setup>Magento\CustomerSegment\Model\Resource\Setup</customersegment_setup>

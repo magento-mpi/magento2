@@ -22,7 +22,7 @@ class FulltextIndexRebuild
     protected $_layerFilterPrice;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -35,13 +35,13 @@ class FulltextIndexRebuild
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchHelper
      * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchHelper,
         \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice,
-        \Magento\Core\Model\CacheInterface $cache
+        \Magento\App\CacheInterface $cache
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_searchHelper = $searchHelper;

@@ -23,24 +23,24 @@
         <group name="magento_advancedcheckout">
             <label translate="true">Shopping Cart Management</label>
             <events>
-                <event controller_action="adminhtml_checkout_index" action_alias="view">
+                <event controller_action="checkout_index" action_alias="view">
                     <expected_models>
                         <expected_model class="Magento\Sales\Model\Quote" />
                     </expected_models>
                 </event>
-                <event controller_action="adminhtml_checkout_applyCoupon"
+                <event controller_action="checkout_applyCoupon"
                        action_alias="apply_coupon"
                        post_dispatch="postDispatchAdminCheckoutApplyCoupon">
                     <expected_models>
                         <expected_model class="Magento\Sales\Model\Quote" />
                     </expected_models>
                 </event>
-                <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
+                <event controller_action="checkout_updateItems" action_alias="save">
                     <expected_models>
                         <expected_model class="Magento\Sales\Model\Quote\Item" />
                     </expected_models>
                 </event>
-                <event controller_action="adminhtml_checkout_addToCart"
+                <event controller_action="checkout_addToCart"
                        action_alias="add_to_cart">
                     <expected_models>
                         <expected_model class="Magento\Sales\Model\Quote\Item">
