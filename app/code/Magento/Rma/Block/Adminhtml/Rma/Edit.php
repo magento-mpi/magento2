@@ -117,7 +117,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
                 )
             );
         } elseif (strpos($referer, 'customer') !== false) {
-            return $this->getUrl('adminhtml/customer/edit/',
+            return $this->getUrl('customer/index/edit/',
                 array(
                     'id'  => $this->getRma()->getCustomerId(),
                     'active_tab'=> 'customer_edit_tab_rma'

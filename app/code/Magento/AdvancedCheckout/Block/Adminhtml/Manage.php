@@ -161,9 +161,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     public function getBackUrl()
     {
         if ($this->_getCustomer() && $this->_getCustomer()->getId()) {
-            return $this->getUrl('adminhtml/customer/edit', array('id' => $this->_getCustomer()->getId()));
+            return $this->getUrl('customer/index/edit', array('id' => $this->_getCustomer()->getId()));
         } else {
-            return $this->getUrl('adminhtml/customer');
+            return $this->getUrl('customer/index');
         }
     }
 
@@ -174,7 +174,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getActionUrl($action)
     {
-        return $this->getUrl('adminhtml/*/' . $action, array('_current' => true));
+        return $this->getUrl('checkout/*/' . $action, array('_current' => true));
     }
 
     /**
@@ -184,7 +184,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getCreateOrderUrl()
     {
-        return $this->getUrl('adminhtml/*/createOrder', array('_current' => true));
+        return $this->getUrl('checkout/*/createOrder', array('_current' => true));
     }
 
     /**
@@ -194,7 +194,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getLoadBlockUrl()
     {
-        return $this->getUrl('adminhtml/*/loadBlock');
+        return $this->getUrl('checkout/*/loadBlock');
     }
 
     public function getOrderDataJson()

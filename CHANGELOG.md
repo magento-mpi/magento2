@@ -2,6 +2,12 @@
   * Single point of access to the current area code
   * Declare Application Areas
 * Various improvements:
+  * Breakdown of the Adminhtml module:
+    * Moved Customer-related logic to Customer module
+    * Moved System-related logic to Backend module
+    * Moved Checkout-related logic to Checkout module
+    * Moved Cms-related logic to Cms module
+    * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
   * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
   * Moved all application bootstrapping behaviour to library
   * Moved application-specific behaviour from entry points to Magento\AppInterface implementations
@@ -27,6 +33,9 @@
   * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
   * Removed residual page fragment code
+* Themes update:
+  * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
+  * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
   * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
   * Fixed Minimum Advertised Price link on Product view

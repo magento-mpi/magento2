@@ -39,7 +39,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
 
         // Used by JS to tell accordions from each other
         $this->setId('sku');
-        /* @see \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout::_getListItemInfo() */
+        /* @see \Magento\AdvancedCheckout\Controller\Adminhtml\Index::_getListItemInfo() */
         $this->setListType(self::LIST_TYPE);
         $this->setDataContainerId('sku_container');
     }
