@@ -20,6 +20,23 @@ namespace Magento\Adminhtml\Controller\Report;
 
 class Customer extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
@@ -61,7 +78,7 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'new_accounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -73,7 +90,7 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'new_accounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     public function ordersAction()
@@ -96,7 +113,7 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'customers_orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -108,7 +125,7 @@ class Customer extends \Magento\Backend\App\Action
         $fileName   = 'customers_orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     public function totalsAction()
@@ -131,7 +148,7 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'customer_totals.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -143,7 +160,7 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'customer_totals.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     protected function _isAllowed()

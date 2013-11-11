@@ -36,14 +36,22 @@ class Order extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -482,7 +490,7 @@ class Order extends \Magento\Backend\App\Action
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'invoice' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
@@ -520,7 +528,7 @@ class Order extends \Magento\Backend\App\Action
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
@@ -558,7 +566,7 @@ class Order extends \Magento\Backend\App\Action
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'creditmemo' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
@@ -622,7 +630,7 @@ class Order extends \Magento\Backend\App\Action
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'docs' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
@@ -713,7 +721,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -725,7 +733,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**

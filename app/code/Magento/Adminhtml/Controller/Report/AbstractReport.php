@@ -21,6 +21,23 @@ namespace Magento\Adminhtml\Controller\Report;
 abstract class AbstractReport extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Admin session model
      *
      * @var null|\Magento\Backend\Model\Auth\Session

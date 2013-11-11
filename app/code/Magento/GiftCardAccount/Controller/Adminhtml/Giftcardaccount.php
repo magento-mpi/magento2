@@ -29,14 +29,22 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -310,7 +318,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -322,7 +330,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**

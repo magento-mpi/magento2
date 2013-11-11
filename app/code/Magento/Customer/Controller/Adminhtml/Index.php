@@ -24,13 +24,21 @@ class Index extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
+        $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -447,7 +455,7 @@ class Index extends \Magento\Backend\App\Action
         $fileName = 'customers.csv';
         $content = $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -457,7 +465,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $fileName = 'customers.xml';
         $content = $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -875,7 +883,7 @@ class Index extends \Magento\Backend\App\Action
             echo $filesystem->read($fileName);
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
-            $this->_prepareDownloadResponse($name, array(
+            $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
                 'value' => $fileName
             ));

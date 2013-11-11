@@ -37,24 +37,31 @@ class Logging extends \Magento\Backend\App\Action
     protected $_archiveFactory;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
-        \Magento\Logging\Model\ArchiveFactory $archiveFactory
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         parent::__construct($context);
-
         $this->_coreRegistry = $coreRegistry;
         $this->_eventFactory = $eventFactory;
         $this->_archiveFactory = $archiveFactory;
+        $this->_fileFactory = $fileFactory;
     }
 
     /**
@@ -109,7 +116,7 @@ class Logging extends \Magento\Backend\App\Action
         $fileName = 'log.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**
@@ -121,7 +128,7 @@ class Logging extends \Magento\Backend\App\Action
         $fileName = 'log.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -154,7 +161,11 @@ class Logging extends \Magento\Backend\App\Action
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {
-            $this->_prepareDownloadResponse($archive->getBaseName(), $archive->getContents(), $archive->getMimeType());
+            return $this->_fileFactory->create(
+                $archive->getBaseName(),
+                $archive->getContents(),
+                $archive->getMimeType()
+            );
         }
     }
 

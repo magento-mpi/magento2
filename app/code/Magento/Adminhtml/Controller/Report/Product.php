@@ -61,7 +61,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
         $fileName   = 'products_ordered.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -74,7 +74,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
         $fileName   = 'products_ordered.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -114,7 +114,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
         $fileName   = 'products_mostviewed.csv';
         $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Product\Viewed\Grid');
         $this->_initReportAction($grid);
-        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+        return $this->_fileFactory->create($fileName, $grid->getCsvFile());
     }
 
     /**
@@ -126,7 +126,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
         $fileName   = 'products_mostviewed.xml';
         $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Product\Viewed\Grid');
         $this->_initReportAction($grid);
-        $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName));
     }
 
     /**
@@ -155,7 +155,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
         $this->loadLayout(false);
         $fileName = 'products_lowstock.csv';
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -167,7 +167,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
         $this->loadLayout(false);
         $fileName = 'products_lowstock.xml';
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());
     }
 
     /**
@@ -199,7 +199,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
             ->setSaveParametersInSession(true)
             ->getCsv();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -213,7 +213,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
             ->setSaveParametersInSession(true)
             ->getExcel($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**

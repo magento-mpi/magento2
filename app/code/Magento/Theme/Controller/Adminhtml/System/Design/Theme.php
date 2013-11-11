@@ -23,14 +23,22 @@ class Theme extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -267,7 +275,7 @@ class Theme extends \Magento\Backend\App\Action
             /** @var $customCssFile \Magento\Core\Model\Theme\FileInterface */
             $customCssFile = reset($customCssFiles);
             if ($customCssFile && $customCssFile->getContent()) {
-                $this->_prepareDownloadResponse(
+                $this->_fileFactory->create(
                     $customCssFile->getFileName(),
                     array(
                         'type'  => 'filename',
@@ -307,7 +315,7 @@ class Theme extends \Magento\Backend\App\Action
                 );
             }
 
-            $this->_prepareDownloadResponse($fileName, array(
+            $this->_fileFactory->create($fileName, array(
                 'type'  => 'filename',
                 'value' => $themeCss[$fileName]['path']
             ));

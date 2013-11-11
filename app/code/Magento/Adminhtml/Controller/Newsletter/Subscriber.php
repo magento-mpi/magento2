@@ -19,6 +19,22 @@ namespace Magento\Adminhtml\Controller\Newsletter;
 
 class Subscriber extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
 
     public function indexAction()
     {
@@ -54,7 +70,7 @@ class Subscriber extends \Magento\Backend\App\Action
         $fileName = 'subscribers.csv';
         $content = $this->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
 
-        $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
+        return $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
     }
 
     /**
@@ -65,7 +81,7 @@ class Subscriber extends \Magento\Backend\App\Action
         $this->loadLayout();
         $fileName = 'subscribers.xml';
         $content = $this->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
     }
 
     public function massUnsubscribeAction()

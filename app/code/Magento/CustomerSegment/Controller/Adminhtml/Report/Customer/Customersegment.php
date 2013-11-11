@@ -40,17 +40,25 @@ class Customersegment
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -216,7 +224,7 @@ class Customersegment
             $this->loadLayout();
             $content = $this->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
+            return $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
         } else {
             $this->_redirect('adminhtml/*/detail', array('_current' => true));
             return ;
@@ -234,7 +242,7 @@ class Customersegment
             $fileName = 'customersegment_customers.csv';
             $content = $this->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
+            return $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
         } else {
             $this->_redirect('adminhtml/*/detail', array('_current' => true));
             return ;

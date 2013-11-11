@@ -12,6 +12,24 @@ namespace Magento\App\Response\Http;
 class FileFactory
 {
     /**
+     * @var \Magento\App\ResponseFactory
+     */
+    protected $_responseFactory;
+
+    /**
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+    /**
+     * @param \Magento\App\ResponseFactory $responseFactory
+     */
+    public function __construct(\Magento\App\ResponseFactory $responseFactory, \Magento\Filesystem $filesystem)
+    {
+        $this->_responseFactory = $responseFactory;
+        $this->_filesystem = $filesystem;
+    }
+
+    /**
      * Declare headers and content file in response for file download
      *
      * @param string $fileName
@@ -38,8 +56,8 @@ class FileFactory
             }
         }
 
-        $this->getResponse()
-            ->setHttpResponseCode(200)
+        $response = $this->_responseFactory->create();
+        $response->setHttpResponseCode(200)
             ->setHeader('Pragma', 'public', true)
             ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
             ->setHeader('Content-type', $contentType, true)
@@ -49,8 +67,8 @@ class FileFactory
 
         if (!is_null($content)) {
             if ($isFile) {
-                $this->getResponse()->clearBody();
-                $this->getResponse()->sendHeaders();
+                $response->clearBody();
+                $response->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
                     throw new \Exception(__('File not found'));
@@ -67,9 +85,9 @@ class FileFactory
 
                 exit(0);
             } else {
-                $this->getResponse()->setBody($content);
+                $response->setBody($content);
             }
         }
-        return $this;
+        return $response;
     }
 }

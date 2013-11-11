@@ -18,6 +18,23 @@ namespace Magento\Sales\Controller\Adminhtml\Creditmemo;
 class AbstractCreditmemo extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Init layout, menu and breadcrumb
      *
      * @return \Magento\Sales\Controller\Adminhtml\Creditmemo
@@ -95,7 +112,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
             }
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
 
-            return $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_fileFactory->create('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('sales/*/');
     }
@@ -110,7 +127,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')
                     ->getPdf(array($creditmemo));
                 $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-                $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
+                return $this->_fileFactory->create('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
             $this->_forward('noRoute');

@@ -21,6 +21,23 @@ namespace Magento\Tax\Controller\Adminhtml;
 class Rate extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Show Main Grid
      *
      */
@@ -269,7 +286,7 @@ class Rate extends \Magento\Backend\App\Action
     {
         $this->loadLayout(false);
         $content = $this->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
-        $this->_prepareDownloadResponse('rates.csv', $content->getCsvFile());
+        return $this->_fileFactory->create('rates.csv', $content->getCsvFile());
     }
 
     /**
@@ -279,7 +296,7 @@ class Rate extends \Magento\Backend\App\Action
     {
         $this->loadLayout(false);
         $content = $this->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
-        $this->_prepareDownloadResponse('rates.xml', $content->getExcelFile());
+        return $this->_fileFactory->create('rates.xml', $content->getExcelFile());
     }
 
     /**
@@ -404,7 +421,7 @@ class Rate extends \Magento\Backend\App\Action
             $content .= $rate->toString($template) . "\n";
         }
         $this->loadLayout();
-        $this->_prepareDownloadResponse('tax_rates.csv', $content);
+        return $this->_fileFactory->create('tax_rates.csv', $content);
     }
 
     protected function _isAllowed()

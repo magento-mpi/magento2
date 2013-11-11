@@ -20,6 +20,23 @@ namespace Magento\ImportExport\Controller\Adminhtml;
 class Export extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize layout.
      *
      * @return \Magento\ImportExport\Controller\Adminhtml\Export
@@ -56,7 +73,7 @@ class Export extends \Magento\Backend\App\Action
                 $model = $this->_objectManager->create('Magento\ImportExport\Model\Export');
                 $model->setData($this->getRequest()->getParams());
 
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     $model->getFileName(),
                     $model->export(),
                     $model->getContentType()

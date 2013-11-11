@@ -19,6 +19,23 @@ namespace Magento\Adminhtml\Controller\Report;
 
 class Review extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
     public function _initAction()
     {
         $this->loadLayout()
@@ -54,7 +71,7 @@ class Review extends \Magento\Backend\App\Action
         $this->loadLayout(false);
         $fileName = 'review_customer.csv';
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.review.customer.grid','grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -65,7 +82,7 @@ class Review extends \Magento\Backend\App\Action
         $this->loadLayout(false);
         $fileName = 'review_customer.xml';
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.review.customer.grid','grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());
 
     }
 
@@ -90,7 +107,7 @@ class Review extends \Magento\Backend\App\Action
         $this->loadLayout(false);
         $fileName = 'review_product.csv';
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.review.product.grid','grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -101,7 +118,7 @@ class Review extends \Magento\Backend\App\Action
         $this->loadLayout(false);
         $fileName = 'review_product.xml';
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.review.product.grid','grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());
     }
 
     public function productDetailAction()
@@ -125,7 +142,7 @@ class Review extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail\Grid')
             ->getCsv();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -137,7 +154,7 @@ class Review extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail\Grid')
             ->getExcel($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     protected function _isAllowed()

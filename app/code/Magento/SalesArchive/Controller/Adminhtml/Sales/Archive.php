@@ -22,14 +22,22 @@ class Archive extends \Magento\Backend\App\Action
     protected $_archiveModel;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\SalesArchive\Model\Archive $archiveModel
+        \Magento\SalesArchive\Model\Archive $archiveModel,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_archiveModel = $archiveModel;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -308,9 +316,9 @@ class Archive extends \Magento\Backend\App\Action
         }
 
         if ($type == 'csv') {
-            $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+            return $this->_fileFactory->create($fileName, $grid->getCsvFile());
         } else {
-            $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
+            return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName));
         }
     }
 

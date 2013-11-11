@@ -20,14 +20,21 @@ class Quote extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -300,7 +307,7 @@ class Quote extends \Magento\Backend\App\Action
             $content = $this->getLayout()
                 ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getExcelFile($fileName);
-            $this->_prepareDownloadResponse($fileName, $content);
+            return $this->_fileFactory->create($fileName, $content);
         } else {
             $this->_redirect('sales_rule/*/detail', array('_current' => true));
             return;
@@ -321,7 +328,7 @@ class Quote extends \Magento\Backend\App\Action
             $content = $this->getLayout()
                 ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getCsvFile();
-            $this->_prepareDownloadResponse($fileName, $content);
+            return $this->_fileFactory->create($fileName, $content);
         } else {
             $this->_redirect('sales_rule/*/detail', array('_current' => true));
             return;

@@ -19,6 +19,23 @@ namespace Magento\Adminhtml\Controller\Report;
 
 class Shopcart extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
@@ -48,7 +65,7 @@ class Shopcart extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Customer\Grid')
             ->getCsvFile();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -60,7 +77,7 @@ class Shopcart extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Customer\Grid')
             ->getExcelFile($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     public function productAction()
@@ -83,7 +100,7 @@ class Shopcart extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Product\Grid')
             ->getCsvFile();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -95,7 +112,7 @@ class Shopcart extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Product\Grid')
             ->getExcelFile($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     public function abandonedAction()
@@ -118,7 +135,7 @@ class Shopcart extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Abandoned\Grid')
             ->getCsvFile();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -130,7 +147,7 @@ class Shopcart extends \Magento\Backend\App\Action
         $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Abandoned\Grid')
             ->getExcelFile($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     protected function _isAllowed()

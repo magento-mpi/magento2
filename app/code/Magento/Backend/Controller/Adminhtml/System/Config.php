@@ -21,16 +21,24 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_storeManager = $storeManager;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context, $configStructure);
     }
 
@@ -107,6 +115,6 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
         $content = $gridBlock->getCsvFile();
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 }

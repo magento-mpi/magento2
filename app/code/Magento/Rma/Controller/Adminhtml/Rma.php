@@ -22,14 +22,22 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -591,7 +599,7 @@ class Rma extends \Magento\Backend\App\Action
                 /** @var $pdfModel \Magento\Rma\Model\Pdf\Rma */
                 $pdfModel = $this->_objectManager->create('Magento\Rma\Model\Pdf\Rma');
                 $pdf = $pdfModel->getPdf(array($rmaModel));
-                $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
@@ -852,7 +860,7 @@ class Rma extends \Magento\Backend\App\Action
             }
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
-            $this->_prepareDownloadResponse($name, array(
+            $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
                 'value' => $fileName
             ));
@@ -1224,7 +1232,7 @@ class Rma extends \Magento\Backend\App\Action
                     $pdfContent = $pdf->render();
                 }
 
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
                     'application/pdf'
@@ -1263,7 +1271,7 @@ class Rma extends \Magento\Backend\App\Action
             $pdf = $orderPdf->getPdf($shipment);
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
-            $this->_prepareDownloadResponse(
+            return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(),
                 'application/pdf'
             );

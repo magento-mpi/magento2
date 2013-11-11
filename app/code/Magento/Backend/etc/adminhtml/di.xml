@@ -18,6 +18,7 @@
     <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
     <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider" />
     <preference for="Magento\App\DefaultPathInterface" type="Magento\Backend\App\DefaultPath" />
+    <preference for="Magento\App\Response\Http\FileFactory" type="Magento\Backend\App\Response\Http\FileFactory" />
     <type name="Magento\Backend\App\Action\Context">
         <param name="helper">
             <instance type="Magento\Backend\Helper\Data" />

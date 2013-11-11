@@ -123,7 +123,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     /**
      * Define active menu item in menu block
      * @param string $itemId current active menu item
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _setActiveMenu($itemId)
     {
@@ -143,7 +143,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      * @param $label
      * @param $title
      * @param null $link
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _addBreadcrumb($label, $title, $link=null)
     {
@@ -153,7 +153,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _addContent(\Magento\Core\Block\AbstractBlock $block)
     {
@@ -162,7 +162,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _addLeft(\Magento\Core\Block\AbstractBlock $block)
     {
@@ -171,7 +171,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _addJs(\Magento\Core\Block\AbstractBlock $block)
     {
@@ -185,7 +185,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      *
      * @param \Magento\Core\Block\AbstractBlock $block
      * @param string $containerName
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     private function _moveBlockToContainer(\Magento\Core\Block\AbstractBlock $block, $containerName)
     {
@@ -196,7 +196,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     /**
      * Controller predispatch method
      *
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     public function preDispatch()
     {
@@ -279,7 +279,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      * Set session locale,
      * process force locale set through url params
      *
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _processLocaleSettings()
     {
@@ -307,7 +307,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     /**
      * Start authentication process
      *
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _initAuthentication()
     {
@@ -435,7 +435,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      * @param string|null|bool|array $ids
      * @param bool $generateBlocks
      * @param bool $generateXml
-     * @return \Magento\Backend\Controller\AbstractAction|\Magento\App\Action\Action
+     * @return \Magento\Backend\App\AbstractAction|\Magento\App\Action\Action
      */
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
@@ -470,7 +470,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      * Is overridden here to set defaultUrl to admin url
      *
      * @param   string $defaultUrl
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _redirectReferer($defaultUrl = null)
     {
@@ -484,7 +484,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      *
      * @param   string $path
      * @param   array $arguments
-     * @return \Magento\Backend\Controller\AbstractAction
+     * @return \Magento\Backend\App\AbstractAction
      */
     protected function _redirect($path, $arguments=array())
     {
@@ -545,25 +545,5 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $html = $block->toHtml();
         $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($html);
         $this->getResponse()->setBody($html);
-    }
-
-    /**
-     * Declare headers and content file in response for file download
-     *
-     * @param string $fileName
-     * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
-     * that case
-     * @param string $contentType
-     * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
-     * @return \Magento\Backend\Controller\AbstractAction
-     */
-    protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
-        $contentLength = null
-    ) {
-        if ($this->_auth->getAuthStorage()->isFirstPageAfterLogin()) {
-            $this->_redirect($this->_backendUrl->getStartupPageUrl());
-            return $this;
-        }
-        return parent::_prepareDownloadResponse($fileName, $content, $contentType, $contentLength);
     }
 }

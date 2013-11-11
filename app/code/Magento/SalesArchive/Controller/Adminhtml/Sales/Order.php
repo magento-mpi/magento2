@@ -33,10 +33,11 @@ class Order extends  \Magento\Sales\Controller\Adminhtml\Order
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\SalesArchive\Model\Archive $archiveModel
+        \Magento\SalesArchive\Model\Archive $archiveModel,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_archiveModel = $archiveModel;
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $fileFactory);
     }
 
     /**

@@ -32,17 +32,25 @@ class Backup extends \Magento\Backend\App\Action
     protected $_backupFactory;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backup\Factory $backupFactory
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Backup\Factory $backupFactory
+        \Magento\Backup\Factory $backupFactory,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_backupFactory = $backupFactory;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -180,9 +188,9 @@ class Backup extends \Magento\Backend\App\Action
         $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
             ->generateBackupDownloadName($backup);
 
-        $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
+        $response = $this->_fileFactory->create($fileName, null, 'application/octet-stream', $backup->getSize());
 
-        $this->getResponse()->sendHeaders();
+        $response->sendHeaders();
 
         $backup->output();
         exit();

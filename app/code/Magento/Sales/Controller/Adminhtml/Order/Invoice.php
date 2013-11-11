@@ -32,10 +32,11 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        parent::__construct($context, $fileFactory);
     }
 
     /**

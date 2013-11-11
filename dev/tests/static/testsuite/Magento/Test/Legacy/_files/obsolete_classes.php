@@ -1404,4 +1404,5 @@ return array(
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('\Magento\Core\Model\EntryPoint\Media', '\Magento\Core\App\Media'),
+    array('\Magento\Backend\Controller\AbstractAction', '\Magento\Backend\App\AbstractAction'),
 );

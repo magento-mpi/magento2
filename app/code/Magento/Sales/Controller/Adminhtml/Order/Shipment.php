@@ -27,15 +27,23 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context, $fileFactory);
     }
 
     /**
@@ -556,7 +564,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                     $pdfContent = $pdf->render();
                 }
 
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'ShippingLabel(' . $shipment->getIncrementId() . ').pdf',
                     $pdfContent,
                     'application/pdf'
@@ -585,7 +593,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
         if ($shipment) {
             $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
-            $this->_prepareDownloadResponse(
+            return $this->_fileFactory->create(
                 'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
                 'application/pdf'
@@ -638,7 +646,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
         if (!empty($labelsContent)) {
             $outputPdf = $this->_combineLabelsPdf($labelsContent);
-            $this->_prepareDownloadResponse('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
+            $this->_fileFactory->create('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
             return;
         }
 

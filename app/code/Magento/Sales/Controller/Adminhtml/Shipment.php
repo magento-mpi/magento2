@@ -24,7 +24,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $fileName   = 'shipments.csv';
         $grid       = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment\Grid');
-        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+        return $this->_fileFactory->create($fileName, $grid->getCsvFile());
     }
 
     /**
@@ -34,6 +34,6 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $fileName   = 'shipments.xml';
         $grid       = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment\Grid');
-        $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName));
     }
 }

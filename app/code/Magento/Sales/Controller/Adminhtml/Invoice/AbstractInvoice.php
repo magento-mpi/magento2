@@ -19,6 +19,22 @@ class AbstractInvoice
     extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+    /**
      * Init layout, menu and breadcrumb
      *
      * @return \Magento\Sales\Controller\Adminhtml\Invoice
@@ -98,7 +114,7 @@ class AbstractInvoice
             if ($invoice) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf(array($invoice));
                 $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-                $this->_prepareDownloadResponse('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
+                return $this->_fileFactory->create('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
             $this->_forward('noRoute');
@@ -121,7 +137,7 @@ class AbstractInvoice
             }
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
 
-            return $this->_prepareDownloadResponse('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_fileFactory->create('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('sales/*/');
     }

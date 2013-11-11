@@ -23,16 +23,24 @@ class Wishlist extends \Magento\Backend\App\Action
     protected $_backendAuthSession;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Backend\Model\Auth\Session $backendAuthSession
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_backendAuthSession = $backendAuthSession;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -85,7 +93,7 @@ class Wishlist extends \Magento\Backend\App\Action
         $fileName = 'customer_wishlists.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -97,7 +105,7 @@ class Wishlist extends \Magento\Backend\App\Action
         $fileName = 'customer_wishlists.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
  	 	$exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
- 	 	$this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+ 	 	return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
