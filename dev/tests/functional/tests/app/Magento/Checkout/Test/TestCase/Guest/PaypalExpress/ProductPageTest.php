@@ -34,6 +34,11 @@ class ProductPageTest extends Functional
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutPaypalExpress();
         $fixture->persist();
 
+        //Ensure shopping cart is empty
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
         //Open product page
         $products = $fixture->getProducts();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
@@ -53,7 +58,12 @@ class ProductPageTest extends Functional
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         //Verification
-        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->assertContains(
+            'Your order has been received.',
+            $successPage->getTitleBlock()->getTitle(),
+            'Order success page was not opened.');
+        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
 
