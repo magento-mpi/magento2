@@ -39,8 +39,4 @@
             </value>
         </param>
     </type>
-    <!-- Remove this configuration since MAGETWO-17007 will be fixed -->
-    <type name="Magento\App\Action\Action">
-        <plugin name="sessionInitializer" type="Magento\Core\App\Action\Plugin\Session" sortOrder="10"/>
-    </type>
 </config>
