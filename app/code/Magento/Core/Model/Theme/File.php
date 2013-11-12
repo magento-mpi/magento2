@@ -14,7 +14,7 @@
 namespace Magento\Core\Model\Theme;
 
 class File extends \Magento\Core\Model\AbstractModel
-    implements \Magento\Core\Model\Theme\FileInterface
+    implements \Magento\View\Design\Theme\FileInterface
 {
     /**
      * {@inheritdoc}
@@ -31,30 +31,30 @@ class File extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'file';
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var \Magento\View\Design\ThemeInterface
      */
     protected $_theme;
 
     /**
-     * @var \Magento\Core\Model\Theme\Customization\FileServiceFactory
+     * @var \Magento\View\Design\Theme\Customization\FileServiceFactory
      */
     protected $_fileServiceFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Customization\FileInterface
+     * @var \Magento\View\Design\Theme\Customization\FileInterface
      */
     protected $_fileService;
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\Core\Model\Theme\Customization\FileServiceFactory $fileServiceFactory
+     * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -62,15 +62,15 @@ class File extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
-        \Magento\Core\Model\Theme\Customization\FileServiceFactory $fileServiceFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
+        \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_themeFactory = $themeFactory;
         $this->_fileServiceFactory = $fileServiceFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -86,7 +86,7 @@ class File extends \Magento\Core\Model\AbstractModel
      *
      * @return $this
      */
-    public function setCustomizationService(\Magento\Core\Model\Theme\Customization\FileInterface $fileService)
+    public function setCustomizationService(\Magento\View\Design\Theme\Customization\FileInterface $fileService)
     {
         $this->_fileService = $fileService;
         return $this;
@@ -114,6 +114,7 @@ class File extends \Magento\Core\Model\AbstractModel
     {
         $this->_theme = $theme;
         $this->setData('theme_id', $theme->getId());
+        $this->setData('theme_path', $theme->getThemePath());
         return $this;
     }
 

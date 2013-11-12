@@ -15,7 +15,7 @@
 
 namespace Magento\Image\Adapter;
 
-abstract class AbstractAdapter
+abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * Background color

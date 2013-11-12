@@ -14,6 +14,8 @@
  */
 namespace Magento\Core\Model;
 
+use \Magento\View\Design\ThemeInterface;
+
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -29,7 +31,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $customizationConfig = $this->getMock('Magento\Theme\Model\Config\Customization', array(), array(), '', false);
-        $customizationFactory = $this->getMock('Magento\Core\Model\Theme\CustomizationFactory',
+        $customizationFactory = $this->getMock('Magento\View\Design\Theme\CustomizationFactory',
             array('create'), array(), '', false);
         $resourceCollection = $this->getMock(
             'Magento\Core\Model\Resource\Theme\Collection',
@@ -38,7 +40,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_imageFactory = $this->getMock('Magento\Core\Model\Theme\ImageFactory',
+        $this->_imageFactory = $this->getMock('Magento\View\Design\Theme\ImageFactory',
             array('create'), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -86,9 +88,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function isVirtualDataProvider()
     {
         return array(
-            array('type' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'isVirtual' => true),
-            array('type' => \Magento\Core\Model\Theme::TYPE_STAGING, 'isVirtual' => false),
-            array('type' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'isVirtual' => false)
+            array('type' => ThemeInterface::TYPE_VIRTUAL, 'isVirtual' => true),
+            array('type' => ThemeInterface::TYPE_STAGING, 'isVirtual' => false),
+            array('type' => ThemeInterface::TYPE_PHYSICAL, 'isVirtual' => false)
         );
     }
 
@@ -112,9 +114,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function isPhysicalDataProvider()
     {
         return array(
-            array('type' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'isPhysical' => false),
-            array('type' => \Magento\Core\Model\Theme::TYPE_STAGING, 'isPhysical' => false),
-            array('type' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'isPhysical' => true)
+            array('type' => ThemeInterface::TYPE_VIRTUAL, 'isPhysical' => false),
+            array('type' => ThemeInterface::TYPE_STAGING, 'isPhysical' => false),
+            array('type' => ThemeInterface::TYPE_PHYSICAL, 'isPhysical' => true)
         );
     }
 
@@ -138,9 +140,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function isVisibleDataProvider()
     {
         return array(
-            array('type' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'isVisible' => true),
-            array('type' => \Magento\Core\Model\Theme::TYPE_STAGING, 'isVisible' => false),
-            array('type' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'isVisible' => true)
+            array('type' => ThemeInterface::TYPE_VIRTUAL, 'isVisible' => true),
+            array('type' => ThemeInterface::TYPE_STAGING, 'isVisible' => false),
+            array('type' => ThemeInterface::TYPE_PHYSICAL, 'isVisible' => true)
         );
     }
 
@@ -168,9 +170,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function isDeletableDataProvider()
     {
         return array(
-            array(\Magento\Core\Model\Theme::TYPE_VIRTUAL, true),
-            array(\Magento\Core\Model\Theme::TYPE_STAGING, true),
-            array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, false)
+            array(ThemeInterface::TYPE_VIRTUAL, true),
+            array(ThemeInterface::TYPE_STAGING, true),
+            array(ThemeInterface::TYPE_PHYSICAL, false)
         );
     }
 
