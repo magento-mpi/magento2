@@ -1416,8 +1416,8 @@ return array(
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\EntryPoint\Media', '\Magento\Core\App\Media'),
     array('Magento\Core\Model\ModuleManager', 'Magento\Module\Manager'),
-    array('Magento\View\Block\Text', 'Magento\View\Block\Text'),
-    array('Magento\View\Block\Text\ListText', 'Magento\View\Block\Text\ListText'),
-    array('Magento\View\Block\Text\TextList\Item', 'Magento\View\Block\Text\TextList\Item'),
-    array('Magento\View\Block\Text\TextList\Link', 'Magento\View\Block\Text\TextList\Link'),
+    array('Magento\Core\Block\Text', 'Magento\View\Block\Text'),
+    array('Magento\Core\Block\Text\ListText', 'Magento\View\Block\Text\ListText'),
+    array('Magento\Core\Block\Text\TextList\Item', 'Magento\View\Block\Text\TextList\Item'),
+    array('Magento\Core\Block\Text\TextList\Link', 'Magento\View\Block\Text\TextList\Link'),
 );
