@@ -37,15 +37,23 @@ class Index extends \Magento\Backend\App\Action
     protected $_registry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Core\Model\Registry $registry,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
+        $this->_title = $title;
     }
 
     /**
@@ -162,12 +170,12 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _initTitle()
     {
-        $this->_title(__('Customers'))->_title(__('Customers'));
+        $this->_title->add(__('Customers'))->_title->add(__('Customers'));
         $customer = $this->_registry->registry('checkout_current_customer');
         if ($customer) {
-            $this->_title($customer->getName());
+            $this->_title->add($customer->getName());
         }
-        $this->_title(__('Shopping Cart'));
+        $this->_title->add(__('Shopping Cart'));
         return $this;
     }
 

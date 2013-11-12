@@ -29,20 +29,28 @@ class Rule extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     public function indexAction()
     {
-        $this->_title(__('Tax Rules'));
+        $this->_title->add(__('Tax Rules'));
         $this->_initAction();
         $this->renderLayout();
 
@@ -56,7 +64,7 @@ class Rule extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Tax Rules'));
+        $this->_title->add(__('Tax Rules'));
 
         $taxRuleId  = $this->getRequest()->getParam('rule');
         $ruleModel  = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rule');
@@ -75,7 +83,7 @@ class Rule extends \Magento\Backend\App\Action
             $ruleModel->setData($data);
         }
 
-        $this->_title($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : __('New Tax Rule'));
+        $this->_title->add($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : __('New Tax Rule'));
 
         $this->_coreRegistry->register('tax_rule', $ruleModel);
 

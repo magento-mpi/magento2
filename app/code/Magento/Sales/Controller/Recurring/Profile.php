@@ -29,15 +29,23 @@ class Profile extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -61,7 +69,7 @@ class Profile extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Recurring Billing Profiles'));
+        $this->_title->add(__('Recurring Billing Profiles'));
         $this->loadLayout();
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
@@ -146,7 +154,7 @@ class Profile extends \Magento\App\Action\Action
     {
         try {
             $profile = $this->_initProfile();
-            $this->_title(__('Recurring Billing Profiles'))->_title(__('Profile #%1', $profile->getReferenceId()));
+            $this->_title->add(__('Recurring Billing Profiles'))->_title->add(__('Profile #%1', $profile->getReferenceId()));
             $this->loadLayout();
             $this->getLayout()->initMessages('Magento\Customer\Model\Session');
             $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');

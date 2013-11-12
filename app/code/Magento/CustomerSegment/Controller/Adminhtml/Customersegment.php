@@ -30,17 +30,25 @@ class Customersegment extends \Magento\Backend\App\Action
     protected $_conditionFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -73,7 +81,7 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Customer Segments'));
+        $this->_title->add(__('Customer Segments'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment');
@@ -94,7 +102,7 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Customer Segments'));
+        $this->_title->add(__('Customer Segments'));
 
         try {
             $model = $this->_initSegment();
@@ -104,7 +112,7 @@ class Customersegment extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Segment'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Segment'));
 
         // set entered data if was error when we do save
         $data = $this->_session->getPageData(true);

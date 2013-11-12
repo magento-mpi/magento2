@@ -52,7 +52,7 @@ class Review extends \Magento\Backend\App\Action
 
     public function customerAction()
     {
-        $this->_title(__('Customer Reviews Report'));
+        $this->_title->add(__('Customer Reviews Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Review::report_review_customer')
@@ -88,7 +88,7 @@ class Review extends \Magento\Backend\App\Action
 
     public function productAction()
     {
-        $this->_title(__('Product Reviews Report'));
+        $this->_title->add(__('Product Reviews Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Review::report_review_product')
@@ -123,7 +123,7 @@ class Review extends \Magento\Backend\App\Action
 
     public function productDetailAction()
     {
-        $this->_title(__('Details'));
+        $this->_title->add(__('Details'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Review::report_review')

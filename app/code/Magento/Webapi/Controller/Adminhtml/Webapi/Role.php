@@ -17,17 +17,25 @@ class Role extends \Magento\Backend\App\Action
     protected $_validatorFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Validator\Factory $validatorFactory
+        \Magento\Core\Model\Validator\Factory $validatorFactory,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
         $this->_validatorFactory = $validatorFactory;
+        $this->_title = $title;
     }
 
     /**
@@ -55,7 +63,7 @@ class Role extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('API Roles'));
+        $this->_title->add(__('API Roles'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -84,7 +92,7 @@ class Role extends \Magento\Backend\App\Action
     public function editAction()
     {
         $this->_initAction();
-        $this->_title(__('API Roles'));
+        $this->_title->add(__('API Roles'));
 
         $roleId = $this->getRequest()->getParam('role_id');
 
@@ -103,13 +111,13 @@ class Role extends \Magento\Backend\App\Action
                 __('Edit API Role'),
                 __('Edit API Role')
             );
-            $this->_title(__('Edit API Role'));
+            $this->_title->add(__('Edit API Role'));
         } else {
             $this->_addBreadcrumb(
                 __('Add New API Role'),
                 __('Add New API Role')
             );
-            $this->_title(__('New API Role'));
+            $this->_title->add(__('New API Role'));
         }
 
         // Restore previously entered form data from session

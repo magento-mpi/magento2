@@ -27,15 +27,23 @@ class Attribute extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -92,7 +100,7 @@ class Attribute extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Returns Attributes'));
+        $this->_title->add(__('Returns Attributes'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -118,7 +126,7 @@ class Attribute extends \Magento\Backend\App\Action
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title(__('Returns Attributes'));
+        $this->_title->add(__('Returns Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -134,9 +142,9 @@ class Attribute extends \Magento\Backend\App\Action
                 return;
             }
 
-            $this->_title($attributeObject->getFrontendLabel());
+            $this->_title->add($attributeObject->getFrontendLabel());
         } else {
-            $this->_title(__('New Return Attribute'));
+            $this->_title->add(__('New Return Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);

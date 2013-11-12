@@ -21,6 +21,11 @@ namespace Magento\Reward\Controller\Adminhtml\Reward;
 class Rate extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -30,13 +35,16 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -78,7 +86,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _initRate()
     {
-        $this->_title(__('Reward Exchange Rates'));
+        $this->_title->add(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
         $rate = $this->_objectManager->create('Magento\Reward\Model\Reward\Rate');
@@ -94,7 +102,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Reward Exchange Rates'));
+        $this->_title->add(__('Reward Exchange Rates'));
 
         $this->_initAction()
             ->renderLayout();
@@ -116,7 +124,7 @@ class Rate extends \Magento\Backend\App\Action
     {
         $rate = $this->_initRate();
 
-        $this->_title($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
+        $this->_title->add($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
 
         $this->_initAction()
             ->renderLayout();

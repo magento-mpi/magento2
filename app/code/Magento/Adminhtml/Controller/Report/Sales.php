@@ -50,7 +50,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function salesAction()
     {
-        $this->_title(__('Sales Report'));
+        $this->_title->add(__('Sales Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_ORDER_FLAG_CODE, 'sales');
 
@@ -71,7 +71,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function bestsellersAction()
     {
-        $this->_title(__('Best Sellers Report'));
+        $this->_title->add(__('Best Sellers Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_BESTSELLERS_FLAG_CODE, 'bestsellers');
 
@@ -156,7 +156,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function taxAction()
     {
-        $this->_title(__('Tax Report'));
+        $this->_title->add(__('Tax Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_TAX_FLAG_CODE, 'tax');
 
@@ -199,7 +199,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function shippingAction()
     {
-        $this->_title(__('Shipping Report'));
+        $this->_title->add(__('Shipping Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
 
@@ -242,7 +242,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function invoicedAction()
     {
-        $this->_title(__('Invoice Report'));
+        $this->_title->add(__('Invoice Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
 
@@ -285,7 +285,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function refundedAction()
     {
-        $this->_title(__('Refunds Report'));
+        $this->_title->add(__('Refunds Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
 
@@ -328,7 +328,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 
     public function couponsAction()
     {
-        $this->_title(__('Coupons Report'));
+        $this->_title->add(__('Coupons Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_COUPONS_FLAG_CODE, 'coupons');
 

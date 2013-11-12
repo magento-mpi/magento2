@@ -34,14 +34,17 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\App\Action\Title $title
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -54,7 +57,7 @@ class Index extends \Magento\Backend\App\Action
     protected function _initCustomer($idFieldName = 'id')
     {
         // Default title
-        $this->_title(__('Customers'));
+        $this->_title->add(__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
@@ -71,7 +74,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Customers'));
+        $this->_title->add(__('Customers'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -172,7 +175,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($customer->getId() ? $customer->getName() : __('New Customer'));
+        $this->_title->add($customer->getId() ? $customer->getName() : __('New Customer'));
 
         /**
          * Set active menu item

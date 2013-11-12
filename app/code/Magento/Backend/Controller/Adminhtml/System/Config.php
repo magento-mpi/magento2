@@ -57,7 +57,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
      */
     public function editAction()
     {
-        $this->_title(__('Configuration'));
+        $this->_title->add(__('Configuration'));
 
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');

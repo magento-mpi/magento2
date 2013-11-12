@@ -25,15 +25,23 @@ class Index extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     public function indexAction()
@@ -57,7 +65,7 @@ class Index extends \Magento\Backend\App\Action
             $ratingModel->load($this->getRequest()->getParam('id'));
         }
 
-        $this->_title($ratingModel->getId() ? $ratingModel->getRatingCode() : __('New Rating'));
+        $this->_title->add($ratingModel->getId() ? $ratingModel->getRatingCode() : __('New Rating'));
 
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
@@ -150,7 +158,7 @@ class Index extends \Magento\Backend\App\Action
 
     protected function _initEnityId()
     {
-        $this->_title(__('Ratings'));
+        $this->_title->add(__('Ratings'));
 
         $this->_coreRegistry->register(
             'entityId', $this->_objectManager->create('Magento\Rating\Model\Rating\Entity')->getIdByCode('product')

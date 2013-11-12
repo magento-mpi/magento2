@@ -22,14 +22,22 @@ class Banner extends \Magento\Backend\App\Action
     protected $_registry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Core\Model\Registry $registry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_registry = $registry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -40,7 +48,7 @@ class Banner extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Banners'));
+        $this->_title->add(__('Banners'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
@@ -72,7 +80,7 @@ class Banner extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Banner'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Banner'));
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
@@ -251,7 +259,7 @@ class Banner extends \Magento\Backend\App\Action
      */
     protected function _initBanner($idFieldName = 'banner_id')
     {
-        $this->_title(__('Banners'));
+        $this->_title->add(__('Banners'));
 
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\Banner\Model\Banner');

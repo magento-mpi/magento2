@@ -51,12 +51,14 @@ class Version
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\Adminhtml\Model\Session $adminhtmlSession,
-        \Magento\VersionsCms\Model\Page\Revision $pageRevision
+        \Magento\VersionsCms\Model\Page\Revision $pageRevision,
+        \Magento\App\Action\Title $title
     ) {
         $this->_pageVersionFactory = $pageVersionFactory;
         $this->_adminhtmlSession = $adminhtmlSession;
         $this->_pageRevision = $pageRevision;
-        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory);
+        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion,
+            $pageFactory, $title);
     }
 
     /**

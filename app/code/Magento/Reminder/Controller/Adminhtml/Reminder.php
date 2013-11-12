@@ -37,21 +37,29 @@ class Reminder extends \Magento\Backend\App\Action
     protected $_conditionFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
-        \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
+        \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_ruleFactory = $ruleFactory;
         $this->_conditionFactory = $conditionFactory;
+        $this->_title = $title;
     }
 
     /**
@@ -98,7 +106,7 @@ class Reminder extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Email Reminders'));
+        $this->_title->add(__('Email Reminders'));
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder');
         $this->renderLayout();
@@ -118,7 +126,7 @@ class Reminder extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Email Reminders'));
+        $this->_title->add(__('Email Reminders'));
 
         try {
             $model = $this->_initRule();
@@ -128,7 +136,7 @@ class Reminder extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Reminder Rule'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Reminder Rule'));
 
         // set entered data if was error when we do save
         $data = $this->_getSession()->getPageData(true);

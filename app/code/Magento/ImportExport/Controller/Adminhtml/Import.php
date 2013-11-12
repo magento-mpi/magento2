@@ -20,13 +20,31 @@ namespace Magento\ImportExport\Controller\Adminhtml;
 class Import extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
+    /**
      * Initialize layout.
      *
      * @return \Magento\ImportExport\Controller\Adminhtml\Import
      */
     protected function _initAction()
     {
-        $this->_title(__('Import/Export'))
+        $this->_title->add(__('Import/Export'))
             ->loadLayout()
             ->_setActiveMenu('Magento_ImportExport::system_convert_import');
         return $this;
@@ -49,7 +67,7 @@ class Import extends \Magento\Backend\App\Action
     {
         $this->_getSession()->addNotice($this->_objectManager->get('Magento\ImportExport\Helper\Data')
             ->getMaxUploadSizeMessage());
-        $this->_initAction()->_title(__('Import'))->_addBreadcrumb(__('Import'), __('Import'));
+        $this->_initAction()->_title->add(__('Import'))->_addBreadcrumb(__('Import'), __('Import'));
         $this->renderLayout();
     }
 

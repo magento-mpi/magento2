@@ -69,7 +69,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Report'));
+        $this->_title->add(__('Report'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
@@ -98,7 +98,7 @@ class Logging extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/');
             return;
         }
-        $this->_title(__("Log Entry #%1", $eventId));
+        $this->_title->add(__("Log Entry #%1", $eventId));
 
         $this->_coreRegistry->register('current_event', $model);
 
@@ -136,7 +136,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function archiveAction()
     {
-        $this->_title(__('Admin Actions Archive'));
+        $this->_title->add(__('Admin Actions Archive'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_backups');

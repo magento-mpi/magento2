@@ -20,12 +20,30 @@ namespace Magento\Connect\Controller\Adminhtml\Extension;
 class Custom extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
+    /**
      * Redirect to edit Extension Package action
      *
      */
     public function indexAction()
     {
-        $this->_title(__('Package Extensions'));
+        $this->_title->add(__('Package Extensions'));
 
         $this->_forward('edit');
     }
@@ -36,7 +54,7 @@ class Custom extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this ->_title(__('Extension'));
+        $this ->_title->add(__('Extension'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Connect::system_extensions_custom');

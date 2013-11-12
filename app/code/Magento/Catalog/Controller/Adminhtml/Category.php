@@ -16,6 +16,24 @@ namespace Magento\Catalog\Controller\Adminhtml;
 class Category extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
+    /**
      * Initialize requested category and put it into registry.
      * Root category can be returned, if inappropriate store/category is specified
      *
@@ -24,7 +42,7 @@ class Category extends \Magento\Backend\App\Action
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title(__('Categories'));
+        $this->_title->add(__('Categories'));
 
         $categoryId = (int)$this->getRequest()->getParam('id', false);
         $storeId    = (int)$this->getRequest()->getParam('store');
@@ -119,7 +137,7 @@ class Category extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($categoryId ? $category->getName() : __('Categories'));
+        $this->_title->add($categoryId ? $category->getName() : __('Categories'));
 
         /**
          * Check if we have data in session (if during category save was exception)

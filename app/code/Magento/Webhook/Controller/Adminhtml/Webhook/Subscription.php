@@ -38,21 +38,29 @@ class Subscription extends \Magento\Backend\App\AbstractAction
     private $_subscriptionService;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Backend\App\Action\Context $context
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
 
         $this->_registry = $registry;
         $this->_subscriptionService = $subscriptionService;
+        $this->_title = $title;
     }
 
     /**
@@ -62,9 +70,9 @@ class Subscription extends \Magento\Backend\App\AbstractAction
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook')
-            ->_title(__('System'))
-            ->_title(__('Web Services'))
-            ->_title(__('WebHook Subscriptions'));
+            ->_title->add(__('System'))
+            ->_title->add(__('Web Services'))
+            ->_title->add(__('WebHook Subscriptions'));
 
         $this->renderLayout();
     }
@@ -96,13 +104,13 @@ class Subscription extends \Magento\Backend\App\AbstractAction
 
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Webapi::system_webapi')
-                ->_title(__('System'))
-                ->_title(__('Web Services'))
-                ->_title(__('WebHook Subscriptions'));
+                ->_title->add(__('System'))
+                ->_title->add(__('Web Services'))
+                ->_title->add(__('WebHook Subscriptions'));
             if ($this->_registry->registry(self::REGISTRY_KEY_WEBHOOK_ACTION) === self::ACTION_NEW) {
-                $this->_title(__('Add Subscription'));
+                $this->_title->add(__('Add Subscription'));
             } else {
-                $this->_title(__('Edit Subscription'));
+                $this->_title->add(__('Edit Subscription'));
             }
 
             $this->renderLayout();

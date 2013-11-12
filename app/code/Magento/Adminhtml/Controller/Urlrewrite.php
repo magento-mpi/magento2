@@ -45,11 +45,29 @@ class Urlrewrite extends \Magento\Backend\App\Action
     private $_urlRewrite;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+        )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
+    /**
      * Show URL rewrites index page
      */
     public function indexAction()
     {
-        $this->_title(__('URL Redirects'));
+        $this->_title->add(__('URL Redirects'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
@@ -61,8 +79,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('URL Redirects'))
-            ->_title(__('[New/Edit] URL Redirect'));
+        $this->_title->add(__('URL Redirects'))
+            ->_title->add(__('[New/Edit] URL Redirect'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');

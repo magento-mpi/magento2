@@ -11,10 +11,27 @@ namespace Magento\Customer\Controller\Adminhtml;
 
 class Online extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
 
     public function indexAction()
     {
-        $this->_title(__('Customers Now Online'));
+        $this->_title->add(__('Customers Now Online'));
 
         if($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');

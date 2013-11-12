@@ -42,6 +42,7 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_backendAuthSession = $backendAuthSession;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -78,7 +79,7 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     public function wishlistAction()
     {
-        $this->_title(__("Customer Wish List Report"));
+        $this->_title->add(__("Customer Wish List Report"));
 
         $this->_initAction();
         $this->renderLayout();

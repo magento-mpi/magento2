@@ -27,15 +27,23 @@ class Profile extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -43,7 +51,7 @@ class Profile extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Recurring Billing Profiles'))
+        $this->_title->add(__('Recurring Billing Profiles'))
             ->loadLayout()
             ->_setActiveMenu('Magento_Sales::sales_recurring_profile')
             ->renderLayout();
@@ -56,11 +64,11 @@ class Profile extends \Magento\Backend\App\Action
     public function viewAction()
     {
         try {
-            $this->_title(__('Recurring Billing Profiles'));
+            $this->_title->add(__('Recurring Billing Profiles'));
             $profile = $this->_initProfile();
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::sales_recurring_profile')
-                ->_title(__('Profile #%1', $profile->getReferenceId()))
+                ->_title->add(__('Profile #%1', $profile->getReferenceId()))
                 ->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {

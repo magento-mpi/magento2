@@ -28,20 +28,28 @@ class Set extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     public function indexAction()
     {
-        $this->_title(__('Product Templates'));
+        $this->_title->add(__('Product Templates'));
 
         $this->_setTypeId();
 
@@ -58,7 +66,7 @@ class Set extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Product Templates'));
+        $this->_title->add(__('Product Templates'));
 
         $this->_setTypeId();
         $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
@@ -69,7 +77,7 @@ class Set extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($attributeSet->getId() ? $attributeSet->getAttributeSetName() : __('New Set'));
+        $this->_title->add($attributeSet->getId() ? $attributeSet->getAttributeSetName() : __('New Set'));
 
         $this->_coreRegistry->register('current_attribute_set', $attributeSet);
 
@@ -189,7 +197,7 @@ class Set extends \Magento\Backend\App\Action
 
     public function addAction()
     {
-        $this->_title(__('New Product Template'));
+        $this->_title->add(__('New Product Template'));
 
         $this->_setTypeId();
 

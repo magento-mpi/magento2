@@ -47,7 +47,7 @@ class Shopcart extends \Magento\Backend\App\Action
 
     public function customerAction()
     {
-        $this->_title(__('Customer Shopping Carts'));
+        $this->_title->add(__('Customer Shopping Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_customer')
@@ -82,7 +82,7 @@ class Shopcart extends \Magento\Backend\App\Action
 
     public function productAction()
     {
-        $this->_title(__('Products in Carts'));
+        $this->_title->add(__('Products in Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_product')
@@ -117,7 +117,7 @@ class Shopcart extends \Magento\Backend\App\Action
 
     public function abandonedAction()
     {
-        $this->_title(__('Abandoned Carts'));
+        $this->_title->add(__('Abandoned Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_abandoned')

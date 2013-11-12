@@ -50,6 +50,11 @@ class Role extends \Magento\Backend\App\AbstractAction
     protected $_authSession;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
@@ -58,6 +63,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\User\Model\RulesFactory $rulesFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -65,7 +71,8 @@ class Role extends \Magento\Backend\App\AbstractAction
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\User\Model\RulesFactory $rulesFactory,
-        \Magento\Backend\Model\Auth\Session $authSession
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -73,6 +80,7 @@ class Role extends \Magento\Backend\App\AbstractAction
         $this->_userFactory = $userFactory;
         $this->_rulesFactory = $rulesFactory;
         $this->_authSession = $authSession;
+        $this->_title = $title;
     }
 
     /**
@@ -98,7 +106,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     protected function _initRole($requestVariable = 'rid')
     {
-        $this->_title(__('Roles'));
+        $this->_title->add(__('Roles'));
 
         $role = $this->_roleFactory->create()->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
@@ -116,7 +124,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function indexAction()
     {
-        $this->_title(__('Roles'));
+        $this->_title->add(__('Roles'));
 
         $this->_initAction();
 
@@ -150,7 +158,7 @@ class Role extends \Magento\Backend\App\AbstractAction
             $breadCrumbTitle = __('Add New Role');
         }
 
-        $this->_title($role->getId() ? $role->getRoleName() : __('New Role'));
+        $this->_title->add($role->getId() ? $role->getRoleName() : __('New Role'));
 
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 

@@ -31,20 +31,28 @@ class Process extends \Magento\Backend\App\Action
     protected $_indexer;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Index\Model\ProcessFactory $processFactory,
-        \Magento\Index\Model\Indexer $indexer
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_processFactory = $processFactory;
         $this->_indexer = $indexer;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -71,7 +79,7 @@ class Process extends \Magento\Backend\App\Action
      */
     public function listAction()
     {
-        $this->_title(__('Index Management'));
+        $this->_title->add(__('Index Management'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
@@ -87,11 +95,11 @@ class Process extends \Magento\Backend\App\Action
         /** @var $process \Magento\Index\Model\Process */
         $process = $this->_initProcess();
         if ($process) {
-            $this->_title($process->getIndexCode());
+            $this->_title->add($process->getIndexCode());
 
-            $this->_title(__('System'))
-                 ->_title(__('Index Management'))
-                 ->_title(__($process->getIndexer()->getName()));
+            $this->_title->add(__('System'))
+                 ->_title->add(__('Index Management'))
+                 ->_title->add(__($process->getIndexer()->getName()));
 
             $this->_coreRegistry->register('current_index_process', $process);
             $this->loadLayout();

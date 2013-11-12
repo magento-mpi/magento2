@@ -140,7 +140,7 @@ class Consumer extends \Magento\Backend\App\AbstractAction
      */
     public function preDispatch()
     {
-        $this->_title(__('Add-Ons'));
+        $this->_title->add(__('Add-Ons'));
         parent::preDispatch();
         return $this;
     }

@@ -52,7 +52,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Shipments'));
+        $this->_title->add(__('Shipments'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'))

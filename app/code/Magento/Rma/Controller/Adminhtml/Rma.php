@@ -16,6 +16,11 @@ use Magento\Backend\App\Action;
 class Rma extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -40,6 +45,7 @@ class Rma extends \Magento\Backend\App\Action
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -52,7 +58,7 @@ class Rma extends \Magento\Backend\App\Action
         $this->loadLayout()
             ->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
 
-        $this->_title(__('Returns'));
+        $this->_title->add(__('Returns'));
         return $this;
     }
 
@@ -151,7 +157,7 @@ class Rma extends \Magento\Backend\App\Action
             }
 
             $this->_initAction();
-            $this->_title(__('New Return'));
+            $this->_title->add(__('New Return'));
             $this->renderLayout();
         }
     }
@@ -164,7 +170,7 @@ class Rma extends \Magento\Backend\App\Action
         $this->_initCreateModel();
 
         $this->_initAction()
-            ->_title(__('New Return'))
+            ->_title->add(__('New Return'))
             ->renderLayout();
     }
 
@@ -186,7 +192,7 @@ class Rma extends \Magento\Backend\App\Action
             return;
         }
         $this->_initAction();
-        $this->_title(sprintf("#%s", $model->getIncrementId()));
+        $this->_title->add(sprintf("#%s", $model->getIncrementId()));
         $this->renderLayout();
     }
 

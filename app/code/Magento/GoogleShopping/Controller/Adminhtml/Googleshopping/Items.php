@@ -21,6 +21,24 @@ namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 class Items extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
+    /**
      * Initialize general settings for action
      *
      * @return  \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items
@@ -39,7 +57,7 @@ class Items extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Google Content Items'));
+        $this->_title->add(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect('adminhtml/*/', array(

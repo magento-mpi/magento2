@@ -67,14 +67,16 @@ class Revision
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design
+        \Magento\Core\Model\Design $design,
+        \Magento\App\Action\Title $title
     ) {
         $this->_configScope = $configScope;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_cmsPage = $cmsPage;
         $this->_design = $design;
-        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory);
+        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession,
+            $pageVersion, $pageFactory, $title);
     }
 
     /**

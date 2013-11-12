@@ -46,7 +46,7 @@ class Report extends \Magento\Backend\App\Action
 
     public function searchAction()
     {
-        $this->_title(__('Search Terms Report'));
+        $this->_title->add(__('Search Terms Report'));
 
         $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 

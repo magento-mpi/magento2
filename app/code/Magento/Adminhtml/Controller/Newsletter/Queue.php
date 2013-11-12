@@ -27,14 +27,22 @@ class Queue extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -43,7 +51,7 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Newsletter Queue'));
+        $this->_title->add(__('Newsletter Queue'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -186,7 +194,7 @@ class Queue extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Newsletter Queue'));
+        $this->_title->add(__('Newsletter Queue'));
 
         $this->_coreRegistry->register('current_queue', $this->_objectManager->get('Magento\Newsletter\Model\Queue'));
 
@@ -200,7 +208,7 @@ class Queue extends \Magento\Backend\App\Action
             $queue = $this->_coreRegistry->registry('current_queue')->setTemplateId($template->getId());
         }
 
-        $this->_title(__('Edit Queue'));
+        $this->_title->add(__('Edit Queue'));
 
         $this->loadLayout();
 

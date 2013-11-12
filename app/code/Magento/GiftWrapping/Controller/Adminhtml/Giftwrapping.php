@@ -29,15 +29,23 @@ class Giftwrapping extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -49,7 +57,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $this->loadLayout()->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
 
-        $this->_title(__('Gift Wrapping'));
+        $this->_title->add(__('Gift Wrapping'));
         return $this;
     }
 
@@ -96,7 +104,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $model = $this->_initModel();
         $this->_initAction();
-        $this->_title(__('New Gift Wrapping'));
+        $this->_title->add(__('New Gift Wrapping'));
         $this->renderLayout();
     }
 
@@ -111,7 +119,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
         if ($formData) {
             $model->addData($formData);
         }
-        $this->_title(__('%1', $model->getDesign()));
+        $this->_title->add(__('%1', $model->getDesign()));
         $this->renderLayout();
     }
 

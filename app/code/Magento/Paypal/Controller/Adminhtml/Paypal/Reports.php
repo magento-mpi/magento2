@@ -38,22 +38,30 @@ class Reports extends \Magento\Backend\App\Action
     protected $_logger;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory
      * @param \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
-        \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
+        \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rowFactory = $rowFactory;
         $this->_settlementFactory = $settlementFactory;
         $this->_logger = $context->getLogger();
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -86,7 +94,7 @@ class Reports extends \Magento\Backend\App\Action
         }
         $this->_coreRegistry->register('current_transaction', $row);
         $this->_initAction()
-            ->_title(__('View Transaction'))
+            ->_title->add(__('View Transaction'))
             ->_addContent($this->getLayout()
                 ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails'))
             ->renderLayout();
@@ -136,7 +144,7 @@ class Reports extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_title(__('PayPal Settlement Reports'));
+        $this->_title->add(__('PayPal Settlement Reports'));
         $this->loadLayout()
             ->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
             ->_addBreadcrumb(__('Reports'), __('Reports'))

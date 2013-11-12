@@ -32,17 +32,25 @@ class Store extends \Magento\Backend\App\Action
     protected $filterManager;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filterManager = $filterManager;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -63,7 +71,7 @@ class Store extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_title(__('Stores'));
+        $this->_title->add(__('Stores'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -103,7 +111,7 @@ class Store extends \Magento\Backend\App\Action
 
     public function editStoreAction()
     {
-        $this->_title(__('Stores'));
+        $this->_title->add(__('Stores'));
 
         $session = $this->_getSession();
         if ($session->getPostData()) {
@@ -149,9 +157,9 @@ class Store extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('store_data', $model);
 
             if ($this->_coreRegistry->registry('store_action') == 'add') {
-                $this->_title(__('New ') . $title);
+                $this->_title->add(__('New ') . $title);
             } else {
-                $this->_title($model->getName());
+                $this->_title->add($model->getName());
             }
 
             if ($this->_coreRegistry->registry('store_action') == 'edit' && $codeBase && !$model->isReadOnly()) {
@@ -255,7 +263,7 @@ class Store extends \Magento\Backend\App\Action
 
     public function deleteWebsiteAction()
     {
-        $this->_title(__('Delete Web Site'));
+        $this->_title->add(__('Delete Web Site'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
@@ -285,7 +293,7 @@ class Store extends \Magento\Backend\App\Action
 
     public function deleteGroupAction()
     {
-        $this->_title(__('Delete Store'));
+        $this->_title->add(__('Delete Store'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
@@ -315,7 +323,7 @@ class Store extends \Magento\Backend\App\Action
 
     public function deleteStoreAction()
     {
-        $this->_title(__('Delete Store View'));
+        $this->_title->add(__('Delete Store View'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);

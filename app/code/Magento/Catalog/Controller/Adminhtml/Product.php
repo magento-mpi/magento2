@@ -41,15 +41,23 @@ class Product extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -59,7 +67,7 @@ class Product extends \Magento\Backend\App\Action
      */
     protected function _initProduct()
     {
-        $this->_title(__('Products'));
+        $this->_title->add(__('Products'));
 
         $productId  = (int)$this->getRequest()->getParam('id');
         /** @var $product \Magento\Catalog\Model\Product */
@@ -181,7 +189,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Products'));
+        $this->_title->add(__('Products'));
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
         $this->renderLayout();
@@ -205,7 +213,7 @@ class Product extends \Magento\Backend\App\Action
             $product->addData($productData);
         }
 
-        $this->_title(__('New Product'));
+        $this->_title->add(__('New Product'));
 
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
@@ -252,7 +260,7 @@ class Product extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($product->getName());
+        $this->_title->add($product->getName());
 
         $this->_eventManager->dispatch('catalog_product_edit_action', array('product' => $product));
 

@@ -21,6 +21,26 @@ namespace Magento\Adminhtml\Controller\Report;
 class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    )
+    {
+        parent::__construct($context, $fileFactory);
+        $this->_title = $title;
+    }
+
+    /**
      * Add report/products breadcrumbs
      *
      * @return \Magento\Adminhtml\Controller\Report\Product
@@ -41,7 +61,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function soldAction()
     {
-        $this->_title(__('Ordered Products Report'));
+        $this->_title->add(__('Ordered Products Report'));
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_sold')
             ->_addBreadcrumb(
@@ -83,7 +103,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function viewedAction()
     {
-        $this->_title(__('Product Views Report'));
+        $this->_title->add(__('Product Views Report'));
 
         $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
 
@@ -135,7 +155,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function lowstockAction()
     {
-        $this->_title(__('Low Stock Report'));
+        $this->_title->add(__('Low Stock Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_lowstock')
@@ -176,7 +196,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function downloadsAction()
     {
-        $this->_title(__('Downloads Report'));
+        $this->_title->add(__('Downloads Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Downloadable::report_products_downloads')

@@ -22,15 +22,23 @@ class Search extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     protected function _initAction()
@@ -44,7 +52,7 @@ class Search extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_title(__('Search Terms'));
+        $this->_title->add(__('Search Terms'));
 
         $this->_initAction()
             ->_addBreadcrumb(__('Catalog'), __('Catalog'));
@@ -58,7 +66,7 @@ class Search extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Search Terms'));
+        $this->_title->add(__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
         $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
@@ -82,7 +90,7 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $this->_title($id ? $model->getQueryText() : __('New Search'));
+        $this->_title->add($id ? $model->getQueryText() : __('New Search'));
 
         $this->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 

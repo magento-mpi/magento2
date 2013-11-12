@@ -28,14 +28,22 @@ class Page extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -60,7 +68,7 @@ class Page extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Pages'));
+        $this->_title->add(__('Pages'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -80,7 +88,7 @@ class Page extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Pages'));
+        $this->_title->add(__('Pages'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
@@ -97,7 +105,7 @@ class Page extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($model->getId() ? $model->getTitle() : __('New Page'));
+        $this->_title->add($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);

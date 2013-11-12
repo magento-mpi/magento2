@@ -27,8 +27,14 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -61,7 +67,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
      */
     protected function _initInvoice($update = false)
     {
-        $this->_title(__('Invoices'));
+        $this->_title->add(__('Invoices'));
 
         $invoice = false;
         $invoiceId = $this->getRequest()->getParam('invoice_id');
@@ -152,7 +158,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $invoice = $this->_initInvoice();
         if ($invoice) {
-            $this->_title(sprintf("#%s", $invoice->getIncrementId()));
+            $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::sales_order');
@@ -183,7 +189,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $invoice = $this->_initInvoice();
         if ($invoice) {
-            $this->_title(__('New Invoice'));
+            $this->_title->add(__('New Invoice'));
 
             $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
             if ($comment) {

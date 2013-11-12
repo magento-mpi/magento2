@@ -46,6 +46,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -53,7 +54,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Gift Card Accounts'));
+        $this->_title->add(__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
             $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
@@ -96,7 +97,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getCode() : __('New Account'));
+        $this->_title->add($model->getId() ? $model->getCode() : __('New Account'));
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
@@ -298,7 +299,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     protected function _initGca($idFieldName = 'id')
     {
-        $this->_title(__('Gift Card Accounts'));
+        $this->_title->add(__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount');

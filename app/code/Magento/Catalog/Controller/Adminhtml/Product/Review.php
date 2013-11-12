@@ -30,22 +30,30 @@ class Review extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     public function indexAction()
     {
-        $this->_title(__('Customer Reviews'));
+        $this->_title->add(__('Customer Reviews'));
 
-        $this->_title(__('Reviews'));
+        $this->_title->add(__('Reviews'));
 
         if ($this->getRequest()->getParam('ajax')) {
             return $this->_forward('reviewGrid');
@@ -61,9 +69,9 @@ class Review extends \Magento\Backend\App\Action
 
     public function pendingAction()
     {
-        $this->_title(__('Customer Reviews'));
+        $this->_title->add(__('Customer Reviews'));
 
-        $this->_title(__('Pending Reviews'));
+        $this->_title->add(__('Pending Reviews'));
 
         if ($this->getRequest()->getParam('ajax')) {
             $this->_coreRegistry->register('usePendingFilter', true);
@@ -80,9 +88,9 @@ class Review extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Customer Reviews'));
+        $this->_title->add(__('Customer Reviews'));
 
-        $this->_title(__('Edit Review'));
+        $this->_title->add(__('Edit Review'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
@@ -94,9 +102,9 @@ class Review extends \Magento\Backend\App\Action
 
     public function newAction()
     {
-        $this->_title(__('Customer Reviews'));
+        $this->_title->add(__('Customer Reviews'));
 
-        $this->_title(__('New Review'));
+        $this->_title->add(__('New Review'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');

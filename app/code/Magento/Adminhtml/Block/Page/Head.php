@@ -25,6 +25,11 @@ class Head extends \Magento\Page\Block\Html\Head
     protected $_template = 'page/head.phtml';
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_titles;
+
+    /**
      * @var \Magento\Core\Model\Session
      */
     protected $_session;
@@ -41,6 +46,7 @@ class Head extends \Magento\Page\Block\Html\Head
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
      * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento\App\Action\Title $titles
      * @param array $data
      */
     public function __construct(
@@ -55,9 +61,11 @@ class Head extends \Magento\Page\Block\Html\Head
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
         \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
+        \Magento\App\Action\Title $titles,
         array $data = array()
     ) {
         $this->_session = $session;
+        $this->_titles = $titles;
         parent::__construct(
             $locale, $dir, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
             $assetMergeService, $assetMinifyService, $data
@@ -72,5 +80,23 @@ class Head extends \Magento\Page\Block\Html\Head
     public function getFormKey()
     {
         return $this->_session->getFormKey();
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getTitle()
+    {
+        /** Get default title */
+        $title = parent::getTitle();
+
+        /** Add default title */
+        $this->_titles->add($title, true);
+
+        /** Set title list */
+        $this->setTitle(array_reverse($this->_titles->get()));
+
+        /** Render titles */
+        return parent::getTitle();
     }
 }

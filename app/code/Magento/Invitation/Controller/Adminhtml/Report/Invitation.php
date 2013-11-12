@@ -44,6 +44,7 @@ class Invitation extends \Magento\Backend\App\Action
         parent::__construct($context);
         $this->_fileFactory = $fileFactory;
         $this->_config = $config;
+        $this->_title = $title;
     }
 
     /**
@@ -70,7 +71,7 @@ class Invitation extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Invitations Report'));
+        $this->_title->add(__('Invitations Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Invitation::report_magento_invitation_general')
@@ -108,7 +109,7 @@ class Invitation extends \Magento\Backend\App\Action
      */
     public function customerAction()
     {
-        $this->_title(__('Invited Customers Report'));
+        $this->_title->add(__('Invited Customers Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Invitation::report_magento_invitation_customer')
@@ -146,7 +147,7 @@ class Invitation extends \Magento\Backend\App\Action
      */
     public function orderAction()
     {
-        $this->_title(__('Conversion Rate Report'));
+        $this->_title->add(__('Conversion Rate Report'));
 
         $this->_initAction()->_setActiveMenu('Magento_Invitation::report_magento_invitation_order')
             ->_addBreadcrumb(__('Invitation Report by Customers'),

@@ -41,12 +41,18 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     protected $_pageFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -54,13 +60,15 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
-        \Magento\Cms\Model\PageFactory $pageFactory
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\App\Action\Title $title
     ) {
         $this->_cmsConfig = $cmsConfig;
         $this->_backendAuthSession = $backendAuthSession;
         $this->_pageVersion = $pageVersion;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $title);
+        $this->_title = $title;
     }
 
     /**
@@ -102,7 +110,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     protected function _initPage()
     {
-        $this->_title(__('Pages'));
+        $this->_title->add(__('Pages'));
 
         $pageId = (int)$this->getRequest()->getParam('page_id');
         /** @var \Magento\Cms\Model\Page $page */
@@ -136,7 +144,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             $page->setUnderVersionControl((int)$this->_cmsConfig->getDefaultVersioningStatus());
         }
 
-        $this->_title($page->getId() ? $page->getTitle() : __('New Page'));
+        $this->_title->add($page->getId() ? $page->getTitle() : __('New Page'));
 
         $this->_initAction()->_addBreadcrumb(
             $page->getId() ? __('Edit Page') : __('New Page'),

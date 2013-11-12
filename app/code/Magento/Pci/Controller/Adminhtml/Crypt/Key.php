@@ -17,6 +17,24 @@ namespace Magento\Pci\Controller\Adminhtml\Crypt;
 class Key extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
+    /**
      * Check whether local.xml is writeable
      *
      * @return bool
@@ -40,7 +58,7 @@ class Key extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Encryption Key'));
+        $this->_title->add(__('Encryption Key'));
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();

@@ -23,15 +23,23 @@ class Agreement extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -40,7 +48,7 @@ class Agreement extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Billing Agreements'));
+        $this->_title->add(__('Billing Agreements'));
         $this->loadLayout();
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
@@ -71,8 +79,8 @@ class Agreement extends \Magento\App\Action\Action
         if (!$agreement = $this->_initAgreement()) {
             return;
         }
-        $this->_title(__('Billing Agreements'))
-            ->_title(__('Billing Agreement # %1', $agreement->getReferenceId()));
+        $this->_title->add(__('Billing Agreements'))
+            ->_title->add(__('Billing Agreement # %1', $agreement->getReferenceId()));
         $this->loadLayout();
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');

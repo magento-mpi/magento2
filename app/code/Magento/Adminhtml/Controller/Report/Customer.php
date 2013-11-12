@@ -58,7 +58,7 @@ class Customer extends \Magento\Backend\App\Action
 
     public function accountsAction()
     {
-        $this->_title(__('New Accounts Report'));
+        $this->_title->add(__('New Accounts Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_accounts')
@@ -95,7 +95,7 @@ class Customer extends \Magento\Backend\App\Action
 
     public function ordersAction()
     {
-        $this->_title(__('Order Count Report'));
+        $this->_title->add(__('Order Count Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_orders')
@@ -130,7 +130,7 @@ class Customer extends \Magento\Backend\App\Action
 
     public function totalsAction()
     {
-        $this->_title(__('Order Total Report'));
+        $this->_title->add(__('Order Total Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_totals')

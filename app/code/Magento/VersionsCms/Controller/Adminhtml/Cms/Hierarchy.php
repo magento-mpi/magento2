@@ -56,18 +56,26 @@ class Hierarchy extends \Magento\Backend\App\Action
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -154,7 +162,7 @@ class Hierarchy extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Hierarchy'));
+        $this->_title->add(__('Hierarchy'));
 
         $this->_initScope();
 

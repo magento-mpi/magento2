@@ -20,9 +20,27 @@ namespace Magento\Backend\Controller\Adminhtml\System;
 
 class Account extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
     public function indexAction()
     {
-        $this->_title(__('My Account'));
+        $this->_title->add(__('My Account'));
 
         $this->loadLayout();
         $this->renderLayout();

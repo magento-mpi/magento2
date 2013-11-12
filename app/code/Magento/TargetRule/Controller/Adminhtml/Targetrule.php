@@ -23,15 +23,23 @@ class Targetrule extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -51,7 +59,7 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Related Products Rules'));
+        $this->_title->add(__('Related Products Rules'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -81,7 +89,7 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Related Products Rule'));
+        $this->_title->add(__('Related Products Rule'));
 
         /* @var $model \Magento\TargetRule\Model\Rule */
         $model  = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
@@ -96,7 +104,7 @@ class Targetrule extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (!empty($data)) {

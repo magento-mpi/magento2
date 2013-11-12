@@ -87,6 +87,11 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(Action\Context $context)
@@ -99,6 +104,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->_locale = $context->getLocale();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
         $this->_formKeyValidator = $context->getFormKeyValidator();
+        $this->_title = $context->getTitle();
     }
 
     protected function _isAllowed()
@@ -140,7 +146,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $parents = array_reverse($parents);
         foreach ($parents as $item) {
             /** @var $item \Magento\Backend\Model\Menu\Item */
-            array_unshift($this->_titles, $item->getTitle());
+            $this->_title->add($item->getTitle(), true);
         }
         return $this;
     }
@@ -258,7 +264,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $_keyErrorMsg = '';
         if ($this->_auth->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
-                $_isValidFormKey = $this->_formKeyValidator->validate($this->getRequest());
+                $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
             } elseif ($this->_backendUrl->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
@@ -452,8 +458,22 @@ abstract class AbstractAction extends \Magento\App\Action\Action
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
         }
-        $this->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $this->_initLayoutMessages('Magento\Backend\Model\Session');
         return $this;
+    }
+
+    /**
+     * No route action
+     *
+     * @param null $coreRoute
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function norouteAction($coreRoute = null)
+    {
+        $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
+        $this->getResponse()->setHeader('Status', '404 File not found');
+        $this->loadLayout(array('default', 'adminhtml_noroute'));
+        $this->renderLayout();
     }
 
     /**
@@ -529,7 +549,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $this->_initLayoutMessages('Magento\Backend\Model\Session');
         $block = $this->getLayout()->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);

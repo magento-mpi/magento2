@@ -35,24 +35,32 @@ class Event extends \Magento\Backend\App\Action
     protected $_eventFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogEvent\Model\EventFactory $eventFactory
+        \Magento\CatalogEvent\Model\EventFactory $eventFactory,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
 
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
         $this->_eventFactory = $eventFactory;
+        $this->_title = $title;
     }
 
     /**
@@ -92,7 +100,7 @@ class Event extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Events'));
+        $this->_title->add(__('Events'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -112,7 +120,7 @@ class Event extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Events'));
+        $this->_title->add(__('Events'));
 
         /** @var \Magento\CatalogEvent\Model\Event $event */
         $event = $this->_eventFactory->create()
@@ -124,7 +132,7 @@ class Event extends \Magento\Backend\App\Action
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
+        $this->_title->add($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
         $sessionData = $this->_getSession()->getEventData(true);
         if (!empty($sessionData)) {

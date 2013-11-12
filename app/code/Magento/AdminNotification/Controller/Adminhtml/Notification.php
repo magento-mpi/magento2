@@ -13,9 +13,27 @@ namespace Magento\AdminNotification\Controller\Adminhtml;
 
 class Notification extends \Magento\Backend\App\AbstractAction
 {
+    /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
     public function indexAction()
     {
-        $this->_title(__('Notifications'));
+        $this->_title->add(__('Notifications'));
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_AdminNotification::system_adminnotification')

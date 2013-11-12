@@ -22,15 +22,23 @@ class Giftregistry extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -47,7 +55,7 @@ class Giftregistry extends \Magento\Backend\App\Action
                 __('Gift Registry')
             );
 
-        $this->_title(__('Gift Registry Types'));
+        $this->_title->add(__('Gift Registry Types'));
         return $this;
     }
 
@@ -95,7 +103,7 @@ class Giftregistry extends \Magento\Backend\App\Action
         }
 
         $this->_initAction();
-        $this->_title(__('New Gift Registry Type'));
+        $this->_title->add(__('New Gift Registry Type'));
 
         $block = $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
@@ -122,7 +130,7 @@ class Giftregistry extends \Magento\Backend\App\Action
         }
 
         $this->_initAction();
-        $this->_title(__('%1', $model->getLabel()));
+        $this->_title->add(__('%1', $model->getLabel()));
 
         $block = $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));

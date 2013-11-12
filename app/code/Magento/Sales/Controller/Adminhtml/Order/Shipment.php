@@ -67,7 +67,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      */
     protected function _initShipment()
     {
-        $this->_title(__('Shipments'));
+        $this->_title->add(__('Shipments'));
 
         $shipment = false;
         $shipmentId = $this->getRequest()->getParam('shipment_id');
@@ -143,7 +143,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $shipment = $this->_initShipment();
         if ($shipment) {
-            $this->_title("#" . $shipment->getIncrementId());
+            $this->_title->add("#" . $shipment->getIncrementId());
             $this->loadLayout();
             $this->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
@@ -172,7 +172,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $shipment = $this->_initShipment();
         if ($shipment) {
-            $this->_title(__('New Shipment'));
+            $this->_title->add(__('New Shipment'));
 
             $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
             if ($comment) {

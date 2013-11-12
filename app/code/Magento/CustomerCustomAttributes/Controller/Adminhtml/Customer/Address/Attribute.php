@@ -47,23 +47,31 @@ class Attribute
     protected $_attrSetFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\AttributeFactory $attrFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\AttributeFactory $attrFactory,
-        \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eavConfig = $eavConfig;
         $this->_attrFactory = $attrFactory;
         $this->_attrSetFactory = $attrSetFactory;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -120,7 +128,7 @@ class Attribute
      */
     public function indexAction()
     {
-        $this->_title(__('Customer Address Attributes'));
+        $this->_title->add(__('Customer Address Attributes'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -146,7 +154,7 @@ class Attribute
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title(__('Customer Address Attributes'));
+        $this->_title->add(__('Customer Address Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -165,9 +173,9 @@ class Attribute
                 return;
             }
 
-            $this->_title($attributeObject->getFrontendLabel());
+            $this->_title->add($attributeObject->getFrontendLabel());
         } else {
-            $this->_title(__('New Customer Address Attribute'));
+            $this->_title->add(__('New Customer Address Attribute'));
         }
 
         // restore attribute data

@@ -19,9 +19,27 @@ namespace Magento\Adminhtml\Controller\Newsletter;
 
 class Problem extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title
+    )
+    {
+        parent::__construct($context);
+        $this->_title = $title;
+    }
+
     public function indexAction()
     {
-        $this->_title(__('Newsletter Problems Report'));
+        $this->_title->add(__('Newsletter Problems Report'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');

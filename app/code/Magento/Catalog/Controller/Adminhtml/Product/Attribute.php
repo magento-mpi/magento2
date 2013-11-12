@@ -33,18 +33,26 @@ class Attribute extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Cache\FrontendInterface $attributeLabelCache
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Cache\FrontendInterface $attributeLabelCache,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_attributeLabelCache = $attributeLabelCache;
+        $this->_title = $title;
     }
 
     public function preDispatch()
@@ -57,7 +65,7 @@ class Attribute extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->_title(__('Product Attributes'));
+        $this->_title->add(__('Product Attributes'));
 
         if ($this->getRequest()->getParam('popup')) {
             $this->loadLayout(array('popup', $this->getDefaultLayoutHandle() . '_popup'));
@@ -129,7 +137,7 @@ class Attribute extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $this->_title($id ? $model->getName() : __('New Product Attribute'));
+        $this->_title->add($id ? $model->getName() : __('New Product Attribute'));
 
         $item = $id ? __('Edit Product Attribute')
                     : __('New Product Attribute');

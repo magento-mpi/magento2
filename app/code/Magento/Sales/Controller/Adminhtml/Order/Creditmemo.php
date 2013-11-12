@@ -21,6 +21,26 @@ class Creditmemo
     extends \Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Action\Title $title
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Action\Title $title,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    )
+    {
+        parent::__construct($context, $fileFactory);
+        $this->_title = $title;
+    }
+
+    /**
      * Get requested items qtys and return to stock flags
      */
     protected function _getItemData()
@@ -91,7 +111,7 @@ class Creditmemo
      */
     protected function _initCreditmemo($update = false)
     {
-        $this->_title(__('Credit Memos'));
+        $this->_title->add(__('Credit Memos'));
 
         $creditmemo = false;
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
@@ -185,9 +205,9 @@ class Creditmemo
         $creditmemo = $this->_initCreditmemo();
         if ($creditmemo) {
             if ($creditmemo->getInvoice()) {
-                $this->_title(__("View Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
+                $this->_title->add(__("View Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
             } else {
-                $this->_title(__("View Memo"));
+                $this->_title->add(__("View Memo"));
             }
 
             $this->loadLayout();
@@ -218,9 +238,9 @@ class Creditmemo
     {
         if ($creditmemo = $this->_initCreditmemo()) {
             if ($creditmemo->getInvoice()) {
-                $this->_title(__("New Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
+                $this->_title->add(__("New Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
             } else {
-                $this->_title(__("New Memo"));
+                $this->_title->add(__("New Memo"));
             }
 
             if ($comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true)) {

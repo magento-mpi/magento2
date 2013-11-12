@@ -32,18 +32,26 @@ class Customer extends \Magento\Backend\App\Action
     protected $storeManager;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->storeManager = $storeManager;
+        $this->_title = $title;
     }
 
     protected function _initEntity($requestParam = 'id')
@@ -78,10 +86,10 @@ class Customer extends \Magento\Backend\App\Action
             $model = $this->_initEntity();
             $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($model->getCustomerId());
 
-            $this->_title(__('Customers'))
-                ->_title(__('Customers'))
-                ->_title($customer->getName())
-                ->_title(__("Edit '%1' Gift Registry", $model->getTitle()));
+            $this->_title->add(__('Customers'))
+                ->_title->add(__('Customers'))
+                ->_title->add($customer->getName())
+                ->_title->add(__("Edit '%1' Gift Registry", $model->getTitle()));
 
             $this->loadLayout()->renderLayout();
         } catch (\Magento\Core\Exception $e) {

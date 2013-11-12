@@ -20,20 +20,28 @@ class Agreement extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
     public function indexAction()
     {
-        $this->_title(__('Terms and Conditions'));
+        $this->_title->add(__('Terms and Conditions'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Magento\Checkout\Block\Adminhtml\Agreement'))
@@ -48,7 +56,7 @@ class Agreement extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Terms and Conditions'));
+        $this->_title->add(__('Terms and Conditions'));
 
         $id  = $this->getRequest()->getParam('id');
         $agreementModel  = $this->_objectManager->create('Magento\Checkout\Model\Agreement');
@@ -64,7 +72,7 @@ class Agreement extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($agreementModel->getId() ? $agreementModel->getName() : __('New Condition'));
+        $this->_title->add($agreementModel->getId() ? $agreementModel->getName() : __('New Condition'));
 
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getAgreementData(true);
         if (!empty($data)) {

@@ -19,6 +19,11 @@ use Magento\Backend\App\Action;
 class Sitemap extends  \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -28,13 +33,16 @@ class Sitemap extends  \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -62,7 +70,7 @@ class Sitemap extends  \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Site Map'));
+        $this->_title->add(__('Site Map'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -81,7 +89,7 @@ class Sitemap extends  \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Site Map'));
+        $this->_title->add(__('Site Map'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
@@ -98,7 +106,7 @@ class Sitemap extends  \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
+        $this->_title->add($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);

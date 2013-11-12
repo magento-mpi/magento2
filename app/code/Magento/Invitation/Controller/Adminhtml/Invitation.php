@@ -46,24 +46,32 @@ class Invitation extends \Magento\Backend\App\Action
     protected $_config;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Invitation\Model\Config $config
+        \Magento\Invitation\Model\Config $config,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_invitationFactory = $invitationFactory;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
+        $this->_title = $title;
     }
 
     /**
@@ -71,7 +79,7 @@ class Invitation extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Invitations'));
+        $this->_title->add(__('Invitations'));
         $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
         $this->renderLayout();
     }
@@ -84,7 +92,7 @@ class Invitation extends \Magento\Backend\App\Action
      */
     protected function _initInvitation()
     {
-        $this->_title(__('Invitations'));
+        $this->_title->add(__('Invitations'));
 
         $invitation =  $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {

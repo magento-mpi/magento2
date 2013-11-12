@@ -27,15 +27,23 @@ class Operation extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -46,7 +54,7 @@ class Operation extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         try {
-            $this->_title(__('Scheduled Imports/Exports'))
+            $this->_title->add(__('Scheduled Imports/Exports'))
                 ->loadLayout()
                 ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (\Magento\Core\Exception $e) {
@@ -86,7 +94,7 @@ class Operation extends \Magento\Backend\App\Action
     public function newAction()
     {
         $operationType = $this->getRequest()->getParam('type');
-        $this->_initAction()->_title(
+        $this->_initAction()->_title->add(
             $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
                 ->getOperationHeaderText($operationType, 'new')
         );
@@ -109,7 +117,7 @@ class Operation extends \Magento\Backend\App\Action
 
         /** @var $helper \Magento\ScheduledImportExport\Helper\Data */
         $helper = $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data');
-        $this->_title(
+        $this->_title->add(
             $helper->getOperationHeaderText($operationType, 'edit')
         );
 

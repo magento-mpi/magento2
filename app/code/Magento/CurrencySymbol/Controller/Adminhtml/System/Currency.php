@@ -27,15 +27,22 @@ class Currency extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -57,7 +64,7 @@ class Currency extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Currency Rates'));
+        $this->_title->add(__('Currency Rates'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_CurrencySymbol::system_currency_rates');

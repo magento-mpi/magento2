@@ -64,7 +64,7 @@ class AbstractInvoice
      */
     public function indexAction()
     {
-        $this->_title(__('Invoices'));
+        $this->_title->add(__('Invoices'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice'))

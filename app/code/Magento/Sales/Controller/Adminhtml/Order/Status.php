@@ -27,15 +27,23 @@ class Status extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -59,7 +67,7 @@ class Status extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Order Status'));
+        $this->_title->add(__('Order Status'));
         $this->loadLayout()->_setActiveMenu('Magento_Sales::system_order_statuses')->renderLayout();
     }
 
@@ -74,7 +82,7 @@ class Status extends \Magento\Backend\App\Action
                 ->setData($data);
             $this->_coreRegistry->register('current_status', $status);
         }
-        $this->_title(__('Order Status'))->_title(__('Create New Order Status'));
+        $this->_title->add(__('Order Status'))->_title->add(__('Create New Order Status'));
         $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::system_order_statuses')
                 ->renderLayout();
@@ -88,7 +96,7 @@ class Status extends \Magento\Backend\App\Action
         $status = $this->_initStatus();
         if ($status) {
             $this->_coreRegistry->register('current_status', $status);
-            $this->_title(__('Order Status'))->_title(__('Edit Order Status'));
+            $this->_title->add(__('Order Status'))->_title->add(__('Edit Order Status'));
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::system_order_statuses')
                 ->renderLayout();
@@ -165,7 +173,7 @@ class Status extends \Magento\Backend\App\Action
      */
     public function assignAction()
     {
-        $this->_title(__('Order Status'))->_title(__('Assign Order Status to State'));
+        $this->_title->add(__('Order Status'))->_title->add(__('Assign Order Status to State'));
         $this->loadLayout()
             ->_setActiveMenu('Magento_Sales::system_order_statuses')
             ->renderLayout();

@@ -24,20 +24,28 @@ class User extends \Magento\Backend\App\AbstractAction
     protected $_userFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\User\Model\UserFactory $userFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\User\Model\UserFactory $userFactory
+        \Magento\User\Model\UserFactory $userFactory,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_userFactory = $userFactory;
+        $this->_title = $title;
     }
 
     protected function _initAction()
@@ -53,7 +61,7 @@ class User extends \Magento\Backend\App\AbstractAction
 
     public function indexAction()
     {
-        $this->_title(__('Users'));
+        $this->_title->add(__('Users'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -65,7 +73,7 @@ class User extends \Magento\Backend\App\AbstractAction
 
     public function editAction()
     {
-        $this->_title(__('Users'));
+        $this->_title->add(__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
         /** @var \Magento\User\Model\User $model */
@@ -82,7 +90,7 @@ class User extends \Magento\Backend\App\AbstractAction
             $model->setInterfaceLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New User'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New User'));
 
         // Restore previously entered form data from session
         $data = $this->_session->getUserData(true);

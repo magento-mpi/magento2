@@ -58,6 +58,11 @@ class Context extends \Magento\App\Action\Context
     protected $_canUseBaseUrl;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @var \Magento\Core\App\Action\FormKeyValidator
      */
     protected $_formKeyValidator;
@@ -125,6 +130,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\App\Action\Title $title,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
@@ -141,6 +147,7 @@ class Context extends \Magento\App\Action\Context
         $this->_backendUrl = $backendUrl;
         $this->_locale = $locale;
         $this->_formKeyValidator = $formKeyValidator;
+        $this->_title = $title;
     }
 
     /**
@@ -198,4 +205,13 @@ class Context extends \Magento\App\Action\Context
     {
         return $this->_formKeyValidator;
     }
+
+    /**
+     * @return \Magento\App\Action\Title
+     */
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+
 }

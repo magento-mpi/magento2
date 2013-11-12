@@ -95,7 +95,7 @@ class Order extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Orders'));
+        $this->_title->add(__('Orders'));
         $this->_initAction()->renderLayout();
     }
 
@@ -113,12 +113,12 @@ class Order extends \Magento\Backend\App\Action
      */
     public function viewAction()
     {
-        $this->_title(__('Orders'));
+        $this->_title->add(__('Orders'));
 
         $order = $this->_initOrder();
         if ($order) {
             $this->_initAction();
-            $this->_title(sprintf("#%s", $order->getRealOrderId()));
+            $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->renderLayout();
         }
     }

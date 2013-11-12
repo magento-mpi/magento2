@@ -27,6 +27,7 @@ class Quote extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -40,7 +41,7 @@ class Quote extends \Magento\Backend\App\Action
 
     protected function _initRule()
     {
-        $this->_title(__('Cart Price Rules'));
+        $this->_title->add(__('Cart Price Rules'));
 
         $this->_coreRegistry->register('current_promo_quote_rule', $this->_objectManager->create('Magento\SalesRule\Model\Rule'));
         $id = (int)$this->getRequest()->getParam('id');
@@ -65,7 +66,7 @@ class Quote extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_title(__('Cart Price Rules'));
+        $this->_title->add(__('Cart Price Rules'));
 
         $this->_initAction()
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
@@ -92,7 +93,7 @@ class Quote extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($model->getRuleId() ? $model->getName() : __('New Cart Price Rule'));
+        $this->_title->add($model->getRuleId() ? $model->getName() : __('New Cart Price Rule'));
 
         // set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);

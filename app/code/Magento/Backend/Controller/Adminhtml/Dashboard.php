@@ -19,9 +19,17 @@ namespace Magento\Backend\Controller\Adminhtml;
 
 class Dashboard extends \Magento\Backend\App\Action
 {
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     */
+    public function __construct(\Magento\Backend\App\Action\Context $context)
+    {
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
-        $this->_title(__('Dashboard'));
+        $this->_title->add(__('Dashboard'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::dashboard');

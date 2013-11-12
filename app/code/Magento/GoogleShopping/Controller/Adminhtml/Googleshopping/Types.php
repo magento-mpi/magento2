@@ -23,15 +23,23 @@ class Types extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -56,7 +64,7 @@ class Types extends \Magento\Backend\App\Action
      */
     protected function _initItemType()
     {
-        $this->_title(__('Google Content Attributes'));
+        $this->_title->add(__('Google Content Attributes'));
 
         $this->_coreRegistry
             ->register('current_item_type', $this->_objectManager->create('Magento\GoogleShopping\Model\Type'));
@@ -86,7 +94,7 @@ class Types extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Google Content Attributes'));
+        $this->_title->add(__('Google Content Attributes'));
 
         $this->_initAction()
             ->_addBreadcrumb(__('Attribute Maps'), __('Attribute Maps'))
@@ -110,7 +118,7 @@ class Types extends \Magento\Backend\App\Action
         try {
             $this->_initItemType();
 
-            $this->_title(__('New Google Content Attribute Mapping'));
+            $this->_title->add(__('New Google Content Attribute Mapping'));
 
             $this->_initAction()
                 ->_addBreadcrumb(__('New attribute set mapping'), __('New attribute set mapping'))
@@ -143,7 +151,7 @@ class Types extends \Magento\Backend\App\Action
                 }
             }
 
-            $this->_title(__('Google Content Attribute Mapping'));
+            $this->_title->add(__('Google Content Attribute Mapping'));
             $this->_coreRegistry->register('attributes', $result);
 
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');

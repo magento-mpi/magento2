@@ -28,17 +28,25 @@ class Editor extends \Magento\Backend\App\Action
     protected $_customizationConfig;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Theme\Model\Config $themeConfig
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Theme\Model\Config $themeConfig,
-        \Magento\Theme\Model\Config\Customization $customizationConfig
+        \Magento\Theme\Model\Config\Customization $customizationConfig,
+        \Magento\App\Action\Title $title
     ) {
         $this->_themeConfig         = $themeConfig;
         $this->_customizationConfig = $customizationConfig;
+        $this->_title = $title;
 
         parent::__construct($context);
     }
@@ -336,7 +344,7 @@ class Editor extends \Magento\Backend\App\Action
      */
     protected function _setTitle()
     {
-        $this->_title(__('Store Designer'));
+        $this->_title->add(__('Store Designer'));
     }
 
     /**

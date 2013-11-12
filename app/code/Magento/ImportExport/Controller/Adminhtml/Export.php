@@ -43,7 +43,7 @@ class Export extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_title(__('Import/Export'))
+        $this->_title->add(__('Import/Export'))
             ->loadLayout()
             ->_setActiveMenu('Magento_ImportExport::system_convert_export');
 
@@ -98,7 +98,7 @@ class Export extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_title(__('Export'))
+            ->_title->add(__('Export'))
             ->_addBreadcrumb(__('Export'), __('Export'));
 
         $this->renderLayout();

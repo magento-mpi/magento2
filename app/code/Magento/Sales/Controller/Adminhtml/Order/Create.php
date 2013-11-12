@@ -22,13 +22,24 @@ use Magento\Backend\App\Action;
 class Create extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\App\Action\Title $title
      */
-    public function __construct(Action\Context $context, \Magento\Catalog\Helper\Product $productHelper)
+    public function __construct(
+        Action\Context $context,
+        \Magento\Catalog\Helper\Product $productHelper,
+        \Magento\App\Action\Title $title
+    )
     {
         parent::__construct($context);
         $productHelper->setSkipSaleableCheck(true);
+        $this->_title = $title;
     }
 
     /**
@@ -320,7 +331,7 @@ class Create extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Orders'))->_title(__('New Order'));
+        $this->_title->add(__('Orders'))->_title->add(__('New Order'));
         $this->_initSession();
         $this->loadLayout();
 

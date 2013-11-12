@@ -35,14 +35,22 @@ class Catalog extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -59,7 +67,7 @@ class Catalog extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_title(__('Catalog Price Rules'));
+        $this->_title->add(__('Catalog Price Rules'));
 
         $dirtyRules = $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf();
         if ($dirtyRules->getState()) {
@@ -81,7 +89,7 @@ class Catalog extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Catalog Price Rules'));
+        $this->_title->add(__('Catalog Price Rules'));
 
         $id = $this->getRequest()->getParam('id');
         $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
@@ -97,7 +105,7 @@ class Catalog extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title($model->getRuleId() ? $model->getName() : __('New Catalog Price Rule'));
+        $this->_title->add($model->getRuleId() ? $model->getName() : __('New Catalog Price Rule'));
 
         // set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);

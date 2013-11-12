@@ -27,20 +27,28 @@ class Group extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
     protected function _initGroup()
     {
-        $this->_title(__('Customer Groups'));
+        $this->_title->add(__('Customer Groups'));
 
         $this->_coreRegistry->register('current_group', $this->_objectManager->create('Magento\Customer\Model\Group'));
         $groupId = $this->getRequest()->getParam('id');
@@ -55,7 +63,7 @@ class Group extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Customer Groups'));
+        $this->_title->add(__('Customer Groups'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
@@ -83,7 +91,7 @@ class Group extends \Magento\Backend\App\Action
             $this->_addBreadcrumb(__('New Group'), __('New Customer Groups'));
         }
 
-        $this->_title($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
+        $this->_title->add($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
 
         $this->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
             ->setEditMode((bool)$this->_coreRegistry->registry('current_group')->getId());

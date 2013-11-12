@@ -59,7 +59,7 @@ class Backup extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Backups'));
+        $this->_title->add(__('Backups'));
 
         if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');

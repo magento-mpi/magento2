@@ -27,20 +27,28 @@ class Template extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
     public function indexAction()
     {
-        $this->_title(__('Email Templates'));
+        $this->_title->add(__('Email Templates'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -85,7 +93,7 @@ class Template extends \Magento\Backend\App\Action
             $this->_addBreadcrumb(__('New Template'), __('New System Template'));
         }
 
-        $this->_title($template->getId() ? $template->getTemplateCode() : __('New Template'));
+        $this->_title->add($template->getId() ? $template->getTemplateCode() : __('New Template'));
 
         $this->_addContent($this->getLayout()
             ->createBlock('Magento\Backend\Block\System\Email\Template\Edit', 'template_edit')
@@ -209,7 +217,7 @@ class Template extends \Magento\Backend\App\Action
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_title(__('Email Templates'));
+        $this->_title->add(__('Email Templates'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\Backend\Model\Email\Template');

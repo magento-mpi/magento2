@@ -143,7 +143,7 @@ class Customersegment
      */
     public function segmentAction()
     {
-        $this->_title(__('Customer Segment Report'));
+        $this->_title->add(__('Customer Segment Report'));
 
         $this->_initAction()
             ->renderlayout();
@@ -155,7 +155,7 @@ class Customersegment
      */
     public function detailAction()
     {
-        $this->_title(__('Customer Segment Report'));
+        $this->_title->add(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
             // Add help Notice to Combined Report
@@ -182,7 +182,7 @@ class Customersegment
                 }
             }
 
-            $this->_title(__('Details'));
+            $this->_title->add(__('Details'));
 
             $this->_initAction()->renderLayout();
         } else {
@@ -224,7 +224,7 @@ class Customersegment
             $this->loadLayout();
             $content = $this->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            return $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
+            $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
         } else {
             $this->_redirect('adminhtml/*/detail', array('_current' => true));
             return ;
@@ -242,7 +242,7 @@ class Customersegment
             $fileName = 'customersegment_customers.csv';
             $content = $this->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            return $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
+            $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
         } else {
             $this->_redirect('adminhtml/*/detail', array('_current' => true));
             return ;

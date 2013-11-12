@@ -38,24 +38,32 @@ class Instance extends \Magento\Backend\App\Action
     protected $mathRandom;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Logger $logger,
-        \Magento\Math\Random $mathRandom
+        \Magento\Math\Random $mathRandom,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetFactory = $widgetFactory;
         $this->_logger = $logger;
         $this->mathRandom = $mathRandom;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -81,7 +89,7 @@ class Instance extends \Magento\Backend\App\Action
      */
     protected function _initWidgetInstance()
     {
-        $this->_title(__('Frontend Apps'));
+        $this->_title->add(__('Frontend Apps'));
 
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = $this->_widgetFactory->create();
@@ -118,7 +126,7 @@ class Instance extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Frontend Apps'));
+        $this->_title->add(__('Frontend Apps'));
 
         $this->_initAction()
             ->renderLayout();
@@ -145,7 +153,7 @@ class Instance extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_title($widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance'));
+        $this->_title->add($widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance'));
 
         $this->_initAction();
         $this->renderLayout();

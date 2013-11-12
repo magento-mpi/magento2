@@ -39,6 +39,7 @@ class Archive extends \Magento\Backend\App\Action
         $this->_archiveModel = $archiveModel;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -58,7 +59,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function ordersAction()
     {
-        $this->_title(__('Orders'));
+        $this->_title->add(__('Orders'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_orders');
@@ -78,7 +79,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function invoicesAction()
     {
-        $this->_title(__('Invoices'));
+        $this->_title->add(__('Invoices'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_invoices');
@@ -99,7 +100,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function creditmemosAction()
     {
-        $this->_title(__('Credit Memos'));
+        $this->_title->add(__('Credit Memos'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_creditmemos');
@@ -119,7 +120,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function shipmentsAction()
     {
-        $this->_title(__('Shipments'));
+        $this->_title->add(__('Shipments'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_shipments');

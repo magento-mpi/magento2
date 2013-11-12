@@ -27,14 +27,22 @@ class Variable extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -58,7 +66,7 @@ class Variable extends \Magento\Backend\App\Action
      */
     protected function _initVariable()
     {
-        $this->_title(__('Custom Variables'));
+        $this->_title->add(__('Custom Variables'));
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
@@ -77,7 +85,7 @@ class Variable extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Custom Variables'));
+        $this->_title->add(__('Custom Variables'));
 
         $this->_initLayout();
         $this->renderLayout();
@@ -98,7 +106,7 @@ class Variable extends \Magento\Backend\App\Action
     {
         $variable = $this->_initVariable();
 
-        $this->_title($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
+        $this->_title->add($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))

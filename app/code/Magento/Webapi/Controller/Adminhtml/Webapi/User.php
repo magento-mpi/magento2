@@ -17,17 +17,25 @@ class User extends \Magento\Backend\App\AbstractAction
     protected $_validatorFactory;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Validator\Factory $validatorFactory
+        \Magento\Core\Model\Validator\Factory $validatorFactory,
+        \Magento\App\Action\Title $title
     ) {
         parent::__construct($context);
         $this->_validatorFactory = $validatorFactory;
+        $this->_title = $title;
     }
 
     /**
@@ -57,7 +65,7 @@ class User extends \Magento\Backend\App\AbstractAction
     public function indexAction()
     {
         $this->_initAction();
-        $this->_title(__('API Users'));
+        $this->_title->add(__('API Users'));
 
         $this->renderLayout();
     }
@@ -77,7 +85,7 @@ class User extends \Magento\Backend\App\AbstractAction
     public function editAction()
     {
         $this->_initAction();
-        $this->_title(__('API Users'));
+        $this->_title->add(__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
         $user = $this->_loadApiUser($userId);
@@ -89,7 +97,7 @@ class User extends \Magento\Backend\App\AbstractAction
         $actionTitle = $user->getId()
             ? $this->_objectManager->get('Magento\Escaper')->escapeHtml($user->getApiKey())
             : __('New API User');
-        $this->_title($actionTitle);
+        $this->_title->add($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
 
         // Restore previously entered form data from session.

@@ -38,7 +38,7 @@ class Subscriber extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_title(__('Newsletter Subscribers'));
+        $this->_title->add(__('Newsletter Subscribers'));
 
         if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');

@@ -27,15 +27,23 @@ class Transactions extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -68,7 +76,7 @@ class Transactions extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_title(__('Transactions'));
+        $this->_title->add(__('Transactions'));
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Sales::sales_transactions')
@@ -93,8 +101,8 @@ class Transactions extends \Magento\Backend\App\Action
         if (!$txn) {
             return;
         }
-        $this->_title(__('Transactions'))
-             ->_title(sprintf("#%s", $txn->getTxnId()));
+        $this->_title->add(__('Transactions'))
+             ->_title->add(sprintf("#%s", $txn->getTxnId()));
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Sales::sales_transactions')

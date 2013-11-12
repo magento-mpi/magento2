@@ -43,7 +43,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Tax Zones and Rates'));
+        $this->_title->add(__('Tax Zones and Rates'));
 
         $this->_initAction()
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'));
@@ -59,9 +59,9 @@ class Rate extends \Magento\Backend\App\Action
         $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')
             ->load(null);
 
-        $this->_title(__('Tax Zones and Rates'));
+        $this->_title->add(__('Tax Zones and Rates'));
 
-        $this->_title(__('New Tax Rate'));
+        $this->_title->add(__('New Tax Rate'));
 
         $rateModel->setData($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true));
 
@@ -180,7 +180,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title(__('Tax Zones and Rates'));
+        $this->_title->add(__('Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
         $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
@@ -193,7 +193,7 @@ class Rate extends \Magento\Backend\App\Action
             $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
         }
 
-        $this->_title(sprintf("%s", $rateModel->getCode()));
+        $this->_title->add(sprintf("%s", $rateModel->getCode()));
 
         $this->_initAction()
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('tax/rate'))
@@ -319,9 +319,9 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function importExportAction()
     {
-        $this->_title(__('Tax Zones and Rates'));
+        $this->_title->add(__('Tax Zones and Rates'));
 
-        $this->_title(__('Import and Export Tax Rates'));
+        $this->_title->add(__('Import and Export Tax Rates'));
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Tax::system_convert_tax')

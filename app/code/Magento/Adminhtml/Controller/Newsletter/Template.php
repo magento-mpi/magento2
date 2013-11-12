@@ -26,14 +26,22 @@ class Template extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -55,7 +63,7 @@ class Template extends \Magento\Backend\App\Action
      */
     protected function _setTitle()
     {
-        return $this->_title(__('Newsletter Templates'));
+        return $this->_title->add(__('Newsletter Templates'));
     }
 
     /**
@@ -125,7 +133,7 @@ class Template extends \Magento\Backend\App\Action
             $breadcrumbLabel = __('Create Newsletter Template');
         }
 
-        $this->_title($model->getId() ? $model->getTemplateCode() : __('New Template'));
+        $this->_title->add($model->getId() ? $model->getTemplateCode() : __('New Template'));
 
         $this->_addBreadcrumb($breadcrumbLabel, $breadcrumbTitle);
 

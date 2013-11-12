@@ -31,17 +31,25 @@ class Integration extends \Magento\Backend\App\Action
     private $_integrationService;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Core\Model\Registry $registry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_registry = $registry;
         $this->_integrationService = $integrationService;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
@@ -53,7 +61,7 @@ class Integration extends \Magento\Backend\App\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
-        $this->_title(__('Integrations'));
+        $this->_title->add(__('Integrations'));
         $this->renderLayout();
     }
 
@@ -84,7 +92,7 @@ class Integration extends \Magento\Backend\App\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('New Integration'), __('New Integration'));
-        $this->_title(__('New Integration'));
+        $this->_title->add(__('New Integration'));
         /** Try to recover integration data from session if it was added during previous request which failed. */
         $restoredIntegration = $this->_getSession()->getIntegrationData();
         if ($restoredIntegration) {
@@ -127,7 +135,7 @@ class Integration extends \Magento\Backend\App\Action
             __('Edit "%1" Integration', $integrationData[Info::DATA_NAME]),
             __('Edit "%1" Integration', $integrationData[Info::DATA_NAME])
         );
-        $this->_title(__('Edit "%1" Integration', $integrationData[Info::DATA_NAME]));
+        $this->_title->add(__('Edit "%1" Integration', $integrationData[Info::DATA_NAME]));
         $this->renderLayout();
     }
 

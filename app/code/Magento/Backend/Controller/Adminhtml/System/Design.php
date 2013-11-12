@@ -20,20 +20,28 @@ class Design extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_title = $title;
         parent::__construct($context);
     }
 
     public function indexAction()
     {
-        $this->_title(__('Store Design'));
+        $this->_title->add(__('Store Design'));
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
         $this->renderLayout();
@@ -52,7 +60,7 @@ class Design extends \Magento\Backend\App\Action
 
     public function editAction()
     {
-        $this->_title(__('Store Design'));
+        $this->_title->add(__('Store Design'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
@@ -65,7 +73,7 @@ class Design extends \Magento\Backend\App\Action
             $design->load($id);
         }
 
-        $this->_title($design->getId() ? __('Edit Store Design Change') : __('New Store Design Change'));
+        $this->_title->add($design->getId() ? __('Edit Store Design Change') : __('New Store Design Change'));
 
         $this->_coreRegistry->register('design', $design);
 

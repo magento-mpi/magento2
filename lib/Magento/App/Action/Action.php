@@ -53,22 +53,6 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_isLayoutLoaded = false;
 
     /**
-     * Title parts to be rendered in the page head title
-     *
-     * @see self::_title()
-     * @var array
-     */
-    protected $_titles = array();
-
-    /**
-     * Whether the default title should be removed
-     *
-     * @see self::_title()
-     * @var bool
-     */
-    protected $_removeDefaultTitle = false;
-
-    /**
      * @var \Magento\App\FrontController
      */
     protected $_frontController = null;
@@ -345,8 +329,6 @@ class Action extends \Magento\App\Action\AbstractAction
 
         \Magento\Profiler::start('LAYOUT');
 
-        $this->_renderTitles();
-
         \Magento\Profiler::start('layout_render');
 
         if ('' !== $output) {
@@ -457,6 +439,22 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function preDispatch() // Remove???
     {
+        if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
+            if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
+                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                $this->_redirect('install');
+                return;
+            }
+        }
+
+        // Prohibit disabled store actions
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+        if ($this->_objectManager->get('Magento\App\State')->isInstalled()
+            && !$storeManager->getStore()->getIsActive()
+        ) {
+            $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
+        }
+
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
             && $this->_storeConfig->getConfig('web/browser_capabilities/cookies')
         ) {
@@ -644,47 +642,6 @@ class Action extends \Magento\App\Action\AbstractAction
             }
         }
         return false;
-    }
-
-    /**
-     * Add an extra title to the end
-     *
-     * Usage examples:
-     * $this->_title('foo')->_title('bar');
-     * => bar / foo / <default title>
-     *
-     * @see self::_renderTitles()
-     * @param string $text
-     * @return \Magento\App\ActionInterface
-     */
-    protected function _title($text)
-    {
-        $this->_titles[] = $text;
-        return $this;
-    } // Leave
-
-    /**
-     * Prepare titles in the 'head' layout block
-     * Supposed to work only in actions where layout is rendered
-     * Falls back to the default logic if there are no titles eventually
-     *
-     * @see self::loadLayout()
-     * @see self::renderLayout()
-     */
-    protected function _renderTitles() // leave/ KILLLLL
-    {
-        if ($this->_isLayoutLoaded && $this->_titles) {
-            $titleBlock = $this->getLayout()->getBlock('head');
-            if ($titleBlock) {
-                if (!$this->_removeDefaultTitle) {
-                    $title = trim($titleBlock->getTitle());
-                    if ($title) {
-                        array_unshift($this->_titles, $title);
-                    }
-                }
-                $titleBlock->setTitle(array_reverse($this->_titles));
-            }
-        }
     }
 
     /**
