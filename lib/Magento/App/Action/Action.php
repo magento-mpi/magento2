@@ -548,19 +548,6 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     protected function _redirect($path, $arguments = array()) // Inline/leave
     {
-        return $this->setRedirectWithCookieCheck($path, $arguments);
-    }
-
-    /**
-     * Set redirect into response with session id in URL if it is enabled.
-     * It allows to distinguish primordial request from browser with cookies disabled.
-     *
-     * @param   string $path
-     * @param   array $arguments
-     * @return  \Magento\App\ActionInterface
-     */
-    public function setRedirectWithCookieCheck($path, array $arguments = array()) // Refactor session usage/ Inline?
-    {
         if ($this->_session->getCookieShouldBeReceived()
             && $this->_url->getUseSession()
             && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
@@ -574,7 +561,6 @@ class Action extends \Magento\App\Action\AbstractAction
         );
         return $this;
     }
-
 
     /**
      * Redirect to success page
