@@ -81,7 +81,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $this->_theme->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(\Magento\Core\Model\Theme::TYPE_PHYSICAL));
+            ->will($this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL));
 
         $this->assertEquals($this->_model, $this->_model->setEditableThemeById(self::THEME_ID));
     }
@@ -103,7 +103,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $this->_theme->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(\Magento\Core\Model\Theme::TYPE_STAGING));
+            ->will($this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_STAGING));
 
         $this->_model->setEditableThemeById(self::THEME_ID);
     }
@@ -158,7 +158,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $this->_theme->expects($this->atLeastOnce())
             ->method('getDomainModel')
-            ->with($this->equalTo(\Magento\Core\Model\Theme::TYPE_VIRTUAL))
+            ->with($this->equalTo(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL))
             ->will($this->returnValue($themeObj));
 
         $this->assertEquals($themeObj, $this->_model->getStagingTheme());
