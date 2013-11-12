@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Page\Asset;
 class ViewFile implements \Magento\Core\Model\Page\Asset\MergeableInterface
 {
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -31,13 +31,13 @@ class ViewFile implements \Magento\Core\Model\Page\Asset\MergeableInterface
     private $_contentType;
 
     /**
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param string $file
      * @param string $contentType
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         $file,
         $contentType
     ) {

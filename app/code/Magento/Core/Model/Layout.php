@@ -17,6 +17,8 @@
  */
 namespace Magento\Core\Model;
 
+use Magento\View\Element\BlockFactory;
+
 /**
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -93,7 +95,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_update;
 
     /**
-     * @var \Magento\Core\Model\BlockFactory
+     * @var \Magento\View\Element\BlockFactory
      */
     protected $_blockFactory;
 
@@ -218,7 +220,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
-    protected $_themeFactory;
+    protected $themeFactory;
 
     /**
      * @var \Magento\App\State
@@ -250,7 +252,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\BlockFactory $blockFactory,
+        \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
         \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
@@ -275,7 +277,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
         $this->_processorFactory = $processorFactory;
-        $this->_themeFactory = $themeFactory;
+        $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
     }
 
@@ -326,7 +328,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
         } else {
-            $themeFullPath = $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier;
+            $themeFullPath = $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier;
             $result = $themeCollection->getThemeByFullPath($themeFullPath);
         }
         return $result;
@@ -1560,7 +1562,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Retrieve block factory
      *
-     * @return \Magento\Core\Model\BlockFactory
+     * @return \Magento\View\Element\BlockFactory
      */
     public function getBlockFactory()
     {

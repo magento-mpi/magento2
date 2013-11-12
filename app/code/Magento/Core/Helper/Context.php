@@ -17,7 +17,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_translator;
 
     /**
-     * @var \Magento\Core\Model\ModuleManager
+     * @var \Magento\Module\Manager
      */
     protected $_moduleManager;
 
@@ -64,7 +64,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\ModuleManager $moduleManager
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Cache\ConfigInterface $cacheConfig
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -76,7 +76,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\ModuleManager $moduleManager,
+        \Magento\Module\Manager $moduleManager,
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Cache\ConfigInterface $cacheConfig,
         \Magento\Event\ManagerInterface $eventManager,
@@ -106,7 +106,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\ModuleManager
+     * @return \Magento\Module\Manager
      */
     public function getModuleManager()
     {
