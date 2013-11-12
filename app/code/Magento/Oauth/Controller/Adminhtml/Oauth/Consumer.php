@@ -47,12 +47,18 @@ class Consumer extends \Magento\Backend\App\AbstractAction
     protected $_logger;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Oauth\Helper\Service $oauthHelper
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
      * @param \Magento\Logger $logger
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
@@ -60,9 +66,11 @@ class Consumer extends \Magento\Backend\App\AbstractAction
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Service\OauthV1Interface $oauthService,
         \Magento\Logger $logger,
-        \Magento\Backend\App\Action\Context $context
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         parent::__construct($context);
+        $this->_formKeyValidator = $formKeyValidator;
         $this->_registry = $registry;
         $this->_oauthHelper = $oauthHelper;
         $this->_consumerFactory = $consumerFactory;
@@ -213,7 +221,7 @@ class Consumer extends \Magento\Backend\App\AbstractAction
     public function saveAction()
     {
         $consumerId = $this->getRequest()->getParam(self::PARAM_CONSUMER_ID);
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             $this->_redirectToEditOrNew($consumerId);
             return;
         }

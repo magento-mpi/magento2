@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\VersionCms\App\Action\Plugin;
+namespace Magento\VersionsCms\App\Action\Plugin;
 
 class Design
 {

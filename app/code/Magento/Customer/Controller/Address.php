@@ -34,15 +34,29 @@ class Address extends \Magento\App\Action\Action
      */
     protected $_addressFormFactory;
 
+    /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Customer\Model\Address\FormFactory $addressFormFactory
+        \Magento\Customer\Model\Address\FormFactory $addressFormFactory,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_customerSession = $customerSession;
         $this->_addressFactory = $addressFactory;
         $this->_addressFormFactory = $addressFormFactory;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context);
     }
 
@@ -113,7 +127,7 @@ class Address extends \Magento\App\Action\Action
      */
     public function formPostAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('*/*/');
         }
 

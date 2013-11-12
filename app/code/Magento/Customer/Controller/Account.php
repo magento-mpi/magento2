@@ -80,6 +80,11 @@ class Account extends \Magento\App\Action\Action
     protected $string;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
@@ -89,6 +94,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -99,7 +105,8 @@ class Account extends \Magento\App\Action\Action
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Stdlib\String $string
+        \Magento\Stdlib\String $string,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
@@ -109,6 +116,7 @@ class Account extends \Magento\App\Action\Action
         $this->_formFactory = $formFactory;
         $this->_addressFactory = $addressFactory;
         $this->string = $string;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context);
     }
 
@@ -864,7 +872,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function editPostAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             $this->_redirect('*/*/edit');
             return;
         }

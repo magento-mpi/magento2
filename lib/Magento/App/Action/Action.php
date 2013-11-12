@@ -647,21 +647,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Validate Form Key
-     *
-     * @return bool
-     */
-    protected function _validateFormKey() // Extract ?
-    {
-        if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != $this->_session->getFormKey()
-        ) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Add an extra title to the end
      *
      * Usage examples:

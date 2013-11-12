@@ -35,18 +35,24 @@ class Manage extends \Magento\App\Action\Action
     protected $_storeManager;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         parent::__construct($context);
+        $this->_formKeyValidator = $formKeyValidator;
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
     }
@@ -78,7 +84,7 @@ class Manage extends \Magento\App\Action\Action
 
     public function saveAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('customer/account/');
         }
         try {

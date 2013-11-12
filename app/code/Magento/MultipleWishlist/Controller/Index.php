@@ -47,12 +47,12 @@ class Index extends \Magento\Wishlist\Controller\Index
     protected $_wishlistCollectionFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
@@ -65,6 +65,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Url $url,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\Session\Generic $wishlistSession,
@@ -76,8 +77,9 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig, $url, $fileResponseFactory);
+        parent::__construct($context, $coreRegistry, $wishlistConfig, $url, $fileResponseFactory, $formKeyValidator);
     }
+
 
     /**
      * Check if multiple wishlist is enabled on current store before all other actions

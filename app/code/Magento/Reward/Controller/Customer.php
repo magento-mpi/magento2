@@ -29,13 +29,21 @@ class Customer extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
+        $this->_formKeyValidator = $formKeyValidator;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -78,7 +86,7 @@ class Customer extends \Magento\App\Action\Action
      */
     public function saveSettingsAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('*/*/info');
         }
 

@@ -54,23 +54,31 @@ class Index
     protected $_url;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\App\Response\Http\FileFactory
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Url $url,
-        \Magento\App\Response\Http\FileFactory $fileResponseFactory
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistConfig = $wishlistConfig;
         $this->_url = $url;
         $this->_fileResponseFactory = $fileResponseFactory;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context);
     }
 
@@ -370,7 +378,7 @@ class Index
      */
     public function updateAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('*/*/');
         }
         $wishlist = $this->_getWishlist();
@@ -636,7 +644,7 @@ class Index
      */
     public function sendAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('*/*/');
         }
 

@@ -58,6 +58,11 @@ class Context extends \Magento\App\Action\Context
     protected $_canUseBaseUrl;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -119,6 +124,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
@@ -134,6 +140,7 @@ class Context extends \Magento\App\Action\Context
         $this->_auth = $auth;
         $this->_backendUrl = $backendUrl;
         $this->_locale = $locale;
+        $this->_formKeyValidator = $formKeyValidator;
     }
 
     /**
@@ -182,5 +189,13 @@ class Context extends \Magento\App\Action\Context
     public function getCanUseBaseUrl()
     {
         return $this->_canUseBaseUrl;
+    }
+
+    /**
+     * @return \Magento\Core\App\Action\FormKeyValidator
+     */
+    public function getFormKeyValidator()
+    {
+        return $this->_formKeyValidator;
     }
 }

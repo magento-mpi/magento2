@@ -6,10 +6,7 @@
  * @license     {license_link}
  */
 
-/**
- * Generic frontend controller
- */
-namespace Magento\Core\App\Action\Plugin;
+namespace Magento\Install\App\Action\Plugin;
 
 class Design
 {

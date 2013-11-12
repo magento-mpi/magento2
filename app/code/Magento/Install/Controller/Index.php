@@ -21,28 +21,20 @@ class Index extends \Magento\Install\Controller\Action
      *
      * @var \Magento\App\Dir
      */
-    protected $_coreDir;
+    protected $_dir;
 
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Config\Scope $configScope
-     * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\App\State $appState
-     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Config\Scope $configScope,
-        \Magento\View\DesignInterface $viewDesign,
-        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\App $app,
-        \Magento\App\State $appState,
-        \Magento\App\Dir $coreDir
+        \Magento\App\Dir $dir
     ) {
-        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
-        $this->_coreDir = $coreDir;
+        parent::__construct($context, $configScope);
+        $this->_dir = $dir;
     }
 
     /**
@@ -52,7 +44,7 @@ class Index extends \Magento\Install\Controller\Action
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         if (!$this->_appState->isInstalled()) {
-            foreach (glob($this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+            foreach (glob($this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
                 \Magento\Io\File::rmdirRecursive($dir);
             }
         }

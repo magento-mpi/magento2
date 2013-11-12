@@ -12,6 +12,6 @@
         <plugin name="versionscms_cms_page_plugin" type="Magento\VersionsCms\Model\Plugin\CmsPage"/>
     </type>
     <type name="Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision">
-        <plugin name="designLoader" type="Magento\VersionCms\App\Action\Plugin\Design" />
+        <plugin name="designLoader" type="Magento\VersionsCms\App\Action\Plugin\Design" />
     </type>
 </config>

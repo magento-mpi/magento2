@@ -39,6 +39,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -52,23 +53,17 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Stdlib\String $string,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
-        parent::__construct(
-            $context,
-            $coreRegistry,
-            $customerSession,
-            $storeManager,
-            $urlFactory,
-            $customerFactory,
-            $formFactory,
-            $addressFactory,
-            $string
+        parent::__construct($context, $coreRegistry, $customerSession, $storeManager, $urlFactory, $customerFactory,
+            $formFactory, $addressFactory, $string, $formKeyValidator
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
     }
+
 
     /**
      * Predispatch custom logic

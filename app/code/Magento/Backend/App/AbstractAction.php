@@ -82,6 +82,11 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected $_canUseBaseUrl;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(Action\Context $context)
@@ -93,6 +98,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->_backendUrl = $context->getBackendUrl();
         $this->_locale = $context->getLocale();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
+        $this->_formKeyValidator = $context->getFormKeyValidator();
     }
 
     protected function _isAllowed()
@@ -252,7 +258,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $_keyErrorMsg = '';
         if ($this->_auth->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
-                $_isValidFormKey = $this->_validateFormKey();
+                $_isValidFormKey = $this->_formKeyValidator->validate($this->getRequest());
                 $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
             } elseif ($this->_backendUrl->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
