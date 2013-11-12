@@ -28,7 +28,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                     ->get('Magento\View\DesignInterface')
                     ->setDefaultDesignTheme();
                 $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\View\FileSystem')
+                    ->get('Magento\View\FileSystem')
                     ->getViewFile($file);
                 $this->assertFileExists($result);
             },
@@ -133,7 +133,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                     ->get('Magento\View\DesignInterface')
                     ->setDefaultDesignTheme();
                 $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\View\FileSystem');
+                    ->get('Magento\View\FileSystem');
                 $this->assertFileExists($filesystem->getViewFile($file));
             },
             $this->viewFilesFromModulesCodeDataProvider()
