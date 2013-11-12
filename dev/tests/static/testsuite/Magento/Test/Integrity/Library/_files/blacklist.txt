@@ -42,7 +42,10 @@ lib/Magento/Filter/Object.php
 lib/Magento/View/Context.php
 lib/Magento/View/Service.php
 lib/Magento/View/Config.php
-lib/Magento/View/Layout/File/Source/Decorator/ModuleOutput.php
+lib/Magento/View/Block/Text.php
+lib/Magento/View/Block/Text/ListText.php
+lib/Magento/View/Block/Text/TextList/Link.php
+lib/Magento/View/Block/Text/TextList/Item.php
 
 lib/Magento/App/Module/ResourceResolver.php
 lib/Magento/Event/Invoker/InvokerDefault.php
