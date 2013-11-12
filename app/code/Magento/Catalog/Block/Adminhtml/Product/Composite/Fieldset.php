@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Composite;
 
-class Fieldset extends \Magento\Core\Block\Text\ListText
+class Fieldset extends \Magento\View\Block\Text\ListText
 {
     /**
      *

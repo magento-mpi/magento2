@@ -2,23 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-/**
- * Base html block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 class Text extends \Magento\Core\Block\AbstractBlock
 {
-
     public function setText($text)
     {
         $this->setData('text', $text);
@@ -47,5 +38,4 @@ class Text extends \Magento\Core\Block\AbstractBlock
 
         return $this->getText();
     }
-
 }

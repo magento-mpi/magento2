@@ -2,23 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\View\Block\Text\TextList;
 
-/**
- * List item block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Block\Text\TextList;
+use Magento\View\Block\Text;
 
-class Item extends \Magento\Core\Block\Text
+class Item extends \Magento\View\Block\Text
 {
-    function setLink($liParams, $innerText)
+    public function setLink($liParams, $innerText)
     {
         $this->setLiParams($liParams);
         $this->setInnerText($innerText);
@@ -41,5 +35,4 @@ class Item extends \Magento\Core\Block\Text
 
         return parent::_toHtml();
     }
-
 }

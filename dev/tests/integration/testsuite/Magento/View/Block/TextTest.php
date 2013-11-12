@@ -9,19 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Block\Text
+     * @var \Magento\View\Block\Text
      */
     protected $_block;
 
     protected function setUp()
     {
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Core\Block\Text');
+            ->createBlock('Magento\View\Block\Text');
     }
 
     public function testSetGetText()

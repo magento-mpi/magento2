@@ -30,6 +30,6 @@
         <block class="Magento\Adminhtml\Block\Page\Header" name="header" as="header"/>
         <block class="Magento\Backend\Block\Menu" name="menu" as="menu"/>
         <block class="Magento\Core\Block\Messages" name="messages" as="messages"/>
-        <block class="Magento\Core\Block\Text" as="no_name"/>
+        <block class="Magento\View\Block\Text" as="no_name"/>
     </block>
 </layout>

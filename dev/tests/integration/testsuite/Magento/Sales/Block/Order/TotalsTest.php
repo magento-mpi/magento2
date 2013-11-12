@@ -26,17 +26,17 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             ->setTemplate('order/totals.phtml');
 
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context');
-        $childOne = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
+        $childOne = $this->getMock('Magento\View\Block\Text', array('initTotals'), array($context));
         $childOne->expects($this->once())
             ->method('initTotals');
         $layout->addBlock($childOne, 'child1', 'block');
 
-        $childTwo = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
+        $childTwo = $this->getMock('Magento\View\Block\Text', array('initTotals'), array($context));
         $childTwo->expects($this->once())
             ->method('initTotals');
         $layout->addBlock($childTwo, 'child2', 'block');
 
-        $childThree = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
+        $childThree = $this->getMock('Magento\View\Block\Text', array('initTotals'), array($context));
         $childThree->expects($this->once())
             ->method('initTotals');
         $layout->addBlock($childThree, 'child3', 'block');

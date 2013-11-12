@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Base html block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+namespace Magento\View\Block\Text;
 
-namespace Magento\Core\Block\Text;
+use Magento\View\Block\Text;
 
-class ListText extends \Magento\Core\Block\Text
+class ListText extends \Magento\View\Block\Text
 {
     protected function _toHtml()
     {
