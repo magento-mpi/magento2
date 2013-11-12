@@ -189,7 +189,8 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     /**
      * Remove current file
      */
-    private function removeCurrentFile() {
+    private function removeCurrentFile()
+    {
         unlink($this->currentFilePath);
     }
 

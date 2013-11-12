@@ -349,7 +349,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         foreach ($this->testDirectories as $directory) {
-            if($directory->isExist()) {
+            if ($directory->isExist()) {
                 $directory->delete();
             }
         }

@@ -45,12 +45,15 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider readProvider
      * @param string $dirPath
      * @param string $readPath
-     * @param string $expectedResult
+     * @param array $expectedResult
      */
     public function testRead($dirPath, $readPath, $expectedResult)
     {
         $dir = $this->getDirectoryInstance($dirPath);
-        $this->assertEquals($expectedResult, $dir->read($readPath));
+        $result = $dir->read($readPath);
+        foreach ($expectedResult as $path) {
+            $this->assertTrue(in_array($path, $result));
+        }
     }
 
     /**
@@ -78,7 +81,10 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function testSearch($dirPath, $pattern, $expectedResult)
     {
         $dir = $this->getDirectoryInstance($dirPath);
-        $this->assertEquals($expectedResult, $dir->search($pattern));
+        $result = $dir->search($pattern);
+        foreach ($expectedResult as $path) {
+            $this->assertTrue(in_array($path, $result));
+        }
     }
 
     /**
@@ -129,12 +135,19 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      * @dataProvider statProvider
      * @param string $dirPath
      * @param string $path
-     * @param array $expectedStat
      */
-    public function testStat($dirPath, $path, $expectedStat)
+    public function testStat($dirPath, $path)
     {
         $dir = $this->getDirectoryInstance($dirPath);
-        $this->assertEquals($expectedStat, $dir->stat($path));
+        $expectedInfo =  array(
+            'dev', 'ino', 'mode', 'nlink', 'uid',
+            'gid', 'rdev', 'size', 'atime',
+            'mtime', 'ctime', 'blksize', 'blocks'
+        );
+        $result = $dir->stat($path);
+        foreach ($expectedInfo as $key) {
+            $this->assertTrue(array_key_exists($key, $result));
+        }
     }
 
     /**
@@ -145,62 +158,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function statProvider()
     {
         return array(
-            array('foo', 'bar', array(
-                0 => 2,
-                1 => 0,
-                2 => 16895,
-                3 => 1,
-                4 => 0,
-                5 => 0,
-                6 => 2,
-                7 => 0,
-                8 => 1380724221,
-                9 => 1380724221,
-                10 => 1380724221,
-                11 => -1,
-                12 => -1,
-                'dev' => 2,
-                'ino' => 0,
-                'mode' => 16895,
-                'nlink' => 1,
-                'uid' => 0,
-                'gid' => 0,
-                'rdev' => 2,
-                'size' => 0,
-                'atime' => 1380724221,
-                'mtime' => 1380724221,
-                'ctime' => 1380724221,
-                'blksize' => -1,
-                'blocks' => -1
-            )),
-            array('foo', 'file_three.txt', array(
-                0 => 2,
-                1 => 0,
-                2 => 33206,
-                3 => 1,
-                4 => 0,
-                5 => 0,
-                6 => 2,
-                7 => 0,
-                8 => 1380724221,
-                9 => 1380724221,
-                10 => 1380724221,
-                11 => -1,
-                12 => -1,
-                'dev' => 2,
-                'ino' => 0,
-                'mode' => 33206,
-                'nlink' => 1,
-                'uid' => 0,
-                'gid' => 0,
-                'rdev' => 2,
-                'size' => 0,
-                'atime' => 1380724221,
-                'mtime' => 1380724221,
-                'ctime' => 1380724221,
-                'blksize' => -1,
-                'blocks' => -1
-            ))
+            array('foo', 'bar'),
+            array('foo', 'file_three.txt')
         );
     }
 
