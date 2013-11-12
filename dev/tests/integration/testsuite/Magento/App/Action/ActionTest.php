@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Controller\Varien;
+namespace Magento\App\Action;
 
 /**
  * @magentoAppArea frontend

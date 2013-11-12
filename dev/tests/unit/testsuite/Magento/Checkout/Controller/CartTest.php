@@ -64,10 +64,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
         $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $objectManager->expects($this->at(0))
-            ->method('get')
-            ->with($this->equalTo('Magento\Core\Model\StoreManagerInterface'))
-            ->will($this->returnValue($storeManager));
         $objectManager->expects($this->at(1))
             ->method('get')
             ->with($this->equalTo('Magento\Core\Model\StoreManagerInterface'))
@@ -92,6 +88,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             'request' => $requestMock,
             'objectManager' => $objectManager,
             'checkoutSession' => $checkoutSessionMock,
+            'storeManager' =>$storeManager,
             'storeConfig' => $configMock,
         );
 

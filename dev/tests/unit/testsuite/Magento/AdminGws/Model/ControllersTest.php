@@ -54,7 +54,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $response = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false);
 
         $this->_controllerMock = $this->getMock(
-            'Magento\Backend\Controller\Adminhtml\Action', array(), array(), '', false
+            '\Magento\Backend\App\Action', array(), array(), '', false
         );
         $this->_ctrlRequestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_controllerMock->expects($this->once())

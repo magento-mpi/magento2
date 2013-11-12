@@ -1403,6 +1403,10 @@ return array(
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
-    array('\Magento\Core\Model\EntryPoint\Media', '\Magento\Core\App\Media'),
-    array('\Magento\Backend\Controller\AbstractAction', '\Magento\Backend\App\AbstractAction'),
+    array('Magento\Core\Model\EntryPoint\Media', 'Magento\Core\App\Media'),
+    array('Magento\Core\Controller\Varien\Action', 'Magento\App\Action\Action'),
+    array('Magento\Core\Controller\Varien\Action\Context', 'Magento\App\Action\Context'),
+    array('Magento\Backend\Controller\AbstractAction', 'Magento\Backend\App\AbstractAction'),
+    array('Magento\Backend\Controller\Context', 'Magento\Backend\App\Action\Context'),
+    array('Magento\Backend\Controller\Adminhtml\Action', 'Magento\Backend\App\Action'),
 );

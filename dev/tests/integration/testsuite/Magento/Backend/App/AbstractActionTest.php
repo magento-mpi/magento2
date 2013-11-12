@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Controller;
+namespace Magento\Backend\App;
 
 /**
  * Test class for \Magento\Backend\Controller\AbstractAction.

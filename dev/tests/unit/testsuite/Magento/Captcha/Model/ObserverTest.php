@@ -96,7 +96,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $formId = 'contact_us';
         $captchaValue = 'some-value';
 
-        $controller = $this->getMock('Magento\App\ActionInterface');
+        $controller = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
@@ -134,7 +134,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with($redirectRoutePath, null)
             ->will($this->returnValue($redirectUrl));
 
-        $controller = $this->getMock('Magento\App\ActionInterface', array(), array(), '', false);
+        $controller = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $request->expects($this->any())->method('getPost')->with(\Magento\Captcha\Helper\Data::INPUT_NAME_FIELD_VALUE,
