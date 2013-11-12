@@ -16,12 +16,12 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Class CreateSimpleTest
+ * Class CreateSimpleWithCategoryTest
  * Test simple product and category creation
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class CreateSimpleTest extends Functional
+class CreateSimpleWithCategoryTest extends Functional
 {
     /**
      * Login into backend area before test
