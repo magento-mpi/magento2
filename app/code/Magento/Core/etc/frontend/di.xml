@@ -38,4 +38,9 @@
             </value>
         </param>
     </type>
+    <!-- Remove this configuration since MAGETWO-17007 will be fixed: Begin -->
+    <type name="Magento\View\TemplateEngineFactory">
+        <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+    </type>
+    <!-- Remove this configuration since MAGETWO-17007 will be fixed: End -->
 </config>
