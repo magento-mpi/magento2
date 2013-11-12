@@ -120,14 +120,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetGetSkipSessionIdFlag()
-    {
-        $this->assertFalse($this->_model->getSkipSessionIdFlag());
-        $this->_model->setSkipSessionIdFlag(true);
-        $this->assertTrue($this->_model->getSkipSessionIdFlag());
-    }
-
-
     public function testGetSessionIdForHost()
     {
         $_SERVER['HTTP_HOST'] = 'localhost';

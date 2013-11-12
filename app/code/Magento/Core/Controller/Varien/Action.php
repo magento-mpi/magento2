@@ -496,7 +496,6 @@ class Action extends \Magento\App\Action\AbstractAction
                 if ($session->getCookieShouldBeReceived()) {
                     $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
                     $session->unsCookieShouldBeReceived();
-                    $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
                     if (isset($_GET[$session->getSessionIdQueryParam()])
                         && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()

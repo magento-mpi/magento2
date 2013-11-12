@@ -42,13 +42,6 @@ class AbstractSession extends \Magento\Object
     protected static $_encryptedSessionId;
 
     /**
-     * Skip session id flag
-     *
-     * @var bool
-     */
-    protected $_skipSessionIdFlag   = false;
-
-    /**
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -254,6 +247,23 @@ class AbstractSession extends \Magento\Object
         \Magento\Profiler::stop('session_start');
 
         return $this;
+    }
+
+    /**
+     * Does a session exist and is it currently active?
+     *
+     * @return bool
+     */
+    public function sessionExists()
+    {
+        $sid = defined('SID') ? constant('SID') : false;
+        if ($sid !== false && $this->getId()) {
+            return true;
+        }
+        if (headers_sent()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -611,28 +621,6 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Set skip flag if need skip generating of _GET session_id_key param
-     *
-     * @param bool $flag
-     * @return \Magento\Core\Model\Session\AbstractSession
-     */
-    public function setSkipSessionIdFlag($flag)
-    {
-        $this->_skipSessionIdFlag = $flag;
-        return $this;
-    }
-
-    /**
-     * Retrieve session id skip flag
-     *
-     * @return bool
-     */
-    public function getSkipSessionIdFlag()
-    {
-        return $this->_skipSessionIdFlag;
-    }
-
-    /**
      * If session cookie is not applicable due to host or path mismatch - add session id to query
      *
      * @param string $urlHost can be host or url
@@ -640,10 +628,6 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionIdForHost($urlHost)
     {
-        if ($this->getSkipSessionIdFlag() === true) {
-            return '';
-        }
-
         $httpHost = $this->_request->getHttpHost();
         if (!$httpHost) {
             return '';
