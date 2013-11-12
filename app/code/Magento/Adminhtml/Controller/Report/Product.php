@@ -21,23 +21,18 @@ namespace Magento\Adminhtml\Controller\Report;
 class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
 {
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\App\Action\Title $title
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\App\Action\Title $title,
-        \Magento\App\Response\Http\FileFactory $fileFactory
-    )
-    {
-        parent::__construct($context, $fileFactory);
-        $this->_title = $title;
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Filter\Date $dateFilter
+    ) {
+        parent::__construct($context, $fileFactory, $dateFilter);
     }
 
     /**

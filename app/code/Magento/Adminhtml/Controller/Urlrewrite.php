@@ -45,21 +45,12 @@ class Urlrewrite extends \Magento\Backend\App\Action
     private $_urlRewrite;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Action\Title $title
-        )
-    {
+        \Magento\Backend\App\Action\Context $context
+    ) {
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**

@@ -38,7 +38,8 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_responseMock));
-        $this->_responseMock->expects($this->any())->method('setHeader')->will($this->returnValue($this->_responseMock));
+        $this->_responseMock->expects($this->any())->method('setHeader')
+            ->will($this->returnValue($this->_responseMock));
         $this->_model = new \Magento\App\Response\Http\FileFactory(
             $this->_responseFactory,
             $this->_fileSystem

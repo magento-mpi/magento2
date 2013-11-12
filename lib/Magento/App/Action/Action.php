@@ -390,7 +390,8 @@ class Action extends \Magento\App\Action\AbstractAction
                             'controller_action_postdispatch_' . $this->getRequest()->getRouteName(),
                             array('controller_action' => $this)
                         );
-                        $this->_eventManager->dispatch('controller_action_postdispatch', array('controller_action' => $this));
+                        $this->_eventManager->dispatch('controller_action_postdispatch',
+                            array('controller_action' => $this));
                     }
                     \Magento\Profiler::stop('postdispatch');
                 }
