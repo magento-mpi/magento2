@@ -37,7 +37,8 @@ class FileFactory
      *                              that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
-     * @throws \Magento\Core\Exception
+     * @throws \Exception
+     * @trows \InvalidArgumentException
      * @return \Magento\App\ActionInterface
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
@@ -47,7 +48,7 @@ class FileFactory
         $file   = null;
         if (is_array($content)) {
             if (!isset($content['type']) || !isset($content['value'])) {
-                return $this;
+                throw new \InvalidArgumentException("Invalid arguments. Keys 'type' and 'value' are required.");
             }
             if ($content['type'] == 'filename') {
                 $isFile         = true;
