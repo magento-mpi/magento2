@@ -52,7 +52,7 @@ class Add extends \Magento\App\Action\Action
         if (!$product->getId()) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
-            if ($this->_isUrlInternal($backUrl)) {
+            if ($this->_appUrl->isInternal($backUrl)) {
                 $this->getResponse()->setRedirect($backUrl);
             } else {
                 $this->_redirect('/');

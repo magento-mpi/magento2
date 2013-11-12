@@ -87,6 +87,9 @@ class Action extends \Magento\App\Action\AbstractAction
     /** @var \Magento\Encryption\UrlCoder */
     protected $_urlCoder;
 
+    /** @var \Magento\HTTP\Url */
+    protected $_appUrl;
+
     /**
      * @param Context $context
      */
@@ -114,7 +117,8 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_app               = $context->getApp();
         $this->_helper            = $context->getHelper();
         $this->_flag              = $context->getFlag();
-        $this->_urlCoder           = $context->getUrlCoder();
+        $this->_urlCoder          = $context->getUrlCoder();
+        $this->_appUrl            = $context->getHttpUrl();
     }
 
     /**
@@ -548,7 +552,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if (empty($successUrl)) {
             $successUrl = $defaultUrl;
         }
-        if (!$this->_isUrlInternal($successUrl)) {
+        if (!$this->_appUrl->isInternal($successUrl)) {
             $successUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($successUrl);
@@ -567,7 +571,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if (empty($errorUrl)) {
             $errorUrl = $defaultUrl;
         }
-        if (!$this->_isUrlInternal($errorUrl)) {
+        if (!$this->_appUrl->isInternal($errorUrl)) {
             $errorUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($errorUrl);
@@ -615,33 +619,10 @@ class Action extends \Magento\App\Action\AbstractAction
             $refererUrl = $this->_urlCoder->decode($url);
         }
 
-        if (!$this->_isUrlInternal($refererUrl)) {
+        if (!$this->_appUrl->isInternal($refererUrl)) {
             $refererUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $refererUrl;
-    }
-
-    /**
-     * Check url to be used as internal
-     *
-     * @param   string $url
-     * @return  bool
-     */
-    protected function _isUrlInternal($url) // extract
-    {
-        if (strpos($url, 'http') !== false) {
-            /**
-             * Url must start from base secure or base unsecure url
-             */
-            /** @var $store \Magento\Core\Model\StoreManagerInterface */
-            $store = $this->_storeManager->getStore();
-            if ((strpos($url, $store->getBaseUrl()) === 0)
-                || (strpos($url, $store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true)) === 0)
-            ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

@@ -64,6 +64,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /** @var \Magento\Encryption\UrlCoder */
     protected $_urlCoder;
 
+    /** @var \Magento\HTTP\Url */
+    protected $_httpUrl;
+
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
@@ -87,6 +90,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Helper\AbstractHelper $helper
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Encryption\UrlCoder $urlCoder
+     * @param \Magento\HTTP\Url $httpUrl
      * @param $isRenderInherited
      */
     public function __construct(
@@ -112,6 +116,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Helper\AbstractHelper $helper,
         \Magento\App\ActionFlag $flag,
         \Magento\Encryption\UrlCoder $urlCoder,
+        \Magento\HTTP\Url $httpUrl,
         $isRenderInherited
     ) {
         $this->_request = $request;
@@ -135,6 +140,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_app = $app;
         $this->_helper = $helper;
         $this->_urlCoder = $urlCoder;
+        $this->_httpUrl = $httpUrl;
         $this->_isRenderInherited = $isRenderInherited;
         $this->_flag = $flag;
     }
@@ -322,4 +328,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
     {
         return $this->_urlCoder;
     }
+
+    public function getHttpUrl()
+    {
+        return $this->_httpUrl;
+    }
+
 }

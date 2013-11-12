@@ -70,7 +70,7 @@ class Cart
     protected function _goBack()
     {
         $returnUrl = $this->getRequest()->getParam('return_url');
-        if ($returnUrl && $this->_isUrlInternal($returnUrl)) {
+        if ($returnUrl && $this->_appUrl->isInternal($returnUrl)) {
             $this->_checkoutSession->getMessages(true);
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
