@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Page\Asset;
 class PublicFile implements \Magento\Core\Model\Page\Asset\LocalInterface
 {
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -31,11 +31,11 @@ class PublicFile implements \Magento\Core\Model\Page\Asset\LocalInterface
     private $_contentType;
 
     /**
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param string $file
      * @param string $contentType
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl, $file, $contentType)
+    public function __construct(\Magento\View\Url $viewUrl, $file, $contentType)
     {
         $this->_viewUrl = $viewUrl;
         $this->_file = $file;
