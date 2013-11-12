@@ -23,7 +23,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     /**
      * @var string
      */
-    protected $_template = 'media/uploader.phtml';
+    protected $_template = 'Magento_Adminhtml::media/uploader.phtml';
 
     /**
      * @var \Magento\Core\Model\View\Url
@@ -60,7 +60,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
 
         $this->setId($this->getId() . '_Uploader');
 
-        $uploadUrl = $this->_urlBuilder->addSessionParam()->getUrl('*/*/upload');
+        $uploadUrl = $this->_urlBuilder->addSessionParam()->getUrl('adminhtml/*/upload');
         $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');

@@ -27,7 +27,7 @@ class Details
      */
     public function getOrderLink()
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getOrder()->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $this->getOrder()->getId()));
     }
 
     /**
@@ -53,7 +53,7 @@ class Details
         if ($this->getOrder()->getCustomerIsGuest()) {
             return false;
         }
-        return $this->getUrl('*/customer/edit', array('id' => $this->getOrder()->getCustomerId()));
+        return $this->getUrl('customer/index/edit', array('id' => $this->getOrder()->getCustomerId()));
     }
 
     /**

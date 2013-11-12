@@ -12,7 +12,7 @@
     $.widget('mage.fileElement', {
         options: {
             hiddenFieldSuffix: '_value',
-            delegationSelector: 'div.input-box input[type="file"]'
+            delegationSelector: '.field input[type="file"]'
         },
 
         /**

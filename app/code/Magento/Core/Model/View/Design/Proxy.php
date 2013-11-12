@@ -47,6 +47,7 @@ class Proxy implements \Magento\View\DesignInterface
     /**
      * Set package area
      *
+     * @deprecated
      * @param string $area
      * @return \Magento\View\DesignInterface
      */
@@ -58,6 +59,7 @@ class Proxy implements \Magento\View\DesignInterface
     /**
      * Retrieve package area
      *
+     * @deprecated
      * @return string
      */
     public function getArea()

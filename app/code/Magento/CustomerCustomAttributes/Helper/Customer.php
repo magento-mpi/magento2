@@ -37,6 +37,7 @@ class Customer extends \Magento\CustomAttribute\Helper\Data
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\CustomerCustomAttributes\Helper\Data $dataHelper
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
@@ -44,10 +45,11 @@ class Customer extends \Magento\CustomAttribute\Helper\Data
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\Context $context,
+        \Magento\Filter\FilterManager $filterManager,
         \Magento\CustomerCustomAttributes\Helper\Data $dataHelper,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
     ) {
-        parent::__construct($eavConfig, $locale, $context);
+        parent::__construct($eavConfig, $locale, $context, $filterManager);
         $this->_dataHelper = $dataHelper;
         $this->_inputValidator = $inputValidator;
     }
@@ -106,7 +108,9 @@ class Customer extends \Magento\CustomAttribute\Helper\Data
                 array_keys($this->_dataHelper->getAttributeInputTypes())
             );
             if (!$this->_inputValidator->isValid($data['frontend_input'])) {
-                throw new \Magento\Core\Exception($this->stripTags(implode(' ', $this->_inputValidator->getMessages())));
+                throw new \Magento\Core\Exception(
+                    $this->filterManager->stripTags(implode(' ', $this->_inputValidator->getMessages()))
+                );
             }
         }
         return $data;

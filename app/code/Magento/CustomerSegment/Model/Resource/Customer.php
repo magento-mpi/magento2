@@ -21,8 +21,22 @@ namespace Magento\CustomerSegment\Model\Resource;
 class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\App\Resource $resource
+     */
+    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\App\Resource $resource)
+    {
+        $this->dateTime = $dateTime;
+        parent::__construct($resource);
+    }
+
+    /**
      * Intialize resource model
-     *
      */
     protected function _construct()
     {
@@ -39,8 +53,7 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function addCustomerToWebsiteSegments($customerId, $websiteId, $segmentIds)
     {
-        $data = array();
-        $now = $this->formatDate(time(), true);
+        $now = $this->dateTime->formatDate(time(), true);
         foreach ($segmentIds as $segmentId) {
             $data = array(
                 'segment_id'    => $segmentId,

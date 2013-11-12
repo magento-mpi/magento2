@@ -49,7 +49,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
-        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
+        \Magento\App\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**
@@ -72,6 +72,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
             $this->_contextMock,
+            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );
@@ -99,6 +100,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
             $this->_contextMock,
+            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );

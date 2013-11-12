@@ -9,9 +9,9 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../code/Magento/Widget/etc/widget.xsd">
-    <widget id="new_products" class="TODO">
-        <label>TODO</label>
-        <description>TODO</description>
+    <widget id="new_products" class="Magento\Catalog\Block\Product\Widget\NewWidget">
+        <label translate="true">Catalog New Products List</label>
+        <description translate="true">List of Products that are set as New</description>
         <parameters>
             <parameter name="template" xsi:type="select">
                 <options>
@@ -44,9 +44,9 @@
             </container>
         </containers>
     </widget>
-    <widget id="recently_viewed" class="TODO">
-        <label>TODO</label>
-        <description>TODO</description>
+    <widget id="recently_viewed" class="Magento\Reports\Block\Product\Widget\Viewed">
+        <label translate="true">Recently Viewed Products</label>
+        <description translate="true">List of Products Recently Viewed by Visitor</description>
         <parameters>
             <parameter name="template" xsi:type="select">
                 <options>
@@ -79,9 +79,9 @@
             </container>
         </containers>
     </widget>
-    <widget id="recently_compared" class="TODO">
-        <label>TODO</label>
-        <description>TODO</description>
+    <widget id="recently_compared" class="Magento\Reports\Block\Product\Widget\Compared">
+        <label translate="true">Recently Compared Products</label>
+        <description translate="true">List of Products Recently Compared and Removed from the Compare List by Visitor</description>
         <parameters>
             <parameter name="template" xsi:type="select">
                 <options>

@@ -8,16 +8,21 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog search helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CatalogSearch\Helper;
 
+/**
+ * Catalog search helper
+ */
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
+    /**
+     * Query variable
+     */
     const QUERY_VAR_NAME = 'q';
+
+    /**
+     * Max query length
+     */
     const MAX_QUERY_LEN  = 200;
 
     /**
@@ -56,11 +61,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_engine;
 
     /**
-     * Core string
+     * Magento string lib
      *
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
-    protected $_coreString = null;
+    protected $string;
 
     /**
      * Core store config
@@ -77,22 +82,38 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_queryFactory;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filter;
+
+    /**
      * Construct
-     * 
+     *
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filter
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filter
     ) {
-        $this->_coreString = $coreString;
+        $this->string = $string;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_queryFactory = $queryFactory;
+        $this->_escaper = $escaper;
+        $this->filter = $filter;
         parent::__construct($context);
     }
 
@@ -130,7 +151,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = $this->_coreString->strlen($this->getQueryText());
+        $thisQueryLength = $this->string->strlen($this->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -146,14 +167,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if ($this->_queryText === null) {
                 $this->_queryText = '';
             } else {
-                /* @var $stringHelper \Magento\Core\Helper\String */
-                $stringHelper = $this->_coreString;
-                $this->_queryText = is_array($this->_queryText) ? ''
-                    : $stringHelper->cleanString(trim($this->_queryText));
+                $this->_queryText = is_array($this->_queryText)
+                    ? ''
+                    : $this->string->cleanString(trim($this->_queryText));
 
                 $maxQueryLength = $this->getMaxQueryLength();
-                if ($maxQueryLength !== '' && $stringHelper->strlen($this->_queryText) > $maxQueryLength) {
-                    $this->_queryText = $stringHelper->substr($this->_queryText, 0, $maxQueryLength);
+                if ($maxQueryLength !== '' && $this->string->strlen($this->_queryText) > $maxQueryLength) {
+                    $this->_queryText = $this->string->substr($this->_queryText, 0, $maxQueryLength);
                     $this->_isMaxLength = true;
                 }
             }
@@ -168,7 +188,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getEscapedQueryText()
     {
-        return $this->escapeHtml($this->getQueryText());
+        return $this->_escaper->escapeHtml($this->getQueryText());
     }
 
     /**
@@ -236,7 +256,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MIN_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(
+            \Magento\CatalogSearch\Model\Query::XML_PATH_MIN_QUERY_LENGTH,
+            $store
+        );
     }
 
     /**
@@ -247,7 +270,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(
+            \Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_LENGTH,
+            $store
+        );
     }
 
     /**
@@ -258,7 +284,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_WORDS, $store);
+        return $this->_coreStoreConfig->getConfig(
+            \Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_WORDS,
+            $store
+        );
     }
 
     /**
@@ -304,20 +333,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function checkNotes($store = null)
     {
         if ($this->_isMaxLength) {
-            $this->addNoteMessage(__('Your search query can\'t be longer than %1, so we had to shorten your query.', $this->getMaxQueryLength()));
+            $this->addNoteMessage(
+                __('Your search query can\'t be longer than %1, so we had to shorten your query.',
+                $this->getMaxQueryLength())
+            );
         }
 
-        /* @var $stringHelper \Magento\Core\Helper\String */
-        $stringHelper = $this->_coreString;
-
-        $searchType = $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        $searchType = $this->_coreStoreConfig
+            ->getConfig(\Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
         if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
         ) {
-            $wordsFull = $stringHelper->splitWords($this->getQueryText(), true);
-            $wordsLike = $stringHelper->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());
+            $wordsFull = $this->filter->splitWords($this->getQueryText(), array('uniqueOnly' => true));
+            $wordsLike = $this->filter->splitWords(
+                $this->getQueryText(),
+                array('uniqueOnly' => true, 'wordsQty' => $this->getMaxQueryWords())
+            );
             if (count($wordsFull) > count($wordsLike)) {
-                $wordsCut = array_map(array($this, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
+                $wordsCut = array_map(array($this->_escaper, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
                 $this->addNoteMessage(
                     __('Sorry, but the maximum word count is %1. We left out this part of your search: %2.', $this->getMaxQueryWords(), join(' ', $wordsCut))
                 );
@@ -340,8 +373,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         foreach ($index as $value) {
             if (!is_array($value)) {
                 $_index[] = $value;
-            }
-            else {
+            } else {
                 $_index = array_merge($_index, $value);
             }
         }

@@ -206,7 +206,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_coreStoreConfig;
     
     /**
-     * @var \Magento\Core\Model\Logger $logger
+     * @var \Magento\Logger $logger
      */
     protected $_logger;
 
@@ -221,9 +221,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_themeFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param Resource\Theme\CollectionFactory $themeFactory
-     * @param Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
@@ -234,12 +239,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param DataService\Graph $dataServiceGraph
      * @param Store\Config $coreStoreConfig
+     * @param \Magento\App\State $appState
      * @param string $area
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
@@ -250,6 +256,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\State $appState,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
@@ -258,6 +265,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
+        $this->_appState = $appState;
         $this->_area = $area;
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
@@ -327,16 +335,18 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Retrieve layout area
      *
+     * @deparecated
      * @return string
      */
     public function getArea()
     {
-        return $this->_area;
+        return $this->_appState->getAreaCode();
     }
 
     /**
      * Set area code
      *
+     * @deprecated
      * @param string $areaCode
      */
     public function setArea($areaCode)

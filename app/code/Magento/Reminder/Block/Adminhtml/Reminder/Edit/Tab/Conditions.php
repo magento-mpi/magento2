@@ -32,7 +32,7 @@ class Conditions
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock
@@ -41,7 +41,7 @@ class Conditions
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock,
@@ -65,8 +65,8 @@ class Conditions
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
         $renderer = $this->_fieldsetBlock
-            ->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
+            ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
+            ->setNewChildUrl($this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
             'legend'  => __('Conditions'),
             'comment' => __('You need to set at least one condition for this rule to work.'),

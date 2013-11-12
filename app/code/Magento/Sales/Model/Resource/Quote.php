@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Resource;
+
 /**
  * Quote resource model
  */
-namespace Magento\Sales\Model\Resource;
-
 class Quote extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
@@ -21,14 +21,16 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
     protected $_config;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Eav\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Eav\Model\Config $config
     ) {
-        parent::__construct($resource);
+        parent::__construct($resource, $dateTime);
         $this->_config = $config;
     }
 

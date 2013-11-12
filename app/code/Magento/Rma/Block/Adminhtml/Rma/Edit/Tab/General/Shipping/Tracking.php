@@ -135,7 +135,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addTrack/', array('id' => $this->getRma()->getId()));
+        return $this->getUrl('adminhtml/*/addTrack/', array('id' => $this->getRma()->getId()));
     }
 
     /**
@@ -156,7 +156,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('*/*/removeTrack/', array(
+        return $this->getUrl('adminhtml/*/removeTrack/', array(
             'id' => $this->getRma()->getId(),
             'track_id' => $track->getId()
         ));

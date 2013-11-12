@@ -77,8 +77,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     {
         $this->getResponse()
             ->setHeader('HTTP/1.1', '403 Session Expired')
-            ->setHeader('Login-Required', 'true')
-            ->sendResponse();
+            ->setHeader('Login-Required', 'true');
         return $this;
     }
 
@@ -461,7 +460,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['error'] = __('Unable to set Payment Method');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -558,7 +557,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 'html' => $this->_getPaymentMethodsHtml()
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get('Magento\Checkout\Helper\Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()
@@ -584,7 +583,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 $this->getOnepage()->getCheckout()->setUpdateSection(null);
             }
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get('Magento\Checkout\Helper\Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()

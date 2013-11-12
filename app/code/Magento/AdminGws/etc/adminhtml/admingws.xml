@@ -134,10 +134,10 @@
     </group>
     <group name="controller_predispatch">
         <callback class="adminhtml__system_config__" method="validateSystemConfig" />
-        <callback class="adminhtml__catalog_product__" method="validateCatalogProduct" />
-        <callback class="adminhtml__catalog_product__edit" method="validateCatalogProductEdit" />
-        <callback class="adminhtml__catalog_product__massStatus" method="validateCatalogProductMassActions" />
-        <callback class="adminhtml__catalog_product_action_attribute__edit" method="validateCatalogProductMassActions" />
+        <callback class="catalog__adminhtml_product__" method="validateCatalogProduct" />
+        <callback class="catalog__adminhtml_product__edit" method="validateCatalogProductEdit" />
+        <callback class="catalog__adminhtml_product__massStatus" method="validateCatalogProductMassActions" />
+        <callback class="catalog__adminhtml_product_action_attribute__edit" method="validateCatalogProductMassActions" />
         <callback class="adminhtml__promo_catalog__" method="validateRuleEntityAction" />
         <callback class="adminhtml__promo_catalog__index" method="promoCatalogIndexAction" />
         <callback class="adminhtml__promo_catalog__applyRules" method="validatePromoCatalogApplyRules" />
@@ -148,7 +148,7 @@
         <callback class="adminhtml__customer__edit" method="validateCustomerEdit" />
         <callback class="adminhtml__customerbalance__" method="validateCustomerbalance" />
         <callback class="adminhtml__giftcardaccount__" method="validateGiftCardAccount" />
-        <callback class="adminhtml__catalog_category__" method="validateCatalogCategories" />
+        <callback class="catalog__adminhtml_category__" method="validateCatalogCategories" />
         <callback class="adminhtml__catalog_event__" method="validateCatalogEvents" />
         <callback class="adminhtml__catalog_event__edit" method="validateCatalogEventEdit" />
         <callback class="adminhtml__sales_order_create__" method="validateSalesOrderCreation" />
@@ -195,16 +195,16 @@
         <callback class="adminhtml__permissions_role__editrolegrid" method="validateAdminRoleAction" />
         <callback class="adminhtml__permissions_role__saverole" method="validateAdminRoleAction" />
         <callback class="adminhtml__permissions_role__delete" method="validateAdminRoleAction" />
-        <callback class="adminhtml__catalog_product_attribute__delete" method="validateCatalogProductAttributeActions" />
-        <callback class="adminhtml__catalog_product_attribute__save" method="validateCatalogProductAttributeActions" />
-        <callback class="adminhtml__catalog_product_attribute__edit" method="validateCatalogProductAttributeCreateAction" />
-        <callback class="adminhtml__catalog_product__massDelete" method="catalogProductMassDeleteAction" />
-        <callback class="adminhtml__catalog_product_set__add" method="validateAttributeSetActions" />
-        <callback class="adminhtml__catalog_product_set__save" method="validateAttributeSetActions" />
-        <callback class="adminhtml__catalog_product_set__delete" method="validateAttributeSetActions" />
-        <callback class="adminhtml__catalog_product_review__edit" method="validateCatalogProductReview" />
-        <callback class="adminhtml__catalog_product_review__save" method="validateCatalogProductReview" />
-        <callback class="adminhtml__catalog_product_review__delete" method="validateCatalogProductReview" />
+        <callback class="catalog__adminhtml_product_attribute__delete" method="validateCatalogProductAttributeActions" />
+        <callback class="catalog__adminhtml_product_attribute__save" method="validateCatalogProductAttributeActions" />
+        <callback class="catalog__adminhtml_product_attribute__edit" method="validateCatalogProductAttributeCreateAction" />
+        <callback class="catalog__adminhtml_product__massDelete" method="catalogProductMassDeleteAction" />
+        <callback class="catalog__adminhtml_product_set__add" method="validateAttributeSetActions" />
+        <callback class="catalog__adminhtml_product_set__save" method="validateAttributeSetActions" />
+        <callback class="catalog__adminhtml_product_set__delete" method="validateAttributeSetActions" />
+        <callback class="catalog__adminhtml_product_review__edit" method="validateCatalogProductReview" />
+        <callback class="catalog__adminhtml_product_review__save" method="validateCatalogProductReview" />
+        <callback class="catalog__adminhtml_product_review__delete" method="validateCatalogProductReview" />
         <callback class="adminhtml__process__save" method="blockIndexAction" />
         <callback class="adminhtml__process__massChangeMode" method="blockIndexAction" />
         <callback class="adminhtml__process__massReindex" method="blockIndexAction" />
@@ -238,18 +238,18 @@
     <group name="block_html_before">
         <callback class="magento_adminhtml_block_customer" method="widgetCustomerGridContainer" />
         <callback class="magento_adminhtml_block_system_store_store" method="widgetManageStores" />
-        <callback class="magento_adminhtml_block_catalog_product" method="widgetProductGridContainer" />
+        <callback class="magento_catalog_block_adminhtml_product" method="widgetProductGridContainer" />
         <callback class="magento_catalogEvent_block_adminhtml_event" method="restrictCatalogEventEditForm" />
-        <callback class="magento_adminhtml_block_catalog_product_attribute" method="removeCatalogProductAttributeAddButton" />
-        <callback class="magento_adminhtml_block_catalog_product_attribute_edit" method="removeCatalogProductAttributeButtons" />
-        <callback class="magento_adminhtml_block_catalog_product_attribute_edit_tab_main" method="disableCatalogProductAttributeEditTabMainFields" />
-        <callback class="magento_adminhtml_block_catalog_product_attribute_edit_tab_options" method="disableCatalogProductAttributeEditTabOptionsFields" />
-        <callback class="magento_adminhtml_block_catalog_category_edit_form" method="widgetCatalogEventCategoryEditButtons" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute" method="removeCatalogProductAttributeAddButton" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute_edit" method="removeCatalogProductAttributeButtons" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute_edit_tab_main" method="disableCatalogProductAttributeEditTabMainFields" />
+        <callback class="magento_catalog_block_adminhtml_product_attribute_edit_tab_options" method="disableCatalogProductAttributeEditTabOptionsFields" />
+        <callback class="magento_catalog_block_adminhtml_category_edit_form" method="widgetCatalogEventCategoryEditButtons" />
         <callback class="magento_adminhtml_block_newsletter_queue_edit_form" method="setIsRequiredSubscribersFromFieldForNewsletterQueueForm" />
-        <callback class="magento_adminhtml_block_catalog_product_edit_action_attribute_tab_websites" method="catalogProductMassUpdateWebsites" />
-        <callback class="magento_adminhtml_block_catalog_product_grid" method="catalogProductPrepareMassaction" />
-        <callback class="magento_adminhtml_block_cms_page_edit" method="removeCmsPageButtons" />
-        <callback class="magento_adminhtml_block_cms_block_edit" method="removeCmsBlockButtons" />
+        <callback class="magento_catalog_block_adminhtml_product_edit_action_attribute_tab_websites" method="catalogProductMassUpdateWebsites" />
+        <callback class="magento_catalog_block_adminhtml_product_grid" method="catalogProductPrepareMassaction" />
+        <callback class="magento_cms_block_adminhtml_page_edit" method="removeCmsPageButtons" />
+        <callback class="magento_cms_block_adminhtml_block_edit" method="removeCmsBlockButtons" />
         <callback class="magento_adminhtml_block_poll_edit" method="removePollButtons" />
         <callback class="magento_reward_block_adminhtml_reward_rate_edit" method="removeRewardRateButtons" />
         <callback class="magento_adminhtml_block_sales_order_grid" method="removeNotAllowedMassactionsForOrders" />

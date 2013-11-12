@@ -58,7 +58,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_store));
         $this->_emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
-            array('setDesignConfig', 'sendTransactional'), array(), '', false
+            array('setDesignConfig', 'sendTransactional', '__wakeup'), array(), '', false
         );
 
         $app->expects($this->any())
@@ -83,15 +83,11 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
-        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('escapeHtml', 'getRegistryLink'),
+        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
             array(), '', false, false);
-        $giftRegistryData->expects($this->any())
-            ->method('escapeHtml')
-            ->will($this->returnArgument(0));
         $giftRegistryData->expects($this->any())
             ->method('getRegistryLink')
             ->will($this->returnArgument(0));
@@ -114,12 +110,16 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             'Magento\Logging\Model\Event\ChangesFactory', array(), array(), '', false);
         $request = $this->getMock(
             'Magento\App\RequestInterface', array(), array(), '', false);
-
+        $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
+        $escaper->expects($this->any())
+            ->method('escapeHtml')
+            ->will($this->returnArgument(0));
+        $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
+            $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
             $type, $attributeConfig, $item, $inventoryStockItem, $session,
             $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
-            $dateFactory, $loggingEventFactory, $request, $resource, null, array()
+            $dateFactory, $loggingEventFactory, $request, $escaper, $mathRandom, $resource, null, array()
         );
     }
 

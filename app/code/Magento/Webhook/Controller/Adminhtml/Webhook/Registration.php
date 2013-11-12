@@ -44,16 +44,14 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Controller\Context $context
-     * @param string $areaCode
      */
     public function __construct(
         \Magento\Webhook\Model\Webapi\User\Factory $userFactory,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\Controller\Context $context,
-        $areaCode = null
+        \Magento\Backend\Controller\Context $context
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_userFactory = $userFactory;
         $this->_subscriptionService = $subscriptionService;
         $this->_registry = $registry;
@@ -209,7 +207,7 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
         $this->_getSession()->addSuccess(
             __('The subscription \'%1\' has been activated.', $subscriptionData[self::DATA_NAME])
         );
-        $this->_redirect('*/webhook_registration/succeeded',
+        $this->_redirect('adminhtml/webhook_registration/succeeded',
             array(self::PARAM_SUBSCRIPTION_ID => $subscriptionData[self::DATA_SUBSCRIPTION_ID]));
     }
 
@@ -221,6 +219,6 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
     protected function _redirectFailed($errorMessage)
     {
         $this->_getSession()->addError($errorMessage);
-        $this->_redirect('*/webhook_registration/failed');
+        $this->_redirect('adminhtml/webhook_registration/failed');
     }
 }

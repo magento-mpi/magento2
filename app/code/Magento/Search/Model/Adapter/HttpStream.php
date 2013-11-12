@@ -8,16 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Search\Model\Adapter;
+
 /**
  * Solr search engine adapter that perform raw queries to Solr server based on Conduit solr client library
  * and basic solr adapter
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Adapter;
-
 class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     implements \Magento\Search\Model\AdapterInterface
 {
@@ -36,22 +32,23 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     protected $_ctlgInventData;
 
     /**
-     * @param \Magento\Customer\Model\Session                              $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price             $filterPrice
-     * @param \Magento\Search\Model\Resource\Index                         $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext               $resourceFulltext
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
+     * @param \Magento\Search\Model\Resource\Index $resourceIndex
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Core\Model\Logger                                   $logger
-     * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
-     * @param \Magento\Core\Model\CacheInterface                           $cache
-     * @param \Magento\Eav\Model\Config                                    $eavConfig
-     * @param \Magento\Search\Model\Factory\Factory                        $searchFactory
-     * @param \Magento\Search\Helper\ClientInterface                       $clientHelper
-     * @param \Magento\Core\Model\Registry                                 $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface                    $coreStoreConfig
-     * @param \Magento\CatalogInventory\Helper\Data                        $ctlgInventData
-     * @param array                                                       $options
-     *
+     * @param \Magento\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Search\Model\Factory\Factory $searchFactory
+     * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
+     * @param array $options
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -60,14 +57,15 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         array $options = array()
     ) {
@@ -75,7 +73,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         parent::__construct(
             $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
             $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
-            $coreStoreConfig, $options
+            $coreStoreConfig, $dateTime, $options
         );
     }
 

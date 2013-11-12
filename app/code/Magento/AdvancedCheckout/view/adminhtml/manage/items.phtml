@@ -442,10 +442,10 @@
 
         removeItem: function (itemId) {
             if (!itemId) {
-                alert('<?php echo $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('No item specified.')) ?>');
+                alert('<?php echo $this->escapeJsQuote(__('No item specified.')) ?>');
                 return false;
             }
-            if(!confirm('<?php echo $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Are you sure that you want to remove this item?')) ?>')) {
+            if(!confirm('<?php echo $this->escapeJsQuote(__('Are you sure that you want to remove this item?')) ?>')) {
                 return false;
             }
 
@@ -462,7 +462,7 @@ $params = array(
 ?>
     function funcAddItemsListType() {
         productConfigure.addListType('<?php echo $listType ?>', {
-            urlFetch:  '<?php echo $this->getUrl('*/checkout/configureQuoteItems', $params) ?>',
+            urlFetch:  '<?php echo $this->getUrl('checkout/index/configureQuoteItems', $params) ?>',
             urlSubmit: ''
         });
     }

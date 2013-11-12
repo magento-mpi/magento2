@@ -20,20 +20,19 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
+     * @internal param \Magento\Core\Helper\Data $coreHelper
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Core\Model\Config $config,
         \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $resourceName,
@@ -45,7 +44,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
             $context,
             $cache,
             $attrGrCollFactory,
-            $coreHelper,
             $config,
             $resourceName,
             $moduleName,

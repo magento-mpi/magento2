@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
 
-class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
+class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
 {
     /**
      * Constructor
@@ -86,7 +86,7 @@ class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/cmsPageGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/cmsPageGrid', array('_current' => true));
     }
 
     /**
@@ -97,6 +97,6 @@ class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('cms_page' => $row->getId()));
+        return $this->getUrl('adminhtml/*/edit', array('cms_page' => $row->getId()));
     }
 }

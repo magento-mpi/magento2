@@ -146,8 +146,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $coreString = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
-
         $customerFactory = $this->getMock(
             'Magento\Customer\Model\CustomerFactory', array('create'), array(), '', false
         );
@@ -164,7 +162,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getModelInstance('Magento\CustomerBalance\Model\Balance')));
         $rewardFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward')));
-        
+
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
         $adminUser = $this->getMock('stdClass', array('getUsername'));
@@ -178,11 +176,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $coreData,
-            $coreString,
+            new \Magento\Stdlib\String,
             $coreStoreConfig,
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\App\Resource', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
@@ -362,8 +360,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         switch ($modelClass) {
             case 'Magento\CustomerBalance\Model\Balance':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
-                        'getAmount', 'setAmountDelta', 'setComment', 'save'
-                    ), $constructArguments, '', false
+                    'getAmount', 'setAmountDelta', 'setComment', 'save', '__wakeup'
+                ), $constructArguments, '', false
                 );
                 $instance->expects($this->any())
                     ->method('setCustomer')
@@ -389,8 +387,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 break;
             case 'Magento\Reward\Model\Reward':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
-                        'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints'
-                    ), $constructArguments, '', false
+                    'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints', '__wakeup'
+                ), $constructArguments, '', false
                 );
                 $instance->expects($this->any())
                     ->method('setCustomer')

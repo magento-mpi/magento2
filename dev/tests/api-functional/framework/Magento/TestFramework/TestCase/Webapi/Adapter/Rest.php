@@ -9,16 +9,17 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-class Rest
-    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
+use \Magento\Webapi\Model\Config\Converter;
+
+class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
 
-    /** @var \Magento\Oauth\Model\Consumer */
+    /** @var \Magento\Integration\Model\Oauth\Consumer */
     protected static $_consumer;
 
-    /** @var \Magento\Oauth\Model\Token */
+    /** @var \Magento\Integration\Model\Oauth\Token */
     protected static $_token;
 
     /** @var string */
@@ -103,7 +104,7 @@ class Rest
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $serviceData = $services[$serviceInterface];
                 $methodData = $serviceData['methods'][$method];
-                $routePattern = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH] . $methodData['route'];
+                $routePattern = $serviceData[Converter::KEY_BASE_URL] . $methodData[Converter::KEY_METHOD_ROUTE];
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
@@ -139,8 +140,7 @@ class Rest
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
             if (isset($services[$serviceInterface]['methods'][$method])) {
-                $httpMethod
-                    = $services[$serviceInterface]['methods'][$method][\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD];
+                $httpMethod = $services[$serviceInterface]['methods'][$method][Converter::KEY_HTTP_METHOD];
             }
         }
         if (!isset($httpMethod)) {

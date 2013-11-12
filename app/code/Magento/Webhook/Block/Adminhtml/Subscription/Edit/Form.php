@@ -38,7 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Webhook\Model\Source\Authentication $authentication
      * @param \Magento\Webhook\Model\Source\Hook $hook
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -48,7 +48,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Webhook\Model\Source\Authentication $authentication,
         \Magento\Webhook\Model\Source\Hook $hook,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
@@ -76,7 +76,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                  'id'     => 'edit_form',
-                 'action' => $this->getUrl('*/*/save', array('id' => $subscriptionId)),
+                 'action' => $this->getUrl('adminhtml/*/save', array('id' => $subscriptionId)),
                  'method' => 'post',
             ))
         );

@@ -13,7 +13,7 @@
  */
 namespace Magento\Widget\Controller\Adminhtml\Widget;
 
-class Instance extends \Magento\Adminhtml\Controller\Action
+class Instance extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -28,25 +28,33 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
+
+    /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
+     * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Math\Random $mathRandom
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetFactory = $widgetFactory;
         $this->_logger = $logger;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context);
     }
 
@@ -133,7 +141,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     {
         $widgetInstance = $this->_initWidgetInstance();
         if (!$widgetInstance) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
 
@@ -182,7 +190,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     {
         $widgetInstance = $this->_initWidgetInstance();
         if (!$widgetInstance) {
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
             return;
         }
         $widgetInstance->setTitle($this->getRequest()->getPost('title'))
@@ -196,21 +204,21 @@ class Instance extends \Magento\Adminhtml\Controller\Action
                 __('The widget instance has been saved.')
             );
             if ($this->getRequest()->getParam('back', false)) {
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'instance_id' => $widgetInstance->getId(),
                         '_current' => true
                     ));
             } else {
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
             }
             return;
         } catch (\Exception $exception) {
             $this->_getSession()->addError($exception->getMessage());
             $this->_logger->logException($exception);
-            $this->_redirect('*/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', array('_current' => true));
             return;
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
         return;
     }
 
@@ -231,7 +239,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
         return;
     }
 
@@ -244,9 +252,9 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
+            ->createBlock('Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser')
             ->setUseMassaction(true)
-            ->setId($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('categories'))
+            ->setId($this->mathRandom->getUniqueHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -261,8 +269,8 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
-            ->setName($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
+            ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser')
+            ->setName($this->mathRandom->getUniqueHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
@@ -287,6 +295,15 @@ class Instance extends \Magento\Adminhtml\Controller\Action
      *
      */
     public function blocksAction()
+    {
+        $this->_objectManager->get('Magento\App\State')
+            ->emulateAreaCode('frontend', array($this, 'renderPageContainers'));
+    }
+
+    /**
+     * Render page containers
+     */
+    public function renderPageContainers()
     {
         /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = $this->_initWidgetInstance();

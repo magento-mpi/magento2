@@ -21,8 +21,22 @@ namespace Magento\Reward\Model\Resource\Reward;
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\App\Resource $resource
+     */
+    public function __construct(\Magento\Stdlib\DateTime $dateTime, \Magento\App\Resource $resource)
+    {
+        $this->dateTime = $dateTime;
+        parent::__construct($resource);
+    }
+
+    /**
      * Internal constructor
-     *
      */
     protected function _construct()
     {
@@ -212,7 +226,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function expirePoints($websiteId, $expiryType, $limit)
     {
         $adapter = $this->_getWriteAdapter();
-        $now = $this->formatDate(time());
+        $now = $this->dateTime->formatDate(time());
         $field = $expiryType == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
 
         $select = $adapter->select()

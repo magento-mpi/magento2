@@ -28,7 +28,7 @@ class Form
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
@@ -37,7 +37,7 @@ class Form
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
@@ -68,10 +68,10 @@ class Form
     {
         $editMode = $this->_coreRegistry->registry('edit_mode');
         if ($editMode == 'edit') {
-            $saveUrl = $this->getUrl('*/*/save');
+            $saveUrl = $this->getUrl('adminhtml/*/save');
             $showNew = false;
         } else {
-            $saveUrl = $this->getUrl('*/*/create');
+            $saveUrl = $this->getUrl('adminhtml/*/create');
             $showNew = true;
         }
         /** @var \Magento\Data\Form $form */

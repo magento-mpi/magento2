@@ -51,17 +51,25 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_archivalList;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\SalesArchive\Model\Config $salesArchiveConfig,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\SalesArchive\Model\ArchivalList $archivalList
+        \Magento\App\Resource $resource,
+        \Magento\SalesArchive\Model\ArchivalList $archivalList,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_salesArchiveConfig = $salesArchiveConfig;
         $this->_archivalList = $archivalList;
+        $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
 
@@ -176,7 +184,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->where('status IN(?)', $statuses);
 
         if ($archiveAge) { // Check archive age
-            $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(true)),
+            $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->dateTime->formatDate(true)),
                 (int) $archiveAge,
                 \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
@@ -293,7 +301,9 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
         $updatedAtIndex = array_search('updated_at', $selectFields);
         if ($updatedAtIndex !== false) {
             unset($selectFields[$updatedAtIndex]);
-            $selectFields['updated_at'] = new \Zend_Db_Expr($adapter->quoteInto('?', $this->formatDate(true)));
+            $selectFields['updated_at'] = new \Zend_Db_Expr(
+                $adapter->quoteInto('?', $this->dateTime->formatDate(true))
+            );
         }
 
         $select = $adapter->select()

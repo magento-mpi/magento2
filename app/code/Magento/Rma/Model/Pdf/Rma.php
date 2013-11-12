@@ -47,21 +47,18 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
-     * @param \Magento\Rma\Helper\Eav $rmaEav
-     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\App\Dir $dirs
+     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
-     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -69,16 +66,18 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Rma\Helper\Eav $rmaEav,
-        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\App\Dir $dirs,
+        \Magento\App\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
-        \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
@@ -87,8 +86,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_rmaData = $rmaData;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
-            $totalFactory);
+        parent::__construct($paymentData, $coreData, $string, $coreStoreConfig, $translate, $coreDir, $shippingConfig,
+            $pdfConfig, $pdfTotalFactory, $pdfItemsFactory, $data);
     }
 
     /**
@@ -337,22 +336,22 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     protected function _drawRmaItem($item, $page)
     {
-        $productName = $this->_coreString->strSplit($item->getProductName(), 60, true, true);
+        $productName = $this->string->split($item->getProductName(), 60, true, true);
         $productName = isset($productName[0]) ? $productName[0] : '';
 
         $page->drawText($productName, $this->getProductNameX(), $this->y, 'UTF-8');
 
-        $productSku = $this->_coreString->strSplit($item->getProductSku(), 25);
+        $productSku = $this->string->split($item->getProductSku(), 25);
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
         $page->drawText($productSku, $this->getProductSkuX(), $this->y, 'UTF-8');
 
-        $condition = $this->_coreString->strSplit(
+        $condition = $this->string->split(
             $this->_getOptionAttributeStringValue($item->getCondition()),
             25
         );
         $page->drawText($condition[0], $this->getConditionX(), $this->y, 'UTF-8');
 
-        $resolution = $this->_coreString->strSplit(
+        $resolution = $this->string->split(
             $this->_getOptionAttributeStringValue($item->getResolution()),
             25
         );
@@ -371,7 +370,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             'UTF-8'
         );
 
-        $status = $this->_coreString->strSplit($item->getStatusLabel(), 25);
+        $status = $this->string->split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(), $this->y, 'UTF-8');
 
         $productOptions = $item->getOptions();
@@ -395,7 +394,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->y -= 8;
             $optionRowString = $value['label'] . ': ' .
                 (isset($value['print_value']) ? $value['print_value'] : $value['value']);
-            $productOptions = $this->_coreString->strSplit($optionRowString, 60, true, true);
+            $productOptions = $this->string->split($optionRowString, 60, true, true);
             $productOptions = isset($productOptions[0]) ? $productOptions[0] : '';
             $page->drawText($productOptions, $this->getProductNameX(), $this->y, 'UTF-8');
         }
