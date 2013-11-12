@@ -13,6 +13,8 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class View extends \Magento\App\Action\Action
 {
     /**
@@ -36,14 +38,14 @@ class View extends \Magento\App\Action\Action
 
     /**
      * Check if gift registry is enabled on current store before all other actions
+     *
+     * @throws NotFoundException
      */
     public function preDispatch()
     {
         parent::preDispatch();
         if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+            throw new NotFoundException();
         }
     }
 

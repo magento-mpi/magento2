@@ -79,7 +79,7 @@ class AbstractInvoice
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
             $this->_forward('view', 'order_invoice', null, array('come_from'=>'invoice'));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -117,7 +117,7 @@ class AbstractInvoice
                 return $this->_fileFactory->create('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

@@ -67,7 +67,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
             $this->_forward('view', 'order_shipment', null, array('come_from'=>'shipment'));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -104,7 +104,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
                 $this->_fileFactory->create('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

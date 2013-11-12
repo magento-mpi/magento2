@@ -38,7 +38,7 @@ class Guest extends \Magento\App\Action\Action
     {
         if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled()
             || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
         $this->loadLayout();
@@ -97,7 +97,7 @@ class Guest extends \Magento\App\Action\Action
         }
 
         if (!$entityId) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
         /** @var $rma \Magento\Rma\Model\Rma */

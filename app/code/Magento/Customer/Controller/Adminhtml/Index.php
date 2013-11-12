@@ -9,6 +9,8 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
+use Magento\App\Action\NotFoundException;
+
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -820,6 +822,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer view file action
+     *
+     * @throws NotFoundException
      */
     public function viewfileAction()
     {
@@ -835,7 +839,7 @@ class Index extends \Magento\Backend\App\Action
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         $path = $this->_objectManager->get('Magento\App\Dir')->getDir('media') . DS . 'customer';
@@ -848,7 +852,7 @@ class Index extends \Magento\Backend\App\Action
             && !$this->_objectManager->get('Magento\Core\Helper\File\Storage')
                 ->processStorageFile(str_replace('/', DS, $fileName))
         ) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         if ($plain) {

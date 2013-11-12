@@ -13,6 +13,8 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
+use Magento\App\Action\NotFoundException;
+
 class Index extends \Magento\Backend\App\AbstractAction
 {
     /**

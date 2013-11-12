@@ -17,6 +17,8 @@
  */
 namespace Magento\Contacts\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Index extends \Magento\App\Action\Action
 {
     const XML_PATH_EMAIL_RECIPIENT  = 'contacts/email/recipient_email';
@@ -32,7 +34,7 @@ class Index extends \Magento\App\Action\Action
         parent::preDispatch();
 
         if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
-            $this->norouteAction();
+            throw new NotFoundException();
         }
     }
 

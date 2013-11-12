@@ -333,7 +333,7 @@ class Product extends \Magento\App\Action\Action
 
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

@@ -451,20 +451,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     * No route action
-     *
-     * @param null $coreRoute
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function norouteAction($coreRoute = null)
-    {
-        $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
-        $this->getResponse()->setHeader('Status', '404 File not found');
-        $this->loadLayout(array('default', 'adminhtml_noroute'));
-        $this->renderLayout();
-    }
-
-    /**
      * Set referrer url for redirect in response
      *
      * Is overridden here to set defaultUrl to admin url

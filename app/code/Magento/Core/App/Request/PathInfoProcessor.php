@@ -41,7 +41,7 @@ class PathInfoProcessor implements \Magento\App\Request\PathInfoProcessorInterfa
                 $pathInfo = '/' . (isset($pathParts[1]) ? $pathParts[1] : '');
                 return $pathInfo;
             } elseif (!empty($storeCode)) {
-                $request->setActionName('noRoute');
+                $request->setActionName('noroute');
                 return $pathInfo;
             }
             return $pathInfo;

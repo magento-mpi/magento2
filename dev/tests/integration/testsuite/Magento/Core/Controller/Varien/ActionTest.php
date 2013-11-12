@@ -246,7 +246,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($request->isDispatched());
         $this->assertEquals('cms', $request->getModuleName());
         $this->assertEquals('index', $request->getControllerName());
-        $this->assertEquals('noRoute', $request->getActionName());
+        $this->assertEquals('noroute', $request->getActionName());
     }
 
     public function testGetActionMethodName()

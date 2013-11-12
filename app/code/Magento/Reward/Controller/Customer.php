@@ -17,6 +17,8 @@
  */
 namespace Magento\Reward\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Customer extends \Magento\App\Action\Action
 {
     /**
@@ -42,6 +44,8 @@ class Customer extends \Magento\App\Action\Action
      * Predispatch
      * Check is customer authenticate
      * Check is RP enabled on frontend
+     *
+     * @throws NotFoundException
      */
     public function preDispatch()
     {
@@ -50,8 +54,7 @@ class Customer extends \Magento\App\Action\Action
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            throw new NotFoundException();
         }
     }
 

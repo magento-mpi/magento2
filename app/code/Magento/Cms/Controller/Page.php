@@ -29,7 +29,7 @@ class Page extends \Magento\App\Action\Action
         $pageId = $this->getRequest()
             ->getParam('page_id', $this->getRequest()->getParam('id', false));
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 }

@@ -173,7 +173,7 @@ class Category extends \Magento\App\Action\Action
             $this->getLayout()->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 }

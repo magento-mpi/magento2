@@ -196,7 +196,7 @@ class Creditmemo
             $this->_setActiveMenu('Magento_Sales::sales_creditmemo')
                 ->renderLayout();
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -231,7 +231,7 @@ class Creditmemo
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -317,7 +317,7 @@ class Creditmemo
                 $this->_redirect('sales/order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
             } else {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
@@ -348,7 +348,7 @@ class Creditmemo
             }
             $this->_redirect('sales/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -370,7 +370,7 @@ class Creditmemo
             }
             $this->_redirect('sales/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

@@ -83,7 +83,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
             $orderId = (int) $this->getRequest()->getParam('order_id');
         }
         if (!$orderId) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
 

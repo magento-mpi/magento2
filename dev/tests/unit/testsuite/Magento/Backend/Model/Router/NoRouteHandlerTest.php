@@ -57,7 +57,7 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock
             ->expects($this->once())
             ->method('setActionName')
-            ->with('noRoute')
+            ->with('noroute')
             ->will($this->returnValue($this->_requestMock));
 
         $this->assertEquals(true, $this->_model->process($this->_requestMock));

@@ -37,7 +37,7 @@ class Cart extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_forward('noRoute');
+        $this->_forward('noroute');
     }
 
     /**
@@ -90,7 +90,7 @@ class Cart extends \Magento\App\Action\Action
             }
             $this->_redirect('checkout/cart');
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

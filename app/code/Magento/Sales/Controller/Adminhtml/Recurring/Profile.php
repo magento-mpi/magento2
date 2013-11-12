@@ -15,6 +15,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Recurring;
 
+use Magento\App\Action\NotFoundException;
+
 class Profile extends \Magento\Backend\App\Action
 {
     /**
@@ -87,6 +89,8 @@ class Profile extends \Magento\Backend\App\Action
 
     /**
      * Profile orders ajax grid
+     *
+     * @throws NotFoundException
      */
     public function ordersAction()
     {
@@ -95,7 +99,7 @@ class Profile extends \Magento\Backend\App\Action
             $this->loadLayout()->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->norouteAction();
+            throw new NotFoundException();
         }
     }
 

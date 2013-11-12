@@ -10,6 +10,8 @@
 
 namespace Magento\Rss\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Index extends \Magento\App\Action\Action
 {
     /**
@@ -45,6 +47,8 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @throws NotFoundException
      */
     public function indexAction()
     {
@@ -52,7 +56,7 @@ class Index extends \Magento\App\Action\Action
             $this->loadLayout();
             $this->renderLayout();
         } else {
-            $this->norouteAction();
+            throw new NotFoundException();
         }
     }
 

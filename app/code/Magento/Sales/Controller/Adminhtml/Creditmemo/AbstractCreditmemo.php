@@ -66,7 +66,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
             $this->_forward('view', 'order_creditmemo', null, array('come_from' => 'sales_creditmemo'));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -130,7 +130,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

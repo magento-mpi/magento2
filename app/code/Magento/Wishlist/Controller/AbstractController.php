@@ -61,7 +61,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
     {
         $wishlist   = $this->_getWishlist();
         if (!$wishlist) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return ;
         }
         $isOwner    = $wishlist->isOwner($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId());

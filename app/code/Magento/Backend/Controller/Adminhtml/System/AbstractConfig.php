@@ -13,6 +13,8 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
+use Magento\App\Action\NotFoundException;
+
 abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
 {
     /**
@@ -70,6 +72,7 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
      * @param string $sectionId
      * @throws \Exception
      * @return bool
+     * @throws NotFoundException
      */
     protected function _isSectionAllowed($sectionId)
     {
@@ -79,9 +82,7 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
             }
             return true;
         } catch (\Zend_Acl_Exception $e) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return false;
+            throw new NotFoundException();
         } catch (\Exception $e) {
             $this->deniedAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);

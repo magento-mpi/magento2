@@ -13,6 +13,8 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Index extends \Magento\App\Action\Action
 {
     /**
@@ -39,14 +41,13 @@ class Index extends \Magento\App\Action\Action
      * this function checks if user is logged in before all other actions
      *
      * @return \Magento\GiftRegistry\Controller\Index
+     * @throws NotFoundException
      */
     public function preDispatch()
     {
         parent::preDispatch();
         if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
+            throw new NotFoundException();
         }
 
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {

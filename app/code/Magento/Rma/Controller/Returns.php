@@ -52,7 +52,7 @@ class Returns extends \Magento\App\Action\Action
     public function historyAction()
     {
         if (!$this->_isEnabledOnFront()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
 
@@ -176,7 +176,7 @@ class Returns extends \Magento\App\Action\Action
             $entityId = (int) $this->getRequest()->getParam('entity_id');
         }
         if (!$entityId || !$this->_isEnabledOnFront()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
 
@@ -245,7 +245,7 @@ class Returns extends \Magento\App\Action\Action
         $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
 
         if (!$orderId || !$this->_isEnabledOnFront()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
 

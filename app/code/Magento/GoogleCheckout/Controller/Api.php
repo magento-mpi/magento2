@@ -16,7 +16,7 @@ class Api extends \Magento\App\Action\Action
     {
         $res = $this->_objectManager->create('Magento\GoogleCheckout\Model\Api')->processCallback();
         if ($res === false) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         } else {
             exit;
         }

@@ -10,6 +10,8 @@
 
 namespace Magento\Rma\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Tracking extends \Magento\App\Action\Action
 {
 
@@ -45,6 +47,7 @@ class Tracking extends \Magento\App\Action\Action
      * Shows tracking info if it's present, otherwise redirects to 404
      *
      * @return null
+     * @throws NotFoundException
      */
     public function popupAction()
     {
@@ -54,8 +57,7 @@ class Tracking extends \Magento\App\Action\Action
 
         $this->_coreRegistry->register('rma_current_shipping', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
-            $this->norouteAction();
-            return;
+            throw new NotFoundException();
         }
         $this->loadLayout();
         $headBlock = $this->getLayout()->getBlock('head');
@@ -70,6 +72,7 @@ class Tracking extends \Magento\App\Action\Action
      * Shows package info if it's present, otherwise redirects to 404
      *
      * @return null
+     * @throws NotFoundException
      */
     public function packageAction()
     {
@@ -79,8 +82,7 @@ class Tracking extends \Magento\App\Action\Action
 
         $this->_coreRegistry->register('rma_package_shipping', $shippingInfoModel);
         if (!$shippingInfoModel->getPackages()) {
-            $this->norouteAction();
-            return;
+            throw new NotFoundException();
         }
         $this->loadLayout();
         $this->renderLayout();
@@ -124,7 +126,7 @@ class Tracking extends \Magento\App\Action\Action
         }
 
         if (!$entityId) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
 
@@ -141,6 +143,8 @@ class Tracking extends \Magento\App\Action\Action
 
     /**
      * Print label for one specific shipment
+     *
+     * @throws NotFoundException
      */
     public function printLabelAction()
     {
@@ -188,8 +192,7 @@ class Tracking extends \Magento\App\Action\Action
             $this->_getSession()
                 ->addError(__('Something went wrong creating a shipping label.'));
         }
-        $this->norouteAction();
-        return;
+        throw new NotFoundException();
     }
 
     /**

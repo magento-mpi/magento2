@@ -186,7 +186,7 @@ class StoreManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception('test')));
 
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue('current'));
-        $this->_requestMock->expects($this->once())->method('setActionName')->with('noRoute');
+        $this->_requestMock->expects($this->once())->method('setActionName')->with('noroute');
 
         $this->assertInstanceOf('Magento\Object', $this->_model->getSafeStore(10));
     }

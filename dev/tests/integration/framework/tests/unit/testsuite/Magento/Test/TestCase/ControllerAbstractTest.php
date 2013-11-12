@@ -78,7 +78,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
      */
     public function testAssert404NotFound()
     {
-        $this->getRequest()->setActionName('noRoute');
+        $this->getRequest()->setActionName('noroute');
         $this->getResponse()->setBody(
             '404 Not Found test <h3>We are sorry, but the page you are looking for cannot be found.</h3>'
         );

@@ -18,6 +18,8 @@
 
 namespace Magento\Shipping\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Tracking extends \Magento\App\Action\Action
 {
     /**
@@ -86,14 +88,15 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Popup action
      * Shows tracking info if it's present, otherwise redirects to 404
+     *
+     * @throws NotFoundException
      */
     public function popupAction()
     {
         $shippingInfoModel = $this->_shippingInfoFactory->create()->loadByHash($this->getRequest()->getParam('hash'));
         $this->_coreRegistry->register('current_shipping_info', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
-            $this->norouteAction();
-            return;
+            throw new NotFoundException();
         }
         $this->loadLayout();
         $this->renderLayout();

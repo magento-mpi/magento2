@@ -366,9 +366,8 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Dispatch action
-     *
      * @param string $action
+     * @throws NotFoundException
      */
     public function dispatch($action)   // Leave
     {
@@ -376,7 +375,7 @@ class Action extends \Magento\App\Action\AbstractAction
         try {
             $actionMethodName = $this->getActionMethodName($action);
             if (!method_exists($this, $actionMethodName)) {
-                $actionMethodName = 'norouteAction';
+                throw new NotFoundException();
             }
 
             $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
@@ -412,6 +411,8 @@ class Action extends \Magento\App\Action\AbstractAction
             }
 
             \Magento\Profiler::stop($profilerKey);
+        } catch (NotFoundException $e) {
+            return $this->_forward('noroute');
         } catch (\Magento\App\Action\Exception $e) {
             // set prepared flags
             foreach ($e->getResultFlags() as $flagData) {
@@ -482,35 +483,6 @@ class Action extends \Magento\App\Action\AbstractAction
             array('controller_action' => $this));
     }
 
-    /**
-     * No route action
-     *
-     * @param null $coreRoute
-     */
-    public function norouteAction($coreRoute = null) // Extract
-    {
-        $status = $this->getRequest()->getParam('__status__');
-        if (!$status instanceof \Magento\Object) {
-            $status = new \Magento\Object();
-        }
-
-        $this->_eventManager->dispatch('controller_action_noroute', array('action' => $this, 'status' => $status));
-
-        if ($status->getLoaded() !== true
-            || $status->getForwarded() === true
-            || !is_null($coreRoute)
-        ) {
-            $this->loadLayout(array('default', 'noRoute'));
-            $this->renderLayout();
-        } else {
-            $status->setForwarded(true);
-            $this->_forward(
-                $status->getForwardAction(),
-                $status->getForwardController(),
-                $status->getForwardModule(),
-                array('__status__' => $status));
-        }
-    }
 
     /**
      * Throw control to different action (control and module if was specified).

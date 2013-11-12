@@ -10,6 +10,8 @@
 
 namespace Magento\Checkout\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Onepage extends \Magento\Checkout\Controller\Action
 {
     /**
@@ -62,9 +64,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         }
 
         if (!$this->_canShowForUnregisteredUsers()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return null;
+            throw new NotFoundException();
         }
 
         return $this;

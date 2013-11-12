@@ -10,6 +10,7 @@
 
 namespace Magento\Rma\Controller\Adminhtml;
 
+use Magento\App\Action\NotFoundException;
 use Magento\Backend\App\Action;
 
 class Rma extends \Magento\Backend\App\Action
@@ -606,7 +607,7 @@ class Rma extends \Magento\Backend\App\Action
                 );
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -809,7 +810,9 @@ class Rma extends \Magento\Backend\App\Action
     }
 
     /**
-     * Action for view full sized item atttribute image
+     * Action for view full sized item attribute image
+     *
+     * @throws NotFoundException
      */
     public function viewfileAction()
     {
@@ -825,7 +828,7 @@ class Rma extends \Magento\Backend\App\Action
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         /** @var $dirModel \Magento\App\Dir */
         $dirModel = $this->_objectManager->get('Magento\App\Dir');
@@ -837,7 +840,7 @@ class Rma extends \Magento\Backend\App\Action
         $path       = $ioFile->getCleanPath($path);
 
         if (!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         if ($plain) {
@@ -1078,7 +1081,7 @@ class Rma extends \Magento\Backend\App\Action
                 }
                 $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             } else {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
@@ -1277,7 +1280,7 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
         else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

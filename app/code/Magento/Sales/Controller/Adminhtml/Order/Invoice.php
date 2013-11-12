@@ -160,7 +160,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->renderLayout();
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -341,7 +341,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
             $this->_redirect('sales/*/view', array('invoice_id'=>$invoice->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -363,7 +363,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
             $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -385,7 +385,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
             $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

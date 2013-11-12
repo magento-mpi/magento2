@@ -335,7 +335,7 @@ class Create extends \Magento\Backend\App\Action
         $orderId = $this->getRequest()->getParam('order_id');
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         if (!$this->_objectManager->get('Magento\Sales\Helper\Reorder')->canReorder($order)) {
-            return $this->_forward('noRoute');
+            return $this->_forward('noroute');
         }
 
         if ($order->getId()) {

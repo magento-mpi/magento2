@@ -115,7 +115,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
             return $this->getStore($storeId);
         } catch (\Exception $e) {
             if ($this->_getStorage()->getCurrentStore()) {
-                $this->_request->setActionName('noRoute');
+                $this->_request->setActionName('noroute');
                 return new \Magento\Object();
             }
 

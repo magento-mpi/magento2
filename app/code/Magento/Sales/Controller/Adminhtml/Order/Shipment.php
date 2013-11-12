@@ -150,7 +150,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $this->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -203,7 +203,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         try {
             $shipment = $this->_initShipment();
             if (!$shipment) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
 
@@ -599,7 +599,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 'application/pdf'
             );
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

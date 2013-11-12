@@ -17,6 +17,8 @@
  */
 namespace Magento\Sendfriend\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Product extends \Magento\App\Action\Action
 {
     /**
@@ -43,6 +45,7 @@ class Product extends \Magento\App\Action\Action
      * If allow only for customer - redirect to login page
      *
      * @return \Magento\Sendfriend\Controller\Product
+     * @throws NotFoundException
      */
     public function preDispatch()
     {
@@ -54,8 +57,7 @@ class Product extends \Magento\App\Action\Action
         $session = $this->_objectManager->get('Magento\Customer\Model\Session');
 
         if (!$helper->isEnabled()) {
-            $this->norouteAction();
-            return $this;
+            throw new NotFoundException();
         }
 
         if (!$helper->isAllowForGuest() && !$session->authenticate($this)) {
@@ -132,7 +134,7 @@ class Product extends \Magento\App\Action\Action
         $model      = $this->_initSendToFriendModel();
 
         if (!$product) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
         /* @var $session \Magento\Catalog\Model\Session */
@@ -175,7 +177,7 @@ class Product extends \Magento\App\Action\Action
         $data       = $this->getRequest()->getPost();
 
         if (!$product || !$data) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
 

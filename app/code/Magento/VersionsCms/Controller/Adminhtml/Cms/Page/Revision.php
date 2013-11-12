@@ -250,7 +250,7 @@ class Revision
         // check if data sent
         $data = $this->getRequest()->getPost();
         if (empty($data) || !isset($data['page_id'])) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return $this;
         }
 
@@ -311,7 +311,7 @@ class Revision
             // init model and set data
             $page = $this->_cmsPage->load($data['page_id']);
             if (!$page->getId()) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return $this;
             }
 
@@ -379,7 +379,7 @@ class Revision
             $this->_locale->revert();
 
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

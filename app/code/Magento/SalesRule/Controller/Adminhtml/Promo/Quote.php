@@ -344,7 +344,7 @@ class Quote extends \Magento\Backend\App\Action
         $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
 
         $codesIds = $this->getRequest()->getParam('ids');
@@ -366,7 +366,7 @@ class Quote extends \Magento\Backend\App\Action
     public function generateAction()
     {
         if (!$this->getRequest()->isAjax()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
         $result = array();

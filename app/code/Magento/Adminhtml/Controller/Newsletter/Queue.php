@@ -77,7 +77,7 @@ class Queue extends \Magento\Backend\App\Action
         $this->loadLayout();
         $data = $this->getRequest()->getParams();
         if (empty($data) || !isset($data['id'])) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return $this;
         }
 

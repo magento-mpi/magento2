@@ -9,6 +9,7 @@
  */
 
 namespace Magento\MultipleWishlist\Controller;
+use Magento\App\Action\NotFoundException;
 
 /**
  * Multiple wishlist frontend search controller
@@ -159,13 +160,13 @@ class Search extends \Magento\App\Action\Action
      * Check if multiple wishlist is enabled on current store before all other actions
      *
      * @return \Magento\MultipleWishlist\Controller\Search
+     * @throws NotFoundException
      */
     public function preDispatch()
     {
         parent::preDispatch();
         if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            throw new NotFoundException();
         }
         return $this;
     }
@@ -235,19 +236,21 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * View customer wishlist
+     *
+     * @throws NotFoundException
      */
     public function viewAction()
     {
         $wishlistId = $this->getRequest()->getParam('wishlist_id');
         if (!$wishlistId) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId())) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
         $this->loadLayout();

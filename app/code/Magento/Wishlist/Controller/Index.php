@@ -18,6 +18,8 @@
  */
 namespace Magento\Wishlist\Controller;
 
+use Magento\App\Action\NotFoundException;
+
 class Index
     extends \Magento\Wishlist\Controller\AbstractController
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
@@ -87,8 +89,7 @@ class Index
             $customerSession->setBeforeWishlistRequest($this->getRequest()->getParams());
         }
         if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag('wishlist/general/active')) {
-            $this->norouteAction();
-            return;
+            throw new NotFoundException();
         }
     }
 
@@ -151,11 +152,13 @@ class Index
 
     /**
      * Display customer wishlist
+     *
+     * @throws NotFoundException
      */
     public function indexAction()
     {
         if (!$this->_getWishlist()) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $this->loadLayout();
 
@@ -182,12 +185,14 @@ class Index
 
     /**
      * Adding new item
+     *
+     * @throws NotFoundException
      */
     public function addAction()
     {
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         $session = $this->_objectManager->get('Magento\Customer\Model\Session');
@@ -258,6 +263,8 @@ class Index
 
     /**
      * Action to reconfigure wishlist item
+     *
+     * @throws NotFoundException
      */
     public function configureAction()
     {
@@ -271,7 +278,7 @@ class Index
             }
             $wishlist = $this->_getWishlist($item->getWishlistId());
             if (!$wishlist) {
-                return $this->norouteAction();
+                throw new NotFoundException();
             }
 
             $this->_coreRegistry->register('wishlist_item', $item);
@@ -358,6 +365,8 @@ class Index
 
     /**
      * Update wishlist item comments
+     *
+     * @throws NotFoundException
      */
     public function updateAction()
     {
@@ -366,7 +375,7 @@ class Index
         }
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         $post = $this->getRequest()->getPost();
@@ -445,17 +454,19 @@ class Index
 
     /**
      * Remove item
+     *
+     * @throws NotFoundException
      */
     public function removeAction()
     {
         $id = (int) $this->getRequest()->getParam('item');
         $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($id);
         if (!$item->getId()) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $wishlist = $this->_getWishlist($item->getWishlistId());
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         try {
             $item->delete();
@@ -559,12 +570,14 @@ class Index
 
     /**
      * Add cart item to wishlist and remove from cart
+     *
+     * @throws NotFoundException
      */
     public function fromcartAction()
     {
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $itemId = (int) $this->getRequest()->getParam('item');
 
@@ -619,6 +632,7 @@ class Index
      * Share wishlist
      *
      * @return \Magento\App\Action\Action|void
+     * @throws NotFoundException
      */
     public function sendAction()
     {
@@ -628,7 +642,7 @@ class Index
 
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         $sharingLimit = $this->_wishlistConfig->getSharingEmailLimit();
@@ -741,14 +755,14 @@ class Index
             ->load($this->getRequest()->getParam('id'));
 
         if (!$option->getId()) {
-            return $this->_forward('noRoute');
+            return $this->_forward('noroute');
         }
 
         $optionId = null;
         if (strpos($option->getCode(), \Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX) === 0) {
             $optionId = str_replace(\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX, '', $option->getCode());
             if ((int)$optionId != $optionId) {
-                return $this->_forward('noRoute');
+                return $this->_forward('noroute');
             }
         }
         $productOption = $this->_objectManager->create('Magento\Catalog\Model\Product\Option')->load($optionId);
@@ -758,7 +772,7 @@ class Index
             || $productOption->getProductId() != $option->getProductId()
             || $productOption->getType() != 'file'
         ) {
-            return $this->_forward('noRoute');
+            return $this->_forward('noroute');
         }
 
         try {
@@ -774,7 +788,7 @@ class Index
             }
 
         } catch(\Exception $e) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
         exit(0);
     }
