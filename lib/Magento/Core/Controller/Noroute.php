@@ -1,19 +1,22 @@
 <?php
 /**
+ * Noroute application handler.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Action;
+namespace Magento\Core\Controller;
+
+use Magento\App\Action\Action;
 
 class Noroute extends Action
 {
     /**
-     * @param string $action
+     * Noroute application handler
      */
-    public function dispatch($action)
+    public function indexAction()
     {
         $status = $this->getRequest()->getParam('__status__');
         if (!$status instanceof \Magento\Object) {
