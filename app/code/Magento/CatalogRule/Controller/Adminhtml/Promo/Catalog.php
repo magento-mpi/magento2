@@ -39,19 +39,27 @@ class Catalog extends \Magento\Backend\App\Action
      */
     protected $_title;
 
+    /*
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
+        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_title = $title;
-        parent::__construct($context);
+        $this->_dateFilter = $dateFilter;
     }
 
     protected function _initAction()
@@ -133,7 +141,9 @@ class Catalog extends \Magento\Backend\App\Action
                     array('request' => $this->getRequest())
                 );
                 $data = $this->getRequest()->getPost();
-                $data = $this->_filterDates($data, array('from_date', 'to_date'));
+                $inputFilter = new \Zend_Filter_Input(
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                $data = $inputFilter->getUnescaped();
                 $id = $this->getRequest()->getParam('rule_id');
                 if ($id) {
                     $model->load($id);

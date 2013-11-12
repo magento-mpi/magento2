@@ -959,18 +959,6 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * Filtering posted data. Converting localized data if needed
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        $data = $this->_filterDates($data, array('dob'));
-        return $data;
-    }
-
-    /**
      * Check whether VAT ID validation is enabled
      *
      * @param \Magento\Core\Model\Store|string|int $store

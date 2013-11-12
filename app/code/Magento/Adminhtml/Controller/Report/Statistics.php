@@ -32,16 +32,23 @@ class Statistics extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Action\Title $title
-    )
-    {
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
+    ) {
         parent::__construct($context);
         $this->_title = $title;
+        $this->_dateFilter = $dateFilter;
     }
 
     public function _initAction()
@@ -60,7 +67,9 @@ class Statistics extends \Magento\Backend\App\Action
 
         $requestData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
             ->prepareFilterString($this->getRequest()->getParam('filter'));
-        $requestData = $this->_filterDates($requestData, array('from', 'to'));
+        $inputFilter = new \Zend_Filter_Input(array('from' => $this->_dateFilter, 'to' => $this->_dateFilter),
+            array(), $requestData);
+        $requestData = $inputFilter->getUnescaped();
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new \Magento\Object();
 

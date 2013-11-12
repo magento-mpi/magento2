@@ -33,18 +33,27 @@ class Page extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
+
+        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_title = $title;
-        parent::__construct($context);
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -250,7 +259,9 @@ class Page extends \Magento\Backend\App\Action
      */
     protected function _filterPostData($data)
     {
-        $data = $this->_filterDates($data, array('custom_theme_from', 'custom_theme_to'));
+        $inputFilter = new \Zend_Filter_Input(
+            array('custom_theme_from' => $this->_dateFilter, 'custom_theme_to' => $this->_dateFilter), array(), $data);
+        $data = $inputFilter->getUnescaped();
         return $data;
     }
 

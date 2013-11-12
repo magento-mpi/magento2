@@ -907,16 +907,4 @@ class Index extends \Magento\Backend\App\Action
     {
         return $this->_authorization->isAllowed('Magento_Customer::manage');
     }
-
-    /**
-     * Filtering posted data. Converting localized data if needed
-     *
-     * @param array
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        $data['account'] = $this->_filterDates($data['account'], array('dob'));
-        return $data;
-    }
 }

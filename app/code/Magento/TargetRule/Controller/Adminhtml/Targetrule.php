@@ -28,18 +28,26 @@ class Targetrule extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_title = $title;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -148,7 +156,9 @@ class Targetrule extends \Magento\Backend\App\Action
             $hasError       = false;
 
             try {
-                $data = $this->_filterDates($data, array('from_date', 'to_date'));
+                $inputFilter = new \Zend_Filter_Input(
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                $data = $inputFilter->getUnescaped();
                 $ruleId = $this->getRequest()->getParam('rule_id');
                 if ($ruleId) {
                     $model->load($ruleId);

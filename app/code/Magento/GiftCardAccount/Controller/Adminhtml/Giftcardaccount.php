@@ -34,18 +34,26 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
+        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
-        parent::__construct($context);
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -366,9 +374,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     protected function _filterPostData($data)
     {
-        $data = $this->_filterDates($data, array('date_expires'));
-
-        return $data;
+        $inputFilter = new \Zend_Filter_Input(array('date_expires' => $this->_dateFilter), array(), $data);
+        return $inputFilter->getUnescaped();
     }
 
     /**

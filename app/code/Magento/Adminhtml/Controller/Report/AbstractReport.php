@@ -26,15 +26,23 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
+        $this->_fileFactory = $fileFactory;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -83,7 +91,9 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
 
         $requestData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
             ->prepareFilterString($this->getRequest()->getParam('filter'));
-        $requestData = $this->_filterDates($requestData, array('from', 'to'));
+        $inputFilter = new \Zend_Filter_Input(array('from' => $this->_dateFilter, 'to' => $this->_dateFilter),
+            array(), $requestData);
+        $requestData = $inputFilter->getUnescaped();
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new \Magento\Object();
 

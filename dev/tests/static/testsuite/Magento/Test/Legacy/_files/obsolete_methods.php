@@ -923,4 +923,7 @@ return array(
     array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
     array('formatDate', 'Magento\Core\Model\Resource\AbstractResource', '\Magento\Stdlib\DateTime::formatDate'),
     array('mktime', 'Magento\Core\Model\Resource\AbstractResource', '\Magento\Stdlib\DateTime::toTimestamp'),
+    array('_filterPostData', '\Magento\Checkout\Controller\Onepage'),
+    array('_filterPostData', '\Magento\Customer\Controller\Account'),
+    array('_filterPostData', '\Magento\Customer\Controller\Adminhtml\Index'),
 );

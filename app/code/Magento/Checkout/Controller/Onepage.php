@@ -606,18 +606,6 @@ class Onepage extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * Filtering posted data. Converting localized data if needed
-     *
-     * @param array
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        $data = $this->_filterDates($data, array('dob'));
-        return $data;
-    }
-
-    /**
      * Check can page show for unregistered users
      *
      * @return boolean

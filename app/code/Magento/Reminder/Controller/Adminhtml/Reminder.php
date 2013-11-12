@@ -42,24 +42,32 @@ class Reminder extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
         \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
         $this->_ruleFactory = $ruleFactory;
         $this->_conditionFactory = $conditionFactory;
         $this->_title = $title;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -197,7 +205,9 @@ class Reminder extends \Magento\Backend\App\Action
 
                 $model = $this->_initRule('rule_id');
 
-                $data = $this->_filterDates($data, array('from_date', 'to_date'));
+                $inputFilter = new \Zend_Filter_Input(
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                $data = $inputFilter->getUnescaped();
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {

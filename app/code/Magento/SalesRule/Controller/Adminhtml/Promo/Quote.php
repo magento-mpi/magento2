@@ -25,18 +25,26 @@ class Quote extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
+        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
-        parent::__construct($context);
+        $this->_dateFilter = $dateFilter;
     }
 
     protected function _initRule()
@@ -133,7 +141,9 @@ class Quote extends \Magento\Backend\App\Action
                     'adminhtml_controller_salesrule_prepare_save',
                     array('request' => $this->getRequest()));
                 $data = $this->getRequest()->getPost();
-                $data = $this->_filterDates($data, array('from_date', 'to_date'));
+                $inputFilter = new \Zend_Filter_Input(
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                $data = $inputFilter->getUnescaped();
                 $id = $this->getRequest()->getParam('rule_id');
                 if ($id) {
                     $model->load($id);
@@ -382,7 +392,8 @@ class Quote extends \Magento\Backend\App\Action
             try {
                 $data = $this->getRequest()->getParams();
                 if (!empty($data['to_date'])) {
-                    $data = array_merge($data, $this->_filterDates($data, array('to_date')));
+                    $inputFilter = new \Zend_Filter_Input(array('to_date' => $this->_dateFilter), array(), $data);
+                    $data = $inputFilter->getUnescaped();
                 }
 
                 /** @var $generator \Magento\SalesRule\Model\Coupon\Massgenerator */

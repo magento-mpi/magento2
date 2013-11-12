@@ -40,6 +40,11 @@ class Event extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Filter\DateTime
+     */
+    protected $_dateTimeFilter;
+
+    /**
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
@@ -47,13 +52,15 @@ class Event extends \Magento\Backend\App\Action
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\DateTime $dateTimeFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogEvent\Model\EventFactory $eventFactory,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\DateTime $dateTimeFilter
     ) {
         parent::__construct($context);
 
@@ -61,6 +68,7 @@ class Event extends \Magento\Backend\App\Action
         $this->_storeManager = $storeManager;
         $this->_eventFactory = $eventFactory;
         $this->_title = $title;
+        $this->_dateTimeFilter = $dateTimeFilter;
     }
 
     /**
@@ -296,9 +304,15 @@ class Event extends \Magento\Backend\App\Action
     protected function _filterPostData($data)
     {
         if (isset($data['catalogevent'])) {
-            $_data = $data['catalogevent'];
-            $_data = $this->_filterDateTime($_data, array('date_start', 'date_end'));
-            $data['catalogevent'] = $_data;
+            $inputFilter = new \Zend_Filter_Input(
+                array(
+                    'date_start' => $this->_dateTimeFilter,
+                    'date_end' => $this->_dateTimeFilter,
+                ),
+                array(),
+                $data['catalogevent']
+            );
+            $data['catalogevent'] = $inputFilter->getUnescaped();
         }
         return $data;
     }

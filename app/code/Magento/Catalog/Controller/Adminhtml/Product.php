@@ -46,18 +46,26 @@ class Product extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_title = $title;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -590,16 +598,17 @@ class Product extends \Magento\Backend\App\Action
                 $product->load($productId);
             }
 
-            $dateFields = array();
+            $dateFieldFilters = array();
             $attributes = $product->getAttributes();
             foreach ($attributes as $attrKey => $attribute) {
                 if ($attribute->getBackend()->getType() == 'datetime') {
                     if (array_key_exists($attrKey, $productData) && $productData[$attrKey] != '') {
-                        $dateFields[] = $attrKey;
+                        $dateFieldFilters[$attrKey] = $this->_dateFilter;
                     }
                 }
             }
-            $productData = $this->_filterDates($productData, $dateFields);
+            $inputFilter = new \Zend_Filter_Input($dateFieldFilters, array(), $productData);
+            $productData = $inputFilter->getUnescaped();
             $product->addData($productData);
 
             /* set restrictions for date ranges */
