@@ -264,7 +264,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $_keyErrorMsg = '';
         if ($this->_auth->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
-                $_isValidFormKey = $this->_validateFormKey();
+                $_isValidFormKey = $this->_formKeyValidator->validate($this->getRequest());
                 $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
             } elseif ($this->_backendUrl->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
