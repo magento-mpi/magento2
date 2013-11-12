@@ -269,7 +269,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new \Magento\Object();
-                            $this->_eventDispatcher->dispatch('magento_giftcardaccount_create', array(
+                            $this->_eventManager->dispatch('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();

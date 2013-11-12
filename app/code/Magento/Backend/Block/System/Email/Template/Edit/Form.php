@@ -17,11 +17,6 @@ namespace Magento\Backend\Block\System\Email\Template\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Backend\Model\Session
-     */
-    protected $_backendSession;
-
-    /**
      * @var \Magento\Core\Model\Source\Email\Variables
      */
     protected $_variables;
@@ -34,7 +29,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Core\Model\VariableFactory $variableFactory
      * @param \Magento\Core\Model\Source\Email\Variables $variables
-     * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -44,7 +38,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Core\Model\VariableFactory $variableFactory,
         \Magento\Core\Model\Source\Email\Variables $variables,
-        \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -53,7 +46,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     ) {
         $this->_variableFactory = $variableFactory;
         $this->_variables = $variables;
-        $this->_backendSession = $backendSession;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 

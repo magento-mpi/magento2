@@ -32,13 +32,6 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_pageLayout;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Design package instance
      *
      * @var \Magento\View\DesignInterface
@@ -77,13 +70,6 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_pageFactory;
 
     /**
-     * Url
-     *
-     * @var \Magento\UrlInterface
-     */
-    protected $_url;
-
-    /**
      * @var \Magento\Escaper
      */
     protected $_escaper;
@@ -94,10 +80,8 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Session\Pool $sessionFactory
      * @param \Magento\Cms\Model\Page $page
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\UrlInterface $url
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -107,10 +91,8 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Session\Pool $sessionFactory,
         \Magento\Cms\Model\Page $page,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\View\DesignInterface $design,
-        \Magento\UrlInterface $url,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -119,10 +101,8 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         $this->_sessionPool = $sessionFactory;
         // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
         $this->_page = $page;
-        $this->_eventManager = $eventManager;
         $this->_pageLayout = $pageLayout;
         $this->_design = $design;
-        $this->_url = $url;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
@@ -270,6 +250,6 @@ class Page extends \Magento\Core\Helper\AbstractHelper
             return null;
         }
 
-        return $this->_url->getUrl(null, array('_direct' => $page->getIdentifier()));
+        return $this->_urlBuilder->getUrl(null, array('_direct' => $page->getIdentifier()));
     }
 }

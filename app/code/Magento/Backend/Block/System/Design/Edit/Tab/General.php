@@ -17,18 +17,12 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_labelFactory;
 
     /**
-     * @var \Magento\Backend\Model\Session
-     */
-    protected $_backendSession;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
-     * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -38,7 +32,6 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Core\Model\Theme\LabelFactory $labelFactory,
-        \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
@@ -47,7 +40,6 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_labelFactory = $labelFactory;
-        $this->_backendSession = $backendSession;
         $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }

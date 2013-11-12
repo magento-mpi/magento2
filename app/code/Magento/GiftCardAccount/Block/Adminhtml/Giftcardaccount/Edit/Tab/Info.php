@@ -26,18 +26,12 @@ class Info
     protected $_systemStore;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -47,13 +41,11 @@ class Info
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_locale = $locale;
     }
 
     /**

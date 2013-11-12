@@ -21,7 +21,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -32,7 +31,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -44,7 +42,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         $this->_orderCollection = $orderCollection;
         parent::__construct(
             $context,
-            $eventManager,
             $coreStoreConfig,
             $storeManager,
             $locale,

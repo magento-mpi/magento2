@@ -408,13 +408,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_coreData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -528,7 +521,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
@@ -556,7 +548,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;

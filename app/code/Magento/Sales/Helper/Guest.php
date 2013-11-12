@@ -42,19 +42,9 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_coreCookie;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_coreApp;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\Session
      */
-    protected $_coreSession;
+    protected $_session;
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -63,7 +53,6 @@ class Guest extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -72,14 +61,12 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Cookie $coreCookie
-     * @param \Magento\Core\Model\App $coreApp
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -88,7 +75,6 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Cookie $coreCookie,
-        \Magento\Core\Model\App $coreApp,
         \Magento\Core\Model\Session $coreSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         $dbCompatibleMode = true
@@ -96,12 +82,10 @@ class Guest extends \Magento\Core\Helper\Data
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_coreCookie = $coreCookie;
-        $this->_coreApp = $coreApp;
-        $this->_coreSession = $coreSession;
+        $this->_session = $coreSession;
         $this->_orderFactory = $orderFactory;
         parent::__construct(
             $context,
-            $eventManager,
             $coreStoreConfig,
             $storeManager,
             $locale,
@@ -119,18 +103,18 @@ class Guest extends \Magento\Core\Helper\Data
     public function loadValidOrder()
     {
         if ($this->_customerSession->isLoggedIn()) {
-            $this->_coreApp->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/order/history'));
+            $this->_app->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/order/history'));
             return false;
         }
 
-        $post = $this->_coreApp->getRequest()->getPost();
+        $post = $this->_app->getRequest()->getPost();
         $errors = false;
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
 
         if (empty($post) && !$this->_coreCookie->get($this->_cookieName)) {
-            $this->_coreApp->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
+            $this->_app->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type'])) {
             $type           = $post['oar_type'];
@@ -184,10 +168,10 @@ class Guest extends \Magento\Core\Helper\Data
             return true;
         }
 
-        $this->_coreSession->addError(
+        $this->_session->addError(
             __('You entered incorrect data. Please try again.')
         );
-        $this->_coreApp->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
+        $this->_app->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
         return false;
     }
 

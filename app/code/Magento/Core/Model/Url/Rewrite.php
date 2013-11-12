@@ -65,11 +65,6 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected $_app;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
@@ -79,7 +74,6 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -90,7 +84,6 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\App\State $appState,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -98,7 +91,6 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
-        $this->_appState = $appState;
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

@@ -54,11 +54,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlData = null;
 
     /**
-     * @var \Magento\Backend\Model\Session
-     */
-    protected $_backendSession;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -83,22 +78,18 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
         \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Backend\Model\Session $backendSession,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
@@ -110,7 +101,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_optionFactory = $optionFactory;
         $this->_rewriteFactory = $rewriteFactory;
         $this->_systemStore = $systemStore;
-        $this->_backendSession = $backendSession;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }

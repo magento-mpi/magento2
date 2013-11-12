@@ -34,7 +34,6 @@ class Content
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
@@ -45,14 +44,13 @@ class Content
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
         $this->_backendAuthSession = $backendAuthSession;
-        parent::__construct($wysiwygConfig, $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
+        parent::__construct($wysiwygConfig, $context, $formFactory, $coreData, $coreRegistry, $data);
     }
 
     /**

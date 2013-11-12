@@ -49,11 +49,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\Cache\Config
-     */
-    protected $_cacheConfig;
-
-    /**
      * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
@@ -78,7 +73,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Cache\Config $cacheConfig
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\App\Dir $dir
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
@@ -87,7 +81,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Context $context,
         \Magento\Filesystem $filesystem,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Cache\Config $cacheConfig,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\App\Dir $dir,
         \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
@@ -95,7 +88,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         parent::__construct($context);
         $this->_authorization = $authorization;
         $this->_filesystem = $filesystem;        
-        $this->_cacheConfig = $cacheConfig;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_dir = $dir;
     }

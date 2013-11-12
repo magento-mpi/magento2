@@ -52,7 +52,6 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -70,7 +69,6 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
         \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Backend\Model\Session $backendSession,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
@@ -82,7 +80,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogUrl = $catalogUrl;
         parent::__construct(
-            $typesFactory, $optionFactory, $rewriteFactory, $systemStore, $backendSession, $adminhtmlData, $registry,
+            $typesFactory, $optionFactory, $rewriteFactory, $systemStore, $adminhtmlData, $registry,
             $formFactory, $coreData, $context, $data
         );
     }

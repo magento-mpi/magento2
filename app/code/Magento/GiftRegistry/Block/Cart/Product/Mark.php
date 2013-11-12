@@ -25,18 +25,10 @@ class Mark extends \Magento\Core\Block\Template
     protected $_giftRegistryData;
 
     /**
-     * Filter manager
-     *
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $filter;
-
-    /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
-     * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
@@ -44,12 +36,10 @@ class Mark extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->entityFactory = $entityFactory;
-        $this->filter = $filter;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -65,7 +55,7 @@ class Mark extends \Magento\Core\Block\Template
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filter->truncate($value, array(
+        return $this->filterManager->truncate($value, array(
             'length' => $length,
             'etc' => $etc,
             'remainder' => $remainder,

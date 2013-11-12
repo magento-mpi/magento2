@@ -26,16 +26,10 @@ class Ups extends \Magento\Backend\Block\Template
     protected $_websiteModel;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeConfig;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Usa\Model\Shipping\Carrier\Ups $shippingModel
      * @param \Magento\Core\Model\Website $websiteModel
-     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param array $data
      */
     public function __construct(
@@ -43,12 +37,10 @@ class Ups extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Usa\Model\Shipping\Carrier\Ups $shippingModel,
         \Magento\Core\Model\Website $websiteModel,
-        \Magento\Core\Model\Store\Config $storeConfig,
         array $data = array()
     ) {
         $this->_shippingModel = $shippingModel;
         $this->_websiteModel = $websiteModel;
-        $this->_storeConfig = $storeConfig;
         parent::__construct($coreData, $context, $data);
     }
 

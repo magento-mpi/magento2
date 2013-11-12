@@ -55,29 +55,31 @@ class Menu extends \Magento\Backend\Block\Template
     protected $_authSession;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Backend\Model\Menu\Config
      */
     protected $_menuConfig;
 
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param Template\Context $context
+     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Backend\Model\Menu\Filter\IteratorFactory $iteratorFactory
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Backend\Model\Menu\Config $menuConfig
+     * @param array $data
+     */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Url $url,
         \Magento\Backend\Model\Menu\Filter\IteratorFactory $iteratorFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         array $data = array()
     ) {
         $this->_url = $url;
         $this->_iteratorFactory = $iteratorFactory;
         $this->_authSession = $authSession;
-        $this->_locale = $locale;
         $this->_menuConfig = $menuConfig;
         parent::__construct($coreData, $context, $data);
     }

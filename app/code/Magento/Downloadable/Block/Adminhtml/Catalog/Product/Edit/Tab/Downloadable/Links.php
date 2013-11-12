@@ -51,11 +51,6 @@ class Links
     protected $_coreFileStorageDb = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -85,7 +80,6 @@ class Links
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -98,7 +92,6 @@ class Links
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -111,7 +104,6 @@ class Links
         $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
-        $this->_storeManager = $storeManager;
         $this->_sourceModel = $sourceModel;
         $this->_link = $link;
         $this->_attributeFactory = $attributeFactory;

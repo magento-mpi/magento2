@@ -22,14 +22,6 @@ class General
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
-
-    /**
-     * Application locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
     /**
      * Store
      *
@@ -43,7 +35,6 @@ class General
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\System\Store $store
      * @param array $data
      */
@@ -53,13 +44,11 @@ class General
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\System\Store $store,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_store = $store;
     }
 

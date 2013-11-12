@@ -31,7 +31,6 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
@@ -41,14 +40,13 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Filter\FilterManager $filter,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         array $data = array()
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($optionFactory, $coreData, $context, $filter, $data);
+        parent::__construct($optionFactory, $coreData, $context, $data);
     }
 
     public function getLinks()

@@ -46,7 +46,6 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param array $data
      */
@@ -57,14 +56,12 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_groupFactory = $groupFactory;
         $this->_eavConfig = $eavConfig;
-        $this->_storeManager = $storeManager;
         $this->_attrDataFactory = $attrDataFactory;
         parent::__construct($coreData, $context, $registry, $data);
     }

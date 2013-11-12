@@ -37,18 +37,10 @@ class History
     protected $_historyFactory;
 
     /**
-     * Application locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -56,13 +48,11 @@ class History
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
         $this->_historyFactory = $historyFactory;
-        $this->_locale = $locale;
     }
 
     public function getTabLabel()

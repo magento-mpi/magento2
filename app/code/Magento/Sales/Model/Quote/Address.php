@@ -242,7 +242,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -268,7 +267,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -302,7 +300,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_totalCollectorFactory = $totalCollectorFactory;
         $this->_addressTotalFactory = $addressTotalFactory;
         parent::__construct(
-            $eventManager,
             $directoryData,
             $context,
             $registry,

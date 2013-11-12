@@ -49,13 +49,6 @@ class Product extends \Magento\Core\Helper\Url
     protected $_viewUrl;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -117,7 +110,6 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -133,7 +125,6 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -148,7 +139,6 @@ class Product extends \Magento\Core\Helper\Url
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
-        $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;

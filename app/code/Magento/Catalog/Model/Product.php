@@ -123,13 +123,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_catalogImage = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Data\CollectionFactory
      */
     protected $_collectionFactory;
@@ -213,7 +206,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
@@ -240,7 +232,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product $catalogProduct,
@@ -261,7 +252,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
         $this->_indexIndexer = $indexIndexer;
         $this->_catalogProductType = $catalogProductType;
-        $this->_eventManager = $eventManager;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
         $this->_catalogProduct = $catalogProduct;

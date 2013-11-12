@@ -29,16 +29,10 @@ class Chooser extends \Magento\Adminhtml\Block\Template
     protected $_widgetRadio;
 
     /**
-     * @var \Magento\Math\Random
-     */
-    protected $mathRandom;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio
-     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
@@ -46,12 +40,10 @@ class Chooser extends \Magento\Adminhtml\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio,
-        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_nodeFactory = $nodeFactory;
         $this->_widgetRadio = $widgetRadio;
-        $this->mathRandom = $mathRandom;
         parent::__construct($coreData, $context, $data);
     }
 

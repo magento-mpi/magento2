@@ -35,6 +35,11 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $mathRandom;
 
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout

@@ -99,11 +99,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_customFactory;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * All possible types of a theme
      *
      * @var array
@@ -139,7 +134,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         \Magento\Core\Model\Theme\ImageFactory $imageFactory,
         \Magento\Core\Model\Theme\Validator $validator,
         \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory,
-        \Magento\App\State $appState,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
@@ -150,7 +144,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         $this->_imageFactory = $imageFactory;
         $this->_validator = $validator;
         $this->_customFactory = $customizationFactory;
-        $this->_appState = $appState;
 
         $this->addData(array(
             'type' => self::TYPE_VIRTUAL

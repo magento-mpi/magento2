@@ -27,12 +27,6 @@ class Main
     protected $_rule;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Model\LocaleInterface $local
      * @param \Magento\TargetRule\Model\Rule $rule
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -41,7 +35,6 @@ class Main
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $local,
         \Magento\TargetRule\Model\Rule $rule,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
@@ -49,7 +42,6 @@ class Main
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_locale = $local;
         $this->_rule = $rule;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }

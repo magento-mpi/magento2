@@ -37,7 +37,6 @@ class Merchant
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
@@ -46,13 +45,12 @@ class Merchant
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->websiteFactory = $websiteFactory;
         $this->storeFactory = $storeFactory;
         $this->shippingConfig = $shippingConfig;
-        parent::__construct($coreData, $context, $application, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)

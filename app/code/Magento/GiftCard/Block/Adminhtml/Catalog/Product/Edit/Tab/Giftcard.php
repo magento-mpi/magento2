@@ -14,11 +14,6 @@ class Giftcard
  extends \Magento\Backend\Block\Widget
  implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-    /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
     protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
     /**
@@ -39,7 +34,6 @@ class Giftcard
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
@@ -47,14 +41,12 @@ class Giftcard
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_templateOptions = $templateOptions;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
-        $this->_storeManager = $storeManager;
     }
 
     /**

@@ -20,17 +20,11 @@ namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Backend\Model\Session
-     */
-    protected $_backendSession;
-
-    /**
      * @var \Magento\Tax\Model\TaxClass\Source\Customer
      */
     protected $_taxCustomer;
 
     /**
-     * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -39,7 +33,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Model\Session $backendSession,
         \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
@@ -48,7 +41,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_taxCustomer = $taxCustomer;
-        $this->_backendSession = $backendSession;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 

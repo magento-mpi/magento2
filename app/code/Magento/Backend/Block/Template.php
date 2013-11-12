@@ -38,6 +38,11 @@ class Template extends \Magento\Core\Block\Template
     protected $mathRandom;
 
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -51,6 +56,7 @@ class Template extends \Magento\Core\Block\Template
         $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
+        $this->_backendSession = $context->getBackendSession();
         parent::__construct($coreData, $context, $data);
     }
 

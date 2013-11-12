@@ -27,16 +27,10 @@ class Edit
     protected $_changeFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_localeModel;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param \Magento\DesignEditor\Model\Theme\ChangeFactory $changeFactory
-     * @param \Magento\Core\Model\LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
@@ -44,12 +38,10 @@ class Edit
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         \Magento\DesignEditor\Model\Theme\ChangeFactory $changeFactory,
-        \Magento\Core\Model\LocaleInterface $localeModel,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
         $this->_changeFactory = $changeFactory;
-        $this->_localeModel = $localeModel;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -164,7 +156,7 @@ class Edit
     {
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
-        $dateMessage = $this->_localeModel
+        $dateMessage = $this->_locale
             ->date($sourceChange->getChangeTime(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString();
         $message = __('Do you want to restore the version saved at %1?', $dateMessage);
 

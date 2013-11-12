@@ -27,7 +27,6 @@ class Content
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
@@ -36,7 +35,6 @@ class Content
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {

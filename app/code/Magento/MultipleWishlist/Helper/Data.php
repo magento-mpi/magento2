@@ -39,7 +39,6 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected $_wishlistCollectionFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -51,7 +50,6 @@ class Data extends \Magento\Wishlist\Helper\Data
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -64,7 +62,7 @@ class Data extends \Magento\Wishlist\Helper\Data
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig, $customerSession,
+        parent::__construct($coreData, $context, $coreRegistry, $coreStoreConfig, $customerSession,
             $wishlistFactory, $storeManager);
     }
 

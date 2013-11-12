@@ -36,19 +36,11 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_wysiwygConfig;
 
     /**
-     * Application model
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\App $app
      * @param array $data
      */
     public function __construct(
@@ -57,12 +49,9 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\App $app,
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
-        $this->_storeManager = $app;
-
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 

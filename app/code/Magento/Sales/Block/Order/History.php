@@ -36,17 +36,11 @@ class History extends \Magento\Core\Block\Template
     protected $_orderConfig;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_coreApp;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Order\Config $orderConfig
-     * @param \Magento\Core\Model\App $coreApp
      * @param array $data
      */
     public function __construct(
@@ -55,13 +49,11 @@ class History extends \Magento\Core\Block\Template
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        \Magento\Core\Model\App $coreApp,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_customerSession = $customerSession;
         $this->_orderConfig = $orderConfig;
-        $this->_coreApp = $coreApp;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -78,8 +70,8 @@ class History extends \Magento\Core\Block\Template
 
         $this->setOrders($orders);
 
-        if ($this->_coreApp->getFrontController()->getAction()) {
-            $this->_coreApp->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
+        if ($this->_app->getFrontController()->getAction()) {
+            $this->_app->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
                 __('My Orders')
             );
         }

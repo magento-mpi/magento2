@@ -30,7 +30,6 @@ class Regexceptions
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
      * @param array $data
      */
@@ -38,13 +37,12 @@ class Regexceptions
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\App $application,
         \Magento\Core\Model\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
         $this->_labelFactory = $labelFactory;
-        parent::__construct($coreData, $context, $application, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

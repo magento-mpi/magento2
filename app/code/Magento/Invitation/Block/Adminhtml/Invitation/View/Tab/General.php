@@ -36,13 +36,6 @@ class General extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry;
 
     /**
-     * Application locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Customer Factory
      *
      * @var \Magento\Customer\Model\CustomerFactory
@@ -57,21 +50,12 @@ class General extends \Magento\Adminhtml\Block\Template
     protected $_groupFactory;
 
     /**
-     * Store Manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -79,19 +63,15 @@ class General extends \Magento\Adminhtml\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
         $this->_invitationData = $invitationData;
-        $this->_locale = $locale;
         $this->_customerFactory = $customerFactory;
         $this->_groupFactory = $groupFactory;
-        $this->_storeManager = $storeManager;
     }
 
     /**

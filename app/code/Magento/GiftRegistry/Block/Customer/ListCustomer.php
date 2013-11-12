@@ -36,13 +36,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $storeManager;
 
     /**
-     * Filter manager
-     *
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $filter;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
@@ -50,7 +43,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
@@ -61,14 +53,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
         $this->storeManager = $storeManager;
-        $this->filter = $filter;
         parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
     }
 
@@ -84,7 +74,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filter->truncate($value, array(
+        return $this->filterManager->truncate($value, array(
             'length' => $length,
             'etc' => $etc,
             'remainder' => $remainder,

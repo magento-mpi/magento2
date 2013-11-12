@@ -30,7 +30,6 @@ class Main
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Eav\Helper\Data $eavData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
@@ -43,7 +42,6 @@ class Main
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Eav\Helper\Data $eavData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
@@ -57,7 +55,6 @@ class Main
             $coreData,
             $context,
             $eavData,
-            $locale,
             $yesnoFactory,
             $inputTypeFactory,
             $attributeConfig,

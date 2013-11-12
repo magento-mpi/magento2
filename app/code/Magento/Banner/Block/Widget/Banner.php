@@ -71,11 +71,6 @@ class Banner
     protected $_bannerResource;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_coreSession;
-
-    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
@@ -110,7 +105,6 @@ class Banner
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Banner\Model\Resource\Banner $resource
-     * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
@@ -121,7 +115,6 @@ class Banner
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
-        \Magento\Core\Model\Session $coreSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
@@ -130,7 +123,6 @@ class Banner
     ) {
         parent::__construct($coreData, $context, $data);
         $this->_bannerResource = $resource;
-        $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_filterProvider = $filterProvider;
@@ -334,7 +326,7 @@ class Banner
                         }
                     }
                     if ($bannersSequence === null) {
-                        $bannersSequence = $this->_coreSession->_getData($this->getUniqueId());
+                        $bannersSequence = $this->_session->_getData($this->getUniqueId());
                     }
 
                     // Check that we have suggested banner to render
@@ -369,7 +361,7 @@ class Banner
                         $bannersSequence = array($bannerId);
                     }
 
-                    $this->_coreSession->setData($this->getUniqueId(), $bannersSequence);
+                    $this->_session->setData($this->getUniqueId(), $bannersSequence);
 
                     $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
                     if (!empty($_content)) {

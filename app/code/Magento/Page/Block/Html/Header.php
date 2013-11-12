@@ -25,26 +25,18 @@ class Header extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
-     * @param \Magento\App\State $appState
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\App\State $appState,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_appState = $appState;
         parent::__construct($coreData, $context, $data);
     }
 

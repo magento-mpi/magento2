@@ -30,11 +30,6 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
@@ -48,7 +43,6 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
@@ -57,13 +51,11 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_locale = $locale;
         $this->_authSession = $authSession;
         $this->_userFactory = $userFactory;
         parent::__construct($coreData, $context, $data);

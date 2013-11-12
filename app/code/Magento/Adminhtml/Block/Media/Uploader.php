@@ -26,11 +26,6 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     protected $_template = 'Magento_Adminhtml::media/uploader.phtml';
 
     /**
-     * @var \Magento\Core\Model\View\Url
-     */
-    protected $_viewUrl;
-
-    /**
      * @var \Magento\File\Size
      */
     protected $_fileSizeService;
@@ -38,18 +33,15 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\View\Url $viewUrl,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {
-        $this->_viewUrl = $viewUrl;
         $this->_fileSizeService = $fileSize;
         parent::__construct($coreData, $context, $data);
     }

@@ -21,13 +21,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_authSession;
 
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Construct
      *
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -35,7 +28,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -44,11 +36,9 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_authSession = $authSession;
-        $this->_locale = $locale;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
     

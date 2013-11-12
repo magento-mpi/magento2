@@ -230,11 +230,6 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_url;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * @var bool
      */
     protected $_isCustomEntryPoint = false;
@@ -279,7 +274,6 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\App\State $appState
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\Dir $dir
@@ -297,7 +291,6 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Url $url,
-        \Magento\App\State $appState,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\Dir $dir,
@@ -313,7 +306,6 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_url = $url;
         $this->_configCacheType = $configCacheType;
-        $this->_appState = $appState;
         $this->_request = $request;
         $this->_configDataResource = $configDataResource;
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
@@ -342,7 +334,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventDispatcher = \Magento\App\ObjectManager::getInstance()
+        $this->_eventManager = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Event\ManagerInterface');
         $this->_cacheManager    = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\App\CacheInterface');

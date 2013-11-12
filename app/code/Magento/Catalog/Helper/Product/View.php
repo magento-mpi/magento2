@@ -52,13 +52,6 @@ class View extends \Magento\Core\Helper\AbstractHelper
     protected $_pageLayout = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Catalog design
      *
      * @var \Magento\Catalog\Model\Design
@@ -77,7 +70,6 @@ class View extends \Magento\Core\Helper\AbstractHelper
      *
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Helper\Context $context
@@ -87,7 +79,6 @@ class View extends \Magento\Core\Helper\AbstractHelper
     public function __construct(
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Design $catalogDesign,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Helper\Context $context,
@@ -96,7 +87,6 @@ class View extends \Magento\Core\Helper\AbstractHelper
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogDesign = $catalogDesign;
-        $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;

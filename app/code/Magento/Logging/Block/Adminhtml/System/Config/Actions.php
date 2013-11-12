@@ -27,18 +27,16 @@ class Actions
      * @param \Magento\Logging\Model\Config $config
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_config = $config;
-        parent::__construct($coreData, $context, $application, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

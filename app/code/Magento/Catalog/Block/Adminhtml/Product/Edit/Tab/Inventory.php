@@ -27,11 +27,6 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     protected $_catalogData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * Core registry
@@ -64,7 +59,6 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
         \Magento\CatalogInventory\Model\Source\Backorders $backorders,
         \Magento\CatalogInventory\Model\Source\Stock $stock,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -74,7 +68,6 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
         $this->_backorders = $backorders;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $coreRegistry;
-        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 

@@ -21,13 +21,6 @@ class Errors
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager = null;
-
-    /**
      * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
@@ -37,7 +30,6 @@ class Errors
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
@@ -45,14 +37,11 @@ class Errors
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
         parent::__construct($coreData, $context, $cartFactory, $data);
-        $this->_storeManager = $storeManager;
     }
-
 
     /**
      * Returns url to configure item

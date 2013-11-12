@@ -39,23 +39,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @var \Magento\Core\Model\Cache\Config
-     */
-    protected $_cacheConfig;
-
-    /**
-     * @var \Magento\Core\Model\Fieldset\Config
-     */
-    protected $_fieldsetConfig;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -88,13 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_dbCompatibleMode;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
-     */
-    protected $_remoteAddress;
-
-    /**
      * @param Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -104,7 +81,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -112,12 +88,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
-        $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
-        $this->_cacheConfig = $context->getCacheConfig();
-        $this->_fieldsetConfig = $context->getFieldsetConfig();
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_dateModel = $dateModel;

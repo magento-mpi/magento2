@@ -56,7 +56,6 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
-     * @param \Magento\UrlInterface $urlBuilder
      * @param array $data
      */
     public function __construct(
@@ -71,7 +70,6 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
-        \Magento\UrlInterface $urlBuilder,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -80,7 +78,7 @@ class Products extends \Magento\Checkout\Block\Cart
         $this->_checkoutData = $checkoutData;
         $this->_storeManager = $storeManager;
         parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
-            $catalogUrlBuilder, $urlBuilder, $data);
+            $catalogUrlBuilder, $data);
     }
 
     /**

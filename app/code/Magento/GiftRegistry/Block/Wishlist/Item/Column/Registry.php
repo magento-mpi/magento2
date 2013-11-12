@@ -23,13 +23,6 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
     protected $_giftRegistryData;
 
     /**
-     * Filter manager
-     *
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $filter;
-
-    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -56,12 +49,9 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Filter\FilterManager $filter,
         array $data = array()
-    )
-    {
+    ) {
         $this->_giftRegistryData = $giftRegistryData;
-        $this->filter = $filter;
         parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
             $context, $wishlistData, $customerSession, $productFactory, $data
         );
@@ -79,7 +69,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filter->truncate($value, array(
+        return $this->filterManager->truncate($value, array(
             'length' => $length,
             'etc' => $etc,
             'remainder' => $remainder,

@@ -31,13 +31,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const GRANT_NONE            = 0;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -51,18 +44,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
         $this->_customerSession = $customerSession;
-        $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }

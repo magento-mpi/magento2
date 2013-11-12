@@ -130,13 +130,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_orderWebsiteId = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Sales\Model\Order\PaymentFactory
      */
     protected $_paymentFactory;
@@ -152,7 +145,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
@@ -163,7 +155,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
@@ -173,7 +164,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_paymentFactory = $paymentFactory;
         $this->_orderFactory = $orderFactory;
         $this->_dateFactory = $dateFactory;

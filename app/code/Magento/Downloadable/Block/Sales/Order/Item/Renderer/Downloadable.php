@@ -35,7 +35,6 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
-     * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
@@ -45,14 +44,13 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
         \Magento\Core\Block\Template\Context $context,
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
-        \Magento\Filter\FilterManager $filter,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         array $data = array()
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($coreData, $context, $string, $productOptionFactory, $filter, $data);
+        parent::__construct($coreData, $context, $string, $productOptionFactory, $data);
     }
 
     public function getLinks()
