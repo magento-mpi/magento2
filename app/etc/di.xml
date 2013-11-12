@@ -44,7 +44,7 @@
     <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\App\Request\Http">
         <param name="pathInfoProcessor">
-            <instance type="Magento\App\Request\PathInfoProcessorInterfaceProxy" />
+            <instance type="Magento\Core\App\Request\PathInfoProcessor\Proxy" />
         </param>
     </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />

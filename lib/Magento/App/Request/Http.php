@@ -122,9 +122,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
                 $pathInfo = $requestUri;
             }
 
-            if ($this->_pathInfoProcessor) {
-                $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
-            }
+            $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
 
             $this->_originalPathInfo = (string)$pathInfo;
 
