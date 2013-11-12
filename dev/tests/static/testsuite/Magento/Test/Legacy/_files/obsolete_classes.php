@@ -1420,4 +1420,6 @@ return array(
     array('Magento\Core\Block\Text\ListText', 'Magento\View\Block\Text\ListText'),
     array('Magento\Core\Block\Text\TextList\Item', 'Magento\View\Block\Text\TextList\Item'),
     array('Magento\Core\Block\Text\TextList\Link', 'Magento\View\Block\Text\TextList\Link'),
+    array('Magento\Core\Block\Html\Date', 'Magento\View\Block\Html\Date'),
+    array('Magento\Core\Block\Html\Select', 'Magento\View\Block\Html\Select'),
 );

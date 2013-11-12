@@ -12,7 +12,7 @@
  */
 namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
 
-class Customergroup extends \Magento\Core\Block\Html\Select
+class Customergroup extends \Magento\View\Block\Html\Select
 {
     /**
      * Customer groups cache

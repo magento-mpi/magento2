@@ -182,7 +182,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
                 }
             }
 
-            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setClass('address-select')
@@ -204,7 +204,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
         if (is_null($countryId)) {
             $countryId = $this->_coreData->getDefaultCountry();
         }
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
             ->setTitle(__('Country'))
@@ -217,7 +217,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
 
     public function getRegionHtmlSelect($type)
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
             ->setTitle(__('State/Province'))
