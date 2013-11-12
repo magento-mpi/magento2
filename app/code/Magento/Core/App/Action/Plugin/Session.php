@@ -72,14 +72,15 @@ class Session
         $this->_flag = $flag;
     }
 
+    /**
+     * Initialize session
+     *
+     * @param array $arguments
+     * @return array
+     */
     public function beforeDispatch(array $arguments = array())
     {
-        $requestKey = $this->_request->getControllerModule() . '::'
-            . $this->_request->getRequestedRouteName()
-            . '/' . $this->_request->getRequestedControllerName()
-            . '/' . $this->_request->getActionName();
-
-        $checkCookie = in_array($requestKey, $this->_cookieCheckActions)
+        $checkCookie = in_array($this->_request->getActionName(), $this->_cookieCheckActions)
             && !$this->_request->getParam('nocookie', false);
 
         $cookies = $this->_cookie->get();

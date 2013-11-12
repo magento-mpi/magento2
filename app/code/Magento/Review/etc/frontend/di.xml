@@ -33,11 +33,14 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\App\Action\Plugin\Session">
+    <virtualType name="reviewProductInitSession" type="Magento\Core\App\Action\Plugin\Session">
         <param name="cookieCheckActions">
             <value>
-                <productReview>Magento_Review::review/product/post</productReview>
+                <productReviewPost>post</productReviewPost>
             </value>
         </param>
+    </virtualType>
+    <type name="Magento\Review\Controller\Product">
+        <plugin name="sessionInitializer" type="reviewProductInitSession" />
     </type>
 </config>

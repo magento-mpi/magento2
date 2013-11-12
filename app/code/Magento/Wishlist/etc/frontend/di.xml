@@ -31,11 +31,14 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\App\Action\Plugin\Session">
+    <virtualType name="wishlistInitSession" type="Magento\Core\App\Action\Plugin\Session">
         <param name="cookieCheckActions">
             <value>
-                <wishlist>Magento_Wishlist::wishlist/index/add</wishlist>
+                <wishlistAdd>add</wishlistAdd>
             </value>
         </param>
+    </virtualType>
+    <type name="Magento\Wishlist\Controller\Index">
+        <plugin name="sessionInitializer" type="wishlistInitSession" />
     </type>
 </config>

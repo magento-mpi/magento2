@@ -18,11 +18,14 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\App\Action\Plugin\Session">
+    <virtualType name="customerInvitationAccountInitSession" type="Magento\Core\App\Action\Plugin\Session">
         <param name="cookieCheckActions">
             <value>
-                <customerInvitationCreate>Magento_Invitation::invitation/account/createPost</customerInvitationCreate>
+                <customerInvitationCreate>createPost</customerInvitationCreate>
             </value>
         </param>
+    </virtualType>
+    <type name="Magento\Invitation\Controller\Customer\Account">
+        <plugin name="sessionInitializer" type="customerInvitationAccountInitSession" />
     </type>
 </config>
