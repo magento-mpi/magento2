@@ -20,4 +20,7 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Install\Controller\Action">
+        <plugin name="designLoader" type="Magento\Install\App\Action\Plugin\Design" />
+    </type>
 </config>

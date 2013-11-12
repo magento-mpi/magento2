@@ -6,9 +6,6 @@
  * @license     {license_link}
  */
 
-/**
- * Generic frontend controller
- */
 namespace Magento\Core\App\Action\Plugin;
 
 class Session

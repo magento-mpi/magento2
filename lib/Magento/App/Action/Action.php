@@ -446,29 +446,12 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Initialize area and design
-     *
-     * @return \Magento\App\ActionInterface
-     */
-    protected function _initDesign()  // Extract
-    {
-        $area = $this->_app->getArea($this->getLayout()->getArea());
-        $area->load(\Magento\Core\Model\App\Area::PART_DESIGN);
-        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
-        $area->detectDesign($this->getRequest());
-        return $this;
-    }
-
-    /**
      * Dispatch event before action
      *
      * @return null
      */
     public function preDispatch() // Remove???
     {
-        // Load area and initialize design depend on loaded area
-        $this->_initDesign();
-
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
             && $this->_storeConfig->getConfig('web/browser_capabilities/cookies')
         ) {

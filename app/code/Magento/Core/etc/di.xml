@@ -403,5 +403,6 @@
     </type>
     <type name="Magento\App\Action\Action">
         <plugin name="sessionInitializer" type="Magento\Core\App\Action\Plugin\Session" sortOrder="10"/>
+        <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="20"/>
     </type>
 </config>

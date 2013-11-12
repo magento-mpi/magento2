@@ -16,6 +16,13 @@ namespace Magento\Install\Controller;
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**
+     * Application state
+     *
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * Installer Model
      *
      * @var \Magento\Install\Model\Installer
@@ -53,10 +60,6 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Config\Scope $configScope
-     * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\App\State $appState
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Core\Model\Session\Generic $session
@@ -66,24 +69,19 @@ class Wizard extends \Magento\Install\Controller\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Config\Scope $configScope,
-        \Magento\View\DesignInterface $viewDesign,
-        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\App $app,
-        \Magento\App\State $appState,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Session\Generic $session,
         \Magento\Module\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
+        parent::__construct($context, $configScope);
         $this->_installer = $installer;
         $this->_wizard = $wizard;
         $this->_session = $session;
         $this->_dbUpdater = $dbUpdater;
         $this->_storeManager = $storeManager;
     }
-
 
     /**
      * Perform necessary checks for all actions

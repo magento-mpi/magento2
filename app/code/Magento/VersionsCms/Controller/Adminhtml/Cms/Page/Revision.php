@@ -444,30 +444,6 @@ class Revision
     }
 
     /**
-     * Init design in specific area
-     *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
-     */
-    protected function _initDesign()
-    {
-        if ($this->getRequest()->getActionName() == 'drop') {
-            $this->_objectManager->get('Magento\App\State')
-                ->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));
-        } else {
-            parent::_initDesign();
-        }
-        return $this;
-    }
-
-    /**
-     * Callback for init design from outside (need to substitute area code)
-     */
-    public function emulateDesignCallback()
-    {
-        parent::_initDesign();
-    }
-
-    /**
      * New Revision action
      *
      * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
