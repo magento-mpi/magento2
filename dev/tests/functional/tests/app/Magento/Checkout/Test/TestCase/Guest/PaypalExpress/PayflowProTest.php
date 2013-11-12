@@ -34,29 +34,43 @@ class PayflowProTest extends Functional
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutExpressPayPalPayflow();
         $fixture->persist();
 
+        //Ensure shopping cart is empty
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
+        //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
+            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
+        //Proceed to PayPal
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->getCartBlock()->paypalCheckout();
 
+        //Proceed Checkout on PayPal side
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
         $paypalPage->getLoginBlock()->login($paypalCustomer);
         $paypalPage->getReviewBlock()->continueCheckout();
 
+        //Proceed Checkout on Magento side
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
-
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
-        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
-        //Backend
+        //Verify order in Backend
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->assertContains(
+            'Your order has been received.',
+            $successPage->getTitleBlock()->getTitle(),
+            'Order success page was not opened.');
+        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
 

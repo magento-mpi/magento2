@@ -21,28 +21,12 @@ use Mtf\Block\Block;
  */
 class Totals extends Block
 {
-
     /**
      * Submit Shipment selector
      *
      * @var string
      */
-    private $submit;
-
-    /**
-     * Capture amount select selector
-     *
-     * @var string
-     */
-    private $capture;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->submit = '[data-ui-id="order-items-submit-button"]';
-    }
+    protected $submit = '[data-ui-id="order-items-submit-button"]';
 
     /**
      * Ship order
