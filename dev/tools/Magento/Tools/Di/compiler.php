@@ -54,6 +54,10 @@ try {
     $log = new Log($logWriter, $errorWriter);
     $serializer = ($opt->getOption('serializer') == 'binary') ? new Serializer\Igbinary() : new Serializer\Standard();
 
+    $validator = new \Magento\Code\Validator();
+    $validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
+    $validator->add(new \Magento\Code\Validator\ContextAggregation());
+
     // 1 Code generation
     // 1.1 Code scan
     $directoryScanner = new Scanner\DirectoryScanner();
@@ -94,7 +98,7 @@ try {
 
     // 2. Compilation
     // 2.1 Code scan
-    $directoryCompiler = new Directory($log);
+    $directoryCompiler = new Directory($log, $validator);
     foreach ($compilationDirs as $path) {
         if (is_readable($path)) {
             $directoryCompiler->compile($path);

@@ -45,7 +45,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_mapper;
 
     /**
-     * @var \Magento\Code\Validator\ConstructorIntegrity
+     * @var \Magento\Code\Validator
      */
     protected $_validator;
 
@@ -68,7 +68,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_command = 'php ' . $basePath
             . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
-        $this->_validator = new \Magento\Code\Validator\ConstructorIntegrity();
+        $this->_validator = new \Magento\Code\Validator();
+        $this->_validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
+        $this->_validator->add(new \Magento\Code\Validator\ContextAggregation());
     }
 
     protected function tearDown()
@@ -177,9 +179,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             */
+        /**
+         * @param string $file
+         */
             function ($file) {
                 $this->_validateFile($file);
             },
