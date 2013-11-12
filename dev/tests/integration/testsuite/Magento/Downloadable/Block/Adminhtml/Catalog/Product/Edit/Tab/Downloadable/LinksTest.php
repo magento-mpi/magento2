@@ -24,9 +24,9 @@ class LinksTest
     /**
      * Reuse code for testing getUploadButtonHtml()
      *
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      */
-    public static function performUploadButtonTest(\Magento\Core\Block\AbstractBlock $block)
+    public static function performUploadButtonTest(\Magento\View\Block\AbstractBlock $block)
     {
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

@@ -15,7 +15,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Template extends \Magento\Core\Block\Template
+class Template extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -51,7 +51,7 @@ class Template extends \Magento\Core\Block\Template
         $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
-        parent::__construct($coreData, $context, $data);
+        \Magento\View\Block\parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -99,6 +99,6 @@ class Template extends \Magento\Core\Block\Template
     protected function _toHtml()
     {
         $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
-        return parent::_toHtml();
+        return \Magento\View\Block\parent::_toHtml();
     }
 }

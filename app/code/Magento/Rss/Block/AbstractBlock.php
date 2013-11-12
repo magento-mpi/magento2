@@ -10,7 +10,7 @@
 
 namespace Magento\Rss\Block;
 
-class AbstractBlock extends \Magento\Core\Block\Template
+class AbstractBlock extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\StoreManager

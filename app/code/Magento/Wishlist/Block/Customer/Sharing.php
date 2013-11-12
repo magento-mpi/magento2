@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Block\Customer;
 
-class Sharing extends \Magento\Core\Block\Template
+class Sharing extends \Magento\View\Block\Template
 {
     /**
      * Entered Data cache

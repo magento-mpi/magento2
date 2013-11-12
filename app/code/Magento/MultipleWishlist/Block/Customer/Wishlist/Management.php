@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
 
-class Management extends \Magento\Core\Block\Template
+class Management extends \Magento\View\Block\Template
 {
     /**
      * Id of current customer

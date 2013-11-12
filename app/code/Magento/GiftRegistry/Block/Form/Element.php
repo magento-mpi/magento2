@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Form;
 
-class Element extends \Magento\Core\Block\Template
+class Element extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Directory\Model\Country

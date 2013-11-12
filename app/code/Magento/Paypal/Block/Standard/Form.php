@@ -63,8 +63,8 @@ class Form extends \Magento\Payment\Block\Form
     protected function _construct()
     {
         $this->_config = $this->_paypalConfigFactory->create()->setMethod($this->getMethodCode());
-        /** @var $mark \Magento\Core\Block\Template */
-        $mark = $this->_layout->createBlock('Magento\Core\Block\Template');
+        /** @var $mark \Magento\View\Block\Template */
+        $mark = $this->_layout->createBlock('Magento\View\Block\Template);
         $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($this->_locale))
             ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($this->_locale->getLocaleCode()));

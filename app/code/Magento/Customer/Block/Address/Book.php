@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Address;
 
-class Book extends \Magento\Core\Block\Template
+class Book extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

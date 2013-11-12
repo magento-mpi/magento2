@@ -82,7 +82,7 @@ class Email extends \Magento\Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $this->_block = $this->_layoutFactory->create()->createBlock('Magento\Core\Block\Template', 'email')
+            $this->_block = $this->_layoutFactory->create()->createBlock('Magento\View\Block\Template', 'email')
                 ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {

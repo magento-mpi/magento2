@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Quick extends \Magento\Core\Block\Template
+class Quick extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\TypeFactory

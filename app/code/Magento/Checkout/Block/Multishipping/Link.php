@@ -13,7 +13,7 @@
  */
 namespace Magento\Checkout\Block\Multishipping;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
 {
     /**
      * Checkout data

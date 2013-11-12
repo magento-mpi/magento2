@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-abstract class AbstractProduct extends \Magento\Core\Block\Template
+abstract class AbstractProduct extends \Magento\View\Block\Template
 {
     protected $_priceBlock = array();
 
@@ -243,7 +243,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      * Prepares and returns block to render some product type
      *
      * @param string $productType
-     * @return \Magento\Core\Block\Template
+     * @return \Magento\View\Block\Template
      */
     public function _preparePriceRenderer($productType)
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Footer extends \Magento\Core\Block\Template
+class Footer extends \Magento\View\Block\Template
 {
 
     protected $_copyright;

@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Block\Item;
 
-class Configure extends \Magento\Core\Block\Template
+class Configure extends \Magento\View\Block\Template
 {
     /**
      * Wishlist data

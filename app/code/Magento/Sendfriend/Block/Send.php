@@ -18,7 +18,7 @@
  */
 namespace Magento\Sendfriend\Block;
 
-class Send extends \Magento\Core\Block\Template
+class Send extends \Magento\View\Block\Template
 {
     /**
      * Sendfriend data

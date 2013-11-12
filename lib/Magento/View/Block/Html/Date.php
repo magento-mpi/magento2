@@ -16,7 +16,7 @@
  */
 namespace Magento\View\Block\Html;
 
-class Date extends \Magento\Core\Block\Template
+class Date extends \Magento\View\Block\Template
 {
     /**
      * @inheritdoc

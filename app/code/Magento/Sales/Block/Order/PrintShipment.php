@@ -63,7 +63,7 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
         return $this->_coreRegistry->registry('current_order');
     }
 
-    protected function _prepareItem(\Magento\Core\Block\AbstractBlock $renderer)
+    protected function _prepareItem(\Magento\View\Block\AbstractBlock $renderer)
     {
         $renderer->setPrintStatus(true);
 

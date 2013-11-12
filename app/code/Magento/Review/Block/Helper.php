@@ -17,7 +17,7 @@
  */
 namespace Magento\Review\Block;
 
-class Helper extends \Magento\Core\Block\Template
+class Helper extends \Magento\View\Block\Template
 {
     protected $_availableTemplates = array(
         'default' => 'helper/summary.phtml',

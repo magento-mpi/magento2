@@ -227,7 +227,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Magento\Core\Block\Template')
+            $this->getLayout()->createBlock('Magento\View\Block\Template')
                 ->setTemplate('Magento_Tax::rate/js.phtml')
         );
 

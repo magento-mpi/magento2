@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-class Toolbar extends \Magento\Core\Block\Template
+class Toolbar extends \Magento\View\Block\Template
 {
     /**
      * Products collection

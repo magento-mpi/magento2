@@ -15,7 +15,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-abstract class AbstractOnepage extends \Magento\Core\Block\Template
+abstract class AbstractOnepage extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Cache\Type\Config

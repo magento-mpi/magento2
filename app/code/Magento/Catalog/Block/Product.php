@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Catalog\Block;
 
-class Product extends \Magento\Core\Block\Template
+class Product extends \Magento\View\Block\Template
 {
     protected $_finalPrice = array();
 

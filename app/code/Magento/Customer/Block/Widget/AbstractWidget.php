@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Block\Widget;
 
-class AbstractWidget extends \Magento\Core\Block\Template
+class AbstractWidget extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Eav\Model\Config

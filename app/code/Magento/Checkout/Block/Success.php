@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Checkout\Block;
 
-class Success extends \Magento\Core\Block\Template
+class Success extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory

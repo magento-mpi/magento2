@@ -366,7 +366,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * Returns block to render item with some product type
      *
      * @param string $productType
-     * @return \Magento\Core\Block\Template
+     * @return \Magento\View\Block\Template
      */
     protected function _getItemPriceBlock($productType)
     {

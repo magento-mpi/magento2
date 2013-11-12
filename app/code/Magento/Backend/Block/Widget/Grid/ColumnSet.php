@@ -18,7 +18,7 @@ namespace Magento\Backend\Block\Widget\Grid;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ColumnSet extends \Magento\Core\Block\Template
+class ColumnSet extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
@@ -227,7 +227,7 @@ class ColumnSet extends \Magento\Core\Block\Template
     /**
      * Prepare block for rendering
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

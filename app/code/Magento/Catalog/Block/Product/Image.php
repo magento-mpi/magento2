@@ -30,7 +30,7 @@ namespace Magento\Catalog\Block\Product;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Image extends \Magento\Core\Block\Template
+class Image extends \Magento\View\Block\Template
 {
     /**
      * Template image only

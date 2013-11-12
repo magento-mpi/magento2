@@ -20,7 +20,7 @@
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
-class Renderer extends \Magento\Core\Block\Template
+class Renderer extends \Magento\View\Block\Template
 {
     /** @var \Magento\Checkout\Model\Session */
     protected $_checkoutSession;
@@ -417,7 +417,7 @@ class Renderer extends \Magento\Core\Block\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

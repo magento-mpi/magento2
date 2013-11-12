@@ -11,7 +11,7 @@
  */
 namespace Magento\Payment\Block\Catalog\Product\View;
 
-class Profile extends \Magento\Core\Block\Template
+class Profile extends \Magento\View\Block\Template
 {
     /**
      * Recurring profile instance

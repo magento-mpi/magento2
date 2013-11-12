@@ -9,7 +9,7 @@
 -->
 <layout>
     <block name="test.block.insert" class="Magento\View\Block\Text"/>
-    <block class="Magento\Core\Block\Template">
+    <block class="Magento\View\Block\Template">
         <action method="insert">
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.insert</argument>
         </action>

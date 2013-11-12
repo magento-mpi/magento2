@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Widget;
 
-class Search extends \Magento\Core\Block\Template 
+class Search extends \Magento\View\Block\Template
     implements \Magento\Widget\Block\BlockInterface
 {
     /**

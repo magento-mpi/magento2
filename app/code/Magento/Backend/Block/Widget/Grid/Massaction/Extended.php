@@ -76,7 +76,7 @@ class Extended extends \Magento\Backend\Block\Widget
      *      'complete' => string, // Only for ajax enabled grid (optional)
      *      'url'      => string,
      *      'confirm'  => string, // text of confirmation of this action (optional)
-     *      'additional' => string|array|\Magento\Core\Block\AbstractBlock // (optional)
+     *      'additional' => string|array|\Magento\View\Block\AbstractBlock // (optional)
      * );
      *
      * @param string $itemId

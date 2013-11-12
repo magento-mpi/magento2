@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
-class Sidebar extends \Magento\Core\Block\Template
+class Sidebar extends \Magento\View\Block\Template
 {
     /**
      * @var string

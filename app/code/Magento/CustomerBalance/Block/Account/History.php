@@ -13,7 +13,7 @@
  */
 namespace Magento\CustomerBalance\Block\Account;
 
-class History extends \Magento\Core\Block\Template
+class History extends \Magento\View\Block\Template
 {
     /**
      * Balance history action names

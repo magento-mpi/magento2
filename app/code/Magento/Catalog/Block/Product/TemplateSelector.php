@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block\Product;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class TemplateSelector extends \Magento\Core\Block\Template
+class TemplateSelector extends \Magento\View\Block\Template
 {
     /**
      * Core registry

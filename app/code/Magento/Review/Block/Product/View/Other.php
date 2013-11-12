@@ -13,7 +13,7 @@
  */
 namespace Magento\Review\Block\Product\View;
 
-class Other extends \Magento\Core\Block\Template
+class Other extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Registry

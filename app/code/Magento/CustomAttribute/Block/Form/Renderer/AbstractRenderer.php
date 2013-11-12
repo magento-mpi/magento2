@@ -18,7 +18,7 @@
  */
 namespace Magento\CustomAttribute\Block\Form\Renderer;
 
-abstract class AbstractRenderer extends \Magento\Core\Block\Template
+abstract class AbstractRenderer extends \Magento\View\Block\Template
 {
     /**
      * Attribute instance

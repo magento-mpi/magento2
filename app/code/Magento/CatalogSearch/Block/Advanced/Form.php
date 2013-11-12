@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     /**
      * Locale

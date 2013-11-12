@@ -21,8 +21,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUiId($expectedResult, $nameInLayout, $methodArguments)
     {
-        /** @var $block \Magento\Core\Block\AbstractBlock|PHPUnit_Framework_MockObject_MockObject */
-        $block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(), '', false);
+        /** @var $block \Magento\View\Block\AbstractBlock|PHPUnit_Framework_MockObject_MockObject */
+        $block = $this->getMockForAbstractClass('Magento\View\Block\AbstractBlock', array(), '', false);
         $block->setNameInLayout($nameInLayout);
 
         $this->assertEquals(
@@ -70,13 +70,13 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $configManager = $this->getMock('Magento\View\ConfigInterface', array(), array(), '', false);
         $configManager->expects($this->exactly(2))->method('getViewConfig')->will($this->returnValue($config));
 
-        /** @var $block \Magento\Core\Block\AbstractBlock|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $block \Magento\View\Block\AbstractBlock|PHPUnit_Framework_MockObject_MockObject */
         $params = array(
             'viewConfig' => $configManager,
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock',
-            $helper->getConstructArguments('Magento\Core\Block\AbstractBlock', $params),
+        $block = $this->getMockForAbstractClass('Magento\View\Block\AbstractBlock',
+            $helper->getConstructArguments('Magento\View\Block\AbstractBlock', $params),
             uniqid('Magento\\Core\\Block\\AbstractBlock\\')
         );
 

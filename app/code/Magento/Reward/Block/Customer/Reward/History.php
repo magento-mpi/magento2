@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class History extends \Magento\Core\Block\Template
+class History extends \Magento\View\Block\Template
 {
     /**
      * History records collection

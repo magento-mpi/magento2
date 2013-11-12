@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Comments extends \Magento\Core\Block\Template
+class Comments extends \Magento\View\Block\Template
 {
     /**
      * @param \Magento\Core\Helper\Data $coreData

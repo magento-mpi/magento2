@@ -84,7 +84,7 @@ class Invoice extends \Magento\Sales\Block\Items\AbstractItems
         return $this->_coreRegistry->registry('current_invoice');
     }
 
-    protected function _prepareItem(\Magento\Core\Block\AbstractBlock $renderer)
+    protected function _prepareItem(\Magento\View\Block\AbstractBlock $renderer)
     {
         $renderer->setPrintStatus(true);
         return parent::_prepareItem($renderer);

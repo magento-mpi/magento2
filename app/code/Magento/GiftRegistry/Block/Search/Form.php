@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     protected $_formData = null;
 

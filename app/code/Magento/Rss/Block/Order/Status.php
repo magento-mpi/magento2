@@ -13,7 +13,7 @@
  */
 namespace Magento\Rss\Block\Order;
 
-class Status extends \Magento\Core\Block\Template
+class Status extends \Magento\View\Block\Template
 {
     /**
      * Core registry

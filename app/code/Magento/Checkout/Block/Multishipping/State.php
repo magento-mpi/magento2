@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Multishipping;
 
-class State extends \Magento\Core\Block\Template
+class State extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Type\Multishipping\State

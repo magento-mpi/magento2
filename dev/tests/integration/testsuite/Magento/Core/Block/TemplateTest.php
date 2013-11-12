@@ -14,7 +14,7 @@ namespace Magento\Core\Block;
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Block\Template
+     * @var \Magento\View\Block\Template
      */
     protected $_block;
 
@@ -24,13 +24,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
         $context = $objectManager->create('Magento\Core\Block\Template\Context', $params);
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Core\Block\Template', '', array('context' => $context));
+            ->createBlock('Magento\View\Block\Template, '', array('context' => $context));
     }
 
     public function testConstruct()
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Core\Block\Template', '', array('data' => array('template' => 'value')));
+            ->createBlock('Magento\View\Block\Template, '', array('data' => array('template' => 'value')));
         $this->assertEquals('value', $block->getTemplate());
     }
 
@@ -53,8 +53,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Block\Template::_toHtml
-     * @covers \Magento\Core\Block\AbstractBlock::toHtml
+     * @covers \Magento\View\Block\Template:_toHtml
+     * @covers \Magento\View\Block\AbstractBlock::toHtml
      * @see testAssign()
      */
     public function testToHtml()

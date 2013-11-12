@@ -9,7 +9,7 @@
  */
 namespace Magento\Checkout\Block;
 
-class Agreements extends \Magento\Core\Block\Template
+class Agreements extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory

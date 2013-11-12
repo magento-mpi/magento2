@@ -14,7 +14,7 @@
 namespace Magento\Sales\Block\Widget\Guest;
 
 class Form
-    extends \Magento\Core\Block\Template
+    extends \Magento\View\Block\Template
     implements \Magento\Widget\Block\BlockInterface
 {
     /**

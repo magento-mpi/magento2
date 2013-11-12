@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Returns;
 
-class Tracking extends \Magento\Core\Block\Template
+class Tracking extends \Magento\View\Block\Template
 {
     /**
      * Get whether rma is allowed for PSL

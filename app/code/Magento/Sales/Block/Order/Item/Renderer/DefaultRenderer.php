@@ -13,7 +13,7 @@ namespace Magento\Sales\Block\Order\Item\Renderer;
 /**
  * Order item render block
  */
-class DefaultRenderer extends \Magento\Core\Block\Template
+class DefaultRenderer extends \Magento\View\Block\Template
 {
     /**
      * Filter manager
@@ -191,7 +191,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

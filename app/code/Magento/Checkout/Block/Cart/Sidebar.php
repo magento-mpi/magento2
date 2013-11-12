@@ -317,7 +317,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     {
         $result = array();
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block \Magento\Core\Block\Template */
+            /** @var $block \Magento\View\Block\Template */
             $result[] = implode('|', array(
                 // skip $this->getNameInLayout() and '.'
                 substr($block->getNameInLayout(), strlen($this->getNameInLayout()) + 1),

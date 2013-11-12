@@ -17,7 +17,7 @@
  */
 namespace Magento\Install\Block;
 
-class State extends \Magento\Core\Block\Template
+class State extends \Magento\View\Block\Template
 {
     /**
      * @var string

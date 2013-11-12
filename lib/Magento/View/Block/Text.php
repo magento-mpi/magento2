@@ -8,7 +8,7 @@
 
 namespace Magento\View\Block;
 
-class Text extends \Magento\Core\Block\AbstractBlock
+class Text extends \Magento\View\Block\AbstractBlock
 {
     public function setText($text)
     {

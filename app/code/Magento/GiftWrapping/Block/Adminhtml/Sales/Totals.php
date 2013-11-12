@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales;
 
-class Totals extends \Magento\Core\Block\Template
+class Totals extends \Magento\View\Block\Template
 {
     /**
      * Gift wrapping data

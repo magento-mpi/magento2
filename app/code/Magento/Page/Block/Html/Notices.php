@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Notices extends \Magento\Core\Block\Template
+class Notices extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Url

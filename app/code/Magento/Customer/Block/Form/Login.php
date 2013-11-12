@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Form;
 
-class Login extends \Magento\Core\Block\Template
+class Login extends \Magento\View\Block\Template
 {
     private $_username = -1;
 

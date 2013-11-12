@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Block\Account;
 
-class Customer extends \Magento\Core\Block\Template
+class Customer extends \Magento\View\Block\Template
 {
     /**
      * Customer session

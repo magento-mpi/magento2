@@ -19,7 +19,7 @@
 namespace Magento\Customer\Block\Address\Renderer;
 
 class DefaultRenderer
-    extends \Magento\Core\Block\AbstractBlock
+    extends \Magento\View\Block\AbstractBlock
     implements \Magento\Customer\Block\Address\Renderer\RendererInterface
 {
     /**

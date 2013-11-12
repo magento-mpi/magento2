@@ -117,7 +117,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->loadLayout();
         $this->assertContains('default', $this->_object->getLayout()->getUpdate()->getHandles());
-        $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $this->_object->getLayout()->getBlock('root'));
+        $this->assertInstanceOf('Magento\View\Block\AbstractBlock', $this->_object->getLayout()->getBlock('root'));
         $this->_object->loadLayout('test');
     }
 

@@ -18,7 +18,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Newsletter extends \Magento\Core\Block\Template
+class Newsletter extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Newsletter\Model\Subscriber

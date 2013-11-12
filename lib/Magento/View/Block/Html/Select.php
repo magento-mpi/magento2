@@ -16,7 +16,7 @@
  */
 namespace Magento\View\Block\Html;
 
-class Select extends \Magento\Core\Block\AbstractBlock
+class Select extends \Magento\View\Block\AbstractBlock
 {
 
     protected $_options = array();

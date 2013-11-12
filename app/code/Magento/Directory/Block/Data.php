@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Block;
 
-class Data extends \Magento\Core\Block\Template
+class Data extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Cache\Type\Config

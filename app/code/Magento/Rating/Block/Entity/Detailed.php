@@ -17,7 +17,7 @@
  */
 namespace Magento\Rating\Block\Entity;
 
-class Detailed extends \Magento\Core\Block\Template
+class Detailed extends \Magento\View\Block\Template
 {
     /**
      * @var string

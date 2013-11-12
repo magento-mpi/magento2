@@ -189,9 +189,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'named block' => array(
-                'Magento\Core\Block\Template',
+                'Magento\View\Block\Template',
                 'some_block_name_full_class',
-                array('type' => 'Magento\Core\Block\Template', 'is_anonymous' => false),
+                array('type' => 'Magento\View\Block\Template', 'is_anonymous' => false),
                 '/^some_block_name_full_class$/'
             ),
             'no name block' => array(
@@ -349,7 +349,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->_layout->addContainer('parent', 'Parent');
         $block1 = $this->_layout->addBlock('Magento\View\Block\Text', 'block1', 'parent');
         $this->_layout->addContainer('container', 'Container', array(), 'parent');
-        $block2 = $this->_layout->addBlock('Magento\Core\Block\Template', 'block2', 'parent');
+        $block2 = $this->_layout->addBlock('Magento\View\Block\Template', 'block2', 'parent');
         $this->assertSame(array('block1' => $block1, 'block2' => $block2), $this->_layout->getChildBlocks('parent'));
     }
 

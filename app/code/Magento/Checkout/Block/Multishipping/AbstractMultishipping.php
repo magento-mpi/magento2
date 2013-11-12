@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Multishipping;
 
-class AbstractMultishipping extends \Magento\Core\Block\Template
+class AbstractMultishipping extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Type\Multishipping

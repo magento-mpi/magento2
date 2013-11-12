@@ -346,7 +346,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      * Retrieve renderer block for row-level item output
      *
      * @param string $type
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _getRowItemRenderer($type)
     {
