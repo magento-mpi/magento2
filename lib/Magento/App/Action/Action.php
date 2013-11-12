@@ -392,7 +392,17 @@ class Action extends \Magento\App\Action\AbstractAction
                     \Magento\Profiler::stop('action_body');
 
                     \Magento\Profiler::start('postdispatch');
-                    $this->postDispatch();
+                    if (!$this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
+                        $this->_eventManager->dispatch(
+                            'controller_action_postdispatch_' . $this->getFullActionName(),
+                            array('controller_action' => $this)
+                        );
+                        $this->_eventManager->dispatch(
+                            'controller_action_postdispatch_' . $this->getRequest()->getRouteName(),
+                            array('controller_action' => $this)
+                        );
+                        $this->_eventManager->dispatch('controller_action_postdispatch', array('controller_action' => $this));
+                    }
                     \Magento\Profiler::stop('postdispatch');
                 }
             }
@@ -483,26 +493,6 @@ class Action extends \Magento\App\Action\AbstractAction
             array('controller_action' => $this));
         $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getFullActionName(),
             array('controller_action' => $this));
-    }
-
-    /**
-     * Dispatches event after action
-     */
-    public function postDispatch() // Kill
-    {
-        if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
-            return;
-        }
-
-        $this->_eventManager->dispatch(
-            'controller_action_postdispatch_' . $this->getFullActionName(),
-            array('controller_action' => $this)
-        );
-        $this->_eventManager->dispatch(
-            'controller_action_postdispatch_' . $this->getRequest()->getRouteName(),
-            array('controller_action' => $this)
-        );
-        $this->_eventManager->dispatch('controller_action_postdispatch', array('controller_action' => $this));
     }
 
     /**

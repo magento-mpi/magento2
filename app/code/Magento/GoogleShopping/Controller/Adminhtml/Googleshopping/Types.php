@@ -36,10 +36,13 @@ class Types extends \Magento\Backend\App\Action
 
     /**
      * Dispatches controller_action_postdispatch_adminhtml Event (as not Adminhtml router)
+     *
+     * @param string $action
+     * @return string|void
      */
-    public function postDispatch()
+    public function dispatch($action)
     {
-        parent::postDispatch();
+        parent::dispatch($action);
         if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
             return;
         }

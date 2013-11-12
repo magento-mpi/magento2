@@ -164,13 +164,14 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * Action postdispatch
-     *
      * Remove No-referer flag from customer session after each action
+     *
+     * @param string $action
+     * @return string|void
      */
-    public function postDispatch()
+    public function dispatch($action)
     {
-        parent::postDispatch();
+        parent::dispatch($action);
         $this->_getSession()->unsNoReferer(false);
     }
 
