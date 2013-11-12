@@ -51,8 +51,9 @@ interface AuthorizationV1Interface
      * Create new role with the access to the given set of resources.
      *
      * @param string $roleName
+     * @param UserContextInterface $userContext
      * @param string[] $resources
      * @return \Zend_Acl_Role_Interface
      */
-    public function createRole($roleName, $resources);
+    public function createRole($roleName, $userContext, $resources);
 }

@@ -33,12 +33,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add user filter
      *
      * @param int $userId
+     * @param string $userType
      * @return \Magento\User\Model\Resource\Role\Collection
      */
-    public function setUserFilter($userId)
+    public function setUserFilter($userId, $userType)
     {
         $this->addFieldToFilter('user_id', $userId);
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('user_type', $userType);
         return $this;
     }
 
