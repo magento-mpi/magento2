@@ -360,6 +360,34 @@ class CSample
 }
 
 FORMATTEDCLOSURE;
+        $originalClosure2 = <<<'ORIGINALCLOSURE2'
+<?php
+class CSample2 {
+    public function cS2() {
+        $assignedThemeIds = array_map(
+            function ($theme) {
+                return $theme->getId();
+            },
+            $this->_customizationConfig->getAssignedThemeCustomizations()
+        );}}
+
+ORIGINALCLOSURE2;
+        $formattedClosure2 = <<<'FORMATTEDCLOSURE2'
+<?php
+class CSample2
+{
+    public function cS2()
+    {
+        $assignedThemeIds = array_map(
+            function ($theme) {
+                return $theme->getId();
+            },
+            $this->_customizationConfig->getAssignedThemeCustomizations()
+        );
+    }
+}
+
+FORMATTEDCLOSURE2;
 
         return array(
             array(
@@ -380,6 +408,7 @@ FORMATTEDCLOSURE;
             array($originalCodeSnippet4, $formattedCodeSnippet4),
             array($originalCodeSnippet5, $formattedCodeSnippet5),
             array($originalClosure, $formattedClosure),
+            array($originalClosure2, $formattedClosure2),
         );
     }
 }

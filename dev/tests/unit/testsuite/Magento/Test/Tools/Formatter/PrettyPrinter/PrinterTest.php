@@ -480,7 +480,7 @@ class Foo {
         echo 'somehing\\n'.(1+2).'more';
 
         echo 'z';
-        echo "My super string \\n Is here".(1).'mixed'.\$v;
+        echo "My super string \\n Is here".(1).'mixed'.\$varOne;
         // Comment at end of block
     }
 };
@@ -501,7 +501,7 @@ class Foo
         echo 'somehing\\n' . (1 + 2) . 'more';
 
         echo 'z';
-        echo "My super string \\n Is here" . 1 . 'mixed' . \$v;
+        echo "My super string \\n Is here" . 1 . 'mixed' . \$varOne;
     }
 }
 

@@ -21,6 +21,7 @@ class AbstractFunctionReference extends AbstractReference
     {
         // search for a closure as one of the arguments
         if ($this->hasClosure($arguments)) {
+            // force the multi-line argument list
             $line->add('(')->add(new HardLineBreak());
             foreach ($arguments as $index => $argument) {
                 // create a new child for each argument
@@ -28,12 +29,12 @@ class AbstractFunctionReference extends AbstractReference
                 $newChild = $treeNode->addChild(AbstractSyntax::getNodeLine($line));
                 // process the argument itself
                 $this->resolveNode($argument, $newChild);
+                /** @var Line $line */
+                $line = $treeNode->getChildren()[sizeof($treeNode->getChildren()) - 1]->getData()->line;
                 // if not the last one, separate with a comma
                 if ($index < sizeof($arguments) - 1) {
                     $line->add(',');
                 }
-                /** @var Line $line */
-                $line = $treeNode->getChildren()[sizeof($treeNode->getChildren()) - 1]->getData()->line;
                 // each argument will have a hard line break
                 $line->add(new HardLineBreak());
             }
