@@ -148,7 +148,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         if (!$helper->isMultipleEnabled() ) {
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId && $wishlistId != $helper->getDefaultWishlist()->getId() ) {
-                $this->_redirectUrl($helper->getListUrl());
+                $this->getResponse()->setRedirect($helper->getListUrl());
             }
         }
         parent::indexAction();
@@ -389,7 +389,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $wishlist->save();
         if ($this->_getSession()->hasBeforeWishlistUrl())
         {
-            $this->_redirectUrl($this->_getSession()->getBeforeWishlistUrl());
+            $this->getResponse()->setRedirect($this->_getSession()->getBeforeWishlistUrl());
             $this->_getSession()->unsBeforeWishlistUrl();
         } else {
             $this->_redirectReferer();

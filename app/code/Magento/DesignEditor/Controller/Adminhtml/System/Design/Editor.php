@@ -279,7 +279,7 @@ class Editor extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__('You cannot duplicate this theme.'));
         }
-        $this->_redirectUrl($this->_getRefererUrl());
+        $this->getResponse()->setRedirect($this->_getRefererUrl());
     }
 
     /**
@@ -484,7 +484,7 @@ class Editor extends \Magento\Backend\App\Action
             $this->renderLayout();
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t load the list of themes.'));
-            $this->_redirectUrl($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }

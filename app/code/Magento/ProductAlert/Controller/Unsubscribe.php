@@ -68,7 +68,7 @@ class Unsubscribe extends \Magento\App\Action\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectUrl($product->getProductUrl());
+        $this->getResponse()->setRedirect($product->getProductUrl());
     }
 
     public function priceAllAction()
@@ -124,7 +124,7 @@ class Unsubscribe extends \Magento\App\Action\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectUrl($product->getProductUrl());
+        $this->getResponse()->setRedirect($product->getProductUrl());
     }
 
     public function stockAllAction()

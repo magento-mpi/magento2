@@ -141,7 +141,7 @@ class Index extends \Magento\App\Action\Action
         }
 
         $checkoutUrl = $this->_getRefererUrl();
-        $this->_redirectUrl($checkoutUrl . (strpos($checkoutUrl, '?') ? '&' : '?') . 'register');
+        $this->getResponse()->setRedirect($checkoutUrl . (strpos($checkoutUrl, '?') ? '&' : '?') . 'register');
     }
 
     /**

@@ -160,7 +160,7 @@ class Index extends \Magento\App\Action\Action
                         ->load((int)$wishlistItem->getProductId());
                     $query['options'] = \Magento\GiftRegistry\Block\Product\View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
-                    $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
+                    $this->getResponse()->setRedirect($product->getUrlModel()->getUrl($product, array('_query' => $query)));
                     return;
                 }
                 $this->_getSession()->addError($e->getMessage());

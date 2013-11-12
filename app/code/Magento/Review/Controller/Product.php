@@ -144,7 +144,7 @@ class Product extends \Magento\App\Action\Action
                 $this->_reviewSession
                     ->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
+                $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
             }
         }
 
@@ -297,7 +297,7 @@ class Product extends \Magento\App\Action\Action
 
         $redirectUrl = $this->_reviewSession->getRedirectUrl(true);
         if ($redirectUrl) {
-            $this->_redirectUrl($redirectUrl);
+            $this->getResponse()->setRedirect($redirectUrl);
             return;
         }
         $this->_redirectReferer();

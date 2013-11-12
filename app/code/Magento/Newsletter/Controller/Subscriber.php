@@ -152,7 +152,7 @@ class Subscriber extends \Magento\App\Action\Action
             }
         }
 
-        $this->_redirectUrl($this->_storeManager->getStore()->getBaseUrl());
+        $this->getResponse()->setRedirect($this->_storeManager->getStore()->getBaseUrl());
     }
 
     /**

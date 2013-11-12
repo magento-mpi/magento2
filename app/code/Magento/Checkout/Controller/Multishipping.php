@@ -100,7 +100,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()) {
                 $error = $this->_getCheckout()->getMinimumAmountError();
                 $this->_getCheckoutSession()->addError($error);
-                $this->_redirectUrl($this->_getHelper()->getCartUrl());
+                $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 return $this;
             }
@@ -113,7 +113,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         if ($this->_getCheckoutSession()->getCartWasUpdated(true)
             && !in_array($action, array('index', 'login', 'register', 'addresses', 'success'))
         ) {
-            $this->_redirectUrl($this->_getHelper()->getCartUrl());
+            $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
 
@@ -123,7 +123,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
 
         $quote = $this->_getCheckout()->getQuote();
         if (!$quote->hasItems() || $quote->getHasError() || $quote->isVirtual()) {
-            $this->_redirectUrl($this->_getHelper()->getCartUrl());
+            $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
@@ -167,7 +167,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     public function registerAction()
     {
         if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
-            $this->_redirectUrl($this->_getHelper()->getMSCheckoutUrl());
+            $this->getResponse()->setRedirect($this->_getHelper()->getMSCheckoutUrl());
             return;
         }
 

@@ -285,7 +285,7 @@ class Theme extends \Magento\Backend\App\Action
             }
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file'));
-            $this->_redirectUrl($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
@@ -321,7 +321,7 @@ class Theme extends \Magento\Backend\App\Action
             ));
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file "%1".', $fileName));
-            $this->_redirectUrl($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }

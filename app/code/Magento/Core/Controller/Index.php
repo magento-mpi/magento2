@@ -40,7 +40,7 @@ class Index extends \Magento\App\Action\Action
 
         $url = $redirect->getRedirectUrl();
         if ($url) {
-            $this->_redirectUrl($url);
+            $this->getResponse()->setRedirect($url);
         } elseif ($redirect->getRedirect()) {
             $this->_redirect($redirect->getPath(), $redirect->getArguments());
         } else {

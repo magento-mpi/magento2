@@ -294,7 +294,7 @@ class Account extends \Magento\App\Action\Action
                 $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
             }
         }
-        $this->_redirectUrl($session->getBeforeAuthUrl(true));
+        $this->getResponse()->setRedirect($session->getBeforeAuthUrl(true));
     }
 
     /**

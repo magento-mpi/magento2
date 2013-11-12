@@ -554,7 +554,7 @@ class Index
 
         $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
-        return $this->_redirectUrl($redirectUrl);
+        return $this->getResponse()->setRedirect($redirectUrl);
     }
 
     /**
@@ -601,7 +601,7 @@ class Index
             $session->addException($e, __('We can\'t move the item to the wish list.'));
         }
 
-        return $this->_redirectUrl($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
+        return $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
     }
 
     /**

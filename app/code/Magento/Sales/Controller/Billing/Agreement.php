@@ -100,7 +100,7 @@ class Agreement extends \Magento\App\Action\Action
                     ->setCancelUrl($this->_objectManager->create('Magento\Core\Model\Url')
                         ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
 
-                $this->_redirectUrl($agreement->initToken());
+                $this->getResponse()->setRedirect($agreement->initToken());
                 return $this;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

@@ -181,6 +181,6 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
         $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 }

@@ -166,7 +166,7 @@ class Formtype
             }
         }
 
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 
     /**
@@ -305,7 +305,7 @@ class Formtype
                 $redirectUrl = $this->getUrl('adminhtml/*/edit', array('type_id' => $formType->getId()));
             }
         }
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 
     /**

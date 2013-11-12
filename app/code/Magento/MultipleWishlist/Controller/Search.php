@@ -355,6 +355,6 @@ class Search extends \Magento\App\Action\Action
         // save cart and collect totals
         $cart->save()->getQuote()->collectTotals();
 
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 }

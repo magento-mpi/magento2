@@ -540,18 +540,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Set redirect url into response
-     *
-     * @param   string $url
-     * @return  \Magento\App\ActionInterface
-     */
-    protected function _redirectUrl($url) // Inline
-    {
-        $this->getResponse()->setRedirect($url);
-        return $this;
-    }
-
-    /**
      * Set redirect into response
      *
      * @param   string $path

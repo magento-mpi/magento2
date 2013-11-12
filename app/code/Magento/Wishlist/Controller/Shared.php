@@ -71,7 +71,9 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
 
         if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
-            $this->_redirectUrl($this->_objectManager->get('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId()));
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId())
+            );
             return;
         }
 
@@ -125,6 +127,6 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
             $session->addException($e, __('Cannot add item to shopping cart'));
         }
 
-        return $this->_redirectUrl($redirectUrl);
+        return $this->getResponse()->setRedirect($redirectUrl);
     }
 }
