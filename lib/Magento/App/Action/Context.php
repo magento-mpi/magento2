@@ -61,6 +61,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     protected $_flag;
 
+    /** @var \Magento\Encryption\UrlCoder */
+    protected $_urlCoder;
+
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
@@ -83,6 +86,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Helper\AbstractHelper $helper
      * @param \Magento\App\ActionFlag $flag
+     * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param $isRenderInherited
      */
     public function __construct(
@@ -107,6 +111,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\App $app,
         \Magento\Core\Helper\AbstractHelper $helper,
         \Magento\App\ActionFlag $flag,
+        \Magento\Encryption\UrlCoder $urlCoder,
         $isRenderInherited
     ) {
         $this->_request = $request;
@@ -129,6 +134,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cookie = $cookie;
         $this->_app = $app;
         $this->_helper = $helper;
+        $this->_urlCoder = $urlCoder;
         $this->_isRenderInherited = $isRenderInherited;
         $this->_flag = $flag;
     }
@@ -309,4 +315,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
         return $this->_url;
     }
 
+    /**
+     * @return \Magento\Encryption\UrlCoder
+     */
+    public function getUrlCoder()
+    {
+        return $this->_urlCoder;
+    }
 }

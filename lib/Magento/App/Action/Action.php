@@ -100,6 +100,9 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     protected $_flag;
 
+    /** @var \Magento\Encryption\UrlCoder */
+    protected $_urlCoder;
+
     /**
      * @param Context $context
      */
@@ -127,6 +130,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_app               = $context->getApp();
         $this->_helper            = $context->getHelper();
         $this->_flag              = $context->getFlag();
+        $this->_urlCoder           = $context->getUrlCoder();
     }
 
     /**
