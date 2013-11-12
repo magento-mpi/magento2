@@ -1,14 +1,17 @@
+* Improved Caching of Categories to improve Navigation menu rendering
 * Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
 * Various improvements:
   * Added static test for check incorrect dependencies in library
   * Moved Magento\Core\Model\Theme to Magento\View component
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
+  * Email-related logic from Core and Adminhtml modules consolidated in new Email module
 * Themes update:
   * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+  * Fixed broken click for price link when "Display Actual Price" is set to in cart
 
 2.0.0.0-dev51
 =============
