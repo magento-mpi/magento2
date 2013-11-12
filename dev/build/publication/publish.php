@@ -47,7 +47,7 @@ try {
     execVerbose('git clone %s %s', $targetRepository, $targetDir);
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
-    execVerbose("$gitCmd checkout $targetBranch");
+    execVerbose("$gitCmd checkout -b $targetBranch origin/$targetBranch");
 
     // determine whether source-point is a branch name or a commit ID
     try {
@@ -81,7 +81,10 @@ try {
     if (!empty($targetLog) && $sourceLog == $targetLog) {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
+
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
+
+    execVerbose("$gitCmd mv $changelogFile CHANGELOG.md");
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
