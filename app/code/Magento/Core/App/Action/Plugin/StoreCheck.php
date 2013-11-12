@@ -12,6 +12,20 @@ namespace Magento\Core\App\Action\Plugin;
 
 class StoreCheck
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
     public function beforeDispatch()
     {
         // Prohibit disabled store actions
