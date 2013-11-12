@@ -62,15 +62,15 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
 
     /**
      * @param \Magento\App\RouterListInterface $routerList
+     * @param PathInfoProcessorInterface $pathInfoProcessor
      * @param string $uri
      * @param array $directFrontNames
-     * @param PathInfoProcessorInterface $pathInfoProcessor
      */
     public function __construct(
         \Magento\App\RouterListInterface $routerList,
+        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor,
         $uri = null,
-        $directFrontNames = array(),
-        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor = null
+        $directFrontNames = array()
     ) {
         $this->_routerList = $routerList;
         $this->_directFrontNames = $directFrontNames;
