@@ -32,7 +32,7 @@ class TemplateFilesTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\View\Element\BlockFactory');
         /** @var \Magento\View\Block\Template $block */
         $block = $blockFactory->createBlock($class);
-        $this->assertInstanceOf('Magento\View\Block\Template, $block);
+        $this->assertInstanceOf('Magento\View\Block\Template', $block);
         $block->setTemplate((string)$template);
         $this->assertFileExists($block->getTemplateFile());
     }

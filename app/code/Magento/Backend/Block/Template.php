@@ -51,7 +51,7 @@ class Template extends \Magento\View\Block\Template
         $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
-        \Magento\View\Block\parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -99,6 +99,6 @@ class Template extends \Magento\View\Block\Template
     protected function _toHtml()
     {
         $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
-        return \Magento\View\Block\parent::_toHtml();
+        return parent::_toHtml();
     }
 }

@@ -49,8 +49,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $template \Magento\View\Block\Template */
-        $template = $objectManager->getObject('Magento\View\Block\Template);
-        $this->assertInstanceOf('Magento\View\Block\Template, $template);
+        $template = $objectManager->getObject('Magento\View\Block\Template');
+        $this->assertInstanceOf('Magento\View\Block\Template', $template);
         foreach ($this->_blockDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $template);
         }
@@ -66,7 +66,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $appStateProperty->setValue($context, $appStateMock);
 
         /** @var $template \Magento\View\Block\Template */
-        $template = $objectManager->getObject('Magento\View\Block\Template, array('context' => $context));
+        $template = $objectManager->getObject('Magento\View\Block\Template', array('context' => $context));
         $this->assertEquals($area, $template->getArea());
     }
 

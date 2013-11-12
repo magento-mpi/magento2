@@ -39,7 +39,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getEmailGeneratedItemsBlock()
     {
         /** @var $block \Magento\View\Block\Template */
-        $block = $this->_layout->createBlock('Magento\View\Block\Template);
+        $block = $this->_layout->createBlock('Magento\View\Block\Template');
         $block->setTemplate('Magento_GiftCard::email/generated.phtml');
         return $block;
     }

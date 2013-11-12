@@ -30,7 +30,7 @@ class AbstractBlock extends \Magento\View\Block\AbstractBlock
         \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
-        \Magento\View\Block\parent::__construct($context, $data);
+        parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();
     }
 }
