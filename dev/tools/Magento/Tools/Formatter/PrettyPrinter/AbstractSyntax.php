@@ -70,6 +70,7 @@ abstract class AbstractSyntax
      */
     protected function processArgumentList(array $arguments, TreeNode $treeNode, Line $line, LineBreak $lineBreak)
     {
+        $lastProcessedNode = null;
         if (!empty($arguments)) {
             foreach ($arguments as $index => $argument) {
                 // add the line break prior to the argument
@@ -77,7 +78,10 @@ abstract class AbstractSyntax
                 // If $argument is null there is nothing to resolve
                 if ($argument !== null) {
                     // process the argument itself
-                    $this->resolveNode($argument, $treeNode);
+                    $lastProcessedNode = $this->resolveNode($argument, $treeNode);
+                    if (null !== $lastProcessedNode) {
+                        $line = $lastProcessedNode->getData()->line;
+                    }
                 }
                 // if not the last one, separate with a comma
                 if ($index < sizeof($arguments) - 1) {
@@ -88,6 +92,7 @@ abstract class AbstractSyntax
                 $line->add($lineBreak);
             }
         }
+        return $lastProcessedNode;
     }
 
     /**

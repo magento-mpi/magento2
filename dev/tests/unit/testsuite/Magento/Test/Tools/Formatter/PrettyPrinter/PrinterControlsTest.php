@@ -443,6 +443,36 @@ class CSample4
 }
 
 FORMATTEDCLOSURE4;
+        $originalClosure5 = <<< 'OC5'
+<?php
+class CSample5 {
+    public function cS5() {
+        $this->_block
+            ->expects($this->any())
+            ->method('_getLayoutProcessor')
+            ->will($this->returnCallback(
+                function () use ($layoutUtility) {
+                    return $layoutUtility->getLayoutUpdateFromFixture(glob(__DIR__ . '/_files/layout/*.xml'));
+                }
+            ))
+        ;}}
+OC5;
+        $formattedClosure5 = <<< 'FC5'
+<?php
+class CSample5
+{
+    public function cS5()
+    {
+        $this->_block->expects($this->any())->method('_getLayoutProcessor')->will($this->returnCallback(
+            function () use ($layoutUtility) {
+                return $layoutUtility->getLayoutUpdateFromFixture(glob(__DIR__ . '/_files/layout/*.xml'));
+            }
+        ));
+    }
+}
+
+FC5;
+
 
         return array(
             array(
@@ -466,6 +496,7 @@ FORMATTEDCLOSURE4;
             array($originalClosure2, $formattedClosure2),
             array($originalClosure3, $formattedClosure3),
             array($originalClosure4, $formattedClosure4),
+            array($originalClosure5, $formattedClosure5),
         );
     }
 }

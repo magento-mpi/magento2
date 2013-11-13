@@ -20,6 +20,7 @@ class AbstractFunctionReference extends AbstractReference
 {
     protected function processArgsList(array $arguments, TreeNode $treeNode, Line $line, LineBreak $lineBreak)
     {
+        $lastProcessedNode = null;
         // search for a closure as one of the arguments
         if ($this->hasClosure($arguments)) {
             // force the multi-line argument list
@@ -27,11 +28,13 @@ class AbstractFunctionReference extends AbstractReference
             foreach ($arguments as $index => $argument) {
                 // create a new child for each argument
                 $line = new Line();
-                $newChild = $treeNode->addChild(AbstractSyntax::getNodeLine($line));
+                $lastProcessedNode = $treeNode->addChild(AbstractSyntax::getNodeLine($line));
                 // process the argument itself
-                $this->resolveNode($argument, $newChild);
+                $lastProcessedNode = $this->resolveNode($argument, $lastProcessedNode);
                 /** @var Line $line */
-                $line = $treeNode->getChildren()[sizeof($treeNode->getChildren()) - 1]->getData()->line;
+                if (null !== $lastProcessedNode) {
+                    $line = $lastProcessedNode->getData()->line;
+                }
                 // if not the last one, separate with a comma
                 if ($index < sizeof($arguments) - 1) {
                     $line->add(',');
@@ -40,14 +43,17 @@ class AbstractFunctionReference extends AbstractReference
                 $line->add(new HardLineBreak());
             }
             // add the closing on a new line
-            $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line(')')));
+            $lastProcessedNode = $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line(')')));
         } else {
             // just process as normal
             $line->add('(');
-            $this->processArgumentList($arguments, $treeNode, $line, $lineBreak);
+            $lastProcessedNode = $this->processArgumentList($arguments, $treeNode, $line, $lineBreak);
+            if (null !== $lastProcessedNode) {
+                $line = $lastProcessedNode->getData()->line;
+            }
             $line->add(')');
         }
-        return $treeNode;
+        return $lastProcessedNode;
     }
 
     /**
