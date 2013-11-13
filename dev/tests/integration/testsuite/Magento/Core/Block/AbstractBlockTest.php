@@ -421,7 +421,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @covers \Magento\Core\Block\AbstractBlock::addToParentGroup
+     * @covers \Magento\Core\Model\Layout::addToParentGroup
      * @covers \Magento\Core\Block\AbstractBlock::getGroupChildNames
      */
     public function testAddToParentGroup()
