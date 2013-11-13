@@ -19,7 +19,16 @@ interface WriteInterface extends ReadInterface
     public function create($path);
 
     /**
-     * Renames a source to into new name
+     * Delete given path
+     *
+     * @param string $path
+     * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function delete($path);
+
+    /**
+     * Rename a file
      *
      * @param string $path
      * @param string $newPath
@@ -27,7 +36,7 @@ interface WriteInterface extends ReadInterface
      * @return bool
      * @throws \Magento\Filesystem\FilesystemException
      */
-    public function rename($path, $newPath, WriteInterface $targetDirectory = null);
+    public function renameFile($path, $newPath, WriteInterface $targetDirectory = null);
 
     /**
      * Copy a file
@@ -38,16 +47,7 @@ interface WriteInterface extends ReadInterface
      * @return bool
      * @throws \Magento\Filesystem\FilesystemException
      */
-    public function copy($path, $destination, WriteInterface $targetDirectory = null);
-
-    /**
-     * Delete given path
-     *
-     * @param string $path
-     * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    public function delete($path);
+    public function copyFile($path, $destination, WriteInterface $targetDirectory = null);
 
     /**
      * Change permissions of given path

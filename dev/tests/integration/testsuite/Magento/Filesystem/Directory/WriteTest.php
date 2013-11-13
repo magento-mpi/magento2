@@ -106,7 +106,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $directory = $this->getDirectoryInstance($basePath, $permissions);
         $directory->create($name);
         $created = $directory->read();
-        $directory->rename($name, $newName);
+        $directory->renameFile($name, $newName);
         $renamed = $directory->read();
         $this->assertTrue(in_array($name, $created));
         $this->assertTrue(in_array($newName, $renamed));
@@ -143,7 +143,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
 
         $dir1->create($name);
         $created = $dir1->read();
-        $dir1->rename($name, $newName, $dir2);
+        $dir1->renameFile($name, $newName, $dir2);
         $oldPlace = $dir1->read();
         $newPlace = $dir2->read();
 
@@ -178,7 +178,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $directory = $this->getDirectoryInstance($basePath, $permissions);
         $file = $directory->openFile($name, 'w+');
         $file->close();
-        $directory->copy($name, $newName);
+        $directory->copyFile($name, $newName);
         $this->assertTrue($directory->isExist($name));
         $this->assertTrue($directory->isExist($newName));
     }
@@ -213,7 +213,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
 
         $file = $dir1->openFile($name, 'w+');
         $file->close();
-        $dir1->copy($name, $newName, $dir2);
+        $dir1->copyFile($name, $newName, $dir2);
 
         $this->assertTrue($dir1->isExist($name));
         $this->assertTrue($dir2->isExist($newName));
