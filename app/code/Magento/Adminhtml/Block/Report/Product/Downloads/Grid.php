@@ -28,7 +28,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory $downloadsFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
@@ -36,12 +35,11 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory $downloadsFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_downloadsFactory = $downloadsFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $urlModel, $data);
     }
 
     protected function _construct()

@@ -80,7 +80,6 @@ class Head extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
@@ -92,7 +91,6 @@ class Head extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -108,7 +106,6 @@ class Head extends \Magento\Core\Block\Template
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
-        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
     }
 

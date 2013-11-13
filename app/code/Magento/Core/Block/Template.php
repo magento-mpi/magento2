@@ -101,7 +101,6 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_templateEngineFactory = $context->getEngineFactory();
-        $this->_storeManager = $context->getApp();
         $this->_appState = $context->getAppState();
         parent::__construct($context, $data);
     }

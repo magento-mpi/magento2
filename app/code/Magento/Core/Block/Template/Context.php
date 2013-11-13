@@ -71,6 +71,9 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -95,7 +98,8 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\Escaper $escaper,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct(
             $request,
@@ -115,7 +119,8 @@ class Context extends \Magento\Core\Block\Context
             $logger,
             $app,
             $escaper,
-            $filterManager
+            $filterManager,
+            $storeManager
         );
 
         $this->_appState = $appState;

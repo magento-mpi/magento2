@@ -45,8 +45,6 @@ class Config
     /**
      * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -445,7 +443,7 @@ class Config
      */
     public function getApp()
     {
-        return $this->_storeManager;
+        return $this->_app;
     }
 
     /**

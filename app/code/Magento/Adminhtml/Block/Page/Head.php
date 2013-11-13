@@ -31,7 +31,6 @@ class Head extends \Magento\Page\Block\Html\Head
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
@@ -44,7 +43,6 @@ class Head extends \Magento\Page\Block\Html\Head
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -57,7 +55,7 @@ class Head extends \Magento\Page\Block\Html\Head
     ) {
         $this->_titles = $titles;
         parent::__construct(
-            $locale, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
+            $locale, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
             $assetMergeService, $assetMinifyService, $data
         );
     }

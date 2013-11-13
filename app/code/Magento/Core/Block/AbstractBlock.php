@@ -147,6 +147,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -170,6 +175,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
+        $this->_storeManager    = $context->getStoreManager();
         parent::__construct($data);
         $this->_construct();
     }

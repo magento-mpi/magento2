@@ -65,6 +65,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Math\Random $mathRandom
@@ -97,6 +98,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\App\State $appState,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Math\Random $mathRandom
@@ -124,7 +126,8 @@ class Context extends \Magento\Core\Block\Template\Context
             $app,
             $appState,
             $escaper,
-            $filterManager
+            $filterManager,
+            $storeManager
         );
         $this->_storeManager = $storeManager;
         $this->_authorization = $authorization;

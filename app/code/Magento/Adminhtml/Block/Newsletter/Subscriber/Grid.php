@@ -28,7 +28,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      * @param \Magento\Newsletter\Model\QueueFactory $queueFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
@@ -36,12 +35,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Newsletter\Model\QueueFactory $queueFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_queueFactory = $queueFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $urlModel, $data);
     }
 
     /**

@@ -105,6 +105,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_filterManager;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -123,6 +128,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -144,6 +150,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -164,6 +171,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_app             = $app;
         $this->_escaper         = $escaper;
         $this->_filterManager   = $filterManager;
+        $this->_storeManager    = $storeManager;
     }
 
     /**
@@ -308,5 +316,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getFilterManager()
     {
         return $this->_filterManager;
+    }
+
+    /**
+     * @return \Magento\Core\Model\StoreManagerInterface
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }
