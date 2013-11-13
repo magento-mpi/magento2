@@ -17,21 +17,6 @@
             <stringProp name="Argument.value">${__P(path,/)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="category_1_url_key" elementType="Argument">
-            <stringProp name="Argument.name">category_1_url_key</stringProp>
-            <stringProp name="Argument.value">${__P(category_1_url_key,category-1)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="category_2_url_key" elementType="Argument">
-            <stringProp name="Argument.name">category_2_url_key</stringProp>
-            <stringProp name="Argument.value">${__P(category_2_url_key,category-1)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="category_3_url_key" elementType="Argument">
-            <stringProp name="Argument.name">category_3_url_key</stringProp>
-            <stringProp name="Argument.value">${__P(category_3_url_key,category-1)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="url_suffix" elementType="Argument">
             <stringProp name="Argument.name">url_suffix</stringProp>
             <stringProp name="Argument.value">${__P(url_suffix,.html)}</stringProp>
@@ -657,6 +642,162 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Category 1" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${base_host}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Page" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1003102058">&lt;span&gt;Category</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Category 1 Url Key" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">category_1_url_key</stringProp>
+            <stringProp name="RegexExtractor.regex">&lt;a href=&quot;http://${base_host}/([^&apos;&quot;]+)${url_suffix}&quot;  class=&quot;level-top&quot; &gt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable">simple_product_1_url_key</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category 1 Url Key" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2845929">^.+$</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.scope">variable</stringProp>
+            <stringProp name="Scope.variable">category_1_url_key</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Category 2" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${base_host}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}/${category_1_url_key}${url_suffix}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Page" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1113336220">&lt;a href=&quot;http://${base_host}/${category_1_url_key}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Category 2 Url Key" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">category_2_url_key</stringProp>
+            <stringProp name="RegexExtractor.regex">&lt;a href=&quot;http://${base_host}/${category_1_url_key}/([^&apos;&quot;]+)${url_suffix}&quot; &gt;&lt;span&gt;Category</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable">simple_product_1_url_key</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category 2 Url Key" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2845929">^.+$</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.scope">variable</stringProp>
+            <stringProp name="Scope.variable">category_2_url_key</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Category 3" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${base_host}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}/${category_1_url_key}/${category_2_url_key}${url_suffix}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Page" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="36191154">&lt;a href=&quot;http://${base_host}/${category_1_url_key}/${category_2_url_key}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Category 3 Url Key" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">category_3_url_key</stringProp>
+            <stringProp name="RegexExtractor.regex">&lt;a href=&quot;http://${base_host}/${category_1_url_key}/${category_2_url_key}/([^&apos;&quot;]+)${url_suffix}&quot; &gt;&lt;span&gt;Category</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable">simple_product_1_url_key</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category 3 Url Key" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2845929">^.+$</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.scope">variable</stringProp>
+            <stringProp name="Scope.variable">category_2_url_key</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 JMeterUtils.setProperty(&quot;simple_product_1_url_key&quot;, vars.get(&quot;simple_product_1_url_key&quot;));
@@ -669,7 +810,11 @@ JMeterUtils.setProperty(&quot;simple_product_2_id&quot;, vars.get(&quot;simple_p
 
 JMeterUtils.setProperty(&quot;configurable_product_1_url_key&quot;, vars.get(&quot;configurable_product_1_url_key&quot;));
 JMeterUtils.setProperty(&quot;configurable_product_1_name&quot;, vars.get(&quot;configurable_product_1_name&quot;));
-JMeterUtils.setProperty(&quot;configurable_product_1_url_key&quot;, vars.get(&quot;configurable_product_1_url_key&quot;));</stringProp>
+JMeterUtils.setProperty(&quot;configurable_product_1_url_key&quot;, vars.get(&quot;configurable_product_1_url_key&quot;));
+
+JMeterUtils.setProperty(&quot;category_1_url_key&quot;, vars.get(&quot;category_1_url_key&quot;));
+JMeterUtils.setProperty(&quot;category_2_url_key&quot;, vars.get(&quot;category_2_url_key&quot;));
+JMeterUtils.setProperty(&quot;category_3_url_key&quot;, vars.get(&quot;category_3_url_key&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -709,7 +854,11 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));</stringProp>
+vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+
+vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
+vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -1095,7 +1244,11 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));</stringProp>
+vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+
+vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
+vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -1709,7 +1862,11 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));</stringProp>
+vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+
+vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
+vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -3011,7 +3168,11 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));</stringProp>
+vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+
+vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
+vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -4192,7 +4353,11 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));</stringProp>
+vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+
+vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
+vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
