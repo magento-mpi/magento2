@@ -3,6 +3,8 @@
   * Moved Magento\Core\Model\Theme to Magento\View component
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
+* Themes update:
+  * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
