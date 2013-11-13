@@ -48,6 +48,11 @@ class Context extends \Magento\Core\Block\Context
     protected $_appState;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -119,10 +124,10 @@ class Context extends \Magento\Core\Block\Context
             $logger,
             $app,
             $escaper,
-            $filterManager,
-            $storeManager
+            $filterManager
         );
 
+        $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_dirs = $dirs;
         $this->_logger = $logger;
@@ -188,5 +193,15 @@ class Context extends \Magento\Core\Block\Context
     public function getAppState()
     {
         return $this->_appState;
+    }
+
+    /**
+     * Get store manager
+     *
+     * @return \Magento\Core\Model\StoreManagerInterface
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }

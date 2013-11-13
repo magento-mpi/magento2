@@ -37,6 +37,7 @@ class Website
 
     /**
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Model\Registry $registry
@@ -44,12 +45,14 @@ class Website
      */
     public function __construct(
         \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
         $this->_websitesFactory = $websitesFactory;
         parent::__construct($context, $resourceHelper, $data);
     }

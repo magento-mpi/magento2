@@ -73,7 +73,6 @@ class ObjectManager
         $object = null;
         $interfaces = class_implements($className);
         if (in_array('Magento\ObjectManager\ContextInterface', $interfaces)) {
-            var_dump($arguments);
             $object = $this->getObject($className, $arguments);
         } elseif (isset($this->_specialCases[$className])) {
             $method = $this->_specialCases[$className];

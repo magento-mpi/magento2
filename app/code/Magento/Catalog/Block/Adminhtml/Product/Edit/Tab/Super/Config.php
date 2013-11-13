@@ -443,7 +443,7 @@ class Config
      */
     public function getApp()
     {
-        return $this->_app;
+        return $this->_storeManager;
     }
 
     /**

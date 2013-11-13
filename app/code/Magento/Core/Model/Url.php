@@ -153,6 +153,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param Url\SecurityInfoInterface $urlSecurityInfo
      * @param Store\Config $coreStoreConfig
      * @param App $app
+     * @param StoreManager $storeManager
      * @param Session $session
      * @param null $areaCode
      * @param array $data
@@ -163,6 +164,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Session $session,
         $areaCode = null,
         array $data = array()
@@ -172,6 +174,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
+        $this->_storeManager = $storeManager;
         $this->_session = $session;
         $this->_areaCode = $areaCode;
         parent::__construct($data);

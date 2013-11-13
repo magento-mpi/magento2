@@ -147,11 +147,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -175,7 +170,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
-        $this->_storeManager    = $context->getStoreManager();
         parent::__construct($data);
         $this->_construct();
     }
@@ -931,7 +925,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _beforeCacheUrl()
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_storeManager->setUseSessionVar(true);
+            $this->_app->setUseSessionVar(true);
         }
         return $this;
     }
@@ -945,7 +939,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _afterCacheUrl($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_storeManager->setUseSessionVar(false);
+            $this->_app->setUseSessionVar(false);
             \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             \Magento\Profiler::stop('CACHE_URL');

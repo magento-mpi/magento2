@@ -28,6 +28,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      * @param \Magento\Reports\Model\Resource\Product\Lowstock\CollectionFactory $lowstocksFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
@@ -35,11 +36,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Reports\Model\Resource\Product\Lowstock\CollectionFactory $lowstocksFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_lowstocksFactory = $lowstocksFactory;
-        parent::__construct($coreData, $context, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
