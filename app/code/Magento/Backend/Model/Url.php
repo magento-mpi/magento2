@@ -78,7 +78,7 @@ class Url extends \Magento\Core\Model\Url
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Session $session
@@ -94,7 +94,7 @@ class Url extends \Magento\Core\Model\Url
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
+        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Session $session,
@@ -109,7 +109,7 @@ class Url extends \Magento\Core\Model\Url
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct(
-            $routeConfig, $request, $securityInfo, $coreStoreConfig,
+            $routeConfig, $request, $urlSecurityInfo, $coreStoreConfig,
             $app, $storeManager, $session, $areaCode, $data
         );
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);

@@ -47,23 +47,23 @@ class Renderer extends \Magento\Core\Block\Template
      *
      * @var \Magento\Catalog\Helper\Product\Configuration
      */
-    protected $_productConfigur = null;
+    protected $_productConfig = null;
 
     /**
-     * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
+        \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
-        $this->_productConfigur = $productConfigur;
+        $this->_productConfig = $productConfig;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($coreData, $context, $data);
     }
@@ -257,7 +257,7 @@ class Renderer extends \Magento\Core\Block\Template
     public function getProductOptions()
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
-        $helper = $this->_productConfigur;
+        $helper = $this->_productConfig;
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -396,7 +396,7 @@ class Renderer extends \Magento\Core\Block\Template
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
-        $helper = $this->_productConfigur;
+        $helper = $this->_productConfig;
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'

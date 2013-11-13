@@ -32,7 +32,6 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
-     * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
@@ -45,7 +44,6 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Customer\Model\Session $session,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

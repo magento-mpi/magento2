@@ -37,7 +37,7 @@ class View extends \Magento\Catalog\Block\Layer\View
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Search\Model\Search\Layer $searchLayer
-     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
@@ -45,13 +45,13 @@ class View extends \Magento\Catalog\Block\Layer\View
         \Magento\Search\Helper\Data $searchData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Search\Model\Search\Layer $searchLayer,
-        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
         $this->_searchLayer = $searchLayer;
-        parent::__construct($layer, $coreData, $context, $data);
+        parent::__construct($catalogLayer, $coreData, $context, $data);
     }
 
     /**

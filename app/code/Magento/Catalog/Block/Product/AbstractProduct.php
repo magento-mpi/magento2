@@ -105,7 +105,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
@@ -115,7 +115,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
@@ -124,7 +124,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogConfig = $catalogConfig;
-        $this->_coreRegistry = $coreRegistry;
+        $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $data);

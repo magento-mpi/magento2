@@ -52,7 +52,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     /**
      * Construct
      *
-     * @param \Magento\CatalogSearch\Model\Layer $layer
+     * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
@@ -63,7 +63,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogSearch\Model\Layer $layer,
+        \Magento\CatalogSearch\Model\Layer $catalogLayer,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
@@ -78,7 +78,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
         $this->_catalogSearchData = $catalogSearchData;
         $this->_catalogSearchLayer = $catalogSearchLayer;
         $this->_storeManager = $storeManager;
-        parent::__construct($layer, $coreData, $context, $data);
+        parent::__construct($catalogLayer, $coreData, $context, $data);
     }
 
     /**

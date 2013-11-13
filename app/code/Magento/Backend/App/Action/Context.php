@@ -33,11 +33,6 @@ class Context extends \Magento\App\Action\Context
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\Translate
-     */
-    protected $_translator;
-
-    /**
      * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
@@ -82,21 +77,22 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\App $app
-     * @param $isRenderInherited
+     * @param mixed $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param \Magento\HTTP\Url $httpUrl
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\App\Action\Title $title
      * @param bool $canUseBaseUrl
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -116,7 +112,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Url $url,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App $app,
@@ -127,7 +123,6 @@ class Context extends \Magento\App\Action\Context
         \Magento\Encryption\UrlCoder $urlCoder,
         \Magento\HTTP\Url $httpUrl,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Translate $translator,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -137,14 +132,13 @@ class Context extends \Magento\App\Action\Context
     ) {
         parent::__construct(
             $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, $authentication,
-            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translate,
+            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translator,
             $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $isRenderInherited
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;
         $this->_helper = $helper;
         $this->_authorization = $authorization;
-        $this->_translator = $translator;
         $this->_auth = $auth;
         $this->_backendUrl = $backendUrl;
         $this->_locale = $locale;

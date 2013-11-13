@@ -68,6 +68,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_httpUrl;
 
     /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translator;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -83,7 +88,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\App $app
@@ -109,7 +114,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Url $url,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App $app,
@@ -134,7 +139,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_locale = $locale;
         $this->_session = $session;
         $this->_url = $url;
-        $this->_translate = $translate;
+        $this->_translator = $translator;
         $this->_storeConfig = $storeConfig;
         $this->_cookie = $cookie;
         $this->_app = $app;
@@ -310,7 +315,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function getTranslate()
     {
-        return $this->_translate;
+        return $this->_translator;
     }
 
     /**

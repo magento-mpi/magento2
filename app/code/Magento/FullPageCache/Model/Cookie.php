@@ -81,8 +81,8 @@ class Cookie extends \Magento\Core\Model\Cookie
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\RequestInterface $httpRequest
-     * @param \Magento\App\ResponseInterface $httpResponse
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -90,15 +90,15 @@ class Cookie extends \Magento\Core\Model\Cookie
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\App\RequestInterface $httpRequest,
-        \Magento\App\ResponseInterface $httpResponse,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $_fpcCache,
         \Magento\Customer\Model\Session $customerSession
     ) {
-        parent::__construct($httpRequest, $httpResponse, $coreStoreConfig, $storeManager);
+        parent::__construct($request, $response, $coreStoreConfig, $storeManager);
         $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
         $this->_customerSession = $customerSession;

@@ -27,7 +27,7 @@ class Content
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -35,11 +35,11 @@ class Content
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
-        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**

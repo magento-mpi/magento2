@@ -40,13 +40,7 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Url
-     */
-    protected $_catalogUrlResource;
-
-    /**
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
-     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlResource
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -60,7 +54,6 @@ class Products extends \Magento\Checkout\Block\Cart
      */
     public function __construct(
         \Magento\AdvancedCheckout\Model\Cart $cart,
-        \Magento\Catalog\Model\Resource\Url $catalogUrlResource,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -73,7 +66,6 @@ class Products extends \Magento\Checkout\Block\Cart
         array $data = array()
     ) {
         $this->_cart = $cart;
-        $this->_catalogUrlResource = $catalogUrlResource;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_storeManager = $storeManager;
@@ -147,7 +139,7 @@ class Products extends \Magento\Checkout\Block\Cart
         }
 
         if ($products) {
-            $products = $this->_catalogUrlResource->getRewriteByProductStore($products);
+            $products = $this->_catalogUrlBuilder->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
                     continue;
