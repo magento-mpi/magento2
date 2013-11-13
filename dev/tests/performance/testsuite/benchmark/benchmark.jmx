@@ -1482,7 +1482,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.value">5</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -1734,7 +1734,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">3</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -2100,7 +2100,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.value">5</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -2352,7 +2352,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">3</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -3406,7 +3406,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.value">5</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -3658,7 +3658,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">3</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
