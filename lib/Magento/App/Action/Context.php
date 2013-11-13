@@ -40,13 +40,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * Should inherited page be rendered
-     *
-     * @var bool
-     */
-    protected $_isRenderInherited;
-
-    /**
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -66,6 +59,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
+
+    /**
+     * @var \Magento\HTTP\Authentication
+     */
+    protected $authentication;
 
     /**
      * @param \Magento\Logger $logger
@@ -90,7 +88,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param \Magento\HTTP\Url $httpUrl
-     * @param $isRenderInherited
+     * @param \Magento\HTTP\Authentication $authentication
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -115,7 +113,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\ActionFlag $flag,
         \Magento\Encryption\UrlCoder $urlCoder,
         \Magento\HTTP\Url $httpUrl,
-        $isRenderInherited
+        \Magento\HTTP\Authentication $authentication
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -138,8 +136,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_helper = $helper;
         $this->_urlCoder = $urlCoder;
         $this->_httpUrl = $httpUrl;
-        $this->_isRenderInherited = $isRenderInherited;
         $this->_flag = $flag;
+        $this->authentication = $authentication;
     }
 
     /**
@@ -221,14 +219,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getHelper()
     {
         return $this->_helper;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isRenderInherited()
-    {
-        return $this->_isRenderInherited;
     }
 
     /**
@@ -324,4 +314,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
         return $this->_httpUrl;
     }
 
+    /**
+     * @return \Magento\HTTP\Authentication
+     */
+    public function getAuthentication()
+    {
+        return $this->authentication;
+    }
 }

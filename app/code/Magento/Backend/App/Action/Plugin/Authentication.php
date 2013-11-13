@@ -44,21 +44,29 @@ class Authentication
     protected $_response;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Model\Url $url
      * @param \Magento\App\ResponseInterface $response
+     * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Url $url,
-        \Magento\App\ResponseInterface $response
+        \Magento\App\ResponseInterface $response,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_auth = $auth;
         $this->_session = $session;
         $this->_url = $url;
         $this->_response = $response;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**
@@ -166,7 +174,7 @@ class Authentication
         }
 
         $this->_response->setRedirect($requestUri);
-        $this->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
         return true;
     }
 }

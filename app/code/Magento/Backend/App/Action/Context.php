@@ -80,7 +80,6 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\App $app
-     * @param $isRenderInherited
      * @param \Magento\HTTP\Authentication $authentication
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
@@ -90,7 +89,6 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
      * @param bool $canUseBaseUrl
@@ -113,7 +111,6 @@ class Context extends \Magento\App\Action\Context
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App $app,
-        $isRenderInherited,
         \Magento\HTTP\Authentication $authentication,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
@@ -123,15 +120,14 @@ class Context extends \Magento\App\Action\Context
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\App\Action\Title $title,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
             $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager,
-            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translateor,
-            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $isRenderInherited, $authentication
+            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translator,
+            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $authentication
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;
@@ -174,14 +170,6 @@ class Context extends \Magento\App\Action\Context
     public function getBackendUrl()
     {
         return $this->_backendUrl;
-    }
-
-    /**
-     * @return \Magento\Core\Model\LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
     }
 
     /**

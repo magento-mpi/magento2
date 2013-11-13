@@ -67,13 +67,6 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_eventManager;
 
     /**
-     * Should inherited page be rendered
-     *
-     * @var bool
-     */
-    protected $_isRenderInherited;
-
-    /**
      * @var \Magento\App\ActionFlag
      */
     protected $_flag;
@@ -102,7 +95,6 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_objectManager     = $context->getObjectManager();
         $this->_layout            = $context->getLayout();
         $this->_eventManager      = $context->getEventManager();
-        $this->_isRenderInherited = $context->isRenderInherited();
         $this->_configScope       = $context->getConfigScope();
         $this->_storeManager      = $context->getStoreManager();
         $this->_appState          = $context->getAppState();
@@ -212,7 +204,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function addActionLayoutHandles()  // Leave
     {
-        if (!$this->_isRenderInherited || !$this->addPageLayoutHandles()) {
+        if (!$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         }
         return $this;
