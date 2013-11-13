@@ -24,7 +24,7 @@ class Config
      *
      * @var array
      */
-    protected $directoryConfig;
+    protected $config;
 
     /**
      * Store directory configuration
@@ -33,7 +33,7 @@ class Config
      */
     public function __construct(\Magento\Core\Model\ConfigInterface $config)
     {
-        $this->directoryConfig = $config->getValue(self::XML_FILESYSTEM_DIRECTORY_PATH);
+        $this->config = $config->getValue(self::XML_FILESYSTEM_DIRECTORY_PATH);
     }
 
     /**
@@ -45,8 +45,8 @@ class Config
      */
     public function get($code)
     {
-        if(isset($this->directoryConfig[$code])) {
-            return $this->directoryConfig[$code];
+        if(isset($this->config[$code])) {
+            return $this->config[$code];
         }
         throw new FilesystemException("Cannot get configuration for directory $code!");
     }
