@@ -64,6 +64,7 @@ abstract class AbstractSyntax
         if (null === $lineData->line) {
             $lineData->line = new Line();
         }
+        return $treeNode;
     }
 
     /**

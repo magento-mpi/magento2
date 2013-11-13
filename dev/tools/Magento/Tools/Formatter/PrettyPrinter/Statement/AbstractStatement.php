@@ -21,10 +21,11 @@ abstract class AbstractStatement extends AbstractSyntax
      * lines. Derived classes must replace the statement in the tree, or this method will repeat
      * comments.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
-        parent::resolve($treeNode);
+        return parent::resolve($treeNode);
     }
 
     /**

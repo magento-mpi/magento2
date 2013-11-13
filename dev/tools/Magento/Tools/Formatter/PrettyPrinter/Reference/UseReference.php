@@ -24,6 +24,7 @@ class UseReference extends AbstractReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
