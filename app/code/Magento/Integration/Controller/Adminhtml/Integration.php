@@ -119,6 +119,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return;
         }
+
         $this->loadLayout();
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
@@ -185,7 +186,6 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/new');
         }
     }
-}
 
     public function consumerAction()
     {
