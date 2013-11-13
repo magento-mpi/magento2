@@ -184,9 +184,9 @@ class Instance extends \Magento\Backend\App\Action
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->setBody($response->toJson());
     }
@@ -259,7 +259,7 @@ class Instance extends \Magento\Backend\App\Action
     {
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
-        $chooser = $this->getLayout()
+        $chooser = $this->_layoutServices->getLayout()
             ->createBlock('Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser')
             ->setUseMassaction(true)
             ->setId($this->mathRandom->getUniqueHash('categories'))
@@ -276,14 +276,14 @@ class Instance extends \Magento\Backend\App\Action
     {
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
-        $chooser = $this->getLayout()
+        $chooser = $this->_layoutServices->getLayout()
             ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser')
             ->setName($this->mathRandom->getUniqueHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
         /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
-        $serializer = $this->getLayout()->createBlock(
+        $serializer = $this->_layoutServices->getLayout()->createBlock(
             'Magento\Adminhtml\Block\Widget\Grid\Serializer',
             '',
             array(
@@ -317,7 +317,7 @@ class Instance extends \Magento\Backend\App\Action
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);
-        $blocksChooser = $this->getLayout()
+        $blocksChooser = $this->_layoutServices->getLayout()
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container')
             ->setValue($selected)
             ->setArea($widgetInstance->getArea())
@@ -337,7 +337,7 @@ class Instance extends \Magento\Backend\App\Action
         $widgetInstance = $this->_initWidgetInstance();
         $block = $this->getRequest()->getParam('block');
         $selected = $this->getRequest()->getParam('selected', null);
-        $templateChooser = $this->getLayout()
+        $templateChooser = $this->_layoutServices->getLayout()
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Template')
             ->setSelected($selected)
             ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByContainer($block));

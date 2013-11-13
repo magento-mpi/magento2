@@ -57,16 +57,16 @@ class Customer extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
-        if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+        if ($navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');
         }
-        if ($block = $this->getLayout()->getBlock('review_customer_list')) {
+        if ($block = $this->_layoutServices->getLayout()->getBlock('review_customer_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
 
-        $this->getLayout()->getBlock('head')->setTitle(__('My Product Reviews'));
+        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Product Reviews'));
 
         $this->renderLayout();
     }
@@ -74,10 +74,10 @@ class Customer extends \Magento\App\Action\Action
     public function viewAction()
     {
         $this->loadLayout();
-        if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+        if ($navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');
         }
-        $this->getLayout()->getBlock('head')->setTitle(__('Review Details'));
+        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Review Details'));
         $this->renderLayout();
     }
 }

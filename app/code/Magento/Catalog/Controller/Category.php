@@ -134,7 +134,7 @@ class Category extends \Magento\App\Action\Action
 
             $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
-            $update = $this->getLayout()->getUpdate();
+            $update = $this->_layoutServices->getLayout()->getUpdate();
             $update->addHandle('default');
             if ($category->getIsAnchor()) {
                 $type = $category->hasChildren() ? 'layered' : 'layered_without_children';
@@ -164,13 +164,13 @@ class Category extends \Magento\App\Action\Action
                 $this->_objectManager->get('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
             }
 
-            $root = $this->getLayout()->getBlock('root');
+            $root = $this->_layoutServices->getLayout()->getBlock('root');
             if ($root) {
                 $root->addBodyClass('categorypath-' . $category->getUrlPath())
                     ->addBodyClass('category-' . $category->getUrlKey());
             }
 
-            $this->getLayout()->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
+            $this->_layoutServices->getLayout()->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noroute');

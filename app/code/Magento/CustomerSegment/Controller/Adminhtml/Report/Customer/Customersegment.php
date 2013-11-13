@@ -222,7 +222,7 @@ class Customersegment
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
             $this->loadLayout();
-            $content = $this->getLayout()
+            $content = $this->_layoutServices->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
         } else {
@@ -240,7 +240,7 @@ class Customersegment
         if ($this->_initSegment()) {
             $this->loadLayout();
             $fileName = 'customersegment_customers.csv';
-            $content = $this->getLayout()
+            $content = $this->_layoutServices->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
         } else {

@@ -80,7 +80,7 @@ class Widget extends \Magento\Backend\App\Action
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
                 $request = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
-                    $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
+                    $optionsBlock = $this->_layoutServices->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
                         $optionsBlock->setWidgetType($request['widget_type']);
                     }

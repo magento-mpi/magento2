@@ -507,7 +507,7 @@ class Rma extends \Magento\Backend\App\Action
             }
 
             $this->loadLayout();
-            $response = $this->getLayout()->getBlock('comments_history')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('comments_history')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -533,8 +533,7 @@ class Rma extends \Magento\Backend\App\Action
         $customerId = intval($this->getRequest()->getParam('id'));
         if ($customerId) {
             $this->getResponse()->setBody(
-                $this
-                    ->getLayout()
+                $this->_layoutServices->getLayout()
                     ->createBlock('Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
@@ -549,8 +548,7 @@ class Rma extends \Magento\Backend\App\Action
     {
         $orderId = intval($this->getRequest()->getParam('order_id'));
         $this->getResponse()->setBody(
-            $this
-                ->getLayout()
+            $this->_layoutServices->getLayout()
                 ->createBlock('Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
@@ -571,7 +569,7 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('Invalid order'));
             }
             $this->loadLayout();
-            $response = $this->getLayout()->getBlock('add_product_grid')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('add_product_grid')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -656,8 +654,7 @@ class Rma extends \Magento\Backend\App\Action
         }
 
         $this->loadLayout();
-        $block = $this
-                ->getLayout()
+        $block = $this->_layoutServices->getLayout()
                 ->getBlock('magento_rma_edit_item')
                 ->initForm();
         $block->getForm()->setHtmlIdPrefix('_rma' . $itemId);
@@ -683,8 +680,7 @@ class Rma extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_rma_item', $rma_item);
 
         $this->loadLayout();
-        $response = $this
-            ->getLayout()
+        $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_edit_item')
             ->setProductId(intval($productId))
             ->initForm()
@@ -740,8 +736,7 @@ class Rma extends \Magento\Backend\App\Action
 
         $this->loadLayout();
 
-        $response = $this
-            ->getLayout()
+        $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_edit_items_grid')
             ->setItemFilter($itemId)
             ->setAllFieldsEditable()
@@ -802,7 +797,7 @@ class Rma extends \Magento\Backend\App\Action
         }
 
         $this->loadLayout();
-        $response = $this->getLayout()
+        $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_bundle')
             ->toHtml()
         ;
@@ -926,7 +921,7 @@ class Rma extends \Magento\Backend\App\Action
         }
 
         $this->loadLayout();
-        $response = $this->getLayout()
+        $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_shipping_available')
             ->toHtml()
         ;
@@ -975,7 +970,7 @@ class Rma extends \Magento\Backend\App\Action
         }
 
         $this->loadLayout();
-        $response = $this->getLayout()
+        $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_shipment_packaging')
             ->toHtml()
         ;
@@ -1023,7 +1018,7 @@ class Rma extends \Magento\Backend\App\Action
             $itemsOrderItemId[$item->getItemId()]   = $item->getItemId();
         }
 
-        $shippingInformation = $this->getLayout()
+        $shippingInformation = $this->_layoutServices->getLayout()
             ->createBlock('Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
@@ -1055,8 +1050,8 @@ class Rma extends \Magento\Backend\App\Action
     public function getShippingItemsGridAction()
     {
         $this->_initModel();
-        $response = $this-> _initAction()
-                ->getLayout()
+        $this->_initAction();
+        $response = $this->_layoutServices->getLayout()
                 ->getBlock('magento_rma_getshippingitemsgrid')
                 ->toHtml()
         ;
@@ -1374,7 +1369,7 @@ class Rma extends \Magento\Backend\App\Action
                 ;
 
                 $this->loadLayout();
-                $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
+                $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
                     'error'     => true,
@@ -1414,7 +1409,7 @@ class Rma extends \Magento\Backend\App\Action
                     $shippingModel->delete();
 
                     $this->loadLayout();
-                    $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
+                    $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(
                         'error'     => true,

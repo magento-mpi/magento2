@@ -48,11 +48,11 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->getBlock('contactForm')
+        $this->_layoutServices->getLayout()->getBlock('contactForm')
             ->setFormAction($this->_objectManager->create('Magento\Core\Model\Url')->getUrl('*/*/post'));
 
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->getLayout()->initMessages($messageStores);
+        $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
     }
 

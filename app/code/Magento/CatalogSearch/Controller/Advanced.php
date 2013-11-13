@@ -64,7 +64,7 @@ class Advanced extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\CatalogSearch\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\CatalogSearch\Model\Session');
         $this->renderLayout();
     }
 
@@ -81,7 +81,7 @@ class Advanced extends \Magento\App\Action\Action
                     ->getUrl('*/*/')
             );
         }
-        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 }

@@ -83,7 +83,7 @@ class Set extends \Magento\Backend\App\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
         $this->_addBreadcrumb(
@@ -91,7 +91,7 @@ class Set extends \Magento\Backend\App\Action
             __('Manage Product Sets'));
 
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
         );
 
         $this->renderLayout();
@@ -183,9 +183,9 @@ class Set extends \Magento\Backend\App\Action
         } else {
             $response = array();
             if ($hasError) {
-                $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response['error']   = 1;
-                $response['message'] = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
+                $response['message'] = $this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {
                 $response['error']   = 0;
                 $response['url']     = $this->getUrl('catalog/*/');
@@ -206,7 +206,7 @@ class Set extends \Magento\Backend\App\Action
 
 
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add')
         );
 
         $this->renderLayout();

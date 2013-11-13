@@ -153,7 +153,7 @@ class Cart
         $messageStores = array('Magento\Checkout\Model\Session', 'Magento\Catalog\Model\Session');
 
         $this->loadLayout();
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $layout->initMessages($messageStores);
         $layout->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->renderLayout();

@@ -75,8 +75,8 @@ class Customer extends \Magento\App\Action\Action
     {
         $this->_coreRegistry->register('current_reward', $this->_getReward());
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Reward Points'));
         }

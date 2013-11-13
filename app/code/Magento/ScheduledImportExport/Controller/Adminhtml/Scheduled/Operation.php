@@ -302,7 +302,7 @@ class Operation extends \Magento\Backend\App\Action
                 $export = $this->_objectManager->create('Magento\ScheduledImportExport\Model\Export')->setData($data);
 
                 /** @var $attrFilterBlock \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
-                $attrFilterBlock = $this->getLayout()->getBlock('export.filter')
+                $attrFilterBlock = $this->_layoutServices->getLayout()->getBlock('export.filter')
                     ->setOperation($export);
 
                 $export->filterAttributeCollection(

@@ -25,7 +25,7 @@ class Selection extends \Magento\Backend\App\Action
     public function searchAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_layoutServices->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
@@ -40,7 +40,7 @@ class Selection extends \Magento\Backend\App\Action
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_layoutServices->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

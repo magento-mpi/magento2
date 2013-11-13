@@ -137,7 +137,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $step->setActive(true);
         }
 
-        $this->getLayout()->addBlock('Magento\Install\Block\State', 'install.state', 'left');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\State', 'install.state', 'left');
         return $this;
     }
 
@@ -177,9 +177,9 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('Magento\Install\Block\Begin', 'install.begin', 'content');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Begin', 'install.begin', 'content');
 
         $this->renderLayout();
     }
@@ -209,8 +209,8 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->getLayout()->initMessages('Magento\Install\Model\Session');
-        $this->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
 
         $this->renderLayout();
     }
@@ -260,8 +260,8 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->getLayout()->initMessages('Magento\Install\Model\Session');
-        $this->getLayout()->addBlock('Magento\Install\Block\Download', 'install.download', 'content');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Download', 'install.download', 'content');
 
         $this->renderLayout();
     }
@@ -376,8 +376,8 @@ class Wizard extends \Magento\Install\Controller\Action
         }
 
         $this->_prepareLayout();
-        $this->getLayout()->initMessages('Magento\Install\Model\Session');
-        $this->getLayout()->addBlock('Magento\Install\Block\Config', 'install.config', 'content');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Config', 'install.config', 'content');
 
         $this->renderLayout();
     }
@@ -445,9 +445,9 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_checkIfInstalled();
 
         $this->_prepareLayout();
-        $this->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('Magento\Install\Block\Admin', 'install.administrator', 'content');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Admin', 'install.administrator', 'content');
         $this->renderLayout();
     }
 
@@ -495,9 +495,9 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_objectManager->get('Magento\AdminNotification\Model\Survey')->saveSurveyViewed(true);
 
         $this->_prepareLayout();
-        $this->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
+        $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
         $this->renderLayout();
         $this->_session->clear();
     }

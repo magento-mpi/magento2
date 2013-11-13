@@ -74,12 +74,12 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $block = $this->getLayout()->getBlock('giftregistry_list');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $block = $this->_layoutServices->getLayout()->getBlock('giftregistry_list');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry'));
         }
@@ -216,12 +216,12 @@ class Index extends \Magento\App\Action\Action
         try {
             $entity = $this->_initEntity();
             $this->loadLayout();
-            $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-            $headBlock = $this->getLayout()->getBlock('head');
+            $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Share Gift Registry'));
             }
-            $this->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
+            $this->_layoutServices->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
             $this->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
@@ -241,8 +241,8 @@ class Index extends \Magento\App\Action\Action
         try {
             $this->_coreRegistry->register('current_entity', $this->_initEntity());
             $this->loadLayout();
-            $this->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session'));
-            $headBlock = $this->getLayout()->getBlock('head');
+            $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session'));
+            $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Gift Registry Items'));
             }
@@ -343,12 +343,12 @@ class Index extends \Magento\App\Action\Action
     public function addSelectAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $block = $this->getLayout()->getBlock('giftregistry_addselect');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $block = $this->_layoutServices->getLayout()->getBlock('giftregistry_addselect');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Create Gift Registry'));
         }
@@ -387,14 +387,14 @@ class Index extends \Magento\App\Action\Action
             $this->_coreRegistry->register('magento_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
-            $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
 
             if ($model->getId()) {
                 $pageTitle = __('Edit Gift Registry');
             } else {
                 $pageTitle = __('Create Gift Registry');
             }
-            $headBlock = $this->getLayout()->getBlock('head');
+            $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle($pageTitle);
             }

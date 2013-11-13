@@ -64,7 +64,7 @@ class Design extends \Magento\Backend\App\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int)$this->getRequest()->getParam('id');
         $design    = $this->_objectManager->create('Magento\Core\Model\Design');
@@ -77,8 +77,8 @@ class Design extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('design', $design);
 
-        $this->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
-        $this->_addLeft($this->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
+        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
+        $this->_addLeft($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
 
         $this->renderLayout();
     }

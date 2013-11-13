@@ -330,7 +330,7 @@ class Product extends \Magento\App\Action\Action
             $this->_initProductLayout($product);
 
             // update breadcrumbs
-            $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
+            $breadcrumbsBlock = $this->_layoutServices->getLayout()->getBlock('breadcrumbs');
             if ($breadcrumbsBlock) {
                 $breadcrumbsBlock->addCrumb('product', array(
                     'label'    => $product->getName(),
@@ -365,7 +365,7 @@ class Product extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->getLayout()->initMessages(array('Magento\Review\Model\Session', 'Magento\Catalog\Model\Session'));
+        $this->_layoutServices->getLayout()->initMessages(array('Magento\Review\Model\Session', 'Magento\Catalog\Model\Session'));
         $this->renderLayout();
     }
 
@@ -375,7 +375,7 @@ class Product extends \Magento\App\Action\Action
      */
     protected function _initProductLayout($product)
     {
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_layoutServices->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())

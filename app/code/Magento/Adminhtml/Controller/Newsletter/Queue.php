@@ -93,7 +93,7 @@ class Queue extends \Magento\Backend\App\Action
         $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
             ->getDefaultStoreView()->getId();
 
-        $this->getLayout()->getBlock('preview_form')->setFormData($data);
+        $this->_layoutServices->getLayout()->getBlock('preview_form')->setFormData($data);
         $this->renderLayout();
     }
 

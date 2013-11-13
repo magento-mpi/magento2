@@ -151,7 +151,7 @@ class Event extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('magento_catalogevent_event', $event);
 
         $this->_initAction();
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $layout->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $layout->getBlock('store_switcher'))) {
             if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {
@@ -281,7 +281,7 @@ class Event extends \Magento\Backend\App\Action
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
+            $this->_layoutServices->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
                 ->getTreeArray($id, true, 1)
         );
     }

@@ -162,8 +162,8 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-        $this->getLayout()->getBlock('adminhtml.user.role.buttons')
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_layoutServices->getLayout()->getBlock('adminhtml.user.role.buttons')
             ->setRoleId($role->getId())
             ->setRoleInfo($role);
 

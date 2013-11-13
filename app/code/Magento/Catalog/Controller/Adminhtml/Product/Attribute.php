@@ -75,7 +75,7 @@ class Attribute extends \Magento\Backend\App\Action
 
         if ($this->getRequest()->getParam('popup')) {
             $this->loadLayout(array('popup', $this->getDefaultLayoutHandle() . '_popup'));
-            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
+            $this->_layoutServices->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->loadLayout()
                 ->_addBreadcrumb(
@@ -95,7 +95,7 @@ class Attribute extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute'))
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute'))
             ->renderLayout();
     }
 
@@ -150,7 +150,7 @@ class Attribute extends \Magento\Backend\App\Action
 
         $this->_addBreadcrumb($item, $item);
 
-        $this->getLayout()->getBlock('attribute_edit_js')
+        $this->_layoutServices->getLayout()->getBlock('attribute_edit_js')
             ->setIsPopup((bool)$this->getRequest()->getParam('popup'));
 
         $this->renderLayout();
@@ -196,9 +196,9 @@ class Attribute extends \Magento\Backend\App\Action
                     __('Attribute Set with name \'%1\' already exists.', $setName)
                 );
 
-                $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
-                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+                $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
         $this->getResponse()->setBody($response->toJson());
@@ -444,7 +444,7 @@ class Attribute extends \Magento\Backend\App\Action
     public function suggestConfigurableAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

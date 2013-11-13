@@ -107,12 +107,12 @@ class User extends \Magento\Backend\App\AbstractAction
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\User\Edit $editBlock */
-        $editBlock = $this->getLayout()->getBlock('webapi.user.edit');
+        $editBlock = $this->_layoutServices->getLayout()->getBlock('webapi.user.edit');
         if ($editBlock) {
             $editBlock->setApiUser($user);
         }
         /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs $tabsBlock */
-        $tabsBlock = $this->getLayout()->getBlock('webapi.user.edit.tabs');
+        $tabsBlock = $this->_layoutServices->getLayout()->getBlock('webapi.user.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiUser($user);
         }

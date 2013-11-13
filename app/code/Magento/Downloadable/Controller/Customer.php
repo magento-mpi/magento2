@@ -62,11 +62,11 @@ class Customer extends \Magento\App\Action\Action
     public function productsAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        if ($block = $this->getLayout()->getBlock('downloadable_customer_products_list')) {
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        if ($block = $this->_layoutServices->getLayout()->getBlock('downloadable_customer_products_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('My Downloadable Products'));
         }

@@ -385,7 +385,7 @@ class Create extends \Magento\Backend\App\Action
         $asJson= $request->getParam('json');
         $block = $request->getParam('block');
 
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_layoutServices->getLayout()->getUpdate();
         if ($asJson) {
             $update->addHandle('sales_order_create_load_block_json');
         } else {
@@ -403,7 +403,7 @@ class Create extends \Magento\Backend\App\Action
             }
         }
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $result = $this->getLayout()->renderElement('content');
+        $result = $this->_layoutServices->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('sales/*/showUpdateResult');

@@ -117,7 +117,7 @@ class Export extends \Magento\Backend\App\Action
                 $this->loadLayout();
 
                 /** @var $attrFilterBlock \Magento\ImportExport\Block\Adminhtml\Export\Filter */
-                $attrFilterBlock = $this->getLayout()->getBlock('export.filter');
+                $attrFilterBlock = $this->_layoutServices->getLayout()->getBlock('export.filter');
                 /** @var $export \Magento\ImportExport\Model\Export */
                 $export = $this->_objectManager->create('Magento\ImportExport\Model\Export');
                 $export->setData($data);

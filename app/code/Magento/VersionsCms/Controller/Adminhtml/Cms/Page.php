@@ -80,7 +80,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     protected function _initAction()
     {
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_layoutServices->getLayout()->getUpdate();
         $update->addHandle('default');
 
         // add default layout handles for this action
@@ -91,7 +91,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')

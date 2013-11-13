@@ -175,10 +175,10 @@ class Category extends \Magento\Backend\App\Action
             $this->loadLayout();
 
             $eventResponse = new \Magento\Object(array(
-                'content' => $this->getLayout()->getBlock('category.edit')->getFormHtml()
-                    . $this->getLayout()->getBlock('category.tree')
+                'content' => $this->_layoutServices->getLayout()->getBlock('category.edit')->getFormHtml()
+                    . $this->_layoutServices->getLayout()->getBlock('category.tree')
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
-                'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
+                'messages' => $this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ));
             $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
@@ -195,11 +195,11 @@ class Category extends \Magento\Backend\App\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_categories');
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
 
         $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 
-        $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
+        $block = $this->_layoutServices->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
             $block->setStoreId($storeId);
         }
@@ -218,7 +218,7 @@ class Category extends \Magento\Backend\App\Action
         $storeMediaUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeId)
             ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
 
-        $content = $this->getLayout()->createBlock(
+        $content = $this->_layoutServices->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg\Content',
             '',
             array(
@@ -251,7 +251,7 @@ class Category extends \Magento\Backend\App\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
+                $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
                     ->getTreeJson($category)
             );
         }
@@ -470,7 +470,7 @@ class Category extends \Magento\Backend\App\Action
         if (!$category) {
             return;
         }
-        $this->getResponse()->setBody($this->getLayout()->createBlock(
+        $this->getResponse()->setBody($this->_layoutServices->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Category\Tab\Product', 'category.product.grid'
         )->toHtml());
     }
@@ -494,7 +494,7 @@ class Category extends \Magento\Backend\App\Action
 
         $category = $this->_initCategory(true);
 
-        $block = $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree');
+        $block = $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree');
         $root  = $block->getRoot();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
             'data' => $block->getTree(),
@@ -532,7 +532,7 @@ class Category extends \Magento\Backend\App\Action
      */
     public function suggestCategoriesAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
+        $this->getResponse()->setBody($this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
             ->getSuggestedCategoriesJson($this->getRequest()->getParam('label_part')));
     }
 

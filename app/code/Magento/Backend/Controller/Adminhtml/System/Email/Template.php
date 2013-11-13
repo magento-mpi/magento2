@@ -95,7 +95,7 @@ class Template extends \Magento\Backend\App\Action
 
         $this->_title->add($template->getId() ? $template->getTemplateCode() : __('New Template'));
 
-        $this->_addContent($this->getLayout()
+        $this->_addContent($this->_layoutServices->getLayout()
             ->createBlock('Magento\Backend\Block\System\Email\Template\Edit', 'template_edit')
             ->setEditMode((bool)$this->getRequest()->getParam('id'))
         );
@@ -198,7 +198,7 @@ class Template extends \Magento\Backend\App\Action
             $template->setData('orig_template_code', $templateCode);
             $template->setData('template_variables', \Zend_Json::encode($template->getVariablesOptionArray(true)));
 
-            $templateBlock = $this->getLayout()->createBlock('Magento\Backend\Block\System\Email\Template\Edit');
+            $templateBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Email\Template\Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
             $this->getResponse()->setBody(

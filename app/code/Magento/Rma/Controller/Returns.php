@@ -61,11 +61,11 @@ class Returns extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
         $layout->getBlock('head')->setTitle(__('My Returns'));
 
-        if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
+        if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $this->renderLayout();
@@ -141,10 +141,10 @@ class Returns extends \Magento\App\Action\Action
                 }
             }
             $this->loadLayout();
-            $layout = $this->getLayout();
+            $layout = $this->_layoutServices->getLayout();
             $layout->initMessages('Magento\Core\Model\Session');
             $layout->getBlock('head')->setTitle(__('Create New Return'));
-            if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
+            if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
             $this->renderLayout();
@@ -232,7 +232,7 @@ class Returns extends \Magento\App\Action\Action
         $this->_coreRegistry->register('current_order', $order);
 
         $this->loadLayout();
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
         $layout->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
@@ -266,7 +266,7 @@ class Returns extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
 
         if ($navigationBlock = $layout->getBlock('customer_account_navigation')) {

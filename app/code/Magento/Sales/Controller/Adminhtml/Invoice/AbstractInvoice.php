@@ -55,7 +55,7 @@ class AbstractInvoice
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid')->toHtml()
+            $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid')->toHtml()
         );
     }
 
@@ -67,7 +67,7 @@ class AbstractInvoice
         $this->_title->add(__('Invoices'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice'))
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice'))
             ->renderLayout();
     }
 

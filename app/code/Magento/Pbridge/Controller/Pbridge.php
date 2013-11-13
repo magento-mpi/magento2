@@ -58,7 +58,7 @@ class Pbridge extends \Magento\App\Action\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block = $this->_layoutServices->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
                 if($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));
@@ -84,7 +84,7 @@ class Pbridge extends \Magento\App\Action\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
+                $block = $this->_layoutServices->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
                 $block->setMethod($methodInstance);
                 if ($block) {
                     $this->getResponse()->setBody($block->getIframeBlock()->toHtml());

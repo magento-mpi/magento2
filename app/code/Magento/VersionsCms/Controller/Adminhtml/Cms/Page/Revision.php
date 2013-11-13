@@ -276,18 +276,18 @@ class Revision
         }
 
         if (!$allStores) {
-            $this->getLayout()->getBlock('store_switcher')->setStoreIds($stores);
+            $this->_layoutServices->getLayout()->getBlock('store_switcher')->setStoreIds($stores);
         }
 
         // Setting default values for selected store and revision
         $data['preview_selected_store'] = 0;
         $data['preview_selected_revision'] = 0;
 
-        $this->getLayout()->getBlock('preview_form')->setFormData($data);
+        $this->_layoutServices->getLayout()->getBlock('preview_form')->setFormData($data);
 
         // Remove revision switcher if page is out of version control
         if (!$page->getUnderVersionControl()) {
-            $this->getLayout()->unsetChild('tools', 'revision_switcher');
+            $this->_layoutServices->getLayout()->unsetChild('tools', 'revision_switcher');
         }
 
         $this->renderLayout();
@@ -378,8 +378,8 @@ class Revision
             }
 
             // add handles used to render cms page on frontend
-            $this->getLayout()->getUpdate()->addHandle('default');
-            $this->getLayout()->getUpdate()->addHandle('cms_page_view');
+            $this->_layoutServices->getLayout()->getUpdate()->addHandle('default');
+            $this->_layoutServices->getLayout()->getUpdate()->addHandle('cms_page_view');
             $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
             $this->_locale->revert();
 

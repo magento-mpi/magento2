@@ -36,7 +36,7 @@ class Hostedpro extends \Magento\App\Action\Action
     {
         $this->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->getLayout()->getBlock('hosted.pro.iframe');
+        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('hosted.pro.iframe');
         $redirectBlock->setGotoSection($gotoSection);
         //TODO: clarify return logic whether customer will be returned in iframe or in parent window
         $this->renderLayout();

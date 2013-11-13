@@ -167,7 +167,7 @@ class Store extends \Magento\Backend\App\Action
             }
 
             $this->_initAction()
-                ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'))
+                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'))
                 ->renderLayout();
         } else {
             $session->addError($notExists);
@@ -282,7 +282,7 @@ class Store extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Delete Web Site'), __('Delete Web Site'))
-            ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
                 ->setFormActionUrl($this->getUrl('adminhtml/*/deleteWebsitePost'))
                 ->setBackUrl($this->getUrl('adminhtml/*/editWebsite', array('website_id' => $itemId)))
                 ->setStoreTypeTitle(__('Web Site'))
@@ -312,7 +312,7 @@ class Store extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Delete Store'), __('Delete Store'))
-            ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
                 ->setFormActionUrl($this->getUrl('adminhtml/*/deleteGroupPost'))
                 ->setBackUrl($this->getUrl('adminhtml/*/editGroup', array('group_id' => $itemId)))
                 ->setStoreTypeTitle(__('Store'))
@@ -342,7 +342,7 @@ class Store extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Delete Store View'), __('Delete Store View'))
-            ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
                 ->setFormActionUrl($this->getUrl('adminhtml/*/deleteStorePost'))
                 ->setBackUrl($this->getUrl('adminhtml/*/editStore', array('store_id' => $itemId)))
                 ->setStoreTypeTitle(__('Store View'))

@@ -83,7 +83,7 @@ class Process extends \Magento\Backend\App\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
-        $this->_addContent($this->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
+        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
         $this->renderLayout();
     }
 

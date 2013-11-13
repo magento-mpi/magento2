@@ -62,9 +62,9 @@ abstract class AbstractController extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
-        $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
+        $navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/order/history');
         }

@@ -96,7 +96,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
             $this->loadLayout();
 
-            $content = $this->getLayout()->getBlock('content');
+            $content = $this->_layoutServices->getLayout()->getBlock('content');
             if ($content) {
                 $content->setData('user_id', $userId)
                     ->setData('reset_password_link_token', $passwordResetToken);

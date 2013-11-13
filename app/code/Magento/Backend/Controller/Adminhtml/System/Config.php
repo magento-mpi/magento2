@@ -72,7 +72,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
         $this->loadLayout();
 
         $this->_setActiveMenu('Magento_Adminhtml::system_config');
-        $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
+        $this->_layoutServices->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
             __('System'),
@@ -106,7 +106,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     {
         $fileName = 'tablerates.csv';
         /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
-        $gridBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
+        $gridBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
         $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

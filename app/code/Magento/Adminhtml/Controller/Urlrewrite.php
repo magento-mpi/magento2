@@ -80,7 +80,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
         switch ($mode) {
             case self::PRODUCT_MODE:
-                $editBlock = $this->getLayout()
+                $editBlock = $this->_layoutServices->getLayout()
                     ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit', '', array('data' => array(
                         'category'         => $this->_getCategory(),
                         'product'          => $this->_getProduct(),
@@ -89,14 +89,14 @@ class Urlrewrite extends \Magento\Backend\App\Action
                     )));
                 break;
             case self::CATEGORY_MODE:
-                $editBlock = $this->getLayout()
+                $editBlock = $this->_layoutServices->getLayout()
                     ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit', '', array('data' => array(
                         'category' => $this->_getCategory(),
                         'url_rewrite' => $this->_getUrlRewrite()
                     )));
                 break;
             case self::CMS_PAGE_MODE:
-                $editBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '',
+                $editBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '',
                     array(
                         'data' => array(
                             'cms_page'    => $this->_getCmsPage(),
@@ -107,7 +107,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
                 break;
             case self::ID_MODE:
             default:
-                $editBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit', '', array(
+                $editBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit', '', array(
                     'data' => array('url_rewrite' => $this->_getUrlRewrite())
                 ));
                 break;
@@ -115,7 +115,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
         $this->_addContent($editBlock);
         if (in_array($mode, array(self::PRODUCT_MODE, self::CATEGORY_MODE))) {
-            $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+            $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         }
         $this->renderLayout();
     }
@@ -147,7 +147,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     public function productGridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid')->toHtml()
+            $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid')->toHtml()
         );
     }
 
@@ -169,7 +169,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     public function cmsPageGridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid')->toHtml()
+            $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid')->toHtml()
         );
     }
 

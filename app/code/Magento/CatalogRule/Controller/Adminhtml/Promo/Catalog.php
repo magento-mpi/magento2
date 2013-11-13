@@ -124,7 +124,8 @@ class Catalog extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_promo_catalog_rule', $model);
 
-        $this->_initAction()->getLayout()->getBlock('promo_catalog_edit')
+        $this->_initAction();
+        $this->_layoutServices->getLayout()->getBlock('promo_catalog_edit')
             ->setData('action', $this->getUrl('catalog_rule/promo_catalog/save'));
 
         $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
@@ -154,7 +155,7 @@ class Catalog extends \Magento\Backend\App\Action
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
-                    foreach($validateResult as $errorMessage) {
+                    foreach ($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);
                     }
                     $this->_getSession()->setPageData($data);
@@ -267,7 +268,7 @@ class Catalog extends \Magento\Backend\App\Action
             $type = 'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku';
         }
         if (!empty($type)) {
-            $block = $this->getLayout()->createBlock($type);
+            $block = $this->_layoutServices->getLayout()->createBlock($type);
             if ($block) {
                 $this->getResponse()->setBody($block->toHtml());
             }

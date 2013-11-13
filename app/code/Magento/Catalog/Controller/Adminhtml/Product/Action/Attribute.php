@@ -236,9 +236,9 @@ class Attribute extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->_getSession()
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
-            $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

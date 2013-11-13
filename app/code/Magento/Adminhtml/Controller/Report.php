@@ -62,7 +62,7 @@ class Report extends \Magento\Backend\App\Action
     public function exportSearchCsvAction()
     {
         $this->loadLayout(false);
-        $content = $this->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
+        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
         return $this->_fileFactory->create('search.csv', $content->getCsvFile());
     }
 
@@ -72,7 +72,7 @@ class Report extends \Magento\Backend\App\Action
     public function exportSearchExcelAction()
     {
         $this->loadLayout(false);
-        $content = $this->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
+        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
         return $this->_fileFactory->create('search.xml', $content->getExcelFile());
     }
 

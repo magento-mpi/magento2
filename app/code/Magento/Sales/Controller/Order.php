@@ -40,11 +40,11 @@ class Order extends \Magento\Sales\Controller\AbstractController
     public function historyAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
-        $this->getLayout()->getBlock('head')->setTitle(__('My Orders'));
+        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Orders'));
 
-        $block = $this->getLayout()->getBlock('customer.account.link.back');
+        $block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }

@@ -31,7 +31,7 @@ class Pbridge extends \Magento\Backend\App\Action
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Pbridge extends \Magento\Backend\App\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block = $this->_layoutServices->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
                 if($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));

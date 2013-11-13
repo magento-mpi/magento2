@@ -124,7 +124,7 @@ class Types extends \Magento\Backend\App\Action
 
             $this->_initAction()
                 ->_addBreadcrumb(__('New attribute set mapping'), __('New attribute set mapping'))
-                ->_addContent($this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
+                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
                 ->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -159,7 +159,7 @@ class Types extends \Magento\Backend\App\Action
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');
             $this->_initAction()
                 ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
-                ->_addContent($this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
+                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
                 ->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -255,7 +255,7 @@ class Types extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
+            $this->_layoutServices->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
                 ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
                 ->setTargetCountry($this->getRequest()->getParam('target_country'))
                 ->setAttributeSetSelected(true)
@@ -275,7 +275,7 @@ class Types extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->getBlockSingleton('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
+                $this->_layoutServices->getLayout()->getBlockSingleton('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
                     ->getAttributeSetsSelectElement($this->getRequest()->getParam('target_country'))
                     ->toHtml()
             );

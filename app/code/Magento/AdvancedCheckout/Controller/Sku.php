@@ -52,8 +52,8 @@ class Sku extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Order by SKU'));
         }

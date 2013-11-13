@@ -311,7 +311,7 @@ class Order extends \Magento\Backend\App\Action
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices')->toHtml()
+            $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices')->toHtml()
         );
     }
 
@@ -322,7 +322,7 @@ class Order extends \Magento\Backend\App\Action
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments')->toHtml()
+            $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments')->toHtml()
         );
     }
 
@@ -333,7 +333,7 @@ class Order extends \Magento\Backend\App\Action
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos')->toHtml()
+            $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos')->toHtml()
         );
     }
 
@@ -343,7 +343,7 @@ class Order extends \Magento\Backend\App\Action
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $html = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
+        $html = $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
         if ($this->_translator->isAllowed()) {
             $this->_translator->processResponseBody($html);
         }
@@ -720,7 +720,7 @@ class Order extends \Magento\Backend\App\Action
         $this->loadLayout();
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
+        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
@@ -732,7 +732,7 @@ class Order extends \Magento\Backend\App\Action
         $this->loadLayout();
         $fileName = 'orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
+        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
@@ -758,7 +758,7 @@ class Order extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('order_address', $address);
             $this->loadLayout();
             // Do not display VAT validation button on edit order address form
-            $addressFormContainer = $this->getLayout()->getBlock('sales_order_address.form.container');
+            $addressFormContainer = $this->_layoutServices->getLayout()->getBlock('sales_order_address.form.container');
             if ($addressFormContainer) {
                 $addressFormContainer->getChildBlock('form')->setDisplayVatValidationButton(false);
             }

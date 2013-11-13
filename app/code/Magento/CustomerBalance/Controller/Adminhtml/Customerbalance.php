@@ -89,7 +89,7 @@ class Customerbalance extends \Magento\Backend\App\Action
         $this->_initCustomer();
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock(
+            $this->_layoutServices->getLayout()->createBlock(
                 'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid'
             )->toHtml()
         );

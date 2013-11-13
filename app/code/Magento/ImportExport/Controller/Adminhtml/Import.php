@@ -72,7 +72,7 @@ class Import extends \Magento\Backend\App\Action
             $this->loadLayout(false);
 
             /** @var $resultBlock \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result */
-            $resultBlock = $this->getLayout()->getBlock('import.frame.result');
+            $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
             /** @var $importModel \Magento\ImportExport\Model\Import */
             $importModel = $this->_objectManager->create('Magento\ImportExport\Model\Import');
 
@@ -103,7 +103,7 @@ class Import extends \Magento\Backend\App\Action
         if ($data) {
             $this->loadLayout(false);
             /** @var $resultBlock \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result */
-            $resultBlock = $this->getLayout()->getBlock('import.frame.result');
+            $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
             // common actions
             $resultBlock->addAction('show', 'import_validation_container')
                 ->addAction('clear', array(
@@ -148,7 +148,7 @@ class Import extends \Magento\Backend\App\Action
             $this->renderLayout();
         } elseif ($this->getRequest()->isPost() && empty($_FILES)) {
             $this->loadLayout(false);
-            $resultBlock = $this->getLayout()->getBlock('import.frame.result');
+            $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
             $resultBlock->addError(__('File was not uploaded'));
             $this->renderLayout();
         } else {

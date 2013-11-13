@@ -178,7 +178,7 @@ class Index
         $this->loadLayout();
 
         $session = $this->_objectManager->get('Magento\Customer\Model\Session');
-        $block   = $this->getLayout()->getBlock('customer.wishlist');
+        $block   = $this->_layoutServices->getLayout()->getBlock('customer.wishlist');
         $referer = $session->getAddActionReferer(true);
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
@@ -193,7 +193,7 @@ class Index
             'Magento\Catalog\Model\Session',
             'Magento\Wishlist\Model\Session'
         );
-        $this->getLayout()->initMessages($messageStores);
+        $this->_layoutServices->getLayout()->initMessages($messageStores);
 
         $this->renderLayout();
     }
@@ -640,7 +640,7 @@ class Index
     {
         $this->_getWishlist();
         $this->loadLayout();
-        $this->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Wishlist\Model\Session'));
+        $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Wishlist\Model\Session'));
         $this->renderLayout();
     }
 
@@ -705,13 +705,13 @@ class Index
 
             /*if share rss added rss feed to email template*/
             if ($this->getRequest()->getParam('rss_url')) {
-                $rss_url = $this->getLayout()
+                $rss_url = $this->_layoutServices->getLayout()
                     ->createBlock('Magento\Wishlist\Block\Share\Email\Rss')
                     ->setWishlistId($wishlist->getId())
                     ->toHtml();
                 $message .= $rss_url;
             }
-            $wishlistBlock = $this->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
+            $wishlistBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
 
             $emails = array_unique($emails);
             /* @var $emailModel \Magento\Core\Model\Email\Template */

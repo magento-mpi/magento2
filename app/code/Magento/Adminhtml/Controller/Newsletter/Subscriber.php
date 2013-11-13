@@ -68,7 +68,7 @@ class Subscriber extends \Magento\Backend\App\Action
     {
         $this->loadLayout();
         $fileName = 'subscribers.csv';
-        $content = $this->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
+        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
 
         return $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
     }
@@ -80,7 +80,7 @@ class Subscriber extends \Magento\Backend\App\Action
     {
         $this->loadLayout();
         $fileName = 'subscribers.xml';
-        $content = $this->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
+        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
     }
 

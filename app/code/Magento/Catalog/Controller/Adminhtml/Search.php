@@ -92,9 +92,9 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_title->add($id ? $model->getQueryText() : __('New Search'));
 
-        $this->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
-        $this->getLayout()->getBlock('adminhtml.catalog.search.edit')
+        $this->_layoutServices->getLayout()->getBlock('adminhtml.catalog.search.edit')
             ->setData('action', $this->getUrl('catalog/search/save'));
 
         $this

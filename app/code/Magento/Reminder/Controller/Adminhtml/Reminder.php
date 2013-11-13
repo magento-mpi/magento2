@@ -156,10 +156,10 @@ class Reminder extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $this->getLayout()->getBlock('adminhtml_reminder_edit')
+        $this->_layoutServices->getLayout()->getBlock('adminhtml_reminder_edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
-        $this->getLayout()->getBlock('head')
+        $this->_layoutServices->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
@@ -297,7 +297,7 @@ class Reminder extends \Magento\Backend\App\Action
     public function customerGridAction()
     {
         if ($this->_initRule('rule_id')) {
-            $block = $this->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
+            $block = $this->_layoutServices->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
             $this->getResponse()->setBody($block->toHtml());
         }
     }

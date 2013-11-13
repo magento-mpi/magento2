@@ -74,7 +74,7 @@ class Payment extends \Magento\App\Action\Action
      */
     protected function _getPaymentMethodsHtml()
     {
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_paymentmethod');
         $layout->generateXml();

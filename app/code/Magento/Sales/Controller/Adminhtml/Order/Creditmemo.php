@@ -211,7 +211,7 @@ class Creditmemo
             }
 
             $this->loadLayout();
-            $this->getLayout()->getBlock('sales_creditmemo_view')
+            $this->_layoutServices->getLayout()->getBlock('sales_creditmemo_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->_setActiveMenu('Magento_Sales::sales_creditmemo')
                 ->renderLayout();
@@ -263,7 +263,7 @@ class Creditmemo
         try {
             $creditmemo = $this->_initCreditmemo(true);
             $this->loadLayout();
-            $response = $this->getLayout()->getBlock('order_items')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('order_items')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -418,7 +418,7 @@ class Creditmemo
             $creditmemo->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
 
             $this->loadLayout();
-            $response = $this->getLayout()->getBlock('creditmemo_comments')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('creditmemo_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,

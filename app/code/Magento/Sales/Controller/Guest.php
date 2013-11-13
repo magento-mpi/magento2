@@ -62,7 +62,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             return;
         }
         $this->loadLayout();
-        $this->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
+        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }

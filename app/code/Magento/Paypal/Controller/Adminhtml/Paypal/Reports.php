@@ -95,7 +95,7 @@ class Reports extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_transaction', $row);
         $this->_initAction()
             ->_title->add(__('View Transaction'))
-            ->_addContent($this->getLayout()
+            ->_addContent($this->_layoutServices->getLayout()
                 ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails'))
             ->renderLayout();
     }

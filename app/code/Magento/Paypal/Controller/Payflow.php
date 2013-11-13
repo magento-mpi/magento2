@@ -67,7 +67,7 @@ class Payflow extends \Magento\App\Action\Action
     {
         $this->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
+        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.link.iframe');
         $redirectBlock->setGotoSection($gotoSection);
         $this->renderLayout();
     }
@@ -78,7 +78,7 @@ class Payflow extends \Magento\App\Action\Action
     public function returnUrlAction()
     {
         $this->loadLayout(false);
-        $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
+        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.link.iframe');
 
         if ($this->_checkoutSession->getLastRealOrderId()) {
             $order = $this->_orderFactory->create()->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());

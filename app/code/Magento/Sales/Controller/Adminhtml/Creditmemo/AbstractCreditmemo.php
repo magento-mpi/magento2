@@ -54,7 +54,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo'))
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo'))
             ->renderLayout();
     }
 

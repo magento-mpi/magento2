@@ -139,9 +139,9 @@ class Index extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Send Invitations'));
         }
@@ -155,12 +155,12 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
-        if ($block = $this->getLayout()->getBlock('invitations_list')) {
+        if ($block = $this->_layoutServices->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('My Invitations'));
         }

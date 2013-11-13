@@ -59,7 +59,7 @@ class Images extends \Magento\Backend\App\Action
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_initAction()->loadLayout('overlay_popup');
-        $block = $this->getLayout()->getBlock('wysiwyg_images.js');
+        $block = $this->_layoutServices->getLayout()->getBlock('wysiwyg_images.js');
         if ($block) {
             $block->setStoreId($storeId);
         }
@@ -71,7 +71,7 @@ class Images extends \Magento\Backend\App\Action
         try {
             $this->_initAction();
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
+                $this->_layoutServices->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
                     ->getTreeJson()
             );
         } catch (\Exception $e) {

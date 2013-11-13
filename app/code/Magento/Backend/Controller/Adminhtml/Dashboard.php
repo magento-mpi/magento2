@@ -77,7 +77,7 @@ class Dashboard extends \Magento\Backend\App\Action
             ucwords(str_replace('_', ' ', $blockTab))
         );
         if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {
-            $output = $this->getLayout()->createBlock('Magento\\Backend\\Block\\Dashboard\\' . $blockClassSuffix)
+            $output = $this->_layoutServices->getLayout()->createBlock('Magento\\Backend\\Block\\Dashboard\\' . $blockClassSuffix)
                 ->toHtml();
         }
         $this->getResponse()->setBody($output);

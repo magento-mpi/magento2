@@ -162,7 +162,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
 
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::sales_order');
-            $this->getLayout()->getBlock('sales_invoice_view')
+            $this->_layoutServices->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->renderLayout();
         } else {
@@ -217,7 +217,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoice->setCommentText($invoiceRawCommentText);
 
             $this->loadLayout();
-            $response = $this->getLayout()->getBlock('order_items')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('order_items')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -413,7 +413,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoice->save();
 
             $this->loadLayout();
-            $response = $this->getLayout()->getBlock('invoice_comments')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,

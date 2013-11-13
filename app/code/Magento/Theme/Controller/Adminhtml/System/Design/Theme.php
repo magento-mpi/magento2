@@ -86,7 +86,7 @@ class Theme extends \Magento\Backend\App\Action
 
             $this->loadLayout();
             /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
-            $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
+            $tab = $this->_layoutServices->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
                 /** @var $helper \Magento\Core\Helper\Theme */
                 $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');

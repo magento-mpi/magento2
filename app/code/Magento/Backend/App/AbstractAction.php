@@ -140,7 +140,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected function _setActiveMenu($itemId)
     {
         /** @var $menuBlock \Magento\Backend\Block\Menu */
-        $menuBlock = $this->getLayout()->getBlock('menu');
+        $menuBlock = $this->_layoutServices->getLayout()->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
         $parents = array_reverse($parents);
@@ -159,7 +159,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _addBreadcrumb($label, $title, $link=null)
     {
-        $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
+        $this->_layoutServices->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
         return $this;
     }
 
@@ -201,7 +201,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     private function _moveBlockToContainer(\Magento\Core\Block\AbstractBlock $block, $containerName)
     {
-        $this->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
+        $this->_layoutServices->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
         return $this;
     }
 
@@ -321,13 +321,13 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     {
         parent::loadLayout($ids, false, $generateXml);
         $this->_objectManager->get('Magento\Core\Model\Layout\Filter\Acl')
-            ->filterAclNodes($this->getLayout()->getNode());
+            ->filterAclNodes($this->_layoutServices->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
         }
 //        $this->_initLayoutMessages('Magento\Backend\Model\Session');
-        $this->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Backend\Model\Session');
         return $this;
     }
 
@@ -403,8 +403,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->getLayout()->initMessages('Magento\Backend\Model\Session');
-        $block = $this->getLayout()->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
+        $this->_layoutServices->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $block = $this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }

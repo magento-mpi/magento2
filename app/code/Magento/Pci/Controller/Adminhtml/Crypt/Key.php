@@ -64,7 +64,7 @@ class Key extends \Magento\Backend\App\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 
-        if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
+        if (($formBlock = $this->_layoutServices->getLayout()->getBlock('pci.crypt.key.form'))
             && $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true)) {
             /* @var \Magento\Pci\Block\Adminhtml\Crypt\Key\Form $formBlock */
             $formBlock->setFormData($data);

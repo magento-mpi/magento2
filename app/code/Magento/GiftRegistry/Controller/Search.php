@@ -225,8 +225,8 @@ class Search extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
@@ -239,7 +239,7 @@ class Search extends \Magento\App\Action\Action
     public function resultsAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
 
         $params = $this->getRequest()->getParam('params');
         if ($params) {
@@ -252,13 +252,13 @@ class Search extends \Magento\App\Action\Action
             $results = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
-            $this->getLayout()->getBlock('giftregistry.search.results')
+            $this->_layoutServices->getLayout()->getBlock('giftregistry.search.results')
                 ->setSearchResults($results);
         } else {
             $this->_redirect('*/*/index', array('_current' => true));
             return;
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }

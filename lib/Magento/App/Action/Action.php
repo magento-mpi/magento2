@@ -152,7 +152,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return \Magento\View\LayoutInterface
      */
-    public function getLayout()  // Leave
+    public function getLayout()  // Remove 12 usages
     {
         return $this->_layoutServices->getLayout();
     }
@@ -245,7 +245,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if (!$this->_flag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_before',
-                array('action' => $this, 'layout' => $this->getLayout())
+                array('action' => $this, 'layout' => $this->_layoutServices->getLayout())
             );
         }
 
@@ -255,7 +255,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if (!$this->_flag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_after',
-                array('action' => $this, 'layout' => $this->getLayout())
+                array('action' => $this, 'layout' => $this->_layoutServices->getLayout())
             );
         }
 

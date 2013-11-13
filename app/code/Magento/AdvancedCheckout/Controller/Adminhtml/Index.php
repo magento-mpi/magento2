@@ -346,7 +346,7 @@ class Index extends \Magento\Backend\App\Action
 
             $this->loadLayout();
             if (!$quote->getCouponCode()) {
-                $this->getLayout()
+                $this->_layoutServices->getLayout()
                     ->getBlock('form_coupon')
                     ->setInvalidCouponCode($code);
             }
@@ -710,7 +710,7 @@ class Index extends \Magento\Backend\App\Action
         $asJson = $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
 
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_layoutServices->getLayout()->getUpdate();
         if ($asJson) {
             $update->addHandle('checkout_index_manage_load_block_json');
         } else {
@@ -732,7 +732,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $result = $this->getLayout()->renderElement('content');
+        $result = $this->_layoutServices->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('checkout/*/showUpdateResult');

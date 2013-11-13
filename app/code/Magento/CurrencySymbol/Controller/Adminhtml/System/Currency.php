@@ -68,7 +68,7 @@ class Currency extends \Magento\Backend\App\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_CurrencySymbol::system_currency_rates');
-        $this->_addContent($this->getLayout()->createBlock('Magento\CurrencySymbol\Block\Adminhtml\System\Currency'));
+        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\CurrencySymbol\Block\Adminhtml\System\Currency'));
         $this->renderLayout();
     }
 

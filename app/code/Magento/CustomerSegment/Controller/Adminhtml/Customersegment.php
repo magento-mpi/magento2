@@ -124,10 +124,10 @@ class Customersegment extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $block =  $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
+        $block =  $this->_layoutServices->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
-        $this->getLayout()->getBlock('head')
+        $this->_layoutServices->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
@@ -136,7 +136,7 @@ class Customersegment extends \Magento\Backend\App\Action
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
+                $this->_layoutServices->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
             ->renderLayout();
     }
 
@@ -311,7 +311,7 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
+        $block = $this->_layoutServices->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

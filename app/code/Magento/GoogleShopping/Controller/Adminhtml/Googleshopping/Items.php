@@ -70,7 +70,7 @@ class Items extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $contentBlock = $this->getLayout()
+        $contentBlock = $this->_layoutServices->getLayout()
             ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
@@ -106,7 +106,7 @@ class Items extends \Magento\Backend\App\Action
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_layoutServices->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Item')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

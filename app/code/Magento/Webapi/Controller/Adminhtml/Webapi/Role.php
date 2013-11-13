@@ -127,13 +127,13 @@ class Role extends \Magento\Backend\App\Action
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit $editBlock */
-        $editBlock = $this->getLayout()->getBlock('webapi.role.edit');
+        $editBlock = $this->_layoutServices->getLayout()->getBlock('webapi.role.edit');
         if ($editBlock) {
             $editBlock->setApiRole($role);
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs $tabsBlock */
-        $tabsBlock = $this->getLayout()->getBlock('webapi.role.edit.tabs');
+        $tabsBlock = $this->_layoutServices->getLayout()->getBlock('webapi.role.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiRole($role);
         }

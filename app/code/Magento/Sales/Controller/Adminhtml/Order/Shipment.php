@@ -145,7 +145,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if ($shipment) {
             $this->_title->add("#" . $shipment->getIncrementId());
             $this->loadLayout();
-            $this->getLayout()->getBlock('sales_shipment_view')
+            $this->_layoutServices->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
@@ -323,7 +323,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                     ->save();
 
                 $this->loadLayout();
-                $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
+                $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
                     'error'     => true,
@@ -360,7 +360,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                     $track->delete();
 
                     $this->loadLayout();
-                    $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
+                    $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(
                         'error'     => true,
@@ -447,7 +447,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $shipment->save();
 
             $this->loadLayout(false);
-            $response = $this->getLayout()->getBlock('shipment_comments')->toHtml();
+            $response = $this->_layoutServices->getLayout()->getBlock('shipment_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -726,7 +726,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $this->_initShipment();
         return $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_layoutServices->getLayout()
                 ->createBlock('Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

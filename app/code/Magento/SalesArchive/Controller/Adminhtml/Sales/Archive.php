@@ -294,7 +294,7 @@ class Archive extends \Magento\Backend\App\Action
     {
         $action = strtolower((string)$this->getRequest()->getParam('action'));
         $this->loadLayout(false);
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
 
         switch ($action) {
             case 'invoice':

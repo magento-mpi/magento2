@@ -178,8 +178,8 @@ class Search extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
         }
@@ -226,7 +226,7 @@ class Search extends \Magento\App\Action\Action
             $this->_customerSession->addError(__('We could not perform the search.'));
         }
 
-        $layout = $this->getLayout();
+        $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Customer\Model\Session');
         $headBlock = $layout->getBlock('head');
         if ($headBlock) {
@@ -255,7 +255,7 @@ class Search extends \Magento\App\Action\Action
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
         $this->loadLayout();
-        $block = $this->getLayout()->getBlock('customer.wishlist.info');
+        $block = $this->_layoutServices->getLayout()->getBlock('customer.wishlist.info');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
@@ -265,7 +265,7 @@ class Search extends \Magento\App\Action\Action
             'Magento\Checkout\Model\Session',
             'Magento\Wishlist\Model\Session'
         );
-        $this->getLayout()->initMessages($messageStores);
+        $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
     }
 

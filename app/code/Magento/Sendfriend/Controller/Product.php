@@ -154,13 +154,13 @@ class Product extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
         $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));
         $data = $catalogSession->getSendfriendFormData();
         if ($data) {
             $catalogSession->setSendfriendFormData(true);
-            $block = $this->getLayout()->getBlock('sendfriend.send');
+            $block = $this->_layoutServices->getLayout()->getBlock('sendfriend.send');
             if ($block) {
                 $block->setFormData($data);
             }

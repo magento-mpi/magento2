@@ -44,7 +44,7 @@ class Agreement extends \Magento\Backend\App\Action
         $this->_title->add(__('Terms and Conditions'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Checkout\Block\Adminhtml\Agreement'))
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Checkout\Block\Adminhtml\Agreement'))
             ->renderLayout();
         return $this;
     }
@@ -87,7 +87,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $id ?  __('Edit Condition') :  __('New Condition')
             )
             ->_addContent(
-                $this->getLayout()
+                $this->_layoutServices->getLayout()
                     ->createBlock('Magento\Checkout\Block\Adminhtml\Agreement\Edit')
                     ->setData('action', $this->getUrl('checkout/*/save'))
             )

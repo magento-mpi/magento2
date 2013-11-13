@@ -179,8 +179,8 @@ class Account extends \Magento\App\Action\Action
     {
         $this->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->getLayout()->initMessages($messageStores);
-        $this->getLayout()->getBlock('head')->setTitle(__('My Account'));
+        $this->_layoutServices->getLayout()->initMessages($messageStores);
+        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Account'));
         $this->renderLayout();
     }
 
@@ -196,7 +196,7 @@ class Account extends \Magento\App\Action\Action
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->getLayout()->initMessages($messageStores);
+        $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
     }
 
@@ -328,7 +328,7 @@ class Account extends \Magento\App\Action\Action
         }
 
         $this->loadLayout();
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -626,10 +626,10 @@ class Account extends \Magento\App\Action\Action
         // output form
         $this->loadLayout();
 
-        $this->getLayout()->getBlock('accountConfirmation')
+        $this->_layoutServices->getLayout()->getBlock('accountConfirmation')
             ->setEmail($this->getRequest()->getParam('email', $email));
 
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -640,12 +640,12 @@ class Account extends \Magento\App\Action\Action
     {
         $this->loadLayout();
 
-        $this->getLayout()->getBlock('forgotPassword')->setEmailValue(
+        $this->_layoutServices->getLayout()->getBlock('forgotPassword')->setEmailValue(
             $this->_getSession()->getForgottenEmail()
         );
         $this->_getSession()->unsForgottenEmail();
 
-        $this->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -715,7 +715,7 @@ class Account extends \Magento\App\Action\Action
             $this->_validateResetPasswordLinkToken($customerId, $resetPasswordToken);
             $this->loadLayout();
             // Pass received parameters to the reset forgotten password form
-            $this->getLayout()->getBlock('resetPassword')
+            $this->_layoutServices->getLayout()->getBlock('resetPassword')
                 ->setCustomerId($customerId)
                 ->setResetPasswordLinkToken($resetPasswordToken);
             $this->renderLayout();
@@ -836,9 +836,9 @@ class Account extends \Magento\App\Action\Action
     {
         $this->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->getLayout()->initMessages($messageStores);
+        $this->_layoutServices->getLayout()->initMessages($messageStores);
 
-        $block = $this->getLayout()->getBlock('customer_edit');
+        $block = $this->_layoutServices->getLayout()->getBlock('customer_edit');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
@@ -851,8 +851,8 @@ class Account extends \Magento\App\Action\Action
             $customer->setChangePassword(1);
         }
 
-        $this->getLayout()->getBlock('head')->setTitle(__('Account Information'));
-        $this->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
+        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Account Information'));
+        $this->_layoutServices->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
         $this->renderLayout();
     }
 

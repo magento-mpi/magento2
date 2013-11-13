@@ -48,7 +48,7 @@ class Files extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
+                $this->_layoutServices->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (\Exception $e) {
@@ -96,7 +96,7 @@ class Files extends \Magento\Backend\App\Action
     {
         try {
             $this->loadLayout('empty');
-            $this->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
+            $this->_layoutServices->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
             $this->renderLayout();
 
             $this->_getSession()->setStoragePath(

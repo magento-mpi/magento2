@@ -81,7 +81,7 @@ class Template extends \Magento\Backend\App\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
-        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
+        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
         $this->renderLayout();
     }
 
@@ -92,7 +92,7 @@ class Template extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->loadLayout();
-        $grid = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
+        $grid = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
     }
@@ -143,7 +143,7 @@ class Template extends \Magento\Backend\App\Action
             $model->addData($values);
         }
 
-        $editBlock = $this->getLayout()->getBlock('template_edit');
+        $editBlock = $this->_layoutServices->getLayout()->getBlock('template_edit');
         if ($editBlock) {
             $editBlock->setEditMode($model->getId() > 0);
         }
@@ -263,7 +263,7 @@ class Template extends \Magento\Backend\App\Action
         $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
             ->getDefaultStoreView()->getId();
 
-        $this->getLayout()->getBlock('preview_form')->setFormData($data);
+        $this->_layoutServices->getLayout()->getBlock('preview_form')->setFormData($data);
         $this->renderLayout();
     }
 }

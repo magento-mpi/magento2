@@ -109,8 +109,8 @@ class Variable extends \Magento\Backend\App\Action
         $this->_title->add($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))
-            ->_addJs($this->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))
+            ->_addJs($this->_layoutServices->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Backend::system/variable/js.phtml')
             )))
             ->renderLayout();
@@ -127,9 +127,9 @@ class Variable extends \Magento\Backend\App\Action
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->getResponse()->setBody($response->toJson());
     }

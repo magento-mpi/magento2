@@ -39,7 +39,7 @@ class Widget extends \Magento\Backend\App\Action
      */
     protected function _getTreeBlock()
     {
-        return $this->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
+        return $this->_layoutServices->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id')
             )

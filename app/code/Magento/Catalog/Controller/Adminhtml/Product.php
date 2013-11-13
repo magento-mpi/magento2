@@ -173,7 +173,7 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Adminhtml\Block\Widget\Grid $gridBlock,
         $productsArray
     ) {
-        return $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
+        return $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
             ->setGridBlock($gridBlock)
             ->setProducts($productsArray)
             ->setInputElementName($inputName);
@@ -185,7 +185,7 @@ class Product extends \Magento\Backend\App\Action
     protected function _outputBlocks()
     {
         $blocks = func_get_args();
-        $output = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Text\ListText');
+        $output = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Text\ListText');
         foreach ($blocks as $block) {
             $output->insert($block, '', true);
         }
@@ -242,9 +242,9 @@ class Product extends \Magento\Backend\App\Action
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
 
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
+        $block = $this->_layoutServices->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
             $block->setStoreId($product->getStoreId());
         }
@@ -289,7 +289,7 @@ class Product extends \Magento\Backend\App\Action
 
         if (
             !$this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode()
-            && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))
+            && ($switchBlock = $this->_layoutServices->getLayout()->getBlock('store_switcher'))
         ) {
             $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
@@ -302,9 +302,9 @@ class Product extends \Magento\Backend\App\Action
             )));
         }
 
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
+        $block = $this->_layoutServices->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
             $block->setStoreId($product->getStoreId());
         }
@@ -323,7 +323,7 @@ class Product extends \Magento\Backend\App\Action
         $storeMediaUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($storeId)->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
 
-        $content = $this->getLayout()->createBlock(
+        $content = $this->_layoutServices->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg\Content',
             '',
             array(
@@ -358,7 +358,7 @@ class Product extends \Magento\Backend\App\Action
         $blockClassSuffix = str_replace(' ', '_', ucwords(str_replace('_', ' ', $block)));
 
         $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_layoutServices->getLayout()
                 ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\\' . $blockClassSuffix)
                 ->toHtml()
         );
@@ -453,7 +453,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.related')
+        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
         $this->renderLayout();
     }
@@ -465,7 +465,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.upsell')
+        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsUpsell($this->getRequest()->getPost('products_upsell', null));
         $this->renderLayout();
     }
@@ -477,7 +477,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
+        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsCrossSell($this->getRequest()->getPost('products_crosssell', null));
         $this->renderLayout();
     }
@@ -489,7 +489,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.related')
+        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
         $this->renderLayout();
     }
@@ -501,7 +501,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.upsell')
+        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsRelated($this->getRequest()->getPost('products_upsell', null));
         $this->renderLayout();
     }
@@ -513,7 +513,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
+        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsRelated($this->getRequest()->getPost('products_crosssell', null));
         $this->renderLayout();
     }
@@ -546,7 +546,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->getLayout()->getBlock('admin.product.reviews')
+        $this->_layoutServices->getLayout()->getBlock('admin.product.reviews')
             ->setProductId($this->_coreRegistry->registry('product')->getId())
             ->setUseAjax(true);
         $this->renderLayout();
@@ -639,9 +639,9 @@ class Product extends \Magento\Backend\App\Action
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -984,7 +984,7 @@ class Product extends \Magento\Backend\App\Action
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
         );
         $this->renderLayout();
     }
@@ -993,7 +993,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->loadLayout('popup');
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
         );
         $this->renderLayout();
     }
@@ -1125,7 +1125,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
     }
@@ -1136,7 +1136,7 @@ class Product extends \Magento\Backend\App\Action
     public function suggestAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search')
+            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

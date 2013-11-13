@@ -114,7 +114,8 @@ class Quote extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_promo_quote_rule', $model);
 
-        $this->_initAction()->getLayout()->getBlock('promo_quote_edit')
+        $this->_initAction();
+        $this->_layoutServices->getLayout()->getBlock('promo_quote_edit')
             ->setData('action', $this->getUrl('sales_rule/*/save'));
 
         $this
@@ -315,7 +316,7 @@ class Quote extends \Magento\Backend\App\Action
         $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
-            $content = $this->getLayout()
+            $content = $this->_layoutServices->getLayout()
                 ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getExcelFile($fileName);
             return $this->_fileFactory->create($fileName, $content);
@@ -336,7 +337,7 @@ class Quote extends \Magento\Backend\App\Action
         $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
-            $content = $this->getLayout()
+            $content = $this->_layoutServices->getLayout()
                 ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getCsvFile();
             return $this->_fileFactory->create($fileName, $content);
@@ -405,8 +406,8 @@ class Quote extends \Magento\Backend\App\Action
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
                     $this->_getSession()->addSuccess(__('%1 coupon(s) have been generated.', $generated));
-                    $this->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
-                    $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
+                    $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                    $result['messages']  = $this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
             } catch (\Magento\Core\Exception $e) {
                 $result['error'] = $e->getMessage();
@@ -424,7 +425,7 @@ class Quote extends \Magento\Backend\App\Action
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $chooserBlock = $this->getLayout()
+        $chooserBlock = $this->_layoutServices->getLayout()
             ->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser', '', array('data' => array('id' => $uniqId)));
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }
