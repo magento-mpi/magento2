@@ -522,7 +522,7 @@ class Index extends \Magento\Backend\App\Action
 
         $this->_layoutServices->getLayout()->getUpdate()->addHandle(strtolower($this->getFullActionName()));
         $this->loadLayoutUpdates();
-        $this->generateLayoutXml();
+        $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
         $this->_layoutServices->renderLayout();
     }

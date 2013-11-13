@@ -209,16 +209,8 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function loadLayoutUpdates()  // Leave
+    public function loadLayoutUpdates()
     {
-        //2 events
-
-        // dispatch event for adding handles to layout update
-        $this->_eventManager->dispatch(
-            'controller_action_layout_load_before',
-            array('action' => $this, 'layout' => $this->getLayout())
-        );
-
         return $this->_layoutServices->loadLayoutUpdates();
     }
 
@@ -227,7 +219,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function generateLayoutXml()  // Leave
+    public function generateLayoutXml() //TODO fix 4 usages
     {
         $this->_layoutServices->generateLayoutXml();
         return $this;

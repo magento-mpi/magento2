@@ -128,7 +128,7 @@ class Index extends \Magento\App\Action\Action
             $this->loadLayoutUpdates();
 
             $this->_layoutServices->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
-            $this->generateLayoutXml();
+            $this->_layoutServices->generateLayoutXml();
             $this->_layoutServices->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {

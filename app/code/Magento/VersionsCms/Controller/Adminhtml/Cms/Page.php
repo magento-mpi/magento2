@@ -88,7 +88,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         $update->addHandle($this->_handles);
 
         $this->loadLayoutUpdates();
-        $this->generateLayoutXml();
+        $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
 
         $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
