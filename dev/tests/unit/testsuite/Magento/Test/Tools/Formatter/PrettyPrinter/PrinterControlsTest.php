@@ -83,7 +83,7 @@ class PrinterControlsTest extends TestBase
      */
     public function dataIf()
     {
-        $originalIf5 = <<< 'ORIGINALIF5'
+        $originalIf5 = <<<'ORIGINALIF5'
 <?php class If5 {
 protected function alpha() {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
@@ -95,7 +95,7 @@ protected function alpha() {
         }
 }}
 ORIGINALIF5;
-        $formattedIf5 = <<< 'FORMATTEDIF5'
+        $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
 class If5
 {
@@ -163,7 +163,7 @@ FORMATTEDIF5;
      */
     public function dataControls()
     {
-        $originalCodeSnippet = <<< 'ORIGINALCODESNIPPET'
+        $originalCodeSnippet = <<<'ORIGINALCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
@@ -180,7 +180,7 @@ class TestClass {
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet = <<< 'FORMATTEDCODESNIPPET'
+        $formattedCodeSnippet = <<<'FORMATTEDCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
@@ -203,7 +203,7 @@ class TestClass
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet2 = <<< 'ORIGINALCODESNIPPET'
+        $originalCodeSnippet2 = <<<'ORIGINALCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
@@ -217,7 +217,7 @@ class TestClass {
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet2 = <<< 'FORMATTEDCODESNIPPET'
+        $formattedCodeSnippet2 = <<<'FORMATTEDCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
@@ -238,7 +238,7 @@ class TestClass
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet3 = <<< 'ORIGINALCODESNIPPET'
+        $originalCodeSnippet3 = <<<'ORIGINALCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestArrayParameter {
@@ -248,7 +248,7 @@ class TestArrayParameter {
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet3 = <<< 'FORMATTEDCODESNIPPET'
+        $formattedCodeSnippet3 = <<<'FORMATTEDCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
@@ -266,7 +266,7 @@ class TestArrayParameter
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet4 = <<< 'ORIGINALCODESNIPPET'
+        $originalCodeSnippet4 = <<<'ORIGINALCODESNIPPET'
 <?php
 class TestIfCase{
     public function main($results) {
@@ -280,7 +280,7 @@ class TestIfCase{
             );
         }}}
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet4 = <<< 'FORMATTEDCODESNIPPET'
+        $formattedCodeSnippet4 = <<<'FORMATTEDCODESNIPPET'
 <?php
 class TestIfCase
 {
@@ -299,7 +299,7 @@ class TestIfCase
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet5 = <<< 'ORIGINALCODESNIPPET'
+        $originalCodeSnippet5 = <<<'ORIGINALCODESNIPPET'
 <?php
 function alpha() {
 if ($ftp) {
@@ -313,7 +313,7 @@ if ($ftp) {
     @mkdir($dir, 0777, true);
 }}
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet5 = <<< 'FORMATTEDCODESNIPPET'
+        $formattedCodeSnippet5 = <<<'FORMATTEDCODESNIPPET'
 <?php
 function alpha()
 {
@@ -338,7 +338,7 @@ function alpha()
 }
 
 FORMATTEDCODESNIPPET;
-        $originalClosure = <<< 'ORIGINALCLOSURE'
+        $originalClosure = <<<'ORIGINALCLOSURE'
 <?php
 class CSample {
 public function cS() {
@@ -347,7 +347,7 @@ $trimFunction = function (&$value) {
 };
 }}
 ORIGINALCLOSURE;
-        $formattedClosure = <<< 'FORMATTEDCLOSURE'
+        $formattedClosure = <<<'FORMATTEDCLOSURE'
 <?php
 class CSample
 {
@@ -416,7 +416,7 @@ class CSample3
 }
 
 FORMATTEDCLOSURE3;
-        $originalClosure4 = <<< 'ORIGINALCLOSURE4'
+        $originalClosure4 = <<<'ORIGINALCLOSURE4'
 <?php
 class CSample4 {
     public function cS4() {
@@ -426,7 +426,7 @@ class CSample4 {
             }
         });}}
 ORIGINALCLOSURE4;
-        $formattedClosure4 = <<< 'FORMATTEDCLOSURE4'
+        $formattedClosure4 = <<<'FORMATTEDCLOSURE4'
 <?php
 class CSample4
 {
@@ -443,7 +443,7 @@ class CSample4
 }
 
 FORMATTEDCLOSURE4;
-        $originalClosure5 = <<< 'OC5'
+        $originalClosure5 = <<<'OC5'
 <?php
 class CSample5 {
     public function cS5() {
@@ -457,7 +457,7 @@ class CSample5 {
             ))
         ;}}
 OC5;
-        $formattedClosure5 = <<< 'FC5'
+        $formattedClosure5 = <<<'FC5'
 <?php
 class CSample5
 {
@@ -472,7 +472,7 @@ class CSample5
 }
 
 FC5;
-        $originalClosure6 = <<< 'OC6'
+        $originalClosure6 = <<<'OC6'
 <?php
 class CSample6 {
     public function cS6() {
@@ -482,7 +482,7 @@ class CSample6 {
             },
         );}}
 OC6;
-        $formattedClosure6 = <<< 'FC6'
+        $formattedClosure6 = <<<'FC6'
 <?php
 class CSample6
 {
@@ -499,7 +499,7 @@ class CSample6
 }
 
 FC6;
-        $originalClosure7 = <<< 'OC7'
+        $originalClosure7 = <<<'OC7'
 <?php
 class CSample7 {
     public function cS7() {
@@ -509,7 +509,7 @@ class CSample7 {
         );
 }}
 OC7;
-        $formattedClosure7 = <<< 'FC7'
+        $formattedClosure7 = <<<'FC7'
 <?php
 class CSample7
 {
