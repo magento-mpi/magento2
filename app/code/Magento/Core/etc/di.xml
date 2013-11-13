@@ -276,11 +276,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Controller\Varien\Action\Context">
-        <param name="isRenderInherited">
-            <value type="bool">false</value>
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
@@ -392,6 +387,33 @@
     <type name="\Magento\Image">
         <param name="adapter">
             <instance type="Magento\Image\Adapter\Gd2"/>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Layout\PageType\Config\Reader">
+        <param name="fileName">
+            <value>page_types.xml</value>
+        </param>
+        <param name="converter">
+            <instance type="Magento\Core\Model\Layout\PageType\Config\Converter" />
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento\Core\Model\Layout\PageType\Config\SchemaLocator" />
+        </param>
+        <param name="defaultScope">
+            <value>frontend</value>
+        </param>
+    </type>
+    <virtualType name="Magento\Core\Model\Layout\PageType\Config\Data" type="Magento\Config\Data">
+        <param name='reader'>
+            <instance type="Magento\Core\Model\Layout\PageType\Config\Reader" />
+        </param>
+        <param name="cacheId">
+            <value>page_types_config</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Core\Model\Layout\PageType\Config">
+        <param name="dataStorage">
+            <instance type="Magento\Core\Model\Layout\PageType\Config\Data" />
         </param>
     </type>
     <type name="Magento\Core\Model\Store\Storage\Db">

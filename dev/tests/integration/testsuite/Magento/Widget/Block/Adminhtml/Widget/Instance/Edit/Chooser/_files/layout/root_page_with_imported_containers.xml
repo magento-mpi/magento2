@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="page" label="Root Page with Imported Containers">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="non_page_handle_with_own_containers"/>
 </layout>
