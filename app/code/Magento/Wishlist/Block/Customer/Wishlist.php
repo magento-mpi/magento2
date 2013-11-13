@@ -32,7 +32,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -46,7 +45,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -56,11 +54,11 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         $this->_helperPool = $helperPool;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
-            $coreRegistry,
+            $registry,
             $taxData,
             $catalogData,
-            $coreData,
             $wishlistData,
             $customerSession,
             $productFactory,

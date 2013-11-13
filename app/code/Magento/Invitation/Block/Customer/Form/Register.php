@@ -47,12 +47,12 @@ class Register extends \Magento\Customer\Block\Form\Register
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
             $context,
-            $configCacheType,
             $coreData,
-            $customerSession,
-            $addressFactory,
+            $configCacheType,
             $regionCollFactory,
             $countryCollFactory,
+            $customerSession,
+            $addressFactory,
             $data
         );
     }

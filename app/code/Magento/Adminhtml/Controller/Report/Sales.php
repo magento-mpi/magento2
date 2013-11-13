@@ -20,23 +20,6 @@ namespace Magento\Adminhtml\Controller\Report;
 class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
-     */
-    protected $_fileFactory;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
-    ) {
-        $this->_fileFactory = $fileFactory;
-        parent::__construct($context, $fileFactory);
-    }
-
-    /**
      * Add report/sales breadcrumbs
      *
      * @return \Magento\Adminhtml\Controller\Report\Sales

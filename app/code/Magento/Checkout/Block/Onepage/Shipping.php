@@ -52,8 +52,8 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         $this->_addressFactory = $addressFactory;
         parent::__construct(
             $context,
-            $configCacheType,
             $coreData,
+            $configCacheType,
             $customerSession,
             $resourceSession,
             $countryCollFactory,

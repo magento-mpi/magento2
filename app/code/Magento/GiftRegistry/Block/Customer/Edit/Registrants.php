@@ -48,11 +48,11 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
             $context,
-            $coreRegistry,
-            $configCacheType,
             $coreData,
+            $configCacheType,
             $regionCollFactory,
             $countryCollFactory,
+            $coreRegistry,
             $customerSession,
             $attributeConfig,
             $locale,

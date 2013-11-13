@@ -57,13 +57,14 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct(
             $context,
-            $categoryFactory,
+            $coreData,
             $catalogConfig,
-            $catalogLayer,
-            $coreRegistry,
+            $registry,
             $taxData,
             $catalogData,
-            $coreData,
+            $categoryFactory,
+            $catalogLayer,
+            $coreRegistry,
             $data
         );
     }

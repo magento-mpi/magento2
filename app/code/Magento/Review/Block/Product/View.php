@@ -62,15 +62,16 @@ class View extends \Magento\Catalog\Block\Product\View
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
+            $registry,
+            $taxData,
+            $catalogData,
             $productFactory,
             $locale,
             $taxCalculation,
             $coreRegistry,
             $string,
-            $taxData,
-            $catalogData,
-            $coreData,
             $data
         );
     }

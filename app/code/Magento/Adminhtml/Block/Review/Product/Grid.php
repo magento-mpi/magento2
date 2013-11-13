@@ -55,6 +55,8 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         $this->_websitesFactory = $websitesFactory;
         parent::__construct(
             $context,
+            $coreData,
+            $urlModel,
             $websiteFactory,
             $setsFactory,
             $productFactory,
@@ -62,8 +64,6 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
             $status,
             $visibility,
             $catalogData,
-            $coreData,
-            $urlModel,
             $data
         );
     }

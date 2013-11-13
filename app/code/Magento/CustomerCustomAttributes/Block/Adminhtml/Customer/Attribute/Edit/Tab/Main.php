@@ -51,9 +51,9 @@ class Main
         $this->_customerData = $customerData;
         parent::__construct(
             $context,
+            $coreData,
             $registry,
             $formFactory,
-            $coreData,
             $eavData,
             $yesnoFactory,
             $inputTypeFactory,

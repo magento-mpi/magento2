@@ -61,8 +61,8 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
         $this->_searchLayer = $searchLayer;
         parent::__construct(
             $context,
-            $catalogLayer,
             $coreData,
+            $catalogLayer,
             $engineProvider,
             $catalogSearchData,
             $catalogSearchLayer,

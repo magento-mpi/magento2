@@ -67,13 +67,14 @@ class Related
         $this->_cart = $cart;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
+            $registry,
+            $taxData,
+            $catalogData,
             $index,
             $coreRegistry,
             $targetRuleData,
-            $taxData,
-            $catalogData,
-            $coreData,
             $productCollectionFactory,
             $visibility,
             $indexFactory,

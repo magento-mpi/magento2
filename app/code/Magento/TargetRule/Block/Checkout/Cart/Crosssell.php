@@ -140,13 +140,14 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $this->_indexFactory = $indexFactory;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
+            $registry,
+            $taxData,
+            $catalogData,
             $index,
             $coreRegistry,
             $targetRuleData,
-            $taxData,
-            $catalogData,
-            $coreData,
             $data
         );
     }

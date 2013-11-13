@@ -56,11 +56,12 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         $this->typeFactory = $typeFactory;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
-            $coreRegistry,
+            $registry,
             $taxData,
             $catalogData,
-            $coreData,
+            $coreRegistry,
             $itemFactory,
             $data
         );

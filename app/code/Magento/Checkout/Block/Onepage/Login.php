@@ -53,8 +53,8 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         $this->_checkoutData = $checkoutData;
         parent::__construct(
             $context,
-            $configCacheType,
             $coreData,
+            $configCacheType,
             $customerSession,
             $resourceSession,
             $countryCollFactory,

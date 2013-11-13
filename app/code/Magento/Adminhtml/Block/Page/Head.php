@@ -56,9 +56,9 @@ class Head extends \Magento\Page\Block\Html\Head
         $this->_titles = $titles;
         parent::__construct(
             $context,
+            $coreData,
             $locale,
             $fileStorageDatabase,
-            $coreData,
             $objectManager,
             $page,
             $assetMergeService,

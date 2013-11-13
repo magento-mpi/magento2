@@ -79,14 +79,14 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
         $this->_catalogUrl = $catalogUrl;
         parent::__construct(
             $context,
+            $coreData,
+            $registry,
+            $formFactory,
             $typesFactory,
             $optionFactory,
             $rewriteFactory,
             $systemStore,
             $adminhtmlData,
-            $registry,
-            $formFactory,
-            $coreData,
             $data
         );
     }

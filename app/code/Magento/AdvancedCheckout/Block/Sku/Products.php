@@ -30,11 +30,6 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_coreUrl;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
@@ -66,11 +61,10 @@ class Products extends \Magento\Checkout\Block\Cart
         $this->_cart = $cart;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        $this->_storeManager = $storeManager;
         parent::__construct(
             $context,
-            $catalogData,
             $coreData,
+            $catalogData,
             $customerSession,
             $checkoutSession,
             $catalogUrlBuilder,

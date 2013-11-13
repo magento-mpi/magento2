@@ -90,7 +90,6 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
@@ -105,7 +104,6 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -119,12 +117,12 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         $this->_customerSession = $customerSession;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
-            $coreRegistry,
-            $catalogProductCompare,
+            $registry,
             $taxData,
             $catalogData,
-            $coreData,
+            $catalogProductCompare,
             $data
         );
     }

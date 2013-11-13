@@ -72,7 +72,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -85,7 +84,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,

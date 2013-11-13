@@ -85,8 +85,8 @@ class Items extends \Magento\Checkout\Block\Cart
         $this->storeManager = $storeManager;
         parent::__construct(
             $context,
-            $catalogData,
             $coreData,
+            $catalogData,
             $customerSession,
             $checkoutSession,
             $catalogUrlBuilder,

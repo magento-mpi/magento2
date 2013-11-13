@@ -91,13 +91,14 @@ abstract class AbstractProductList
         $this->_indexFactory = $indexFactory;
         parent::__construct(
             $context,
+            $coreData,
             $catalogConfig,
+            $registry,
+            $taxData,
+            $catalogData,
             $index,
             $coreRegistry,
             $targetRuleData,
-            $taxData,
-            $catalogData,
-            $coreData,
             $data
         );
     }

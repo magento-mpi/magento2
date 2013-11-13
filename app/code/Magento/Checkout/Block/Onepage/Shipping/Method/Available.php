@@ -55,8 +55,8 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         $this->_taxData = $taxData;
         parent::__construct(
             $context,
-            $configCacheType,
             $coreData,
+            $configCacheType,
             $customerSession,
             $resourceSession,
             $countryCollFactory,

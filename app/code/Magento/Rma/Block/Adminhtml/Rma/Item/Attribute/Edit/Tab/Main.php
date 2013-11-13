@@ -54,9 +54,9 @@ class Main
         $this->_rmaEav = $rmaEav;
         parent::__construct(
             $context,
+            $coreData,
             $registry,
             $formFactory,
-            $coreData,
             $eavData,
             $yesnoFactory,
             $inputTypeFactory,

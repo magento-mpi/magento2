@@ -93,7 +93,7 @@ class ArgumentsReader
 
         $source = file($class->getFileName());
         $content = implode('', array_slice($source, $start, $length));
-        $pattern = '/parent::__construct\(([a-zA-Z0-9_$, \n]*)\);/';
+        $pattern = '/parent::__construct\(([a-zA-Z0-9_$, ' . PHP_EOL . ']*)\);/';
 
         if (!preg_match($pattern, $content, $matches)) {
             return null;
