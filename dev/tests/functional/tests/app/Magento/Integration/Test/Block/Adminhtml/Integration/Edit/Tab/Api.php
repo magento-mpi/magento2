@@ -13,7 +13,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Integration tab of integration edit page.
  */
-class Info extends Tab
+class Api extends Tab
 {
     /**
      * {@inheritdoc}
@@ -22,9 +22,8 @@ class Info extends Tab
     {
         parent::_init();
         $this->_mapping = array(
-            'name' => '#integration_properties_name',
-            'email' => '#integration_properties_email',
-            'endpoint' => '#integration_properties_endpoint',
+            'enable_api_access' => '#enable_api_access_checkbox',
+            'resource_access' => '#all',
         );
     }
 }

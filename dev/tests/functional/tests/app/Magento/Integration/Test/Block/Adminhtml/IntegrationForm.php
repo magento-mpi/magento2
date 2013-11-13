@@ -22,8 +22,10 @@ class IntegrationForm extends FormTabs
     {
         parent::_init();
         $this->_tabClasses = array(
-            'integration_edit_tabs_info_section_content' =>
+            'integration_edit_tabs_info_section' =>
                 '\\Magento\\Integration\\Test\\Block\\Adminhtml\\Integration\\Edit\\Tab\\Info',
+            'integration_edit_tabs_api_section' =>
+                '\\Magento\\Integration\\Test\\Block\\Adminhtml\\Integration\\Edit\\Tab\\Api',
         );
     }
 }

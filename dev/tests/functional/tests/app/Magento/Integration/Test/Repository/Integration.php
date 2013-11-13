@@ -17,6 +17,7 @@ class Integration extends AbstractRepository
 {
     const INTEGRATION_MANUAL = 'manual_integration';
     const INTEGRATION_OAUTH = 'oauth_integration';
+    const INTEGRATION = 'api';
 
     /**
      * {@inheritdoc}
@@ -29,6 +30,7 @@ class Integration extends AbstractRepository
         );
         $this->_data[self::INTEGRATION_MANUAL] = $this->_getManualIntegrationData();
         $this->_data[self::INTEGRATION_OAUTH] = $this->_getOauthIntegrationData();
+        $this->_data[self::INTEGRATION] = $this->_getIntegrationData();
     }
 
     /**
@@ -88,6 +90,46 @@ class Integration extends AbstractRepository
                         'value' => 'http://example.com/%isolation%',
                         'group' => 'integration_edit_tabs_info_section_content'
                     ),
+                )
+            )
+        );
+    }
+
+    /**
+     * Generate data for api fixture.
+     *
+     * @return array
+     */
+    protected function _getIntegrationData()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'name' => array(
+                        'value' => 'Oauth_Integration_%isolation%',
+                        'group' => 'integration_edit_tabs_info_section'
+                    ),
+                    'email' => array(
+                        'value' => 'email_%isolation%@example.com',
+                        'group' => 'integration_edit_tabs_info_section'
+                    ),
+                    'endpoint' => array(
+                        'value' => 'http://example.com/%isolation%',
+                        'group' => 'integration_edit_tabs_info_section'
+                    ),
+                    'enable_api_access' => array(
+                        'value' => 'Yes',
+                        'input_value' => 1,
+                        'group' => 'integration_edit_tabs_api_section',
+                        'input' => 'checkbox',
+                        'input_name'  => 'Enable API access'
+                    ),
+                    'resource_access' => array(
+                        'value' => 'All',
+                        'input_value' => '0',
+                        'group' => 'integration_edit_tabs_api_section',
+                        'input' => 'select'
+                    )
                 )
             )
         );
