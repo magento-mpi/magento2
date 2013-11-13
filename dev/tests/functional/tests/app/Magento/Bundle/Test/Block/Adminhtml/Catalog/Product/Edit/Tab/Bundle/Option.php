@@ -81,13 +81,6 @@ class Option extends Block
     private $blockNumber = 0;
 
     /**
-     * Counter for product rows in the bundle option
-     *
-     * @var int
-     */
-    private static $rowNumber = 0;
-
-    /**
      * Initialize block elements
      */
     protected function _init()
@@ -119,15 +112,16 @@ class Option extends Block
     /**
      * Get product row assigned to bundle option
      *
+     * @param int $rowNumber
      * @param Element $context
      * @return Selection
      */
-    private function getSelectionBlock(Element $context = null)
+    private function getSelectionBlock($rowNumber, Element $context = null)
     {
         $element = $context ? $context : $this->_rootElement;
         $this->selectionBlock = Factory::getBlockFactory()
             ->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSelection(
-                $element->find('#bundle_option_' . $this->blockNumber . ' #bundle_selection_row_' . self::$rowNumber)
+                $element->find('#bundle_option_' . $this->blockNumber . ' #bundle_selection_row_' . $rowNumber)
             );
         return $this->selectionBlock;
     }
@@ -161,6 +155,7 @@ class Option extends Block
      */
     public function fillBundleOption(array $fields, Element $context)
     {
+        $rowNumber = 0;
         $this->fillOptionData($fields);
         foreach ($fields['assigned_products'] as $field) {
             if (is_array($field)) {
@@ -168,8 +163,8 @@ class Option extends Block
                 $searchBlock = $this->getSearchGridBlock($context);
                 $searchBlock->searchAndSelect($field['search_data']);
                 $searchBlock->addProducts();
-                $this->getSelectionBlock()->fillProductRow($field['data']);
-                self::$rowNumber++;
+                $this->getSelectionBlock($rowNumber)->fillProductRow($field['data']);
+                $rowNumber++;
             }
         }
     }

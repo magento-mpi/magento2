@@ -128,6 +128,7 @@ class CreateBundle extends Curl
      *
      * @param Fixture $fixture [optional]
      * @return mixed|string
+     * @throws \Exception
      */
     public function execute(Fixture $fixture = null)
     {
@@ -143,6 +144,9 @@ class CreateBundle extends Curl
         $response = $curl->read();
         $curl->close();
 
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
+        }
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
         return isset($matches[1]) ? $matches[1] : null;
     }

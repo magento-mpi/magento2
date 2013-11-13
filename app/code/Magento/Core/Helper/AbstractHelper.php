@@ -39,7 +39,7 @@ abstract class AbstractHelper
     protected $_translator;
 
     /**
-     * @var \Magento\Core\Model\ModuleManager
+     * @var \Magento\Module\Manager
      */
     private $_moduleManager;
 
@@ -182,7 +182,7 @@ abstract class AbstractHelper
      *
      * @param string $moduleName Full module name
      * @return boolean
-     * @deprecated use \Magento\Core\Model\ModuleManager::isOutputEnabled()
+     * @deprecated use \Magento\Module\Manager::isOutputEnabled()
      */
     public function isModuleOutputEnabled($moduleName = null)
     {
@@ -197,7 +197,7 @@ abstract class AbstractHelper
      *
      * @param string $moduleName the full module name, example Magento_Core
      * @return boolean
-     * @deprecated use \Magento\Core\Model\ModuleManager::isEnabled()
+     * @deprecated use \Magento\Module\Manager::isEnabled()
      */
     public function isModuleEnabled($moduleName = null)
     {

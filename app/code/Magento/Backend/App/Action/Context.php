@@ -80,7 +80,8 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\App $app
-     * @param mixed $isRenderInherited
+     * @param $isRenderInherited
+     * @param \Magento\HTTP\Authentication $authentication
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\App\ActionFlag $flag
@@ -93,8 +94,6 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
      * @param bool $canUseBaseUrl
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -115,6 +114,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App $app,
         $isRenderInherited,
+        \Magento\HTTP\Authentication $authentication,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
         \Magento\App\ActionFlag $flag,
@@ -131,7 +131,7 @@ class Context extends \Magento\App\Action\Context
         parent::__construct(
             $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager,
             $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translateor,
-            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $isRenderInherited
+            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $isRenderInherited, $authentication
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;

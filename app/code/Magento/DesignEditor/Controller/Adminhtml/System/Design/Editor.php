@@ -106,7 +106,7 @@ class Editor extends \Magento\Backend\App\Action
             $themeContext->setEditableThemeById($themeId);
             $launchedTheme = $themeContext->getEditableTheme();
             if ($launchedTheme->isPhysical()) {
-                $launchedTheme = $launchedTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)
+                $launchedTheme = $launchedTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
                     ->createVirtualTheme($launchedTheme);
                 $this->_redirect($this->getUrl('adminhtml/*/*', array('theme_id' => $launchedTheme->getId())));
                 return;
@@ -161,7 +161,8 @@ class Editor extends \Magento\Backend\App\Action
 
             $themeCustomization = $theme->isVirtual()
                 ? $theme
-                : $theme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
+                : $theme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
+                    ->createVirtualTheme($theme);
 
             /** @var $themeCustomization \Magento\View\Design\ThemeInterface */
             $this->_themeConfig->assignToStore($themeCustomization, $this->_getStores());
@@ -308,7 +309,8 @@ class Editor extends \Magento\Backend\App\Action
         try {
             /** @var $copyService \Magento\Core\Model\Theme\CopyService */
             $copyService = $this->_objectManager->get('Magento\Core\Model\Theme\CopyService');
-            $stagingTheme = $virtualTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->getStagingTheme();
+            $stagingTheme = $virtualTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
+                ->getStagingTheme();
             switch ($revertTo) {
                 case 'last_saved':
                     $copyService->copy($virtualTheme, $stagingTheme);
@@ -318,7 +320,7 @@ class Editor extends \Magento\Backend\App\Action
                     break;
 
                 case 'physical':
-                    $physicalTheme = $virtualTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
+                    $physicalTheme = $virtualTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
                         ->getPhysicalTheme();
                     $copyService->copy($physicalTheme, $stagingTheme);
                     $message = __('Theme "%1" reverted to last default state',
@@ -356,8 +358,8 @@ class Editor extends \Magento\Backend\App\Action
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->create('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeId);
         if (empty($theme)) {
             throw new \Magento\Core\Exception(__('We can\'t find this theme.'));
@@ -460,7 +462,7 @@ class Editor extends \Magento\Backend\App\Action
     {
         $isCustomized = (bool)$this->_objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory')
             ->create()
-            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
+            ->addTypeFilter(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
             ->getSize();
         return !$isCustomized;
     }

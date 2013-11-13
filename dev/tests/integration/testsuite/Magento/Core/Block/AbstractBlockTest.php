@@ -313,9 +313,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetBlockHtml()
     {
         // Without layout
-        /** @var $blockFactory \Magento\Core\Model\BlockFactory */
+        /** @var $blockFactory \Magento\View\Element\BlockFactory */
         $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\BlockFactory');
+            ->get('Magento\View\Element\BlockFactory');
         $block1 = $blockFactory->createBlock('Magento\Core\Block\Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');
