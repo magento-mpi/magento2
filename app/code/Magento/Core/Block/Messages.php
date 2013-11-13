@@ -242,25 +242,6 @@ class Messages extends \Magento\Core\Block\Template
     }
 
     /**
-     * Retrieve messages in HTML format
-     *
-     * @param   string $type
-     * @return  string
-     */
-    public function getHtml($type = null)
-    {
-        $html = '<' . $this->_messagesFirstLevelTagName . ' id="admin_messages">';
-        foreach ($this->getMessages($type) as $message) {
-            $html .= '<' . $this->_messagesSecondLevelTagName . ' class="' . $message->getType() . '-msg" '
-                . $this->getUiId('message') . '>'
-                . $this->_escapeMessageFlag ? $this->escapeHtml($message->getText()) : $message->getText()
-                . '</' . $this->_messagesSecondLevelTagName . '>';
-        }
-        $html .= '</' . $this->_messagesFirstLevelTagName . '>';
-        return $html;
-    }
-
-    /**
      * Return grouped message types
      *
      * @return array
