@@ -13,7 +13,7 @@ namespace Magento\Review\Block\Customer;
 /**
  * Recent Customer Reviews Block
  */
-class Recent extends \Magento\Core\Block\Template
+class Recent extends \Magento\View\Block\Template
 {
     /**
      * @var string

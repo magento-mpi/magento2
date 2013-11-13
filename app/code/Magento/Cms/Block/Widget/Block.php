@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Block\Widget;
 
-class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Block\BlockInterface
+class Block extends \Magento\View\Block\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider

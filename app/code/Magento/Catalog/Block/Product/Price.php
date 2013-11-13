@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Price extends \Magento\Core\Block\Template
+class Price extends \Magento\View\Block\Template
 {
     protected $_priceDisplayType = null;
     protected $_idSuffix = '';

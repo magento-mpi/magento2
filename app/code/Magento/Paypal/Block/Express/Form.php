@@ -70,7 +70,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     /**
      * Set data to block
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

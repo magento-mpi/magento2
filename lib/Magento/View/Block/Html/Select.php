@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,9 +14,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Block\Html;
+namespace Magento\View\Block\Html;
 
-class Select extends \Magento\Core\Block\AbstractBlock
+class Select extends \Magento\View\Block\AbstractBlock
 {
 
     protected $_options = array();
@@ -37,7 +35,7 @@ class Select extends \Magento\Core\Block\AbstractBlock
      * Set options for the HTML select
      *
      * @param array $options
-     * @return \Magento\Core\Block\Html\Select
+     * @return Select
      */
     public function setOptions($options)
     {
@@ -51,9 +49,9 @@ class Select extends \Magento\Core\Block\AbstractBlock
      * @param string $value  HTML value
      * @param string $label  HTML label
      * @param array  $params HTML attributes
-     * @return \Magento\Core\Block\Html\Select
+     * @return Select
      */
-    public function addOption($value, $label, $params=array())
+    public function addOption($value, $label, $params = array())
     {
         $this->_options[] = array('value' => $value, 'label' => $label, 'params' => $params);
         return $this;
@@ -63,7 +61,7 @@ class Select extends \Magento\Core\Block\AbstractBlock
      * Set element's HTML ID
      *
      * @param string $id ID
-     * @return \Magento\Core\Block\Html\Select
+     * @return Select
      */
     public function setId($id)
     {
@@ -75,7 +73,7 @@ class Select extends \Magento\Core\Block\AbstractBlock
      * Set element's CSS class
      *
      * @param string $class Class
-     * @return \Magento\Core\Block\Html\Select
+     * @return Select
      */
     public function setClass($class)
     {
@@ -87,7 +85,7 @@ class Select extends \Magento\Core\Block\AbstractBlock
      * Set element's HTML title
      *
      * @param string $title Title
-     * @return \Magento\Core\Block\Html\Select
+     * @return Select
      */
     public function setTitle($title)
     {
@@ -140,7 +138,7 @@ class Select extends \Magento\Core\Block\AbstractBlock
             . $this->getClass() . '" title="' . $this->getTitle() . '" ' . $this->getExtraParams() . '>';
         $values = $this->getValue();
 
-        if (!is_array($values)){
+        if (!is_array($values)) {
             if (!is_null($values)) {
                 $values = array($values);
             } else {
@@ -218,11 +216,13 @@ class Select extends \Magento\Core\Block\AbstractBlock
             }
         }
 
-        return sprintf('<option value="%s"%s %s>%s</option>',
+        return sprintf(
+            '<option value="%s"%s %s>%s</option>',
             $this->escapeHtml($option['value']),
             $selectedHtml,
             $params,
-            $this->escapeHtml($option['label']));
+            $this->escapeHtml($option['label'])
+        );
     }
 
     /**

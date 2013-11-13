@@ -18,7 +18,7 @@
  */
 namespace Magento\Page\Block;
 
-class Redirect extends \Magento\Core\Block\Template
+class Redirect extends \Magento\View\Block\Template
 {
     /**
      *  HTML form hidden fields

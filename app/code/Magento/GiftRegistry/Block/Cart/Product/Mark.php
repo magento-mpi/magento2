@@ -10,7 +10,7 @@
 
 namespace Magento\GiftRegistry\Block\Cart\Product;
 
-class Mark extends \Magento\Core\Block\Template
+class Mark extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\EntityFactory

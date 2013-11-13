@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Block\Html;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
 {
 
     protected $_template = 'Magento_Core::link.phtml';

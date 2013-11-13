@@ -13,7 +13,7 @@
  */
 namespace Magento\Tax\Block\Sales\Order;
 
-class Tax extends \Magento\Core\Block\Template
+class Tax extends \Magento\View\Block\Template
 {
     /**
      * Tax configuration model

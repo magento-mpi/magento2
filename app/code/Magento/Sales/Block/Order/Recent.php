@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Recent extends \Magento\Core\Block\Template
+class Recent extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\CollectionFactory

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Block\Template
+     * @var \Magento\View\Block\Template
      */
     protected $_block;
 
@@ -64,7 +64,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getViewFileSystem')->will($this->returnValue($this->_viewFileSystem));
         $context->expects($this->any())->method('getAppState')->will($this->returnValue($appState));
 
-        $this->_block = new \Magento\Core\Block\Template(
+        $this->_block = new \Magento\View\Block\Template(
             $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false),
             $context,
             array('template' => 'template.phtml', 'module_name' => 'Fixture_Module')

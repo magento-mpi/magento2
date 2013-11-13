@@ -11,7 +11,9 @@ namespace Magento\View\Block;
 /**
  * Messages block
  */
-class Messages extends \Magento\Core\Block\Template
+namespace Magento\Core\Block;
+
+class Messages extends \Magento\View\Block\Template
 {
     /**
      * Messages collection

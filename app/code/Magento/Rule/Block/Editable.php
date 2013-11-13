@@ -10,8 +10,10 @@
 
 namespace Magento\Rule\Block;
 
+use Magento\View\Block\AbstractBlock;
+
 class Editable
-    extends \Magento\Core\Block\AbstractBlock
+    extends \Magento\View\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**

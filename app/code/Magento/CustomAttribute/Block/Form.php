@@ -18,7 +18,7 @@
  */
 namespace Magento\CustomAttribute\Block;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     /**
      * Name of the block in layout update xml file

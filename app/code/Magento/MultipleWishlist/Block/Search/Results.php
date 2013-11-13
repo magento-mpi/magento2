@@ -17,7 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Search;
 
-class Results extends \Magento\Core\Block\Template
+class Results extends \Magento\View\Block\Template
 {
     /**
      * Core registry

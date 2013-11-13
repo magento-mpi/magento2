@@ -17,7 +17,7 @@
  */
 namespace Magento\Captcha\Block\Captcha;
 
-class DefaultCaptcha extends \Magento\Core\Block\Template
+class DefaultCaptcha extends \Magento\View\Block\Template
 {
     protected $_template = 'default.phtml';
 

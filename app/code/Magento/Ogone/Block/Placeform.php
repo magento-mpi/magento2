@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Ogone\Block;
 
-class Placeform extends \Magento\Core\Block\Template
+class Placeform extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory

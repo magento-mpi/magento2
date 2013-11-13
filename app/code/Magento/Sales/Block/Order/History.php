@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class History extends \Magento\Core\Block\Template
+class History extends \Magento\View\Block\Template
 {
     /**
      * @var string
@@ -86,7 +86,7 @@ class History extends \Magento\Core\Block\Template
     }
 
     /**
-     * @return $this|\Magento\Core\Block\AbstractBlock
+     * @return $this|\Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

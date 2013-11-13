@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Block;
 
-class Suggestions extends \Magento\Core\Block\Template
+class Suggestions extends \Magento\View\Block\Template
 {
     /**
      * Search data

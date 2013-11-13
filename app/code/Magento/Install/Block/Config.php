@@ -113,7 +113,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      */
     public function getSessionSaveSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName('config[session_save]')
             ->setId('session_save')
             ->setTitle(__('Save Session Files In'))

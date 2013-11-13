@@ -14,7 +14,7 @@
 namespace Magento\Sales\Block\Widget\Guest;
 
 class Form
-    extends \Magento\Core\Block\Template
+    extends \Magento\View\Block\Template
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -55,7 +55,7 @@ class Form
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select guest-select',

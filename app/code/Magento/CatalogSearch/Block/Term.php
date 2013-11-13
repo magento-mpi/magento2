@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Term extends \Magento\Core\Block\Template
+class Term extends \Magento\View\Block\Template
 {
     protected $_terms;
     protected $_minPopularity;

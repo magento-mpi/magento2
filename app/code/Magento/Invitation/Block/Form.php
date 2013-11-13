@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Block;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     /**
      * Invitation Config

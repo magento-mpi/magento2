@@ -18,7 +18,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Head extends \Magento\Core\Block\Template
+class Head extends \Magento\View\Block\Template
 {
     /**
      * Block template
@@ -145,7 +145,7 @@ class Head extends \Magento\Core\Block\Template
     public function getCssJsHtml()
     {
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block \Magento\Core\Block\AbstractBlock */
+            /** @var $block \Magento\View\Block\AbstractBlock */
             if ($block instanceof \Magento\Page\Block\Html\Head\AssetBlock) {
                 /** @var \Magento\Core\Model\Page\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();

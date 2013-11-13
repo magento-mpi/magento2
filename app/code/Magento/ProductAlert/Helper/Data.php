@@ -120,8 +120,8 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Create block instance
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Core\Block\AbstractBlock
+     * @param string|\Magento\View\Block\AbstractBlock $block
+     * @return \Magento\View\Block\AbstractBlock
      * @throws \Magento\Core\Exception
      */
     public function createBlock($block)
@@ -131,7 +131,7 @@ class Data extends \Magento\Core\Helper\Url
                 $block = $this->_layout->createBlock($block);
             }
         }
-        if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
+        if (!$block instanceof \Magento\View\Block\AbstractBlock) {
             throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
         }
         return $block;

@@ -15,7 +15,7 @@
  */
 namespace Magento\Install\Block\Db;
 
-class Type extends \Magento\Core\Block\Template
+class Type extends \Magento\View\Block\Template
 {
     /**
      * Db title

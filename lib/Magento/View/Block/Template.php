@@ -2,20 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 /**
  * Base html block
  */
-class Template extends \Magento\Core\Block\AbstractBlock
+class Template extends AbstractBlock
 {
-    const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
+    const XML_PATH_TEMPLATE_ALLOW_SYMLINK = 'dev/template/allow_symlink';
 
     /**
      * Assigned variables for view
@@ -138,8 +136,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
      * Set path to template used for generating block's output.
      *
      * @param string $template
-     * @return \Magento\Core\Block\Template
-     */
+     * @return \Magento\View\Block\Template     */
     public function setTemplate($template)
     {
         $this->_template = $template;
@@ -178,8 +175,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
      *
      * @param   string|array $key
      * @param   mixed $value
-     * @return  \Magento\Core\Block\Template
-     */
+     * @return  \Magento\View\Block\Template     */
     public function assign($key, $value=null)
     {
         if (is_array($key)) {

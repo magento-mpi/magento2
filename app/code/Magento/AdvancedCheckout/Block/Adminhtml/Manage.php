@@ -68,7 +68,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Prepare layout, create buttons
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

@@ -10,7 +10,7 @@
 
 namespace Magento\Page\Block\Js;
 
-class Cookie extends \Magento\Core\Block\Template
+class Cookie extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Cookie

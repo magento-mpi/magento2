@@ -15,7 +15,7 @@
  */
 namespace Magento\Sales\Block\Billing\Agreement;
 
-class View extends \Magento\Core\Block\Template
+class View extends \Magento\View\Block\Template
 {
     /**
      * Payment methods array
@@ -147,7 +147,7 @@ class View extends \Magento\Core\Block\Template
     /**
      * Set pager
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

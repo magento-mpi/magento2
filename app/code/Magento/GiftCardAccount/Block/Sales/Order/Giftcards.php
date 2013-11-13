@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Sales\Order;
 
-class Giftcards extends \Magento\Core\Block\Template
+class Giftcards extends \Magento\View\Block\Template
 {
     /**
      * Gift card account data

@@ -109,7 +109,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         $yearEnd = $this->_catalogProductOptionTypeDate->getYearEnd();
 
         $calendar = $this->getLayout()
-            ->createBlock('Magento\Core\Block\Html\Date')
+            ->createBlock('Magento\View\Block\Html\Date')
             ->setId('options_'.$this->getOption()->getId().'_date')
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text')
@@ -200,7 +200,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * HTML select element
      *
      * @param string $name Id/name of html select element
-     * @return \Magento\Core\Block\Html\Select
+     * @return \Magento\View\Block\Html\Select
      */
     protected function _getHtmlSelect($name, $value = null)
     {
@@ -210,7 +210,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 
         // $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
             ->setClass('product-custom-option datetime-picker' . $require)
             ->setExtraParams()

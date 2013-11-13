@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Checkout;
 
-class Options extends \Magento\Core\Block\Template
+class Options extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -111,7 +111,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
             'id'    => 'giftwrapping-${_id_}',
             'class' => 'select'

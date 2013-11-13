@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,10 +14,13 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Block\Html;
+namespace Magento\View\Block\Html;
 
-class Date extends \Magento\Core\Block\Template
+class Date extends \Magento\View\Block\Template
 {
+    /**
+     * @inheritdoc
+     */
     protected function _toHtml()
     {
         $html  = '<input type="text" name="' . $this->getName() . '" id="' . $this->getId() . '" ';
@@ -46,9 +47,16 @@ class Date extends \Magento\Core\Block\Template
         return $html;
     }
 
-    public function getEscapedValue($index=null) {
+    /**
+     * Convert special characters to HTML entities
+     *
+     * @param null $index
+     * @return string
+     */
+    public function getEscapedValue($index = null)
+    {
 
-        if($this->getFormat() && $this->getValue()) {
+        if ($this->getFormat() && $this->getValue()) {
             return strftime($this->getFormat(), strtotime($this->getValue()));
         }
 

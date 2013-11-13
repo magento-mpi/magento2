@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Block\Sales\Order;
 
-class Total extends \Magento\Core\Block\Template
+class Total extends \Magento\View\Block\Template
 {
     /**
      * Reward data

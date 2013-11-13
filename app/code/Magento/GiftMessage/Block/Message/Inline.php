@@ -18,7 +18,7 @@
  */
 namespace Magento\GiftMessage\Block\Message;
 
-class Inline extends \Magento\Core\Block\Template
+class Inline extends \Magento\View\Block\Template
 {
     protected $_entity = null;
     protected $_type   = null;

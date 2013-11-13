@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Block\Html;
 
-class Calendar extends \Magento\Core\Block\Template
+class Calendar extends \Magento\View\Block\Template
 {
     /**
      * Date model

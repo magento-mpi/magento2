@@ -16,7 +16,7 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
  * @method getArea()
  * @method getTheme()
  */
-class Layout extends \Magento\Core\Block\Html\Select
+class Layout extends \Magento\View\Block\Html\Select
 {
     /**
      * @var \Magento\View\Layout\ProcessorFactory
@@ -56,7 +56,7 @@ class Layout extends \Magento\Core\Block\Html\Select
     /**
      * Add necessary options
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

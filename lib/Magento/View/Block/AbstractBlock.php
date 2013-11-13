@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 use Magento\View\Element\BlockInterface;
 
@@ -198,7 +196,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Retrieve parent block
      *
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return \Magento\View\Block\AbstractBlock|bool
      */
     public function getParentBlock()
     {
@@ -217,7 +215,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Set layout object
      *
      * @param   \Magento\View\LayoutInterface $layout
-     * @return  \Magento\Core\Block\AbstractBlock
+     * @return  \Magento\View\Block\AbstractBlock
      */
     public function setLayout(\Magento\View\LayoutInterface $layout)
     {
@@ -233,7 +231,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -254,7 +252,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Sets/changes name of a block in layout
      *
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function setNameInLayout($name)
     {
@@ -290,7 +288,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @param   string $name
      * @param   mixed $value
-     * @return  \Magento\Core\Block\AbstractBlock
+     * @return  \Magento\View\Block\AbstractBlock
      */
     public function setAttribute($name, $value = null)
     {
@@ -301,8 +299,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Set child block
      *
      * @param   string $alias
-     * @param   \Magento\Core\Block\AbstractBlock|string $block
-     * @return  \Magento\Core\Block\AbstractBlock
+     * @param   \Magento\View\Block\AbstractBlock|string $block
+     * @return  \Magento\View\Block\AbstractBlock
      */
     public function setChild($alias, $block)
     {
@@ -329,7 +327,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $alias
      * @param string $block
      * @param array $data
-     * @return \Magento\Core\Block\AbstractBlock new block
+     * @return \Magento\View\Block\AbstractBlock new block
      */
     public function addChild($alias, $block, $data = array())
     {
@@ -344,7 +342,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Unset child block
      *
      * @param  string $alias
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function unsetChild($alias)
     {
@@ -373,7 +371,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $callback
      * @param mixed $result
      * @param array $params
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function unsetCallChild($alias, $callback, $result, $params)
     {
@@ -397,7 +395,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Unset all children blocks
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function unsetChildren()
     {
@@ -417,7 +415,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Retrieve child block by name
      *
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return \Magento\View\Block\AbstractBlock|bool
      */
     public function getChildBlock($alias)
     {
@@ -511,11 +509,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * By default inserts as first element into children list
      *
-     * @param \Magento\Core\Block\AbstractBlock|string $element
+     * @param \Magento\View\Block\AbstractBlock|string $element
      * @param string|int|null $siblingName
      * @param bool $after
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return \Magento\View\Block\AbstractBlock|bool
      */
     public function insert($element, $siblingName = 0, $after = true, $alias = '')
     {
@@ -523,7 +521,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if (!$layout) {
             return false;
         }
-        if ($element instanceof \Magento\Core\Block\AbstractBlock) {
+        if ($element instanceof \Magento\View\Block\AbstractBlock) {
             $elementName = $element->getNameInLayout();
         } else {
             $elementName = $element;
@@ -536,9 +534,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Append element to the end of children list
      *
-     * @param \Magento\Core\Block\AbstractBlock|string $element
+     * @param \Magento\View\Block\AbstractBlock|string $element
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function append($element, $alias = '')
     {
@@ -579,7 +577,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -591,7 +589,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @param $openTag
      * @param $closeTag
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function setFrameTags($openTag, $closeTag = null)
     {
@@ -771,7 +769,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Set messages block
      *
      * @param   \Magento\View\Block\Messages $block
-     * @return  \Magento\Core\Block\AbstractBlock
+     * @return  \Magento\View\Block\AbstractBlock
      */
     public function setMessagesBlock(\Magento\View\Block\Messages $block)
     {
@@ -920,7 +918,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Prepare url for save to cache
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeCacheUrl()
     {
@@ -1037,7 +1035,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Save block content to cache storage
      *
      * @param string $data
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _saveCache($data)
     {

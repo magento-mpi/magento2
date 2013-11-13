@@ -13,7 +13,7 @@ namespace Magento\Page\Block\Html\Head;
 /**
  * Link page block
  */
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
     implements \Magento\Page\Block\Html\Head\AssetBlock
 {
     const VIRTUAL_CONTENT_TYPE = 'link';

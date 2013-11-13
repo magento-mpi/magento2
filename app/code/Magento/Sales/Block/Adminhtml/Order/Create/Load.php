@@ -18,7 +18,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
-class Load extends \Magento\Core\Block\Template
+class Load extends \Magento\View\Block\Template
 {
     /**
      * Adminhtml js

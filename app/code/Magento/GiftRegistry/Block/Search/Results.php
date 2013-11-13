@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Results extends \Magento\Core\Block\Template
+class Results extends \Magento\View\Block\Template
 {
     /**
      * Set search results and create html pager block

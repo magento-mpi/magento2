@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block;
 
-class Breadcrumbs extends \Magento\Core\Block\Template
+class Breadcrumbs extends \Magento\View\Block\Template
 {
     /**
      * Catalog data

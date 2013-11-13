@@ -18,7 +18,7 @@
 
 namespace Magento\Persistent\Block\Form;
 
-class Remember extends \Magento\Core\Block\Template
+class Remember extends \Magento\View\Block\Template
 {
     /**
      * Persistent data

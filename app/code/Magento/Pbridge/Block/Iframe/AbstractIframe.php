@@ -39,7 +39,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Magento\Core\Block\Template';
+    protected $_iframeBlockType = 'Magento\View\Block\Template';
 
     /**
      * Default iframe template
@@ -184,7 +184,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Create and return iframe block
      *
-     * @return \Magento\Core\Block\Template
+     * @return \Magento\View\Block\Template
      */
     public function getIframeBlock()
     {

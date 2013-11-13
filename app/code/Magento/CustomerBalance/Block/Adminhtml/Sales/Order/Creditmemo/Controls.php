@@ -15,7 +15,7 @@
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo;
 
 class Controls
- extends \Magento\Core\Block\Template
+ extends \Magento\View\Block\Template
 {
     /**
      * Core registry

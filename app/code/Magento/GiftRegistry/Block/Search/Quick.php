@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Quick extends \Magento\Core\Block\Template
+class Quick extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\TypeFactory
@@ -88,7 +88,7 @@ class Quick extends \Magento\Core\Block\Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select'

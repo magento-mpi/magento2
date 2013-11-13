@@ -18,7 +18,7 @@
  */
 namespace Magento\GoogleAnalytics\Block;
 
-class Ga extends \Magento\Core\Block\Template
+class Ga extends \Magento\View\Block\Template
 {
     /**
      * Google analytics data

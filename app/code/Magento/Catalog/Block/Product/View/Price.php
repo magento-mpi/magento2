@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
-class Price extends \Magento\Core\Block\Template
+class Price extends \Magento\View\Block\Template
 {
     /**
      * Core registry

@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
-class Attributes extends \Magento\Core\Block\Template
+class Attributes extends \Magento\View\Block\Template
 {
     protected $_product = null;
 

@@ -17,7 +17,7 @@
  */
 namespace Magento\Authorizenet\Block\Directpost;
 
-class Iframe extends \Magento\Core\Block\Template
+class Iframe extends \Magento\View\Block\Template
 {
     /**
      * Core registry
@@ -47,7 +47,7 @@ class Iframe extends \Magento\Core\Block\Template
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

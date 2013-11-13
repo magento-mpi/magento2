@@ -17,7 +17,7 @@
 namespace Magento\AdvancedCheckout\Block\Sku;
 
 abstract class AbstractSku
-    extends \Magento\Core\Block\Template
+    extends \Magento\View\Block\Template
 {
     /**
      * Retrieve form action URL

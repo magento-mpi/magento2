@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block;
 
-class Html extends \Magento\Core\Block\Template
+class Html extends \Magento\View\Block\Template
 {
     protected $_urls = array();
     protected $_title = '';

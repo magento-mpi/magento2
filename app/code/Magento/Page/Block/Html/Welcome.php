@@ -13,7 +13,7 @@ namespace Magento\Page\Block\Html;
 /**
  * Html page block
  */
-class Welcome extends \Magento\Core\Block\Template
+class Welcome extends \Magento\View\Block\Template
 {
     /**
      * @param \Magento\Core\Helper\Data $coreData
