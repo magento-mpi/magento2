@@ -210,9 +210,10 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     private function getDirectoryInstance($path)
     {
         $fullPath = __DIR__ . '/../_files/' . $path;
-        $readFactory = Bootstrap::getObjectManager()->create(
-            'Magento\Filesystem\File\ReadFactory', array('path' => $fullPath)
+        $config = array(
+            'path' => $fullPath
         );
-        return new Read($fullPath, $readFactory);
+        $directoryFactory = Bootstrap::getObjectManager()->create('Magento\Filesystem\Directory\ReadFactory');
+        return $directoryFactory->create($config);
     }
 }

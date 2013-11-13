@@ -13,23 +13,45 @@ use Magento\Filesystem\FilesystemException;
 class Read implements ReadInterface
 {
     /**
+     * Path to directory
+     *
      * @var string
      */
     protected $path;
 
     /**
+     * File factory
+     *
      * @var \Magento\Filesystem\File\ReadFactory
      */
     protected $fileFactory;
 
     /**
-     * @param string $path
+     * Constructor. Set properties.
+     *
+     * @param array $config
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
      */
-    public function __construct($path, \Magento\Filesystem\File\ReadFactory $fileFactory)
+    public function __construct(array $config, \Magento\Filesystem\File\ReadFactory $fileFactory)
     {
-        $this->path = rtrim($path, '/') . '/';
+        $this->setProperties($config);
         $this->fileFactory = $fileFactory;
+    }
+
+
+    /**
+     * Set properties from config
+     *
+     * @param array $config
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    protected function setProperties(array $config)
+    {
+        if (isset($config['path'])) {
+            $this->path = rtrim($config['path'], '/') . '/';
+        } else {
+            throw new FilesystemException('Cannot create directory without path');
+        }
     }
 
     /**
