@@ -170,7 +170,7 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _initTitle()
     {
-        $this->_title->add(__('Customers'))->_title->add(__('Customers'));
+        $this->_title->add(__('Customers'))->add(__('Customers'));
         $customer = $this->_registry->registry('checkout_current_customer');
         if ($customer) {
             $this->_title->add($customer->getName());

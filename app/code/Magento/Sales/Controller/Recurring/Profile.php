@@ -160,7 +160,7 @@ class Profile extends \Magento\App\Action\Action
     {
         try {
             $profile = $this->_initProfile();
-            $this->_title->add(__('Recurring Billing Profiles'))->_title->add(__('Profile #%1', $profile->getReferenceId()));
+            $this->_title->add(__('Recurring Billing Profiles'))->add(__('Profile #%1', $profile->getReferenceId()));
             $this->loadLayout();
             $this->getLayout()->initMessages('Magento\Customer\Model\Session');
             $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
