@@ -356,15 +356,15 @@ class Renderer extends \Magento\Core\Block\Template
         // Add messages saved previously in checkout session
         $checkoutSession = $this->getCheckoutSession();
         if ($checkoutSession) {
-            /* @var $collection \Magento\Core\Model\Message\Collection */
+            /* @var $collection \Magento\Message\Collection */
             $collection = $checkoutSession->getQuoteItemMessages($quoteItem->getId(), true);
             if ($collection) {
                 $additionalMessages = $collection->getItems();
                 foreach ($additionalMessages as $message) {
-                    /* @var $message \Magento\Core\Model\Message\AbstractMessage */
+                    /* @var $message \Magento\Message\AbstractMessage */
                     $messages[] = array(
                         'text' => $message->getCode(),
-                        'type' => ($message->getType() == \Magento\Core\Model\Message::ERROR) ? 'error' : 'notice'
+                        'type' => ($message->getType() == \Magento\Message\Factory::ERROR) ? 'error' : 'notice'
                     );
                 }
             }

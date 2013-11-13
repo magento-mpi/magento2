@@ -825,7 +825,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error \Magento\Core\Model\Message\Error */
+                        /* @var $error \Magento\Message\Error */
                         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getCode());
                     }
                 }

@@ -44,8 +44,8 @@
         <container name="columns.top" label="Before Main Columns" as="columns_top">
             <block class="Magento\Page\Block\Html\Title" name="page.main.title" template="html/title.phtml"/>
             <container name="page.messages" label="invisible" htmlTag="div" htmlClass="page messages">
-                <block class="Magento\Core\Block\Messages" name="global_messages" as="global_messages"/>
-                <block class="Magento\Core\Block\Messages" name="messages" as="messages"/>
+                <block class="Magento\View\Block\Messages" name="global_messages" as="global_messages"/>
+                <block class="Magento\View\Block\Messages" name="messages" as="messages"/>
             </container>
         </container>
         <container name="main" as="main" label="Main Content Container" htmlTag="div" htmlClass="column main">

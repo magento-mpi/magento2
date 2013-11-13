@@ -460,7 +460,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMessagesBlock()
     {
-        $this->assertInstanceOf('Magento\Core\Block\Messages', $this->_layout->getMessagesBlock());
+        $this->assertInstanceOf('Magento\View\Block\Messages', $this->_layout->getMessagesBlock());
     }
 
     public function testGetBlockSingleton()

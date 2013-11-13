@@ -66,7 +66,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Messages block instance
      *
-     * @var \Magento\Core\Block\Messages
+     * @var \Magento\View\Block\Messages
      */
     protected $_messagesBlock = null;
 
@@ -757,7 +757,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Retrieve messages block
      *
-     * @return \Magento\Core\Block\Messages
+     * @return \Magento\View\Block\Messages
      */
     public function getMessagesBlock()
     {
@@ -770,10 +770,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Set messages block
      *
-     * @param   \Magento\Core\Block\Messages $block
+     * @param   \Magento\View\Block\Messages $block
      * @return  \Magento\Core\Block\AbstractBlock
      */
-    public function setMessagesBlock(\Magento\Core\Block\Messages $block)
+    public function setMessagesBlock(\Magento\View\Block\Messages $block)
     {
         $this->_messagesBlock = $block;
         return $this;

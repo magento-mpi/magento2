@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Message;
+
 /**
  * Messages collection
  */
-namespace Magento\Core\Model\Message;
-
 class Collection
 {
     /**
@@ -20,20 +18,20 @@ class Collection
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $messages = array();
 
     /**
      * @var string
      */
-    protected $_lastAddedMessage;
+    protected $lastAddedMessage;
 
     /**
      * Adding new message to collection
      *
-     * @param   \Magento\Core\Model\Message\AbstractMessage $message
-     * @return  \Magento\Core\Model\Message\Collection
+     * @param \Magento\Message\AbstractMessage $message
+     * @return \Magento\Message\Collection
      */
-    public function add(\Magento\Core\Model\Message\AbstractMessage $message)
+    public function add(\Magento\Message\AbstractMessage $message)
     {
         return $this->addMessage($message);
     }
@@ -41,34 +39,35 @@ class Collection
     /**
      * Adding new message to collection
      *
-     * @param   \Magento\Core\Model\Message\AbstractMessage $message
-     * @return  \Magento\Core\Model\Message\Collection
+     * @param \Magento\Message\AbstractMessage $message
+     * @return \Magento\Message\Collection
      */
-    public function addMessage(\Magento\Core\Model\Message\AbstractMessage $message)
+    public function addMessage(\Magento\Message\AbstractMessage $message)
     {
-        if (!isset($this->_messages[$message->getType()])) {
-            $this->_messages[$message->getType()] = array();
+        if (!isset($this->messages[$message->getType()])) {
+            $this->messages[$message->getType()] = array();
         }
-        $this->_messages[$message->getType()][] = $message;
-        $this->_lastAddedMessage = $message;
+        $this->messages[$message->getType()][] = $message;
+        $this->lastAddedMessage = $message;
         return $this;
     }
 
     /**
      * Clear all messages except sticky
      *
-     * @return \Magento\Core\Model\Message\Collection
+     * @return \Magento\Message\Collection
      */
     public function clear()
     {
-        foreach ($this->_messages as $type => $messages) {
+        foreach ($this->messages as $type => $messages) {
             foreach ($messages as $id => $message) {
+                /** @var $message \Magento\Message\AbstractMessage */
                 if (!$message->getIsSticky()) {
-                    unset($this->_messages[$type][$id]);
+                    unset($this->messages[$type][$id]);
                 }
             }
-            if (empty($this->_messages[$type])) {
-                unset($this->_messages[$type]);
+            if (empty($this->messages[$type])) {
+                unset($this->messages[$type]);
             }
         }
         return $this;
@@ -77,23 +76,24 @@ class Collection
     /**
      * Get last added message if any
      *
-     * @return \Magento\Core\Model\Message\AbstractMessage|null
+     * @return \Magento\Message\AbstractMessage|null
      */
     public function getLastAddedMessage()
     {
-        return $this->_lastAddedMessage;
+        return $this->lastAddedMessage;
     }
 
     /**
      * Get first even message by identifier
      *
      * @param string $identifier
-     * @return \Magento\Core\Model\Message\AbstractMessage|null
+     * @return \Magento\Message\AbstractMessage|null
      */
     public function getMessageByIdentifier($identifier)
     {
-        foreach ($this->_messages as $messages) {
+        foreach ($this->messages as $messages) {
             foreach ($messages as $message) {
+                /** @var $message \Magento\Message\AbstractMessage */
                 if ($identifier === $message->getIdentifier()) {
                     return $message;
                 }
@@ -108,13 +108,14 @@ class Collection
      */
     public function deleteMessageByIdentifier($identifier)
     {
-        foreach ($this->_messages as $type => $messages) {
+        foreach ($this->messages as $type => $messages) {
             foreach ($messages as $id => $message) {
+                /** @var $message \Magento\Message\AbstractMessage */
                 if ($identifier === $message->getIdentifier()) {
-                    unset($this->_messages[$type][$id]);
+                    unset($this->messages[$type][$id]);
                 }
-                if (empty($this->_messages[$type])) {
-                    unset($this->_messages[$type]);
+                if (empty($this->messages[$type])) {
+                    unset($this->messages[$type]);
                 }
             }
         }
@@ -123,17 +124,17 @@ class Collection
     /**
      * Retrieve messages collection items
      *
-     * @param   string $type
-     * @return  array
+     * @param string $type
+     * @return array
      */
     public function getItems($type = null)
     {
         if ($type) {
-            return isset($this->_messages[$type]) ? $this->_messages[$type] : array();
+            return isset($this->messages[$type]) ? $this->messages[$type] : array();
         }
 
         $arrRes = array();
-        foreach ($this->_messages as $messages) {
+        foreach ($this->messages as $messages) {
             $arrRes = array_merge($arrRes, $messages);
         }
 
@@ -143,12 +144,12 @@ class Collection
     /**
      * Retrieve all messages by type
      *
-     * @param   string $type
-     * @return  array
+     * @param string $type
+     * @return array
      */
     public function getItemsByType($type)
     {
-        return isset($this->_messages[$type]) ? $this->_messages[$type] : array();
+        return isset($this->messages[$type]) ? $this->messages[$type] : array();
     }
 
     /**
@@ -158,7 +159,7 @@ class Collection
      */
     public function getErrors()
     {
-        return $this->getItemsByType(\Magento\Core\Model\Message::ERROR);
+        return $this->getItemsByType(\Magento\Message\Factory::ERROR);
     }
 
     /**
@@ -184,11 +185,11 @@ class Collection
     public function count($type = null)
     {
         if ($type) {
-            if (isset($this->_messages[$type])) {
-                return count($this->_messages[$type]);
+            if (isset($this->messages[$type])) {
+                return count($this->messages[$type]);
             }
             return 0;
         }
-        return count($this->_messages);
+        return count($this->messages);
     }
 }

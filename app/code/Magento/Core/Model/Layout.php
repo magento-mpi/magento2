@@ -1523,7 +1523,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Retrieve messages block
      *
-     * @return \Magento\Core\Block\Messages
+     * @return \Magento\View\Block\Messages
      */
     public function getMessagesBlock()
     {
@@ -1531,7 +1531,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if ($block) {
             return $block;
         }
-        return $this->createBlock('Magento\Core\Block\Messages', 'messages');
+        return $this->createBlock('Magento\View\Block\Messages', 'messages');
     }
 
     /**

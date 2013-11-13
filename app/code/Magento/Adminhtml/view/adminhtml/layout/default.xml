@@ -272,7 +272,7 @@
         </container>
         <container name="left" as="left" label="Left Column"/>
         <container name="content" as="content" label="Content"/>
-        <block class="Magento\Core\Block\Messages" name="messages" as="messages"/>
+        <block class="Magento\View\Block\Messages" name="messages" as="messages"/>
         <container name="js" as="js" label="JavaScript"/>
         <block class="Magento\Adminhtml\Block\Page\Footer" name="footer" as="footer">
             <block class="Magento\Backend\Block\Page\Copyright" name="copyright" as="copyright"/>

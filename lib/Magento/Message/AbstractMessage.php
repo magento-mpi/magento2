@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Message;
+
 /**
  * Abstract message model
- *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Message;
-
 abstract class AbstractMessage
 {
     /**
@@ -79,7 +73,7 @@ abstract class AbstractMessage
      * Set message identifier
      *
      * @param string $id
-     * @return \Magento\Core\Model\Message\AbstractMessage
+     * @return \Magento\Message\AbstractMessage
      */
     public function setIdentifier($id)
     {
@@ -101,7 +95,7 @@ abstract class AbstractMessage
      * Set message sticky status
      *
      * @param bool $isSticky
-     * @return \Magento\Core\Model\Message\AbstractMessage
+     * @return \Magento\Message\AbstractMessage
      */
     public function setIsSticky($isSticky = true)
     {
@@ -123,7 +117,7 @@ abstract class AbstractMessage
      * Set code
      *
      * @param string $code
-     * @return \Magento\Core\Model\Message\AbstractMessage
+     * @return \Magento\Message\AbstractMessage
      */
     public function setCode($code)
     {

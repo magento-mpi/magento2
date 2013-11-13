@@ -102,4 +102,12 @@ return array(
     array('types', '\Magento\Core\Model\Theme'),
     array('_collectionFactory', '\Magento\Install\Controller\Action', 'themeProvider'),
     array('_collectionFactory', '\Magento\Theme\Model\Config\Customization', 'themeProvider'),
+    array('_message', 'Magento\Checkout\Model\Cart', 'messageFactory'),
+    array('_message', 'Magento\Core\Model\Session\AbstractSession', 'messageFactory'),
+    array('_messageFactory', 'Magento\Core\Model\Session\AbstractSession', 'messagesFactory'),
+    array('_message', 'Magento\Core\Model\Session\Context', 'messageFactory'),
+    array('_messageFactory', 'Magento\Core\Model\Session\Context', 'messagesFactory'),
+    array('_sessionQuote', 'Magento\Sales\Block\Adminhtml\Order\Create\Messages', 'sessionQuote'),
+    array('_coreRegistry', 'Magento\Sales\Block\Adminhtml\Order\View\Messages', 'coreRegistry'),
+    array('_message', 'Magento\Sales\Model\Quote', 'messageFactory'),
 );

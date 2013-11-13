@@ -921,4 +921,6 @@ return array(
     array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
     array('formatDate', 'Magento\Core\Model\Resource\AbstractResource', '\Magento\Stdlib\DateTime::formatDate'),
     array('mktime', 'Magento\Core\Model\Resource\AbstractResource', '\Magento\Stdlib\DateTime::toTimestamp'),
+    array('getMessage', '\Magento\Core\Model\Session\Context', 'getMessageFactory'),
+    array('getMessageFactory', '\Magento\Core\Model\Session\Context', 'getMessagesFactory'),
 );

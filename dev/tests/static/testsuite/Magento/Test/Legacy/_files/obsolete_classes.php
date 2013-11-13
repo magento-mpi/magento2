@@ -1420,4 +1420,13 @@ return array(
     array('Magento\Core\Block\Text\ListText', 'Magento\View\Block\Text\ListText'),
     array('Magento\Core\Block\Text\TextList\Item', 'Magento\View\Block\Text\TextList\Item'),
     array('Magento\Core\Block\Text\TextList\Link', 'Magento\View\Block\Text\TextList\Link'),
+    array('Magento\Core\Block\Messages', 'Magento\View\Block\Messages'),
+    array('Magento\Core\Model\Message', 'Magento\Message\Factory'),
+    array('Magento\Core\Model\Message\AbstractMessage', 'Magento\Message\AbstractMessage'),
+    array('Magento\Core\Model\Message\Collection', 'Magento\Message\Collection'),
+    array('Magento\Core\Model\Message\CollectionFactory', 'Magento\Message\CollectionFactory'),
+    array('Magento\Core\Model\Message\Error', 'Magento\Message\Error'),
+    array('Magento\Core\Model\Message\Warning', 'Magento\Message\Warning'),
+    array('Magento\Core\Model\Message\Notice', 'Magento\Message\Notice'),
+    array('Magento\Core\Model\Message\Success', 'Magento\Message\Success'),
 );

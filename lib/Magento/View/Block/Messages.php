@@ -2,114 +2,108 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\View\Block;
+
 /**
  * Messages block
- *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Block;
-
 class Messages extends \Magento\Core\Block\Template
 {
     /**
      * Messages collection
      *
-     * @var \Magento\Core\Model\Message\Collection
+     * @var \Magento\Message\Collection
      */
-    protected $_messages;
+    protected $messages;
 
     /**
      * Store first level html tag name for messages html output
      *
      * @var string
      */
-    protected $_messagesFirstLevelTagName = 'ul';
+    protected $firstLevelTagName = 'ul';
 
     /**
      * Store second level html tag name for messages html output
      *
      * @var string
      */
-    protected $_messagesSecondLevelTagName = 'li';
+    protected $secondLevelTagName = 'li';
 
     /**
      * Store content wrapper html tag name for messages html output
      *
      * @var string
      */
-    protected $_messagesContentWrapperTagName = 'span';
+    protected $contentWrapTagName = 'span';
 
     /**
      * Flag which require message text escape
      *
      * @var bool
      */
-    protected $_escapeMessageFlag = false;
+    protected $escapeMessageFlag = false;
 
     /**
      * Storage for used types of message storages
      *
      * @var array
      */
-    protected $_usedStorageTypes = array();
+    protected $usedStorageTypes = array();
 
     /**
      * Grouped message types
      *
      * @var array
      */
-    protected $_messageTypes = array(
-        \Magento\Core\Model\Message::ERROR,
-        \Magento\Core\Model\Message::WARNING,
-        \Magento\Core\Model\Message::NOTICE,
-        \Magento\Core\Model\Message::SUCCESS
+    protected $messageTypes = array(
+        \Magento\Message\Factory::ERROR,
+        \Magento\Message\Factory::WARNING,
+        \Magento\Message\Factory::NOTICE,
+        \Magento\Message\Factory::SUCCESS
     );
 
     /**
      * Message singleton
      *
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_message;
+    protected $messageFactory;
 
     /**
      * Message model factory
      *
-     * @var \Magento\Core\Model\MessageFactory
+     * @var \Magento\Message\CollectionFactory
      */
-    protected $_messageFactory;
+    protected $collectionFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Message $message
-     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
+     * @param \Magento\Message\Factory $messageFactory
+     * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Message $message,
-        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
+        \Magento\Message\Factory $messageFactory,
+        \Magento\Message\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
-        $this->_message = $message;
-        $this->_messageFactory = $messageFactory;
+        $this->messageFactory = $messageFactory;
+        $this->collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $data);
     }
 
     /**
      * Preparing global layout
      *
-     * @return \Magento\Core\Block\Messages
+     * @return \Magento\View\Block\Messages
      */
     protected function _prepareLayout()
     {
@@ -123,33 +117,33 @@ class Messages extends \Magento\Core\Block\Template
      * Set message escape flag
      *
      * @param bool $flag
-     * @return \Magento\Core\Block\Messages
+     * @return \Magento\View\Block\Messages
      */
     public function setEscapeMessageFlag($flag)
     {
-        $this->_escapeMessageFlag = $flag;
+        $this->escapeMessageFlag = $flag;
         return $this;
     }
 
     /**
      * Set messages collection
      *
-     * @param   \Magento\Core\Model\Message\Collection $messages
-     * @return  \Magento\Core\Block\Messages
+     * @param   \Magento\Message\Collection $messages
+     * @return  \Magento\View\Block\Messages
      */
-    public function setMessages(\Magento\Core\Model\Message\Collection $messages)
+    public function setMessages(\Magento\Message\Collection $messages)
     {
-        $this->_messages = $messages;
+        $this->messages = $messages;
         return $this;
     }
 
     /**
      * Add messages to display
      *
-     * @param \Magento\Core\Model\Message\Collection $messages
-     * @return \Magento\Core\Block\Messages
+     * @param \Magento\Message\Collection $messages
+     * @return \Magento\View\Block\Messages
      */
-    public function addMessages(\Magento\Core\Model\Message\Collection $messages)
+    public function addMessages(\Magento\Message\Collection $messages)
     {
         foreach ($messages->getItems() as $message) {
             $this->getMessageCollection()->add($message);
@@ -160,23 +154,23 @@ class Messages extends \Magento\Core\Block\Template
     /**
      * Retrieve messages collection
      *
-     * @return \Magento\Core\Model\Message\Collection
+     * @return \Magento\Message\Collection
      */
     public function getMessageCollection()
     {
-        if (!($this->_messages instanceof \Magento\Core\Model\Message\Collection)) {
-            $this->_messages = $this->_messageFactory->create();
+        if (!($this->messages instanceof \Magento\Message\Collection)) {
+            $this->messages = $this->collectionFactory->create();
         }
-        return $this->_messages;
+        return $this->messages;
     }
 
     /**
      * Adding new message to message collection
      *
-     * @param   \Magento\Core\Model\Message\AbstractMessage $message
-     * @return  \Magento\Core\Block\Messages
+     * @param   \Magento\Message\AbstractMessage $message
+     * @return  \Magento\View\Block\Messages
      */
-    public function addMessage(\Magento\Core\Model\Message\AbstractMessage $message)
+    public function addMessage(\Magento\Message\AbstractMessage $message)
     {
         $this->getMessageCollection()->add($message);
         return $this;
@@ -186,11 +180,11 @@ class Messages extends \Magento\Core\Block\Template
      * Adding new error message
      *
      * @param   string $message
-     * @return  \Magento\Core\Block\Messages
+     * @return  \Magento\View\Block\Messages
      */
     public function addError($message)
     {
-        $this->addMessage($this->_message->error($message));
+        $this->addMessage($this->messageFactory->error($message));
         return $this;
     }
 
@@ -198,11 +192,11 @@ class Messages extends \Magento\Core\Block\Template
      * Adding new warning message
      *
      * @param   string $message
-     * @return  \Magento\Core\Block\Messages
+     * @return  \Magento\View\Block\Messages
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->_message->warning($message));
+        $this->addMessage($this->messageFactory->warning($message));
         return $this;
     }
 
@@ -210,11 +204,11 @@ class Messages extends \Magento\Core\Block\Template
      * Adding new notice message
      *
      * @param   string $message
-     * @return  \Magento\Core\Block\Messages
+     * @return  \Magento\View\Block\Messages
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->_message->notice($message));
+        $this->addMessage($this->messageFactory->notice($message));
         return $this;
     }
 
@@ -222,11 +216,11 @@ class Messages extends \Magento\Core\Block\Template
      * Adding new success message
      *
      * @param   string $message
-     * @return  \Magento\Core\Block\Messages
+     * @return  \Magento\View\Block\Messages
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->_message->success($message));
+        $this->addMessage($this->messageFactory->success($message));
         return $this;
     }
 
@@ -249,14 +243,14 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function getHtml($type = null)
     {
-        $html = '<' . $this->_messagesFirstLevelTagName . ' id="admin_messages">';
+        $html = '<' . $this->firstLevelTagName . ' id="admin_messages">';
         foreach ($this->getMessages($type) as $message) {
-            $html .= '<' . $this->_messagesSecondLevelTagName . ' class="' . $message->getType() . '-msg" '
+            $html .= '<' . $this->secondLevelTagName . ' class="' . $message->getType() . '-msg" '
                 . $this->getUiId('message') . '>'
-                . $this->_escapeMessageFlag ? $this->escapeHtml($message->getText()) : $message->getText()
-                . '</' . $this->_messagesSecondLevelTagName . '>';
+                . $this->escapeMessageFlag ? $this->escapeHtml($message->getText()) : $message->getText()
+                . '</' . $this->secondLevelTagName . '>';
         }
-        $html .= '</' . $this->_messagesFirstLevelTagName . '>';
+        $html .= '</' . $this->firstLevelTagName . '>';
         return $html;
     }
 
@@ -267,7 +261,7 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function getMessageTypes()
     {
-        return $this->_messageTypes;
+        return $this->messageTypes;
     }
 
     /**
@@ -310,24 +304,24 @@ class Messages extends \Magento\Core\Block\Template
         foreach ($this->getMessageTypes() as $type) {
             if ($messages = $this->getMessages($type)) {
                 if (!$html) {
-                    $html .= '<' . $this->_messagesFirstLevelTagName . ' class="messages">';
+                    $html .= '<' . $this->firstLevelTagName . ' class="messages">';
                 }
-                $html .= '<' . $this->_messagesSecondLevelTagName . ' class="' . $type . '-msg">';
-                $html .= '<' . $this->_messagesFirstLevelTagName . '>';
+                $html .= '<' . $this->secondLevelTagName . ' class="' . $type . '-msg">';
+                $html .= '<' . $this->firstLevelTagName . '>';
 
                 foreach ($messages as $message) {
-                    $html.= '<' . $this->_messagesSecondLevelTagName . '>';
-                    $html.= '<' . $this->_messagesContentWrapperTagName .  $this->getUiId('message', $type) .  '>';
-                    $html.= ($this->_escapeMessageFlag) ? $this->escapeHtml($message->getText()) : $message->getText();
-                    $html.= '</' . $this->_messagesContentWrapperTagName . '>';
-                    $html.= '</' . $this->_messagesSecondLevelTagName . '>';
+                    $html.= '<' . $this->secondLevelTagName . '>';
+                    $html.= '<' . $this->contentWrapTagName .  $this->getUiId('message', $type) .  '>';
+                    $html.= ($this->escapeMessageFlag) ? $this->escapeHtml($message->getText()) : $message->getText();
+                    $html.= '</' . $this->contentWrapTagName . '>';
+                    $html.= '</' . $this->secondLevelTagName . '>';
                 }
-                $html .= '</' . $this->_messagesFirstLevelTagName . '>';
-                $html .= '</' . $this->_messagesSecondLevelTagName . '>';
+                $html .= '</' . $this->firstLevelTagName . '>';
+                $html .= '</' . $this->secondLevelTagName . '>';
             }
         }
         if ($html) {
-            $html .= '</' . $this->_messagesFirstLevelTagName . '>';
+            $html .= '</' . $this->firstLevelTagName . '>';
         }
         return $html;
     }
@@ -352,9 +346,9 @@ class Messages extends \Magento\Core\Block\Template
      *
      * @param string $tagName
      */
-    public function setMessagesFirstLevelTagName($tagName)
+    public function setFirstLevelTagName($tagName)
     {
-        $this->_messagesFirstLevelTagName = $tagName;
+        $this->firstLevelTagName = $tagName;
     }
 
     /**
@@ -362,9 +356,9 @@ class Messages extends \Magento\Core\Block\Template
      *
      * @param string $tagName
      */
-    public function setMessagesSecondLevelTagName($tagName)
+    public function setSecondLevelTagName($tagName)
     {
-        $this->_messagesSecondLevelTagName = $tagName;
+        $this->secondLevelTagName = $tagName;
     }
 
     /**
@@ -375,7 +369,7 @@ class Messages extends \Magento\Core\Block\Template
     public function getCacheKeyInfo()
     {
         return array(
-            'storage_types' => serialize($this->_usedStorageTypes)
+            'storage_types' => serialize($this->usedStorageTypes)
         );
     }
 
@@ -386,7 +380,7 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function addStorageType($type)
     {
-        $this->_usedStorageTypes[] = $type;
+        $this->usedStorageTypes[] = $type;
     }
 
     /**
@@ -396,6 +390,6 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function shouldEscapeMessage()
     {
-        return $this->_escapeMessageFlag;
+        return $this->escapeMessageFlag;
     }
 }
