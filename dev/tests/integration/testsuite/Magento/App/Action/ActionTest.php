@@ -121,15 +121,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->_object->loadLayout('test');
     }
 
-    public function testGetDefaultLayoutHandle()
-    {
-        $this->_object->getRequest()
-            ->setRouteName('Test')
-            ->setControllerName('Controller')
-            ->setActionName('Action');
-        $this->assertEquals('test_controller_action', $this->_object->getDefaultLayoutHandle());
-    }
-
     /**
      * @param string $route
      * @param string $controller

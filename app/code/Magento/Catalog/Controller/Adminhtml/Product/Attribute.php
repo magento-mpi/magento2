@@ -74,7 +74,9 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_title->add(__('Product Attributes'));
 
         if ($this->getRequest()->getParam('popup')) {
-            $this->_layoutServices->loadLayout(array('popup', $this->getDefaultLayoutHandle() . '_popup'));
+            $this->_layoutServices->loadLayout(
+                array('popup', $this->_layoutServices->getDefaultLayoutHandle() . '_popup')
+            );
             $this->_layoutServices->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->_layoutServices->loadLayout();

@@ -84,7 +84,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         $update->addHandle('default');
 
         // add default layout handles for this action
-        $this->addActionLayoutHandles();
+        $this->_layoutServices->addActionLayoutHandles();
         $update->addHandle($this->_handles);
 
         $this->_layoutServices->loadLayoutUpdates();

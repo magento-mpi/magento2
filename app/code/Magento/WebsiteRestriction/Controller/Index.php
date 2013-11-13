@@ -118,7 +118,7 @@ class Index extends \Magento\App\Action\Action
                 }
             }
 
-            $this->addActionLayoutHandles();
+            $this->_layoutServices->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
                 $this->_objectManager->get('Magento\Page\Helper\Layout')

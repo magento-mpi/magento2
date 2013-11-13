@@ -138,7 +138,7 @@ class Attribute
      */
     public function newAction()
     {
-        $this->addActionLayoutHandles();
+        $this->_layoutServices->addActionLayoutHandles();
         $this->_forward('edit');
     }
 

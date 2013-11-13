@@ -173,21 +173,11 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Retrieve the default layout handle name for the current action
-     *
-     * @return string
-     */
-    public function getDefaultLayoutHandle()  // Leave
-    {
-        return $this->_layoutServices->getDefaultLayoutHandle();
-    }
-
-    /**
      * Add layout handle by full controller action name
      *
      * @return \Magento\App\ActionInterface
      */
-    public function addActionLayoutHandles()  // Leave
+    public function addActionLayoutHandles()  // TODO Fix 1 usage
     {
         $this->_layoutServices->addActionLayoutHandles();
         return $this;

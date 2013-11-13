@@ -111,7 +111,7 @@ class Attribute extends \Magento\Backend\App\Action
      */
     public function newAction()
     {
-        $this->addActionLayoutHandles();
+        $this->_layoutServices->addActionLayoutHandles();
         $this->_forward('edit');
     }
 
