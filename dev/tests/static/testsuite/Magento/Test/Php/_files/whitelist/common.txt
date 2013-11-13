@@ -41,7 +41,6 @@ app/code/Magento/Cms/Block/Adminhtml/Page/Edit/Tab/Design.php
 app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Cms/Model/Template/FilterProvider.php
 app/code/Magento/Core/data
-app/code/Magento/Core/Helper/Css.php
 app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
