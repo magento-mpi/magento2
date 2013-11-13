@@ -44,13 +44,13 @@ class Design extends \Magento\Backend\App\Action
         $this->_title->add(__('Store Design'));
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()
@@ -80,7 +80,7 @@ class Design extends \Magento\Backend\App\Action
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
         $this->_addLeft($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()

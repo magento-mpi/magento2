@@ -195,7 +195,7 @@ class Index
         );
         $this->_layoutServices->getLayout()->initMessages($messageStores);
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -641,7 +641,7 @@ class Index
         $this->_getWishlist();
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Wishlist\Model\Session'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

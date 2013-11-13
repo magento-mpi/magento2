@@ -74,7 +74,7 @@ class Subscription extends \Magento\Backend\App\AbstractAction
             ->_title->add(__('Web Services'))
             ->_title->add(__('WebHook Subscriptions'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -113,7 +113,7 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                 $this->_title->add(__('Edit Subscription'));
             }
 
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');

@@ -41,7 +41,7 @@ class Files
         try {
             $this->_layoutServices->loadLayout('empty');
             $this->_layoutServices->getLayout()->getBlock('editor_files.files')->setStorage($this->_getStorage());
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
 
             $this->_getSession()->setStoragePath(
                 $this->_objectManager->get('Magento\Theme\Helper\Storage')->getCurrentPath()

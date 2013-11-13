@@ -230,7 +230,7 @@ class Search extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -262,7 +262,7 @@ class Search extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -272,6 +272,6 @@ class Search extends \Magento\App\Action\Action
     {
         $this->_initType($this->getRequest()->getParam('type_id'));
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

@@ -64,7 +64,7 @@ class Review extends \Magento\Backend\App\Action
 
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function pendingAction()
@@ -83,7 +83,7 @@ class Review extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('usePendingFilter', true);
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function editAction()
@@ -97,7 +97,7 @@ class Review extends \Magento\Backend\App\Action
 
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Edit'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()
@@ -114,7 +114,7 @@ class Review extends \Magento\Backend\App\Action
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Add'));
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()

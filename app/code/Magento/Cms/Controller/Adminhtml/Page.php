@@ -80,7 +80,7 @@ class Page extends \Magento\Backend\App\Action
         $this->_title->add(__('Pages'));
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -132,7 +132,7 @@ class Page extends \Magento\Backend\App\Action
                 $id ? __('Edit Page') : __('New Page')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

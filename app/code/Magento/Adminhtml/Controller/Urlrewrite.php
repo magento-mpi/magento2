@@ -62,7 +62,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -117,7 +117,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
         if (in_array($mode, array(self::PRODUCT_MODE, self::CATEGORY_MODE))) {
             $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

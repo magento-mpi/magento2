@@ -58,13 +58,13 @@ class Template extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -99,7 +99,7 @@ class Template extends \Magento\Backend\App\Action
             ->createBlock('Magento\Backend\Block\System\Email\Template\Edit', 'template_edit')
             ->setEditMode((bool)$this->getRequest()->getParam('id'))
         );
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()
@@ -182,7 +182,7 @@ class Template extends \Magento\Backend\App\Action
     public function previewAction()
     {
         $this->_layoutServices->loadLayout('adminhtml_system_preview');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -200,7 +200,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_title->add(__('Products'));
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -249,7 +249,7 @@ class Product extends \Magento\Backend\App\Action
             $block->setStoreId($product->getStoreId());
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -309,7 +309,7 @@ class Product extends \Magento\Backend\App\Action
             $block->setStoreId($product->getStoreId());
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -343,7 +343,7 @@ class Product extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -372,7 +372,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_saveAttributeOptions();
         $this->_initProductSave($this->_initProduct());
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -432,7 +432,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -443,7 +443,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -455,7 +455,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -467,7 +467,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsUpsell($this->getRequest()->getPost('products_upsell', null));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -479,7 +479,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsCrossSell($this->getRequest()->getPost('products_crosssell', null));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -491,7 +491,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -503,7 +503,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsRelated($this->getRequest()->getPost('products_upsell', null));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -515,7 +515,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsRelated($this->getRequest()->getPost('products_crosssell', null));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -525,7 +525,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -535,7 +535,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -549,7 +549,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()->getBlock('admin.product.reviews')
             ->setProductId($this->_coreRegistry->registry('product')->getId())
             ->setUseAjax(true);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -560,7 +560,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -967,7 +967,7 @@ class Product extends \Magento\Backend\App\Action
     public function alertsPriceGridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -976,7 +976,7 @@ class Product extends \Magento\Backend\App\Action
     public function alertsStockGridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function addAttributeAction()
@@ -986,7 +986,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_addContent(
             $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
         );
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function createdAction()
@@ -995,7 +995,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_addContent(
             $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
         );
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function massDeleteAction()
@@ -1105,7 +1105,7 @@ class Product extends \Magento\Backend\App\Action
     public function optionsImportGridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -1115,7 +1115,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_coreRegistry->register('import_option_products', $this->getRequest()->getPost('products'));
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

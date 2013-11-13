@@ -146,7 +146,7 @@ class Api extends \Magento\App\Action\Action
         $this->_getCheckout()->clear();
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -155,7 +155,7 @@ class Api extends \Magento\App\Action\Action
     public function paypageAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -39,7 +39,7 @@ class Hostedpro extends \Magento\App\Action\Action
         $redirectBlock = $this->_layoutServices->getLayout()->getBlock('hosted.pro.iframe');
         $redirectBlock->setGotoSection($gotoSection);
         //TODO: clarify return logic whether customer will be returned in iframe or in parent window
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -129,7 +129,7 @@ class Editor extends \Magento\Backend\App\Action
                 'theme_id'       => $launchedTheme->getId()
             ));
 
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -491,7 +491,7 @@ class Editor extends \Magento\Backend\App\Action
             /** @var $storeViewBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\StoreView */
             $storeViewBlock = $this->_layoutServices->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData('actionOnAssign', 'refresh');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t load the list of themes.'));
             $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());

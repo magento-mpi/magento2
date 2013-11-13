@@ -70,7 +70,7 @@ class Block extends \Magento\Backend\App\Action
         $this->_title->add(__('Blocks'));
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -52,7 +52,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function editAction()
@@ -72,7 +72,7 @@ class Index extends \Magento\Backend\App\Action
 
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit'))
             ->_addLeft($this->_layoutServices->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tabs'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()

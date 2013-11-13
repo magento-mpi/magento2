@@ -135,7 +135,7 @@ class Index extends \Magento\App\Action\Action
                     ->applyTemplate($page->getRootTemplate());
             }
 
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
 
             $this->_configCacheType->save(
                 $this->getResponse()->getBody(), $this->_cacheKey, array(\Magento\Core\Model\Website::CACHE_TAG)

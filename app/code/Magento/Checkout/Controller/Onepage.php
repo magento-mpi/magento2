@@ -209,7 +209,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Customer\Model\Session');
         $layout->getBlock('head')->setTitle(__('Checkout'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -222,7 +222,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         }
         $this->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function shippingMethodAction()
@@ -232,7 +232,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         }
         $this->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function reviewAction()
@@ -242,7 +242,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         }
         $this->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -270,7 +270,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
         );
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function failureAction()
@@ -284,7 +284,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         }
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
 

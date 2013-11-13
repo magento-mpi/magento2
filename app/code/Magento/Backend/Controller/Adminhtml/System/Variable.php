@@ -88,7 +88,7 @@ class Variable extends \Magento\Backend\App\Action
         $this->_title->add(__('Custom Variables'));
 
         $this->_initLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

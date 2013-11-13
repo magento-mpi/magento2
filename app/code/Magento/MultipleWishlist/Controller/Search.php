@@ -183,7 +183,7 @@ class Search extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -232,7 +232,7 @@ class Search extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -266,7 +266,7 @@ class Search extends \Magento\App\Action\Action
             'Magento\Wishlist\Model\Session'
         );
         $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

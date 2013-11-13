@@ -65,7 +65,7 @@ class Role extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('API Roles'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -74,7 +74,7 @@ class Role extends \Magento\Backend\App\Action
     public function rolegridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -83,7 +83,7 @@ class Role extends \Magento\Backend\App\Action
     public function usersgridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -138,7 +138,7 @@ class Role extends \Magento\Backend\App\Action
             $tabsBlock->setApiRole($role);
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

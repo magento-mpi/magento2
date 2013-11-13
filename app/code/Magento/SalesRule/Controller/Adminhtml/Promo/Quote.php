@@ -293,7 +293,7 @@ class Quote extends \Magento\Backend\App\Action
     public function applyRulesAction()
     {
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

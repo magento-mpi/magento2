@@ -109,7 +109,7 @@ class Types extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout('false');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

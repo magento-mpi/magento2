@@ -156,7 +156,7 @@ class Instance extends \Magento\Backend\App\Action
         $this->_title->add($widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance'));
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

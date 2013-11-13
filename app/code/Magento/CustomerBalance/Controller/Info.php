@@ -49,6 +49,6 @@ class Info extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Store Credit'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

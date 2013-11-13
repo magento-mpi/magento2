@@ -77,7 +77,7 @@ class Customerbalance extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

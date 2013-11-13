@@ -52,13 +52,13 @@ class Subscriber extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Newsletter'), __('Newsletter'));
         $this->_addBreadcrumb(__('Subscribers'), __('Subscribers'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
      }
 
     /**

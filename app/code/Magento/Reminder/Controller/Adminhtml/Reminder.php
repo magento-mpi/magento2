@@ -117,7 +117,7 @@ class Reminder extends \Magento\Backend\App\Action
         $this->_title->add(__('Email Reminders'));
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -80,7 +80,7 @@ class Address extends \Magento\App\Action\Action
                 $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/cart/'));
             }
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function shippingSavedAction()
@@ -112,7 +112,7 @@ class Address extends \Magento\App\Action\Action
                 $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/shipping'));
             }
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function editShippingPostAction()
@@ -130,7 +130,7 @@ class Address extends \Magento\App\Action\Action
         $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newBillingAction()
@@ -147,7 +147,7 @@ class Address extends \Magento\App\Action\Action
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function editAddressAction()
@@ -164,7 +164,7 @@ class Address extends \Magento\App\Action\Action
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function editBillingAction()
@@ -183,7 +183,7 @@ class Address extends \Magento\App\Action\Action
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function setBillingAction()

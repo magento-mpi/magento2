@@ -156,7 +156,7 @@ class Cart
         $layout = $this->_layoutServices->getLayout();
         $layout->initMessages($messageStores);
         $layout->getBlock('head')->setTitle(__('Shopping Cart'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
         \Magento\Profiler::stop(__METHOD__ . 'cart_display');
     }
 

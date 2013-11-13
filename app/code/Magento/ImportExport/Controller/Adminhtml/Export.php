@@ -101,7 +101,7 @@ class Export extends \Magento\Backend\App\Action
             ->_title->add(__('Export'))
             ->_addBreadcrumb(__('Export'), __('Export'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -127,7 +127,7 @@ class Export extends \Magento\Backend\App\Action
                         $export->getEntityAttributeCollection()
                     )
                 );
-                $this->renderLayout();
+                $this->_layoutServices->renderLayout();
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

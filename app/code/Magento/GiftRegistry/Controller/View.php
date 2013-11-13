@@ -76,7 +76,7 @@ class View extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

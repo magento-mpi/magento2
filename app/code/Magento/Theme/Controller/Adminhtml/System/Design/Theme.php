@@ -49,7 +49,7 @@ class Theme extends \Magento\Backend\App\Action
     {
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -58,7 +58,7 @@ class Theme extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -94,7 +94,7 @@ class Theme extends \Magento\Backend\App\Action
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');

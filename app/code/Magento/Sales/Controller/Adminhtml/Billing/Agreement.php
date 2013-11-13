@@ -52,7 +52,7 @@ class Agreement extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_billing_agreement');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -62,7 +62,7 @@ class Agreement extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -79,7 +79,7 @@ class Agreement extends \Magento\Backend\App\Action
 
             $this->_layoutServices->loadLayout();
             $this->_setActiveMenu('Magento_Sales::sales_billing_agreement');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             return;
         }
 
@@ -95,7 +95,7 @@ class Agreement extends \Magento\Backend\App\Action
     {
         $this->_initBillingAgreement();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -106,7 +106,7 @@ class Agreement extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

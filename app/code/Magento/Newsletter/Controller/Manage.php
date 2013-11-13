@@ -83,7 +83,7 @@ class Manage extends \Magento\App\Action\Action
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Newsletter Subscription'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()

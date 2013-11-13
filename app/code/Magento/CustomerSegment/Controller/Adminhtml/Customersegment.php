@@ -85,7 +85,7 @@ class Customersegment extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -330,7 +330,7 @@ class Customersegment extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -339,6 +339,6 @@ class Customersegment extends \Magento\Backend\App\Action
     public function chooserGridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

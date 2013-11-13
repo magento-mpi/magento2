@@ -164,7 +164,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         $this->_setActiveMenu('Magento_Sales::sales_order');
             $this->_layoutServices->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_forward('noroute');
         }

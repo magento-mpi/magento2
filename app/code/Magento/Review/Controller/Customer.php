@@ -68,7 +68,7 @@ class Customer extends \Magento\App\Action\Action
 
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Product Reviews'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function viewAction()
@@ -78,6 +78,6 @@ class Customer extends \Magento\App\Action\Action
             $navigationBlock->setActive('review/customer');
         }
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Review Details'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

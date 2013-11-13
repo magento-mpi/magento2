@@ -181,7 +181,7 @@ class Account extends \Magento\App\Action\Action
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Account'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -197,7 +197,7 @@ class Account extends \Magento\App\Action\Action
         $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -314,7 +314,7 @@ class Account extends \Magento\App\Action\Action
     public function logoutSuccessAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -329,7 +329,7 @@ class Account extends \Magento\App\Action\Action
 
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -630,7 +630,7 @@ class Account extends \Magento\App\Action\Action
             ->setEmail($this->getRequest()->getParam('email', $email));
 
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -646,7 +646,7 @@ class Account extends \Magento\App\Action\Action
         $this->_getSession()->unsForgottenEmail();
 
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -718,7 +718,7 @@ class Account extends \Magento\App\Action\Action
             $this->_layoutServices->getLayout()->getBlock('resetPassword')
                 ->setCustomerId($customerId)
                 ->setResetPasswordLinkToken($resetPasswordToken);
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $exception) {
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')
@@ -853,7 +853,7 @@ class Account extends \Magento\App\Action\Action
 
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Account Information'));
         $this->_layoutServices->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

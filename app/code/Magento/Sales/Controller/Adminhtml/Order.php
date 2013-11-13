@@ -105,7 +105,7 @@ class Order extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -119,7 +119,7 @@ class Order extends \Magento\Backend\App\Action
         if ($order) {
             $this->_initAction();
             $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         }
     }
 
@@ -285,7 +285,7 @@ class Order extends \Magento\Backend\App\Action
                 $order->sendOrderUpdateEmail($notify, $comment);
 
                 $this->_layoutServices->loadLayout('empty');
-                $this->renderLayout();
+                $this->_layoutServices->renderLayout();
             } catch (\Magento\Core\Exception $e) {
                 $response = array(
                     'error'     => true,
@@ -744,7 +744,7 @@ class Order extends \Magento\Backend\App\Action
     {
         $this->_initOrder();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -763,7 +763,7 @@ class Order extends \Magento\Backend\App\Action
                 $addressFormContainer->getChildBlock('form')->setDisplayVatValidationButton(false);
             }
 
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/*/');
         }

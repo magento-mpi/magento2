@@ -98,7 +98,7 @@ class Attribute extends \Magento\Backend\App\Action
             ->_addContent(
                 $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute')
             );
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()
@@ -155,7 +155,7 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()->getBlock('attribute_edit_js')
             ->setIsPopup((bool)$this->getRequest()->getParam('popup'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
 
     }
 

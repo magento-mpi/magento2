@@ -68,7 +68,7 @@ class Returns extends \Magento\App\Action\Action
         if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -147,7 +147,7 @@ class Returns extends \Magento\App\Action\Action
             if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/order/history');
         }
@@ -237,7 +237,7 @@ class Returns extends \Magento\App\Action\Action
         $layout->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -272,7 +272,7 @@ class Returns extends \Magento\App\Action\Action
         if ($navigationBlock = $layout->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('sales/order/history');
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

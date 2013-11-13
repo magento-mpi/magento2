@@ -83,7 +83,7 @@ class Pbridge extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

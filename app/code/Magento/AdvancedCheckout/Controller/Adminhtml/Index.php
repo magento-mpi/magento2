@@ -186,7 +186,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_layoutServices->loadLayout();
         $this->_initTitle();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -201,7 +201,7 @@ class Index extends \Magento\Backend\App\Action
             }
             $this->_layoutServices->loadLayout();
             $this->_initTitle();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -226,7 +226,7 @@ class Index extends \Magento\Backend\App\Action
                 return;
             }
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -350,7 +350,7 @@ class Index extends \Magento\Backend\App\Action
                     ->getBlock('form_coupon')
                     ->setInvalidCouponCode($code);
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -375,7 +375,7 @@ class Index extends \Magento\Backend\App\Action
                 return;
             }
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }

@@ -100,7 +100,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -109,7 +109,7 @@ class Index extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -182,7 +182,7 @@ class Index extends \Magento\Backend\App\Action
          */
         $this->_setActiveMenu('Magento_Customer::customer');
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -480,7 +480,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -490,7 +490,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -522,7 +522,7 @@ class Index extends \Magento\Backend\App\Action
 
         $this->_layoutServices->getLayout()->getUpdate()->addHandle(strtolower($this->getFullActionName()));
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -532,7 +532,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -562,7 +562,7 @@ class Index extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -575,7 +575,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('admin.customer.view.cart')
             ->setWebsiteId((int)$this->getRequest()->getParam('website_id'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -586,7 +586,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -600,7 +600,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()->getBlock('admin.customer.reviews')
             ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
             ->setUseAjax(true);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

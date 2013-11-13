@@ -166,7 +166,7 @@ class Product extends \Magento\App\Action\Action
             }
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

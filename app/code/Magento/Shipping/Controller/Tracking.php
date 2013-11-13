@@ -99,7 +99,7 @@ class Tracking extends \Magento\App\Action\Action
             throw new NotFoundException();
         }
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
 

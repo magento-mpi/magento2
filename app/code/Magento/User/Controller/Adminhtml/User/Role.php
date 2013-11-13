@@ -128,7 +128,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $this->_initAction();
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -138,7 +138,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     public function roleGridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -167,7 +167,7 @@ class Role extends \Magento\Backend\App\AbstractAction
             ->setRoleId($role->getId())
             ->setRoleInfo($role);
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -276,7 +276,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     public function editrolegridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

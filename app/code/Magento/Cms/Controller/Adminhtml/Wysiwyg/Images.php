@@ -63,7 +63,7 @@ class Images extends \Magento\Backend\App\Action
         if ($block) {
             $block->setStoreId($storeId);
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function treeJsonAction()
@@ -85,7 +85,7 @@ class Images extends \Magento\Backend\App\Action
         try {
             $this->_initAction()->_saveSessionCurrentPath();
             $this->_layoutServices->loadLayout('empty');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));

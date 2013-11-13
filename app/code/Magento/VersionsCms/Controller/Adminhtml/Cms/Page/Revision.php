@@ -154,7 +154,7 @@ class Revision
         }
 
         $this->_initAction()->_addBreadcrumb(__('Edit Revision'), __('Edit Revision'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -290,7 +290,7 @@ class Revision
             $this->_layoutServices->getLayout()->unsetChild('tools', 'revision_switcher');
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

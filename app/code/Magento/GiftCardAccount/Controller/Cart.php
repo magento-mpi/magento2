@@ -111,6 +111,6 @@ class Cart extends \Magento\App\Action\Action
         }
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

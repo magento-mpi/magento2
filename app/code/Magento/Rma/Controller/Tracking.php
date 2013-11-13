@@ -64,7 +64,7 @@ class Tracking extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Tracking Information'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -85,7 +85,7 @@ class Tracking extends \Magento\App\Action\Action
             throw new NotFoundException();
         }
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

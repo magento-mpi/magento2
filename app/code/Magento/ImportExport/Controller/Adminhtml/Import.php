@@ -59,7 +59,7 @@ class Import extends \Magento\Backend\App\Action
         $this->_getSession()->addNotice($this->_objectManager->get('Magento\ImportExport\Helper\Data')
             ->getMaxUploadSizeMessage());
         $this->_initAction()->_title->add(__('Import'))->_addBreadcrumb(__('Import'), __('Import'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -83,12 +83,12 @@ class Import extends \Magento\Backend\App\Action
                     ->addAction('innerHTML', 'import_validation_container_header', __('Status'));
             } catch (\Exception $e) {
                 $resultBlock->addError($e->getMessage());
-                $this->renderLayout();
+                $this->_layoutServices->renderLayout();
                 return;
             }
             $resultBlock->addAction('hide', array('edit_form', 'upload_button', 'messages'))
                 ->addSuccess(__('Import successfully done'));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('adminhtml/*/index');
         }
@@ -145,12 +145,12 @@ class Import extends \Magento\Backend\App\Action
                 $resultBlock->addNotice(__('Please fix errors and re-upload file.'))
                     ->addError($e->getMessage());
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } elseif ($this->getRequest()->isPost() && empty($_FILES)) {
             $this->_layoutServices->loadLayout(false);
             $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
             $resultBlock->addError(__('File was not uploaded'));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_getSession()->addError(__('Data is invalid or file is not uploaded'));
             $this->_redirect('adminhtml/*/index');

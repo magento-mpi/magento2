@@ -49,7 +49,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function bestsellersAction()
@@ -70,7 +70,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -155,7 +155,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -198,7 +198,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -241,7 +241,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -284,7 +284,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -327,7 +327,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -82,7 +82,7 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_title->add(__("Customer Wish List Report"));
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

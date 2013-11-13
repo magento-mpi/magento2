@@ -145,7 +145,7 @@ class Index extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Send Invitations'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -164,6 +164,6 @@ class Index extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('My Invitations'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

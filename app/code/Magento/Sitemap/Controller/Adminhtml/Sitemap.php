@@ -72,7 +72,7 @@ class Sitemap extends  \Magento\Backend\App\Action
     {
         $this->_title->add(__('Site Map'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -262,7 +262,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             if ($reviewBlock->getChildBlock('shipping_method')) {
                 $reviewBlock->getChildBlock('shipping_method')->setQuote($this->_getQuote());
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_checkoutSession->addError($e->getMessage());

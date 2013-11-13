@@ -103,7 +103,7 @@ class Pbridge extends \Magento\App\Action\Action
     public function successAction()
     {
         $this->_initActionLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -114,7 +114,7 @@ class Pbridge extends \Magento\App\Action\Action
     public function errorAction()
     {
         $this->_initActionLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -125,7 +125,7 @@ class Pbridge extends \Magento\App\Action\Action
     public function resultAction()
     {
         $this->_initActionLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

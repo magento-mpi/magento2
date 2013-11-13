@@ -32,6 +32,6 @@ class Order extends \Magento\Rss\Controller\Adminhtml\Authenticate
     {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

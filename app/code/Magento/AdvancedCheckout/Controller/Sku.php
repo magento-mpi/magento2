@@ -57,7 +57,7 @@ class Sku extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Order by SKU'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

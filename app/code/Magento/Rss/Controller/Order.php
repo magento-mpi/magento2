@@ -46,7 +46,7 @@ class Order extends \Magento\App\Action\Action
             $this->_coreRegistry->register('current_order', $order);
             $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             $this->_layoutServices->loadLayout(false);
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             return;
         }
 

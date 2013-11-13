@@ -258,7 +258,7 @@ class Customersegment
             return;
         }
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

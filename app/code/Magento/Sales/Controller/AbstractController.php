@@ -68,7 +68,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/order/history');
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -174,7 +174,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
             return;
         }
         $this->_layoutServices->loadLayout('print');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -197,7 +197,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
                 $this->_coreRegistry->register('current_invoice', $invoice);
             }
             $this->_layoutServices->loadLayout('print');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
@@ -226,7 +226,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
                 $this->_coreRegistry->register('current_shipment', $shipment);
             }
             $this->_layoutServices->loadLayout('print');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
@@ -256,7 +256,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
                 $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
             $this->_layoutServices->loadLayout('print');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');

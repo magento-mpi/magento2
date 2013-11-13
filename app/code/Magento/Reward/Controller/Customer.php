@@ -80,7 +80,7 @@ class Customer extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Reward Points'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

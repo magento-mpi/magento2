@@ -73,7 +73,7 @@ class Logging extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -82,7 +82,7 @@ class Logging extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -104,7 +104,7 @@ class Logging extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -140,7 +140,7 @@ class Logging extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_backups');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -149,7 +149,7 @@ class Logging extends \Magento\Backend\App\Action
     public function archiveGridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

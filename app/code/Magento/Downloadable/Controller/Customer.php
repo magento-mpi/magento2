@@ -70,7 +70,7 @@ class Customer extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('My Downloadable Products'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
 }

@@ -84,7 +84,7 @@ class Process extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -103,7 +103,7 @@ class Process extends \Magento\Backend\App\Action
 
             $this->_coreRegistry->register('current_index_process', $process);
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_getSession()->addError(
                 __('Cannot initialize the indexer process.')

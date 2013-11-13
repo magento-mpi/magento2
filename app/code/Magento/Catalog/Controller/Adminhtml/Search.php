@@ -56,7 +56,7 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Catalog'), __('Catalog'));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
     }
 
     public function newAction()
@@ -100,7 +100,7 @@ class Search extends \Magento\Backend\App\Action
         $this
             ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -91,7 +91,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.advanced.iframe');
         $redirectBlock->setGotoSection($gotoSection);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -121,7 +121,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
             }
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

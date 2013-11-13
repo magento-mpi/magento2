@@ -117,7 +117,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
             $filterFormBlock
         ));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -158,7 +158,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
                 __('Low Stock'),
                 __('Low Stock')
             );
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
     }
 
     /**

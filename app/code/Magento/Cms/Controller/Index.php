@@ -45,7 +45,7 @@ class Index extends \Magento\App\Action\Action
         $this->getResponse()->setHeader('Status','404 File not found');
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -59,7 +59,7 @@ class Index extends \Magento\App\Action\Action
         $this->getResponse()->setHeader('Status','404 File not found');
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -83,6 +83,6 @@ class Index extends \Magento\App\Action\Action
     public function defaultNoCookiesAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

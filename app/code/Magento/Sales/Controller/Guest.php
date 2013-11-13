@@ -49,7 +49,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $this->_layoutServices->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -64,7 +64,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function printInvoiceAction()
@@ -86,7 +86,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
                 $this->_coreRegistry->register('current_invoice', $invoice);
             }
             $this->_layoutServices->loadLayout('print');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/guest/form');
         }
@@ -110,7 +110,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
                 $this->_coreRegistry->register('current_shipment', $shipment);
             }
             $this->_layoutServices->loadLayout('print');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/guest/form');
         }
@@ -135,7 +135,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
                 $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
             $this->_layoutServices->loadLayout('print');
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/guest/form');
         }

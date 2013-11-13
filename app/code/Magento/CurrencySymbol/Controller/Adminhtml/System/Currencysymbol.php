@@ -55,7 +55,7 @@ class Currencysymbol extends \Magento\Backend\App\Action
             );
 
         $this->_title->add(__('Currency Symbols'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

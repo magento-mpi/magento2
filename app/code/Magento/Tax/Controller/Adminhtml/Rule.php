@@ -52,7 +52,7 @@ class Rule extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Tax Rules'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
 
         return $this;
     }

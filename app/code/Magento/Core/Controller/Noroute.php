@@ -27,7 +27,7 @@ class Noroute extends Action
 
         if ($status->getLoaded() !== true || $status->getForwarded() === true) {
             $this->_layoutServices->loadLayout(array('default', 'noroute'));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $status->setForwarded(true);
             $request = $this->getRequest();

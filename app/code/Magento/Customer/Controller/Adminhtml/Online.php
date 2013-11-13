@@ -45,7 +45,7 @@ class Online extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Online Customers'), __('Online Customers'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     protected function _isAllowed()

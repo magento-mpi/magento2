@@ -82,7 +82,7 @@ class Template extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -148,7 +148,7 @@ class Template extends \Magento\Backend\App\Action
             $editBlock->setEditMode($model->getId() > 0);
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -158,7 +158,7 @@ class Template extends \Magento\Backend\App\Action
     public function dropAction()
     {
         $this->_layoutServices->loadLayout('newsletter_template_preview');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -264,6 +264,6 @@ class Template extends \Magento\Backend\App\Action
             ->getDefaultStoreView()->getId();
 
         $this->_layoutServices->getLayout()->getBlock('preview_form')->setFormData($data);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

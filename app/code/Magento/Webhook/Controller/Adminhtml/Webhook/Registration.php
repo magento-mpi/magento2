@@ -66,7 +66,7 @@ class Registration extends \Magento\Backend\App\AbstractAction
         try {
             $this->_initSubscription();
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
@@ -99,7 +99,7 @@ class Registration extends \Magento\Backend\App\AbstractAction
         try {
             $this->_initSubscription();
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
@@ -161,7 +161,7 @@ class Registration extends \Magento\Backend\App\AbstractAction
     {
         try {
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             $subscriptionData = $this->_initSubscription();
 
             $this->_getSession()->addSuccess(
@@ -179,7 +179,7 @@ class Registration extends \Magento\Backend\App\AbstractAction
     public function failedAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

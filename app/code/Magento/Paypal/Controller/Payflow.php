@@ -69,7 +69,7 @@ class Payflow extends \Magento\App\Action\Action
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.link.iframe');
         $redirectBlock->setGotoSection($gotoSection);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -99,7 +99,7 @@ class Payflow extends \Magento\App\Action\Action
             }
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -70,7 +70,7 @@ class Targetrule extends \Magento\Backend\App\Action
         $this->_title->add(__('Related Products Rules'));
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -79,7 +79,7 @@ class Targetrule extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -122,7 +122,7 @@ class Targetrule extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_target_rule', $model);
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

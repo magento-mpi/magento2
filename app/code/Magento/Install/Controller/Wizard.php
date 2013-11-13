@@ -181,7 +181,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Begin', 'install.begin', 'content');
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -212,7 +212,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
         $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -263,7 +263,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
         $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Download', 'install.download', 'content');
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -379,7 +379,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
         $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Config', 'install.config', 'content');
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -448,7 +448,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
 
         $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\Admin', 'install.administrator', 'content');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -498,7 +498,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
 
         $this->_layoutServices->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
         $this->_session->clear();
     }
 }

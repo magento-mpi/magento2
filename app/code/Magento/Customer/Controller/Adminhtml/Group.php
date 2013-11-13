@@ -69,7 +69,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Customer::customer_group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -96,7 +96,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
             ->setEditMode((bool)$this->_coreRegistry->registry('current_group')->getId());
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

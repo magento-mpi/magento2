@@ -153,7 +153,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             $page->getId() ? __('Edit Page') : __('New Page')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -166,7 +166,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         $this->_initPage();
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
 
         return $this;
     }

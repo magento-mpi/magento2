@@ -27,7 +27,7 @@ class System extends \Magento\Backend\App\AbstractAction
             __('System'),
             __('System')
         );
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function setStoreAction()

@@ -61,7 +61,7 @@ class Set extends \Magento\Backend\App\Action
             __('Manage Attribute Sets'),
             __('Manage Attribute Sets'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function editAction()
@@ -94,14 +94,14 @@ class Set extends \Magento\Backend\App\Action
             $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function setGridAction()
     {
         $this->_setTypeId();
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -209,7 +209,7 @@ class Set extends \Magento\Backend\App\Action
             $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function deleteAction()

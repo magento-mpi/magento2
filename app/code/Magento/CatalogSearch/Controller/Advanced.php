@@ -65,7 +65,7 @@ class Advanced extends \Magento\App\Action\Action
     {
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\CatalogSearch\Model\Session');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function resultAction()
@@ -82,6 +82,6 @@ class Advanced extends \Magento\App\Action\Action
             );
         }
         $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

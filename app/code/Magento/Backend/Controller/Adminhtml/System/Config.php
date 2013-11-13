@@ -80,7 +80,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             $this->getUrl('*\/system')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

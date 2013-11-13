@@ -58,7 +58,7 @@ class Custom extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Connect::system_extensions_custom');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -178,7 +178,7 @@ class Custom extends \Magento\Backend\App\Action
     public function loadtabAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -188,7 +188,7 @@ class Custom extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

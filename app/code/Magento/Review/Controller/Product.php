@@ -340,7 +340,7 @@ class Product extends \Magento\App\Action\Action
                 $breadcrumbsBlock->addCrumb('reviews', array('label' => __('Product Reviews')));
             }
 
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noroute');
         }
@@ -366,7 +366,7 @@ class Product extends \Magento\App\Action\Action
 
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages(array('Magento\Review\Model\Session', 'Magento\Catalog\Model\Session'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

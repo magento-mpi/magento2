@@ -67,7 +67,7 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_initAction();
         $this->_title->add(__('API Users'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -117,7 +117,7 @@ class User extends \Magento\Backend\App\AbstractAction
             $tabsBlock->setApiUser($user);
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -201,7 +201,7 @@ class User extends \Magento\Backend\App\AbstractAction
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -210,7 +210,7 @@ class User extends \Magento\Backend\App\AbstractAction
     public function rolesgridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

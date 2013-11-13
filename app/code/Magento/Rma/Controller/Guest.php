@@ -43,7 +43,7 @@ class Guest extends \Magento\App\Action\Action
         }
         $this->_layoutServices->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -76,7 +76,7 @@ class Guest extends \Magento\App\Action\Action
         $this->_layoutServices->getLayout()
             ->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -182,7 +182,7 @@ class Guest extends \Magento\App\Action\Action
         if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

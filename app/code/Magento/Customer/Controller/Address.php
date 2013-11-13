@@ -98,7 +98,7 @@ class Address extends \Magento\App\Action\Action
             if ($block) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->getResponse()->setRedirect($this->_buildUrl('*/*/new'));
         }
@@ -125,7 +125,7 @@ class Address extends \Magento\App\Action\Action
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

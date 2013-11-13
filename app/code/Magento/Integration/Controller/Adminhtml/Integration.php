@@ -62,7 +62,7 @@ class Integration extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
         $this->_title->add(__('Integrations'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -71,7 +71,7 @@ class Integration extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -99,7 +99,7 @@ class Integration extends \Magento\Backend\App\Action
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $restoredIntegration);
             $this->_getSession()->setIntegrationData(array());
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -136,7 +136,7 @@ class Integration extends \Magento\Backend\App\Action
             __('Edit "%1" Integration', $integrationData[Info::DATA_NAME])
         );
         $this->_title->add(__('Edit "%1" Integration', $integrationData[Info::DATA_NAME]));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

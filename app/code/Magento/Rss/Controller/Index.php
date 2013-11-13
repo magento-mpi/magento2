@@ -54,7 +54,7 @@ class Index extends \Magento\App\Action\Action
     {
         if ($this->_storeConfig->getConfig('rss/config/active')) {
             $this->_layoutServices->loadLayout();
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } else {
             throw new NotFoundException();
         }
@@ -88,7 +88,7 @@ class Index extends \Magento\App\Action\Action
             ) {
                 $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                 $this->_layoutServices->loadLayout(false);
-                $this->renderLayout();
+                $this->_layoutServices->renderLayout();
                 return;
             }
         }

@@ -54,7 +54,7 @@ class Agreement extends \Magento\App\Action\Action
         $this->_title->add(__('Billing Agreements'));
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
 
@@ -92,7 +92,7 @@ class Agreement extends \Magento\App\Action\Action
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/billing_agreement/');
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -72,7 +72,7 @@ class Backup extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Tools'), __('Tools'));
         $this->_addBreadcrumb(__('Backups'), __('Backup'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -81,7 +81,7 @@ class Backup extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->renderLayot(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -343,7 +343,7 @@ class Hierarchy extends \Magento\Backend\App\Action
     public function pageGridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

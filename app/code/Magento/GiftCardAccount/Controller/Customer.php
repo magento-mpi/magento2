@@ -64,6 +64,6 @@ class Customer extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Card'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

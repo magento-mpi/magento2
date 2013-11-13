@@ -134,7 +134,7 @@ class Version
             ->_addBreadcrumb(__('Edit Version'),
                 __('Edit Version'));
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
 
         return $this;
     }
@@ -207,7 +207,7 @@ class Version
         $this->_initPage();
 
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
 
         return $this;
     }

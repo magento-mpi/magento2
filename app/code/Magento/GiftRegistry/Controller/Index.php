@@ -83,7 +83,7 @@ class Index extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -222,7 +222,7 @@ class Index extends \Magento\App\Action\Action
                 $headBlock->setTitle(__('Share Gift Registry'));
             }
             $this->_layoutServices->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -246,7 +246,7 @@ class Index extends \Magento\App\Action\Action
             if ($headBlock) {
                 $headBlock->setTitle(__('Gift Registry Items'));
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -352,7 +352,7 @@ class Index extends \Magento\App\Action\Action
         if ($headBlock) {
             $headBlock->setTitle(__('Create Gift Registry'));
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -398,7 +398,7 @@ class Index extends \Magento\App\Action\Action
             if ($headBlock) {
                 $headBlock->setTitle($pageTitle);
             }
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');

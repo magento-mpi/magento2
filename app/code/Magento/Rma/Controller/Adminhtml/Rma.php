@@ -158,7 +158,7 @@ class Rma extends \Magento\Backend\App\Action
 
             $this->_initAction();
             $this->_title->add(__('New Return'));
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
         }
     }
 
@@ -193,7 +193,7 @@ class Rma extends \Magento\Backend\App\Action
         }
         $this->_initAction();
         $this->_title->add(sprintf("#%s", $model->getIncrementId()));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

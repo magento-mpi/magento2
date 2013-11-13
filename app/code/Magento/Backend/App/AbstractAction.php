@@ -306,7 +306,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
             return;
         }
         $this->_layoutServices->loadLayout(array('default', 'adminhtml_denied'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -342,7 +342,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
         $this->getResponse()->setHeader('Status', '404 File not found');
         $this->_layoutServices->loadLayout(array('default', 'adminhtml_noroute'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

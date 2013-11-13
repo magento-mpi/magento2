@@ -83,7 +83,7 @@ class Operation extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -99,7 +99,7 @@ class Operation extends \Magento\Backend\App\Action
                 ->getOperationHeaderText($operationType, 'new')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -121,7 +121,7 @@ class Operation extends \Magento\Backend\App\Action
             $helper->getOperationHeaderText($operationType, 'edit')
         );
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -215,7 +215,7 @@ class Operation extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -310,7 +310,7 @@ class Operation extends \Magento\Backend\App\Action
                         $export->getEntityAttributeCollection()
                     )
                 );
-                $this->renderLayout();
+                $this->_layoutServices->renderLayout();
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

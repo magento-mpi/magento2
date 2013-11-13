@@ -60,7 +60,7 @@ class Review extends \Magento\Backend\App\Action
                 __('Customers Report'),
                 __('Customers Report')
             );
-         $this->renderLayout();
+         $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -96,7 +96,7 @@ class Review extends \Magento\Backend\App\Action
             __('Products Report'),
             __('Products Report')
         );
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
     }
 
     /**

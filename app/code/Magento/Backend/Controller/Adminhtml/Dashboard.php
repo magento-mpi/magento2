@@ -34,7 +34,7 @@ class Dashboard extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::dashboard');
         $this->_addBreadcrumb(__('Dashboard'), __('Dashboard'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -44,7 +44,7 @@ class Dashboard extends \Magento\Backend\App\Action
     public function productsViewedAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -54,7 +54,7 @@ class Dashboard extends \Magento\Backend\App\Action
     public function customersNewestAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -64,7 +64,7 @@ class Dashboard extends \Magento\Backend\App\Action
     public function customersMostAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function ajaxBlockAction()

@@ -204,7 +204,7 @@ class Category extends \Magento\Backend\App\Action
             $block->setStoreId($storeId);
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

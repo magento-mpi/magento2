@@ -111,7 +111,7 @@ class Event extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Events'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -161,7 +161,7 @@ class Event extends \Magento\Backend\App\Action
                     ->setSwitchUrl($this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null)));
             }
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -18,6 +18,6 @@ class Noroute extends \Magento\Backend\App\Action
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
         $this->getResponse()->setHeader('Status', '404 File not found');
         $this->_layoutServices->loadLayout(array('default', 'adminhtml_noroute'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 } 

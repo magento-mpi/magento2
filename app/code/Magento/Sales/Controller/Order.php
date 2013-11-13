@@ -48,6 +48,6 @@ class Order extends \Magento\Sales\Controller\AbstractController
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

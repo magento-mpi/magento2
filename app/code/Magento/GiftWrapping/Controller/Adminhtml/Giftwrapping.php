@@ -105,7 +105,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
         $model = $this->_initModel();
         $this->_initAction();
         $this->_title->add(__('New Gift Wrapping'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -120,7 +120,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
             $model->addData($formData);
         }
         $this->_title->add(__('%1', $model->getDesign()));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -312,6 +312,6 @@ class Giftwrapping extends \Magento\Backend\App\Action
      */
     public function orderOptionsAction() {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }

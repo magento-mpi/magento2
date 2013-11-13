@@ -70,7 +70,7 @@ class Key extends \Magento\Backend\App\Action
             $formBlock->setFormData($data);
         }
 
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

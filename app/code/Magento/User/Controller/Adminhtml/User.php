@@ -63,7 +63,7 @@ class User extends \Magento\Backend\App\AbstractAction
     {
         $this->_title->add(__('Users'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()
@@ -106,7 +106,7 @@ class User extends \Magento\Backend\App\AbstractAction
             $breadcrumb = __('New User');
         }
         $this->_initAction()->_addBreadcrumb($breadcrumb, $breadcrumb);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()
@@ -209,13 +209,13 @@ class User extends \Magento\Backend\App\AbstractAction
         }
         $this->_coreRegistry->register('permissions_user', $model);
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     public function roleGridAction()
     {
         $this->_layoutServices->loadLayout(false);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     protected function _isAllowed()

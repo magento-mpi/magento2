@@ -38,7 +38,7 @@ class Files extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_layoutServices->loadLayout('overlay_popup');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -97,7 +97,7 @@ class Files extends \Magento\Backend\App\Action
         try {
             $this->_layoutServices->loadLayout('empty');
             $this->_layoutServices->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
-            $this->renderLayout();
+            $this->_layoutServices->renderLayout();
 
             $this->_getSession()->setStoragePath(
                 $this->_objectManager->get('Magento\Theme\Helper\Storage')->getCurrentPath()

@@ -88,7 +88,7 @@ class Widget extends \Magento\Backend\App\Action
                         $optionsBlock->setWidgetValues($request['values']);
                     }
                 }
-                $this->renderLayout();
+                $this->_layoutServices->renderLayout();
             }
         } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());

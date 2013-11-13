@@ -53,7 +53,7 @@ class Index extends \Magento\App\Action\Action
 
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

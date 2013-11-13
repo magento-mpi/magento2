@@ -52,7 +52,7 @@ class Banner extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -288,7 +288,7 @@ class Banner extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_layoutServices->loadLayout();
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -314,7 +314,7 @@ class Banner extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()
             ->getBlock('banner_salesrule_grid')
             ->setSelectedSalesRules($this->getRequest()->getPost('selected_salesrules'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -340,7 +340,7 @@ class Banner extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()
             ->getBlock('banner_catalogrule_grid')
             ->setSelectedCatalogRules($this->getRequest()->getPost('selected_catalogrules'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -369,7 +369,7 @@ class Banner extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()
             ->getBlock('related_salesrule_banners_grid')
             ->setSelectedSalesruleBanners($this->getRequest()->getPost('selected_salesrule_banners'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -396,6 +396,6 @@ class Banner extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()
             ->getBlock('related_catalogrule_banners_grid')
             ->setSelectedCatalogruleBanners($this->getRequest()->getPost('selected_catalogrule_banners'));
-        $this->renderLayout();
+        $this->_layoutServices->renderLayout();
     }
 }
