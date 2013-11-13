@@ -56,7 +56,7 @@ class Customer extends \Magento\App\Action\Action
 
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
         if ($navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation')) {
@@ -73,7 +73,7 @@ class Customer extends \Magento\App\Action\Action
 
     public function viewAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         if ($navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');
         }

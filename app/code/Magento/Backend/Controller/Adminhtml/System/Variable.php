@@ -53,8 +53,8 @@ class Variable extends \Magento\Backend\App\Action
      */
     protected function _initLayout()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Adminhtml::system_variable')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Adminhtml::system_variable')
             ->_addBreadcrumb(__('Custom Variables'), __('Custom Variables'));
         return $this;
     }

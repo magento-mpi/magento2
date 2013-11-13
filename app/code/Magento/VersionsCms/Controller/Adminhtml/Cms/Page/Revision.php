@@ -90,8 +90,8 @@ class Revision
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Cms::cms_page')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
         return $this;
@@ -260,7 +260,7 @@ class Revision
         }
 
         $page = $this->_initPage();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $stores = $page->getStoreId();
         if (isset($data['stores'])) {

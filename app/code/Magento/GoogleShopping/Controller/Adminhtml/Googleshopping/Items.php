@@ -45,8 +45,8 @@ class Items extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_items')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_items')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Google Content'), __('Google Content'));
         return $this;
@@ -104,7 +104,7 @@ class Items extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->getResponse()->setBody(
             $this->_layoutServices->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Item')

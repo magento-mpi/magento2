@@ -47,7 +47,7 @@ class Index extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initEnityId();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
@@ -58,7 +58,7 @@ class Index extends \Magento\Backend\App\Action
     public function editAction()
     {
         $this->_initEnityId();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $ratingModel = $this->_objectManager->create('Magento\Rating\Model\Rating');
         if ($this->getRequest()->getParam('id')) {

@@ -75,7 +75,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             }
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
         $this->renderLayout();
     }
@@ -111,7 +111,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             $model->addData($data);
         }
 
-        $this->loadLayout()
+        $this->_layoutServices->loadLayout()
             ->_addBreadcrumb($id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
                              $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
             ->_addContent(
@@ -249,7 +249,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -290,7 +290,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->getResponse()->setBody(
             $this->_layoutServices->getLayout()
                 ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
@@ -322,7 +322,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function exportMsxmlAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
@@ -334,7 +334,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');

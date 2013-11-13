@@ -42,14 +42,14 @@ class Design extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Store Design'));
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -62,7 +62,7 @@ class Design extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Store Design'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
         $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 

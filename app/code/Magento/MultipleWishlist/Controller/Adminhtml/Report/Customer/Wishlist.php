@@ -52,8 +52,8 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_MultipleWishlist::report_customers_wishlist')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_MultipleWishlist::report_customers_wishlist')
             ->_addBreadcrumb(
                 __('Reports'),
                 __('Reports')
@@ -90,7 +90,7 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     public function exportExcelAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'customer_wishlists.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
@@ -102,7 +102,7 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'customer_wishlists.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
  	 	$exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');

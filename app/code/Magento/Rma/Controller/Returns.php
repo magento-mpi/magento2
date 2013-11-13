@@ -60,7 +60,7 @@ class Returns extends \Magento\App\Action\Action
             return false;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
         $layout->getBlock('head')->setTitle(__('My Returns'));
@@ -140,7 +140,7 @@ class Returns extends \Magento\App\Action\Action
                     $this->_objectManager->get('Magento\Logger')->logException($e);
                 }
             }
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $layout = $this->_layoutServices->getLayout();
             $layout->initMessages('Magento\Core\Model\Session');
             $layout->getBlock('head')->setTitle(__('Create New Return'));
@@ -231,7 +231,7 @@ class Returns extends \Magento\App\Action\Action
         );
         $this->_coreRegistry->register('current_order', $order);
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
         $layout->getBlock('head')
@@ -265,7 +265,7 @@ class Returns extends \Magento\App\Action\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
 
@@ -381,7 +381,7 @@ class Returns extends \Magento\App\Action\Action
         }
 
         $this->addPageLayoutHandles();
-        $this->loadLayout(false)
+        $this->_layoutServices->loadLayout(false)
             ->renderLayout();
         return;
     }
@@ -434,7 +434,7 @@ class Returns extends \Magento\App\Action\Action
         }
 
         $this->addPageLayoutHandles();
-        $this->loadLayout(false)
+        $this->_layoutServices->loadLayout(false)
             ->renderLayout();
         return;
     }

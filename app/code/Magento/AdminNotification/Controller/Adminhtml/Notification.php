@@ -35,8 +35,8 @@ class Notification extends \Magento\Backend\App\AbstractAction
     {
         $this->_title->add(__('Notifications'));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_AdminNotification::system_adminnotification')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_AdminNotification::system_adminnotification')
             ->_addBreadcrumb(
                 __('Messages Inbox'),
                 __('Messages Inbox')

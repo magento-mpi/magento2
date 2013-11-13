@@ -26,7 +26,7 @@ class Attribute extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

@@ -50,8 +50,8 @@ class User extends \Magento\Backend\App\AbstractAction
 
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_User::system_acl_users')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_User::system_acl_users')
             ->_addBreadcrumb(__('System'), __('System'))
             ->_addBreadcrumb(__('Permissions'), __('Permissions'))
             ->_addBreadcrumb(__('Users'), __('Users'))
@@ -208,13 +208,13 @@ class User extends \Magento\Backend\App\AbstractAction
             $model->load($userId);
         }
         $this->_coreRegistry->register('permissions_user', $model);
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
     public function roleGridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

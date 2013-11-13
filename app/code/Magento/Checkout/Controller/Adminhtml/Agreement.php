@@ -151,8 +151,8 @@ class Agreement extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Checkout::sales_checkoutagreement')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Checkout::sales_checkoutagreement')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Checkout Conditions'), __('Checkout Terms and Conditions'));
         return $this;

@@ -74,7 +74,7 @@ class Customer extends \Magento\App\Action\Action
     public function infoAction()
     {
         $this->_coreRegistry->register('current_reward', $this->_getReward());
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {

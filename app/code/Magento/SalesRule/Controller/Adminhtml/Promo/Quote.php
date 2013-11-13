@@ -65,8 +65,8 @@ class Quote extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_SalesRule::promo_quote')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_SalesRule::promo_quote')
             ->_addBreadcrumb(__('Promotions'), __('Promotions'))
         ;
         return $this;
@@ -302,7 +302,7 @@ class Quote extends \Magento\Backend\App\Action
     public function couponsGridAction()
     {
         $this->_initRule();
-        $this->loadLayout()->renderLayout();
+        $this->_layoutServices->loadLayout()->renderLayout();
     }
 
     /**

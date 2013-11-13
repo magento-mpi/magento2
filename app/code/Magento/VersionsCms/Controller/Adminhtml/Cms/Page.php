@@ -165,7 +165,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     {
         $this->_initPage();
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
 
         return $this;

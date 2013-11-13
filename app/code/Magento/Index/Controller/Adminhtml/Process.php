@@ -81,7 +81,7 @@ class Process extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Index Management'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
         $this->renderLayout();
@@ -102,7 +102,7 @@ class Process extends \Magento\Backend\App\Action
                  ->_title->add(__($process->getIndexer()->getName()));
 
             $this->_coreRegistry->register('current_index_process', $process);
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->renderLayout();
         } else {
             $this->_getSession()->addError(

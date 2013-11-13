@@ -39,7 +39,7 @@ class Files
     public function contentsAction()
     {
         try {
-            $this->loadLayout('empty');
+            $this->_layoutServices->loadLayout('empty');
             $this->_layoutServices->getLayout()->getBlock('editor_files.files')->setStorage($this->_getStorage());
             $this->renderLayout();
 

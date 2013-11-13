@@ -75,8 +75,8 @@ class Formtype
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CustomerCustomAttributes::customer_formtype')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_CustomerCustomAttributes::customer_formtype')
             ->_addBreadcrumb(__('Customer'),
                 __('Customer'))
             ->_addBreadcrumb(__('Manage Form Types'),

@@ -77,8 +77,8 @@ class Reminder extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Reminder::promo_reminder')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Reminder::promo_reminder')
             ->_addBreadcrumb(
                 __('Reminder Rules'),
                 __('Reminder Rules')
@@ -115,7 +115,7 @@ class Reminder extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Email Reminders'));
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder');
         $this->renderLayout();
     }

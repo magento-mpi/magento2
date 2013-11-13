@@ -117,7 +117,7 @@ class Account extends \Magento\Customer\Controller\Account
     {
         try {
             $this->_initInvitation();
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
             $this->renderLayout();
             return;

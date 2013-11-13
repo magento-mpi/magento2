@@ -159,8 +159,8 @@ class Rule extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Tax::sales_tax_rules')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Tax::sales_tax_rules')
             ->_addBreadcrumb(__('Tax'), __('Tax'))
             ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'));
         return $this;

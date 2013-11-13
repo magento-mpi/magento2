@@ -69,7 +69,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             return $this->_redirect('adminhtml/*/', array('website' => $website, 'store' => $store));
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Adminhtml::system_config');
         $this->_layoutServices->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));

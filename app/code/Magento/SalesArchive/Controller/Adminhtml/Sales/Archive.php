@@ -49,7 +49,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     protected function _renderGrid()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
         return $this;
     }
@@ -61,7 +61,7 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Orders'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_orders');
         $this->renderLayout();
     }
@@ -81,7 +81,7 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invoices'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_invoices');
         $this->renderLayout();
     }
@@ -102,7 +102,7 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Credit Memos'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_creditmemos');
         $this->renderLayout();
     }
@@ -122,7 +122,7 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Shipments'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_shipments');
         $this->renderLayout();
     }
@@ -293,7 +293,7 @@ class Archive extends \Magento\Backend\App\Action
     protected function _export($type)
     {
         $action = strtolower((string)$this->getRequest()->getParam('action'));
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $layout = $this->_layoutServices->getLayout();
 
         switch ($action) {

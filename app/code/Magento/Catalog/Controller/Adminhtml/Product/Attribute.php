@@ -74,11 +74,11 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_title->add(__('Product Attributes'));
 
         if ($this->getRequest()->getParam('popup')) {
-            $this->loadLayout(array('popup', $this->getDefaultLayoutHandle() . '_popup'));
+            $this->_layoutServices->loadLayout(array('popup', $this->getDefaultLayoutHandle() . '_popup'));
             $this->_layoutServices->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
-            $this->loadLayout()
-                ->_addBreadcrumb(
+            $this->_layoutServices->loadLayout();
+            $this->_addBreadcrumb(
                     __('Catalog'),
                     __('Catalog')
                 )
@@ -95,8 +95,10 @@ class Attribute extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute'))
-            ->renderLayout();
+            ->_addContent(
+                $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute')
+            );
+        $this->renderLayout();
     }
 
     public function newAction()

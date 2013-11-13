@@ -47,7 +47,7 @@ class Theme extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
         $this->renderLayout();
     }
@@ -57,7 +57,7 @@ class Theme extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -84,7 +84,7 @@ class Theme extends \Magento\Backend\App\Action
             }
             $this->_coreRegistry->register('current_theme', $theme);
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
             $tab = $this->_layoutServices->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {

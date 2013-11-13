@@ -198,7 +198,7 @@ class Product extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Products'));
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
         $this->renderLayout();
     }
@@ -226,7 +226,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
         if ($this->getRequest()->getParam('popup')) {
-            $this->loadLayout('popup');
+            $this->_layoutServices->loadLayout('popup');
         } else {
             $_additionalLayoutPart = '';
             if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE
@@ -234,7 +234,7 @@ class Product extends \Magento\Backend\App\Action
             ) {
                 $_additionalLayoutPart = '_new';
             }
-            $this->loadLayout(array(
+            $this->_layoutServices->loadLayout(array(
                 'default',
                 strtolower($this->getFullActionName()),
                 'catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
@@ -279,7 +279,7 @@ class Product extends \Magento\Backend\App\Action
             $additionalLayoutPart = '_new';
         }
 
-        $this->loadLayout(array(
+        $this->_layoutServices->loadLayout(array(
             'default',
             strtolower($this->getFullActionName()),
             'catalog_product_'.$product->getTypeId() . $additionalLayoutPart
@@ -342,7 +342,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -352,7 +352,7 @@ class Product extends \Magento\Backend\App\Action
     public function gridOnlyAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $block = $this->getRequest()->getParam('gridOnlyBlock');
         $blockClassSuffix = str_replace(' ', '_', ucwords(str_replace('_', ' ', $block)));
@@ -371,7 +371,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_saveAttributeOptions();
         $this->_initProductSave($this->_initProduct());
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -431,7 +431,7 @@ class Product extends \Magento\Backend\App\Action
     public function categoriesAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -442,7 +442,7 @@ class Product extends \Magento\Backend\App\Action
     public function optionsAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -452,7 +452,7 @@ class Product extends \Magento\Backend\App\Action
     public function relatedAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
         $this->renderLayout();
@@ -464,7 +464,7 @@ class Product extends \Magento\Backend\App\Action
     public function upsellAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsUpsell($this->getRequest()->getPost('products_upsell', null));
         $this->renderLayout();
@@ -476,7 +476,7 @@ class Product extends \Magento\Backend\App\Action
     public function crosssellAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsCrossSell($this->getRequest()->getPost('products_crosssell', null));
         $this->renderLayout();
@@ -488,7 +488,7 @@ class Product extends \Magento\Backend\App\Action
     public function relatedGridAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
         $this->renderLayout();
@@ -500,7 +500,7 @@ class Product extends \Magento\Backend\App\Action
     public function upsellGridAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsRelated($this->getRequest()->getPost('products_upsell', null));
         $this->renderLayout();
@@ -512,7 +512,7 @@ class Product extends \Magento\Backend\App\Action
     public function crosssellGridAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsRelated($this->getRequest()->getPost('products_crosssell', null));
         $this->renderLayout();
@@ -524,7 +524,7 @@ class Product extends \Magento\Backend\App\Action
     public function superGroupAction()
     {
         $this->_initProduct();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -534,7 +534,7 @@ class Product extends \Magento\Backend\App\Action
     public function superGroupPopupAction()
     {
         $this->_initProduct();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -545,7 +545,7 @@ class Product extends \Magento\Backend\App\Action
     public function reviewsAction()
     {
         $this->_initProduct();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('admin.product.reviews')
             ->setProductId($this->_coreRegistry->registry('product')->getId())
             ->setUseAjax(true);
@@ -559,7 +559,7 @@ class Product extends \Magento\Backend\App\Action
     public function superConfigAction()
     {
         $this->_initProduct();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -966,7 +966,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function alertsPriceGridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -975,13 +975,13 @@ class Product extends \Magento\Backend\App\Action
      */
     public function alertsStockGridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
     public function addAttributeAction()
     {
-        $this->loadLayout('popup');
+        $this->_layoutServices->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
             $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
@@ -991,7 +991,7 @@ class Product extends \Magento\Backend\App\Action
 
     public function createdAction()
     {
-        $this->loadLayout('popup');
+        $this->_layoutServices->loadLayout('popup');
         $this->_addContent(
             $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
         );
@@ -1104,7 +1104,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function optionsImportGridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -1114,7 +1114,7 @@ class Product extends \Magento\Backend\App\Action
     public function customOptionsAction()
     {
         $this->_coreRegistry->register('import_option_products', $this->getRequest()->getPost('products'));
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

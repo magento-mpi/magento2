@@ -68,8 +68,8 @@ class Subscription extends \Magento\Backend\App\AbstractAction
      */
     public function indexAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook')
             ->_title->add(__('System'))
             ->_title->add(__('Web Services'))
             ->_title->add(__('WebHook Subscriptions'));
@@ -102,8 +102,8 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION, $subscriptionData);
             }
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Webapi::system_webapi')
+            $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Webapi::system_webapi')
                 ->_title->add(__('System'))
                 ->_title->add(__('Web Services'))
                 ->_title->add(__('WebHook Subscriptions'));

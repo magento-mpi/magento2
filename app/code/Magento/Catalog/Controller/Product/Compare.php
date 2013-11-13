@@ -147,7 +147,7 @@ class Compare extends \Magento\App\Action\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

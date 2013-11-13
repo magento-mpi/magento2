@@ -71,7 +71,7 @@ class Logging extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Report'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
         $this->renderLayout();
     }
@@ -81,7 +81,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -102,7 +102,7 @@ class Logging extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_event', $model);
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
         $this->renderLayout();
     }
@@ -112,7 +112,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'log.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('logging.grid', 'grid.export');
@@ -124,7 +124,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function exportXmlAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'log.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('logging.grid', 'grid.export');
@@ -138,7 +138,7 @@ class Logging extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Admin Actions Archive'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_backups');
         $this->renderLayout();
     }
@@ -148,7 +148,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function archiveGridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

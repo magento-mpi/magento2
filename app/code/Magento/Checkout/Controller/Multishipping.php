@@ -151,7 +151,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
 
         // set account create url
@@ -172,7 +172,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
 
         $registerForm = $this->_layoutServices->getLayout()->getBlock('customer_form_register');
@@ -208,7 +208,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             $message = $this->_getCheckout()->getMinimumAmountDescription();
             $this->_getCheckout()->getCheckoutSession()->addNotice($message);
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
@@ -311,7 +311,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         $this->_getState()->setActiveStep(
             \Magento\Checkout\Model\Type\Multishipping\State::STEP_SHIPPING
         );
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
@@ -372,7 +372,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             \Magento\Checkout\Model\Type\Multishipping\State::STEP_BILLING
         );
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
@@ -430,7 +430,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
                 \Magento\Checkout\Model\Type\Multishipping\State::STEP_BILLING
             );
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $messageStores = array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session');
             $this->_layoutServices->getLayout()->initMessages($messageStores);
             $this->renderLayout();
@@ -521,7 +521,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             return $this;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Checkout\Model\Session');
         $ids = $this->_getCheckout()->getOrderIds();
         $this->_eventManager->dispatch('checkout_multishipping_controller_success_action', array('order_ids' => $ids));

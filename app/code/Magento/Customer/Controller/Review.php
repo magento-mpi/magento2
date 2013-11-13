@@ -22,13 +22,13 @@ class Review extends \Magento\App\Action\Action
 {
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
     public function viewAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 }

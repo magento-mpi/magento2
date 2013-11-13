@@ -91,7 +91,7 @@ class Result extends \Magento\App\Action\Action
 
             $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
             $this->renderLayout();
 

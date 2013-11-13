@@ -177,7 +177,7 @@ class Search extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -193,7 +193,7 @@ class Search extends \Magento\App\Action\Action
      */
     public function resultsAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         try {
             $params = $this->getRequest()->getParam('params');
@@ -254,7 +254,7 @@ class Search extends \Magento\App\Action\Action
             throw new NotFoundException();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $block = $this->_layoutServices->getLayout()->getBlock('customer.wishlist.info');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());

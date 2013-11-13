@@ -214,7 +214,7 @@ class Operation extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -296,7 +296,7 @@ class Operation extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getParams();
         if ($this->getRequest()->isXmlHttpRequest() && $data) {
             try {
-                $this->loadLayout();
+                $this->_layoutServices->loadLayout();
 
                 /** @var $export \Magento\ScheduledImportExport\Model\Export */
                 $export = $this->_objectManager->create('Magento\ScheduledImportExport\Model\Export')->setData($data);

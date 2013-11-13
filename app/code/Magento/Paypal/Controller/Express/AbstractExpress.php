@@ -254,7 +254,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         try {
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->initMessages('Magento\Paypal\Model\Session');
             $reviewBlock = $this->_layoutServices->getLayout()->getBlock('paypal.express.review');
             $reviewBlock->setQuote($this->_getQuote());
@@ -298,7 +298,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_initCheckout();
             $this->_checkout->updateShippingMethod($this->getRequest()->getParam('shipping_method'));
             if ($isAjax) {
-                $this->loadLayout('paypal_express_review_details');
+                $this->_layoutServices->loadLayout('paypal_express_review_details');
                 $this->getResponse()->setBody($this->_layoutServices->getLayout()->getBlock('root')
                     ->setQuote($this->_getQuote())
                     ->toHtml());
@@ -326,7 +326,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         try {
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
-            $this->loadLayout('paypal_express_review');
+            $this->_layoutServices->loadLayout('paypal_express_review');
 
             $this->getResponse()->setBody($this->_layoutServices->getLayout()->getBlock('express.review.shipping.method')
                 ->setQuote($this->_getQuote())
@@ -352,7 +352,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_initCheckout();
             $this->_checkout->updateOrder($this->getRequest()->getParams());
             if ($isAjax) {
-                $this->loadLayout('paypal_express_review_details');
+                $this->_layoutServices->loadLayout('paypal_express_review_details');
                 $this->getResponse()->setBody($this->_layoutServices->getLayout()->getBlock('root')
                     ->setQuote($this->_getQuote())
                     ->toHtml());

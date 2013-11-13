@@ -77,7 +77,7 @@ class Reports extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -145,8 +145,8 @@ class Reports extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_title->add(__('PayPal Settlement Reports'));
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('PayPal Settlement Reports'), __('PayPal Settlement Reports'));

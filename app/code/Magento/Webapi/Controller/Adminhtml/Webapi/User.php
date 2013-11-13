@@ -45,8 +45,8 @@ class User extends \Magento\Backend\App\AbstractAction
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Webapi::system_api_webapi_users')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Webapi::system_api_webapi_users')
             ->_addBreadcrumb(
                 __('Web Services'),
                 __('Web Services')
@@ -200,7 +200,7 @@ class User extends \Magento\Backend\App\AbstractAction
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -209,7 +209,7 @@ class User extends \Magento\Backend\App\AbstractAction
      */
     public function rolesgridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

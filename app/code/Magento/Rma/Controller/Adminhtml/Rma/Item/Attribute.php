@@ -67,8 +67,8 @@ class Attribute extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Rma::sales_magento_rma_rma_item_attribute')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma_item_attribute')
             ->_addBreadcrumb(
                 __('RMA'),
                 __('RMA'))

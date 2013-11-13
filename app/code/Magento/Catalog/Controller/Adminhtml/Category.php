@@ -172,7 +172,7 @@ class Category extends \Magento\Backend\App\Action
                 ->setLastViewedStore($this->getRequest()->getParam('store'));
             $this->_objectManager->get('Magento\Backend\Model\Auth\Session')
                 ->setLastEditedCategory($category->getId());
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
 
             $eventResponse = new \Magento\Object(array(
                 'content' => $this->_layoutServices->getLayout()->getBlock('category.edit')->getFormHtml()
@@ -193,7 +193,7 @@ class Category extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_categories');
         $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
 

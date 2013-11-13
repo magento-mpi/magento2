@@ -153,7 +153,7 @@ class Product extends \Magento\App\Action\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
         $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));

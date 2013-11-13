@@ -70,7 +70,7 @@ class View extends \Magento\App\Action\Action
         $entity->setCustomer($customer);
         $this->_coreRegistry->register('current_entity', $entity);
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {

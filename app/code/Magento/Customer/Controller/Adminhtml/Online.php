@@ -38,7 +38,7 @@ class Online extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Customer::customer_online');
 

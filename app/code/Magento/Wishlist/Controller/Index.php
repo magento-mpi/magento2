@@ -175,7 +175,7 @@ class Index
         if (!$this->_getWishlist()) {
             throw new NotFoundException();
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $session = $this->_objectManager->get('Magento\Customer\Model\Session');
         $block   = $this->_layoutServices->getLayout()->getBlock('customer.wishlist');
@@ -639,7 +639,7 @@ class Index
     public function shareAction()
     {
         $this->_getWishlist();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Wishlist\Model\Session'));
         $this->renderLayout();
     }

@@ -43,8 +43,8 @@ class Search extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CatalogSearch::catalog_search')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_CatalogSearch::catalog_search')
             ->_addBreadcrumb(__('Search'), __('Search'))
         ;
         return $this;

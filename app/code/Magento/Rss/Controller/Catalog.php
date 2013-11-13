@@ -83,7 +83,7 @@ class Catalog extends \Magento\App\Action\Action
     protected function _render()
     {
         $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 }

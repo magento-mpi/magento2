@@ -84,7 +84,7 @@ class Images extends \Magento\Backend\App\Action
     {
         try {
             $this->_initAction()->_saveSessionCurrentPath();
-            $this->loadLayout('empty');
+            $this->_layoutServices->loadLayout('empty');
             $this->renderLayout();
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());

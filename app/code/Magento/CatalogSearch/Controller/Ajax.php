@@ -47,6 +47,7 @@ class Ajax extends \Magento\App\Action\Action
         }
 
         $this->addPageLayoutHandles();
-        $this->loadLayout(false)->renderLayout();
+        $this->_layoutServices->loadLayout(false);
+        $this->renderLayout();
     }
 }

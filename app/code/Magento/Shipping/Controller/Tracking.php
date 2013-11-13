@@ -98,7 +98,7 @@ class Tracking extends \Magento\App\Action\Action
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             throw new NotFoundException();
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

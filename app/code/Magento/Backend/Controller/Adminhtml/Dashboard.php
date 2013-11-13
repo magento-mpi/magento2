@@ -31,7 +31,7 @@ class Dashboard extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Dashboard'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::dashboard');
         $this->_addBreadcrumb(__('Dashboard'), __('Dashboard'));
         $this->renderLayout();
@@ -43,7 +43,7 @@ class Dashboard extends \Magento\Backend\App\Action
      */
     public function productsViewedAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -53,7 +53,7 @@ class Dashboard extends \Magento\Backend\App\Action
      */
     public function customersNewestAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -63,7 +63,7 @@ class Dashboard extends \Magento\Backend\App\Action
      */
     public function customersMostAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

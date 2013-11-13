@@ -66,8 +66,8 @@ class Profile extends \Magento\Backend\App\Action
         try {
             $this->_title->add(__('Recurring Billing Profiles'));
             $profile = $this->_initProfile();
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_recurring_profile')
+            $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_recurring_profile')
                 ->_title->add(__('Profile #%1', $profile->getReferenceId()))
                 ->renderLayout();
             return;
@@ -85,7 +85,7 @@ class Profile extends \Magento\Backend\App\Action
     public function gridAction()
     {
         try {
-            $this->loadLayout()->renderLayout();
+            $this->_layoutServices->loadLayout()->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -104,7 +104,7 @@ class Profile extends \Magento\Backend\App\Action
     {
         try {
             $this->_initProfile();
-            $this->loadLayout()->renderLayout();
+            $this->_layoutServices->loadLayout()->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             throw new NotFoundException();
@@ -180,7 +180,7 @@ class Profile extends \Magento\Backend\App\Action
     public function customerGridAction()
     {
         $this->_initCustomer();
-        $this->loadLayout(false)
+        $this->_layoutServices->loadLayout(false)
             ->renderLayout();
     }
 

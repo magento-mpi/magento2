@@ -110,7 +110,7 @@ class Cart extends \Magento\App\Action\Action
             $card->unsetData();
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 }

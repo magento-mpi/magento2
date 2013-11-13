@@ -55,8 +55,8 @@ class Rma extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
 
         $this->_title->add(__('Returns'));
         return $this;
@@ -506,7 +506,7 @@ class Rma extends \Magento\Backend\App\Action
                 $history->sendCommentEmail();
             }
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $response = $this->_layoutServices->getLayout()->getBlock('comments_history')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
@@ -568,7 +568,7 @@ class Rma extends \Magento\Backend\App\Action
             if (!$order) {
                 throw new \Magento\Core\Exception(__('Invalid order'));
             }
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $response = $this->_layoutServices->getLayout()->getBlock('add_product_grid')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
@@ -653,7 +653,7 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $block = $this->_layoutServices->getLayout()
                 ->getBlock('magento_rma_edit_item')
                 ->initForm();
@@ -679,7 +679,7 @@ class Rma extends \Magento\Backend\App\Action
         $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
         $this->_coreRegistry->register('current_rma_item', $rma_item);
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_edit_item')
             ->setProductId(intval($productId))
@@ -734,7 +734,7 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_edit_items_grid')
@@ -796,7 +796,7 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_bundle')
             ->toHtml()
@@ -920,7 +920,7 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_shipping_available')
             ->toHtml()
@@ -969,7 +969,7 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $response = $this->_layoutServices->getLayout()
             ->getBlock('magento_rma_shipment_packaging')
             ->toHtml()
@@ -1368,7 +1368,7 @@ class Rma extends \Magento\Backend\App\Action
                     ->save()
                 ;
 
-                $this->loadLayout();
+                $this->_layoutServices->loadLayout();
                 $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
@@ -1408,7 +1408,7 @@ class Rma extends \Magento\Backend\App\Action
                 if ($model->getId()) {
                     $shippingModel->delete();
 
-                    $this->loadLayout();
+                    $this->_layoutServices->loadLayout();
                     $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(

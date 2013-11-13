@@ -53,8 +53,8 @@ class Sitemap extends  \Magento\Backend\App\Action
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sitemap::catalog_sitemap')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sitemap::catalog_sitemap')
             ->_addBreadcrumb(
                 __('Catalog'),
                 __('Catalog'))

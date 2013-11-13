@@ -63,7 +63,7 @@ class Address extends \Magento\App\Action\Action
     public function newShippingAction()
     {
         $this->_getState()->setActiveStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_SELECT_ADDRESSES);
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Shipping Address'))
@@ -97,7 +97,7 @@ class Address extends \Magento\App\Action\Action
     public function editShippingAction()
     {
         $this->_getState()->setActiveStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_SHIPPING);
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Shipping Address'))
@@ -127,7 +127,7 @@ class Address extends \Magento\App\Action\Action
     public function selectBillingAction()
     {
         $this->_getState()->setActiveStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_BILLING);
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
@@ -135,7 +135,7 @@ class Address extends \Magento\App\Action\Action
 
     public function newBillingAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Billing Address'))
@@ -152,7 +152,7 @@ class Address extends \Magento\App\Action\Action
 
     public function editAddressAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Address'))
@@ -172,7 +172,7 @@ class Address extends \Magento\App\Action\Action
         $this->_getState()->setActiveStep(
             \Magento\Checkout\Model\Type\Multishipping\State::STEP_BILLING
         );
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Billing Address'))

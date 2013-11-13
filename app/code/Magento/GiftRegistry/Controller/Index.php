@@ -73,7 +73,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $block = $this->_layoutServices->getLayout()->getBlock('giftregistry_list');
         if ($block) {
@@ -215,7 +215,7 @@ class Index extends \Magento\App\Action\Action
     {
         try {
             $entity = $this->_initEntity();
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
             $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
             if ($headBlock) {
@@ -240,7 +240,7 @@ class Index extends \Magento\App\Action\Action
     {
         try {
             $this->_coreRegistry->register('current_entity', $this->_initEntity());
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session'));
             $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
             if ($headBlock) {
@@ -342,7 +342,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function addSelectAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $block = $this->_layoutServices->getLayout()->getBlock('giftregistry_addselect');
         if ($block) {
@@ -386,7 +386,7 @@ class Index extends \Magento\App\Action\Action
             $this->_coreRegistry->register('magento_giftregistry_entity', $model);
             $this->_coreRegistry->register('magento_giftregistry_address', $model->exportAddress());
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
 
             if ($model->getId()) {

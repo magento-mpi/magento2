@@ -177,7 +177,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Account'));
@@ -194,7 +194,7 @@ class Account extends \Magento\App\Action\Action
             return;
         }
         $this->getResponse()->setHeader('Login-Required', 'true');
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
         $this->renderLayout();
@@ -313,7 +313,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function logoutSuccessAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -327,7 +327,7 @@ class Account extends \Magento\App\Action\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
@@ -624,7 +624,7 @@ class Account extends \Magento\App\Action\Action
         }
 
         // output form
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_layoutServices->getLayout()->getBlock('accountConfirmation')
             ->setEmail($this->getRequest()->getParam('email', $email));
@@ -638,7 +638,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function forgotPasswordAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_layoutServices->getLayout()->getBlock('forgotPassword')->setEmailValue(
             $this->_getSession()->getForgottenEmail()
@@ -713,7 +713,7 @@ class Account extends \Magento\App\Action\Action
         $customerId = (int)$this->getRequest()->getParam('id');
         try {
             $this->_validateResetPasswordLinkToken($customerId, $resetPasswordToken);
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             // Pass received parameters to the reset forgotten password form
             $this->_layoutServices->getLayout()->getBlock('resetPassword')
                 ->setCustomerId($customerId)
@@ -834,7 +834,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function editAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
         $this->_layoutServices->getLayout()->initMessages($messageStores);
 

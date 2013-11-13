@@ -59,7 +59,7 @@ class Review extends \Magento\Backend\App\Action
             return $this->_forward('reviewGrid');
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
@@ -78,7 +78,7 @@ class Review extends \Magento\Backend\App\Action
             return $this->_forward('reviewGrid');
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_coreRegistry->register('usePendingFilter', true);
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
@@ -92,7 +92,7 @@ class Review extends \Magento\Backend\App\Action
 
         $this->_title->add(__('Edit Review'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Edit'));
@@ -106,7 +106,7 @@ class Review extends \Magento\Backend\App\Action
 
         $this->_title->add(__('New Review'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);

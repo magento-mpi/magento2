@@ -114,7 +114,7 @@ class Export extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getParams();
         if ($this->getRequest()->isXmlHttpRequest() && $data) {
             try {
-                $this->loadLayout();
+                $this->_layoutServices->loadLayout();
 
                 /** @var $attrFilterBlock \Magento\ImportExport\Block\Adminhtml\Export\Filter */
                 $attrFilterBlock = $this->_layoutServices->getLayout()->getBlock('export.filter');

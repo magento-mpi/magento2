@@ -55,8 +55,8 @@ class Block extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Cms::cms_block')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Cms::cms_block')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'));
         return $this;

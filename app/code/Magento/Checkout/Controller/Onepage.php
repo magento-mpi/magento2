@@ -205,7 +205,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             ->getUrl('*/*/*', array('_secure'=>true));
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $layout = $this->_layoutServices->getLayout();
         $layout->initMessages('Magento\Customer\Model\Session');
         $layout->getBlock('head')->setTitle(__('Checkout'));
@@ -221,7 +221,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
         $this->addPageLayoutHandles();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -231,7 +231,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
         $this->addPageLayoutHandles();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -241,7 +241,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
         $this->addPageLayoutHandles();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -265,7 +265,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         }
 
         $session->clear();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Checkout\Model\Session');
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
@@ -283,7 +283,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

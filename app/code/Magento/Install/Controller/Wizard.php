@@ -131,7 +131,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     protected function _prepareLayout()
     {
-        $this->loadLayout('install_wizard');
+        $this->_layoutServices->loadLayout('install_wizard');
         $step = $this->_getWizard()->getStepByRequest($this->getRequest());
         if ($step) {
             $step->setActive(true);

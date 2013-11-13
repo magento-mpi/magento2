@@ -84,8 +84,8 @@ class Types extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_types')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_types')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Google Content'), __('Google Content'));
         return $this;
@@ -108,7 +108,7 @@ class Types extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout('false');
+        $this->_layoutServices->loadLayout('false');
         $this->renderLayout();
     }
 

@@ -284,7 +284,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
         return $this->_fileFactory->create('rates.csv', $content->getCsvFile());
     }
@@ -294,7 +294,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function exportXmlAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
         return $this->_fileFactory->create('rates.xml', $content->getExcelFile());
     }
@@ -306,8 +306,8 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Tax::sales_tax_rates')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Tax::sales_tax_rates')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Tax'), __('Tax'));
         return $this;
@@ -323,8 +323,8 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_title->add(__('Import and Export Tax Rates'));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Tax::system_convert_tax')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Tax::system_convert_tax')
             ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader'))
             ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExport'))
             ->renderLayout();
@@ -420,7 +420,7 @@ class Rate extends \Magento\Backend\App\Action
 
             $content .= $rate->toString($template) . "\n";
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         return $this->_fileFactory->create('tax_rates.csv', $content);
     }
 

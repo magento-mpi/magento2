@@ -38,7 +38,7 @@ class Review extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $this->loadLayout()
+        $this->_layoutServices->loadLayout()
             ->_addBreadcrumb(
                 __('Reports'),
                 __('Reports')
@@ -68,7 +68,7 @@ class Review extends \Magento\Backend\App\Action
      */
     public function exportCustomerCsvAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $fileName = 'review_customer.csv';
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.review.customer.grid','grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
@@ -79,7 +79,7 @@ class Review extends \Magento\Backend\App\Action
      */
     public function exportCustomerExcelAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $fileName = 'review_customer.xml';
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.review.customer.grid','grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());
@@ -104,7 +104,7 @@ class Review extends \Magento\Backend\App\Action
      */
     public function exportProductCsvAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $fileName = 'review_product.csv';
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.review.product.grid','grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
@@ -115,7 +115,7 @@ class Review extends \Magento\Backend\App\Action
      */
     public function exportProductExcelAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $fileName = 'review_product.xml';
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.review.product.grid','grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());

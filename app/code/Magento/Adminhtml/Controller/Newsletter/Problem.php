@@ -49,7 +49,7 @@ class Problem extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()->getMessagesBlock()->setMessages(
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true)
         );
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_problem');
 
@@ -93,7 +93,7 @@ class Problem extends \Magento\Backend\App\Action
         }
                 $this->_layoutServices->getLayout()->getMessagesBlock()->setMessages($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true));
 
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

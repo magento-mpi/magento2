@@ -38,7 +38,7 @@ class Selection extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->getResponse()->setBody(
             $this->_layoutServices->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')

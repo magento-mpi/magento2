@@ -63,14 +63,14 @@ class Advanced extends \Magento\App\Action\Action
 
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\CatalogSearch\Model\Session');
         $this->renderLayout();
     }
 
     public function resultAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         try {
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
         } catch (\Magento\Core\Exception $e) {

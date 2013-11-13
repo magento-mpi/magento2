@@ -58,7 +58,7 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
         $this->_title->add(__('Integrations'));
@@ -70,7 +70,7 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -89,7 +89,7 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function newAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('New Integration'), __('New Integration'));
         $this->_title->add(__('New Integration'));
@@ -128,7 +128,7 @@ class Integration extends \Magento\Backend\App\Action
             $this->_redirect('*/*/');
             return;
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(

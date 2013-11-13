@@ -78,7 +78,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
         } elseif (!empty($params)) {
             $this->_getSession()->addError(__('The email address is empty.'));
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -94,7 +94,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
         try {
             $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
 
             $content = $this->_layoutServices->getLayout()->getBlock('content');
             if ($content) {

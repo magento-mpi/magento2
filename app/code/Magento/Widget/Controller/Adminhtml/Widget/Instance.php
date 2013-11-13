@@ -73,8 +73,8 @@ class Instance extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Widget::cms_widget_instance')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Widget::cms_widget_instance')
             ->_addBreadcrumb(__('CMS'),
                 __('CMS'))
             ->_addBreadcrumb(__('Manage Widget Instances'),

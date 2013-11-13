@@ -27,7 +27,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
             $this->_redirect($this->_backendUrl->getStartupPageUrl());
             return;
         }
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

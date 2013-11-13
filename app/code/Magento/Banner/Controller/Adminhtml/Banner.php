@@ -50,7 +50,7 @@ class Banner extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Banners'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
         $this->renderLayout();
     }
@@ -87,7 +87,7 @@ class Banner extends \Magento\Backend\App\Action
             $model->addData($data);
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
         $this->_addBreadcrumb(
             $bannerId ? __('Edit Banner') : __('New Banner'),
@@ -287,7 +287,7 @@ class Banner extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -310,7 +310,7 @@ class Banner extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()
             ->getBlock('banner_salesrule_grid')
             ->setSelectedSalesRules($this->getRequest()->getPost('selected_salesrules'));
@@ -336,7 +336,7 @@ class Banner extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()
             ->getBlock('banner_catalogrule_grid')
             ->setSelectedCatalogRules($this->getRequest()->getPost('selected_catalogrules'));
@@ -365,7 +365,7 @@ class Banner extends \Magento\Backend\App\Action
         if (!$this->_registry->registry('current_promo_quote_rule')) {
             $this->_registry->register('current_promo_quote_rule', $model);
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()
             ->getBlock('related_salesrule_banners_grid')
             ->setSelectedSalesruleBanners($this->getRequest()->getPost('selected_salesrule_banners'));
@@ -392,7 +392,7 @@ class Banner extends \Magento\Backend\App\Action
         if (!$this->_registry->registry('current_promo_catalog_rule')) {
             $this->_registry->register('current_promo_catalog_rule', $model);
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()
             ->getBlock('related_catalogrule_banners_grid')
             ->setSelectedCatalogruleBanners($this->getRequest()->getPost('selected_catalogrule_banners'));

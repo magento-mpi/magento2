@@ -59,7 +59,7 @@ class Tracking extends \Magento\App\Action\Action
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             throw new NotFoundException();
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Tracking Information'));
@@ -84,7 +84,7 @@ class Tracking extends \Magento\App\Action\Action
         if (!$shippingInfoModel->getPackages()) {
             throw new NotFoundException();
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

@@ -144,7 +144,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $shipment = $this->_initShipment();
         if ($shipment) {
             $this->_title->add("#" . $shipment->getIncrementId());
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->_setActiveMenu('Magento_Sales::sales_order')
@@ -179,8 +179,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $shipment->setCommentText($comment);
             }
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_order')
+            $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
@@ -322,7 +322,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $shipment->addTrack($track)
                     ->save();
 
-                $this->loadLayout();
+                $this->_layoutServices->loadLayout();
                 $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
@@ -359,7 +359,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 if ($this->_initShipment()) {
                     $track->delete();
 
-                    $this->loadLayout();
+                    $this->_layoutServices->loadLayout();
                     $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(
@@ -446,7 +446,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $shipment->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $shipment->save();
 
-            $this->loadLayout(false);
+            $this->_layoutServices->loadLayout(false);
             $response = $this->_layoutServices->getLayout()->getBlock('shipment_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(

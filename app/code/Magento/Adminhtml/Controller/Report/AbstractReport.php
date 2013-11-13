@@ -72,8 +72,8 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
      */
     public function _initAction()
     {
-        $this->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'));
+        $this->_layoutServices->loadLayout();
+        $this->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }
 

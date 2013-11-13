@@ -69,7 +69,7 @@ class Import extends \Magento\Backend\App\Action
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $this->loadLayout(false);
+            $this->_layoutServices->loadLayout(false);
 
             /** @var $resultBlock \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result */
             $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
@@ -101,7 +101,7 @@ class Import extends \Magento\Backend\App\Action
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $this->loadLayout(false);
+            $this->_layoutServices->loadLayout(false);
             /** @var $resultBlock \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result */
             $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
             // common actions
@@ -147,7 +147,7 @@ class Import extends \Magento\Backend\App\Action
             }
             $this->renderLayout();
         } elseif ($this->getRequest()->isPost() && empty($_FILES)) {
-            $this->loadLayout(false);
+            $this->_layoutServices->loadLayout(false);
             $resultBlock = $this->_layoutServices->getLayout()->getBlock('import.frame.result');
             $resultBlock->addError(__('File was not uploaded'));
             $this->renderLayout();

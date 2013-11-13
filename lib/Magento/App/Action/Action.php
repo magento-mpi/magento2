@@ -152,7 +152,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return \Magento\View\LayoutInterface
      */
-    public function getLayout()  // Remove 12 usages
+    public function getLayout()  // TODO: Remove 12 usages
     {
         return $this->_layoutServices->getLayout();
     }
@@ -166,7 +166,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @return  $this
      * @throws  \RuntimeException
      */
-    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)  // Leave
+    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)  //TODO fix 2 usages
     {
         $this->_layoutServices->loadLayout($handles, $generateBlocks, $generateXml);
         return $this;

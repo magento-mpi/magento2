@@ -55,7 +55,7 @@ class Template extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
         $this->renderLayout();
@@ -63,7 +63,7 @@ class Template extends \Magento\Backend\App\Action
 
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -82,7 +82,7 @@ class Template extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $template = $this->_initTemplate('id');
         $this->_setActiveMenu('Magento_Adminhtml::system_email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), $this->getUrl('adminhtml/*'));
@@ -181,7 +181,7 @@ class Template extends \Magento\Backend\App\Action
 
     public function previewAction()
     {
-        $this->loadLayout('adminhtml_system_preview');
+        $this->_layoutServices->loadLayout('adminhtml_system_preview');
         $this->renderLayout();
     }
 

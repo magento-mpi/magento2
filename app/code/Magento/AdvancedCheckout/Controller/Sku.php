@@ -51,7 +51,7 @@ class Sku extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {

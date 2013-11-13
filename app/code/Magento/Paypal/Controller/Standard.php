@@ -60,7 +60,7 @@ class Standard extends \Magento\App\Action\Action
     {
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setPaypalStandardQuoteId($session->getQuoteId());
-        $this->loadLayout(false)->renderLayout();
+        $this->_layoutServices->loadLayout(false)->renderLayout();
         $session->unsQuoteId();
         $session->unsRedirectUrl();
     }

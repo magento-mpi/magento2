@@ -34,7 +34,7 @@ class Hostedpro extends \Magento\App\Action\Action
      */
     public function cancelAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_layoutServices->getLayout()->getBlock('hosted.pro.iframe');
         $redirectBlock->setGotoSection($gotoSection);

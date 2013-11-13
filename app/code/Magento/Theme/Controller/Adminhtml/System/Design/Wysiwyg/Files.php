@@ -37,7 +37,7 @@ class Files extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->loadLayout('overlay_popup');
+        $this->_layoutServices->loadLayout('overlay_popup');
         $this->renderLayout();
     }
 
@@ -95,7 +95,7 @@ class Files extends \Magento\Backend\App\Action
     public function contentsAction()
     {
         try {
-            $this->loadLayout('empty');
+            $this->_layoutServices->loadLayout('empty');
             $this->_layoutServices->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
             $this->renderLayout();
 

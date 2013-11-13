@@ -90,7 +90,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     protected function _initAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_User::system_acl_roles');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
@@ -137,7 +137,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function roleGridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -275,7 +275,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function editrolegridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

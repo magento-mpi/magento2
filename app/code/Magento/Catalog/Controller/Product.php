@@ -90,7 +90,7 @@ class Product
             }
             return;
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 }

@@ -184,7 +184,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function errorAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_initTitle();
         $this->renderLayout();
     }
@@ -199,7 +199,7 @@ class Index extends \Magento\Backend\App\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_initTitle();
             $this->renderLayout();
             return;
@@ -225,7 +225,7 @@ class Index extends \Magento\Backend\App\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
@@ -344,7 +344,7 @@ class Index extends \Magento\Backend\App\Action
                 ->collectTotals()
                 ->save();
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             if (!$quote->getCouponCode()) {
                 $this->_layoutServices->getLayout()
                     ->getBlock('form_coupon')
@@ -374,7 +374,7 @@ class Index extends \Magento\Backend\App\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);

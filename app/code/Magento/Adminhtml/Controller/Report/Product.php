@@ -72,7 +72,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function exportSoldCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName   = 'products_ordered.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -85,7 +85,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function exportSoldExcelAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName   = 'products_ordered.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -167,7 +167,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function exportLowstockCsvAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $fileName = 'products_lowstock.csv';
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
@@ -179,7 +179,7 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
      */
     public function exportLowstockExcelAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $fileName = 'products_lowstock.xml';
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());

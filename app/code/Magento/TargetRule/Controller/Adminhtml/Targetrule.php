@@ -57,7 +57,7 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
+        $this->_layoutServices->loadLayout()->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
         return $this;
     }
 
@@ -78,7 +78,7 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

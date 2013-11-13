@@ -67,7 +67,7 @@ class Widget extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('skip_widgets', $skipped);
 
-        $this->loadLayout('empty')->renderLayout();
+        $this->_layoutServices->loadLayout('empty')->renderLayout();
     }
 
     /**
@@ -76,7 +76,7 @@ class Widget extends \Magento\Backend\App\Action
     public function loadOptionsAction()
     {
         try {
-            $this->loadLayout('empty');
+            $this->_layoutServices->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
                 $request = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {

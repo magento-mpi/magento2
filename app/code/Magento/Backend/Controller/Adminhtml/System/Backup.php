@@ -66,7 +66,7 @@ class Backup extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Backup::system_tools_backup');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Tools'), __('Tools'));

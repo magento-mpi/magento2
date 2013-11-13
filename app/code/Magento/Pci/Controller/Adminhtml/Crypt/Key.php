@@ -61,7 +61,7 @@ class Key extends \Magento\Backend\App\Action
         $this->_title->add(__('Encryption Key'));
 
         $this->_checkIsLocalXmlWriteable();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 
         if (($formBlock = $this->_layoutServices->getLayout()->getBlock('pci.crypt.key.form'))

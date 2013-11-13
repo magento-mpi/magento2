@@ -327,7 +327,7 @@ class Create extends \Magento\Backend\App\Action
         $this->_title->add(__('Orders'))
            ->add(__('New Order'));
         $this->_initSession();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Sales::sales_order')
             ->renderLayout();

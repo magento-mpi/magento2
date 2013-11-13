@@ -80,7 +80,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_forward('grid');
             return;
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         /**
          * Set active menu item
@@ -108,7 +108,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -118,7 +118,7 @@ class Index extends \Magento\Backend\App\Action
     public function editAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /* @var $customer \Magento\Customer\Model\Customer */
@@ -479,7 +479,7 @@ class Index extends \Magento\Backend\App\Action
     public function ordersAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -489,7 +489,7 @@ class Index extends \Magento\Backend\App\Action
     public function lastOrdersAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -503,7 +503,7 @@ class Index extends \Magento\Backend\App\Action
             ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
         $this->_coreRegistry->register('subscriber', $subscriber);
-        $this->loadLayout()->renderLayout();
+        $this->_layoutServices->loadLayout()->renderLayout();
     }
 
     public function wishlistAction()
@@ -531,7 +531,7 @@ class Index extends \Magento\Backend\App\Action
     public function viewWishlistAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -560,7 +560,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
         $this->renderLayout();
     }
@@ -572,7 +572,7 @@ class Index extends \Magento\Backend\App\Action
     public function viewCartAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('admin.customer.view.cart')
             ->setWebsiteId((int)$this->getRequest()->getParam('website_id'));
         $this->renderLayout();
@@ -585,7 +585,7 @@ class Index extends \Magento\Backend\App\Action
     public function cartsAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 
@@ -596,7 +596,7 @@ class Index extends \Magento\Backend\App\Action
     public function productReviewsAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('admin.customer.reviews')
             ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
             ->setUseAjax(true);

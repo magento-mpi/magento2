@@ -77,7 +77,7 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_catalog_search', $model);
 
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 }

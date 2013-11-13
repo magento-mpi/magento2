@@ -39,7 +39,7 @@ class Shopcart extends \Magento\Backend\App\Action
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
-        $this->loadLayout()
+        $this->_layoutServices->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Shopping Cart'), __('Shopping Cart'));
         return $this;

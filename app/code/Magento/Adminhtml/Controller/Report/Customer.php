@@ -44,7 +44,7 @@ class Customer extends \Magento\Backend\App\Action
             $act = 'default';
         }
 
-        $this->loadLayout()
+        $this->_layoutServices->loadLayout()
             ->_addBreadcrumb(
                 __('Reports'),
                 __('Reports')
@@ -74,7 +74,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function exportAccountsCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'new_accounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -86,7 +86,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function exportAccountsExcelAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'new_accounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -109,7 +109,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function exportOrdersCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'customers_orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -121,7 +121,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function exportOrdersExcelAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName   = 'customers_orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -144,7 +144,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function exportTotalsCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'customer_totals.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
@@ -156,7 +156,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function exportTotalsExcelAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'customer_totals.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');

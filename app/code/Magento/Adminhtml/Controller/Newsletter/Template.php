@@ -78,7 +78,7 @@ class Template extends \Magento\Backend\App\Action
             $this->_forward('grid');
             return;
         }
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
         $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
@@ -91,7 +91,7 @@ class Template extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $grid = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
@@ -122,7 +122,7 @@ class Template extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('_current_template', $model);
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
 
         if ($model->getId()) {
@@ -157,7 +157,7 @@ class Template extends \Magento\Backend\App\Action
      */
     public function dropAction()
     {
-        $this->loadLayout('newsletter_template_preview');
+        $this->_layoutServices->loadLayout('newsletter_template_preview');
         $this->renderLayout();
     }
 
@@ -251,7 +251,7 @@ class Template extends \Magento\Backend\App\Action
     public function previewAction()
     {
         $this->_setTitle();
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $data = $this->getRequest()->getParams();
         if (empty($data) || !isset($data['id'])) {

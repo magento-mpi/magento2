@@ -64,8 +64,8 @@ class Catalog extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CatalogRule::promo_catalog')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_CatalogRule::promo_catalog')
             ->_addBreadcrumb(
                 __('Promotions'),
                 __('Promotions')

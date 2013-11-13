@@ -95,8 +95,8 @@ class Attribute
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CustomerCustomAttributes::customer_attributes_customer_address_attributes')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_CustomerCustomAttributes::customer_attributes_customer_address_attributes')
             ->_addBreadcrumb(
                 __('Customer'),
                 __('Customer'))

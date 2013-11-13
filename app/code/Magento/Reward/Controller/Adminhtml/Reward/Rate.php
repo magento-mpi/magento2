@@ -70,8 +70,8 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Reward::customer_reward')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Reward::customer_reward')
             ->_addBreadcrumb(__('Customers'),
                 __('Customers'))
             ->_addBreadcrumb(__('Manage Reward Exchange Rates'),

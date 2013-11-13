@@ -74,7 +74,7 @@ class Editor extends \Magento\Backend\App\Action
             ->getParam('page_size', \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE);
 
         try {
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             /** @var $collection \Magento\Core\Model\Resource\Theme\Collection */
             $collection = $this->_objectManager->get('Magento\Core\Model\Resource\Theme\Collection')
                 ->filterPhysicalThemes($page, $pageSize);
@@ -116,7 +116,7 @@ class Editor extends \Magento\Backend\App\Action
             $this->_eventManager->dispatch('design_editor_activate');
 
             $this->_setTitle();
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
 
             $this->_configureToolbarBlocks($launchedTheme, $editableTheme, $mode); //top panel
             $this->_configureToolsBlocks($launchedTheme, $mode); //bottom panel
@@ -474,7 +474,7 @@ class Editor extends \Magento\Backend\App\Action
     {
         try {
             $this->_setTitle();
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $this->_setActiveMenu('Magento_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
                 /** @var $assignedThemeBlock

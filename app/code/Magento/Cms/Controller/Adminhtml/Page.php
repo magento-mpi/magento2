@@ -64,8 +64,8 @@ class Page extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Cms::cms_page')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
         ;

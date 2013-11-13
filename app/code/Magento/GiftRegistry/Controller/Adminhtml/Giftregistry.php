@@ -48,8 +48,8 @@ class Giftregistry extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
             ->_addBreadcrumb(
                 __('Gift Registry'),
                 __('Gift Registry')

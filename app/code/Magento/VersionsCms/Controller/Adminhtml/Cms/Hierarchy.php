@@ -124,8 +124,8 @@ class Hierarchy extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('CMS Page Trees'), __('CMS Page Trees'));
         return $this;
@@ -342,7 +342,7 @@ class Hierarchy extends \Magento\Backend\App\Action
      */
     public function pageGridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->renderLayout();
     }
 

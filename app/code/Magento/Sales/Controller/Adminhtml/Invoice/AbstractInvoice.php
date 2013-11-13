@@ -41,8 +41,8 @@ class AbstractInvoice
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_invoice')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_invoice')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Invoices'), __('Invoices'));
         return $this;
@@ -53,7 +53,7 @@ class AbstractInvoice
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->getResponse()->setBody(
             $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid')->toHtml()
         );

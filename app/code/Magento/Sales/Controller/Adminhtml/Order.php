@@ -62,8 +62,8 @@ class Order extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_order')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_order')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Orders'), __('Orders'));
         return $this;
@@ -104,7 +104,7 @@ class Order extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -284,7 +284,7 @@ class Order extends \Magento\Backend\App\Action
                 $order->save();
                 $order->sendOrderUpdateEmail($notify, $comment);
 
-                $this->loadLayout('empty');
+                $this->_layoutServices->loadLayout('empty');
                 $this->renderLayout();
             } catch (\Magento\Core\Exception $e) {
                 $response = array(
@@ -717,7 +717,7 @@ class Order extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
@@ -729,7 +729,7 @@ class Order extends \Magento\Backend\App\Action
      */
     public function exportExcelAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $fileName = 'orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
@@ -743,7 +743,7 @@ class Order extends \Magento\Backend\App\Action
     public function transactionsAction()
     {
         $this->_initOrder();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -756,7 +756,7 @@ class Order extends \Magento\Backend\App\Action
         $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address')->load($addressId);
         if ($address->getId()) {
             $this->_coreRegistry->register('order_address', $address);
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             // Do not display VAT validation button on edit order address form
             $addressFormContainer = $this->_layoutServices->getLayout()->getBlock('sales_order_address.form.container');
             if ($addressFormContainer) {

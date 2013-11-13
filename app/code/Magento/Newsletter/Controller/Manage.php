@@ -76,7 +76,7 @@ class Manage extends \Magento\App\Action\Action
 
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
 
         if ($block = $this->_layoutServices->getLayout()->getBlock('customer_newsletter')) {

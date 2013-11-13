@@ -69,8 +69,8 @@ class Customersegment
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
             ->_addBreadcrumb(
                 __('Reports'),
                 __('Reports')
@@ -221,7 +221,7 @@ class Customersegment
     {
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $content = $this->_layoutServices->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
@@ -238,7 +238,7 @@ class Customersegment
     public function exportCsvAction()
     {
         if ($this->_initSegment()) {
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $fileName = 'customersegment_customers.csv';
             $content = $this->_layoutServices->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
@@ -257,7 +257,7 @@ class Customersegment
         if (!$this->_initSegment(false)) {
             return;
         }
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

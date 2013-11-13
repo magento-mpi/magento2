@@ -42,7 +42,7 @@ class Locks extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Locked Users'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_acl_locks');
         $this->renderLayout();
     }
@@ -53,7 +53,7 @@ class Locks extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
 
     }

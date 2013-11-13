@@ -45,7 +45,7 @@ class Role extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Webapi::system_api_webapi_roles');
         $this->_addBreadcrumb(
             __('Web Api'),
@@ -73,7 +73,7 @@ class Role extends \Magento\Backend\App\Action
      */
     public function rolegridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -82,7 +82,7 @@ class Role extends \Magento\Backend\App\Action
      */
     public function usersgridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 

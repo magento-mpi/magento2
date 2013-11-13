@@ -305,7 +305,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
             $this->_redirect('*/auth/login');
             return;
         }
-        $this->loadLayout(array('default', 'adminhtml_denied'));
+        $this->_layoutServices->loadLayout(array('default', 'adminhtml_denied'));
         $this->renderLayout();
     }
 
@@ -341,7 +341,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     {
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
         $this->getResponse()->setHeader('Status', '404 File not found');
-        $this->loadLayout(array('default', 'adminhtml_noroute'));
+        $this->_layoutServices->loadLayout(array('default', 'adminhtml_noroute'));
         $this->renderLayout();
     }
 

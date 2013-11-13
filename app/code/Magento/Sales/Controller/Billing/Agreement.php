@@ -52,7 +52,7 @@ class Agreement extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_title->add(__('Billing Agreements'));
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
@@ -86,7 +86,7 @@ class Agreement extends \Magento\App\Action\Action
         }
         $this->_title->add(__('Billing Agreements'))
             ->_title->add(__('Billing Agreement # %1', $agreement->getReferenceId()));
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {

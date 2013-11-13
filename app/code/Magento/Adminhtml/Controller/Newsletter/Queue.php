@@ -58,7 +58,7 @@ class Queue extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 
@@ -73,7 +73,7 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function dropAction()
     {
-        $this->loadLayout('newsletter_queue_preview');
+        $this->_layoutServices->loadLayout('newsletter_queue_preview');
         $this->renderLayout();
     }
 
@@ -82,7 +82,7 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function previewAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $data = $this->getRequest()->getParams();
         if (empty($data) || !isset($data['id'])) {
             $this->_forward('noroute');
@@ -102,7 +102,7 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -210,7 +210,7 @@ class Queue extends \Magento\Backend\App\Action
 
         $this->_title->add(__('Edit Queue'));
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 

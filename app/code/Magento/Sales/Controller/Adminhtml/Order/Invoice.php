@@ -160,8 +160,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         if ($invoice) {
             $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_order');
             $this->_layoutServices->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->renderLayout();
@@ -196,8 +196,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 $invoice->setCommentText($comment);
             }
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_order')
+            $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
@@ -216,7 +216,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoiceRawCommentText = $invoiceRawData['comment_text'];
             $invoice->setCommentText($invoiceRawCommentText);
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $response = $this->_layoutServices->getLayout()->getBlock('order_items')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
@@ -412,7 +412,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoice->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $invoice->save();
 
-            $this->loadLayout();
+            $this->_layoutServices->loadLayout();
             $response = $this->_layoutServices->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(

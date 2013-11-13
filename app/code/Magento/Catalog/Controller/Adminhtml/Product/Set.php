@@ -53,7 +53,7 @@ class Set extends \Magento\Backend\App\Action
 
         $this->_setTypeId();
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
@@ -81,7 +81,7 @@ class Set extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_attribute_set', $attributeSet);
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
         $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
@@ -100,7 +100,7 @@ class Set extends \Magento\Backend\App\Action
     public function setGridAction()
     {
         $this->_setTypeId();
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -201,7 +201,7 @@ class Set extends \Magento\Backend\App\Action
 
         $this->_setTypeId();
 
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
 

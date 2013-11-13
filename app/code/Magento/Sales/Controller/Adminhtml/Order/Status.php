@@ -68,7 +68,7 @@ class Status extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Order Status'));
-        $this->loadLayout()->_setActiveMenu('Magento_Sales::system_order_statuses')->renderLayout();
+        $this->_layoutServices->loadLayout()->_setActiveMenu('Magento_Sales::system_order_statuses')->renderLayout();
     }
 
     /**
@@ -83,9 +83,9 @@ class Status extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('current_status', $status);
         }
         $this->_title->add(__('Order Status'))->add(__('Create New Order Status'));
-        $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::system_order_statuses')
-                ->renderLayout();
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::system_order_statuses');
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -97,9 +97,9 @@ class Status extends \Magento\Backend\App\Action
         if ($status) {
             $this->_coreRegistry->register('current_status', $status);
             $this->_title->add(__('Order Status'))->add(__('Edit Order Status'));
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::system_order_statuses')
-                ->renderLayout();
+            $this->_layoutServices->loadLayout();
+            $this->_setActiveMenu('Magento_Sales::system_order_statuses');
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_getSession()->addError(
                 __('We can\'t find this order status.')
@@ -174,9 +174,9 @@ class Status extends \Magento\Backend\App\Action
     public function assignAction()
     {
         $this->_title->add(__('Order Status'))->add(__('Assign Order Status to State'));
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::system_order_statuses')
-            ->renderLayout();
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::system_order_statuses');
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -47,7 +47,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('contactForm')
             ->setFormAction($this->_objectManager->create('Magento\Core\Model\Url')->getUrl('*/*/post'));
 

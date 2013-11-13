@@ -78,8 +78,8 @@ class Transactions extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Transactions'));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_transactions')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_transactions')
             ->renderLayout();
     }
 
@@ -88,7 +88,7 @@ class Transactions extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->_layoutServices->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -104,8 +104,8 @@ class Transactions extends \Magento\Backend\App\Action
         $this->_title->add(__('Transactions'))
              ->_title->add(sprintf("#%s", $txn->getTxnId()));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_transactions')
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_transactions')
             ->renderLayout();
     }
 
