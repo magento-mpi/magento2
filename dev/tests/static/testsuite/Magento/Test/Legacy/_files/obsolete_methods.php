@@ -929,5 +929,4 @@ return array(
     array('_filterPostData', '\Magento\Checkout\Controller\Onepage'),
     array('_filterPostData', '\Magento\Customer\Controller\Account'),
     array('_filterPostData', '\Magento\Customer\Controller\Adminhtml\Index'),
-    array('clearJs', '\Magento\DesignEditor\Model\Observer'),
 );

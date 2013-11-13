@@ -9,7 +9,7 @@
  */
 
 /**
- * Private sales and stubs observer
+ * Private sales and stubs observer 
  */
 namespace Magento\WebsiteRestriction\Model;
 
@@ -174,6 +174,24 @@ class Observer
                     }
                     break;
             }
+        }
+    }
+
+    /**
+     * Make layout load additional handler when in private sales mode
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function addPrivateSalesLayoutUpdate($observer)
+    {
+        if (in_array($this->_config->getMode(),
+            array(
+                \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
+                \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN
+            ),
+            true
+        )) {
+            $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
 

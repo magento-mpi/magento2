@@ -38,6 +38,44 @@ class Observer
     }
 
     /**
+     * Remove non-VDE JavaScript assets in design mode
+     * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
+     *
+     * @param \Magento\Event\Observer $event
+     */
+    public function clearJs(\Magento\Event\Observer $event)
+    {
+        /** @var $layout \Magento\View\LayoutInterface */
+        $layout = $event->getEvent()->getLayout();
+        $blockHead = $layout->getBlock('head');
+        if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
+            return;
+        }
+
+        /** @var $page \Magento\Core\Model\Page */
+        $page = $this->_objectManager->get('Magento\Core\Model\Page');
+
+        /** @var $pageAssets \Magento\Page\Model\Asset\GroupedCollection */
+        $pageAssets = $page->getAssets();
+
+        $vdeAssets = array();
+        foreach ($pageAssets->getGroups() as $group) {
+            if ($group->getProperty('flag_name') == 'vde_design_mode') {
+                $vdeAssets = array_merge($vdeAssets, $group->getAll());
+            }
+        }
+
+        /** @var $nonVdeAssets \Magento\Core\Model\Page\Asset\AssetInterface[] */
+        $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
+
+        foreach ($nonVdeAssets as $assetId => $asset) {
+            if ($asset->getContentType() == \Magento\View\Publisher::CONTENT_TYPE_JS) {
+                $pageAssets->remove($assetId);
+            }
+        }
+    }
+
+    /**
      * Save quick styles
      *
      * @param \Magento\Event\Observer $event
