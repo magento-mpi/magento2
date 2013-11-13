@@ -1,0 +1,105 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
+    <p class="btn-remove" id="btn-remove${_index_}">
+        <a href="delete_email" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo __('Remove Email') ?>"/></a>
+    </p>
+    <div class="field">
+        <label for="recipients-name${_index_}" class="required"><em>*</em> <?php echo __('Name:')?></label>
+        <div class="input-box">
+            <input name="recipients[${_index_}][name]" type="text" title="<?php echo __('Name:')?>" class="input-text" id="recipients-name${_index_}" data-validate="{required:true}"/>
+        </div>
+    </div>
+    <div class="field">
+        <label for="recipients-email${_index_}" class="required"><em>*</em> <?php echo __('Email Address:') ?></label>
+        <div class="input-box">
+            <input name="recipients[${_index_}][email]" title="<?php echo __('Email Address:') ?>" id="recipients-email${_index_}" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+        </div>
+    </div>
+</script>
+<div class="page-title">
+    <h1><?php echo $this->getFormHeader() ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+<form action="<?php echo $this->getSendUrl() ?>" method="post" id="giftregistry-sharing-form">
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <h2 class="legend"><?php echo __('Sender:') ?></h2>
+        <ul class="form-list" id="sender_options">
+            <li class="fields">
+                <div class="field">
+                    <label for="sender_name" class="required"><em>*</em><?php echo __('Name:') ?></label>
+                    <div class="input-box">
+                        <input name="sender_name" value="<?php if ($this->getFormData('sender_name')): ?><?php echo $this->getFormData('sender_name') ?><?php else:?><?php echo $this->getCustomerName() ?><?php endif;?>" title="<?php echo __('Name') ?>" id="sender_name" type="text" class="input-text" data-validate="{required:true}"/>
+                    </div>
+                </div>
+                <div class="field">
+                   <label for="sender_email" class="required"><em>*</em><?php echo __('Email:') ?></label>
+                    <div class="input-box">
+                       <input name="sender_email" value="<?php if ($this->getFormData('sender_email')): ?><?php echo $this->getFormData('sender_email'); ?><?php else:?><?php echo $this->getCustomerEmail() ?><?php endif;?>" id="sender_email" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label for="sender_message" class="required"><em>*</em><?php echo __('Message:') ?></label>
+                <div class="input-box">
+                    <textarea name="sender_message" class="input-text" id="sender_message" cols="3" rows="3" style="height:100px;" data-validate="{required:true}"><?php echo $this->getFormData('sender_message'); ?></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo __('Recipient:') ?></h2>
+        <ul class="form-list" id="recipients-options">
+            <li class="no-display">&nbsp;</li>
+        </ul>
+    </div>
+    <div class="buttons-set form-buttons">
+        <p class="back-link">
+            <span id="max-recipient-message" style="display:none;">
+                <?php if ($this->getRecipientsLimit()): ?>
+                    <?php echo __('Maximum %1 email addresses.', $this->getRecipientsLimit()) ?>
+                <?php endif; ?>
+            </span>&nbsp;
+        </p>
+        <button type="submit" class="button"><span><span><?php echo __('Share Gift Registry') ?></span></span></button>
+        <?php if ($this->getRecipientsLimit()): ?>
+            <button type="button" id="add-recipient-button" class="button"><span><span><?php echo __('Add Recipient') ?></span></span></button>
+        <?php endif; ?>
+    </div>
+    <p class="required"><?php echo __('* Required Fields') ?></p>
+</form>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
+</div>
+
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('Magento_Page::js/row-builder.js')?>", function() {
+                var formDataPost;
+                <?php if (is_array($this->getFormData('recipients'))): ?>
+                formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
+                <?php endif; ?>
+                $('#giftregistry-sharing-form').rowBuilder({
+                    rowTemplate: '#add-recipient-tmpl',
+                    rowContainer: '#recipients-options',
+                    maxRows: '<?php echo $this->getRecipientsLimit() ?>',
+                    maxRowsMsg: '#max-recipient-message',
+                    addRowBtn: '#add-recipient-button',
+                    formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
+                }).validation();
+            })
+    })(jQuery);
+</script>

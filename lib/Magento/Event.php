@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Event
+ * @package    Magento_Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,7 +13,7 @@
  * Event object and dispatcher
  *
  * @category   Magento
- * @package    \Magento\Event
+ * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;
@@ -34,7 +34,7 @@ class Event extends \Magento\Object
      *
      * @param array $data
      */
-    public function __construct(array $data=array())
+    public function __construct(array $data = array())
     {
         $this->_observers = new \Magento\Event\Observer\Collection();
         parent::__construct($data);

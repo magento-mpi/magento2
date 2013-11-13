@@ -13,13 +13,12 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge
+class Merge implements \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
      * Available item type names
      */
     const TYPE_PAGE = 'page';
-    const TYPE_FRAGMENT = 'fragment';
     /**#@-*/
 
     /**
@@ -40,7 +39,7 @@ class Merge
     /**
      * In-memory cache for loaded layout updates
      *
-     * @var \Magento\Core\Model\Layout\Element
+     * @var \Magento\View\Layout\Element
      */
     protected $_layoutUpdatesCache;
 
@@ -73,7 +72,7 @@ class Merge
     protected $_subst = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_fileSource;
 
@@ -83,7 +82,7 @@ class Merge
     private $_resource;
 
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     private $_appState;
 
@@ -105,26 +104,26 @@ class Merge
     /**
      * Init merge model
      *
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
+     * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+        \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Theme $theme = null
+        \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
         $this->_store = $storeManager->getStore();
@@ -217,47 +216,17 @@ class Merge
      */
     public function addPageHandles(array $handlesToTry)
     {
+        $handlesAdded = false;
         foreach ($handlesToTry as $handleName) {
             if (!$this->pageHandleExists($handleName)) {
                 continue;
             }
-            $handles = $this->getPageHandleParents($handleName);
             $handles[] = $handleName;
-
-            /* replace existing page handles with the new ones */
-            foreach ($this->_pageHandles as $pageHandleName) {
-                $this->removeHandle($pageHandleName);
-            }
             $this->_pageHandles = $handles;
             $this->addHandle($handles);
-            return true;
+            $handlesAdded = true;
         }
-        return false;
-    }
-
-    /**
-     * Retrieve the all parent handles ordered from parent to child. The $isPageTypeOnly parameters controls,
-     * whether only page type parent relation is processed.
-     *
-     * @param string $handleName
-     * @param bool $isPageTypeOnly
-     * @return array
-     */
-    public function getPageHandleParents($handleName, $isPageTypeOnly = true)
-    {
-        $result = array();
-        $node = $this->_getPageHandleNode($handleName);
-        while ($node) {
-            $parentItem = $node->getAttribute('parent');
-            if (!$parentItem && !$isPageTypeOnly) {
-                $parentItem = $node->getAttribute('owner');
-            }
-            $node = $this->_getPageHandleNode($parentItem);
-            if ($node) {
-                $result[] = $parentItem;
-            }
-        }
-        return array_reverse($result);
+        return $handlesAdded;
     }
 
     /**
@@ -275,7 +244,7 @@ class Merge
      * Get handle xml node by handle name
      *
      * @param string $handleName
-     * @return \Magento\Core\Model\Layout\Element|null
+     * @return \Magento\View\Layout\Element|null
      */
     protected function _getPageHandleNode($handleName)
     {
@@ -287,7 +256,7 @@ class Merge
         if (empty($handles)) {
             return null;
         }
-        $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
+        $condition = '@type="' . self::TYPE_PAGE . '"';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
         return $nodes ? reset($nodes) : null;
     }
@@ -303,65 +272,37 @@ class Merge
     }
 
     /**
-     * Retrieve full hierarchy of types and fragment types in the system
+     * Retrieve all page and fragment types that exist in the system.
      *
      * Result format:
      * array(
      *     'handle_name_1' => array(
      *         'name'     => 'handle_name_1',
      *         'label'    => 'Handle Name 1',
-     *         'children' => array(
-     *             'handle_name_2' => array(
-     *                 'name'     => 'handle_name_2',
-     *                 'label'    => 'Handle Name 2',
-     *                 'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
-     *                 'children' => array(
-     *                     // ...
-     *                 )
-     *             ),
-     *             // ...
-     *         )
+     *         'type'     => self::TYPE_PAGE,
      *     ),
      *     // ...
      * )
      *
      * @return array
      */
-    public function getPageHandlesHierarchy()
-    {
-        return $this->_getPageHandleChildren('');
-    }
-
-    /**
-     * Retrieve recursively all children of a page handle
-     *
-     * @param string $parentName
-     * @return array
-     */
-    protected function _getPageHandleChildren($parentName)
+    public function getAllPageHandles()
     {
         $result = array();
 
         $conditions = array(
-            '(@type="' . self::TYPE_PAGE . '" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ')'
+            '(@type="' . self::TYPE_PAGE . '")'
         );
-        if ($parentName) {
-            $conditions[] = '(@type="' . self::TYPE_FRAGMENT . '" and @owner="' . $parentName . '")';
-        }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
-        /** @var $node \Magento\Core\Model\Layout\Element */
+        /** @var $node \Magento\View\Layout\Element */
         foreach ($nodes as $node) {
             $name = $node->getAttribute('id');
             $info = array(
                 'name'     => $name,
                 'label'    => __((string)$node->getAttribute('label')),
                 'type'     => $node->getAttribute('type'),
-                'children' => array()
             );
-            if ($info['type'] == self::TYPE_PAGE) {
-                $info['children'] = $this->_getPageHandleChildren($name);
-            }
             $result[$name] = $info;
         }
         return $result;
@@ -408,7 +349,7 @@ class Merge
         }
 
         $layout = $this->asString();
-        if ($this->_appState->getMode() === \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
             if (!$this->_layoutValidator->isValid(
                     $layout,
                     \Magento\Adminhtml\Model\LayoutUpdate\Validator::LAYOUT_SCHEMA_MERGED,
@@ -427,7 +368,7 @@ class Merge
     }
 
     /**
-     * Get layout updates as \Magento\Core\Model\Layout\Element object
+     * Get layout updates as \Magento\View\Layout\Element object
      *
      * @return \SimpleXMLElement
      */
@@ -447,7 +388,7 @@ class Merge
      */
     protected function _loadXmlString($xmlString)
     {
-        return simplexml_load_string($xmlString, 'Magento\Core\Model\Layout\Element');
+        return simplexml_load_string($xmlString, 'Magento\View\Layout\Element');
     }
 
     /**
@@ -566,7 +507,7 @@ class Merge
     /**
      * Retrieve already merged layout updates from files for specified area/theme/package/store
      *
-     * @return \Magento\Core\Model\Layout\Element
+     * @return \Magento\View\Layout\Element
      */
     public function getFileLayoutUpdatesXml()
     {
@@ -623,7 +564,7 @@ class Merge
      * Collect and merge layout updates from files
      *
      * @throws \Magento\Exception
-     * @return \Magento\Core\Model\Layout\Element
+     * @return \Magento\View\Layout\Element
      */
     protected function _loadFileLayoutUpdatesXml()
     {
@@ -633,7 +574,7 @@ class Merge
         foreach ($updateFiles as $file) {
             $fileStr = file_get_contents($file->getFilename());
             $fileStr = $this->_substitutePlaceholders($fileStr);
-            /** @var $fileXml \Magento\Core\Model\Layout\Element */
+            /** @var $fileXml \Magento\View\Layout\Element */
             $fileXml = $this->_loadXmlString($fileStr);
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
                 throw new \Magento\Exception(sprintf(
@@ -654,11 +595,11 @@ class Merge
     /**
      * Find the closest physical theme among ancestors and a theme itself
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return \Magento\Core\Model\Theme
      * @throws \Magento\Exception
      */
-    protected function _getPhysicalTheme(\Magento\Core\Model\Theme $theme)
+    protected function _getPhysicalTheme(\Magento\View\Design\ThemeInterface $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {
@@ -700,7 +641,7 @@ class Merge
     {
         $result = array();
         $containerNodes = $this->asSimplexml()->xpath('//container');
-        /** @var $oneContainerNode \Magento\Core\Model\Layout\Element */
+        /** @var $oneContainerNode \Magento\View\Layout\Element */
         foreach ($containerNodes as $oneContainerNode) {
             $label = $oneContainerNode->getAttribute('label');
             if ($label) {

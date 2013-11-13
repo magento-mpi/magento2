@@ -30,7 +30,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
      */
     protected static $_blackList = array();
 
-    public static function setUpBeforeClass() 
+    public static function setUpBeforeClass()
     {
         self::$_reportDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
             . '/dev/tests/static/report';
@@ -45,10 +45,13 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
         if ($type != '' && !preg_match('/\/$/', $type)) {
             $type = $type . '/';
         }
-        self::$_whiteList = self::_readLists(__DIR__ . '/_files/'.$type.'whitelist/*.txt');
-        self::$_blackList = self::_readLists(__DIR__ . '/_files/'.$type.'blacklist/*.txt');
+        self::$_whiteList = self::_readLists(__DIR__ . '/_files/' . $type . 'whitelist/*.txt');
+        self::$_blackList = self::_readLists(__DIR__ . '/_files/' . $type . 'blacklist/*.txt');
     }
 
+    /**
+     * @TODO: combine with testCodeStyle
+     */
     public function testCodeStylePsr2()
     {
         $reportFile = self::$_reportDir . '/phpcs_psr2_report.xml';
@@ -66,18 +69,16 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
         }
         self::setupFileLists('phpcs');
         $result = $codeSniffer->run(self::$_whiteList, self::$_blackList, array('php'));
-        $this->assertFileExists($reportFile, 'Expected '.$reportFile.' to be created by phpcs run with PSR2 standard');
-        // disabling the assertEquals below to allow the test to not fail but just report PSR2 violations to everyone.
-        // It should be uncommented once compliance is required.
-        /*
+        $this->assertFileExists(
+            $reportFile,
+            'Expected ' . $reportFile . ' to be created by phpcs run with PSR2 standard'
+        );
+        $this->markTestIncomplete("PHP Code Sniffer has found $result error(s): See detailed report in $reportFile");
         $this->assertEquals(
             0,
             $result,
             "PHP Code Sniffer has found $result error(s): See detailed report in $reportFile"
         );
-         */
-        // Remove this echo when the assert can be uncommented out.
-        echo "PHP Code Sniffer has found $result error(s): See detailed report in $reportFile";
     }
 
     public function testCodeStyle()
@@ -93,7 +94,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
         self::setupFileLists();
-        $result = $codeSniffer->run(self::$_whiteList, self::$_blackList, array('php','phtml'));
+        $result = $codeSniffer->run(self::$_whiteList, self::$_blackList, array('php', 'phtml'));
         $this->assertEquals(
             0,
             $result,

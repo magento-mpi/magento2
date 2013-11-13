@@ -19,6 +19,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Soap\Config */
     protected $_soapConfig;
 
+    /** @var \Magento\Webapi\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_configMock;
+
     /**
      * Set up helper.
      */
@@ -28,13 +31,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $fileSystemMock = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $dirMock = $this->getMockBuilder('Magento\Core\Model\Dir')->disableOriginalConstructor()->getMock();
-        $configMock = $this->getMockBuilder('Magento\Webapi\Model\Config')->disableOriginalConstructor()->getMock();
+        $dirMock = $this->getMockBuilder('Magento\App\Dir')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento\Webapi\Model\Config')
+            ->disableOriginalConstructor()->getMock();
         $this->_soapConfig = new \Magento\Webapi\Model\Soap\Config(
             $objectManagerMock,
             $fileSystemMock,
             $dirMock,
-            $configMock
+            $this->_configMock
         );
         parent::setUp();
     }
@@ -70,4 +74,97 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('Magento\Catalog\Service\ProductV2Interface', true, array('CatalogProduct', 'V2'))
         );
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @dataProvider dataProviderForTestGetServiceNamePartsInvalidName
+     */
+    public function testGetServiceNamePartsInvalidName($interfaceClassName)
+    {
+        $this->_soapConfig->getServiceNameParts($interfaceClassName);
+    }
+
+    public function dataProviderForTestGetServiceNamePartsInvalidName()
+    {
+        return array(
+            array('BarV1Interface'), // Missed vendor, module, 'Service'
+            array('Service\\V1Interface'), // Missed vendor and module
+            array('Magento\\Foo\\Service\\BarVxInterface'), // Version number should be a number
+            array('Magento\\Foo\\Service\\BarInterface'), // Version missed
+            array('Magento\\Foo\\Service\\BarV1'), // 'Interface' missed
+            array('Foo\\Service\\BarV1Interface'), // Module missed
+            array('Foo\\BarV1Interface'), // Module and 'Service' missed
+        );
+    }
+
+    public function testGetRequestedSoapServices()
+    {
+        $servicesConfig = array(
+            'Magento\Module\Service\FooV1Interface' => array(
+                'class' => 'Magento\Module\Service\FooV1Interface',
+                'baseUrl' => '/V1/foo',
+                'methods' => array(
+                    'someMethod' => array(
+                        'httpMethod' => 'GET',
+                        'method' => 'someMethod',
+                        'route' => '',
+                        'isSecure' => false
+                    )
+                )
+            ),
+            'Magento\Module\Service\BarV1Interface' => array(
+                'class' => 'Magento\Module\Service\BarV1Interface',
+                'baseUrl' => '/V1/bar',
+                'methods' => array(
+                    'someMethod' => array(
+                        'httpMethod' => 'GET',
+                        'method' => 'someMethod',
+                        'route' => '',
+                        'isSecure' => false
+                    )
+                )
+            )
+        );
+
+        $expectedResult = array(
+            array(
+                'methods' => array(
+                    'someMethod' => array(
+                        'method' => 'someMethod',
+                        'inputRequired' => '',
+                        'isSecure' => ''
+                    )
+                ),
+                'class' => 'Magento\Module\Service\FooV1Interface'
+            )
+        );
+
+        $this->_configMock->expects($this->once())->method('getServices')->will($this->returnValue($servicesConfig));
+        $result = $this->_soapConfig->getRequestedSoapServices(array('moduleFooV1', 'moduleBarV2', 'moduleBazV1'));
+        $this->assertEquals($expectedResult, $result);
+    }
+}
+
+namespace Magento\Module\Service;
+
+interface FooV1Interface
+{
+    public function someMethod();
+}
+
+interface BarV1Interface
+{
+    public function someMethod();
+}
+
+interface FooBarV1Interface
+{
+    public function someMethod();
+}
+
+namespace Magento\Module\Service\Foo;
+
+interface BarV1Interface
+{
+    public function someMethod();
 }

@@ -18,7 +18,7 @@ class Archive
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -31,11 +31,11 @@ class Archive
 
     /**
      * @param \Magento\SalesArchive\Model\Resource\Archive $resourceArchive
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\SalesArchive\Model\Resource\Archive $resourceArchive,
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_resourceArchive = $resourceArchive;
         $this->_eventManager = $eventManager;

@@ -159,7 +159,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider getBehaviorDataProvider
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product::_saveCustomOptions
      */
     public function testSaveCustomOptionsDuplicate($behavior)
     {
@@ -484,7 +483,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixture()
     {
-        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('media') . '/import';
         mkdir($dir);
         copy(__DIR__ . '/../../../../../Magento/Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
@@ -495,7 +494,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixtureRollback()
     {
-        $media = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+        $media = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('media');
         \Magento\Io\File::rmdirRecursive("{$media}/import");
         \Magento\Io\File::rmdirRecursive("{$media}/catalog");

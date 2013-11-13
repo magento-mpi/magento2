@@ -6,27 +6,26 @@
  * @license    {license_link}
  */
 
-/**
- * Integration model
- * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @method \Magento\Integration\Model\Resource\Integration _getResource()
- * @method \Magento\Integration\Model\Resource\Integration getResource()
- * @method \Magento\Integration\Model\Resource\Integration\Collection getCollection()
- * @method \Magento\Integration\Model\Resource\Integration\Collection getResourceCollection()
- * @method string getName()
- * @method \Magento\Integration\Model\Integration setName(string $name)
- * @method string getEmail()
- * @method \Magento\Integration\Model\Integration setEmail(string $email)
- * @method int getStatus()
- * @method \Magento\Integration\Model\Integration getStatus(int $value)
- * @method int getAuthentication()
- * @method \Magento\Integration\Model\Integration setAuthentication(int $value)
- * @method string getEndpoint()
- * @method \Magento\Integration\Model\Integration setEndpoint(string $endpoint)
- */
 namespace Magento\Integration\Model;
 
+/**
+ * Integration model.
+ *
+ * @method \string getName()
+ * @method Integration setName(\string $name)
+ * @method \string getEmail()
+ * @method Integration setEmail(\string $email)
+ * @method \int getStatus()
+ * @method Integration setStatus(\int $value)
+ * @method \int getAuthentication()
+ * @method Integration setAuthentication(\int $value)
+ * @method \string getEndpoint()
+ * @method Integration setEndpoint(\string $endpoint)
+ * @method \string getCreatedAt()
+ * @method Integration setCreatedAt(\string $createdAt)
+ * @method \string getUpdatedAt()
+ * @method Integration setUpdatedAt(\string $createdAt)
+ */
 class Integration extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
@@ -44,39 +43,6 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**#@-*/
 
     /**
-     * Prefix of model events names.
-     *
-     * @var string
-     */
-    protected $_eventPrefix = 'integration';
-
-    /**
-     * @var \Magento\Core\Model\Url\Validator
-     */
-    protected $_urlValidator;
-
-    /**
-     * @param \Magento\Core\Model\Url\Validator $urlValidator
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    /*
-    public function __construct(
-        \Magento\Core\Model\Url\Validator $urlValidator,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_urlValidator = $urlValidator;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-    */
-    /**
      * Initialize resource model
      *
      * @return void
@@ -88,45 +54,17 @@ class Integration extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Validate data
+     * Prepare data to be saved to database
      *
-     * @return array|bool
-     * @throw \Magento\Core\Exception|Exception   Throw exception on fail validation
+     * @return Integration
      */
-    public function validate()
+    protected function _beforeSave()
     {
-        /*
-        if ($this->getCallbackUrl() || $this->getRejectedCallbackUrl()) {
-            $this->setCallbackUrl(trim($this->getCallbackUrl()));
-            $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
-
-            if ($this->getCallbackUrl() && !$this->_urlValidator->isValid($this->getCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Callback URL'));
-            }
-            if ($this->getRejectedCallbackUrl() && !$this->_urlValidator->isValid($this->getRejectedCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Rejected Callback URL'));
-            }
+        parent::_beforeSave();
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt($this->_getResource()->formatDate(true));
         }
-
-        /-** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength *-/
-        $validatorLength = $this->keyLengthFactory->create(
-            array('options' => array('length' => self::KEY_LENGTH))
-        );
-
-        $validatorLength->setName('Consumer Key');
-        if (!$validatorLength->isValid($this->getKey())) {
-            $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
-        }
-
-        $validatorLength->setLength(self::SECRET_LENGTH);
-        $validatorLength->setName('Consumer Secret');
-        if (!$validatorLength->isValid($this->getSecret())) {
-            $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
-        }
-        */
-        return true;
+        $this->setUpdatedAt($this->_getResource()->formatDate(true));
+        return $this;
     }
-
 }

@@ -78,6 +78,7 @@ span.required {
 .field.required > .label:after {
     content: '*';
     color: red;
+    margin-left: 3px;
 }
 
 .field.alternative {

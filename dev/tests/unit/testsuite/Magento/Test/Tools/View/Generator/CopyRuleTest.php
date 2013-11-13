@@ -42,12 +42,12 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             array('isLoaded'),
             array(
                 $this->_filesystem,
-                new \Magento\Core\Model\Dir(__DIR__),
+                new \Magento\App\Dir(__DIR__),
                 $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
             )
         );
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
-        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\View\Design\Fallback\Rule\RuleInterface');
         $this->_object = new \Magento\Tools\View\Generator\CopyRule(
             $this->_filesystem,
             $this->_themeCollection,

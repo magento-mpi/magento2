@@ -31,7 +31,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Url::getSecure
+     * @covers \Magento\Backend\Model\Url::isSecure
      */
     public function testIsSecure()
     {
@@ -52,7 +52,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Url::getSecure
+     * @covers \Magento\Backend\Model\Url::setRouteParams
      */
     public function testSetRouteParams()
     {
@@ -66,7 +66,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
-     * @covers \Magento\Backend\Model\Url::getSecure
      * @magentoAppIsolation enabled
      */
     public function testGetUrl()
@@ -85,9 +84,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
-        /** @var $request \Magento\Core\Controller\Request\Http */
+        /** @var $request \Magento\App\RequestInterface */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Request\Http');
+            ->create('Magento\App\RequestInterface');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
             ->setRouteName('default_router');
@@ -132,9 +131,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $helper \Magento\Core\Helper\Data */
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        /** @var $request \Magento\Core\Controller\Request\Http */
+        /** @var $request \Magento\App\RequestInterface */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Request\Http');
+            ->create('Magento\App\RequestInterface');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);

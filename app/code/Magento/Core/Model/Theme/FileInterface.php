@@ -33,10 +33,10 @@ interface FileInterface
     /**
      * Attaches selected theme to current file
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @return $this
      */
-    public function setTheme(\Magento\Core\Model\Theme $theme);
+    public function setTheme(\Magento\View\Design\ThemeInterface $theme);
 
     /**
      * Get theme model

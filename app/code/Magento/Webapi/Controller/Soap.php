@@ -9,7 +9,10 @@
  */
 namespace Magento\Webapi\Controller;
 
-class Soap implements \Magento\Core\Controller\FrontInterface
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
+class Soap implements \Magento\App\FrontControllerInterface
 {
     /**#@+
      * Content types used for responses processed by SOAP web API.
@@ -33,7 +36,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
     /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var \Magento\Core\Model\App\State */
+    /** @var \Magento\App\State */
     protected $_appState;
 
     /** @var \Magento\Core\Model\App */
@@ -53,7 +56,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
      * @param \Magento\Oauth\Helper\Service $oauthHelper
@@ -64,7 +67,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
         \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator,
         \Magento\Webapi\Model\Soap\Server $soapServer,
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Core\Model\App $application,
         \Magento\Oauth\Service\OauthV1Interface $oauthService,
         \Magento\Oauth\Helper\Service $oauthHelper
@@ -91,12 +94,14 @@ class Soap implements \Magento\Core\Controller\FrontInterface
     }
 
     /**
-     * Dispatch request to SOAP endpoint.
-     *
-     * @return \Magento\Webapi\Controller\Soap
+     * @param \Magento\App\RequestInterface $request
+     * @return $this
      */
-    public function dispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
+        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
+        array_shift($pathParts);
+        $request->setPathInfo('/' . implode('/', $pathParts));
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
@@ -150,7 +155,6 @@ class Soap implements \Magento\Core\Controller\FrontInterface
     protected function _prepareErrorResponse($exception)
     {
         $maskedException = $this->_errorProcessor->maskException($exception);
-        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $maskedException);
         if ($this->_isWsdlRequest()) {
             $httpCode = $maskedException->getHttpCode();
             $contentType = self::CONTENT_TYPE_WSDL_REQUEST;
@@ -160,6 +164,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
         }
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
+        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $this->_soapServer, $maskedException);
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
     }

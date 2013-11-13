@@ -17,17 +17,17 @@ namespace Magento\Core\Controller\Varien;
 class AbstractActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\AbstractAction
+     * @var \Magento\App\Action\AbstractAction
      */
     protected $_actionAbstract;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var \Magento\Core\Controller\Response\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_response;
 
@@ -38,24 +38,17 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $helperMock = $this->getMock( 'Magento\Backend\Helper\DataProxy', array(), array(), '', false);
-        $this->_request = $this->getMock(
-            'Magento\Core\Controller\Request\Http',
-            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'),
-            array($helperMock),
-            '',
-            false
-        );
-        $this->_response = $this->getMock('Magento\Core\Controller\Response\Http', array(), array(), '', false);
+        $this->_request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->_response->headersSentThrowsException = false;
-        $this->_actionAbstract = new \Magento\Core\Controller\Varien\Action\Forward($this->_request, $this->_response);
+        $this->_actionAbstract = new \Magento\App\Action\Forward($this->_request, $this->_response);
     }
 
     /**
      * Test for getRequest method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\AbstractAction::getRequest
+     * @covers \Magento\App\Action\AbstractAction::getRequest
      */
     public function testGetRequest()
     {
@@ -66,7 +59,7 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
      * Test for getResponse method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\AbstractAction::getResponse
+     * @covers \Magento\App\Action\AbstractAction::getResponse
      */
     public function testGetResponse()
     {
@@ -77,18 +70,15 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
      * Test for getResponse med. Checks that response headers are set correctly
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\AbstractAction::getResponse
+     * @covers \Magento\App\Action\AbstractAction::getResponse
      */
     public function testResponseHeaders()
     {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
-        $request = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
-        $response = new \Magento\Core\Controller\Response\Http($eventManager);
+        $routerListMock = $this->getMock('\Magento\App\RouterList', array(), array(), '', false);
+        $request = new \Magento\App\Request\Http($routerListMock);
+        $response = new \Magento\App\Response\Http();
         $response->headersSentThrowsException = false;
-        $action = new \Magento\Core\Controller\Varien\Action\Forward($request, $response);
+        $action = new \Magento\App\Action\Forward($request, $response);
 
         $headers = array(
             array(
@@ -105,7 +95,7 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
      * Test for getFullActionName method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\AbstractAction::getFullActionName
+     * @covers \Magento\App\Action\AbstractAction::getFullActionName
      */
     public function testGetFullActionName()
     {

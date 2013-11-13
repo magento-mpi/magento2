@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Backups types' source model for system configuration
  *
  * @category   Magento
- * @package    \Magento\Backup
+ * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Model\Config\Source;

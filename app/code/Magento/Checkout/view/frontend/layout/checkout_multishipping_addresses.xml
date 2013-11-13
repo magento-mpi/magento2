@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Address (Any) Form" type="page" parent="checkout_multishipping">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Address (Any) Form" type="page">
     <update handle="checkout_multishipping"/>
     <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Multishipping\Addresses" name="checkout_addresses" template="multishipping/addresses.phtml">

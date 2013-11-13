@@ -45,7 +45,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Url model
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlModel;
 
@@ -80,7 +80,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Layout
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\LayoutInterface
      */
     protected $_layout;
 
@@ -95,13 +95,13 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -114,13 +114,13 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Core\Model\Session\AbstractSession $session,
-        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

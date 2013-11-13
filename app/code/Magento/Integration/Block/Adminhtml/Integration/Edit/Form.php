@@ -10,6 +10,9 @@
 
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit;
 
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Controller\Adminhtml\Integration;
+
 /**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
@@ -23,23 +26,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'attributes' => array(
-                'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
-            ))
+        $form = $this->_formFactory->create(
+            array(
+                'attributes' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->getData('action'),
+                    'method' => 'post',
+                )
+            )
         );
-
-        $integration = $this->_coreRegistry->registry('current_integration');
-
-        if ($integration->getId()) {
-            $form->addField('integration_id', 'hidden', array(
-                'name' => 'integration_id',
-            ));
-            $form->setValues($integration->getData());
+        $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
+        if (isset($integrationData[Info::DATA_INTEGRATION_ID])) {
+            $form->addField(Info::DATA_INTEGRATION_ID, 'hidden', array('name' => 'id'));
+            $form->setValues($integrationData);
         }
-
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
