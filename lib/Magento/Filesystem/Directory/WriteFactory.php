@@ -33,6 +33,6 @@ class WriteFactory
      */
     public function create(array $config)
     {
-        return $this->objectManager->create(array('config' => $config));
+        return $this->objectManager->create('Magento\Filesystem\Directory\Write', array('config' => $config));
     }
 }
