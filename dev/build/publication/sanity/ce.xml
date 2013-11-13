@@ -284,6 +284,11 @@
             <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>
         </item>
         <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>GiftRegistry</word>
+            <path>app/design/frontend/magento_backup/Magento_Wishlist/wishlist.js</path>
+        </item>
+        <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
             <word>Invitation</word>
             <path>app/design/adminhtml/magento_backend/css/admin.css</path>

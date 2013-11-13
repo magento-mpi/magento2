@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceContainer name="checkout.cart.extra">
-        <block class="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards"/>
+    <referenceContainer name="checkout.cart.items">
+        <block class="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards" after="checkout.cart.coupon"/>
     </referenceContainer>
 </layout>
