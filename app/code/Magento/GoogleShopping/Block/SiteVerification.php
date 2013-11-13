@@ -7,7 +7,6 @@
  */
 
 namespace Magento\GoogleShopping\Block;
-use Magento\View\Block\AbstractBlock;
 
 /**
  * Google site verification <meta> tag

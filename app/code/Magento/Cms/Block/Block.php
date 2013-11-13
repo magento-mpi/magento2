@@ -18,8 +18,6 @@
  */
 namespace Magento\Cms\Block;
 
-use Magento\View\Block\AbstractBlock;
-
 class Block extends \Magento\View\Block\AbstractBlock
 {
     /**
