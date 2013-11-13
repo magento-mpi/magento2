@@ -8,7 +8,7 @@
 
 namespace Magento\Authz\Service;
 
-use Magento\Authz\Model\UserContextInterface;
+use Magento\Authz\Model\UserContext;
 
 /**
  * Authorization service interface.
@@ -18,7 +18,7 @@ interface AuthorizationV1Interface
     /**
      * Grant permissions to user to access the specified resources.
      *
-     * @param UserContextInterface $userContext
+     * @param UserContext $userContext
      * @param string[] $resources List of resources which should be available to the specified user.
      */
     public function grantPermission($userContext, $resources);
@@ -27,7 +27,7 @@ interface AuthorizationV1Interface
      * Check if the user has permission to access the requested resource.
      *
      * @param string $resource
-     * @param UserContextInterface|null $userContext Context of current user is used by default
+     * @param UserContext|null $userContext Context of current user is used by default
      * @return bool
      */
     public function isAllowed($resource, $userContext = null);
@@ -51,7 +51,7 @@ interface AuthorizationV1Interface
      * Create new role with the access to the given set of resources.
      *
      * @param string $roleName
-     * @param UserContextInterface $userContext
+     * @param UserContext $userContext
      * @param string[] $resources
      * @return \Zend_Acl_Role_Interface
      */

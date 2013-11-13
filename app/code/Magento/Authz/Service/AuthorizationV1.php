@@ -7,7 +7,7 @@
  */
 namespace Magento\Authz\Service;
 
-use Magento\Authz\Model\UserContextInterface;
+use Magento\Authz\Model\UserContext;
 use Magento\Acl\Builder as AclBuilder;
 use Magento\Acl;
 use Magento\Core\Model\Config\Cache\Exception;
@@ -27,7 +27,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /** @var Acl */
     protected $_acl;
 
-    /** @var UserContextInterface */
+    /** @var UserContext */
     protected $_userContext;
 
     /** @var RoleFactory */
@@ -41,13 +41,13 @@ class AuthorizationV1 implements AuthorizationV1Interface
 
     /**
      * @param AclBuilder $aclBuilder
-     * @param UserContextInterface $userContext
+     * @param UserContext $userContext
      * @param RoleFactory $roleFactory
      * @param RulesFactory $rulesFactory
      */
     public function __construct(
         AclBuilder $aclBuilder,
-        UserContextInterface $userContext,
+        UserContext $userContext,
         RoleFactory $roleFactory,
         RulesFactory $rulesFactory
     ) {
@@ -74,18 +74,18 @@ class AuthorizationV1 implements AuthorizationV1Interface
     {
         $userType = $userContext->getUserType();
         switch ($userType) {
-            case UserContextInterface::USER_TYPE_ADMIN:
+            case UserContext::USER_TYPE_ADMIN:
                 // TODO: Should be implemented if current approach is accepted
                 break;
-            case UserContextInterface::USER_TYPE_INTEGRATION:
+            case UserContext::USER_TYPE_INTEGRATION:
                 $roleName = $userContext->getUserType() . $userContext->getUserId();
                 $role = $this->createRole($roleName, $userContext, $resources);
                 $role->setUserId($userContext->getUserId())->setUserType($userContext->getUserType());
                 $role->save();
                 break;
-            case UserContextInterface::USER_TYPE_CUSTOMER:
+            case UserContext::USER_TYPE_CUSTOMER:
                 /** Break is intentionally omitted. */
-            case UserContextInterface::USER_TYPE_GUEST:
+            case UserContext::USER_TYPE_GUEST:
                 throw new \LogicException("Users of type '{$userType}' must not be given any permissions explicitly.");
                 break;
         }
@@ -99,18 +99,18 @@ class AuthorizationV1 implements AuthorizationV1Interface
         $role = $this->_roleFactory->create();
         $userType = $userContext->getUserType();
         switch ($userType) {
-            case UserContextInterface::USER_TYPE_ADMIN:
+            case UserContext::USER_TYPE_ADMIN:
                 // TODO: Should be implemented if current approach is accepted
                 throw new Exception("Not implemented yet.");
                 break;
-            case UserContextInterface::USER_TYPE_INTEGRATION:
+            case UserContext::USER_TYPE_INTEGRATION:
                 $roleType = 'U';
                 $parentId = 0;
                 $userId = $userContext->getUserId();
                 break;
-            case UserContextInterface::USER_TYPE_CUSTOMER:
+            case UserContext::USER_TYPE_CUSTOMER:
                 /** Break is intentionally omitted. */
-            case UserContextInterface::USER_TYPE_GUEST:
+            case UserContext::USER_TYPE_GUEST:
                 $roleType = 'U';
                 $parentId = 0;
                 $userId = 0;
@@ -162,7 +162,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * Identify user role from user context.
      *
-     * @param UserContextInterface $userContext
+     * @param UserContext $userContext
      * @return string Role identifier in the format compatible with ACL object.
      * @throws ResourceNotFoundException
      */
