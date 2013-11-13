@@ -15,20 +15,44 @@ use Magento\Filesystem\FilesystemException;
 class Write extends Read implements WriteInterface
 {
     /**
+     * Permissions for created staff
+     *
      * @var int
      */
-    protected $permissions;
+    protected $permissions = 0777;
 
     /**
-     * @param string $path
-     * @param \Magento\Filesystem\File\WriteFactory $fileFactory
-     * @param $permissions
+     * Is allowed to create directories
+     *
+     * @var bool
      */
-    public function __construct($path, \Magento\Filesystem\File\WriteFactory $fileFactory, $permissions)
+    protected $allowCreateDirs = true;
+
+    /**
+     * @param array $config
+     * @param \Magento\Filesystem\File\WriteFactory $fileFactory
+     */
+    public function __construct(array $config, \Magento\Filesystem\File\WriteFactory $fileFactory)
     {
-        $this->path = rtrim($path, '/') . '/';
+        $this->setProperties($config);
         $this->fileFactory = $fileFactory;
-        $this->permissions = $permissions;
+    }
+
+    /**
+     * Set properties from config
+     *
+     * @param array $config
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    protected function setProperties(array $config)
+    {
+        parent::setProperties($config);
+        if (isset($config['permissions'])) {
+            $this->permissions = $config['permissions'];
+        }
+        if (isset($config['allow_create_dirs'])) {
+            $this->permissions = $config['allow_create_dirs'];
+        }
     }
 
     /**
@@ -72,6 +96,9 @@ class Write extends Read implements WriteInterface
      */
     public function create($path)
     {
+        if (!$this->allowCreateDirs) {
+            throw new FilesystemException("Directory creation is not allowed in $this->path");
+        }
         clearstatcache();
         $absolutePath = $this->getAbsolutePath($path);
         if (is_dir($absolutePath)) {

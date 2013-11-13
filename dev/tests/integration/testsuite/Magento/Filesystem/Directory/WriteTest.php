@@ -348,6 +348,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
+        /** @var Write $directory */
         foreach ($this->testDirectories as $directory) {
             if ($directory->isExist()) {
                 $directory->delete();
@@ -366,11 +367,13 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     private function getDirectoryInstance($path, $permissions)
     {
         $fullPath = __DIR__ . '/../_files/' . $path;
-        $writeFactory = Bootstrap::getObjectManager()->create(
-            'Magento\Filesystem\File\WriteFactory', array('path' => $fullPath)
+        $config = array(
+            'path' => $fullPath,
+            'permissions' => $permissions
         );
-        $write =  new Write($fullPath, $writeFactory, $permissions);
-        $this->testDirectories[] = $write;
-        return $write;
+        $directoryFactory = Bootstrap::getObjectManager()->create('Magento\Filesystem\Directory\WriteFactory');
+        $directory = $directoryFactory->create($config);
+        $this->testDirectories[] = $directory;
+        return $directory;
     }
 }
