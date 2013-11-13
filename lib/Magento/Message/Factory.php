@@ -79,9 +79,9 @@ class Factory
         }
 
         $className = '\\Magento\\Message\\' . ucfirst($type);
-        $message = $this->objectManager->create($className, array($code));
+        $message = $this->objectManager->create($className, array('code' => $code));
         if (!($message instanceof \Magento\Message\AbstractMessage)) {
-            throw new \InvalidArgumentException($className . ' does\'nt extends \\Magento\\Message\\AbstractMessage');
+            throw new \InvalidArgumentException($className . ' doesn\'t extends \\Magento\\Message\\AbstractMessage');
         }
 
         $message->setClass($class);

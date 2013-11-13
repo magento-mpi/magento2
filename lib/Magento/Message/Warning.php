@@ -14,10 +14,7 @@ namespace Magento\Message;
 class Warning extends \Magento\Message\AbstractMessage
 {
     /**
-     * @param string $code
+     * @var string
      */
-    public function __construct($code)
-    {
-        parent::__construct(\Magento\Message\Factory::WARNING, $code);
-    }
+    protected $type = \Magento\Message\Factory::WARNING;
 }

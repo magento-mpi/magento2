@@ -14,10 +14,7 @@ namespace Magento\Message;
 class Notice extends \Magento\Message\AbstractMessage
 {
     /**
-     * @param string $code
+     * @var string
      */
-    public function __construct($code)
-    {
-        parent::__construct(\Magento\Message\Factory::NOTICE, $code);
-    }
+    protected $type = \Magento\Message\Factory::NOTICE;
 }

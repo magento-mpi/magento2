@@ -16,79 +16,122 @@ abstract class AbstractMessage
     /**
      * @var string
      */
-    protected $_type;
+    protected $type;
 
     /**
      * @var string
      */
-    protected $_code;
-
-    protected $_class;
-    protected $_method;
-    protected $_identifier;
-    protected $_isSticky = false;
+    protected $code;
 
     /**
-     * @param string $type
+     * @var mixed
+     */
+    protected $class;
+
+    /**
+     * @var mixed
+     */
+    protected $method;
+
+    /**
+     * @var mixed
+     */
+    protected $identifier;
+
+    /**
+     * @var bool
+     */
+    protected $isSticky = false;
+
+    /**
      * @param string $code
      */
-    public function __construct($type, $code = '')
+    public function __construct($code = '')
     {
-        $this->_type = $type;
-        $this->_code = $code;
+        $this->code = $code;
     }
 
+    /**
+     * Get message code
+     *
+     * @return string
+     */
     public function getCode()
     {
-        return $this->_code;
+        return $this->code;
     }
 
+    /**
+     * Get message text
+     *
+     * @return string
+     */
     public function getText()
     {
         return $this->getCode();
     }
 
+    /**
+     * Get message type
+     *
+     * @return string
+     */
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
+    /**
+     * Get message class
+     *
+     * @param $class
+     */
     public function setClass($class)
     {
-        $this->_class = $class;
+        $this->class = $class;
     }
 
+    /**
+     * Get message method
+     *
+     * @param $method
+     */
     public function setMethod($method)
     {
-        $this->_method = $method;
+        $this->method = $method;
     }
 
+    /**
+     * Convert message to string
+     *
+     * @return string
+     */
     public function toString()
     {
-        $out = $this->getType().': '.$this->getText();
+        $out = $this->getType() . ': ' . $this->getText();
         return $out;
     }
 
     /**
      * Set message identifier
      *
-     * @param string $id
+     * @param string $identifier
      * @return \Magento\Message\AbstractMessage
      */
-    public function setIdentifier($id)
+    public function setIdentifier($identifier)
     {
-        $this->_identifier = $id;
+        $this->identifier = $identifier;
         return $this;
     }
 
     /**
      * Get message identifier
      *
-     *  @return string
+     * @return string
      */
     public function getIdentifier()
     {
-        return $this->_identifier;
+        return $this->identifier;
     }
 
     /**
@@ -99,7 +142,7 @@ abstract class AbstractMessage
      */
     public function setIsSticky($isSticky = true)
     {
-        $this->_isSticky = $isSticky;
+        $this->isSticky = $isSticky;
         return $this;
     }
 
@@ -110,7 +153,7 @@ abstract class AbstractMessage
      */
     public function getIsSticky()
     {
-        return $this->_isSticky;
+        return $this->isSticky;
     }
 
     /**
@@ -121,7 +164,7 @@ abstract class AbstractMessage
      */
     public function setCode($code)
     {
-        $this->_code = $code;
+        $this->code = $code;
         return $this;
     }
 }

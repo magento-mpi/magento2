@@ -14,10 +14,7 @@ namespace Magento\Message;
 class Success extends \Magento\Message\AbstractMessage
 {
     /**
-     * @param string $code
+     * @var string
      */
-    public function __construct($code)
-    {
-        parent::__construct(\Magento\Message\Factory::SUCCESS, $code);
-    }
+    protected $type = \Magento\Message\Factory::SUCCESS;
 }

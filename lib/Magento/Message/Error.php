@@ -14,10 +14,7 @@ namespace Magento\Message;
 class Error extends \Magento\Message\AbstractMessage
 {
     /**
-     * @param string $code
+     * @var string
      */
-    public function __construct($code)
-    {
-        parent::__construct(\Magento\Message\Factory::ERROR, $code);
-    }
+    protected $type = \Magento\Message\Factory::ERROR;
 }
