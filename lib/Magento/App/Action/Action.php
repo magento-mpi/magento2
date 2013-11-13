@@ -19,7 +19,6 @@ class Action extends \Magento\App\Action\AbstractAction
 
     const PARAM_NAME_SUCCESS_URL        = 'success_url';
     const PARAM_NAME_ERROR_URL          = 'error_url';
-    const PARAM_NAME_REFERER_URL        = 'referer_url';
     const PARAM_NAME_BASE64_URL         = 'r64';
     const PARAM_NAME_URL_ENCODED        = 'uenc';
 

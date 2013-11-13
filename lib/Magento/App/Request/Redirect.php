@@ -11,6 +11,8 @@ namespace Magento\App\Request;
 
 class Redirect
 {
+    const PARAM_NAME_REFERER_URL        = 'referer_url';
+
     /** @var \Magento\App\RequestInterface */
     protected $_request;
 
@@ -47,7 +49,7 @@ class Redirect
     protected function _getUrl()
     {
         $refererUrl = $this->_request->getServer('HTTP_REFERER');
-        $url = (string)$this->_request->getParam(\Magento\App\Action\Action::PARAM_NAME_REFERER_URL);
+        $url = (string)$this->_request->getParam(self::PARAM_NAME_REFERER_URL);
         if ($url) {
             $refererUrl = $url;
         }
