@@ -1,7 +1,9 @@
+* Fixed broken click for price link when "Display Actual Price" is set to in cart
 * Improved Caching of Categories to improve Navigation menu rendering.
 * Added static test for check incorrect dependencies in library
 * Moved Magento\Core\Model\Theme to Magento\View component
 * Moved Magento\Core\Model\Design to Magento\View component
+
 2.0.0.0-dev51
 =============
 * Application areas rework:
