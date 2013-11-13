@@ -116,8 +116,8 @@ class Block extends \Magento\Backend\App\Action
 
         // 5. Build edit form
         $this->_initAction()
-            ->_addBreadcrumb($id ? __('Edit Block') : __('New Block'), $id ? __('Edit Block') : __('New Block'))
-            ->renderLayout();
+            ->_addBreadcrumb($id ? __('Edit Block') : __('New Block'), $id ? __('Edit Block') : __('New Block'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -55,8 +55,8 @@ class Edit extends \Magento\Sales\Controller\Adminhtml\Order\Create
         $this->_layoutServices->loadLayout();
 
         $this->_initSession()
-            ->_setActiveMenu('Magento_Sales::sales_order')
-            ->renderLayout();
+            ->_setActiveMenu('Magento_Sales::sales_order');
+        $this->_layoutServices->renderLayout();
     }
 
     /**

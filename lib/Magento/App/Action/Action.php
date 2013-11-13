@@ -268,7 +268,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   string $output
      * @return  \Magento\App\ActionInterface
      */
-    public function renderLayout($output = '')  // Leave
+    public function renderLayout($output = '')  //TODO fix 3 usages
     {
         $this->_layoutServices->renderLayout($output);
         return $this;
@@ -299,7 +299,7 @@ class Action extends \Magento\App\Action\AbstractAction
             \Magento\Profiler::start('postdispatch');
             if (!$this->getFlag('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH)) {
                 $this->_eventManager->dispatch(
-                    'controller_action_postdispatch_' . $this->getFullActionName(),array('controller_action' => $this)
+                    'controller_action_postdispatch_' . $this->getFullActionName(), array('controller_action' => $this)
                 );
                 $this->_eventManager->dispatch(
                     'controller_action_postdispatch_' . $request->getRouteName(), array('controller_action' => $this)

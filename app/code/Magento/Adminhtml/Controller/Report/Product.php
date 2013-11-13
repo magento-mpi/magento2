@@ -62,8 +62,8 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
             ->_addBreadcrumb(
                 __('Products Ordered'),
                 __('Products Ordered')
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -199,8 +199,10 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
                 __('Downloads'),
                 __('Downloads')
             )
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Product\Downloads'))
-            ->renderLayout();
+            ->_addContent(
+                $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Product\Downloads')
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     /**

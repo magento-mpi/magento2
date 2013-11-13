@@ -40,7 +40,8 @@ class Notification extends \Magento\Backend\App\AbstractAction
             ->_addBreadcrumb(
                 __('Messages Inbox'),
                 __('Messages Inbox')
-            )->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     public function markAsReadAction()

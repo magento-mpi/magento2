@@ -147,8 +147,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->_setActiveMenu('Magento_Sales::sales_order')
-                ->renderLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_forward('noroute');
         }
@@ -180,8 +180,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             }
 
             $this->_layoutServices->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_order')
-                ->renderLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }

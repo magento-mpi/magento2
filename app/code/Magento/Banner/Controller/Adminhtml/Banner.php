@@ -92,8 +92,8 @@ class Banner extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(
             $bannerId ? __('Edit Banner') : __('New Banner'),
             $bannerId ? __('Edit Banner') : __('New Banner')
-        )
-        ->renderLayout();
+        );
+        $this->_layoutServices->renderLayout();
     }
 
     /**

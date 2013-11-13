@@ -118,13 +118,12 @@ class Quote extends \Magento\Backend\App\Action
         $this->_layoutServices->getLayout()->getBlock('promo_quote_edit')
             ->setData('action', $this->getUrl('sales_rule/*/save'));
 
-        $this
-            ->_addBreadcrumb(
+        $this->_addBreadcrumb(
                 $id ? __('Edit Rule')
                     : __('New Rule'),
                 $id ? __('Edit Rule')
-                    : __('New Rule'))
-            ->renderLayout();
+                    : __('New Rule'));
+        $this->_layoutServices->renderLayout();
 
     }
 

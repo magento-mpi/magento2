@@ -75,8 +75,8 @@ class Invitation extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Invitation::report_magento_invitation_general')
             ->_addBreadcrumb(__('General Report'),
-            __('General Report'))
-            ->renderLayout();
+            __('General Report'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -113,8 +113,8 @@ class Invitation extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Invitation::report_magento_invitation_customer')
             ->_addBreadcrumb(__('Invitation Report by Customers'),
-            __('Invitation Report by Customers'))
-            ->renderLayout();
+            __('Invitation Report by Customers'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -150,8 +150,8 @@ class Invitation extends \Magento\Backend\App\Action
 
         $this->_initAction()->_setActiveMenu('Magento_Invitation::report_magento_invitation_order')
             ->_addBreadcrumb(__('Invitation Report by Customers'),
-            __('Invitation Report by Order Conversion Rate'))
-            ->renderLayout();
+            __('Invitation Report by Order Conversion Rate'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -90,8 +90,8 @@ class Formtype
      */
     public function indexAction()
     {
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -123,8 +123,8 @@ class Formtype
     {
         $this->_coreRegistry->register('edit_mode', 'new');
         $this->_initFormType();
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -177,8 +177,8 @@ class Formtype
     {
         $this->_coreRegistry->register('edit_mode', 'edit');
         $this->_initFormType();
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

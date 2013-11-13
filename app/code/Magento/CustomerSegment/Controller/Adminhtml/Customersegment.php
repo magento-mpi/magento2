@@ -136,8 +136,10 @@ class Customersegment extends \Magento\Backend\App\Action
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->_layoutServices->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
-            ->renderLayout();
+                $this->_layoutServices->getLayout()->createBlock(
+                    'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs')
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     /**

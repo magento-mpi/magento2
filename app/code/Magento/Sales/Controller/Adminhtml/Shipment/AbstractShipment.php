@@ -55,8 +55,8 @@ class AbstractShipment extends \Magento\Backend\App\Action
         $this->_title->add(__('Shipments'));
 
         $this->_initAction()
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'))
-            ->renderLayout();
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**

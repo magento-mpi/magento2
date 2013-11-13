@@ -69,7 +69,8 @@ class Reports extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

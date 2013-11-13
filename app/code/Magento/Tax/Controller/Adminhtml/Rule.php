@@ -88,8 +88,8 @@ class Rule extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('tax_rule', $ruleModel);
 
         $this->_initAction()
-            ->_addBreadcrumb($taxRuleId ? __('Edit Rule') :  __('New Rule'), $taxRuleId ?  __('Edit Rule') :  __('New Rule'))
-            ->renderLayout();
+            ->_addBreadcrumb($taxRuleId ? __('Edit Rule') :  __('New Rule'), $taxRuleId ?  __('Edit Rule') :  __('New Rule'));
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()

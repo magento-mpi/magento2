@@ -129,7 +129,8 @@ class Catalog extends \Magento\Backend\App\Action
             ->setData('action', $this->getUrl('catalog_rule/promo_catalog/save'));
 
         $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
-        $this->_addBreadcrumb($breadcrumb, $breadcrumb)->renderLayout();
+        $this->_addBreadcrumb($breadcrumb, $breadcrumb);
+        $this->_layoutServices->renderLayout();
     }
 
     public function saveAction()

@@ -86,7 +86,8 @@ class Giftregistry extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -112,8 +113,8 @@ class Giftregistry extends \Magento\Backend\App\Action
             ->_addContent($block)
             ->_addLeft($this->_layoutServices->getLayout()->createBlock(
                 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -139,8 +140,8 @@ class Giftregistry extends \Magento\Backend\App\Action
             ->_addContent($block)
             ->_addLeft(
                 $this->_layoutServices->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     /**

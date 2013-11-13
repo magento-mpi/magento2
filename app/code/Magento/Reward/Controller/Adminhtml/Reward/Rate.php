@@ -104,8 +104,8 @@ class Rate extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Reward Exchange Rates'));
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -126,8 +126,8 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_title->add($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

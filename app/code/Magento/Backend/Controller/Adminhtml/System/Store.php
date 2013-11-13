@@ -72,8 +72,8 @@ class Store extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Stores'));
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     public function newWebsiteAction()
@@ -167,8 +167,8 @@ class Store extends \Magento\Backend\App\Action
             }
 
             $this->_initAction()
-                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'))
-                ->renderLayout();
+                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'));
+            $this->_layoutServices->renderLayout();
         } else {
             $session->addError($notExists);
             $this->_redirect('adminhtml/*/');
@@ -287,8 +287,8 @@ class Store extends \Magento\Backend\App\Action
                 ->setBackUrl($this->getUrl('adminhtml/*/editWebsite', array('website_id' => $itemId)))
                 ->setStoreTypeTitle(__('Web Site'))
                 ->setDataObject($model)
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     public function deleteGroupAction()
@@ -317,8 +317,8 @@ class Store extends \Magento\Backend\App\Action
                 ->setBackUrl($this->getUrl('adminhtml/*/editGroup', array('group_id' => $itemId)))
                 ->setStoreTypeTitle(__('Store'))
                 ->setDataObject($model)
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     public function deleteStoreAction()
@@ -347,8 +347,8 @@ class Store extends \Magento\Backend\App\Action
                 ->setBackUrl($this->getUrl('adminhtml/*/editStore', array('store_id' => $itemId)))
                 ->setStoreTypeTitle(__('Store View'))
                 ->setDataObject($model)
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     public function deleteWebsitePostAction()

@@ -197,8 +197,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
 
             $this->_layoutServices->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_order')
-                ->renderLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }

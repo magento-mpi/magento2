@@ -129,8 +129,8 @@ class Attribute
     public function indexAction()
     {
         $this->_title->add(__('Customer Address Attributes'));
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -192,8 +192,8 @@ class Attribute
             : __('New Customer Address Attribute');
 
         $this->_initAction()
-            ->_addBreadcrumb($label, $label)
-            ->renderLayout();
+            ->_addBreadcrumb($label, $label);
+        $this->_layoutServices->renderLayout();
     }
 
     /**

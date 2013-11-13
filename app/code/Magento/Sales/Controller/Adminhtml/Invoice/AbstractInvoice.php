@@ -67,8 +67,8 @@ class AbstractInvoice
         $this->_title->add(__('Invoices'));
 
         $this->_initAction()
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice'))
-            ->renderLayout();
+            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**

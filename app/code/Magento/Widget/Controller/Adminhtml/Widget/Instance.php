@@ -128,8 +128,8 @@ class Instance extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Frontend Apps'));
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

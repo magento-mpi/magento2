@@ -99,8 +99,8 @@ class Types extends \Magento\Backend\App\Action
         $this->_title->add(__('Google Content Attributes'));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Attribute Maps'), __('Attribute Maps'))
-            ->renderLayout();
+            ->_addBreadcrumb(__('Attribute Maps'), __('Attribute Maps'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -124,8 +124,10 @@ class Types extends \Magento\Backend\App\Action
 
             $this->_initAction()
                 ->_addBreadcrumb(__('New attribute set mapping'), __('New attribute set mapping'))
-                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
-                ->renderLayout();
+                ->_addContent($this->_layoutServices->getLayout()
+                    ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit')
+                );
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't create Attribute Set Mapping."));
@@ -159,8 +161,11 @@ class Types extends \Magento\Backend\App\Action
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');
             $this->_initAction()
                 ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
-                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
-                ->renderLayout();
+                ->_addContent($this->_layoutServices->getLayout()->createBlock(
+                    'Magento\GoogleShopping\Block\Adminhtml\Types\Edit'
+                    )
+                );
+            $this->_layoutServices->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't edit Attribute Set Mapping."));

@@ -96,7 +96,8 @@ class Order extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Orders'));
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

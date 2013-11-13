@@ -79,8 +79,8 @@ class Transactions extends \Magento\Backend\App\Action
         $this->_title->add(__('Transactions'));
 
         $this->_layoutServices->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_transactions')
-            ->renderLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_transactions');
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -105,8 +105,8 @@ class Transactions extends \Magento\Backend\App\Action
              ->_title->add(sprintf("#%s", $txn->getTxnId()));
 
         $this->_layoutServices->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_transactions')
-            ->renderLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_transactions');
+        $this->_layoutServices->renderLayout();
     }
 
     /**

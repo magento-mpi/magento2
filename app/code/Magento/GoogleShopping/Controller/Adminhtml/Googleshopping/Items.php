@@ -95,8 +95,8 @@ class Items extends \Magento\Backend\App\Action
         }
 
         $this->_addBreadcrumb(__('Items'), __('Items'))
-            ->_addContent($contentBlock)
-            ->renderLayout();
+            ->_addContent($contentBlock);
+        $this->_layoutServices->renderLayout();
     }
 
     /**

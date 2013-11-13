@@ -101,8 +101,8 @@ class Attribute extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Returns Attributes'));
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -159,8 +159,8 @@ class Attribute extends \Magento\Backend\App\Action
             : __('New Return Item Attribute');
 
         $this->_initAction()
-            ->_addBreadcrumb($label, $label)
-            ->renderLayout();
+            ->_addBreadcrumb($label, $label);
+        $this->_layoutServices->renderLayout();
     }
 
     /**

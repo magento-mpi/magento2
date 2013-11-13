@@ -109,11 +109,13 @@ class Variable extends \Magento\Backend\App\Action
         $this->_title->add($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))
+            ->_addContent(
+                $this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit')
+            )
             ->_addJs($this->_layoutServices->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Backend::system/variable/js.phtml')
-            )))
-            ->renderLayout();
+            )));
+        $this->_layoutServices->renderLayout();
     }
 
     /**

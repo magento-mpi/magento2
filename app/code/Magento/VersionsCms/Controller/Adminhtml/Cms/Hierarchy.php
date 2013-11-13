@@ -178,7 +178,8 @@ class Hierarchy extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**

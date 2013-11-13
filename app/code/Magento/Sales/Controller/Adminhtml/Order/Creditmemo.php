@@ -213,8 +213,8 @@ class Creditmemo
             $this->_layoutServices->loadLayout();
             $this->_layoutServices->getLayout()->getBlock('sales_creditmemo_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->_setActiveMenu('Magento_Sales::sales_creditmemo')
-                ->renderLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_creditmemo');
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_forward('noroute');
         }
@@ -248,8 +248,8 @@ class Creditmemo
             }
 
             $this->_layoutServices->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_order')
-                ->renderLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_forward('noroute');
         }

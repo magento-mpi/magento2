@@ -145,8 +145,8 @@ class Customersegment
     {
         $this->_title->add(__('Customer Segment Report'));
 
-        $this->_initAction()
-            ->renderlayout();
+        $this->_initAction();
+        $this->_layoutServices->renderLayout();
     }
 
     /**
@@ -184,7 +184,8 @@ class Customersegment
 
             $this->_title->add(__('Details'));
 
-            $this->_initAction()->renderLayout();
+            $this->_initAction();
+            $this->_layoutServices->renderLayout();
         } else {
             $this->_redirect('adminhtml/*/segment');
             return ;

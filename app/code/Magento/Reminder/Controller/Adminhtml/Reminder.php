@@ -164,7 +164,8 @@ class Reminder extends \Magento\Backend\App\Action
             ->setCanLoadRulesJs(true);
 
         $caption = $model->getId() ? __('Edit Rule') : __('New Reminder Rule');
-        $this->_addBreadcrumb($caption, $caption)->renderLayout();
+        $this->_addBreadcrumb($caption, $caption);
+        $this->_layoutServices->renderLayout();
     }
 
     /**
