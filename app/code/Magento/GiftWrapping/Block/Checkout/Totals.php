@@ -31,32 +31,27 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
     protected $_giftWrappingData = null;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($catalogData, $coreData, $context, $salesConfig, $customerSession, $checkoutSession,
-            $storeManager, $data);
+        parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
     }
 
     /**

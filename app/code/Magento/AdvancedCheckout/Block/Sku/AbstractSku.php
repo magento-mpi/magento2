@@ -34,19 +34,19 @@ abstract class AbstractSku
     protected $_checkoutData = null;
 
     /**
-     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param array $data
      */
     public function __construct(
-        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

@@ -25,19 +25,19 @@ class State extends \Magento\Core\Block\Template
     protected $_multishippingState;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Type\Multishipping\State $multishippingState
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Type\Multishipping\State $multishippingState,
         array $data = array()
     ) {
         $this->_multishippingState = $multishippingState;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

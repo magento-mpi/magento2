@@ -34,28 +34,24 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
     protected $_searchLayer;
 
     /**
-     * Construct
-     *
-     * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Layer $catalogSearchLayer
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Search\Model\Search\Layer $searchLayer
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogSearch\Model\Layer $catalogLayer,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\CatalogSearch\Model\Layer $catalogLayer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\CatalogSearch\Model\Layer $catalogSearchLayer,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Registry $registry,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Search\Model\Search\Layer $searchLayer,
@@ -63,8 +59,16 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
     ) {
         $this->_searchData = $searchData;
         $this->_searchLayer = $searchLayer;
-        parent::__construct($catalogLayer, $coreData, $context, $engineProvider, $catalogSearchData,
-            $catalogSearchLayer, $storeManager, $registry, $data);
+        parent::__construct(
+            $context,
+            $catalogLayer,
+            $coreData,
+            $engineProvider,
+            $catalogSearchData,
+            $catalogSearchLayer,
+            $registry,
+            $data
+        );
     }
 
     /**

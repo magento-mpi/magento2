@@ -37,22 +37,20 @@ class Detailed extends \Magento\Core\Block\Template
     protected $_ratingFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         array $data = array()
-    ){
+    ) {
         $this->_storeManager = $storeManager;
         $this->_ratingFactory = $ratingFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

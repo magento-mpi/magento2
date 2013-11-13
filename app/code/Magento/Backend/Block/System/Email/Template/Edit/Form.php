@@ -27,26 +27,26 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_variableFactory;
 
     /**
-     * @param \Magento\Core\Model\VariableFactory $variableFactory
-     * @param \Magento\Core\Model\Source\Email\Variables $variables
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\VariableFactory $variableFactory
+     * @param \Magento\Core\Model\Source\Email\Variables $variables
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\VariableFactory $variableFactory,
-        \Magento\Core\Model\Source\Email\Variables $variables,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\VariableFactory $variableFactory,
+        \Magento\Core\Model\Source\Email\Variables $variables,
         array $data = array()
     ) {
         $this->_variableFactory = $variableFactory;
         $this->_variables = $variables;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**

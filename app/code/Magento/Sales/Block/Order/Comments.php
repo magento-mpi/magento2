@@ -12,19 +12,19 @@ namespace Magento\Sales\Block\Order;
 class Comments extends \Magento\Core\Block\Template
 {
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\ResourceFactory $resourceFactory,
         array $data = array()
     ) {
         $this->_resourceFactory = $resourceFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

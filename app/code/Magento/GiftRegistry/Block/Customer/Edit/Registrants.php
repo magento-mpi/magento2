@@ -33,23 +33,30 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
     protected $_giftRegistryData = null;
 
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $coreRegistry, $configCacheType, $coreData, $context, $storeManager, $regionCollFactory,
-            $countryCollFactory, $customerSession, $attributeConfig, $locale, $data
+            $context,
+            $coreRegistry,
+            $configCacheType,
+            $coreData,
+            $regionCollFactory,
+            $countryCollFactory,
+            $customerSession,
+            $attributeConfig,
+            $locale,
+            $data
         );
     }
 

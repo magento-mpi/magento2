@@ -37,42 +37,49 @@ class Export
     protected $_templateFactory;
 
     /**
-     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
-     * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
+     * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
-        \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
+        \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
         array $data = array()
     ) {
         $this->_sourceExportFormat = $sourceExportFormat;
         $this->_templateFactory = $templateFactory;
         parent::__construct(
-            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $string, $registry,
-            $formFactory, $coreData, $context, $data
+            $context,
+            $optionArrayPool,
+            $emailMethod,
+            $emailIdentity,
+            $operationData,
+            $sourceYesno,
+            $string,
+            $registry,
+            $formFactory,
+            $coreData,
+            $data
         );
     }
 

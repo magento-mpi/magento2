@@ -51,20 +51,18 @@ class AbstractView extends \Magento\Core\Block\Template
     protected $_storeManager;
 
     /**
-     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
         array $data = array()
     ) {
@@ -72,7 +70,7 @@ class AbstractView extends \Magento\Core\Block\Template
         $this->_giftWrappingData = $giftWrappingData;
         $this->_storeManager = $storeManager;
         $this->_wrappingCollFactory = $wrappingCollFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

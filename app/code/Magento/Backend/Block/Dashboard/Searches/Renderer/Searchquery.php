@@ -25,13 +25,13 @@ class Searchquery
     protected $_coreString = null;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
         \Magento\Backend\Block\Context $context,
+        \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
         $this->_coreString = $coreString;

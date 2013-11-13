@@ -79,10 +79,10 @@ class Head extends \Magento\Core\Block\Template
     protected $_locale;
 
     /**
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
@@ -90,10 +90,10 @@ class Head extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
@@ -101,7 +101,7 @@ class Head extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_fileStorageDatabase = $fileStorageDatabase;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;

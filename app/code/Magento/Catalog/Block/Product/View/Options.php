@@ -51,27 +51,25 @@ class Options extends \Magento\Core\Block\Template
     protected $_catalogProduct;
 
     /**
-     * Construct
-     *
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_registry = $registry;
         $this->_option = $option;
         $this->_taxData = $taxData;

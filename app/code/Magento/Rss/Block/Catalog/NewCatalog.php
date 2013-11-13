@@ -41,11 +41,11 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_resourceIterator;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -54,11 +54,11 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -71,7 +71,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_locale = $locale;
         $this->_visibility = $visibility;
         $this->_resourceIterator = $resourceIterator;
-        parent::__construct($catalogData, $coreData, $context, $storeManager, $customerSession, $data);
+        parent::__construct($context, $coreData, $storeManager, $customerSession, $catalogData, $data);
     }
 
     protected function _toHtml()

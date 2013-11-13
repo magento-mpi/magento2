@@ -28,22 +28,22 @@ class Gws extends \Magento\Backend\Block\Template
     protected $_adminGwsRole;
 
     /**
-     * @param \Magento\AdminGws\Model\Role $adminGwsRole
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\AdminGws\Model\Role $adminGwsRole
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        \Magento\AdminGws\Model\Role $adminGwsRole,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\AdminGws\Model\Role $adminGwsRole,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_adminGwsRole = $adminGwsRole;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

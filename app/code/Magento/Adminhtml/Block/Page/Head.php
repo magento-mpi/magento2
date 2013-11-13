@@ -30,10 +30,10 @@ class Head extends \Magento\Page\Block\Html\Head
     protected $_titles;
 
     /**
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
@@ -42,10 +42,10 @@ class Head extends \Magento\Page\Block\Html\Head
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
@@ -55,8 +55,15 @@ class Head extends \Magento\Page\Block\Html\Head
     ) {
         $this->_titles = $titles;
         parent::__construct(
-            $locale, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
-            $assetMergeService, $assetMinifyService, $data
+            $context,
+            $locale,
+            $fileStorageDatabase,
+            $coreData,
+            $objectManager,
+            $page,
+            $assetMergeService,
+            $assetMinifyService,
+            $data
         );
     }
 

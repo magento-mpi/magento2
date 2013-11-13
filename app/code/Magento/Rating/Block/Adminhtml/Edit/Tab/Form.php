@@ -42,24 +42,24 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_optionFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Rating\Model\Rating\OptionFactory $optionFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Rating\Model\Rating\OptionFactory $optionFactory,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -67,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_session = $session;
         $this->_systemStore = $systemStore;
         $this->_storeManager = $storeManager;
-        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
 

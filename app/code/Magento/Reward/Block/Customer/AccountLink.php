@@ -18,19 +18,19 @@ class AccountLink extends \Magento\Page\Block\Link\Current
 
     /**
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Reward\Helper\Data $rewardHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Reward\Helper\Data $rewardHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Reward\Helper\Data $rewardHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\Reward\Helper\Data $rewardHelper,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $defaultPath, $data);
+        parent::__construct($context, $coreData, $defaultPath, $data);
         $this->_rewardHelper = $rewardHelper;
     }
 

@@ -42,14 +42,14 @@ class DefaultRenderer
     protected $_attrDataFactory;
 
     /**
-     * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Block\Context $context,
+        \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {

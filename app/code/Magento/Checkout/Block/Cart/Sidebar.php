@@ -50,27 +50,25 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_checkoutCart;
 
     /**
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param array $data
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Checkout\Model\Cart $checkoutCart,
         array $data = array()
@@ -80,7 +78,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_storeManager = $storeManager;
         $this->_taxConfig = $taxConfig;
         $this->_checkoutCart = $checkoutCart;
-        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession,  $data);
+        parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $data);
     }
 
     /**

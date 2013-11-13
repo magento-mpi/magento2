@@ -34,22 +34,20 @@ class Recommendations extends \Magento\Core\Block\Template
     protected $_recommendationsFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Search\Model\RecommendationsFactory $recommendationsFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Search\Model\RecommendationsFactory $recommendationsFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_searchData = $searchData;
         $this->_recommendationsFactory = $recommendationsFactory;
     }

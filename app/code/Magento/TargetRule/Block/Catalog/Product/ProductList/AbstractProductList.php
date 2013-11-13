@@ -57,35 +57,30 @@ abstract class AbstractProductList
     protected $_productCollectionFactory;
 
     /**
-     *
-     * Construct
-     *
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
@@ -95,8 +90,15 @@ abstract class AbstractProductList
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct(
-            $storeManager, $catalogConfig, $index, $coreRegistry, $targetRuleData, $taxData,
-            $catalogData, $coreData, $context, $data
+            $context,
+            $catalogConfig,
+            $index,
+            $coreRegistry,
+            $targetRuleData,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $data
         );
     }
 

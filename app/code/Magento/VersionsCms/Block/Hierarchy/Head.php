@@ -32,14 +32,14 @@ class Head extends \Magento\Core\Block\AbstractBlock
     protected $_cmsHierarchy = null;
 
     /**
-     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Block\Context $context,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

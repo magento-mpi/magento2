@@ -40,27 +40,24 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
     protected $_locale;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Catalog\Model\Product\Option\Type\Date
-     * $catalogProductOptionTypeDate
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_locale = $locale;
         $this->_catalogProductOptionTypeDate = $catalogProductOptionTypeDate;
-        parent::__construct($taxData, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $taxData, $data);
     }
 
     protected function _prepareLayout()

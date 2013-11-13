@@ -49,19 +49,17 @@ class History extends \Magento\Core\Block\Template
     protected $_historyFactory;
 
     /**
-     * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
@@ -70,7 +68,7 @@ class History extends \Magento\Core\Block\Template
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_historyFactory = $historyFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

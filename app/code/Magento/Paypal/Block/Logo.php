@@ -26,22 +26,22 @@ class Logo extends \Magento\Core\Block\Template
     protected $_paypalConfig;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Paypal\Model\Config $paypalConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Paypal\Model\Config $paypalConfig,
         array $data = array()
     ) {
         $this->_locale = $locale;
         $this->_paypalConfig = $paypalConfig;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

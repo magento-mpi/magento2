@@ -86,14 +86,13 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
-     * @todo Remove injection of the core helper from this class and its descendants, because it's no longer used
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

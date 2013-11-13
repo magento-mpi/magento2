@@ -31,19 +31,19 @@ class Services extends \Magento\Backend\Block\Template
     protected $_srcCurrencyFactory;
 
     /**
-     * @param \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory,
         array $data = array()
     ) {
         $this->_srcCurrencyFactory = $srcCurrencyFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

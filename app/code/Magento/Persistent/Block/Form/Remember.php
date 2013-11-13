@@ -33,22 +33,22 @@ class Remember extends \Magento\Core\Block\Template
     protected $mathRandom;
 
     /**
-     * @param \Magento\Persistent\Helper\Data $persistentData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param array $data
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Math\Random $mathRandom
+     * @param array $data
      */
     public function __construct(
-        \Magento\Persistent\Helper\Data $persistentData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_persistentData = $persistentData;
         $this->mathRandom = $mathRandom;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

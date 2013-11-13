@@ -55,30 +55,28 @@ class Shippingmethod
     protected $_storeManager;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Model\ShippingFactory $shippingFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
         $this->_rmaData = $rmaData;
         $this->_shippingFactory = $shippingFactory;
         $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($context, $coreData, $registry, $data);
     }
 
     public function _construct()

@@ -93,17 +93,16 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\CatalogInventory\Model\Stock\Status $status
      * @param \Magento\Checkout\Model\Session $session
@@ -113,17 +112,16 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\CatalogInventory\Model\Stock\Status $status,
         \Magento\Checkout\Model\Session $session,
@@ -131,8 +129,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         array $data = array()
-    )
-    {
+    ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
@@ -141,8 +138,16 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $this->_productLinkFactory = $productLinkFactory;
         $this->_productFactory = $productFactory;
         $this->_indexFactory = $indexFactory;
-        parent::__construct($storeManager, $catalogConfig, $index, $coreRegistry, $targetRuleData, $taxData,
-            $catalogData, $coreData, $context, $data
+        parent::__construct(
+            $context,
+            $catalogConfig,
+            $index,
+            $coreRegistry,
+            $targetRuleData,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $data
         );
     }
 

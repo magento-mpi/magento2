@@ -44,22 +44,20 @@ class Element extends \Magento\Core\Block\Template
     protected $locale;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
@@ -67,7 +65,7 @@ class Element extends \Magento\Core\Block\Template
         $this->country = $country;
         $this->region = $region;
 
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
 
         $this->storeManager = $storeManager;
         $this->locale = $locale;

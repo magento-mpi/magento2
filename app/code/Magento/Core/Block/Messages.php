@@ -88,22 +88,22 @@ class Messages extends \Magento\Core\Block\Template
     protected $_messageFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Message $message
      * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Message $message,
         \Magento\Core\Model\Message\CollectionFactory $messageFactory,
         array $data = array()
     ) {
         $this->_message = $message;
         $this->_messageFactory = $messageFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

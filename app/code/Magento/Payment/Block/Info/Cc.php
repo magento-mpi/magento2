@@ -30,24 +30,20 @@ class Cc extends \Magento\Payment\Block\Info
     protected $_paymentConfig;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Payment\Model\Config $paymentConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $storeManager, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_locale = $locale;
         $this->_paymentConfig = $paymentConfig;
     }

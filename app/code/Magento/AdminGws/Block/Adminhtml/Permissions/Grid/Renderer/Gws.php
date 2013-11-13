@@ -28,13 +28,13 @@ class Gws
     protected $_storeGroupCollection;
 
     /**
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection,
         \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection,
         array $data = array()
     ) {
         $this->_storeGroupCollection = $storeGroupCollection;

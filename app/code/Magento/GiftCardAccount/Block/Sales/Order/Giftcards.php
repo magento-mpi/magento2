@@ -20,19 +20,19 @@ class Giftcards extends \Magento\Core\Block\Template
     protected $_giftCardAccountData = null;
 
     /**
-     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

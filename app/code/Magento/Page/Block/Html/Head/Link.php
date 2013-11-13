@@ -19,20 +19,18 @@ class Link extends \Magento\Core\Block\Template
     const VIRTUAL_CONTENT_TYPE = 'link';
 
     /**
-     * Contructor
-     *
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->setAsset(
             $remoteFactory->create(array(
                 'url' => (string)$this->getData('url'),

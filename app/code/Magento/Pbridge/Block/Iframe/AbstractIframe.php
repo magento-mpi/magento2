@@ -70,13 +70,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_pbridgeData = null;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Region factory
      *
      * @var \Magento\Directory\Model\RegionFactory
@@ -98,24 +91,20 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
@@ -123,8 +112,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_customerSession = $customerSession;
         $this->_pbridgeSession = $pbridgeSession;
         $this->_regionFactory = $regionFactory;
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

@@ -28,20 +28,20 @@ class Notice extends \Magento\Adminhtml\Block\Template
     protected $_resourceModel;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reminder\Model\Resource\Rule $resourceModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Reminder\Model\Resource\Rule $resourceModel,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_coreRegistry = $registry;
         $this->_resourceModel = $resourceModel;
     }
