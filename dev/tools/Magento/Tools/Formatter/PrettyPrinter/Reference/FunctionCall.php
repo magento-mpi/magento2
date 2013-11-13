@@ -8,8 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_FuncCall;
 
@@ -31,10 +29,9 @@ class FunctionCall extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        $this->resolveNode($this->node->name, $treeNode);
+        // add in the function name
+        $treeNode = $this->resolveNode($this->node->name, $treeNode);
         // add in the argument call
-        return $this->processArgsList($this->node->args, $treeNode, $line, new CallLineBreak());
+        return $this->processArgsList($this->node->args, $treeNode, new CallLineBreak());
     }
 }

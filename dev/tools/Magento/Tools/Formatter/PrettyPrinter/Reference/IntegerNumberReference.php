@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_LNumber;
 
@@ -36,9 +35,8 @@ class IntegerNumberReference extends AbstractScalarReference
             // otherwise, do the best guess at resolving it as a number
             $stringValue = (string) $this->node->value;
         }
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the value to the end of the current line
-        $line->add($stringValue);
+        $this->addToLine($treeNode, $stringValue);
+        return $treeNode;
     }
 }

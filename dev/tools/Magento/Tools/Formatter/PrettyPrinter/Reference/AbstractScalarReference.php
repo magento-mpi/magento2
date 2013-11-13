@@ -11,7 +11,6 @@ use Magento\Tools\Formatter\ParserLexer;
 use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar;
 
@@ -45,27 +44,22 @@ class AbstractScalarReference extends AbstractReference
         parent::resolve($treeNode);
         // optionally add in the result
         if (null !== $this->result) {
-            /** @var Line $line */
-            $line = $treeNode->getData()->line;
             // add in the constant value
-            $line->add($this->result);
+            $this->addToLine($treeNode, $this->result);
         }
     }
 
     /**
      * This method reproduces the heredoc structure.
-     * @param Line $line
-     * @param $heredocCloseTag
-     * @param array $bodyLines
-     * @param boolean $isNowDoc
+     * @param string $heredocCloseTag String containing the value of the heredoc tag
+     * @param array $bodyLines Array containing the body lines of the heredoc.
      */
-    protected function processHeredoc(Line $line, $heredocCloseTag, array $bodyLines, TreeNode $treeNode)
+    protected function processHeredoc(TreeNode $treeNode, $heredocCloseTag, array $bodyLines)
     {
-        $line->add('<<<');
         // if this is a now doc add the single quote to the open tag
         $isNowDoc = $this->node->getAttribute(ParserLexer::IS_NOWDOC, false);
-        $line->add($isNowDoc ? "'" . $heredocCloseTag . "'" : $heredocCloseTag);
-        $line->add(new HardLineBreak());
+        $this->addToLine($treeNode, '<<<')->add($isNowDoc ? "'" . $heredocCloseTag . "'" : $heredocCloseTag);
+        $this->addToLine($treeNode, new HardLineBreak());
         foreach ($bodyLines as $bodyLine) {
             if (is_string($bodyLine)) {
                 $heredocLines = explode(HardLineBreak::EOL, $bodyLine);
@@ -73,20 +67,20 @@ class AbstractScalarReference extends AbstractReference
                     $heredocLineKeys = array_keys($heredocLines);
                     $lastKey = end($heredocLineKeys);
                     foreach ($heredocLines as $key => $heredocLine) {
-                        $line->add(new IndentConsumer())->add($heredocLine);
+                        $this->addToLine($treeNode, new IndentConsumer())->add($heredocLine);
                         // add in a newline if we are in the middle of the list or if the original has a newline
                         if ($lastKey !== $key || $this->endsWith($bodyLine, HardLineBreak::EOL)) {
-                            $line->add(new HardLineBreak());
+                            $this->addToLine($treeNode, new HardLineBreak());
                         }
                     }
                 }
             } else {
-                $line->add('{');
-                $this->resolveNode($bodyLine, $treeNode);
-                $line->add('}');
+                $this->addToLine($treeNode, '{');
+                $treeNode = $this->resolveNode($bodyLine, $treeNode);
+                $this->addToLine($treeNode, '}');
             }
         }
-        $line->add(new HardLineBreak())
+        $this->addToLine($treeNode, new HardLineBreak())
             ->add(new IndentConsumer())
             ->add($heredocCloseTag)
             ->add(new HardConditionalLineBreak(';'));

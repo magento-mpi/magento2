@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 abstract class AbstractAssignmentOperator extends AbstractInfixOperator
@@ -28,9 +27,7 @@ abstract class AbstractAssignmentOperator extends AbstractInfixOperator
      */
     protected function addOperatorToLine(TreeNode $treeNode)
     {
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        $line->add(' ')->add($this->operator())->add(' ');
+        $this->addToLine($treeNode, ' ')->add($this->operator())->add(' ');
     }
 
     /**

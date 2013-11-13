@@ -31,10 +31,8 @@ class TryCatchStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the try line
-        $line->add('try {')->add(new HardLineBreak());
+        $this->addToLine($treeNode, 'try {')->add(new HardLineBreak());
         // add in the statements inside the try
         $this->processNodes($this->node->stmts, $treeNode, true);
         // add in the catches for this try
@@ -46,7 +44,7 @@ class TryCatchStatement extends AbstractControlStatement
             $this->processNodes($this->node->finallyStmts, $treeNode, true);
         }
         // add the closing brace on a new line
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 
     /**

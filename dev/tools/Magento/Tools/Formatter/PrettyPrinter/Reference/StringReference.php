@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_String;
 
@@ -30,18 +29,17 @@ class StringReference extends AbstractScalarReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($line, $heredocCloseTag, array($this->node->value), $treeNode);
+            $this->processHeredoc($treeNode, $heredocCloseTag, array($this->node->value));
         } elseif (null === $stringValue) {
             // if nothing there, then use the raw data
-            $line->add('\'')->add(addcslashes($this->node->value, '\'\\'))->add('\'');
+            $this->addToLine($treeNode, '\'')->add(addcslashes($this->node->value, '\'\\'))->add('\'');
         } else {
-            $line->add($stringValue);
+            $this->addToLine($treeNode, $stringValue);
         }
+        return $treeNode;
     }
 }

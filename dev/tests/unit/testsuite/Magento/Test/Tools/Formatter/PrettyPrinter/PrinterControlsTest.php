@@ -83,30 +83,30 @@ class PrinterControlsTest extends TestBase
      */
     public function dataIf()
     {
-        $originalIf5 = <<<ORIGINALIF5
+        $originalIf5 = <<< 'ORIGINALIF5'
 <?php class If5 {
 protected function alpha() {
-        if (\$response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
+        if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
             throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
-        } elseif (\$response->getResultCode() != self::RESPONSE_CODE_APPROVED
-            && \$response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED
+            && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Core\Exception(\$response->getRespmsg());
+            throw new \Magento\Core\Exception($response->getRespmsg());
         }
 }}
 ORIGINALIF5;
-        $formattedIf5 = <<<FORMATTEDIF5
+        $formattedIf5 = <<< 'FORMATTEDIF5'
 <?php
 class If5
 {
     protected function alpha()
     {
-        if (\$response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
+        if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
             throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
-        } elseif (\$response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
-            \$response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
+            $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Core\Exception(\$response->getRespmsg());
+            throw new \Magento\Core\Exception($response->getRespmsg());
         }
     }
 }
@@ -163,100 +163,100 @@ FORMATTEDIF5;
      */
     public function dataControls()
     {
-        $originalCodeSnippet = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet = <<< 'ORIGINALCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
-    public function main(\$abcdefghijklmnopqrstuvwxyz) {
-        if (isset(\$abcdefghijklmnopqrstuvwxyz)&&isset(\$abcdefghijklmnopqrstuvwxyz)&&
-            isset(\$abcdefghijklmnopqrstuvwxyz)) {
-            \$callback = 'hello';
-            \$callback = 'good';
-            \$callback = 'bye';
-            if (isset(\$abcdefghijklmnopqrstuvwxyz)) {
-                \$callback = 'asdf';
+    public function main($abcdefghijklmnopqrstuvwxyz) {
+        if (isset($abcdefghijklmnopqrstuvwxyz)&&isset($abcdefghijklmnopqrstuvwxyz)&&
+            isset($abcdefghijklmnopqrstuvwxyz)) {
+            $callback = 'hello';
+            $callback = 'good';
+            $callback = 'bye';
+            if (isset($abcdefghijklmnopqrstuvwxyz)) {
+                $callback = 'asdf';
             }
         }
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet = <<< 'FORMATTEDCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
 class TestClass
 {
-    public function main(\$abcdefghijklmnopqrstuvwxyz)
+    public function main($abcdefghijklmnopqrstuvwxyz)
     {
         if (isset(
-            \$abcdefghijklmnopqrstuvwxyz
-        ) && isset(\$abcdefghijklmnopqrstuvwxyz) && isset(\$abcdefghijklmnopqrstuvwxyz)
+            $abcdefghijklmnopqrstuvwxyz
+        ) && isset($abcdefghijklmnopqrstuvwxyz) && isset($abcdefghijklmnopqrstuvwxyz)
         ) {
-            \$callback = 'hello';
-            \$callback = 'good';
-            \$callback = 'bye';
-            if (isset(\$abcdefghijklmnopqrstuvwxyz)) {
-                \$callback = 'asdf';
+            $callback = 'hello';
+            $callback = 'good';
+            $callback = 'bye';
+            if (isset($abcdefghijklmnopqrstuvwxyz)) {
+                $callback = 'asdf';
             }
         }
     }
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet2 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet2 = <<< 'ORIGINALCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
-    public function main(\$results) {
-        if (strcasecmp('FALSE', \$results) === 0 || strcasecmp('TRUE', \$results) === 0 ||
-            strcasecmp('NULL', \$results) === 0) {
-            \$tokens[sizeof(\$tokens) - 1] = strtolower(\$results);
+    public function main($results) {
+        if (strcasecmp('FALSE', $results) === 0 || strcasecmp('TRUE', $results) === 0 ||
+            strcasecmp('NULL', $results) === 0) {
+            $tokens[sizeof($tokens) - 1] = strtolower($results);
             // reset the last item in the array due to php's "copy-on-write" rule for arrays
-            \$treeNode->getData()->line->setTokens(\$tokens);
+            $treeNode->getData()->line->setTokens($tokens);
         }
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet2 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet2 = <<< 'FORMATTEDCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
 class TestClass
 {
-    public function main(\$results)
+    public function main($results)
     {
         if (strcasecmp(
             'FALSE',
-            \$results
-        ) === 0 || strcasecmp('TRUE', \$results) === 0 || strcasecmp('NULL', \$results) === 0
+            $results
+        ) === 0 || strcasecmp('TRUE', $results) === 0 || strcasecmp('NULL', $results) === 0
         ) {
-            \$tokens[sizeof(\$tokens) - 1] = strtolower(\$results);
+            $tokens[sizeof($tokens) - 1] = strtolower($results);
             // reset the last item in the array due to php's "copy-on-write" rule for arrays
-            \$treeNode->getData()->line->setTokens(\$tokens);
+            $treeNode->getData()->line->setTokens($tokens);
         }
     }
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet3 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet3 = <<< 'ORIGINALCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestArrayParameter {
-    public function main(\$results) {
-        \$element->setDisabled(array(\Magento\Catalog\Model\Session::DISPLAY_CATEGORY_PAGE,
+    public function main($results) {
+        $element->setDisabled(array(\Magento\Catalog\Model\Session::DISPLAY_CATEGORY_PAGE,
                 \Magento\Catalog\Model\Session::DISPLAY_PRODUCT_PAGE));
     }
 }
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet3 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet3 = <<< 'FORMATTEDCODESNIPPET'
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
 class TestArrayParameter
 {
-    public function main(\$results)
+    public function main($results)
     {
-        \$element->setDisabled(
+        $element->setDisabled(
             array(
                 \Magento\Catalog\Model\Session::DISPLAY_CATEGORY_PAGE,
                 \Magento\Catalog\Model\Session::DISPLAY_PRODUCT_PAGE
@@ -266,95 +266,95 @@ class TestArrayParameter
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet4 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet4 = <<< 'ORIGINALCODESNIPPET'
 <?php
 class TestIfCase{
-    public function main(\$results) {
-        if (\$otherCode) {
-            \$files = array_merge(
-                \$files,
-                glob(\$this->_path . '/*.php', GLOB_NOSORT),
-                glob(\$this->_path . '/pub/*.php', GLOB_NOSORT),
-                self::getFiles(array("{\$this->_path}/downloader"), '*.php'),
-                self::getFiles(array("{\$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+    public function main($results) {
+        if ($otherCode) {
+            $files = array_merge(
+                $files,
+                glob($this->_path . '/*.php', GLOB_NOSORT),
+                glob($this->_path . '/pub/*.php', GLOB_NOSORT),
+                self::getFiles(array("{$this->_path}/downloader"), '*.php'),
+                self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
             );
         }}}
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet4 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet4 = <<< 'FORMATTEDCODESNIPPET'
 <?php
 class TestIfCase
 {
-    public function main(\$results)
+    public function main($results)
     {
-        if (\$otherCode) {
-            \$files = array_merge(
-                \$files,
-                glob(\$this->_path . '/*.php', GLOB_NOSORT),
-                glob(\$this->_path . '/pub/*.php', GLOB_NOSORT),
-                self::getFiles(array("{\$this->_path}/downloader"), '*.php'),
-                self::getFiles(array("{\$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+        if ($otherCode) {
+            $files = array_merge(
+                $files,
+                glob($this->_path . '/*.php', GLOB_NOSORT),
+                glob($this->_path . '/pub/*.php', GLOB_NOSORT),
+                self::getFiles(array("{$this->_path}/downloader"), '*.php'),
+                self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
             );
         }
     }
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet5 = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet5 = <<< 'ORIGINALCODESNIPPET'
 <?php
 function alpha() {
-if (\$ftp) {
-    \$cwd=\$ftpObj->getcwd();
-    \$dir=\$cwd . DIRECTORY_SEPARATOR .\$config->downloader_path . DIRECTORY_SEPARATOR
-        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( \$pChan, "\\/");
-    \$ftpObj->mkdirRecursive(\$dir,0777);
-    \$ftpObj->chdir(\$cwd);
+if ($ftp) {
+    $cwd=$ftpObj->getcwd();
+    $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR
+        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
+    $ftpObj->mkdirRecursive($dir,0777);
+    $ftpObj->chdir($cwd);
 } else {
-    \$dir = \$config->getChannelCacheDir(\$pChan);
-    @mkdir(\$dir, 0777, true);
+    $dir = $config->getChannelCacheDir($pChan);
+    @mkdir($dir, 0777, true);
 }}
 ORIGINALCODESNIPPET;
-        $formattedCodeSnippet5 = <<<FORMATTEDCODESNIPPET
+        $formattedCodeSnippet5 = <<< 'FORMATTEDCODESNIPPET'
 <?php
 function alpha()
 {
-    if (\$ftp) {
-        \$cwd = \$ftpObj->getcwd();
-        \$dir = \$cwd .
+    if ($ftp) {
+        $cwd = $ftpObj->getcwd();
+        $dir = $cwd .
             DIRECTORY_SEPARATOR .
-            \$config->downloader_path .
+            $config->downloader_path .
             DIRECTORY_SEPARATOR .
             \Magento\Connect\Config::DEFAULT_CACHE_PATH .
             DIRECTORY_SEPARATOR .
             trim(
-            \$pChan,
+            $pChan,
             "\\/"
         );
-        \$ftpObj->mkdirRecursive(\$dir, 0777);
-        \$ftpObj->chdir(\$cwd);
+        $ftpObj->mkdirRecursive($dir, 0777);
+        $ftpObj->chdir($cwd);
     } else {
-        \$dir = \$config->getChannelCacheDir(\$pChan);
-        @mkdir(\$dir, 0777, true);
+        $dir = $config->getChannelCacheDir($pChan);
+        @mkdir($dir, 0777, true);
     }
 }
 
 FORMATTEDCODESNIPPET;
-        $originalClosure = <<<ORIGINALCLOSURE
+        $originalClosure = <<< 'ORIGINALCLOSURE'
 <?php
 class CSample {
 public function cS() {
-\$trimFunction = function (&\$value) {
-    \$value = trim(\$value, PHP_EOL . ' $');
+$trimFunction = function (&$value) {
+    $value = trim($value, PHP_EOL . ' $');
 };
 }}
 ORIGINALCLOSURE;
-        $formattedClosure = <<<FORMATTEDCLOSURE
+        $formattedClosure = <<< 'FORMATTEDCLOSURE'
 <?php
 class CSample
 {
     public function cS()
     {
-        \$trimFunction = function (&\$value) {
-            \$value = trim(\$value, PHP_EOL . ' $');
+        $trimFunction = function (&$value) {
+            $value = trim($value, PHP_EOL . ' $');
         };
     }
 }
@@ -472,6 +472,57 @@ class CSample5
 }
 
 FC5;
+        $originalClosure6 = <<< 'OC6'
+<?php
+class CSample6 {
+    public function cS6() {
+        $pattern = array('id' => '%s','name' => 'Static',
+            'calculated' => function ($index) {
+                return $index * 10;
+            },
+        );}}
+OC6;
+        $formattedClosure6 = <<< 'FC6'
+<?php
+class CSample6
+{
+    public function cS6()
+    {
+        $pattern = array(
+            'id' => '%s',
+            'name' => 'Static',
+            'calculated' => function ($index) {
+                return $index * 10;
+            }
+        );
+    }
+}
+
+FC6;
+        $originalClosure7 = <<< 'OC7'
+<?php
+class CSample7 {
+    public function cS7() {
+        $option = new \Magento\Validator\Constraint\Option\Callback(
+            function () {
+            }
+        );
+}}
+OC7;
+        $formattedClosure7 = <<< 'FC7'
+<?php
+class CSample7
+{
+    public function cS7()
+    {
+        $option = new \Magento\Validator\Constraint\Option\Callback(
+            function () {
+            }
+        );
+    }
+}
+
+FC7;
 
 
         return array(
@@ -497,6 +548,8 @@ FC5;
             array($originalClosure3, $formattedClosure3),
             array($originalClosure4, $formattedClosure4),
             array($originalClosure5, $formattedClosure5),
+            array($originalClosure6, $formattedClosure6),
+            array($originalClosure7, $formattedClosure7),
         );
     }
 }

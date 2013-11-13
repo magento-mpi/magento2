@@ -32,22 +32,20 @@ class FunctionStatement extends AbstractScriptStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the function line
-        $line->add('function ');
+        $this->addToLine($treeNode, 'function ');
         // add in the reference marker
         if ($this->node->byRef) {
-            $line->add('&');
+            $this->addToLine($treeNode, '&');
         }
         // add in the name and parameters
-        $line->add($this->node->name)->add('(');
+        $this->addToLine($treeNode, $this->node->name);
         $lineBreak = new ParameterLineBreak();
-        $this->processArgumentList($this->node->params, $treeNode, $line, $lineBreak);
-        $line->add(')')->add($lineBreak)->add('{')->add(new HardLineBreak());
+        $treeNode = $this->processArgsList($this->node->params, $treeNode, $lineBreak);
+        $this->addToLine($treeNode, $lineBreak)->add('{')->add(new HardLineBreak());
         // process content of the methods
         $this->processNodes($this->node->stmts, $treeNode);
         // add closing block
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 }

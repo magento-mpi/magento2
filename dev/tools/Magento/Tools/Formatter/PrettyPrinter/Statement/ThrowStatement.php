@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Throw;
 
@@ -30,13 +29,12 @@ class ThrowStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the class line
-        $line->add('throw ');
+        $this->addToLine($treeNode, 'throw ');
         // add the arguments
-        $this->resolveNode($this->node->expr, $treeNode);
+        $treeNode = $this->resolveNode($this->node->expr, $treeNode);
         // add in the terminator
-        $line->add(';')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ';')->add(new HardLineBreak());
+        return $treeNode;
     }
 }

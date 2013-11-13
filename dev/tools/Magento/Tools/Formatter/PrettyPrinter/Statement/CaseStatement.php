@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Case;
 
@@ -30,17 +29,15 @@ class CaseStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the control word
         if (null !== $this->node->cond) {
-            $line->add('case ');
-            $this->resolveNode($this->node->cond, $treeNode);
+            $this->addToLine($treeNode, 'case ');
+            $treeNode = $this->resolveNode($this->node->cond, $treeNode);
         } else {
-            $line->add('default');
+            $this->addToLine($treeNode, 'default');
         }
-        $line->add(':')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ':')->add(new HardLineBreak());
         // add in the statements
-        $this->processNodes($this->node->stmts, $treeNode);
+        return $this->processNodes($this->node->stmts, $treeNode);
     }
 }

@@ -9,6 +9,10 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
+use PHPParser_Node_Arg;
+use PHPParser_Node_Expr_ArrayItem;
+use PHPParser_Node_Expr_Closure;
+use PHPParser_Node_Expr_FuncCall;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
@@ -50,6 +54,7 @@ abstract class AbstractSyntax
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
@@ -62,37 +67,112 @@ abstract class AbstractSyntax
     }
 
     /**
-     * This method adds the arguments to the current line
-     * @param array $arguments
-     * @param TreeNode $treeNode
-     * @param Line $line
-     * @param LineBreak $lineBreak
+     * This method adds the token to the current line in the tree node.
+     * @param TreeNode $treeNode Node containing the current statement.
+     * @param mixed $token Token to be added to the line.
+     * @return Line that was just added to.
      */
-    protected function processArgumentList(array $arguments, TreeNode $treeNode, Line $line, LineBreak $lineBreak)
+    protected function addToLine(TreeNode $treeNode, $token)
     {
-        $lastProcessedNode = null;
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
+        // add the message to the line
+        return $line->add($token);
+    }
+
+    /**
+     * This method searches for a closure node in the arguments.
+     * @param array $arguments Array of arguments to process.
+     */
+    protected function hasClosure(array $arguments)
+    {
+        $closure = false;
+        // only need to look if something was specified
+        if (!empty($arguments)) {
+            foreach ($arguments as $argument) {
+                if (
+                ($argument instanceof PHPParser_Node_Arg && $argument->value instanceof PHPParser_Node_Expr_Closure) ||
+                ($argument instanceof PHPParser_Node_Expr_ArrayItem && $argument->value instanceof PHPParser_Node_Expr_Closure)
+                ) {
+                    $closure = true;
+                    break;
+                } elseif (
+                    $argument instanceof PHPParser_Node_Arg && $argument->value instanceof PHPParser_Node_Expr_FuncCall
+                ) {
+                    $closure = $this->hasClosure($argument->value->args);
+                    if ($closure === true) {
+                        break;
+                    }
+                }
+            }
+        }
+        return $closure;
+    }
+
+    /**
+     * This method processes the argument list as a parenthesis wrapped argument list.
+     * @param array $arguments Array of arguments to process.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     * @param LineBreak $lineBreak Class used to inject between arguments as a separator.
+     * @return TreeNode
+     */
+    protected function processArgsList(array $arguments, TreeNode $treeNode, LineBreak $lineBreak)
+    {
+        // search for a closure as one of the arguments
+        if ($this->hasClosure($arguments)) {
+            // force the multi-line argument list
+            $this->addToLine($treeNode, '(')->add(new HardLineBreak());
+            foreach ($arguments as $index => $argument) {
+                // create a new child for each argument
+                $line = new Line();
+                $lastProcessedNode = $treeNode->addChild(AbstractSyntax::getNodeLine($line));
+                // process the argument itself
+                $lastProcessedNode = $this->resolveNode($argument, $lastProcessedNode);
+                // if not the last one, separate with a comma
+                if ($index < sizeof($arguments) - 1) {
+                    $this->addToLine($lastProcessedNode, ',');
+                }
+                // each argument will have a hard line break
+                $this->addToLine($lastProcessedNode, new HardLineBreak());
+            }
+            // add the closing on a new line
+            $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line(')')));
+        } else {
+            // just process as normal
+            $this->addToLine($treeNode, '(');
+            $treeNode = $this->processArgumentList($arguments, $treeNode, $lineBreak);
+            $this->addToLine($treeNode, ')');
+        }
+        return $treeNode;
+    }
+
+    /**
+     * This method adds the arguments to the current line
+     * @param array $arguments Array of arguments to process.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     * @param LineBreak $lineBreak Class used to inject between arguments as a separator.
+     */
+    protected function processArgumentList(array $arguments, TreeNode $treeNode, LineBreak $lineBreak)
+    {
         if (!empty($arguments)) {
             foreach ($arguments as $index => $argument) {
                 // add the line break prior to the argument
-                $line->add($lineBreak);
+                $this->addToLine($treeNode, $lineBreak);
                 // If $argument is null there is nothing to resolve
                 if ($argument !== null) {
                     // process the argument itself
-                    $lastProcessedNode = $this->resolveNode($argument, $treeNode);
-                    if (null !== $lastProcessedNode) {
-                        $line = $lastProcessedNode->getData()->line;
-                    }
+                    $treeNode = $this->resolveNode($argument, $treeNode);
                 }
                 // if not the last one, separate with a comma
                 if ($index < sizeof($arguments) - 1) {
-                    $line->add(',');
+                    $this->addToLine($treeNode, ',');
                 }
             }
             if ($lineBreak->isAfterListRequired()) {
-                $line->add($lineBreak);
+                $this->addToLine($treeNode, $lineBreak);
             }
         }
-        return $lastProcessedNode;
+        return $treeNode;
     }
 
     /**
@@ -141,6 +221,7 @@ abstract class AbstractSyntax
      * This method resolves the node immediately.
      * @param PHPParser_Node $node
      * @param TreeNode $treeNode TreeNode representing the current node.
+     * @return TreeNode
      */
     protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
     {

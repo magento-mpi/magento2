@@ -29,6 +29,6 @@ class ElseIfStatement extends AbstractConditionalStatement
     {
         parent::resolve($treeNode);
         // use the base class to add in the conditional
-        $this->addConditional($treeNode, '} elseif');
+        return $this->addConditional($treeNode, '} elseif');
     }
 }

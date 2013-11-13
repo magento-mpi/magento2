@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\WrapperLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
@@ -21,15 +20,14 @@ abstract class AbstractConditionalStatement extends AbstractStatement
      */
     protected function addConditional(TreeNode $treeNode, $keyword)
     {
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        // add the if line
+        // add the keyword line
         $lineBreak = new WrapperLineBreak();
-        $line->add($keyword)->add(' (')->add($lineBreak);
+        $this->addToLine($treeNode, $keyword)->add(' (')->add($lineBreak);
         // add in the condition
-        $this->resolveNode($this->node->cond, $treeNode);
-        $line->add($lineBreak)->add(') {')->add(new HardLineBreak());
+        $treeNode = $this->resolveNode($this->node->cond, $treeNode);
+        $this->addToLine($treeNode, $lineBreak)->add(') {')->add(new HardLineBreak());
         // processing the child nodes
         $this->processNodes($this->node->stmts, $treeNode, true);
+        return $treeNode;
     }
 }

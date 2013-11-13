@@ -44,6 +44,7 @@ class ConstantReference extends AbstractReference
                 break;
             }
         }
+        return $treeNode;
     }
 
     /**

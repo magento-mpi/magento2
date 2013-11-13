@@ -32,30 +32,25 @@ class ClosureReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in static, if specified
         if ($this->node->static) {
-            $line->add('static ');
+            $this->addToLine($treeNode, 'static ');
         }
         // add in the function word
-        $line->add('function ');
+        $this->addToLine($treeNode, 'function ');
         // add in the reference specifier
         if ($this->node->byRef) {
-            $line->add('&');
+            $this->addToLine($treeNode, '&');
         }
         // add in the parameters
-        $line->add('(');
-        $this->processArgumentList($this->node->params, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        $treeNode = $this->processArgsList($this->node->params, $treeNode, new CallLineBreak());
         // add in uses, if specified
         if (!empty($this->node->uses)) {
-            $line->add(' use (');
-            $this->processArgumentList($this->node->uses, $treeNode, $line, new CallLineBreak());
-            $line->add(')');
+            $this->addToLine($treeNode, ' use ');
+            $this->processArgsList($this->node->uses, $treeNode, new CallLineBreak());
         }
         // add in enclosures and children
-        $line->add(' {')->add(new HardIndentLineBreak());
+        $this->addToLine($treeNode, ' {')->add(new HardIndentLineBreak());
         $this->processNodes($this->node->stmts, $treeNode);
         return $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line('}')));
     }

@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Print;
 
@@ -29,11 +28,9 @@ class PrintReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the empty statement
-        $line->add('print ');
+        $this->addToLine($treeNode, 'print ');
         // add in the actual variable reference
-        $this->resolveNode($this->node->expr, $treeNode);
+        return $this->resolveNode($this->node->expr, $treeNode);
     }
 }

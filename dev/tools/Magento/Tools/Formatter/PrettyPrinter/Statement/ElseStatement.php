@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Else;
 
@@ -30,12 +29,9 @@ class ElseStatement extends AbstractConditionalStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the if line
-        $line->add('} else {');
-        $line->add(new HardLineBreak());
+        $this->addToLine($treeNode, '} else {')->add(new HardLineBreak());
         // processing the child nodes
-        $this->processNodes($this->node->stmts, $treeNode);
+        return $this->processNodes($this->node->stmts, $treeNode);
     }
 }

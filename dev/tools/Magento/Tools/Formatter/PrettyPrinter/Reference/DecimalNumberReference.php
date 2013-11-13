@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_DNumber;
 
@@ -40,9 +39,8 @@ class DecimalNumberReference extends AbstractScalarReference
                 $stringValue .= '.0';
             }
         }
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the value to the end of the current line
-        $line->add($stringValue);
+        $this->addToLine($treeNode, $stringValue);
+        return $treeNode;
     }
 }

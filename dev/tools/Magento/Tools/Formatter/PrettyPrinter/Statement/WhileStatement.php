@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_While;
 
@@ -29,13 +28,11 @@ class WhileStatement extends AbstractLoopStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line->add('while (');
+        $this->addToLine($treeNode, 'while (');
         // add in the condition
-        $this->resolveNode($this->node->cond, $treeNode);
+        $treeNode = $this->resolveNode($this->node->cond, $treeNode);
         // add in the rest
-        $this->addBody($treeNode);
+        return $this->addBody($treeNode);
     }
 }

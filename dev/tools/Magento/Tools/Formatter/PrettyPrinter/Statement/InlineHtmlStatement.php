@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_InlineHTML;
 
@@ -31,13 +30,12 @@ class InlineHtmlStatement extends AbstractStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // assume in the context of php, so close it
-        $line->add(new IndentConsumer())->add('?>')->add(new HardLineBreak());
+        $this->addToLine($treeNode, new IndentConsumer())->add('?>')->add(new HardLineBreak());
         // print the HTML
-        $line->add(new IndentConsumer())->add($this->node->value);
+        $this->addToLine($treeNode, new IndentConsumer())->add($this->node->value);
         // go back to PHP
-        $line->add(new IndentConsumer())->add('<?php')->add(new HardLineBreak());
+        $this->addToLine($treeNode, new IndentConsumer())->add('<?php')->add(new HardLineBreak());
+        return $treeNode;
     }
 }

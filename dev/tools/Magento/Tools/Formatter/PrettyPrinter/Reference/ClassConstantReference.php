@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_ClassConstFetch;
 
@@ -29,11 +28,10 @@ class ClassConstantReference extends AbstractPropertyReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the class reference
         $this->resolveNode($this->node->class, $treeNode);
         // add in the actual reference
-        $line->add('::')->add($this->node->name);
+        $this->addToLine($treeNode, '::')->add($this->node->name);
+        return $treeNode;
     }
 }

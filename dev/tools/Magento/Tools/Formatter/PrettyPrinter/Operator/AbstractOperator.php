@@ -52,8 +52,7 @@ abstract class AbstractOperator extends AbstractSyntax
     */
     protected function resolvePrecedence(PHPParser_Node $node, TreeNode $treeNode, $childPosition)
     {
-        $newNode = null;
-        /** @var AbstractSyntax $statement */
+        /** @var AbstractSyntax $child */
         $child = SyntaxFactory::getInstance()->getStatement($node);
         if ($child instanceof AbstractOperator) {
             $childPrecedence = $child->precedence();
@@ -72,11 +71,11 @@ abstract class AbstractOperator extends AbstractSyntax
                 $child->resolve($treeNode);
                 $treeNode->getData()->line->add($lineBreak)->add(')');
             } else {
-                $newNode = $child->resolve($treeNode);
+                $treeNode = $child->resolve($treeNode);
             }
         } else {
-            $newNode = $child->resolve($treeNode);
+            $treeNode = $child->resolve($treeNode);
         }
-        return $newNode;
+        return $treeNode;
     }
 }

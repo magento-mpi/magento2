@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Break;
 
@@ -30,17 +29,16 @@ class BreakStatement extends AbstractControlStatement
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the const line
-        $line->add('break');
+        $this->addToLine($treeNode, 'break');
         // add in the break number, if specified
         if (null !== $this->node->num) {
             // if there is a num we need a space
-            $line->add(' ');
-            $this->resolveNode($this->node->num, $treeNode);
+            $this->addToLine($treeNode, ' ');
+            $treeNode = $this->resolveNode($this->node->num, $treeNode);
         }
         // terminate the line
-        $line->add(';')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ';')->add(new HardLineBreak());
+        return $treeNode;
     }
 }

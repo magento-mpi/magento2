@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Include;
 
@@ -37,11 +35,9 @@ class IncludeReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // Add token with space
-        $line->add(self::$map[$this->node->type])->add(' ');
+        $this->addToLine($treeNode, self::$map[$this->node->type])->add(' ');
         // Resolve expr
-        $this->resolveNode($this->node->expr, $treeNode);
+        return $this->resolveNode($this->node->expr, $treeNode);
     }
 }

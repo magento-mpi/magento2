@@ -42,7 +42,7 @@ class IfStatement extends AbstractConditionalStatement
             $treeNode = $this->processNodes($this->node->else, $treeNode, false);
         }
         // add the closing brace on a new line
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 
     /**

@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_StaticVar;
 
@@ -29,9 +28,7 @@ class StaticVariableReference extends AbstractVariableReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the variable reference
-        $this->addVariableReference($treeNode, $line);
+        return $this->addVariableReference($treeNode);
     }
 }

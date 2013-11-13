@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_ArrayDimFetch;
 
@@ -29,15 +28,14 @@ class ArrayIndexedReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the variable
         $this->resolveVariable($this->node->var, $treeNode);
         // add in the index, which may not be specified
-        $line->add('[');
+        $this->addToLine($treeNode, '[');
         if (null !== $this->node->dim) {
             $this->resolveNode($this->node->dim, $treeNode);
         }
-        $line->add(']');
+        $this->addToLine($treeNode, ']');
+        return $treeNode;
     }
 }

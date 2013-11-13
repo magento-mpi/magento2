@@ -40,12 +40,11 @@ class UseStatement extends AbstractStatement
             // process the name
             $this->resolveNode($use, $useTreeNode);
             // finish out the line
-            $line->add(';')->add(new HardLineBreak());
+            $this->addToLine($useTreeNode, ';')->add(new HardLineBreak());
         }
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add a newline after the block
-        $line->add(new HardLineBreak());
+        $this->addToLine($treeNode, new HardLineBreak());
+        return $treeNode;
     }
 
     public function isTrimComments()

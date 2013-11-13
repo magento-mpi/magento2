@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_Encapsed;
 
@@ -30,16 +29,15 @@ class EncapsedReference extends AbstractScalarReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // need to deal with heredoc
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($line, $heredocCloseTag, $this->node->parts, $treeNode);
+            $this->processHeredoc($treeNode, $heredocCloseTag, $this->node->parts);
         } else {
-            $line->add('"');
+            $this->addToLine($treeNode, '"');
             $this->encapsList($this->node->parts, '"', $treeNode);
-            $line->add('"');
+            $this->addToLine($treeNode, '"');
         }
+        return $treeNode;
     }
 }

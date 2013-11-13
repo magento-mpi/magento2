@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_New;
 
@@ -30,15 +29,11 @@ class NewReference extends AbstractReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the new statement
-        $line->add('new ');
+        $this->addToLine($treeNode, 'new ');
         // add in the class reference
-        $this->resolveNode($this->node->class, $treeNode);
+        $treeNode = $this->resolveNode($this->node->class, $treeNode);
         // add in the arguments
-        $line->add('(');
-        $this->processArgumentList($this->node->args, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        return $this->processArgsList($this->node->args, $treeNode, new CallLineBreak());
     }
 }

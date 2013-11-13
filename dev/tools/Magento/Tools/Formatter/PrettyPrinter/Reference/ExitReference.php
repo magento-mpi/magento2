@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Exit;
 
@@ -29,15 +28,14 @@ class ExitReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the exit
-        $line->add('exit');
+        $this->addToLine($treeNode, 'exit');
         // add the expression, if needed
         if ($this->node->expr) {
-            $line->add('(');
-            $this->resolveNode($this->node->expr, $treeNode);
-            $line->add(')');
+            $this->addToLine($treeNode, '(');
+            $treeNode = $this->resolveNode($this->node->expr, $treeNode);
+            $this->addToLine($treeNode, ')');
         }
+        return $treeNode;
     }
 }

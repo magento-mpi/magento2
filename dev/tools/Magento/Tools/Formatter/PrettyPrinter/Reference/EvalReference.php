@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Eval;
 
@@ -29,13 +28,12 @@ class EvalReference extends AbstractFunctionReference
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the empty statement
-        $line->add('eval(');
+        $this->addToLine($treeNode, 'eval(');
         // add in the actual statment reference
-        $this->resolveNode($this->node->expr, $treeNode);
+        $treeNode = $this->resolveNode($this->node->expr, $treeNode);
         // add in the closer
-        $line->add(')');
+        $this->addToLine($treeNode, ')');
+        return $treeNode;
     }
 }
