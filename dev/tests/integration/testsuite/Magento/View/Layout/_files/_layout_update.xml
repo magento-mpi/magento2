@@ -31,7 +31,7 @@
                     <argument name="file" xsi:type="string">prototype/deprecation.js</argument>
                 </arguments>
             </block>
-            <block class="Magento\Core\Block\Html\Calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+            <block class="Magento\View\Block\Html\Calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
         </block>
         <block class="Magento\Adminhtml\Block\Page\Header" name="header" as="header"/>
         <block class="Magento\Backend\Block\Menu" name="menu" as="menu"/>
