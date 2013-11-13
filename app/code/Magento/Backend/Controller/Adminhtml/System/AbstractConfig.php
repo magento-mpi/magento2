@@ -35,23 +35,21 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
     }
 
     /**
-     * Controller pre-dispatch method
      * Check if current section is found and is allowed
      *
-     * @return \Magento\Backend\App\AbstractAction
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
-
         $section = null;
-        if (!$this->getRequest()->getParam('section')) {
+        if (!$request->getParam('section')) {
             $section = $this->_configStructure->getFirstSection();
-            $this->getRequest()->setParam('section', $section->getId());
+            $request->setParam('section', $section->getId());
         } else {
-            $this->_isSectionAllowed($this->getRequest()->getParam('section'));
+            $this->_isSectionAllowed($request->getParam('section'));
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

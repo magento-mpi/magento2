@@ -54,24 +54,24 @@ class Customerbalance extends \Magento\Backend\App\Action
     }
 
     /**
-     * Check is enabled module in config
+     * Dispatch request
      *
-     * @return \Magento\CustomerBalance\Controller\Adminhtml\Customerbalance
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
+        $this->_request = $request;
         if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
-            if ($this->getRequest()->getActionName() != 'noroute') {
-                $this->_forward('noroute');
+            if ($request->getActionName() != 'noroute') {
+                return $this->_forward('noroute');
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
      * Customer balance form
-     *
      */
     public function formAction()
     {

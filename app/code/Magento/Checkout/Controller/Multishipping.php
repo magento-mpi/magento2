@@ -15,6 +15,9 @@
  */
 namespace Magento\Checkout\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Multishipping extends \Magento\Checkout\Controller\Action
 {
     /**
@@ -58,21 +61,19 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * Action predispatch
+     * Dispatch request
      *
-     * Check customer authentication for some actions
-     *
-     * @return \Magento\Checkout\Controller\Multishipping
+     * @param RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
+        $this->_request = $request;
         if ($this->getFlag('', 'redirectLogin')) {
-            return $this;
+            return parent::dispatch($request);
         }
 
-        $action = $this->getRequest()->getActionName();
+        $action = $request->getActionName();
 
         $checkoutSessionQuote = $this->_getCheckoutSession()->getQuote();
         /**
@@ -88,7 +89,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         ) {
             $this->_redirect('*/*/index');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
+            return parent::dispatch($request);
         }
 
         if (!in_array($action, array('login', 'register'))) {
@@ -102,7 +103,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
                 $this->_getCheckoutSession()->addError($error);
                 $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                return $this;
+                return parent::dispatch($request);
             }
         }
 
@@ -115,20 +116,20 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         ) {
             $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return parent::dispatch($request);
         }
 
         if ($action == 'success' && $this->_getCheckout()->getCheckoutSession()->getDisplaySuccess(true)) {
-            return $this;
+            return parent::dispatch($request);
         }
 
         $quote = $this->_getCheckout()->getQuote();
         if (!$quote->hasItems() || $quote->getHasError() || $quote->isVirtual()) {
             $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
         }
 
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

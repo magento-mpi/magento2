@@ -9,6 +9,7 @@
  */
 namespace Magento\Invitation\Controller\Customer;
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Invitation customer account frontend controller
@@ -64,23 +65,20 @@ class Account extends \Magento\Customer\Controller\Account
         $this->_invitationFactory = $invitationFactory;
     }
 
-
     /**
-     * Predispatch custom logic
-     *
-     * Bypassing direct parent predispatch
+     * Bypassing direct parent dispatch
      * Allowing only specific actions
      * Checking whether invitation functionality is enabled
      * Checking whether registration is allowed at all
      * No way to logged in customers
      *
-     * @throws NotFoundException
+     * @param RequestInterface $request
+     * @return mixed|void
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        \Magento\App\Action\Action::preDispatch();
-
-        if (!preg_match('/^(create|createpost)/i', $this->getRequest()->getActionName())
+        if (!preg_match('/^(create|createpost)/i', $request->getActionName())
             || !$this->_config->isEnabledOnFront()
         ) {
             throw new NotFoundException();
@@ -88,10 +86,9 @@ class Account extends \Magento\Customer\Controller\Account
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('customer/account/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+            return parent::dispatch($request);
         }
-
-        return $this;
+        return \Magento\App\Action\Action::dispatch($request);
     }
 
     /**

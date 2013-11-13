@@ -13,6 +13,9 @@
  */
 namespace Magento\Install\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**
@@ -89,18 +92,16 @@ class Wizard extends \Magento\Install\Controller\Action
      * Redirect out if system is already installed
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
-     * @throws \Magento\BootstrapException
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
         if ($this->_appState->isInstalled()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('/');
-            return;
         }
-
-        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
-        return parent::preDispatch();
+        return parent::dispatch($request);
     }
 
     /**
@@ -330,7 +331,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }
         $pear->runHtmlConsole($params);
-        $this->_frontController->getResponse()->clearAllHeaders();
+        $this->getResponse()->clearAllHeaders();
     }
 
     /**

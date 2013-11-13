@@ -18,6 +18,9 @@
 
 namespace Magento\Review\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Customer extends \Magento\App\Action\Action
 {
     /**
@@ -38,16 +41,17 @@ class Customer extends \Magento\App\Action\Action
     }
 
     /**
-     * Action predispatch
-     *
      * Check customer authentication for some actions
+     *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_customerSession->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
+        return parent::dispatch($request);
     }
 
     public function indexAction()

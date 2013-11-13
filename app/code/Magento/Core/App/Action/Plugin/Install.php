@@ -42,6 +42,13 @@ class Install
         $this->_url = $url;
     }
 
+    /**
+     * Dispatch request
+     *
+     * @param array $arguments
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\App\ResponseInterface|mixed
+     */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         if (!$this->_appState->isInstalled()) {

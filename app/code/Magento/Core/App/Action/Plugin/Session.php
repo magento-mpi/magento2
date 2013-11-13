@@ -11,11 +11,6 @@ namespace Magento\Core\App\Action\Plugin;
 class Session
 {
     /**
-     * @var \Magento\App\RequestInterface
-     */
-    protected $_request;
-
-    /**
      * @var \Magento\Core\Model\Session
      */
     protected $_session;
@@ -46,42 +41,47 @@ class Session
     protected $_flag;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_storeConfig;
+
+    /**
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\ActionFlag $flag
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param string $sessionNamespace
      * @param array $cookieCheckActions
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\App\ActionFlag $flag,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\Url $url,
-        \Magento\App\ActionFlag $flag,
+        \Magento\Core\Model\Store\Config $storeConfig,
         $sessionNamespace = '',
         array $cookieCheckActions = array()
     ) {
-        $this->_request = $request;
         $this->_session = $session;
         $this->_cookie = $cookie;
         $this->_cookieCheckActions = $cookieCheckActions;
         $this->_url = $url;
         $this->_sessionNamespace = $sessionNamespace;
         $this->_flag = $flag;
+        $this->_storeConfig = $storeConfig;
     }
 
     /**
-     * Initialize session
-     *
      * @param array $arguments
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return array
      */
-    public function beforeDispatch(array $arguments = array())
+    public function aroundDispatch(array $arguments = array(), \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        $checkCookie = in_array($this->_request->getActionName(), $this->_cookieCheckActions)
-            && !$this->_request->getParam('nocookie', false);
+        $request = $arguments[0];
+        $checkCookie = in_array($request->getActionName(), $this->_cookieCheckActions)
+            && !$request->getParam('nocookie', false);
 
         $cookies = $this->_cookie->get();
         /** @var $session \Magento\Core\Model\Session */
@@ -89,9 +89,12 @@ class Session
 
         if (empty($cookies)) {
             if ($session->getCookieShouldBeReceived()) {
-                $this->_flag->set('', \Magento\App\Action\Action::FLAG_NO_COOKIES_REDIRECT, true);
                 $session->unsCookieShouldBeReceived();
                 $session->setSkipSessionIdFlag(true);
+                if ($this->_storeConfig->getConfig('web/browser_capabilities/cookies')) {
+                    $this->_forward($request);
+                    return null;
+                }
             } elseif ($checkCookie) {
                 if (isset($_GET[$session->getSessionIdQueryParam()])
                     && $this->_url->getUseSession()
@@ -99,10 +102,27 @@ class Session
                 ) {
                     $session->setCookieShouldBeReceived(true);
                 } else {
-                    $this->_flag->get('', \Magento\App\Action\Action::FLAG_NO_COOKIES_REDIRECT, true);
+                    $this->_forward($request);
+                    return null;
                 }
             }
         }
-        return $arguments;
+        return $invocationChain->proceed($arguments);
+    }
+
+    /**
+     * Forward to noCookies action
+     *
+     * @param \Magento\App\RequestInterface $request
+     * @return \Magento\App\RequestInterface
+     */
+    protected function _forward(\Magento\App\RequestInterface $request)
+    {
+        $request->initForwared();
+        $request->setActionName('noCookies');
+        $request->setControllerName('index');
+        $request->setModuleName('core');
+        $request->setDispatched(false);
+        return $request;
     }
 }

@@ -9,6 +9,8 @@
  */
 namespace Magento\App;
 
+use Magento\App\Action\NotFoundException;
+
 class FrontController implements FrontControllerInterface
 {
     /**
@@ -101,10 +103,40 @@ class FrontController implements FrontControllerInterface
         $routingCycleCounter = 0;
         while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
             foreach ($this->_routerList as $router) {
-                $controllerInstance = $router->match($this->getRequest());
-                if ($controllerInstance) {
-                    $controllerInstance->dispatch($request->getActionName());
-                    break;
+                try {
+                    $actionInstance = $router->match($this->getRequest());
+                    if ($actionInstance) {
+                        $request->setDispatched(true);
+                        $actionInstance->dispatch($request, $request->getActionName());
+                        break;
+                    }
+                } catch (NotFoundException $e) {
+                    $request->initForward();
+                    $request->setActionName('noroute');
+                    $request->setDispatched(false);
+                } catch (\Magento\App\Action\Exception $e) {
+                    // set prepared flags
+                    foreach ($e->getResultFlags() as $flagData) {
+                        list($action, $flag, $value) = $flagData;
+                        $actionInstance->setFlag($action, $flag, $value);
+                    }
+                    // call forward, redirect or an action
+                    list($method, $parameters) = $e->getResultCallback();
+                    switch ($method) {
+                        case \Magento\App\Action\Exception::RESULT_REDIRECT:
+                            list($path, $arguments) = $parameters;
+                            $this->_redirect($path, $arguments);
+                            break;
+                        case \Magento\App\Action\Exception::RESULT_FORWARD:
+                            list($action, $controller, $module, $params) = $parameters;
+                            $this->_forward($action, $controller, $module, $params);
+                            break;
+                        default:
+                            $actionMethodName = $this->getActionMethodName($method);
+                            $request->setActionName($method);
+                            $this->$actionMethodName($method);
+                            break;
+                    }
                 }
             }
         }

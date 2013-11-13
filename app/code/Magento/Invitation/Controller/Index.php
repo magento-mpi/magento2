@@ -17,6 +17,7 @@
 namespace Magento\Invitation\Controller;
 
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 class Index extends \Magento\App\Action\Action
 {
@@ -63,11 +64,12 @@ class Index extends \Magento\App\Action\Action
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      *
-     * @throws NotFoundException
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_config->isEnabledOnFront()) {
             throw new NotFoundException();
         }
@@ -78,6 +80,7 @@ class Index extends \Magento\App\Action\Action
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
+        return parent::dispatch($request);
     }
 
     /**

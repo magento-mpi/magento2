@@ -206,28 +206,19 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     * Controller predispatch method
-     *
-     * @return \Magento\Backend\App\AbstractAction
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        /** @var $storeManager \Magento\Core\Model\StoreManager */
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        $storeManager->setCurrentStore('admin');
-
-        $this->_eventManager->dispatch('adminhtml_controller_action_predispatch_start', array());
-        parent::preDispatch();
         if (!$this->_processUrlKeys()) {
-            return $this;
+            return parent::dispatch($request);
         }
 
-        if ($this->getRequest()->isDispatched()
-            && $this->getRequest()->getActionName() !== 'denied'
-            && !$this->_isAllowed()) {
+        if ($request->isDispatched() && $request->getActionName() !== 'denied' && !$this->_isAllowed()) {
             $this->_forward('denied');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
+            return parent::dispatch($request);
         }
 
         if ($this->_isUrlChecked()) {
@@ -236,7 +227,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
 
         $this->_processLocaleSettings();
 
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -305,129 +296,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         }
 
         return $this;
-    }
-
-    /**
-     * Fire predispatch events, execute extra logic after predispatch
-     */
-    protected function _firePreDispatchEvents()
-    {
-        $this->_initAuthentication();
-        parent::_firePreDispatchEvents();
-    }
-
-    /**
-     * Start authentication process
-     *
-     * @return \Magento\Backend\App\AbstractAction
-     */
-    protected function _initAuthentication()
-    {
-        $request = $this->getRequest();
-        $requestedActionName = $request->getActionName();
-        $openActions = array(
-            'forgotpassword',
-            'resetpassword',
-            'resetpasswordpost',
-            'logout',
-            'refresh' // captcha refresh
-        );
-        if (in_array($requestedActionName, $openActions)) {
-            $request->setDispatched(true);
-        } else {
-            if ($this->_auth->getUser()) {
-                $this->_auth->getUser()->reload();
-            }
-            if (!$this->_auth->isLoggedIn()) {
-                $this->_processNotLoggedInUser($request);
-            }
-        }
-        $this->_auth->getAuthStorage()->refreshAcl();
-        return $this;
-    }
-
-    /**
-     * Process not logged in user data
-     *
-     * @param \Magento\App\RequestInterface $request
-     */
-    protected function _processNotLoggedInUser(\Magento\App\RequestInterface $request)
-    {
-        $isRedirectNeeded = false;
-        if ($request->getPost('login') && $this->_performLogin()) {
-            $isRedirectNeeded = $this->_redirectIfNeededAfterLogin();
-        }
-        if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
-            if ($request->getParam('isIframe')) {
-                $request->setParam('forwarded', true)
-                    ->setRouteName('adminhtml')
-                    ->setControllerName('auth')
-                    ->setActionName('deniedIframe')
-                    ->setDispatched(false);
-            } elseif ($request->getParam('isAjax')) {
-                $request->setParam('forwarded', true)
-                    ->setRouteName('adminhtml')
-                    ->setControllerName('auth')
-                    ->setActionName('deniedJson')
-                    ->setDispatched(false);
-            } else {
-                $request->setParam('forwarded', true)
-                    ->setRouteName('adminhtml')
-                    ->setControllerName('auth')
-                    ->setActionName('login')
-                    ->setDispatched(false);
-            }
-        }
-    }
-
-    /**
-     * Performs login, if user submitted login form
-     *
-     * @return boolean
-     */
-    protected function _performLogin()
-    {
-        $outputValue = true;
-        $postLogin  = $this->getRequest()->getPost('login');
-        $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
-        $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
-        $this->getRequest()->setPost('login', null);
-
-        try {
-            $this->_auth->login($username, $password);
-        } catch (\Magento\Backend\Model\Auth\Exception $e) {
-            if (!$this->getRequest()->getParam('messageSent')) {
-                $this->_session->addError($e->getMessage());
-                $this->getRequest()->setParam('messageSent', true);
-                $outputValue = false;
-            }
-        }
-        return $outputValue;
-    }
-
-    /**
-     * Checks, whether Magento requires redirection after successful admin login, and redirects user, if needed
-     *
-     * @return bool
-     */
-    protected function _redirectIfNeededAfterLogin()
-    {
-        $requestUri = null;
-
-        // Checks, whether secret key is required for admin access or request uri is explicitly set
-        if ($this->_backendUrl->useSecretKey()) {
-            $requestUri = $this->_backendUrl->getUrl('*/*/*', array('_current' => true));
-        } elseif ($this->getRequest()) {
-            $requestUri = $this->getRequest()->getRequestUri();
-        }
-
-        if (!$requestUri) {
-            return false;
-        }
-
-        $this->getResponse()->setRedirect($requestUri);
-        $this->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
-        return true;
     }
 
     public function deniedAction()

@@ -20,6 +20,5 @@ class Action extends \Magento\App\Action\Action
     {
         parent::__construct($context);
         $configScope->setCurrentScope('install');
-        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
     }
 }

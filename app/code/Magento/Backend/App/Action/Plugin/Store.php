@@ -7,10 +7,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\App\Action\Plugin;
+namespace Magento\Backend\App\Action\Plugin;
 
-
-class StoreCheck
+class Store
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -20,25 +19,19 @@ class StoreCheck
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 
     /**
-     * Dispatch request
-     *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return mixed
+     * @return array
      */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        if (!$this->_storeManager->getStore()->getIsActive())
-        {
-            $this->_storeManager->throwStoreException();
-        }
+        $this->_storeManager->setCurrentStore('admin');
         return $invocationChain->proceed($arguments);
     }
 } 

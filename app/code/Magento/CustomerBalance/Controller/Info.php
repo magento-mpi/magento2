@@ -14,25 +14,27 @@
  */
 namespace Magento\CustomerBalance\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Info extends \Magento\App\Action\Action
 {
     /**
-     * Only logged in users can use this functionality,
-     * this function checks if user is logged in before all other actions
+     * Authenticate customer
      *
+     * @param RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
+        return parent::dispatch($request);
     }
 
     /**
      * Store Credit dashboard
-     *
      */
     public function indexAction()
     {

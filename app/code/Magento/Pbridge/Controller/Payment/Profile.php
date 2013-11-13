@@ -17,6 +17,9 @@
  */
 namespace Magento\Pbridge\Controller\Payment;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Profile extends \Magento\App\Action\Action
 {
     /**
@@ -43,17 +46,17 @@ class Profile extends \Magento\App\Action\Action
     /**
      * Check whether Payment Profiles functionality enabled
      *
-     * @return \Magento\Pbridge\Controller\Payment\Profile
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\Pbridge\Helper\Data')->arePaymentProfilesEnables()) {
-            if ($this->getRequest()->getActionName() != 'noroute') {
+            if ($request->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

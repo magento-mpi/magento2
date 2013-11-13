@@ -10,6 +10,7 @@
 
 namespace Magento\MultipleWishlist\Controller;
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
@@ -47,6 +48,15 @@ class Index extends \Magento\Wishlist\Controller\Index
     protected $_wishlistCollectionFactory;
 
     /**
+     * List of protected actions
+     *
+     * @var array
+     */
+    protected $_protectedActions = array(
+        'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
+    );
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
@@ -80,28 +90,21 @@ class Index extends \Magento\Wishlist\Controller\Index
         parent::__construct($context, $coreRegistry, $wishlistConfig, $url, $fileResponseFactory, $formKeyValidator);
     }
 
-
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
-     * @return \Magento\MultipleWishlist\Controller\Index
-     * @throws NotFoundException
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
-        $action = $this->getRequest()->getActionName();
-        $protectedActions = array(
-            'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
-        );
         if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()
-            && in_array($action, $protectedActions)
+            && in_array($request->getActionName(), $this->_protectedActions)
         ) {
             throw new NotFoundException();
         }
-
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

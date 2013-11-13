@@ -74,17 +74,18 @@ class Event extends \Magento\Backend\App\Action
     /**
      * Check is enabled module in config
      *
-     * @return \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
+                return parent::dispatch($request);
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

@@ -17,6 +17,9 @@
  */
 namespace Magento\Customer\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Address extends \Magento\App\Action\Action
 {
     /**
@@ -70,13 +73,16 @@ class Address extends \Magento\App\Action\Action
         return $this->_customerSession;
     }
 
-    public function preDispatch()
+    /**
+     * @param RequestInterface $request
+     * @return mixed
+     */
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_getSession()->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
+        return parent::dispatch($request);
     }
 
     /**

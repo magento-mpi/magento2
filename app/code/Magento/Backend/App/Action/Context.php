@@ -70,7 +70,6 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\HTTP\Authentication $authentication
      * @param \Magento\App\State $appState
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Config\ScopeInterface $configScope
@@ -105,7 +104,6 @@ class Context extends \Magento\App\Action\Context
         \Magento\App\FrontController $frontController,
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\HTTP\Authentication $authentication,
         \Magento\App\State $appState,
         \Magento\Filesystem $filesystem,
         \Magento\Config\ScopeInterface $configScope,
@@ -131,8 +129,8 @@ class Context extends \Magento\App\Action\Context
         $canUseBaseUrl = false
     ) {
         parent::__construct(
-            $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, $authentication,
-            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translator,
+            $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager,
+            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translateor,
             $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $isRenderInherited
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;

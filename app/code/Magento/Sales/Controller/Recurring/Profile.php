@@ -13,6 +13,9 @@
  */
 namespace Magento\Sales\Controller\Recurring;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Profile extends \Magento\App\Action\Action
 {
     /**
@@ -50,18 +53,21 @@ class Profile extends \Magento\App\Action\Action
 
     /**
      * Make sure customer is logged in and put it into registry
+     *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-        if (!$this->getRequest()->isDispatched()) {
-            return;
+        if (!$request->isDispatched()) {
+            return parent::dispatch($request);
         }
         $this->_session = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
         $this->_coreRegistry->register('current_customer', $this->_session->getCustomer());
+        return parent::dispatch($request);
     }
 
     /**

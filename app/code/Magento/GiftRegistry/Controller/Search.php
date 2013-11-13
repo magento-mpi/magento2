@@ -14,6 +14,7 @@
 namespace Magento\GiftRegistry\Controller;
 
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 class Search extends \Magento\App\Action\Action
 {
@@ -55,14 +56,16 @@ class Search extends \Magento\App\Action\Action
     /**
      * Check if gift registry is enabled on current store before all other actions
      *
-     * @throws NotFoundException
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
             throw new NotFoundException();
         }
+        return parent::dispatch($request);
     }
 
     /**

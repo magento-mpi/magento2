@@ -11,6 +11,7 @@
 namespace Magento\Checkout\Controller;
 
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 class Onepage extends \Magento\Checkout\Controller\Action
 {
@@ -50,11 +51,15 @@ class Onepage extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * @return \Magento\Checkout\Controller\Onepage|null
+     * Dispatch request
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
+        $this->_request = $request;
         $this->_preDispatchValidateCustomer();
 
         $checkoutSessionQuote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
@@ -66,8 +71,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         if (!$this->_canShowForUnregisteredUsers()) {
             throw new NotFoundException();
         }
-
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

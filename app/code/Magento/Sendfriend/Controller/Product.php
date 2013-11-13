@@ -18,6 +18,7 @@
 namespace Magento\Sendfriend\Controller;
 
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 class Product extends \Magento\App\Action\Action
 {
@@ -49,16 +50,15 @@ class Product extends \Magento\App\Action\Action
     }
 
     /**
-     * Predispatch: check is enable module
+     * Check if module is enabled
      * If allow only for customer - redirect to login page
      *
-     * @return \Magento\Sendfriend\Controller\Product
-     * @throws NotFoundException
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         /* @var $helper \Magento\Sendfriend\Helper\Data */
         $helper = $this->_objectManager->get('Magento\Sendfriend\Helper\Data');
         /* @var $session \Magento\Customer\Model\Session */
@@ -72,16 +72,15 @@ class Product extends \Magento\App\Action\Action
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             if ($this->getRequest()->getActionName() == 'sendemail') {
                 $session->setBeforeAuthUrl($this->_objectManager
-                        ->create('Magento\Core\Model\Url')
-                        ->getUrl('*/*/send', array(
-                            '_current' => true
-                        )));
+                    ->create('Magento\Core\Model\Url')
+                    ->getUrl('*/*/send', array(
+                        '_current' => true
+                    )));
                 $this->_objectManager->get('Magento\Catalog\Model\Session')
-                    ->setSendfriendFormData($this->getRequest()->getPost());
+                    ->setSendfriendFormData($request->getPost());
             }
         }
-
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

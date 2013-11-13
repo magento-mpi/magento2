@@ -21,6 +21,7 @@
         </param>
     </type>
     <type name="Magento\Install\Controller\Action">
+        <plugin name="directoryCleaner" type="Magento\Install\App\Action\Plugin\Dir" sortOrder="10"/>
         <plugin name="designLoader" type="Magento\Install\App\Action\Plugin\Design" />
     </type>
 </config>

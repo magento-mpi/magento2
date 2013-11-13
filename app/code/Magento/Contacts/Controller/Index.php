@@ -18,6 +18,7 @@
 namespace Magento\Contacts\Controller;
 
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 class Index extends \Magento\App\Action\Action
 {
@@ -27,15 +28,18 @@ class Index extends \Magento\App\Action\Action
     const XML_PATH_ENABLED          = 'contacts/contacts/enabled';
 
     /**
-     * Check is page enabled
+     * Dispatch request
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
             throw new NotFoundException();
         }
+        return parent::dispatch($request);
     }
 
     /**

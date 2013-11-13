@@ -17,6 +17,9 @@
  */
 namespace Magento\Review\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Product extends \Magento\App\Action\Action
 {
     /**
@@ -127,29 +130,35 @@ class Product extends \Magento\App\Action\Action
         parent::__construct($context);
     }
 
-    public function preDispatch()
+    /**
+     * Dispatch request
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     */
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         $allowGuest = $this->_objectManager->get('Magento\Review\Helper\Data')->getIsGuestAllowToWrite();
-        if (!$this->getRequest()->isDispatched()) {
-            return;
+        if (!$request->isDispatched()) {
+            return parent::dispatch($request);
         }
 
-        $action = $this->getRequest()->getActionName();
-        if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
+        if (!$allowGuest && $request->getActionName() == 'post' && $request->isPost()) {
             if (!$this->_customerSession->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_customerSession->setBeforeAuthUrl($this->_urlModel->getUrl('*/*/*', array('_current' => true)));
                 $this->_reviewSession
-                    ->setFormData($this->getRequest()->getPost())
+                    ->setFormData($request->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
+                $this->getResponse()->setRedirect(
+                    $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
+                );
             }
         }
 
-        return $this;
+        return parent::dispatch($request);
     }
+
     /**
      * Initialize and check product
      *

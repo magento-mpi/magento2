@@ -19,6 +19,7 @@
 namespace Magento\Wishlist\Controller;
 
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 class Index
     extends \Magento\Wishlist\Controller\AbstractController
@@ -82,10 +83,15 @@ class Index
         parent::__construct($context);
     }
 
-    public function preDispatch()
+    /**
+     * Dispatch request
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
+     */
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_skipAuthentication
             && !$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)
         ) {
@@ -94,11 +100,12 @@ class Index
             if (!$customerSession->getBeforeWishlistUrl()) {
                 $customerSession->setBeforeWishlistUrl($this->_getRefererUrl());
             }
-            $customerSession->setBeforeWishlistRequest($this->getRequest()->getParams());
+            $customerSession->setBeforeWishlistRequest($request->getParams());
         }
         if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag('wishlist/general/active')) {
             throw new NotFoundException();
         }
+        return parent::dispatch($request);
     }
 
     /**

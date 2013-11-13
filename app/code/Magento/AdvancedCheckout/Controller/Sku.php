@@ -23,18 +23,17 @@ class Sku extends \Magento\App\Action\Action
     /**
      * Check functionality is enabled and applicable to the Customer
      *
-     * @return \Magento\AdvancedCheckout\Controller\Sku
+     * @param \Magento\App\RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
-
         // guest redirected to "Login or Create an Account" page
         /** @var $customerSession \Magento\Customer\Model\Session */
         $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            return $this;
+            return parent::dispatch($request);
         }
 
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
@@ -42,8 +41,7 @@ class Sku extends \Magento\App\Action\Action
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             $this->_redirect('customer/account');
         }
-
-        return $this;
+        parent::dispatch($request);
     }
 
     /**

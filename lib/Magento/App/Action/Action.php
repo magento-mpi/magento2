@@ -9,14 +9,13 @@
  */
 namespace Magento\App\Action;
 
+use Magento\App\RequestInterface;
+
 class Action extends \Magento\App\Action\AbstractAction
 {
-    const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
-    const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
-    const FLAG_NO_COOKIES_REDIRECT      = 'no-cookies-redirect';
 
     const PARAM_NAME_SUCCESS_URL        = 'success_url';
     const PARAM_NAME_ERROR_URL          = 'error_url';
@@ -75,11 +74,6 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_isRenderInherited;
 
     /**
-     * @var \Magento\HTTP\Authentication
-     */
-    protected $authentication;
-
-    /**
      * @var \Magento\App\ActionFlag
      */
     protected $_flag;
@@ -87,8 +81,15 @@ class Action extends \Magento\App\Action\AbstractAction
     /** @var \Magento\Encryption\UrlCoder */
     protected $_urlCoder;
 
-    /** @var \Magento\HTTP\Url */
+    /**
+     * @var \Magento\HTTP\Url
+     */
     protected $_appUrl;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Context $context
@@ -97,13 +98,11 @@ class Action extends \Magento\App\Action\AbstractAction
     {
         parent::__construct($context->getRequest(), $context->getResponse());
 
+        $context->getFrontController()->setAction($this);
         $this->_objectManager     = $context->getObjectManager();
-        $this->_frontController   = $context->getFrontController();
         $this->_layout            = $context->getLayout();
         $this->_eventManager      = $context->getEventManager();
         $this->_isRenderInherited = $context->isRenderInherited();
-        $this->_frontController->setAction($this);
-        $this->authentication     = $context->getAuthentication();
         $this->_configScope       = $context->getConfigScope();
         $this->_storeManager      = $context->getStoreManager();
         $this->_appState          = $context->getAppState();
@@ -352,140 +351,24 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * @param string $action
+     * @param RequestInterface $request
+     * @return mixed
      * @throws NotFoundException
      */
-    public function dispatch($action)   // Leave
+    public function dispatch(RequestInterface $request)
     {
-        $this->getRequest()->setDispatched(true);
-        try {
-            $actionMethodName = $this->getActionMethodName($action);
-            if (!method_exists($this, $actionMethodName)) {
-                throw new NotFoundException();
-            }
+        $this->_request = $request;
+        $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
+        \Magento\Profiler::start($profilerKey);
 
-            $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
-            \Magento\Profiler::start($profilerKey);
-
-            \Magento\Profiler::start('predispatch');
-            $this->preDispatch();
-            \Magento\Profiler::stop('predispatch');
-
-            if ($this->getRequest()->isDispatched()) {
-                /**
-                 * preDispatch() didn't change the action, so we can continue
-                 */
-                if (!$this->getFlag('', self::FLAG_NO_DISPATCH)) {
-                    \Magento\Profiler::start('action_body');
-                    $this->$actionMethodName();
-                    \Magento\Profiler::stop('action_body');
-
-                    \Magento\Profiler::start('postdispatch');
-                    if (!$this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
-                        $this->_eventManager->dispatch(
-                            'controller_action_postdispatch_' . $this->getFullActionName(),
-                            array('controller_action' => $this)
-                        );
-                        $this->_eventManager->dispatch(
-                            'controller_action_postdispatch_' . $this->getRequest()->getRouteName(),
-                            array('controller_action' => $this)
-                        );
-                        $this->_eventManager->dispatch('controller_action_postdispatch',
-                            array('controller_action' => $this));
-                    }
-                    \Magento\Profiler::stop('postdispatch');
-                }
-            }
-
-            \Magento\Profiler::stop($profilerKey);
-        } catch (NotFoundException $e) {
-            return $this->_forward('noroute');
-        } catch (\Magento\App\Action\Exception $e) {
-            // set prepared flags
-            foreach ($e->getResultFlags() as $flagData) {
-                list($action, $flag, $value) = $flagData;
-                $this->setFlag($action, $flag, $value);
-            }
-            // call forward, redirect or an action
-            list($method, $parameters) = $e->getResultCallback();
-            switch ($method) {
-                case \Magento\App\Action\Exception::RESULT_REDIRECT:
-                    list($path, $arguments) = $parameters;
-                    $this->_redirect($path, $arguments);
-                    break;
-                case \Magento\App\Action\Exception::RESULT_FORWARD:
-                    list($action, $controller, $module, $params) = $parameters;
-                    $this->_forward($action, $controller, $module, $params);
-                    break;
-                default:
-                    $actionMethodName = $this->getActionMethodName($method);
-                    $this->getRequest()->setActionName($method);
-                    $this->$actionMethodName($method);
-                    break;
-            }
+        if ($request->isDispatched() && !$this->getFlag('', self::FLAG_NO_DISPATCH)) {
+            \Magento\Profiler::start('action_body');
+            $actionMethodName = $request->getActionName() . 'Action';
+            $this->$actionMethodName();
+            \Magento\Profiler::stop('action_body');
         }
+        \Magento\Profiler::stop($profilerKey);
     }
-
-    /**
-     * Retrieve action method name
-     *
-     * @param string $action
-     * @return string
-     */
-    public function getActionMethodName($action)  // Leave
-    {
-        return $action . 'Action';
-    }
-
-    /**
-     * Dispatch event before action
-     *
-     * @return null
-     */
-    public function preDispatch() // Remove???
-    {
-        if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                $this->_redirect('install');
-                return;
-            }
-        }
-
-        // Prohibit disabled store actions
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($this->_objectManager->get('Magento\App\State')->isInstalled()
-            && !$storeManager->getStore()->getIsActive()
-        ) {
-            $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
-        }
-
-        if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && $this->_storeConfig->getConfig('web/browser_capabilities/cookies')
-        ) {
-            $this->_forward('noCookies', 'index', 'core');
-            return;
-        }
-
-        if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
-            return;
-        }
-
-        $this->_firePreDispatchEvents();
-    }
-
-    /**
-     * Fire predispatch events, execute extra logic after predispatch
-     */
-    protected function _firePreDispatchEvents() // Inline
-    {
-        $this->_eventManager->dispatch('controller_action_predispatch', array('controller_action' => $this));
-        $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
-            array('controller_action' => $this));
-        $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getFullActionName(),
-            array('controller_action' => $this));
-    }
-
 
     /**
      * Throw control to different action (control and module if was specified).

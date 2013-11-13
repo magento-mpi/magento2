@@ -13,21 +13,25 @@
  */
 namespace Magento\Sales\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Order extends \Magento\Sales\Controller\AbstractController
 {
     /**
-     * Action predispatch
-     *
      * Check customer authentication for some actions
+     *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
+        return parent::dispatch($request);
     }
 
     /**

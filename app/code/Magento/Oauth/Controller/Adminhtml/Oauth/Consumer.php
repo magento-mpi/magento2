@@ -134,15 +134,15 @@ class Consumer extends \Magento\Backend\App\AbstractAction
     }
 
     /**
-     * Init titles
+     * Add title
      *
-     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
+     * @param \Magento\App\RequestInterface $request
+     * @return $this
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
         $this->_title->add(__('Add-Ons'));
-        parent::preDispatch();
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

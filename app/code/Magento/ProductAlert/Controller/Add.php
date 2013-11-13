@@ -17,18 +17,20 @@
  */
 namespace Magento\ProductAlert\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Add extends \Magento\App\Action\Action
 {
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             if(!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
                 $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
+        return parent::dispatch($request);
     }
 
     public function testObserverAction()

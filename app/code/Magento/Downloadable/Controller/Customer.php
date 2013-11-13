@@ -17,6 +17,9 @@
  */
 namespace Magento\Downloadable\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Customer extends \Magento\App\Action\Action
 {
     /**
@@ -38,15 +41,18 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * Check customer authentication
+     *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
         if (!$this->_customerSession->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
+        return parent::dispatch($request);
     }
 
     /**

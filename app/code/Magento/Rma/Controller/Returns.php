@@ -10,6 +10,9 @@
 
 namespace Magento\Rma\Controller;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Returns extends \Magento\App\Action\Action
 {
     /**
@@ -32,18 +35,19 @@ class Returns extends \Magento\App\Action\Action
     }
 
     /**
-     * Action predispatch
-     *
      * Check customer authentication for some actions
+     *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
+        return parent::dispatch($request);
     }
 
     /**

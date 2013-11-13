@@ -13,6 +13,8 @@
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
+use Magento\App\RequestInterface;
+
 class Types extends \Magento\Backend\App\Action
 {
     /**
@@ -43,14 +45,14 @@ class Types extends \Magento\Backend\App\Action
     }
 
     /**
-     * Dispatches controller_action_postdispatch_adminhtml Event (as not Adminhtml router)
+     * Dispatches controller_action_postdispatch_adminhtml Event
      *
-     * @param string $action
-     * @return string|void
+     * @param RequestInterface $request
+     * @return $this|mixed|void
      */
-    public function dispatch($action)
+    public function dispatch(RequestInterface $request)
     {
-        parent::dispatch($action);
+        parent::dispatch($request);
         if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
             return;
         }

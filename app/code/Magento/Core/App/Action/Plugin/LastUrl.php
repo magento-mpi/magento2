@@ -46,14 +46,16 @@ class LastUrl
     }
 
     /**
-     * @param $result
+     * Process request
+     *
+     * @param array $arguments
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function afterDispatch($result)
+    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        $this->_session->setLastUrl(
-            $this->_url->getUrl('*/*/*', array('_current' => true))
-        );
+        $result = $invocationChain->proceed($arguments);
+        $this->_session->setLastUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
         return $result;
     }
 }

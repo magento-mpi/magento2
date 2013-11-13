@@ -55,12 +55,18 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_title = $title;
     }
 
-    public function preDispatch()
+    /**
+     * Dispatch request
+     *
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
+     */
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         $this->_entityTypeId = $this->_objectManager->create('Magento\Eav\Model\Entity')
             ->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
+        return parent::dispatch($request);
     }
 
     protected function _initAction()

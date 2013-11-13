@@ -13,6 +13,9 @@
  */
 namespace Magento\Sales\Controller\Billing;
 
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
 class Agreement extends \Magento\App\Action\Action
 {
     /**
@@ -54,20 +57,22 @@ class Agreement extends \Magento\App\Action\Action
         $this->renderLayout();
     }
 
+
     /**
-     * Action predispatch
-     *
      * Check customer authentication
+     *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-        if (!$this->getRequest()->isDispatched()) {
-            return;
+        if (!$request->isDispatched()) {
+            return parent::dispatch($request);
         }
         if (!$this->_getSession()->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
+        return parent::dispatch($request);
     }
 
     /**

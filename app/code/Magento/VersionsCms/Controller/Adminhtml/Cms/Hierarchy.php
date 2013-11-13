@@ -81,17 +81,17 @@ class Hierarchy extends \Magento\Backend\App\Action
     /**
      * Controller pre dispatch method
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()) {
-            if ($this->getRequest()->getActionName() != 'noroute') {
+            if ($request->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**

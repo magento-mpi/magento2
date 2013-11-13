@@ -52,11 +52,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @var \Magento\HTTP\Authentication
-     */
-    protected $_authentication;
-
-    /**
      * @var \Magento\App\ActionFlag
      */
     protected $_flag;
@@ -80,7 +75,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\HTTP\Authentication $authentication
      * @param \Magento\App\State $appState
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Config\ScopeInterface $configScope
@@ -106,7 +100,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\FrontController $frontController,
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\HTTP\Authentication $authentication,
         \Magento\App\State $appState,
         \Magento\Filesystem $filesystem,
         \Magento\Config\ScopeInterface $configScope,
@@ -131,7 +124,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_layout = $layout;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
-        $this->_authentication = $authentication;
         $this->_appState = $appState;
         $this->_filesystem = $filesystem;
         $this->_configScope = $configScope;
@@ -174,13 +166,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         return $this->_appState;
     }
 
-    /**
-     * @return \Magento\HTTP\Authentication
-     */
-    public function getAuthentication()
-    {
-        return $this->_authentication;
-    }
 
     /**
      * @return \Magento\Config\ScopeInterface

@@ -9,6 +9,7 @@
  */
 
 namespace Magento\Customer\Controller;
+use Magento\App\RequestInterface;
 
 /**
  * Customer account controller
@@ -131,22 +132,29 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * Action predispatch
+     * Get list of actions that are allowed for not authorized users
      *
-     * Check customer authentication for some actions
+     * @return array
      */
-    public function preDispatch()
+    protected function _getAllowedActions()
     {
-        // a brute-force protection here would be nice
+        return $this->_openActions;
+    }
 
-        parent::preDispatch();
-
+    /**
+     * Dispatch request
+     *
+     * @param RequestInterface $request
+     * @return mixed|void
+     */
+    public function dispatch(RequestInterface $request)
+    {
         if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
-            return;
+            parent::dispatch($request);
         }
 
         if (!$this->getRequest()->isDispatched()) {
-            return;
+            parent::dispatch($request);
         }
 
         $action = $this->getRequest()->getActionName();
@@ -159,28 +167,9 @@ class Account extends \Magento\App\Action\Action
         } else {
             $this->_getSession()->setNoReferer(true);
         }
-    }
-
-    /**
-     * Get list of actions that are allowed for not authorized users
-     *
-     * @return array
-     */
-    protected function _getAllowedActions()
-    {
-        return $this->_openActions;
-    }
-
-    /**
-     * Remove No-referer flag from customer session after each action
-     *
-     * @param string $action
-     * @return string|void
-     */
-    public function dispatch($action)
-    {
-        parent::dispatch($action);
+        $result = parent::dispatch($request);
         $this->_getSession()->unsNoReferer(false);
+        return $result;
     }
 
     /**

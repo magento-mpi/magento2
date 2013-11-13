@@ -10,6 +10,7 @@
 
 namespace Magento\MultipleWishlist\Controller;
 use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
@@ -159,16 +160,16 @@ class Search extends \Magento\App\Action\Action
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
-     * @return \Magento\MultipleWishlist\Controller\Search
-     * @throws NotFoundException
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
             throw new NotFoundException();
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
