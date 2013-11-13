@@ -255,7 +255,7 @@ class Store extends \Magento\Backend\App\Action
                 $session->addException($e, __('An error occurred while saving. Please review the error log.'));
                 $session->setPostData($postData);
             }
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }
         $this->_redirect('adminhtml/*/');

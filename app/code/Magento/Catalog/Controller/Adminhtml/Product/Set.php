@@ -224,7 +224,7 @@ class Set extends \Magento\Backend\App\Action
             $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred while deleting this set.'));
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
         }
     }
 

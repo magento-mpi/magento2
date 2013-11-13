@@ -119,7 +119,7 @@ class Rule extends \Magento\Backend\App\Action
             }
 
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRuleData($postData);
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }
         $this->getResponse()->setRedirect($this->getUrl('tax/rule'));
@@ -149,7 +149,7 @@ class Rule extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong deleting this tax rule.'));
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**

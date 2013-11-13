@@ -61,7 +61,7 @@ class Notification extends \Magento\Backend\App\AbstractAction
                 );
             }
 
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }
         $this->_redirect('adminhtml/*/');
@@ -176,7 +176,7 @@ class Notification extends \Magento\Backend\App\AbstractAction
                     __("We couldn't remove the messages because of an error."));
             }
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     protected function _isAllowed()

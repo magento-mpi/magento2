@@ -1032,6 +1032,6 @@ class Index extends \Magento\Backend\App\Action
             $cart->saveAffectedProducts($this->getCartModel(), true);
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 }

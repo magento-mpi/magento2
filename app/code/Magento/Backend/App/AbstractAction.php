@@ -346,21 +346,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     * Set referrer url for redirect in response
-     *
-     * Is overridden here to set defaultUrl to admin url
-     *
-     * @param   string $defaultUrl
-     * @return \Magento\Backend\App\AbstractAction
-     */
-    protected function _redirectReferer($defaultUrl = null)
-    {
-        $defaultUrl = empty($defaultUrl) ? $this->getUrl('*') : $defaultUrl;
-        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($defaultUrl));
-        return $this;
-    }
-
-    /**
      * Set redirect into response
      *
      * @param   string $path

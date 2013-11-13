@@ -82,7 +82,7 @@ class Currencysymbol extends \Magento\Backend\App\Action
             $backendSession->addError($e->getMessage());
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**
@@ -91,7 +91,7 @@ class Currencysymbol extends \Magento\Backend\App\Action
     public function resetAction()
     {
         $this->_objectManager->create('Magento\CurrencySymbol\Model\System\Currencysymbol')->resetValues();
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**

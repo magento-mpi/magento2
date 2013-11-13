@@ -36,7 +36,7 @@ class System extends \Magento\Backend\App\AbstractAction
         if ($storeId) {
             $this->_session->setStoreId($storeId);
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     protected function _isAllowed()

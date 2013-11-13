@@ -223,7 +223,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
                     ->setUrlrewriteData($data);
             }
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**

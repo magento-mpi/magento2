@@ -281,7 +281,7 @@ class Queue extends \Magento\Backend\App\Action
             if ($id) {
                 $this->_redirect('adminhtml/*/edit', array('id' => $id));
             } else {
-                $this->_redirectReferer();
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             }
         }
     }

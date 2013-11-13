@@ -114,7 +114,7 @@ class Rate extends \Magento\Backend\App\Action
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             }
 
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }
         $this->getResponse()->setRedirect($this->getUrl('tax/rate'));
@@ -355,7 +355,7 @@ class Rate extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('Invalid file upload attempt'));
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**

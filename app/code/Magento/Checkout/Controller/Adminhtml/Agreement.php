@@ -115,7 +115,7 @@ class Agreement extends \Magento\Backend\App\Action
             }
 
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setAgreementData($postData);
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
         }
     }
 
@@ -141,7 +141,7 @@ class Agreement extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong  while deleting this condition.'));
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**
