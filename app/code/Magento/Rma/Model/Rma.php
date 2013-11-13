@@ -978,7 +978,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                 $item['row_total_incl_tax']     = $item['row_total'];
                 $item['base_row_total_incl_tax']= $item['base_row_total'];
 
-                $quoteItems[] = $itemModel->setData($item);
+                $quoteItems[] = $itemModel->addData($item->toArray());
 
                 $subtotal   += $item['base_row_total'];
                 $weight     += $item['row_weight'];
