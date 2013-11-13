@@ -31,17 +31,17 @@ class Backup extends \Magento\Adminhtml\Block\Template
         parent::_prepareLayout();
         $this->addChild('createButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Database Backup'),
-            'onclick' => "return backup.backup('" . \Magento\Backup\Helper\Data::TYPE_DB . "')",
+            'onclick' => "return backup.backup('" . \Magento\Backup\Factory::TYPE_DB . "')",
             'class'  => 'task'
         ));
         $this->addChild('createSnapshotButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('System Backup'),
-            'onclick' => "return backup.backup('" . \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT . "')",
+            'onclick' => "return backup.backup('" . \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT . "')",
             'class'  => ''
         ));
         $this->addChild('createMediaBackupButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Database and Media Backup'),
-            'onclick' => "return backup.backup('" . \Magento\Backup\Helper\Data::TYPE_MEDIA . "')",
+            'onclick' => "return backup.backup('" . \Magento\Backup\Factory::TYPE_MEDIA . "')",
             'class'  => ''
         ));
 

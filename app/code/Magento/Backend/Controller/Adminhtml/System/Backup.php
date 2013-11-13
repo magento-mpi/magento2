@@ -97,10 +97,10 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
         try {
             $type = $this->getRequest()->getParam('type');
 
-            if ($type == \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT
+            if ($type == \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT
                 && $this->getRequest()->getParam('exclude_media')
             ) {
-                $type = \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
+                $type = \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 
             $backupManager = $this->_backupFactory->create($type)
@@ -126,7 +126,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
                 }
             }
 
-            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
+            if ($type != \Magento\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir($this->_objectManager->get('Magento\App\Dir')->getDir())
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
@@ -256,7 +256,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
                 }
             }
 
-            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
+            if ($type != \Magento\Backup\Factory::TYPE_DB) {
 
                 $backupManager->setRootDir($this->_objectManager->get('Magento\App\Dir')->getDir())
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
