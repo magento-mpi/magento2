@@ -69,6 +69,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $authentication;
 
     /**
+     * @var \Magento\View\Action\LayoutServiceInterface
+     */
+    protected $_layoutServices;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -93,6 +98,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\HTTP\Url $httpUrl
      * @param \Magento\App\Request\Redirect $redirect
      * @param \Magento\HTTP\Authentication $authentication
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -118,7 +124,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Encryption\UrlCoder $urlCoder,
         \Magento\HTTP\Url $httpUrl,
         \Magento\App\Request\Redirect $redirect,
-        \Magento\HTTP\Authentication $authentication
+        \Magento\HTTP\Authentication $authentication,
+        \Magento\View\Action\LayoutServiceInterface $layoutService
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -144,6 +151,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_redirect = $redirect;
         $this->_flag = $flag;
         $this->authentication = $authentication;
+        $this->_layoutServices = $layoutService;
     }
 
     /**
@@ -336,5 +344,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getRedirect()
     {
         return $this->_redirect;
+    }
+
+    /**
+     * @return \Magento\View\Action\LayoutServiceInterface
+     */
+    public function getLayoutServices()
+    {
+        return $this->_layoutServices;
     }
 }

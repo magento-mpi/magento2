@@ -88,6 +88,11 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_storeManager;
 
     /**
+     * @var \Magento\View\Action\LayoutServiceInterface
+     */
+    protected $_layoutServices;
+
+    /**
      * @param Context $context
      */
     public function __construct(\Magento\App\Action\Context $context)
@@ -114,6 +119,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_urlCoder          = $context->getUrlCoder();
         $this->_appUrl            = $context->getHttpUrl();
         $this->_redirect          = $context->getRedirect();
+        $this->_layoutServices    = $context->getLayoutServices();
     }
 
     /**
@@ -149,8 +155,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function getLayout()  // Leave
     {
-        $this->_layout->setArea($this->_configScope->getCurrentScope());
-        return $this->_layout;
+        return $this->_layoutServices->getLayout();
     }
 
     /**
@@ -164,30 +169,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)  // Leave
     {
-        if ($this->_isLayoutLoaded) {
-            throw new \RuntimeException('Layout must be loaded only once.');
-        }
-        // if handles were specified in arguments load them first
-        if (false !== $handles && '' !== $handles) {
-            $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
-        }
-
-        // add default layout handles for this action
-        $this->addActionLayoutHandles();
-
-        $this->loadLayoutUpdates();
-
-        if (!$generateXml) {
-            return $this;
-        }
-        $this->generateLayoutXml();
-
-        if (!$generateBlocks) {
-            return $this;
-        }
-        $this->generateLayoutBlocks();
-        $this->_isLayoutLoaded = true;
-
+        $this->_layoutServices->loadLayout($handles, $generateBlocks, $generateXml);
         return $this;
     }
 
@@ -198,7 +180,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function getDefaultLayoutHandle()  // Leave
     {
-        return strtolower($this->getFullActionName());
+        return $this->_layoutServices->getDefaultLayoutHandle();
     }
 
     /**
@@ -208,9 +190,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function addActionLayoutHandles()  // Leave
     {
-        if (!$this->addPageLayoutHandles()) {
-            $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
-        }
+        $this->_layoutServices->addActionLayoutHandles();
         return $this;
     }
 
@@ -222,13 +202,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function addPageLayoutHandles(array $parameters = array())  // Leave
     {
-        $handle = $this->getDefaultLayoutHandle();
-        $pageHandles = array($handle);
-        foreach ($parameters as $key => $value) {
-            $pageHandles[] = $handle . '_' . $key . '_' . $value;
-        }
-        // Do not sort array going into add page handles. Ensure default layout handle is added first.
-        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
+        return $this->_layoutServices->addPageLayoutHandles($parameters);
     }
 
     /**
@@ -238,7 +212,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function loadLayoutUpdates()  // Leave
     {
-        \Magento\Profiler::start('LAYOUT');
+        //2 events
 
         // dispatch event for adding handles to layout update
         $this->_eventManager->dispatch(
@@ -246,13 +220,7 @@ class Action extends \Magento\App\Action\AbstractAction
             array('action' => $this, 'layout' => $this->getLayout())
         );
 
-        // load layout updates by specified handles
-        \Magento\Profiler::start('layout_load');
-        $this->getLayout()->getUpdate()->load();
-        \Magento\Profiler::stop('layout_load');
-
-        \Magento\Profiler::stop('LAYOUT');
-        return $this;
+        return $this->_layoutServices->loadLayoutUpdates();
     }
 
     /**
@@ -262,22 +230,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function generateLayoutXml()  // Leave
     {
-        \Magento\Profiler::start('LAYOUT');
-
-        // dispatch event for adding text layouts
-        if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            $this->_eventManager->dispatch(
-                'controller_action_layout_generate_xml_before',
-                array('action' => $this, 'layout' => $this->getLayout())
-            );
-        }
-
-        // generate xml from collected text updates
-        \Magento\Profiler::start('layout_generate_xml');
-        $this->getLayout()->generateXml();
-        \Magento\Profiler::stop('layout_generate_xml');
-
-        \Magento\Profiler::stop('LAYOUT');
+        $this->_layoutServices->generateLayoutXml();
         return $this;
     }
 
@@ -288,29 +241,25 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function generateLayoutBlocks()  // Leave
     {
-        \Magento\Profiler::start('LAYOUT');
-
+        // 1 event
         // dispatch event for adding xml layout elements
-        if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
+        if (!$this->_flag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_before',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
         }
 
-        // generate blocks from xml layout
-        \Magento\Profiler::start('layout_generate_blocks');
-        $this->getLayout()->generateElements();
-        \Magento\Profiler::stop('layout_generate_blocks');
+        $this->_layoutServices->generateLayoutBlocks();
 
-        if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
+        // 4 events
+        if (!$this->_flag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_after',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
         }
 
-        \Magento\Profiler::stop('LAYOUT');
         return $this;
     }
 
@@ -322,27 +271,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function renderLayout($output = '')  // Leave
     {
-        if ($this->getFlag('', 'no-renderLayout')) {
-            return;
-        }
-
-        \Magento\Profiler::start('LAYOUT');
-
-        \Magento\Profiler::start('layout_render');
-
-        if ('' !== $output) {
-            $this->getLayout()->addOutputElement($output);
-        }
-
-        $this->_eventManager->dispatch('controller_action_layout_render_before');
-        $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
-
-        $output = $this->getLayout()->getOutput();
-        $this->_translate->processResponseBody($output);
-        $this->getResponse()->appendBody($output);
-        \Magento\Profiler::stop('layout_render');
-
-        \Magento\Profiler::stop('LAYOUT');
+        $this->_layoutServices->renderLayout($output);
         return $this;
     }
 

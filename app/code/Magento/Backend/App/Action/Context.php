@@ -81,6 +81,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\App $app
      * @param \Magento\HTTP\Authentication $authentication
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\App\ActionFlag $flag
@@ -113,6 +114,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App $app,
         \Magento\HTTP\Authentication $authentication,
+        \Magento\View\Action\LayoutServiceInterface $layoutService,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
         \Magento\App\ActionFlag $flag,
@@ -129,7 +131,7 @@ class Context extends \Magento\App\Action\Context
         parent::__construct(
             $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager,
             $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translator,
-            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $redirect, $authentication
+            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $redirect, $authentication, $layoutService
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;

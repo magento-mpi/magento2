@@ -499,27 +499,6 @@ class Observer
         return $this;
     }
 
-
-    /**
-     * Check catalog search availability on load layout
-     *
-     * @return \Magento\CatalogPermissions\Model\Observer
-     */
-    public function checkCatalogSearchLayout(\Magento\Event\Observer $observer)
-    {
-        if (!$this->_catalogPermData->isEnabled()) {
-            return $this;
-        }
-
-        if (!$this->_catalogPermData->isAllowedCatalogSearch()) {
-            $observer->getEvent()->getLayout()->getUpdate()->addHandle(
-                'CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH'
-            );
-        }
-
-        return $this;
-    }
-
     /**
      * Check catalog search availability on predispatch
      *

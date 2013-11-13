@@ -34,6 +34,7 @@
     <preference for="Magento\View\Design\Theme\ThemeProviderInterface" type="Magento\Core\Model\Theme\ThemeProvider" />
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
+    <preference for="Magento\View\Action\LayoutServiceInterface" type="Magento\View\Action\LayoutService" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
