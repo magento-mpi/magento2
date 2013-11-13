@@ -1,3 +1,4 @@
+* Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
 * Added static test for check incorrect dependencies in library
 * Moved Magento\Core\Model\Theme to Magento\View component
 * Moved Magento\Core\Model\Design to Magento\View component
