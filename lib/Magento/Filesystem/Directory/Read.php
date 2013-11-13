@@ -116,14 +116,18 @@ class Read implements ReadInterface
     /**
      * Check a file or directory exists
      *
-     * @param string|null $path
+     * @param null $path
      * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function isExist($path = null)
     {
         clearstatcache();
-
-        return file_exists($this->getAbsolutePath($path));
+        $result = @file_exists($this->getAbsolutePath($path));
+        if ($result === null) {
+            throw new FilesystemException($this->_getWarningMessage());
+        }
+        return $result;
     }
 
     /**
@@ -180,5 +184,22 @@ class Read implements ReadInterface
             );
         }
         return file_get_contents($absolutePath);
+    }
+
+    /**
+     * Returns last warning message string
+     *
+     * @return string
+     */
+    protected function _getWarningMessage()
+    {
+        $errorMessage = 'Warning!';
+        $warning = error_get_last();
+        if (!$warning) {
+            $errorMessage .= $warning['message'];
+        } else {
+            $errorMessage .= 'Unknown message';
+        }
+        return $errorMessage;
     }
 }
