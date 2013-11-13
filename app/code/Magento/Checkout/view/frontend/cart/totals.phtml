@@ -10,8 +10,6 @@
 <?php
 /**
  * Shopping cart totals template
- *
- * @see \Magento\Checkout\Block\Cart\Totals
  * @var $this \Magento\Checkout\Block\Cart\Totals
  */
 ?>
@@ -21,7 +19,9 @@
 <?php else: ?>
     <table id="shopping-cart-totals-table" class="data table totals">
         <?php echo $this->renderTotals(); ?>
-        <?php echo $this->renderTotals('footer'); ?>
+        <tfoot>
+            <?php echo $this->renderTotals('footer'); ?>
+        </tfoot>
     </table>
 <?php endif; ?>
 </div>

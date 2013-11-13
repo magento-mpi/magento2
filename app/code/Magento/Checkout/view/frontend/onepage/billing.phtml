@@ -23,7 +23,7 @@
         <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
 
         <?php if (!$this->isCustomerLoggedIn()): ?>
-                <div class="field required">
+                <div class="field required email">
                     <label class="label" for="billing:email"><span><?php echo __('Email Address') ?></span></label>
                     <div class="control">
                         <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
@@ -76,10 +76,22 @@
         <div class="field region required">
             <label class="label" for="billing:region_id"><span><?php echo __('State/Province') ?></span></label>
             <div class="control">
-                <select id="billing:region_id" name="billing[region_id]" title="<?php echo __('State/Province') ?>" data-validate="{'validate-select':true}" style="display:none;">
+                <select id="billing:region_id"
+                        name="billing[region_id]"
+                        title="<?php echo __('State/Province') ?>"
+                        data-validate="{'validate-select':true}"
+                        <?php if ($this->getConfig('general/region/display_all') === 0):?>disabled="disabled"<?php endif; ?>
+                        style="display:none;">
                     <option value=""><?php echo __('Please select region, state or province') ?></option>
                 </select>
-                <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
+                <input  type="text"
+                        id="billing:region"
+                        name="billing[region]"
+                        value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"
+                        title="<?php echo __('State/Province') ?>"
+                        class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"
+                        <?php if ($this->getConfig('general/region/display_all') === 0):?>disabled="disabled"<?php endif; ?>
+                        style="display:none;" />
             </div>
         </div>
 
@@ -146,7 +158,7 @@
         <?php endif; ?>
         <?php echo $this->getChildHtml('form_additional_info'); ?>
         <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
-            <div  class="field save choice">
+            <div class="field save choice">
                 <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo __('Save in address book') ?>" id="billing:save_in_address_book" <?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" />
                 <label class="label" for="billing:save_in_address_book"><span><?php echo __('Save in address book') ?></span></label>
             </div>
@@ -170,7 +182,7 @@
 <?php if (!$this->canShip()): ?>
     <input type="hidden" name="billing[use_for_shipping]" value="1" />
 <?php endif; ?>
-<div class="actions buttons-set form-buttons btn-only" id="billing-buttons-container">
+<div class="actions" id="billing-buttons-container">
     <div class="primary"><button type="button" class="button action continue"><span><?php echo __('Continue') ?></span></button></div>
     <span id="billing-please-wait" class="please-wait load indicator" style="display:none;">
         <span><?php echo __('Loading next step...') ?></span>

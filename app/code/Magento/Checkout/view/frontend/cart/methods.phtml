@@ -8,11 +8,7 @@
  */
 ?>
 <?php
-/**
- * Shopping cart template
- *
- * @see \Magento\Checkout\Block\Cart
- */
+/** @var $this \Magento\Checkout\Block\Cart */
 ?>
 <?php if(!$this->hasError()): ?>
 <?php $methods = $this->getMethods('methods') ? : $this->getMethods('top_methods') ?>

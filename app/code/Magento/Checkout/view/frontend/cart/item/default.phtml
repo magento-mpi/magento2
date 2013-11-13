@@ -2,12 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
-?>
-<?php
+
+/** @var $this \Magento\Checkout\Block\Cart\Item\Renderer */
+
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_item->getProduct(), \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM);
@@ -36,8 +36,8 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                 <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                 <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated" data-mage-init="{truncateOptions:[]}"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
                     <?php if (isset($_formatedOptionValue['full_view'])): ?>
-                    <div class="truncated_full_value">
-                        <dl class="item-options">
+                    <div class="truncated full value">
+                        <dl class="item options">
                             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                             <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
                         </dl>
@@ -49,7 +49,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             <?php endif;?>
             <?php if ($messages = $this->getMessages()): ?>
             <?php foreach ($messages as $message): ?>
-                <p class="cart item message <?php echo $message['type'] ?>">* <?php echo $this->escapeHtml($message['text']) ?></p>
+                <div class="cart item message <?php echo $message['type'] ?>"><div>* <?php echo $this->escapeHtml($message['text']) ?></div></div>
             <?php endforeach; ?>
             <?php endif; ?>
             <?php $addInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
@@ -62,10 +62,10 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
 
     <?php if ($canApplyMsrp): ?>
         <td class="col msrp"<?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?> colspan="2"<?php endif; ?>>
-            <span class="cart-price">
-                <span class="cart-msrp-unit"><?php echo __('See price before order confirmation.'); ?></span>
+            <span class="pricing msrp">
+                <span class="msrp notice"><?php echo __('See price before order confirmation.'); ?></span>
                 <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
-                <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo __("What's this?"); ?></a>
+                <a id="<?php echo $helpLinkId ?>" href="#" class="action help map"><span><?php echo __("What's this?"); ?></span></a>
                 <?php $_product = $_item->getProduct(); ?>
                 <script type="text/javascript">
                     (function ($) {
@@ -89,22 +89,20 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
         <td class="col price excl tax">
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-                <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
+                <span class="cart tax total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
             <?php else: ?>
-                <span class="cart-price">
+                <span class="cart price">
             <?php endif; ?>
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?>
                 <?php else: ?>
                     <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()) ?>
                 <?php endif; ?>
-
             </span>
-
 
             <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
 
-                <div class="cart-tax-info" id="eunit-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+                <div class="cart tax info" id="eunit-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
                     <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                         <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
                             <span class="weee"><?php echo $tax['title']; ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['amount'],true,true); ?></span>
@@ -121,7 +119,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                 </div>
 
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-                    <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
+                    <div class="cart tax total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
                         <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
                     </div>
                 <?php endif; ?>
@@ -134,9 +132,9 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         <td class="col price incl tax">
             <?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($_item); ?>
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-                <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
+                <span class="cart tax total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
             <?php else: ?>
-                <span class="cart-price">
+                <span class="cart price">
             <?php endif; ?>
 
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
@@ -148,7 +146,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             </span>
             <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
 
-                <div class="cart-tax-info" id="unit-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+                <div class="cart tax info" id="unit-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
                     <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                         <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
                             <span class="weee"><?php echo $tax['title']; ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['amount'],true,true); ?></span>
@@ -165,7 +163,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                 </div>
 
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-                    <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
+                    <div class="cart tax total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
                         <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                     </div>
                 <?php endif; ?>
@@ -183,13 +181,13 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
     <?php if (($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
     <td class="col subtotal excl tax">
         <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-            <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
+            <span class="cart tax total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
         <?php else: ?>
-            <span class="cart-price">
+            <span class="cart price">
         <?php endif; ?>
 
             <?php if ($canApplyMsrp): ?>
-                <span class="cart-msrp-subtotal">--</span>
+                <span class="cart msrp subtotal">--</span>
             <?php else: ?>
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?>
@@ -201,7 +199,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         </span>
         <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
 
-            <div class="cart-tax-info" id="esubtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+            <div class="cart tax info" id="esubtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
                         <span class="weee"><?php echo $tax['title']; ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['row_amount'],true,true); ?></span>
@@ -218,7 +216,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             </div>
 
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-                <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
+                <div class="cart tax total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
                     <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
                 </div>
             <?php endif; ?>
@@ -230,13 +228,13 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
     <td class="col subtotal incl tax">
         <?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getSubtotalInclTax($_item); ?>
         <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-            <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#subtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
+            <span class="cart tax total" data-tax-toggle='{"itemTaxId" : "#subtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
         <?php else: ?>
-            <span class="cart-price">
+            <span class="cart price">
         <?php endif; ?>
 
             <?php if ($canApplyMsrp): ?>
-                <span class="cart-msrp-subtotal">--</span>
+                <span class="cart msrp subtotal">--</span>
             <?php else: ?>
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
@@ -250,7 +248,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
 
         <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
 
-            <div class="cart-tax-info" id="subtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+            <div class="cart tax info" id="subtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
                         <span class="weee"><?php echo $tax['title']; ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['row_amount'],true,true); ?></span>
@@ -267,7 +265,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             </div>
 
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
-                <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#subtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
+                <div class="cart tax total" data-tax-toggle='{"itemTaxId" : "#subtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
                     <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                 </div>
             <?php endif; ?>

@@ -2,10 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\Checkout\Block\Onepage\Review\Info */
 ?>
 <?php echo $this->getChildHtml('items_before'); ?>
 <div id="checkout-review-table-wrapper" class="review table wrapper">
@@ -38,10 +39,9 @@
     </table>
 </div>
 <?php echo $this->getChildHtml('items_after'); ?>
-
-<div id="checkout-review-submit" class="checkout submit order">
+<div id="checkout-review-submit" data-mage-init="{paymentAuthentication:{}}" class="checkout submit order">
     <?php echo $this->getChildHtml('agreements') ?>
-    <div class="buttons-set actions" id="review-buttons-container">
+    <div class="actions" id="review-buttons-container">
         <div class="primary"><?php echo $this->getChildHtml('button') ?></div>
         <div class="secondary"><?php echo __('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><span><?php echo __('Edit Your Cart') ?></span></a></div>
         <span class="please-wait load indicator" id="review-please-wait" style="display:none;">

@@ -102,7 +102,7 @@
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php elseif(isset($track['title']) && isset($track['number']) && $track['number']): ?>
-                        <!--if the tracking is custom value-->
+                        <?php /* if the tracking is custom value */ ?>
                         <tr>
                             <th class="col label"><?php echo ($track['title'] ? $this->escapeHtml($track['title']) : __('N/A')); ?>:</th>
                             <td class="col value"><?php echo (isset($track['number']) ? $this->escapeHtml($track['number']) : ''); ?></td>
@@ -137,7 +137,7 @@
                 <?php if($counter!=$rowCount): ?>
                 <?php endif; ?>
                 <?php $counter++; ?>
-            <!--end for each tracking information-->
+            <?php /* end for each tracking information */ ?>
             <?php endforeach; ?>
         <?php else: ?>
             <p class="empty"><?php echo __('There is no tracking available for this shipment.'); ?></p>

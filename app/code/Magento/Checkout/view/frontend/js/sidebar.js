@@ -11,12 +11,10 @@
 (function ($) {
     $.widget('mage.sidebar', {
         options: {
-            checkoutUrl: '',
-            checkoutButton: '',
-            removeButton: '',
-            confirmMessage: ''
+            isRecursive: true
         },
         _create: function() {
+            this.element.decorate('list', this.options.isRecursive);
             $(this.options.checkoutButton).on('click', $.proxy(function() {
                 location.href = this.options.checkoutUrl;
             }, this));

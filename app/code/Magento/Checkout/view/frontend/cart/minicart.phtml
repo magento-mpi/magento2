@@ -7,11 +7,7 @@
  * @license     {license_link}
  */
 
-/**
- * Shoping cart sidebar
- *
- * @see \Magento\Checkout\Block\Cart\Sidebar
- */
+/** @var $this \Magento\Checkout\Block\Cart\Sidebar */
 ?>
 <?php if ($this->getInList()): ?>
     <li data-block="minicart" class="minicart wrapper">
@@ -64,7 +60,7 @@
                     <div class="subtotal">
                         <?php if ($this->canApplyMsrp()): ?>
                         <span class="mark msrp">
-                            <?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?>
+                            <?php echo __('Order total will be displayed before you submit the order'); ?>
                         </span>
                         <?php else: ?>
                             <span class="mark">
