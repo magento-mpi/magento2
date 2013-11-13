@@ -28,11 +28,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
@@ -83,7 +78,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
-        $this->_storeManager = $storeManager;
         $this->_reviewFactory = $reviewFactory;
         $this->_voteFactory = $voteFactory;
         $this->_ratingFactory = $ratingFactory;

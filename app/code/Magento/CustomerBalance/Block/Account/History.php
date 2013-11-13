@@ -33,11 +33,6 @@ class History extends \Magento\Core\Block\Template
     protected $_historyFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
@@ -51,7 +46,6 @@ class History extends \Magento\Core\Block\Template
         \Magento\Customer\Model\Session $custoomerSession,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $custoomerSession;
         $this->_historyFactory = $historyFactory;
         parent::__construct($context, $coreData, $data);

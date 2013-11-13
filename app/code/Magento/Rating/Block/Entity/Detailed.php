@@ -25,13 +25,6 @@ class Detailed extends \Magento\Core\Block\Template
     protected $_template = 'detailed.phtml';
 
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
@@ -48,7 +41,6 @@ class Detailed extends \Magento\Core\Block\Template
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_ratingFactory = $ratingFactory;
         parent::__construct($context, $coreData, $data);
     }

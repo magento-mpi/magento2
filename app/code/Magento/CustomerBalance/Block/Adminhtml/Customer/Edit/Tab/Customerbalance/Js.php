@@ -20,11 +20,6 @@ class Js extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -36,7 +31,6 @@ class Js extends \Magento\Adminhtml\Block\Template
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $coreData, $data);
     }

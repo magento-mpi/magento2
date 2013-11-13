@@ -36,13 +36,6 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     protected $_catalogSearchData = null;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Catalog search layer
      *
      * @var \Magento\CatalogSearch\Model\Layer
@@ -73,7 +66,6 @@ class Layer extends \Magento\Catalog\Block\Layer\View
         $this->_coreRegistry = $registry;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_catalogSearchLayer = $catalogSearchLayer;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $catalogLayer, $data);
     }
 

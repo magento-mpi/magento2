@@ -25,11 +25,6 @@ class Tree
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory
      */
     protected $_fieldsetFactory;
@@ -56,7 +51,6 @@ class Tree
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_storeManager = $storeManager;
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_elementsFactory = $elementsFactory;
         parent::__construct($context, $coreData, $data);

@@ -20,11 +20,6 @@ namespace Magento\Checkout\Block\Multishipping;
 class Success extends \Magento\Checkout\Block\Multishipping\AbstractMultishipping
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
@@ -36,7 +31,6 @@ class Success extends \Magento\Checkout\Block\Multishipping\AbstractMultishippin
         \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $multishipping, $data);
     }
 

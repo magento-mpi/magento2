@@ -16,11 +16,6 @@ namespace Magento\Directory\Block;
 class Currency extends \Magento\Core\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Directory url
      *
      * @var \Magento\Directory\Helper\Url
@@ -54,7 +49,6 @@ class Currency extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
-        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_currencyFactory = $currencyFactory;
         parent::__construct($context, $coreData, $data);

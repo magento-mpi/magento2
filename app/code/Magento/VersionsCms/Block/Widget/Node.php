@@ -39,11 +39,6 @@ class Node
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_hierarchyNodeFactory;
@@ -63,7 +58,6 @@ class Node
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_storeManager = $storeManager;
         $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
         parent::__construct($context, $coreData, $data);
     }

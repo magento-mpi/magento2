@@ -59,11 +59,6 @@ class Option extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Bundle\Model\Source\Option\Type
      */
     protected $_optionTypes;
@@ -90,7 +85,6 @@ class Option extends \Magento\Backend\Block\Widget
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_storeManager = $storeManager;
         $this->_optionTypes = $optionTypes;
         $this->_yesno = $yesno;
         parent::__construct($context, $coreData, $data);

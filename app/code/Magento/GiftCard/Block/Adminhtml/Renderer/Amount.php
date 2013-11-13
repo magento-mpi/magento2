@@ -27,13 +27,6 @@ class Amount
     protected $_coreRegistry = null;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Directory helper
      *
      * @var \Magento\Directory\Helper\Data
@@ -55,7 +48,6 @@ class Amount
         array $data = array()
     ) {
         $this->_directoryHelper = $directoryHelper;
-        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $coreData, $data);
     }

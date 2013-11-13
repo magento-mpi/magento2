@@ -23,28 +23,6 @@ class Element
     protected $_template = 'form/renderer/fieldset/element.phtml';
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        array $data = array()
-    ) {
-        parent::__construct($context, $coreData, $data);
-
-        $this->_storeManager = $storeManager;
-    }
-
-    /**
      * Retrieve data object related with form
      *
      * @return \Magento\Object

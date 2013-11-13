@@ -21,11 +21,6 @@ class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -55,7 +50,6 @@ class Form
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_systemStore = $systemStore;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 

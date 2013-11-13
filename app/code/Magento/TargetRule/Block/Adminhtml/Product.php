@@ -58,7 +58,6 @@ class Product extends \Magento\Backend\Block\Widget
         $this->_position = $position;
         $this->_coreRegistry = $registry;
         $this->_targetRuleData = $targetRuleData;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

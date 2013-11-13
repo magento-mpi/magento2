@@ -35,13 +35,6 @@ class Result extends \Magento\Core\Block\Template
     protected $_catalogSearchData = null;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Catalog layer
      *
      * @var \Magento\Catalog\Model\Layer
@@ -63,7 +56,6 @@ class Result extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
-        $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($context, $coreData, $data);
     }

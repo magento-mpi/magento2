@@ -16,14 +16,7 @@ namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 class Templates
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
-    /**
-     * Store Manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
+        /**
      * Email Template Factory
      *
      * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
@@ -47,7 +40,6 @@ class Templates
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-        $this->_storeManager = $storeManager;
         $this->_templateFactory = $templateFactory;
     }
 

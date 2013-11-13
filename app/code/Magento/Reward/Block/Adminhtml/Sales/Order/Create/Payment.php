@@ -28,11 +28,6 @@ class Payment extends \Magento\Backend\Block\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
@@ -59,7 +54,6 @@ class Payment extends \Magento\Backend\Block\Template
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        $this->_storeManager = $storeManager;
         $this->_orderCreate = $orderCreate;
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($context, $coreData, $data);

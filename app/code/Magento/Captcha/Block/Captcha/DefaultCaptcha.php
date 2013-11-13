@@ -32,11 +32,6 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     protected $_captchaData;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Captcha\Helper\Data $captchaData
@@ -52,8 +47,7 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     ) {
         parent::__construct($context, $coreData, $data);
         $this->_captchaData = $captchaData;
-        $this->_storeManager = $storeManager;
-    }
+        }
 
     /**
      * Returns template path

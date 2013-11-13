@@ -34,11 +34,6 @@ class History extends \Magento\Core\Block\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -65,7 +60,6 @@ class History extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_historyFactory = $historyFactory;
         parent::__construct($context, $coreData, $data);

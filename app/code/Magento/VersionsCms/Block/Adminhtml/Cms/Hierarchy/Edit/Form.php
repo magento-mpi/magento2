@@ -38,11 +38,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_cmsHierarchy;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_sourceYesno;
@@ -113,7 +108,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setTemplate('hierarchy/edit.phtml');
 
         $this->_currentStore = $this->getRequest()->getParam('store');
-        $this->_storeManager = $storeManager;
         $this->_sourceYesno = $sourceYesno;
         $this->_menuListmode = $menuListmode;
         $this->_menuListtype = $menuListtype;

@@ -27,13 +27,6 @@ class Form extends \Magento\Core\Block\Template
     protected $_locale;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Currency factory
      *
      * @var \Magento\Directory\Model\CurrencyFactory
@@ -65,7 +58,6 @@ class Form extends \Magento\Core\Block\Template
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_currencyFactory = $currencyFactory;
-        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         parent::__construct($context, $coreData, $data);
     }

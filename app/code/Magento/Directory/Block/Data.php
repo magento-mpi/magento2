@@ -21,11 +21,6 @@ class Data extends \Magento\Core\Block\Template
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regionCollFactory;
@@ -53,7 +48,6 @@ class Data extends \Magento\Core\Block\Template
     ) {
         parent::__construct($context, $coreData, $data);
         $this->_configCacheType = $configCacheType;
-        $this->_storeManager = $storeManager;
         $this->_regionCollFactory = $regionCollFactory;
         $this->_countryCollFactory = $countryCollFactory;
     }

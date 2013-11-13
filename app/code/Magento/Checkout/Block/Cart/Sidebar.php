@@ -35,11 +35,6 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_catalogUrl;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
@@ -75,7 +70,6 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     ) {
         $this->_taxData = $taxData;
         $this->_catalogUrl = $catalogUrl;
-        $this->_storeManager = $storeManager;
         $this->_taxConfig = $taxConfig;
         $this->_checkoutCart = $checkoutCart;
         parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $data);

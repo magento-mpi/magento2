@@ -23,11 +23,6 @@ extends \Magento\Core\Block\Template
     protected $_balanceInstance;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
@@ -61,7 +56,6 @@ extends \Magento\Core\Block\Template
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;
         $this->_orderCreate = $orderCreate;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

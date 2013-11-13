@@ -17,27 +17,6 @@ class Assigned
     extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
 {
     /**
-     * Store manager model
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        array $data = array()
-    ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($context, $coreData, $data);
-    }
-
-    /**
      * Get list title
      *
      * @return string

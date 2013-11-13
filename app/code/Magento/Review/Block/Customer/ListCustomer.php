@@ -33,11 +33,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -54,7 +49,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
     }
 

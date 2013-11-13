@@ -67,13 +67,6 @@ class Navigation extends \Magento\Core\Block\Template
     protected $_catalogLayer;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -105,7 +98,6 @@ class Navigation extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_catalogLayer = $catalogLayer;
         $this->_customerSession = $customerSession;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;

@@ -18,11 +18,6 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
     protected $_rmaData;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -39,7 +34,6 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $registry, $locale, $data);
     }
 

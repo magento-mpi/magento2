@@ -43,13 +43,6 @@ class Link
     protected $_anchorText;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Url rewrite
      *
      * @var \Magento\Core\Model\Resource\Url\Rewrite
@@ -69,7 +62,6 @@ class Link
         array $data = array()
     ) {
         $this->_urlRewrite = $urlRewrite;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

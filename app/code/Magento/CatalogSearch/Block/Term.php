@@ -24,13 +24,6 @@ class Term extends \Magento\Core\Block\Template
     protected $_maxPopularity;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Url factory
      *
      * @var \Magento\Core\Model\UrlFactory
@@ -60,7 +53,6 @@ class Term extends \Magento\Core\Block\Template
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
         $this->_urlFactory = $urlFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

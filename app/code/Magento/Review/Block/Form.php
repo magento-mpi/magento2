@@ -42,11 +42,6 @@ class Form extends \Magento\Core\Block\Template
     protected $_ratingFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Review\Model\Session
      */
     protected $_reviewSession;
@@ -76,7 +71,6 @@ class Form extends \Magento\Core\Block\Template
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

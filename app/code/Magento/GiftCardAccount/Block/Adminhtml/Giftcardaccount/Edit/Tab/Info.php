@@ -16,11 +16,6 @@ class Info
     protected $_template = 'edit/tab/info.phtml';
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -42,7 +37,6 @@ class Info
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-        $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
     }
 

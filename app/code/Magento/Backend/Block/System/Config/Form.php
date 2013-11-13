@@ -109,11 +109,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -143,7 +138,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;
         $this->_config = $coreConfig;
-        $this->_storeManager = $storeManager;
 
         $this->_scopeLabels = array(
             self::SCOPE_DEFAULT  => __('[GLOBAL]'),

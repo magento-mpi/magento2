@@ -17,11 +17,6 @@ class Agreements extends \Magento\Core\Block\Template
     protected $_agreementCollFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory
@@ -33,7 +28,6 @@ class Agreements extends \Magento\Core\Block\Template
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_agreementCollFactory = $agreementCollFactory;
         parent::__construct($context, $coreData, $data);
     }

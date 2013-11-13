@@ -32,11 +32,6 @@ class Store
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Config $coreConfig
@@ -50,7 +45,6 @@ class Store
     ) {
         parent::__construct($context, $coreData, $data);
         $this->_coreConfig = $coreConfig;
-        $this->_storeManager = $storeManager;
     }
 
     /**

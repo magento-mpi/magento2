@@ -64,7 +64,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->_voteFactory = $voteFactory;
-        $this->_storeManager = $storeManager;
         $this->_reviewFactory = $reviewFactory;
 
         parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);

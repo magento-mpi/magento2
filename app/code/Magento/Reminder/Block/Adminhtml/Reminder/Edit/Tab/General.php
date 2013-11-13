@@ -17,12 +17,6 @@ class General
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * Store Manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-    /**
      * Store
      *
      * @var \Magento\Core\Model\System\Store
@@ -46,7 +40,6 @@ class General
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-        $this->_storeManager = $storeManager;
         $this->_store = $store;
     }
 

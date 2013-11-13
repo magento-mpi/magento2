@@ -25,28 +25,6 @@ class Info extends \Magento\Core\Block\Template
     protected $_template = 'Magento_Payment::info/default.phtml';
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        array $data = array()
-    ) {
-        parent::__construct($context, $coreData, $data);
-
-        $this->_storeManager = $storeManager;
-    }
-
-    /**
      * Retrieve info model
      *
      * @return \Magento\Payment\Model\Info

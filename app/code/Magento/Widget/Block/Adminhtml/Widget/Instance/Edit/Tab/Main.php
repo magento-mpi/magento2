@@ -22,13 +22,6 @@ class Main
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
@@ -56,7 +49,6 @@ class Main
         \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_store = $store;
         $this->_themeLabelFactory = $themeLabelFactory;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);

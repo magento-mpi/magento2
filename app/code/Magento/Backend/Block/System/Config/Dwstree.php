@@ -15,27 +15,6 @@ namespace Magento\Backend\Block\System\Config;
 
 class Dwstree extends \Magento\Backend\Block\Widget\Tabs
 {
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Model\Auth\Session $authSession,
-        array $data = array()
-    ) {
-        parent::__construct($context, $coreData, $authSession, $data);
-        $this->_storeManager = $storeManager;
-    }
-
     protected function _construct()
     {
         parent::_construct();

@@ -28,11 +28,6 @@ class Additional extends \Magento\Core\Block\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
@@ -68,7 +63,6 @@ class Additional extends \Magento\Core\Block\Template
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_rewardData = $rewardData;
-        $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($context, $coreData, $data);
     }

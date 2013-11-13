@@ -94,13 +94,6 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     protected $_catalogConfig;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -118,7 +111,6 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
         \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_catalogConfig = $catalogConfig;
         $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;

@@ -16,11 +16,6 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -41,7 +36,6 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }

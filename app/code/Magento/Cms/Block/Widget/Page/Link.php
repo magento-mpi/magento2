@@ -56,13 +56,6 @@ class Link
     protected $_cmsPage;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Cms\Model\Resource\Page $resourcePage
@@ -79,7 +72,6 @@ class Link
         parent::__construct($context, $coreData, $data);
         $this->_resourcePage = $resourcePage;
         $this->_cmsPage = $cmsPage;
-        $this->_storeManager = $storeManager;
     }
 
     /**

@@ -47,11 +47,6 @@ class View extends \Magento\Core\Block\Template
     protected $_registry;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -81,7 +76,6 @@ class View extends \Magento\Core\Block\Template
     ) {
         parent::__construct($context, $coreData, $data);
         $this->_registry = $registry;
-        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
     }
 

@@ -37,11 +37,6 @@ class Additional extends \Magento\Core\Block\Template
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
@@ -62,7 +57,6 @@ class Additional extends \Magento\Core\Block\Template
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_balanceFactory = $balanceFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;

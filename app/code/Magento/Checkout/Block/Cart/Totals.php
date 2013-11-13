@@ -22,11 +22,6 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -45,7 +40,6 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         array $data = array()
     ) {
         $this->_salesConfig = $salesConfig;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $data);
 
     }

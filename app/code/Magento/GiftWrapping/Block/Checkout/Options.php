@@ -37,11 +37,6 @@ class Options extends \Magento\Core\Block\Template
     protected $_giftWrappingData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Checkout\Model\CartFactory
      */
     protected $_checkoutCartFactory;
@@ -77,7 +72,6 @@ class Options extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_storeManager = $storeManager;
         $this->_wrappingCollFactory = $wrappingCollFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCartFactory = $checkoutCartFactory;

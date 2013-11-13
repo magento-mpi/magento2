@@ -33,13 +33,6 @@ class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Bloc
     static protected $_widgetUsageMap = array();
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Block factory
      *
      * @var \Magento\Cms\Model\BlockFactory
@@ -63,7 +56,6 @@ class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Bloc
         parent::__construct($context, $coreData, $data);
         $this->_filterProvider = $filterProvider;
         $this->_blockFactory = $blockFactory;
-        $this->_storeManager = $storeManager;
     }
 
     /**

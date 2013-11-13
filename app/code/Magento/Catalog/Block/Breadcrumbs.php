@@ -27,13 +27,6 @@ class Breadcrumbs extends \Magento\Core\Block\Template
     protected $_catalogData = null;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -45,7 +38,6 @@ class Breadcrumbs extends \Magento\Core\Block\Template
         \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_catalogData = $catalogData;
         parent::__construct($context, $coreData, $data);
     }

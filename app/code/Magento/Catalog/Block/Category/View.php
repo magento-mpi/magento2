@@ -34,13 +34,6 @@ class View extends \Magento\Core\Block\Template
     protected $_catalogLayer;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Layer $catalogLayer
@@ -54,7 +47,6 @@ class View extends \Magento\Core\Block\Template
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_catalogLayer = $catalogLayer;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $coreData, $data);

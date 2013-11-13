@@ -83,11 +83,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_status;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
@@ -131,7 +126,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
         $this->_status = $status;
         $this->_checkoutSession = $session;

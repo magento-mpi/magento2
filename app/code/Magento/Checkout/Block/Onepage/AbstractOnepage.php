@@ -29,11 +29,6 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     protected $_addressesCollection;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
@@ -78,7 +73,6 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
         $this->_checkoutSession = $resourceSession;
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

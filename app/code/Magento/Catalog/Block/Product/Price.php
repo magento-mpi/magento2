@@ -44,13 +44,6 @@ class Price extends \Magento\Core\Block\Template
     protected $_catalogData = null;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Stdlib\String
      */
     protected $string;
@@ -80,7 +73,6 @@ class Price extends \Magento\Core\Block\Template
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         $this->_catalogData = $catalogData;
         $this->_taxData = $taxData;

@@ -31,13 +31,6 @@ class Sidebar extends \Magento\Core\Block\Template
     protected $_orderConfig;
 
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -60,7 +53,6 @@ class Sidebar extends \Magento\Core\Block\Template
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_orderConfig = $orderConfig;
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $coreData, $data);
     }

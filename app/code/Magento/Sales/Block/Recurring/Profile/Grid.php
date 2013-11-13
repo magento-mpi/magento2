@@ -26,11 +26,6 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
     protected $_recurringProfile;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -63,7 +58,6 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         parent::__construct($context, $coreData, $data);
         $this->_recurringProfile = $profile;
         $this->_registry = $registry;
-        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
     }
 

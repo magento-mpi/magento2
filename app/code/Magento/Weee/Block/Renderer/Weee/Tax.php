@@ -34,11 +34,6 @@ class Tax
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Directory\Model\Config\Source\Country
      */
     protected $_sourceCountry;
@@ -64,7 +59,6 @@ class Tax
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_sourceCountry = $sourceCountry;
         $this->_directoryHelper = $directoryHelper;
         $this->_coreRegistry = $registry;

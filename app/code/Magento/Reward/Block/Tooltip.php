@@ -40,11 +40,6 @@ class Tooltip extends \Magento\Core\Block\Template
     protected $_actionInstance;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardHelper
@@ -66,7 +61,6 @@ class Tooltip extends \Magento\Core\Block\Template
         $this->_customerSession = $customerSession;
         $this->_rewardHelper = $rewardHelper;
         $this->_rewardInstance = $rewardInstance;
-        $this->_storeManager = $storeManager;
     }
 
     /**

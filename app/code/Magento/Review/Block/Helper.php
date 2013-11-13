@@ -25,11 +25,6 @@ class Helper extends \Magento\Core\Block\Template
     );
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
@@ -46,7 +41,6 @@ class Helper extends \Magento\Core\Block\Template
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_reviewFactory = $reviewFactory;
         parent::__construct($context, $coreData, $data);
     }

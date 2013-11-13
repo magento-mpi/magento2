@@ -42,11 +42,6 @@ class Sidebar extends \Magento\Core\Block\Template
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
@@ -83,7 +78,6 @@ class Sidebar extends \Magento\Core\Block\Template
     ) {
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
-        $this->_storeManager = $storeManager;
         $this->_quoteFactory = $quoteFactory;
         $this->_wishListFactory = $wishListFactory;
         $this->_itemsCompareFactory = $itemsCompareFactory;

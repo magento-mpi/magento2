@@ -50,11 +50,6 @@ class Shippingmethod
     protected $_shippingFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -75,7 +70,6 @@ class Shippingmethod
         $this->_taxData = $taxData;
         $this->_rmaData = $rmaData;
         $this->_shippingFactory = $shippingFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $registry, $data);
     }
 

@@ -20,11 +20,6 @@ namespace Magento\Checkout\Block;
 class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_catalogUrlBuilder;
@@ -47,7 +42,6 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_catalogUrlBuilder = $catalogUrlBuilder;
         parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $data);
     }

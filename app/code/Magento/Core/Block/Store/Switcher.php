@@ -38,11 +38,6 @@ class Switcher extends \Magento\Core\Block\Template
     protected $_storeGroupFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
@@ -60,7 +55,6 @@ class Switcher extends \Magento\Core\Block\Template
     ) {
         $this->_storeGroupFactory = $storeGroupFactory;
         $this->_storeFactory = $storeFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

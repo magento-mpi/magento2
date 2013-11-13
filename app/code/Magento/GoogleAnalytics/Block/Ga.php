@@ -28,11 +28,6 @@ class Ga extends \Magento\Core\Block\Template
     protected $_googleAnalyticsData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_salesOrderCollection;
@@ -53,7 +48,6 @@ class Ga extends \Magento\Core\Block\Template
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;
         $this->_salesOrderCollection = $salesOrderCollection;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

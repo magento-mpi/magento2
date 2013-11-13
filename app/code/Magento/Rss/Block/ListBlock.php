@@ -20,11 +20,6 @@ class ListBlock extends \Magento\Core\Block\Template
     protected $_rssFeeds = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -48,7 +43,6 @@ class ListBlock extends \Magento\Core\Block\Template
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_categoryFactory = $categoryFactory;
         parent::__construct($context, $coreData, $data);

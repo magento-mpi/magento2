@@ -13,11 +13,6 @@ namespace Magento\Rss\Block;
 class AbstractBlock extends \Magento\Core\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -36,7 +31,6 @@ class AbstractBlock extends \Magento\Core\Block\Template
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $coreData, $data);
     }

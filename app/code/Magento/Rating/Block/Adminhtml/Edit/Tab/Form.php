@@ -14,13 +14,6 @@ namespace Magento\Rating\Block\Adminhtml\Edit\Tab;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * Store manager instance
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * System store
      *
      * @var \Magento\Core\Model\System\Store
@@ -66,7 +59,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_optionFactory = $optionFactory;
         $this->_session = $session;
         $this->_systemStore = $systemStore;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 

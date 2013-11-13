@@ -15,13 +15,6 @@ class Labels
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * Store manager instance
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-    
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -37,7 +30,6 @@ class Labels
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 

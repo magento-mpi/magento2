@@ -19,13 +19,6 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Magento Store
      *
      * @var \Magento\Core\Model\System\Store
@@ -67,7 +60,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-        $this->_storeManager = $storeManager;
         $this->_store = $store;
         $this->_groupFactory = $groupFactory;
         $this->_session = $session;

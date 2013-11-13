@@ -18,11 +18,6 @@ class Switcher extends \Magento\Backend\Block\Template
     protected $_systemStore;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -35,7 +30,6 @@ class Switcher extends \Magento\Backend\Block\Template
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

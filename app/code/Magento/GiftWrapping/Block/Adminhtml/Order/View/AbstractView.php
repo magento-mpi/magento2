@@ -44,13 +44,6 @@ class AbstractView extends \Magento\Core\Block\Template
     protected $_wrappingCollFactory;
 
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
@@ -68,7 +61,6 @@ class AbstractView extends \Magento\Core\Block\Template
     ) {
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_storeManager = $storeManager;
         $this->_wrappingCollFactory = $wrappingCollFactory;
         parent::__construct($context, $coreData, $data);
     }

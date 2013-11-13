@@ -51,11 +51,6 @@ class Radio extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_hierarchyNode;
@@ -82,7 +77,6 @@ class Radio extends \Magento\Adminhtml\Block\Template
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_storeManager = $storeManager;
         $this->_hierarchyNode = $hierarchyNode;
         $this->_systemStore = $systemStore;
         parent::__construct($context, $coreData, $data);

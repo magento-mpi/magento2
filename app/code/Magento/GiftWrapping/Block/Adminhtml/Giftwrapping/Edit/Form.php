@@ -13,11 +13,6 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -45,7 +40,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Directory\Helper\Data $directoryHelper,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_directoryHelper = $directoryHelper;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);

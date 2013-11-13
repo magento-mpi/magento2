@@ -27,13 +27,6 @@ class Result extends \Magento\Core\Block\Template
     protected $_urlFactory;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Catalog layer
      *
      * @var \Magento\Catalog\Model\Layer
@@ -65,7 +58,6 @@ class Result extends \Magento\Core\Block\Template
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_catalogLayer = $catalogLayer;
-        $this->_storeManager = $storeManager;
         $this->_urlFactory = $urlFactory;
         parent::__construct($context, $coreData, $data);
     }

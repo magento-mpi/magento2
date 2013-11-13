@@ -26,13 +26,6 @@ class General
     protected $_systemStore;
 
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -48,7 +41,6 @@ class General
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }

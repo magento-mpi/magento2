@@ -23,11 +23,6 @@ class Footer extends \Magento\Core\Block\Template
     protected $_copyright;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -45,7 +40,6 @@ class Footer extends \Magento\Core\Block\Template
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $coreData, $data);
     }
 

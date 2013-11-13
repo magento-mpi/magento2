@@ -33,11 +33,6 @@ class Row
     protected $_websiteCollFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
@@ -55,7 +50,6 @@ class Row
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_websiteCollFactory = $websiteCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
         parent::__construct($context, $coreData, $categoryTree, $registry, $data);
