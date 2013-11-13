@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {

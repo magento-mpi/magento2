@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@ namespace Magento\View\Block;
  */
 class Template extends AbstractBlock
 {
-    const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
+    const XML_PATH_TEMPLATE_ALLOW_SYMLINK = 'dev/template/allow_symlink';
 
     /**
      * Assigned variables for view
