@@ -87,7 +87,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         $this->addActionLayoutHandles();
         $update->addHandle($this->_handles);
 
-        $this->loadLayoutUpdates();
+        $this->_layoutServices->loadLayoutUpdates();
         $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
 

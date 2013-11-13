@@ -148,7 +148,7 @@ class Category extends \Magento\App\Action\Action
                 $this->addPageLayoutHandles(array('type' => $parentType));
             }
             $this->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
-            $this->loadLayoutUpdates();
+            $this->_layoutServices->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded
             $layoutUpdates = $settings->getLayoutUpdates();

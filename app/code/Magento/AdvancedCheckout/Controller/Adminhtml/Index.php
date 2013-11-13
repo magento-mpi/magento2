@@ -731,7 +731,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->loadLayoutUpdates();
+        $this->_layoutServices->loadLayoutUpdates();
         $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
         $result = $this->_layoutServices->getLayout()->renderElement('content');

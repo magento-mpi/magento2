@@ -44,7 +44,7 @@ class Info extends \Magento\App\Action\Action
         }
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->loadLayoutUpdates();
+        $this->_layoutServices->loadLayoutUpdates();
         $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Store Credit'));

@@ -209,7 +209,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function loadLayoutUpdates()
+    public function loadLayoutUpdates() //TODO fix 4 usages
     {
         return $this->_layoutServices->loadLayoutUpdates();
     }

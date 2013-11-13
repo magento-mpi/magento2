@@ -385,7 +385,7 @@ class Product extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Page\Helper\Layout')
                 ->applyHandle($product->getPageLayout());
         }
-        $this->loadLayoutUpdates();
+        $this->_layoutServices->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
             $this->_objectManager->get('Magento\Page\Helper\Layout')

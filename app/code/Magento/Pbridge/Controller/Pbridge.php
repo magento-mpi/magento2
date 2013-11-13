@@ -28,7 +28,7 @@ class Pbridge extends \Magento\App\Action\Action
     protected function _initActionLayout()
     {
         $this->addActionLayoutHandles();
-        $this->loadLayoutUpdates();
+        $this->_layoutServices->loadLayoutUpdates();
         $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;

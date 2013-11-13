@@ -402,7 +402,7 @@ class Create extends \Magento\Backend\App\Action
                 $update->addHandle('sales_order_create_load_block_' . $block);
             }
         }
-        $this->loadLayoutUpdates();
+        $this->_layoutServices->loadLayoutUpdates();
         $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
         $result = $this->_layoutServices->getLayout()->renderElement('content');
