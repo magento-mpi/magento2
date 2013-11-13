@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout label="Catalog Product View (Configurable)" type="page">
+<layout>
     <container name="product.info.configurable.extra" as="product_type_data_extra" label="Configurable Product Extra Info"/>
 </layout>
