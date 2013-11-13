@@ -63,7 +63,7 @@ class Customer extends \Magento\App\Action\Action
             $navigationBlock->setActive('review/customer');
         }
         if ($block = $this->getLayout()->getBlock('review_customer_list')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
 
         $this->getLayout()->getBlock('head')->setTitle(__('My Product Reviews'));

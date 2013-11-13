@@ -302,7 +302,7 @@ class Account extends \Magento\App\Action\Action
         $lastCustomerId = $this->_getSession()->getId();
         $this->_getSession()->logout()
             ->renewSession()
-            ->setBeforeAuthUrl($this->_getRefererUrl())
+            ->setBeforeAuthUrl($this->_redirect->getRefererUrl())
             ->setLastCustomerId($lastCustomerId);
 
         $this->_redirect('*/*/logoutSuccess');
@@ -840,7 +840,7 @@ class Account extends \Magento\App\Action\Action
 
         $block = $this->getLayout()->getBlock('customer_edit');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $data = $this->_getSession()->getCustomerFormData(true);
         $customer = $this->_getSession()->getCustomer();

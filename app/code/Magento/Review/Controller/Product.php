@@ -149,7 +149,7 @@ class Product extends \Magento\App\Action\Action
                 $this->_customerSession->setBeforeAuthUrl($this->_urlModel->getUrl('*/*/*', array('_current' => true)));
                 $this->_reviewSession
                     ->setFormData($request->getPost())
-                    ->setRedirectUrl($this->_getRefererUrl());
+                    ->setRedirectUrl($this->_redirect->getRefererUrl());
                 $this->getResponse()->setRedirect(
                     $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
                 );
@@ -309,7 +309,7 @@ class Product extends \Magento\App\Action\Action
             $this->getResponse()->setRedirect($redirectUrl);
             return;
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**

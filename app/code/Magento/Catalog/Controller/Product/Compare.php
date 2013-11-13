@@ -177,8 +177,7 @@ class Compare extends \Magento\App\Action\Action
 
             $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
         }
-
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**
@@ -222,7 +221,7 @@ class Compare extends \Magento\App\Action\Action
         }
 
         if (!$this->getRequest()->getParam('isAjax', false)) {
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
         }
     }
 
@@ -252,7 +251,7 @@ class Compare extends \Magento\App\Action\Action
             $this->_catalogSession->addException($e, __('Something went wrong  clearing the comparison list.'));
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**

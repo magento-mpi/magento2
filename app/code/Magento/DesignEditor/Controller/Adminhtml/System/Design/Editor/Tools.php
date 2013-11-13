@@ -153,7 +153,7 @@ class Tools extends \Magento\Backend\App\Action
             $editableTheme->getCustomization()->delete($removeJsFiles);
             $this->_forward('jsList');
         } catch (\Exception $e) {
-            $this->getResponse()->setRedirect($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }

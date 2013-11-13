@@ -100,7 +100,7 @@ class Result extends \Magento\App\Action\Action
             }
         }
         else {
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
         }
     }
 }

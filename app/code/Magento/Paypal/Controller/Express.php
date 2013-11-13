@@ -91,7 +91,7 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        $this->_customerSession->setBeforeAuthUrl($this->_getRefererUrl());
+        $this->_customerSession->setBeforeAuthUrl($this->_redirect->getRefererUrl());
         $this->getResponse()->setRedirect(
             $this->_urlHelper->addRequestParam($this->_customerHelper->getLoginUrl(), array('context' => 'checkout'))
         );

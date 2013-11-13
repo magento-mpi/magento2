@@ -80,7 +80,7 @@ class Manage extends \Magento\App\Action\Action
         $this->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
 
         if ($block = $this->getLayout()->getBlock('customer_newsletter')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $this->getLayout()->getBlock('head')->setTitle(__('Newsletter Subscription'));
         $this->renderLayout();

@@ -126,7 +126,7 @@ class Subscriber extends \Magento\App\Action\Action
                 $this->_session->addException($e, __('Something went wrong with the subscription.'));
             }
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**
@@ -177,6 +177,6 @@ class Subscriber extends \Magento\App\Action\Action
                 $this->_session->addException($e, __('Something went wrong with the un-subscription.'));
             }
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 }

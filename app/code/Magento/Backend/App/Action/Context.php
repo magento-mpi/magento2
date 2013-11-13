@@ -86,6 +86,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param \Magento\HTTP\Url $httpUrl
+     * @param \Magento\App\Request\Redirect $redirect
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
@@ -117,6 +118,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\App\ActionFlag $flag,
         \Magento\Encryption\UrlCoder $urlCoder,
         \Magento\HTTP\Url $httpUrl,
+        \Magento\App\Request\Redirect $redirect,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
@@ -127,7 +129,7 @@ class Context extends \Magento\App\Action\Context
         parent::__construct(
             $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager,
             $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translator,
-            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $authentication
+            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $redirect, $authentication
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;

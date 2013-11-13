@@ -158,7 +158,7 @@ class Index extends \Magento\App\Action\Action
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         if ($block = $this->getLayout()->getBlock('invitations_list')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

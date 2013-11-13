@@ -98,7 +98,7 @@ class Index
             $this->setFlag('', 'no-dispatch', true);
             $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
             if (!$customerSession->getBeforeWishlistUrl()) {
-                $customerSession->setBeforeWishlistUrl($this->_getRefererUrl());
+                $customerSession->setBeforeWishlistUrl($this->_redirect->getRefererUrl());
             }
             $customerSession->setBeforeWishlistRequest($request->getParams());
         }
@@ -181,7 +181,7 @@ class Index
         $block   = $this->getLayout()->getBlock('customer.wishlist');
         $referer = $session->getAddActionReferer(true);
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
             if ($referer) {
                 $block->setRefererUrl($referer);
             }
@@ -252,7 +252,7 @@ class Index
             if ($referer) {
                 $session->setBeforeWishlistUrl(null);
             } else {
-                $referer = $this->_getRefererUrl();
+                $referer = $this->_redirect->getRefererUrl();
             }
 
             /**
@@ -498,7 +498,8 @@ class Index
 
         $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
-        $this->_redirectReferer($this->_url->getUrl('*/*'));
+        $url = $this->_redirect->getRedirectUrl($this->_url->getUrl('*/*'));
+        $this->getResponse()->setRedirect($url);
     }
 
     /**
@@ -560,8 +561,8 @@ class Index
 
             if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
                 $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-            } else if ($this->_getRefererUrl()) {
-                $redirectUrl = $this->_getRefererUrl();
+            } else if ($this->_redirect->getRefererUrl()) {
+                $redirectUrl = $this->_redirect->getRefererUrl();
             }
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
         } catch (\Magento\Core\Exception $e) {

@@ -103,7 +103,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $session    = $this->_objectManager->get('Magento\Wishlist\Model\Session');
         $cart       = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 
-        $redirectUrl = $this->_getRefererUrl();
+        $redirectUrl = $this->_redirect->getRefererUrl();
 
         try {
             $options = $this->_objectManager->create('Magento\Wishlist\Model\Item\Option')->getCollection()

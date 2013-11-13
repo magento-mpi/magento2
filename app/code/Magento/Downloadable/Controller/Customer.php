@@ -64,7 +64,7 @@ class Customer extends \Magento\App\Action\Action
         $this->loadLayout();
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($block = $this->getLayout()->getBlock('downloadable_customer_products_list')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

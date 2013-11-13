@@ -55,6 +55,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /** @var \Magento\HTTP\Url */
     protected $_httpUrl;
 
+    /** @var \Magento\App\Request\Redirect */
+    protected $_redirect;
+
     /**
      * @var \Magento\Core\Model\Translate
      */
@@ -88,6 +91,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param \Magento\HTTP\Url $httpUrl
+     * @param \Magento\App\Request\Redirect $redirect
      * @param \Magento\HTTP\Authentication $authentication
      */
     public function __construct(
@@ -113,6 +117,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\ActionFlag $flag,
         \Magento\Encryption\UrlCoder $urlCoder,
         \Magento\HTTP\Url $httpUrl,
+        \Magento\App\Request\Redirect $redirect,
         \Magento\HTTP\Authentication $authentication
     ) {
         $this->_request = $request;
@@ -136,6 +141,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_helper = $helper;
         $this->_urlCoder = $urlCoder;
         $this->_httpUrl = $httpUrl;
+        $this->_redirect = $redirect;
         $this->_flag = $flag;
         $this->authentication = $authentication;
     }
@@ -309,6 +315,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
         return $this->_urlCoder;
     }
 
+    /**
+     * @return \Magento\HTTP\Url
+     */
     public function getHttpUrl()
     {
         return $this->_httpUrl;
@@ -320,5 +329,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAuthentication()
     {
         return $this->authentication;
+    }
+    /**
+     * @return \Magento\App\Request\Redirect
+     */
+    public function getRedirect()
+    {
+        return $this->_redirect;
     }
 }

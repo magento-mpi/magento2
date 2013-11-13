@@ -46,7 +46,7 @@ class Order extends \Magento\Sales\Controller\AbstractController
 
         $block = $this->getLayout()->getBlock('customer.account.link.back');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $this->renderLayout();
     }

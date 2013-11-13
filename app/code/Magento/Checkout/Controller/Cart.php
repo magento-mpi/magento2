@@ -75,12 +75,12 @@ class Cart
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
-            && $backUrl = $this->_getRefererUrl()
+            && $backUrl = $this->_redirect->getRefererUrl()
         ) {
             $this->getResponse()->setRedirect($backUrl);
         } else {
             if (($this->getRequest()->getActionName() == 'add') && !$this->getRequest()->getParam('in_cart')) {
-                $this->_checkoutSession->setContinueShoppingUrl($this->_getRefererUrl());
+                $this->_checkoutSession->setContinueShoppingUrl($this->_redirect->getRefererUrl());
             }
             $this->_redirect('checkout/cart');
         }
@@ -223,7 +223,8 @@ class Cart
             if ($url) {
                 $this->getResponse()->setRedirect($url);
             } else {
-                $this->_redirectReferer($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
+                $cartUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($cartUrl));
             }
         } catch (\Exception $e) {
             $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
@@ -365,7 +366,8 @@ class Cart
             if ($url) {
                 $this->getResponse()->setRedirect($url);
             } else {
-                $this->_redirectReferer($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
+                $cartUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($cartUrl));
             }
         } catch (\Exception $e) {
             $this->_checkoutSession->addException($e, __('We cannot update the item.'));
@@ -460,7 +462,8 @@ class Cart
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
-        $this->_redirectReferer($this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*'));
+        $defaultUrl = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*');
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($defaultUrl));
     }
 
     /**

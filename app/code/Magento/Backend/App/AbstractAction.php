@@ -356,7 +356,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected function _redirectReferer($defaultUrl = null)
     {
         $defaultUrl = empty($defaultUrl) ? $this->getUrl('*') : $defaultUrl;
-        parent::_redirectReferer($defaultUrl);
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($defaultUrl));
         return $this;
     }
 

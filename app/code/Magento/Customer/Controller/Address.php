@@ -96,7 +96,7 @@ class Address extends \Magento\App\Action\Action
 
             $block = $this->getLayout()->getBlock('address_book');
             if ($block) {
-                $block->setRefererUrl($this->_getRefererUrl());
+                $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
             $this->renderLayout();
         } else {

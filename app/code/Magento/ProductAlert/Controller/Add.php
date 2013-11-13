@@ -27,7 +27,8 @@ class Add extends \Magento\App\Action\Action
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             if(!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeUrl($this->_getRefererUrl());
+                $this->_objectManager->get('Magento\Customer\Model\Session')
+                    ->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
         return parent::dispatch($request);
@@ -76,7 +77,7 @@ class Add extends \Magento\App\Action\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     public function stockAction()
@@ -110,6 +111,6 @@ class Add extends \Magento\App\Action\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 }

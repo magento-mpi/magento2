@@ -23,6 +23,7 @@ class Currency extends \Magento\App\Action\Action
         if ($currency) {
             $storeManager->getStore()->setCurrentCurrencyCode($currency);
         }
-        $this->_redirectReferer($storeManager->getStore()->getBaseUrl());
+        $storeUrl = $storeManager->getStore()->getBaseUrl();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($storeUrl));
     }
 }

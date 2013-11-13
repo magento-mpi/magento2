@@ -77,7 +77,7 @@ class Index extends \Magento\App\Action\Action
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $block = $this->getLayout()->getBlock('giftregistry_list');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -132,7 +132,7 @@ class Index extends \Magento\App\Action\Action
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\GiftRegistry\Model\Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $this->_getCheckoutSession()->addError($e->getMessage());
-                $this->_redirectReferer('*/*');
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
             } else {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('giftregistry');
@@ -346,7 +346,7 @@ class Index extends \Magento\App\Action\Action
         $this->getLayout()->initMessages('Magento\Customer\Model\Session');
         $block = $this->getLayout()->getBlock('giftregistry_addselect');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

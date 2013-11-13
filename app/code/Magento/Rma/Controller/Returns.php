@@ -66,7 +66,7 @@ class Returns extends \Magento\App\Action\Action
         $layout->getBlock('head')->setTitle(__('My Returns'));
 
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
         $this->renderLayout();
     }
@@ -145,7 +145,7 @@ class Returns extends \Magento\App\Action\Action
             $layout->initMessages('Magento\Core\Model\Session');
             $layout->getBlock('head')->setTitle(__('Create New Return'));
             if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
-                $block->setRefererUrl($this->_getRefererUrl());
+                $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
             $this->renderLayout();
         } else {

@@ -79,6 +79,9 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     protected $_appUrl;
 
+    /** @var \Magento\App\Request\Redirect */
+    protected $_redirect;
+
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
@@ -110,6 +113,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_flag              = $context->getFlag();
         $this->_urlCoder          = $context->getUrlCoder();
         $this->_appUrl            = $context->getHttpUrl();
+        $this->_redirect          = $context->getRedirect();
     }
 
     /**
@@ -452,52 +456,5 @@ class Action extends \Magento\App\Action\AbstractAction
         }
         $this->getResponse()->setRedirect($errorUrl);
         return $this;
-    }
-
-    /**
-     * Set referer url for redirect in response
-     *
-     * @param   string $defaultUrl
-     * @return  \Magento\App\ActionInterface
-     */
-    protected function _redirectReferer($defaultUrl=null) // extract
-    {
-
-        $refererUrl = $this->_getRefererUrl();
-        if (empty($refererUrl)) {
-            $refererUrl = empty($defaultUrl)
-                ? $this->_storeManager->getBaseUrl()
-                : $defaultUrl;
-        }
-
-        $this->getResponse()->setRedirect($refererUrl);
-        return $this;
-    }
-
-    /**
-     * Identify referer url via all accepted methods (HTTP_REFERER, regular or base64-encoded request param)
-     *
-     * @return string
-     */
-    protected function _getRefererUrl() // extract
-    {
-        $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
-        $url = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL);
-        if ($url) {
-            $refererUrl = $url;
-        }
-        $url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
-        if ($url) {
-            $refererUrl = $this->_urlCoder->decode($url);
-        }
-        $url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
-        if ($url) {
-            $refererUrl = $this->_urlCoder->decode($url);
-        }
-
-        if (!$this->_appUrl->isInternal($refererUrl)) {
-            $refererUrl = $this->_storeManager->getStore()->getBaseUrl();
-        }
-        return $refererUrl;
     }
 }

@@ -401,7 +401,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             $this->getResponse()->setRedirect($this->_getSession()->getBeforeWishlistUrl());
             $this->_getSession()->unsBeforeWishlistUrl();
         } else {
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
         }
     }
 
@@ -472,7 +472,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 __('%1 items were copied to %2: %3.', count($copied), $wishlistName, $names)
             );
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**
@@ -570,7 +570,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
         }
         $wishlist->save();
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**
@@ -653,6 +653,6 @@ class Index extends \Magento\Wishlist\Controller\Index
                 __('%1 items were moved to %2: %3.', count($moved), $wishlistName, $names)
             );
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 }

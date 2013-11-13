@@ -140,7 +140,7 @@ class Index extends \Magento\App\Action\Action
             $this->_persistentObserver->setQuoteGuest();
         }
 
-        $checkoutUrl = $this->_getRefererUrl();
+        $checkoutUrl = $this->_redirect->getRefererUrl();
         $this->getResponse()->setRedirect($checkoutUrl . (strpos($checkoutUrl, '?') ? '&' : '?') . 'register');
     }
 

@@ -334,13 +334,14 @@ class Version
             } catch (\Exception $e) {
                 // display error message
                 $this->_adminhtmlSession->addError($e->getMessage());
-                if ($this->_getRefererUrl()) {
+                if ($this->_redirect->getRefererUrl()) {
                     // save data in session
                     $this->_adminhtmlSession->setFormData($data);
                 }
                 // redirect to edit form
-                $this->_redirectReferer($this->getUrl('adminhtml/cms_page/edit',
-                    array('page_id' => $this->getRequest()->getParam('page_id'))));
+                $editUrl = $this->getUrl('adminhtml/cms_page/edit',
+                    array('page_id' => $this->getRequest()->getParam('page_id')));
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($editUrl));
                 return;
             }
         }

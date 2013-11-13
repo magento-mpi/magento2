@@ -117,8 +117,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
         }
         if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-        } else if ($this->_getRefererUrl()) {
-            $redirectUrl = $this->_getRefererUrl();
+        } else if ($this->_redirect->getRefererUrl()) {
+            $redirectUrl = $this->_redirect->getRefererUrl();
         } else {
             $redirectUrl = $indexUrl;
         }
