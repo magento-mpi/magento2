@@ -62,9 +62,8 @@ class Link extends \Magento\View\Block\Template
      * @param   string $quote
      * @return  string
      */
-    public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
+    public function serialize($attributes = array(), $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
     {
-        $res  = '';
         $data = array();
 
         foreach ($attributes as $key => $value) {

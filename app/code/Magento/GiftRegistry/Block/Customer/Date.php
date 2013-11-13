@@ -23,11 +23,9 @@ class Date extends \Magento\View\Block\Html\Date
      * Return escaped value
      * Overriding parent method undesired behaviour
      *
-     * @param int $index
-     *
      * @return string
      */
-    public function getEscapedValue($index=null)
+    public function getEscapedValue()
     {
         return $this->escapeHtml($this->getValue());
     }

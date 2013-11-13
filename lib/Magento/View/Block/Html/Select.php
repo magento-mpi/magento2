@@ -60,12 +60,12 @@ class Select extends \Magento\View\Block\AbstractBlock
     /**
      * Set element's HTML ID
      *
-     * @param string $id ID
+     * @param string $elementId ID
      * @return Select
      */
-    public function setId($id)
+    public function setId($elementId)
     {
-        $this->setData('id', $id);
+        $this->setData('id', $elementId);
         return $this;
     }
 
@@ -139,11 +139,7 @@ class Select extends \Magento\View\Block\AbstractBlock
         $values = $this->getValue();
 
         if (!is_array($values)) {
-            if (!is_null($values)) {
-                $values = array($values);
-            } else {
-                $values = array();
-            }
+                $values = (array)$values;
         }
 
         $isArrayOption = true;

@@ -64,7 +64,7 @@ class Template extends AbstractBlock
     /**
      * @var \Magento\View\TemplateEngineFactory
      */
-    protected $_templateEngineFactory;
+    protected $_tplEngineFactory;
 
     /**
      * Core data
@@ -98,7 +98,7 @@ class Template extends AbstractBlock
         $this->_dirs = $context->getDirs();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
-        $this->_templateEngineFactory = $context->getEngineFactory();
+        $this->_tplEngineFactory = $context->getEngineFactory();
         $this->_storeManager = $context->getApp();
         $this->_appState = $context->getAppState();
         parent::__construct($context, $data);
@@ -204,7 +204,7 @@ class Template extends AbstractBlock
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
         ) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $templateEngine = $this->_templateEngineFactory->get($extension);
+            $templateEngine = $this->_tplEngineFactory->get($extension);
             $html = $templateEngine->render($this, $fileName, $this->_viewVars);
         } else {
             $html = '';
@@ -269,11 +269,11 @@ class Template extends AbstractBlock
     }
 
     /**
-     * Get is allowed symliks flag
+     * Get is allowed symlinks flag
      *
      * @return bool
      */
-    protected function _getAllowSymlinks()
+    protected function isAllowSymlinks()
     {
         if (is_null($this->_allowSymlinks)) {
             $this->_allowSymlinks = $this->_storeConfig->getConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);

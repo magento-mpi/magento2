@@ -24,7 +24,8 @@ class Date extends \Magento\View\Block\Template
     protected function _toHtml()
     {
         $html  = '<input type="text" name="' . $this->getName() . '" id="' . $this->getId() . '" ';
-        $html .= 'value="' . $this->escapeHtml($this->getValue()) . '" class="' . $this->getClass() . '" ' . $this->getExtraParams() . '/> ';
+        $html .= 'value="' . $this->escapeHtml($this->getValue()) . '" ';
+        $html .= 'class="' . $this->getClass() . '" ' . $this->getExtraParams() . '/> ';
         $calendarYearsRange = $this->getYearsRange();
         $html .=
             '<script type="text/javascript">
@@ -50,10 +51,9 @@ class Date extends \Magento\View\Block\Template
     /**
      * Convert special characters to HTML entities
      *
-     * @param null $index
      * @return string
      */
-    public function getEscapedValue($index = null)
+    public function getEscapedValue()
     {
 
         if ($this->getFormat() && $this->getValue()) {
