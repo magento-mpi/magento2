@@ -52,7 +52,6 @@ class DesignEditor
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\View\Action\LayoutServiceInterface
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundGenerateLayoutBlocks(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {

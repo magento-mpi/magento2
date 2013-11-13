@@ -126,4 +126,5 @@ return array(
     array('holdCommit', 'Magento\Search\Model\Observer'),
     array('getDefaultMenuLayoutCode', 'Magento\VersionsCms\Model\Hierarchy\Config'),
     array('addPrivateSalesLayoutUpdate', 'Magento\WebsiteRestriction\Model\Observer'),
+    array('assignHtmlHeadRenderingFlag', 'Magento\GiftRegistry\Model\Observer'),
 );

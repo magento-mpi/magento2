@@ -42,7 +42,6 @@ class WebsiteRestriction
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\View\Action\LayoutServiceInterface
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundLoadLayoutUpdates(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
