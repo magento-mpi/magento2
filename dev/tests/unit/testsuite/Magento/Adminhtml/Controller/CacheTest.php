@@ -52,6 +52,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
         $cacheFrontendPool = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
 
+        $flagMock = $this->getMock('\Magento\App\ActionFlag', array(), array(), '', false);
+        $context->expects($this->any())->method('getFlag')->will($this->returnValue($flagMock));
         $controller = new \Magento\Backend\Controller\Adminhtml\Cache(
             $context,
             $cacheTypeListMock,

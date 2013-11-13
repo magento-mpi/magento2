@@ -30,29 +30,21 @@ class Cache extends \Magento\Backend\App\Action
     private $_cacheFrontendPool;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
     ) {
         parent::__construct($context);
         $this->_cacheTypeList = $cacheTypeList;
         $this->_cacheState = $cacheState;
         $this->_cacheFrontendPool = $cacheFrontendPool;
-        $this->_title = $title;
     }
 
     /**
