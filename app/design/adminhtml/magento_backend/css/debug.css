@@ -678,6 +678,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .col-1-layout,
 .adminhtml-sales-billing-agreement-index .col-1-layout,
 .adminhtml-checkout-agreement-index .col-1-layout,
+.adminhtml-integration-index .col-1-layout,
 /* catalog */
 .adminhtml-catalog-product-index .col-1-layout,
 .adminhtml-catalog-event-index .col-1-layout,
@@ -779,6 +780,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions,
 .adminhtml-rma-item-attribute-index .page-actions,
 .adminhtml-checkout-agreement-index .page-actions,
+.adminhtml-integration-index .page-actions,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions,
 .adminhtml-catalog-event-index .page-actions,
@@ -837,6 +839,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions.fixed,
 .adminhtml-rma-item-attribute-index .page-actions.fixed,
 .adminhtml-checkout-agreement-index .page-actions.fixed,
+.adminhtml-integration-index .page-actions.fixed,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions.fixed,
 .adminhtml-catalog-event-index .page-actions.fixed,
@@ -894,6 +897,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions .add,
 .adminhtml-rma-item-attribute-index .page-actions .add,
 .adminhtml-checkout-agreement-index .page-actions .add,
+.adminhtml-integration-index .page-actions .add,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default,
 .adminhtml-catalog-event-index .page-actions .add,
@@ -964,6 +968,7 @@ th.required:after {
 .eq-ie8 .adminhtml-giftwrapping-index .page-actions .add,
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add,
+.eq-ie8 .adminhtml-integration-index .page-actions .add,
 /* catalog */
 .eq-ie8 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add,
@@ -1018,6 +1023,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions .add:hover,
 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
 .adminhtml-checkout-agreement-index .page-actions .add:hover,
+.adminhtml-integration-index .page-actions .add:hover,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default:hover,
 .adminhtml-catalog-event-index .page-actions .add:hover,
@@ -1080,6 +1086,7 @@ th.required:after {
 .eq-ie8 .adminhtml-giftwrapping-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-integration-index .page-actions .add:hover,
 /* catalog */
 .eq-ie8 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default:hover,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add:hover,
@@ -1134,6 +1141,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions .add:active,
 .adminhtml-rma-item-attribute-index .page-actions .add:active,
 .adminhtml-checkout-agreement-index .page-actions .add:active,
+.adminhtml-integration-index .page-actions .add:active,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default:active,
 .adminhtml-catalog-event-index .page-actions .add:active,
@@ -1192,6 +1200,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add > span,
 .adminhtml-giftwrapping-index .page-actions .add > span,
 .adminhtml-checkout-agreement-index .page-actions .add > span,
+.adminhtml-integration-index .page-actions .add > span,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default > span,
 .adminhtml-catalog-event-index .page-actions .add > span,
@@ -1249,6 +1258,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions .add > span:before,
 .adminhtml-rma-item-attribute-index .page-actions .add > span:before,
 .adminhtml-checkout-agreement-index .page-actions .add > span:before,
+.adminhtml-integration-index .page-actions .add > span:before,
 /* catalog */
 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default > span:before,
 .adminhtml-catalog-event-index .page-actions .add > span:before,
@@ -1415,6 +1425,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .grid-actions,
 .adminhtml-rma-item-attribute-index .grid-actions,
 .adminhtml-checkout-agreement-index .grid-actions,
+.adminhtml-integration-index .grid-actions,
 /* catalog */
 .adminhtml-catalog-product-index .grid-actions,
 .adminhtml-catalog-event-index .grid-actions,

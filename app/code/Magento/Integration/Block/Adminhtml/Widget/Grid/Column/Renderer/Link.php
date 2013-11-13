@@ -59,7 +59,7 @@ class Link extends AbstractRenderer
      */
     public function isDisabled()
     {
-        return true;
+        return false;
     }
 
     /**

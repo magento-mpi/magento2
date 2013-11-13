@@ -1,0 +1,14 @@
+#integrationGrid_table .col-name {
+    width: 60%;
+}
+
+#integrationGrid_table .col-status,
+#integrationGrid_table .col-reauthorize,
+#integrationGrid_table .col-authorize {
+    width: 12%;
+}
+
+#integrationGrid_table .col-remove,
+#integrationGrid_table .col-edit {
+    width: 2%;
+}
