@@ -12,7 +12,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function testCleanMediaAction()
     {
-        $this->fail("Need to fix");
         // Wire object with mocks
         $context = $this->getMock('Magento\Backend\App\Action\Context', array(), array(), '', false);
 
@@ -57,7 +56,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $context,
             $cacheTypeListMock,
             $cacheStateMock,
-            $cacheFrontendPool
+            $cacheFrontendPool,
+            $this->getMock('Magento\App\Action\Title', array(), array(), '', false)
         );
 
         // Setup expectations
