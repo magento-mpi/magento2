@@ -10,6 +10,6 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="page" label="Root Page with Own Containers">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <container name="container_two" label="Container Two"/>
 </layout>
