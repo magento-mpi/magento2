@@ -53,6 +53,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -61,13 +62,14 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
         $this->_cmsConfig = $cmsConfig;
         $this->_backendAuthSession = $backendAuthSession;
         $this->_pageVersion = $pageVersion;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($context, $coreRegistry, $title);
+        parent::__construct($context, $coreRegistry, $title, $dateFilter);
         $this->_title = $title;
     }
 

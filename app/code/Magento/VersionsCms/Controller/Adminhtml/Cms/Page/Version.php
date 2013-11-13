@@ -41,6 +41,8 @@ class Version
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
      * @param \Magento\Adminhtml\Model\Session $adminhtmlSession
      * @param \Magento\VersionsCms\Model\Page\Revision $pageRevision
+     * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -52,13 +54,15 @@ class Version
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\Adminhtml\Model\Session $adminhtmlSession,
         \Magento\VersionsCms\Model\Page\Revision $pageRevision,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
         $this->_pageVersionFactory = $pageVersionFactory;
         $this->_adminhtmlSession = $adminhtmlSession;
         $this->_pageRevision = $pageRevision;
-        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion,
-            $pageFactory, $title);
+        parent::__construct(
+            $context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory, $title, $dateFilter
+        );
     }
 
     /**

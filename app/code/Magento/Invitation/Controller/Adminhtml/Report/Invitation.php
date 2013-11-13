@@ -44,7 +44,6 @@ class Invitation extends \Magento\Backend\App\Action
         parent::__construct($context);
         $this->_fileFactory = $fileFactory;
         $this->_config = $config;
-        $this->_title = $title;
     }
 
     /**

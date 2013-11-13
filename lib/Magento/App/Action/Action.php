@@ -275,12 +275,30 @@ class Action extends \Magento\App\Action\AbstractAction
     {
         $this->_request = $request;
         $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
+        $this->_eventManager->dispatch('controller_action_predispatch', array('controller_action' => $this));
+        $this->_eventManager->dispatch(
+            'controller_action_predispatch_' . $request->getRouteName(), array('controller_action' => $this)
+        );
+        $this->_eventManager->dispatch(
+            'controller_action_predispatch_' . $request->getActionName() . 'Action', array('controller_action' => $this)
+        );
         \Magento\Profiler::start($profilerKey);
 
         if ($request->isDispatched() && !$this->getFlag('', self::FLAG_NO_DISPATCH)) {
             \Magento\Profiler::start('action_body');
             $actionMethodName = $request->getActionName() . 'Action';
             $this->$actionMethodName();
+            \Magento\Profiler::start('postdispatch');
+            if (!$this->getFlag('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH)) {
+                $this->_eventManager->dispatch(
+                    'controller_action_postdispatch_' . $this->getFullActionName(),array('controller_action' => $this)
+                );
+                $this->_eventManager->dispatch(
+                    'controller_action_postdispatch_' . $request->getRouteName(), array('controller_action' => $this)
+                );
+                $this->_eventManager->dispatch('controller_action_postdispatch', array('controller_action' => $this));
+            }
+            \Magento\Profiler::stop('postdispatch');
             \Magento\Profiler::stop('action_body');
         }
         \Magento\Profiler::stop($profilerKey);
