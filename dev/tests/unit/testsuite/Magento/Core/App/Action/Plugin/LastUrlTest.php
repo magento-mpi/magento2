@@ -15,10 +15,12 @@ class LastUrlTests extends \PHPUnit_Framework_TestCase
         $url = $this->getMock('\Magento\Core\Model\Url', array(), array(), '', false);
         $plugin = new \Magento\Core\App\Action\Plugin\LastUrl($session, $url);
         $session->expects($this->once())->method('setLastUrl')->with('http://example.com');
+        $invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
+        $invocationChainMock->expects($this->once())->method('proceed')->will($this->returnValue('result'));
         $url->expects($this->once())
             ->method('getUrl')
             ->with('*/*/*', array('_current' => true))
             ->will($this->returnValue('http://example.com'));
-        $this->assertEquals('result', $plugin->afterDispatch('result'));
+        $this->assertEquals('result', $plugin->aroundDispatch(array(), $invocationChainMock));
     }
 }
