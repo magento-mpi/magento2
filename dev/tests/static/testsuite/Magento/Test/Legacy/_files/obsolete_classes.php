@@ -1424,4 +1424,5 @@ return array(
     array('Magento\Core\Block\Html\Select', 'Magento\View\Block\Html\Select'),
     array('Magento\Core\Block\AbstractBlock', 'Magento\View\Block\AbstractBlock'),
     array('Magento\Core\Block\Template', 'Magento\View\Block\Template'),
+    array('Magento\Core\Block\Html\Calendar', 'Magento\View\Block\Html\Calendar'),
 );
