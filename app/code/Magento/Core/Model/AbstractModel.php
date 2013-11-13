@@ -177,7 +177,7 @@ abstract class AbstractModel extends \Magento\Object
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
+        $properties = array_diff($properties, array('_eventManager', '_cacheManager', '_coreRegistry'));
         return $properties;
     }
 

@@ -90,11 +90,6 @@ class Template extends \Magento\Core\Model\Template
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Logger
-     */
-    protected $_logger;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -158,7 +153,6 @@ class Template extends \Magento\Core\Model\Template
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_logger = $context->getLogger();
         $this->_coreConfig = $coreConfig;
         $this->_emailFilterFactory = $emailFilterFactory;
         $this->_dir = $dir;
