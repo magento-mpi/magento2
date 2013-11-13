@@ -14,6 +14,7 @@ use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Arg;
 use PHPParser_Node_Expr_Closure;
+use PHPParser_Node_Expr_FuncCall;
 
 class AbstractFunctionReference extends AbstractReference
 {
@@ -64,6 +65,13 @@ class AbstractFunctionReference extends AbstractReference
                 ) {
                     $closure = true;
                     break;
+                } elseif (
+                    $argument instanceof PHPParser_Node_Arg && $argument->value instanceof PHPParser_Node_Expr_FuncCall
+                ) {
+                    $closure = $this->hasClosure($argument->value->args);
+                    if ($closure === true) {
+                        break;
+                    }
                 }
             }
         }

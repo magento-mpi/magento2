@@ -370,7 +370,6 @@ class CSample2 {
             },
             $this->_customizationConfig->getAssignedThemeCustomizations()
         );}}
-
 ORIGINALCLOSURE2;
         $formattedClosure2 = <<<'FORMATTEDCLOSURE2'
 <?php
@@ -388,6 +387,35 @@ class CSample2
 }
 
 FORMATTEDCLOSURE2;
+        $originalClosure3 = <<<'ORIGINALCLOSURE3'
+<?php
+class CSample3 {
+    public function cS3() {
+        $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
+            /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+            return $fileTheme->getThemeId();
+        }, $themes));}}
+ORIGINALCLOSURE3;
+        $formattedClosure3 = <<<'FORMATTEDCLOSURE3'
+<?php
+class CSample3
+{
+    public function cS3()
+    {
+        $order = array_merge(
+            array($codeDir, $jsDir),
+            array_map(
+                function ($fileTheme) {
+                    /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+                    return $fileTheme->getThemeId();
+                },
+                $themes
+            )
+        );
+    }
+}
+
+FORMATTEDCLOSURE3;
 
         return array(
             array(
@@ -409,6 +437,7 @@ FORMATTEDCLOSURE2;
             array($originalCodeSnippet5, $formattedCodeSnippet5),
             array($originalClosure, $formattedClosure),
             array($originalClosure2, $formattedClosure2),
+            array($originalClosure3, $formattedClosure3),
         );
     }
 }
