@@ -158,7 +158,8 @@ class Category extends \Magento\App\Action\Action
                 }
             }
 
-            $this->generateLayoutXml()->generateLayoutBlocks();
+            $this->generateLayoutXml();
+            $this->_layoutServices->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
                 $this->_objectManager->get('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());

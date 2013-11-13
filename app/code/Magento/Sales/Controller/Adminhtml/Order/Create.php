@@ -402,7 +402,9 @@ class Create extends \Magento\Backend\App\Action
                 $update->addHandle('sales_order_create_load_block_' . $block);
             }
         }
-        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+        $this->loadLayoutUpdates();
+        $this->generateLayoutXml();
+        $this->_layoutServices->generateLayoutBlocks();
         $result = $this->_layoutServices->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);

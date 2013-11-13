@@ -731,7 +731,9 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+        $this->loadLayoutUpdates();
+        $this->generateLayoutXml();
+        $this->_layoutServices->generateLayoutBlocks();
         $result = $this->_layoutServices->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);

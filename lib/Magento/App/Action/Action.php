@@ -238,7 +238,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @return $this
      */
-    public function generateLayoutBlocks()  // Leave
+    public function generateLayoutBlocks()  //TODO fix 4 usages
     {
         // 1 event
         // dispatch event for adding xml layout elements

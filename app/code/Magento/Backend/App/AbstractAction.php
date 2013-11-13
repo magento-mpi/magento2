@@ -323,7 +323,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->_objectManager->get('Magento\Core\Model\Layout\Filter\Acl')
             ->filterAclNodes($this->_layoutServices->getLayout()->getNode());
         if ($generateBlocks) {
-            $this->generateLayoutBlocks();
+            $this->_layoutServices->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
         }
 //        $this->_initLayoutMessages('Magento\Backend\Model\Session');

@@ -392,6 +392,7 @@ class Product extends \Magento\App\Action\Action
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());
-        $this->generateLayoutXml()->generateLayoutBlocks();
+        $this->generateLayoutXml();
+        $this->_layoutServices->generateLayoutBlocks();
     }
 }
