@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Ogone Paygate Payment" type="page">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="catalog.topnav"/>
     <referenceBlock name="header">
         <remove name="top.links"/>

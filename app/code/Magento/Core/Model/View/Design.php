@@ -64,7 +64,7 @@ class Design implements \Magento\View\DesignInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_flyweightFactory;
 
@@ -95,7 +95,7 @@ class Design implements \Magento\View\DesignInterface
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory
+     * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
@@ -105,7 +105,7 @@ class Design implements \Magento\View\DesignInterface
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
@@ -151,7 +151,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Set theme path
      *
-     * @param \Magento\Core\Model\Theme|int|string $theme
+     * @param \Magento\View\Design\ThemeInterface|string $theme
      * @param string $area
      * @return \Magento\Core\Model\View\Design
      */
@@ -163,7 +163,7 @@ class Design implements \Magento\View\DesignInterface
             $area = $this->getArea();
         }
 
-        if ($theme instanceof \Magento\Core\Model\Theme) {
+        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
             $this->_theme = $theme;
         } else {
             $this->_theme = $this->_flyweightFactory->create($theme, $area);

@@ -34,7 +34,6 @@ Magento/Catalog/Model/Template
 Magento/Cms/Model
 Magento/GiftMessage/Model
 Magento/GoogleShopping/Model/Attribute
-Magento/Oauth/Controller
 Magento/Sales/Block/Order
 Magento/Sales/Controller/Adminhtml/Order
 Magento/Sales/Model/Resource/Helper

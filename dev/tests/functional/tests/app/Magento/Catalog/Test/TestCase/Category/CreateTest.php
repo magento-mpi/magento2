@@ -46,7 +46,7 @@ class CreateTest extends Functional
         $formBlock->fill($category);
         $formBlock->save($category);
         //Verifying
-        $messageBlock->waitForSuccessMessage();
+        $messageBlock->assertSuccessMessage();
         //Flush cache
         $cacheManagementPage = Factory::getPageFactory()->getAdminCache();
         $cacheManagementPage->open();
