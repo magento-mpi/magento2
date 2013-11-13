@@ -6,19 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Filesystem\Directory;
-
-use Magento\Filesystem\FilesystemException;;
+namespace Magento\Filesystem;
 
 class Config
 {
-    /**
-     * Path to filesystem directory configuration
-     *
-     * @var string
-     */
-    const XML_FILESYSTEM_DIRECTORY_PATH = 'filesystem/directory';
-
     /**
      * Filesystem Directory configuration
      *
@@ -27,13 +18,20 @@ class Config
     protected $config;
 
     /**
+     * @var string
+     */
+    protected $root;
+
+    /**
      * Store directory configuration
      *
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param string $rootDirectory
+     * @param array $directories
      */
-    public function __construct(\Magento\Core\Model\ConfigInterface $config)
+    public function __construct($rootDirectory, array $directories)
     {
-        $this->config = $config->getValue(self::XML_FILESYSTEM_DIRECTORY_PATH);
+        $this->config = $directories;
+        $this->root = $rootDirectory;
     }
 
     /**
@@ -49,5 +47,15 @@ class Config
             return $this->config[$code];
         }
         throw new FilesystemException("Cannot get configuration for directory $code!");
+    }
+
+    /**
+     * Get root directory path
+     *
+     * @return string
+     */
+    public function getRoot()
+    {
+        return $this->root;
     }
 }

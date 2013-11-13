@@ -13,7 +13,9 @@ namespace Magento\App;
 use Magento\App\Dir,
     Magento\App\Config,
     Magento\ObjectManager\Factory\Factory,
-    Magento\Profiler;
+    Magento\Profiler,
+    Magento\Filesystem\Config as FilesystemConfig;
+use Magento\Config\Reader\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -67,6 +69,13 @@ class ObjectManagerFactory
             )
         );
 
+        $argsDirs = isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array();
+        $filesystemConfigData = array_merge($options->get('filesystem'), $argsDirs);
+        $filesystemConfig = new FilesystemConfig(
+            $rootDir,
+            $filesystemConfigData
+        );
+
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
             $directories->getDir(DIR::DI),
             $directories->getDir(DIR::GENERATION),
@@ -92,10 +101,11 @@ class ObjectManagerFactory
         /** @var \Magento\ObjectManager $locator */
         $locator = new $className($factory, $diConfig, array(
             'Magento\App\Config' => $options,
-            'Magento\App\Dir' => $directories
+            'Magento\App\Dir' => $directories,
+            'Magento\Filesystem\Config' => $filesystemConfig
         ));
 
-        \Magento\App\ObjectManager::setInstance($locator); 
+        \Magento\App\ObjectManager::setInstance($locator);
 
         /** @var \Magento\App\Dir\Verification $verification */
         $verification = $locator->get('Magento\App\Dir\Verification');
