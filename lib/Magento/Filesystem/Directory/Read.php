@@ -175,6 +175,32 @@ class Read implements ReadInterface
     }
 
     /**
+     * Check whether given path is file
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isFile($path)
+    {
+        clearstatcache();
+
+        return is_file($this->getAbsolutePath($path));
+    }
+
+    /**
+     * Check whether given path is directory
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isDirectory($path)
+    {
+        clearstatcache();
+
+        return is_dir($this->getAbsolutePath($path));
+    }
+
+    /**
      * Open file in read mode
      *
      * @param string $path

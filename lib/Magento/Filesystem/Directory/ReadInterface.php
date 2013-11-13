@@ -58,6 +58,22 @@ interface ReadInterface
     public function isReadable($path);
 
     /**
+     * Check whether given path is file
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isFile($path);
+
+    /**
+     * Check whether given path is directory
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isDirectory($path);
+
+    /**
      * Open file in read mode
      *
      * @param string $path

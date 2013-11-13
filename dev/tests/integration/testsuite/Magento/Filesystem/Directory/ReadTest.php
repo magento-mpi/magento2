@@ -166,7 +166,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for isReadable method
      *
-     * @dataProvider isReadbaleProvider
+     * @dataProvider isReadableProvider
      * @param string $dirPath
      * @param string $path
      * @param bool $readable
@@ -178,15 +178,65 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for isFile method
+     *
+     * @dataProvider isFileProvider
+     * @param string $path
+     * @param bool $isFile
+     */
+    public function testIsFile($path, $isFile)
+    {
+        $this->assertEquals($isFile, $this->getDirectoryInstance('foo')->isFile($path));
+    }
+
+    /**
+     * Test for isDirectory method
+     *
+     * @dataProvider isDirectoryProvider
+     * @param string $path
+     * @param bool $isDirectory
+     */
+    public function testIsDirectory($path, $isDirectory)
+    {
+        $this->assertEquals($isDirectory, $this->getDirectoryInstance('foo')->isDirectory($path));
+    }
+
+    /**
      * Data provider for testIsReadable
      *
      * @return array
      */
-    public function isReadbaleProvider()
+    public function isReadableProvider()
     {
         return array(
             array('foo', 'bar', true),
             array('foo', 'file_three.txt', true)
+        );
+    }
+
+    /**
+     * Data provider for testIsFile
+     *
+     * @return array
+     */
+    public function isFileProvider()
+    {
+        return array(
+            array('bar', false),
+            array('file_three.txt', true)
+        );
+    }
+
+    /**
+     * Data provider for testIsDirectory
+     *
+     * @return array
+     */
+    public function isDirectoryProvider()
+    {
+        return array(
+            array('bar', true),
+            array('file_three.txt', false)
         );
     }
 
