@@ -35,6 +35,7 @@
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
     <preference for="Magento\Phrase\TranslateInterface" type="Magento\Core\Model\Translate" />
+    <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
