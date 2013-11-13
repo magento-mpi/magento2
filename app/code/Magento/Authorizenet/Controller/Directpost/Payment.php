@@ -101,7 +101,7 @@ class Payment extends \Magento\App\Action\Action
         }
 
         $this->_coreRegistry->register('authorizenet_directpost_form_params', $params);
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false)->renderLayout();
     }
 
@@ -134,7 +134,7 @@ class Payment extends \Magento\App\Action\Action
         }
 
         $this->_coreRegistry->register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false)->renderLayout();
     }
 

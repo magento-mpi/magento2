@@ -145,9 +145,9 @@ class Category extends \Magento\App\Action\Action
             if (!$category->hasChildren()) {
                 // Two levels removed from parent.  Need to add default page type.
                 $parentType = strtok($type, '_');
-                $this->addPageLayoutHandles(array('type' => $parentType));
+                $this->_layoutServices->addPageLayoutHandles(array('type' => $parentType));
             }
-            $this->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
+            $this->_layoutServices->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
             $this->_layoutServices->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded

@@ -220,7 +220,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         if ($this->_expireAjax()) {
             return;
         }
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false);
         $this->_layoutServices->renderLayout();
     }
@@ -230,7 +230,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         if ($this->_expireAjax()) {
             return;
         }
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false);
         $this->_layoutServices->renderLayout();
     }
@@ -240,7 +240,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         if ($this->_expireAjax()) {
             return;
         }
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false);
         $this->_layoutServices->renderLayout();
     }

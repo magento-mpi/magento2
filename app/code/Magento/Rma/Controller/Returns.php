@@ -380,7 +380,7 @@ class Returns extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false)
             ->renderLayout();
         return;
@@ -433,7 +433,7 @@ class Returns extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->addPageLayoutHandles();
+        $this->_layoutServices->addPageLayoutHandles();
         $this->_layoutServices->loadLayout(false)
             ->renderLayout();
         return;

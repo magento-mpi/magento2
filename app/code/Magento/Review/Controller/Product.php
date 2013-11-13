@@ -377,7 +377,7 @@ class Product extends \Magento\App\Action\Action
     {
         $update = $this->_layoutServices->getLayout()->getUpdate();
         $update->addHandle('default');
-        $this->addPageLayoutHandles(
+        $this->_layoutServices->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );
 

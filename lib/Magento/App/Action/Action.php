@@ -199,7 +199,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param array $parameters page parameters
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array())  // Leave
+    public function addPageLayoutHandles(array $parameters = array())  //TODO Fix 2 usages
     {
         return $this->_layoutServices->addPageLayoutHandles($parameters);
     }
