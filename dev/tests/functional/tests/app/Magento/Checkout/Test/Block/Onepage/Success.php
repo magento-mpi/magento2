@@ -24,13 +24,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class Success extends Block
 {
     /**
-     * Continue checkout button
-     *
-     * @var string
-     */
-    private $continue;
-
-    /**
      * Determine order id if checkout was performed by registered customer
      *
      * @var string
@@ -51,18 +44,8 @@ class Success extends Block
     {
         parent::_init();
         //Elements
-        $this->continue = '.button-set button';
         $this->orderId = 'a[href*="view/order_id"]';
         $this->orderIdGuest = '//div[contains(@class, "column main")]//p[1]';
-    }
-
-    /**
-     * Fill shipping address
-     */
-    public function continueShopping()
-    {
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
     }
 
     /**
@@ -76,14 +59,12 @@ class Success extends Block
         if ($fixture->getCustomer()) {
             return $this->_rootElement->find($this->orderId, Locator::SELECTOR_CSS)->getText();
         } else {
-            $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
-            preg_match('/[\d]+/', $orderString, $orderId);
-            return end($orderId);
+            return $this->getGuestOrderId();
         }
     }
 
     /**
-     * Get Id of placed order for gust checkout
+     * Get Id of placed order for guest checkout
      *
      * @return string
      */
