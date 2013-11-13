@@ -53,7 +53,27 @@ class Address extends DataFixture
     {
         return $this->getData('fields/telephone');
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get first name
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->getData('fields/firstname');
+    }
+
+    /**
+     * Get last name
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->getData('fields/lastname');
+    }
+
     /**
      * {inheritdoc}
      */

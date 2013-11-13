@@ -32,6 +32,12 @@ class OnepageTest extends Functional
     public function testOnepageCheckout(Checkout $fixture)
     {
         $fixture->persist();
+
+        //Ensure shopping cart is empty
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
         //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
@@ -39,6 +45,7 @@ class OnepageTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
+            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
@@ -54,7 +61,12 @@ class OnepageTest extends Functional
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend
-        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getOrderId($fixture);
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->assertContains(
+            'Your order has been received.',
+            $successPage->getTitleBlock()->getTitle(),
+            'Order success page was not opened.');
+        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
 
