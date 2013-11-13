@@ -416,6 +416,33 @@ class CSample3
 }
 
 FORMATTEDCLOSURE3;
+        $originalClosure4 = <<< 'ORIGINALCLOSURE4'
+<?php
+class CSample4 {
+    public function cS4() {
+        $this->redis->pipeline(function($pipe) use($keys, $me) {
+            foreach ($keys as $k) {
+                $pipe->hdel($me->getKey(), $k);
+            }
+        });}}
+ORIGINALCLOSURE4;
+        $formattedClosure4 = <<< 'FORMATTEDCLOSURE4'
+<?php
+class CSample4
+{
+    public function cS4()
+    {
+        $this->redis->pipeline(
+            function ($pipe) use ($keys, $me) {
+                foreach ($keys as $k) {
+                    $pipe->hdel($me->getKey(), $k);
+                }
+            }
+        );
+    }
+}
+
+FORMATTEDCLOSURE4;
 
         return array(
             array(
@@ -438,6 +465,7 @@ FORMATTEDCLOSURE3;
             array($originalClosure, $formattedClosure),
             array($originalClosure2, $formattedClosure2),
             array($originalClosure3, $formattedClosure3),
+            array($originalClosure4, $formattedClosure4),
         );
     }
 }

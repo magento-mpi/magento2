@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 
@@ -143,7 +141,7 @@ abstract class AbstractSyntax
     {
         /** @var AbstractSyntax $statement */
         $statement = SyntaxFactory::getInstance()->getStatement($node);
-        $statement->resolve($treeNode);
+        return $statement->resolve($treeNode);
     }
 
     /**
@@ -169,9 +167,11 @@ abstract class AbstractSyntax
      */
     public function getComments()
     {
+        $comments = null;
         if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
-            return $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
+            $comments = $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
         }
+        return $comments;
     }
 
     /**

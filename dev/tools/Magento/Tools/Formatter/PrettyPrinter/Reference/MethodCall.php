@@ -7,11 +7,9 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
@@ -51,6 +49,6 @@ class MethodCall extends AbstractFunctionReference
             $line->add($this->node->name);
         }
         // add in the argument call
-        $this->processArgsList($this->node->args, $treeNode, $line, new CallLineBreak());
+        return $this->processArgsList($this->node->args, $treeNode, $line, new CallLineBreak());
     }
 }

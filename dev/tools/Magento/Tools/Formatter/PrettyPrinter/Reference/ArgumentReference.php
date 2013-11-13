@@ -36,6 +36,6 @@ class ArgumentReference extends AbstractVariableReference
             $line->add('&');
         }
         // add in the actual variable reference
-        $this->resolveNode($this->node->value, $treeNode);
+        return $this->resolveNode($this->node->value, $treeNode);
     }
 }
