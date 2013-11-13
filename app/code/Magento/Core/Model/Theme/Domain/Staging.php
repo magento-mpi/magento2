@@ -18,7 +18,7 @@ class Staging
     /**
      * Staging theme model instance
      *
-     * @var \Magento\Core\Model\Theme
+     * @var \Magento\View\Design\ThemeInterface
      */
     protected $_theme;
 

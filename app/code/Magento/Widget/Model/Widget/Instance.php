@@ -59,7 +59,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -95,7 +95,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Widget\Model\Config\Reader $reader
@@ -111,7 +111,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Escaper $escaper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Widget\Model\Config\Reader $reader,

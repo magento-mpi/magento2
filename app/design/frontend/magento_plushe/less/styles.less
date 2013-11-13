@@ -316,12 +316,10 @@ body {
 }
 
 @media only screen and (max-width: 640px) {
-    .navigation > ul {
+    .navigation > ul,
+    .navigation > ul > .level0 > .submenu > ul.level0 {
         min-width: 100%;
         max-width: 100%;
-    }
-    .action.toggle.nav {
-        top: 100%;
     }
 }
 
@@ -421,6 +419,9 @@ body {
         a {
             font-weight: bold;
         }
+    }
+    .switcher-store {
+        margin-bottom: 30px;
     }
 }
 
@@ -1003,6 +1004,10 @@ body {
             vertical-align: middle;
         }
     }
+}
+
+.action.toggle.checkout.progress {
+    display: none;
 }
 
 .opc.loading .active {
@@ -2036,6 +2041,9 @@ body {
     .action.multicheckout {
         text-decoration: underline;
     }
+    .page.title & {
+        display: none;
+    }
 }
 
 /*
@@ -2711,6 +2719,58 @@ body {
     .resetList();
 }
 
+.widget.static.block {
+    .clearfix();
+    .header &,
+    .footer & {
+        display: inline-block;
+    }
+}
+
+.widget.link,
+.widget.static.block {
+    .product.info.main + &,
+    .product.info.detailed + &,
+    .block.search + & {
+        clear: both;
+    }
+}
+
+span.widget.link,
+.widget.static.block {
+    .footer .links & {
+        margin-left: 3px;
+        white-space: normal;
+        &:before {
+            content: ' | ';
+            display: inline-block;
+            margin-right: 3px;
+        }
+    }
+}
+
+.widget.link,
+.widget.static.block {
+    .minicart.wrapper .block.minicart > .content & {
+        clear: right;
+        float: right;
+        margin: 0 -330px 15px 0;
+        text-align: left;
+        width: 310px;
+    }
+    .minicart.wrapper .block.minicart > .content .actions & {
+        margin-right: 0;
+    }
+}
+
+.widget.link + .product.info.detailed {
+    margin-top: 20px;
+}
+
+span.widget.link {
+    display: inline-block;
+}
+
 /*
     Magento_Catalog
     Compare
@@ -2973,6 +3033,7 @@ body {
 
 .block.crosssell {
     .products.list.items.crosssell {
+        .clearfix();
         margin: 0 -13px;
         .item.product {
             .column(2);
@@ -3081,6 +3142,76 @@ body {
     }
 }
 
+// Sidebar widgets
+.sidebar .block.widget.viewed,
+.sidebar .block.crosssell,
+.sidebar .block.upsell,
+.sidebar .block.related,
+.sidebar .block.widget.new,
+.sidebar .block.widget.compared {
+    border: 0;
+    padding-top: 0;
+}
+
+// Images and names template
+.sidebar .minilist.products.items {
+    margin: 0;
+    .item.product {
+        margin: 0 0 20px;
+        padding: 0;
+        position: relative;
+        width: 100%;
+        .product.actions {
+            visibility: hidden;
+        }
+        &:hover {
+            .product.actions {
+                visibility: visible;
+            }
+        }
+    }
+    .product.details {
+        overflow: hidden;
+        padding-bottom: 40px;
+    }
+    .product.photo {
+        float: left;
+        margin: 0 10px 10px 0;
+    }
+    .product.name {
+        overflow: hidden;
+    }
+    .actions {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+    }
+    .action.tocart {
+        &:extend(.secondary.action all);
+        padding: 5px 11px;
+        display: inline-block;
+    }
+}
+
+// Images only template
+.block.widget.photos {
+    margin: 0 0 30px;
+    .items {
+        list-style: none;
+        .clearfix();
+        margin: 0;
+        padding: 0;
+    }
+    .item {
+        float: left;
+        margin: 0 3px 3px 0;
+        padding: 0;
+    }
+    .product.photo {
+        margin-right: 0;
+    }
+}
+
 .product.info.detailed + .block.upsell,
 .product.info.detailed + .block.related {
     margin-top: 70px;
@@ -3179,6 +3310,21 @@ body {
     }
     .action.previous span:after {
         content: @icon-arrow-left-thin;
+    }
+}
+
+// Orders and returns
+.find.orders {
+    .label {
+        display: block;
+        margin: 0 0 3px;
+    }
+    .control {
+        margin: 0 0 10px;
+    }
+    .action.submit {
+        &:extend(.secondary.action all);
+        padding: 5px 11px;
     }
 }
 
@@ -5432,3 +5578,6 @@ img[align="right"] {
     padding: 20px;
     z-index: 10;
 }
+
+
+@import "/responsive/responsive.less";

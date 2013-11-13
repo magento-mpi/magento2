@@ -45,7 +45,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         /** @var $context \Magento\Core\Helper\Context */
         $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
 
-        $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')->disableOriginalConstructor()
+        $fileSystem = $this->getMockBuilder('Magento\View\FileSystem')->disableOriginalConstructor()
             ->getMock();
 
         $helper = new \Magento\Core\Helper\Theme(
@@ -461,12 +461,12 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $map
-     * @return \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getFileSystem($map)
     {
-        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
-        $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem', array())
+        /** @var $fileSystem \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
+        $fileSystem = $this->getMockBuilder('Magento\View\FileSystem', array())
             ->disableOriginalConstructor()->getMock();
         $fileSystem->expects($this->any())
             ->method('getViewFile')
@@ -563,8 +563,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         /** @var $context \Magento\Core\Helper\Context */
         $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
 
-        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
-        $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem', array())
+        /** @var $fileSystem \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
+        $fileSystem = $this->getMockBuilder('Magento\View\FileSystem', array())
             ->disableOriginalConstructor()->getMock();
 
         /** @var $helper \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject */

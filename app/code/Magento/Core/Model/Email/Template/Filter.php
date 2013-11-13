@@ -46,7 +46,7 @@ class Filter extends \Magento\Filter\Template
     protected $_plainTemplateMode = false;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -108,7 +108,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -120,7 +120,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,

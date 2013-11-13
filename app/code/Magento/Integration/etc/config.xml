@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <default>
+        <oauth>
+            <cleanup>
+                <cleanup_probability>100</cleanup_probability>
+                <expiration_period>120</expiration_period>
+            </cleanup>
+            <consumer>
+                <expiration_period>300</expiration_period>
+                <post_maxredirects>0</post_maxredirects>
+                <post_timeout>5</post_timeout>
+            </consumer>
+        </oauth>
+    </default>
+</config>
