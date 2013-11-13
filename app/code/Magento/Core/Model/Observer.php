@@ -124,7 +124,7 @@ class Observer
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof \Magento\Core\Model\Theme\Customization\FileAssetInterface) {
+                if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(array(
                         'file'        => $themeFile->getFullPath(),
                         'contentType' => $service->getContentType()

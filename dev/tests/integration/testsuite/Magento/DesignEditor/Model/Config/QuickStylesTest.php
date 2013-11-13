@@ -24,7 +24,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -37,7 +37,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         $this->_design = $objectManager->get('Magento\View\DesignInterface');
         $objectManager->get('Magento\App\State')->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
         $this->_design->setDesignTheme('vendor_test');
-        $this->_viewFileSystem = $objectManager->get('Magento\Core\Model\View\FileSystem');
+        $this->_viewFileSystem = $objectManager->get('Magento\View\FileSystem');
         $quickStylesPath = $this->_viewFileSystem->getFilename('Magento_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
         $this->_model = $objectManager->create(

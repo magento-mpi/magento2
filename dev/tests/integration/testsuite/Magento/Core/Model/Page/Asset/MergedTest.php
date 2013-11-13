@@ -30,8 +30,8 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $service \Magento\Core\Model\View\Service */
-        $service = $objectManager->get('Magento\Core\Model\View\Service');
+        /** @var $service \Magento\View\Service */
+        $service = $objectManager->get('Magento\View\Service');
         self::$_themePublicDir = $service->getPublicDir();
 
         /** @var \Magento\App\Dir $dirs */
@@ -145,7 +145,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS,
+                \Magento\View\Publisher::CONTENT_TYPE_CSS,
                 array(
                     'mage/calendar.css',
                     'css/file.css',
@@ -166,7 +166,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
             array(
-                \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS,
+                \Magento\View\Publisher::CONTENT_TYPE_JS,
                 array(
                     'mage/calendar.js',
                     'scripts.js',
