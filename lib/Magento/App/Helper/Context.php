@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Helper;
+namespace Magento\App\Helper;
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {

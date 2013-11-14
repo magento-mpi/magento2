@@ -104,7 +104,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_languages;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -114,7 +114,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param array $supportedLanguages
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

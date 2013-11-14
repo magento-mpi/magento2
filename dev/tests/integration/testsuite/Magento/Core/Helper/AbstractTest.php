@@ -20,7 +20,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Context');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Helper\Context');
         $this->_helper = $this->getMock('Magento\App\Helper\AbstractHelper', array('_getModuleName'), array($context));
         $this->_helper
             ->expects($this->any())

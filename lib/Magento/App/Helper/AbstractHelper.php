@@ -64,9 +64,9 @@ abstract class AbstractHelper
     protected $_httpHeader;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      */
-    public function __construct(\Magento\Core\Helper\Context $context)
+    public function __construct(\Magento\App\Helper\Context $context)
     {
         $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
@@ -105,7 +105,7 @@ abstract class AbstractHelper
      * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @return \Magento\App\Helper\AbstractHelper
      */
     protected function _saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
@@ -117,7 +117,7 @@ abstract class AbstractHelper
      * Removing cache
      *
      * @param   string $cacheId
-     * @return  \Magento\Core\Helper\AbstractHelper
+     * @return  \Magento\App\Helper\AbstractHelper
      */
     protected function _removeCache($cacheId)
     {
@@ -129,7 +129,7 @@ abstract class AbstractHelper
      * Cleaning cache
      *
      * @param   array $tags
-     * @return  \Magento\Core\Helper\AbstractHelper
+     * @return  \Magento\App\Helper\AbstractHelper
      */
     protected function _cleanCache($tags=array())
     {

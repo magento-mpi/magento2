@@ -1449,4 +1449,5 @@ return array(
     array('Magento\Core\Block\Context', 'Magento\View\Block\Context'),
     array('Magento\Core\Model\Factory\Helper', 'Magento\App\Helper\HelperFactory'),
     array('Magento\Core\Helper\AbstractHelper', 'Magento\App\Helper\AbstractHelper'),
+    array('Magento\Core\Helper\Context', 'Magento\App\Helper\Context'),
 );

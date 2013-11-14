@@ -29,7 +29,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_contextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
+        $this->_contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelperMock = $this->getMockBuilder('Magento\CustomerCustomAttributes\Helper\Data')

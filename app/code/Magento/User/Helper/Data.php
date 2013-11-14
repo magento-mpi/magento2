@@ -36,12 +36,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Math\Random $mathRandom
     ) {
