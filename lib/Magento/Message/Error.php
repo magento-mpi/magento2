@@ -11,10 +11,10 @@ namespace Magento\Message;
 /**
  * Error message model
  */
-class Error extends \Magento\Message\AbstractMessage
+class Error extends AbstractMessage
 {
     /**
      * @var string
      */
-    protected $type = \Magento\Message\Factory::ERROR;
+    protected $type = Factory::ERROR;
 }

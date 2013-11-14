@@ -11,10 +11,10 @@ namespace Magento\Message;
 /**
  * Success message model
  */
-class Success extends \Magento\Message\AbstractMessage
+class Success extends AbstractMessage
 {
     /**
      * @var string
      */
-    protected $type = \Magento\Message\Factory::SUCCESS;
+    protected $type = Factory::SUCCESS;
 }

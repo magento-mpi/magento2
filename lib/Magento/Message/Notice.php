@@ -11,10 +11,10 @@ namespace Magento\Message;
 /**
  * Notice message model
  */
-class Notice extends \Magento\Message\AbstractMessage
+class Notice extends AbstractMessage
 {
     /**
      * @var string
      */
-    protected $type = \Magento\Message\Factory::NOTICE;
+    protected $type = Factory::NOTICE;
 }

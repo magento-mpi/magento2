@@ -116,7 +116,7 @@ abstract class AbstractMessage
      * Set message identifier
      *
      * @param string $identifier
-     * @return \Magento\Message\AbstractMessage
+     * @return AbstractMessage
      */
     public function setIdentifier($identifier)
     {
@@ -138,7 +138,7 @@ abstract class AbstractMessage
      * Set message sticky status
      *
      * @param bool $isSticky
-     * @return \Magento\Message\AbstractMessage
+     * @return AbstractMessage
      */
     public function setIsSticky($isSticky = true)
     {
@@ -160,7 +160,7 @@ abstract class AbstractMessage
      * Set code
      *
      * @param string $code
-     * @return \Magento\Message\AbstractMessage
+     * @return AbstractMessage
      */
     public function setCode($code)
     {

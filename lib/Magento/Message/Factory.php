@@ -70,7 +70,7 @@ class Factory
      * @param string $class
      * @param string $method
      * @throws \InvalidArgumentException
-     * @return \Magento\Message\AbstractMessage
+     * @return AbstractMessage
      */
     public function create($type, $code = '', $class = '', $method = '')
     {
@@ -78,10 +78,10 @@ class Factory
             throw new \InvalidArgumentException('Wrong message type');
         }
 
-        $className = '\\Magento\\Message\\' . ucfirst($type);
+        $className = 'Magento\Message\\' . ucfirst($type);
         $message = $this->objectManager->create($className, array('code' => $code));
-        if (!($message instanceof \Magento\Message\AbstractMessage)) {
-            throw new \InvalidArgumentException($className . ' doesn\'t extends \\Magento\\Message\\AbstractMessage');
+        if (!($message instanceof AbstractMessage)) {
+            throw new \InvalidArgumentException($className . ' doesn\'t extends \Magento\Message\AbstractMessage');
         }
 
         $message->setClass($class);
@@ -96,7 +96,7 @@ class Factory
      * @param $code
      * @param string $class
      * @param string $method
-     * @return \Magento\Message\AbstractMessage
+     * @return Error
      */
     public function error($code, $class='', $method='')
     {
@@ -109,7 +109,7 @@ class Factory
      * @param $code
      * @param string $class
      * @param string $method
-     * @return \Magento\Message\AbstractMessage
+     * @return Warning
      */
     public function warning($code, $class='', $method='')
     {
@@ -122,7 +122,7 @@ class Factory
      * @param $code
      * @param string $class
      * @param string $method
-     * @return \Magento\Message\AbstractMessage
+     * @return Notice
      */
     public function notice($code, $class='', $method='')
     {
@@ -135,7 +135,7 @@ class Factory
      * @param $code
      * @param string $class
      * @param string $method
-     * @return \Magento\Message\AbstractMessage
+     * @return Success
      */
     public function success($code, $class='', $method='')
     {

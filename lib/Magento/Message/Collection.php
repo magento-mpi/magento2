@@ -28,10 +28,10 @@ class Collection
     /**
      * Adding new message to collection
      *
-     * @param \Magento\Message\AbstractMessage $message
-     * @return \Magento\Message\Collection
+     * @param AbstractMessage $message
+     * @return Collection
      */
-    public function add(\Magento\Message\AbstractMessage $message)
+    public function add(AbstractMessage $message)
     {
         return $this->addMessage($message);
     }
@@ -39,10 +39,10 @@ class Collection
     /**
      * Adding new message to collection
      *
-     * @param \Magento\Message\AbstractMessage $message
-     * @return \Magento\Message\Collection
+     * @param AbstractMessage $message
+     * @return Collection
      */
-    public function addMessage(\Magento\Message\AbstractMessage $message)
+    public function addMessage(AbstractMessage $message)
     {
         if (!isset($this->messages[$message->getType()])) {
             $this->messages[$message->getType()] = array();
@@ -55,13 +55,13 @@ class Collection
     /**
      * Clear all messages except sticky
      *
-     * @return \Magento\Message\Collection
+     * @return Collection
      */
     public function clear()
     {
         foreach ($this->messages as $type => $messages) {
             foreach ($messages as $id => $message) {
-                /** @var $message \Magento\Message\AbstractMessage */
+                /** @var $message AbstractMessage */
                 if (!$message->getIsSticky()) {
                     unset($this->messages[$type][$id]);
                 }
@@ -76,7 +76,7 @@ class Collection
     /**
      * Get last added message if any
      *
-     * @return \Magento\Message\AbstractMessage|null
+     * @return AbstractMessage|null
      */
     public function getLastAddedMessage()
     {
@@ -87,13 +87,13 @@ class Collection
      * Get first even message by identifier
      *
      * @param string $identifier
-     * @return \Magento\Message\AbstractMessage|null
+     * @return AbstractMessage|null
      */
     public function getMessageByIdentifier($identifier)
     {
         foreach ($this->messages as $messages) {
             foreach ($messages as $message) {
-                /** @var $message \Magento\Message\AbstractMessage */
+                /** @var $message AbstractMessage */
                 if ($identifier === $message->getIdentifier()) {
                     return $message;
                 }
@@ -110,7 +110,7 @@ class Collection
     {
         foreach ($this->messages as $type => $messages) {
             foreach ($messages as $id => $message) {
-                /** @var $message \Magento\Message\AbstractMessage */
+                /** @var $message AbstractMessage */
                 if ($identifier === $message->getIdentifier()) {
                     unset($this->messages[$type][$id]);
                 }
@@ -159,7 +159,7 @@ class Collection
      */
     public function getErrors()
     {
-        return $this->getItemsByType(\Magento\Message\Factory::ERROR);
+        return $this->getItemsByType(Factory::ERROR);
     }
 
     /**

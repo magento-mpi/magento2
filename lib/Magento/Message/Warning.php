@@ -11,10 +11,10 @@ namespace Magento\Message;
 /**
  * Warning message model
  */
-class Warning extends \Magento\Message\AbstractMessage
+class Warning extends AbstractMessage
 {
     /**
      * @var string
      */
-    protected $type = \Magento\Message\Factory::WARNING;
+    protected $type = Factory::WARNING;
 }

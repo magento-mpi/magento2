@@ -32,10 +32,10 @@ class CollectionFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Message\Collection
+     * @return Collection
      */
     public function create(array $data = array())
     {
-        return $this->objectManager->create('\\Magento\\Message\\Collection', $data);
+        return $this->objectManager->create('Magento\Message\Collection', $data);
     }
 }
