@@ -47,20 +47,17 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Core\Model\Session\Generic $paypalSession
      * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $urlBuilder,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -74,7 +71,6 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
         parent::__construct(
             $context,
             $customerSession,
-            $urlBuilder,
             $quoteFactory,
             $checkoutSession,
             $orderFactory,

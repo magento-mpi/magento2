@@ -30,21 +30,18 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
-    /** @var \Magento\App\Request\Redirect */
+    /**
+     * @var \Magento\App\Request\Redirect
+     */
     protected $_redirect;
 
     /**
@@ -63,9 +60,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\App\Request\Redirect $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\View\Action\LayoutServiceInterface $layoutService
@@ -76,9 +72,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\ObjectManager $objectManager,
         \Magento\App\FrontController $frontController,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session\AbstractSession $session,
-        \Magento\Core\Model\Url $url,
+        \Magento\UrlInterface $url,
         \Magento\App\Request\Redirect $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\View\Action\LayoutServiceInterface $layoutService
@@ -87,7 +82,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
-        $this->_storeManager = $storeManager;
         $this->_session = $session;
         $this->_url = $url;
         $this->_redirect = $redirect;
@@ -160,15 +154,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\StoreManagerInterface
-     */
-    public function getStoreManager()
-    {
-        return $this->_storeManager;
-    }
-
-    /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function getUrl()
     {

@@ -84,13 +84,13 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -101,8 +101,10 @@ class Account extends \Magento\App\Action\Action
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Stdlib\String $string,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_urlFactory = $urlFactory;

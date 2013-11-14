@@ -61,9 +61,8 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Session $session
-     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\App\Request\Redirect $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\View\Action\LayoutServiceInterface $layoutService
@@ -82,9 +81,8 @@ class Context extends \Magento\App\Action\Context
         \Magento\ObjectManager $objectManager,
         \Magento\App\FrontController $frontController,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Session $session,
-        \Magento\Core\Model\Url $url,
+        \Magento\UrlInterface $url,
         \Magento\App\Request\Redirect $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\View\Action\LayoutServiceInterface $layoutService,
@@ -103,7 +101,6 @@ class Context extends \Magento\App\Action\Context
             $objectManager,
             $frontController,
             $eventManager,
-            $storeManager,
             $session,
             $url,
             $redirect,

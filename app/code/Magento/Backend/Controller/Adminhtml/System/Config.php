@@ -21,15 +21,23 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context, $configStructure);
     }
@@ -98,7 +106,8 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     {
         $fileName = 'tablerates.csv';
         /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
-        $gridBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
+        $gridBlock = $this->_layoutServices->getLayout()
+            ->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
         $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

@@ -35,11 +35,6 @@ class Product extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * @var \Magento\UrlInterface
-     */
-    protected $_urlModel;
-
-    /**
      * @var \Magento\Review\Model\Session
      */
     protected $_reviewSession;
@@ -80,11 +75,14 @@ class Product extends \Magento\App\Action\Action
     protected $_catalogDesign;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $urlModel
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -93,12 +91,12 @@ class Product extends \Magento\App\Action\Action
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Core\Model\Session\Generic $reviewSession
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $urlModel,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -106,11 +104,12 @@ class Product extends \Magento\App\Action\Action
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Catalog\Model\Design $catalogDesign,
-        \Magento\Core\Model\Session\Generic $reviewSession
+        \Magento\Core\Model\Session\Generic $reviewSession,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
-        $this->_urlModel = $urlModel;
         $this->_reviewSession = $reviewSession;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;
@@ -139,7 +138,7 @@ class Product extends \Magento\App\Action\Action
         if (!$allowGuest && $request->getActionName() == 'post' && $request->isPost()) {
             if (!$this->_customerSession->isLoggedIn()) {
                 $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
-                $this->_customerSession->setBeforeAuthUrl($this->_urlModel->getUrl('*/*/*', array('_current' => true)));
+                $this->_customerSession->setBeforeAuthUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
                 $this->_reviewSession
                     ->setFormData($request->getPost())
                     ->setRedirectUrl($this->_redirect->getRefererUrl());

@@ -32,15 +32,23 @@ class Customer extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
-        parent::__construct($context);
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
     }
 
     protected function _initEntity($requestParam = 'id')
@@ -103,7 +111,7 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function addAction()
     {
-        if ($quoteIds = $this->getRequest()->getParam('products')){
+        if ($quoteIds = $this->getRequest()->getParam('products')) {
             $model = $this->_initEntity();
             try {
                 $skippedItems = $model->addQuoteItems($quoteIds);

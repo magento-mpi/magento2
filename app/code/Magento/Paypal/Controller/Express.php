@@ -47,7 +47,6 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -61,7 +60,6 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $urlBuilder,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -76,7 +74,6 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
         parent::__construct(
             $context,
             $customerSession,
-            $urlBuilder,
             $quoteFactory,
             $checkoutSession,
             $orderFactory,

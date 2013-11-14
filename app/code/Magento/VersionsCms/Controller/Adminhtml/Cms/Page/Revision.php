@@ -27,6 +27,11 @@ class Revision
     protected $_design;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
@@ -36,6 +41,7 @@ class Revision
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Core\Model\Design $design
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -46,8 +52,10 @@ class Revision
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design
+        \Magento\Core\Model\Design $design,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_cmsPage = $cmsPage;
         $this->_design = $design;
         parent::__construct(

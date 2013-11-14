@@ -64,11 +64,6 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * @var \Magento\UrlInterface
-     */
-    protected $_urlBuilder;
-
-    /**
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
@@ -96,7 +91,6 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -106,7 +100,6 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $urlBuilder,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -114,7 +107,6 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         \Magento\Core\Model\Session\Generic $paypalSession
     ) {
         $this->_customerSession = $customerSession;
-        $this->_urlBuilder = $urlBuilder;
         $this->_quoteFactory = $quoteFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
@@ -154,14 +146,14 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
             // giropay
             $this->_checkout->prepareGiropayUrls(
-                $this->_urlBuilder->getUrl('checkout/onepage/success'),
-                $this->_urlBuilder->getUrl('paypal/express/cancel'),
-                $this->_urlBuilder->getUrl('checkout/onepage/success')
+                $this->_url->getUrl('checkout/onepage/success'),
+                $this->_url->getUrl('paypal/express/cancel'),
+                $this->_url->getUrl('checkout/onepage/success')
             );
 
             $token = $this->_checkout->start(
-                $this->_urlBuilder->getUrl('*/*/return'),
-                $this->_urlBuilder->getUrl('*/*/cancel')
+                $this->_url->getUrl('*/*/return'),
+                $this->_url->getUrl('*/*/cancel')
             );
             if ($token && $url = $this->_checkout->getRedirectUrl()) {
                 $this->_initToken($token);
@@ -312,7 +304,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
-                . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
+                . $this->_url->getUrl('*/*/review') . ';</script>');
         } else {
             $this->_redirect('*/*/review');
         }
@@ -339,7 +331,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
-            . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
+            . $this->_url->getUrl('*/*/review') . ';</script>');
     }
 
     /**
@@ -366,7 +358,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
-                . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
+                . $this->_url->getUrl('*/*/review') . ';</script>');
         } else {
             $this->_redirect('*/*/review');
         }

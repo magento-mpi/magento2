@@ -43,13 +43,10 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     protected $_actionFlag;
 
-    /** @var \Magento\App\Request\Redirect */
-    protected $_redirect;
-
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\App\Request\Redirect
      */
-    protected $_storeManager;
+    protected $_redirect;
 
     /**
      * @var \Magento\View\Action\LayoutServiceInterface
@@ -75,7 +72,6 @@ class Action extends \Magento\App\Action\AbstractAction
 
         $this->_objectManager     = $context->getObjectManager();
         $this->_eventManager      = $context->getEventManager();
-        $this->_storeManager      = $context->getStoreManager();
         $this->_session           = $context->getSession();
         $this->_url               = $context->getUrl();
         $this->_actionFlag        = $context->getActionFlag();
@@ -149,8 +145,8 @@ class Action extends \Magento\App\Action\AbstractAction
             }
         }
 
-        $request->setActionName($action)
-            ->setDispatched(false);
+        $request->setActionName($action);
+        $request->setDispatched(false);
     }
 
     /**

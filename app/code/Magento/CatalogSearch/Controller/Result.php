@@ -24,16 +24,21 @@ class Result extends \Magento\App\Action\Action
     protected $_catalogSession;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Catalog\Model\Session $catalogSession
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         parent::__construct($context);
     }
@@ -62,21 +67,18 @@ class Result extends \Magento\App\Action\Action
                 $query->setId(0)
                     ->setIsActive(1)
                     ->setIsProcessed(1);
-            }
-            else {
+            } else {
                 if ($query->getId()) {
                     $query->setPopularity($query->getPopularity()+1);
-                }
-                else {
+                } else {
                     $query->setPopularity(1);
                 }
 
-                if ($query->getRedirect()){
+                if ($query->getRedirect()) {
                     $query->save();
                     $this->getResponse()->setRedirect($query->getRedirect());
                     return;
-                }
-                else {
+                } else {
                     $query->prepare();
                 }
             }
@@ -84,14 +86,14 @@ class Result extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
             $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
+            $this->_layoutServices->getLayout()
+                ->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
             $this->_layoutServices->renderLayout();
 
             if (!$this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
                 $query->save();
             }
-        }
-        else {
+        } else {
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
         }
     }

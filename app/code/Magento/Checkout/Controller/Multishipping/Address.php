@@ -20,23 +20,6 @@ namespace Magento\Checkout\Controller\Multishipping;
 class Address extends \Magento\App\Action\Action
 {
     /**
-     * @var \Magento\UrlInterface
-     */
-    protected $_urlBuilder;
-
-    /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\UrlInterface $urlBuilder
-     */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\UrlInterface $urlBuilder
-    ) {
-        $this->_urlBuilder = $urlBuilder;
-        parent::__construct($context);
-    }
-
-    /**
      * Retrieve multishipping checkout model
      *
      * @return \Magento\Checkout\Model\Type\Multishipping
@@ -67,17 +50,17 @@ class Address extends \Magento\App\Action\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Shipping Address'))
-                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/shippingSaved'))
-                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*'));
+                ->setSuccessUrl($this->_url->getUrl('*/*/shippingSaved'))
+                ->setErrorUrl($this->_url->getUrl('*/*/*'));
 
             if ($headBlock = $this->_layoutServices->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
 
             if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
-                $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/addresses'));
+                $addressForm->setBackUrl($this->_url->getUrl('*/multishipping/addresses'));
             } else {
-                $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/cart/'));
+                $addressForm->setBackUrl($this->_url->getUrl('*/cart/'));
             }
         }
         $this->_layoutServices->renderLayout();
@@ -101,15 +84,15 @@ class Address extends \Magento\App\Action\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Shipping Address'))
-                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/editShippingPost', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*'));
+                ->setSuccessUrl($this->_url->getUrl('*/*/editShippingPost', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setErrorUrl($this->_url->getUrl('*/*/*'));
 
             if ($headBlock = $this->_layoutServices->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
 
             if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
-                $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/shipping'));
+                $addressForm->setBackUrl($this->_url->getUrl('*/multishipping/shipping'));
             }
         }
         $this->_layoutServices->renderLayout();
@@ -139,9 +122,9 @@ class Address extends \Magento\App\Action\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Billing Address'))
-                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/selectBilling'))
-                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*'))
-                ->setBackUrl($this->_urlBuilder->getUrl('*/*/selectBilling'));
+                ->setSuccessUrl($this->_url->getUrl('*/*/selectBilling'))
+                ->setErrorUrl($this->_url->getUrl('*/*/*'))
+                ->setBackUrl($this->_url->getUrl('*/*/selectBilling'));
 
             if ($headBlock = $this->_layoutServices->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
@@ -156,9 +139,9 @@ class Address extends \Magento\App\Action\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Address'))
-                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/selectBilling'))
-                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setBackUrl($this->_urlBuilder->getUrl('*/*/selectBilling'));
+                ->setSuccessUrl($this->_url->getUrl('*/*/selectBilling'))
+                ->setErrorUrl($this->_url->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setBackUrl($this->_url->getUrl('*/*/selectBilling'));
 
             if ($headBlock = $this->_layoutServices->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
@@ -176,9 +159,9 @@ class Address extends \Magento\App\Action\Action
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         if ($addressForm = $this->_layoutServices->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Billing Address'))
-                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/saveBilling', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/overview'));
+                ->setSuccessUrl($this->_url->getUrl('*/*/saveBilling', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setErrorUrl($this->_url->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setBackUrl($this->_url->getUrl('*/multishipping/overview'));
             if ($headBlock = $this->_layoutServices->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
