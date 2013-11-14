@@ -28,7 +28,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
@@ -36,7 +36,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,

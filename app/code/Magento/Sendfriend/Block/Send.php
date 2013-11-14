@@ -43,7 +43,7 @@ class Send extends \Magento\View\Block\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -51,7 +51,7 @@ class Send extends \Magento\View\Block\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

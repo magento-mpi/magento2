@@ -68,14 +68,14 @@ class Menu extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()

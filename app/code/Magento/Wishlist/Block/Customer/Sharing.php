@@ -41,14 +41,14 @@ class Sharing extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Session\Generic $wishlistlSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Session\Generic $wishlistlSession,
         array $data = array()

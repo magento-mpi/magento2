@@ -27,7 +27,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     /**
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param array $data
@@ -35,7 +35,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     public function __construct(
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
         array $data = array()
