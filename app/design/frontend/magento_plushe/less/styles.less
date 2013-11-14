@@ -909,19 +909,6 @@ body {
                 }
             }
         }
-        .actions {
-            .clearfix();
-            text-align: right;
-            button.action {
-                float: right;
-                &:extend(.primary.action all);
-            }
-            .secondary {
-                padding-top: 10px;
-                clear: right;
-                float: right;
-            }
-        }
         .field.fullname + .field.company,
         .field.name-lastname + .field.company,
         .field.country,
@@ -950,6 +937,19 @@ body {
             letter-spacing: normal;
             word-spacing: normal;
             color: @secondary1;
+        }
+    }
+    .actions {
+        .clearfix();
+        text-align: right;
+        button.action {
+            float: right;
+            &:extend(.primary.action all);
+        }
+        .secondary {
+            padding-top: 10px;
+            clear: right;
+            float: right;
         }
     }
     .check.payable {
@@ -1007,10 +1007,14 @@ body {
         height: 100%;
         background: rgba(255, 255, 255, 0.1);
     }
-    .actions .action {
+    .actions .secondary,
+    .actions .primary {
         visibility: hidden;
-        width: 1px;
         overflow: hidden;
+        height:0px;
+    }
+    .actions .load.indicator {
+        margin-top:0;
     }
 }
 
@@ -1155,12 +1159,13 @@ body {
 -------------------------------------- */
 .checkout.submit.order {
     .actions {
-        margin-top: 15px;
+        margin-top: 20px;
         .clearfix();
         .primary {
             float: right;
         }
         .secondary {
+            clear:none;
             float: left;
             line-height: 32px;
         }

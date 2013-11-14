@@ -415,7 +415,7 @@ input[type="button"],
 .popup .actions .action.submit,
 .page.title .action,
 .block.add.review .action.submit,
-.opc.wrapper .form:not(.login) .actions button.action,
+.opc.wrapper .actions button.action,
 .step.login.wrapper button.action:not(.reload),
 .multicheckout .action.continue,
 .multicheckout .action.submit,
@@ -481,7 +481,7 @@ input[type="button"],
 .popup .actions .action.submit,
 .page.title .action,
 .block.add.review .action.submit,
-.opc.wrapper .form:not(.login) .actions button.action,
+.opc.wrapper .actions button.action,
 .step.login.wrapper button.action:not(.reload),
 .multicheckout .action.continue,
 .multicheckout .action.submit,
@@ -573,9 +573,9 @@ input[type="button"]:hover,
 .block.add.review .action.submit:focus,
 .block.add.review .action.submit:active,
 .block.add.review .action.submit:hover,
-.opc.wrapper .form:not(.login) .actions button.action:focus,
-.opc.wrapper .form:not(.login) .actions button.action:active,
-.opc.wrapper .form:not(.login) .actions button.action:hover,
+.opc.wrapper .actions button.action:focus,
+.opc.wrapper .actions button.action:active,
+.opc.wrapper .actions button.action:hover,
 .step.login.wrapper button.action:not(.reload):focus,
 .step.login.wrapper button.action:not(.reload):active,
 .step.login.wrapper button.action:not(.reload):hover,
@@ -866,7 +866,7 @@ input[type="reset"],
 .popup .actions .action.cancel,
 .page.title .action,
 .block.add.review .action.submit,
-.opc.wrapper .form:not(.login) .actions button.action,
+.opc.wrapper .actions button.action,
 .step.login.wrapper button.action:not(.reload),
 .multicheckout .action.update,
 .multicheckout .action.continue,
@@ -2451,6 +2451,10 @@ ul.messages {
   html.opened {
     overflow: hidden;
   }
+  body {
+    width: 100%;
+    height: 100%;
+  }
   body.opened {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     position: relative;
@@ -2462,6 +2466,9 @@ ul.messages {
     left: 0;
     -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    -webkit-transition: left 0.3s ease-out 0;
+    -moz-transition: left 0.3s ease-out 0;
+    transition: left 0.3s ease-out 0;
   }
   body.opened .page.wrapper {
     margin-right: -86%;
@@ -5310,26 +5317,6 @@ body {
   display: block;
   padding-bottom: 5px;
 }
-.opc.wrapper .form:not(.login) .actions {
-  *zoom: 1;
-  text-align: right;
-}
-.opc.wrapper .form:not(.login) .actions:before,
-.opc.wrapper .form:not(.login) .actions:after {
-  content: "";
-  display: table;
-}
-.opc.wrapper .form:not(.login) .actions:after {
-  clear: both;
-}
-.opc.wrapper .form:not(.login) .actions button.action {
-  float: right;
-}
-.opc.wrapper .form:not(.login) .actions .secondary {
-  padding-top: 10px;
-  clear: right;
-  float: right;
-}
 .opc.wrapper .form:not(.login) .field.fullname + .field.company,
 .opc.wrapper .form:not(.login) .field.name-lastname + .field.company,
 .opc.wrapper .form:not(.login) .field.country,
@@ -5358,6 +5345,26 @@ body {
   letter-spacing: normal;
   word-spacing: normal;
   color: #da370a;
+}
+.opc.wrapper .actions {
+  *zoom: 1;
+  text-align: right;
+}
+.opc.wrapper .actions:before,
+.opc.wrapper .actions:after {
+  content: "";
+  display: table;
+}
+.opc.wrapper .actions:after {
+  clear: both;
+}
+.opc.wrapper .actions button.action {
+  float: right;
+}
+.opc.wrapper .actions .secondary {
+  padding-top: 10px;
+  clear: right;
+  float: right;
 }
 .opc.wrapper .check.payable {
   margin: 0 0 0 20px;
@@ -5412,10 +5419,14 @@ body {
   height: 100%;
   background: rgba(255, 255, 255, 0.1);
 }
-.opc.loading .active .actions .action {
+.opc.loading .active .actions .secondary,
+.opc.loading .active .actions .primary {
   visibility: hidden;
-  width: 1px;
   overflow: hidden;
+  height: 0px;
+}
+.opc.loading .active .actions .load.indicator {
+  margin-top: 0;
 }
 .fieldset.ccard {
   padding: 20px 0;
@@ -5591,7 +5602,7 @@ body {
     Step Review
 -------------------------------------- */
 .checkout.submit.order .actions {
-  margin-top: 15px;
+  margin-top: 20px;
   *zoom: 1;
 }
 .checkout.submit.order .actions:before,
@@ -5606,6 +5617,7 @@ body {
   float: right;
 }
 .checkout.submit.order .actions .secondary {
+  clear: none;
   float: left;
   line-height: 32px;
 }
@@ -12790,10 +12802,11 @@ img[align="right"] {
     display: none;
   }
   .opc.wrapper .load.indicator {
-    left: 0;
-    position: absolute;
-    top: 10px;
-    width: 100%;
+    /*            left: 0;
+              position: absolute;
+              top: 10px;
+              width: 100%;*/
+  
   }
   .block.progress.onepage {
     background: #f8f8f8;

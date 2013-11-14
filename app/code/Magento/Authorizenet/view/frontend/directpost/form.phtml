@@ -47,7 +47,7 @@ $_orderUrl = $this->helper('Magento\Authorizenet\Helper\Data')->getPlaceOrderFro
             <label for="<?php echo $_code ?>_expiration" class="label"><span><?php echo __('Expiration Date') ?></span></label>
             <div class="control">
                 <div class="fields group group-2">
-                    <div class="field no-label">
+                    <div class="field no-label month">
                         <div class="control">
                             <select id="<?php echo $_code ?>_expiration" name="payment[cc_exp_month]" data-container="cc-month" class="month" data-validate='{required:true, "validate-cc-exp":"#<?php echo $_code ?>_expiration_yr"}'>
                             <?php $_ccExpMonth = $_form->getInfoData('cc_exp_month') ?>
@@ -57,7 +57,7 @@ $_orderUrl = $this->helper('Magento\Authorizenet\Helper\Data')->getPlaceOrderFro
                             </select>
                         </div>
                     </div>
-                    <div class="field no-label">
+                    <div class="field no-label year">
                         <div class="control">
                             <?php $_ccExpYear = $_form->getInfoData('cc_exp_year') ?>
                             <select id="<?php echo $_code ?>_expiration_yr" name="payment[cc_exp_year]" class="year" data-container="cc-year" data-validate='{required:true}'>
