@@ -37,9 +37,13 @@ class UserContext
      *
      * @param string $userType
      * @param int $userId
+     * @throws \LogicException
      */
     public function __construct($userType, $userId = 0)
     {
+        if ($userType == self::USER_TYPE_GUEST && $userId) {
+            throw new \LogicException('Guest user must not have user ID set.');
+        }
         $this->_setUserId($userId);
         $this->_setUserType($userType);
     }
@@ -73,7 +77,7 @@ class UserContext
      */
     protected function _setUserId($userId)
     {
-        if (!is_integer($userId) || ($userId <= 0)) {
+        if (!is_integer($userId) || ($userId < 0)) {
             throw new \LogicException("Invalid user ID: '{$userId}'.");
         }
         $this->_userId = $userId;
@@ -100,7 +104,7 @@ class UserContext
                 "Invalid user type: '{$userType}'. Allowed types: " . implode(", ", $availableTypes)
             );
         }
-        $this->_userId = $userType;
+        $this->_userType = $userType;
         return $this;
     }
 }
