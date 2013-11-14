@@ -24,7 +24,7 @@ use Magento\App\State as AppState;
 
 use Magento\Core\Model\Session\AbstractSession;
 use Magento\App\CacheInterface as Cache;
-use Magento\Core\Model\Cache\StateInterface as CacheState;
+use Magento\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
 use Magento\Event\ManagerInterface;
 
@@ -105,7 +105,7 @@ class Context
     protected $viewConfig;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $cacheState;
 
@@ -286,7 +286,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Cache\StateInterface
+     * @return \Magento\App\Cache\StateInterface
      */
     public function getCacheState()
     {

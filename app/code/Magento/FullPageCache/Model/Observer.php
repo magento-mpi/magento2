@@ -46,7 +46,7 @@ class Observer
     protected $_isEnabled;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -110,7 +110,7 @@ class Observer
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_typeList;
 
@@ -155,14 +155,14 @@ class Observer
      * @param \Magento\FullPageCache\Model\Processor $processor
      * @param \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier
      * @param \Magento\FullPageCache\Model\Placeholder\Mapper $mapper
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Cookie $cookie
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
@@ -178,14 +178,14 @@ class Observer
         \Magento\FullPageCache\Model\Processor $processor,
         \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier,
         \Magento\FullPageCache\Model\Placeholder\Mapper $mapper,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Cookie $cookie,
         \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
         \Magento\FullPageCache\Model\DesignPackage\Rules $designRules,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logger $logger,
-        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,

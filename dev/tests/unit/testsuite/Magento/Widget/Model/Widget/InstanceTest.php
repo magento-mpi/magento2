@@ -48,7 +48,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->_namespaceResolver = $this->getMockBuilder('\Magento\Widget\Model\NamespaceResolver')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_cacheTypesListMock = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
+        $this->_cacheTypesListMock = $this->getMock('Magento\App\Cache\TypeListInterface');
         $this->_readerMock = $this->getMockBuilder('Magento\Widget\Model\Config\Reader')
             ->disableOriginalConstructor()
             ->getMock();
