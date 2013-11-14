@@ -17,11 +17,6 @@ class Revision
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -60,13 +55,11 @@ class Revision
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Filter\Date $dateFilter,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Core\Model\Design $design,
         \Magento\App\Action\Title $title
     ) {
-        $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_cmsPage = $cmsPage;
         $this->_design = $design;

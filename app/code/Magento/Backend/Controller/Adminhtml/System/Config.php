@@ -16,11 +16,6 @@ namespace Magento\Backend\Controller\Adminhtml\System;
 class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
@@ -28,16 +23,13 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
-        $this->_storeManager = $storeManager;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context, $configStructure);
     }

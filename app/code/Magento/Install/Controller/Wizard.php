@@ -54,13 +54,6 @@ class Wizard extends \Magento\Install\Controller\Action
     protected $_dbUpdater;
 
     /**
-     * Store Manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\Install\Model\Installer $installer
@@ -75,15 +68,13 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Session\Generic $session,
-        \Magento\Module\UpdaterInterface $dbUpdater,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Module\UpdaterInterface $dbUpdater
     ) {
         parent::__construct($context, $configScope);
         $this->_installer = $installer;
         $this->_wizard = $wizard;
         $this->_session = $session;
         $this->_dbUpdater = $dbUpdater;
-        $this->_storeManager = $storeManager;
     }
 
     /**

@@ -11,22 +11,10 @@
 namespace Magento\Backend\App\Action;
 
 /**
- * Controller context
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * Backend Controller context
  */
 class Context extends \Magento\App\Action\Context
 {
-    /**
-     * @var \Magento\Backend\Model\Session
-     */
-    protected $_session;
-
-    /**
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $_helper;
-
     /**
      * @var \Magento\AuthorizationInterface
      */
@@ -38,9 +26,24 @@ class Context extends \Magento\App\Action\Context
     protected $_auth;
 
     /**
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_helper;
+
+    /**
      * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
+
+    /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
 
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -53,111 +56,72 @@ class Context extends \Magento\App\Action\Context
     protected $_canUseBaseUrl;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * @var \Magento\Core\App\Action\FormKeyValidator
-     */
-    protected $_formKeyValidator;
-
-    /**
-     * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Url $url
-     * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Cookie $cookie
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\HTTP\Authentication $authentication
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      * @param \Magento\Backend\Model\Session $session
-     * @param \Magento\Backend\Helper\Data $helper
-     * @param \Magento\App\ActionFlag $flag
-     * @param \Magento\Encryption\UrlCoder $urlCoder
-     * @param \Magento\HTTP\Url $httpUrl
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\HTTP\Url $appUrl
      * @param \Magento\App\Request\Redirect $redirect
+     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
+     * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param bool $canUseBaseUrl
      */
     public function __construct(
-        \Magento\Logger $logger,
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
         \Magento\App\FrontController $frontController,
-        \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem,
-        \Magento\Config\ScopeInterface $configScope,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Url $url,
-        \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Cookie $cookie,
-        \Magento\Core\Model\App $app,
-        \Magento\HTTP\Authentication $authentication,
-        \Magento\View\Action\LayoutServiceInterface $layoutService,
         \Magento\Backend\Model\Session $session,
-        \Magento\Backend\Helper\Data $helper,
-        \Magento\App\ActionFlag $flag,
-        \Magento\Encryption\UrlCoder $urlCoder,
-        \Magento\HTTP\Url $httpUrl,
+        \Magento\Core\Model\Url $url,
+        \Magento\HTTP\Url $appUrl,
         \Magento\App\Request\Redirect $redirect,
+        \Magento\App\ActionFlag $actionFlag,
+        \Magento\View\Action\LayoutServiceInterface $layoutService,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
+        \Magento\Backend\Helper\Data $helper,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\App\Action\Title $title,
+        \Magento\Core\Model\LocaleInterface $locale,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
-            $logger, $request, $response, $objectManager, $frontController, $layout, $eventManager,
-            $appState, $filesystem, $configScope, $storeManager, $locale, $session, $url, $translator,
-            $storeConfig, $cookie, $app, $helper, $flag, $urlCoder, $httpUrl, $redirect, $authentication, $layoutService
+            $request,
+            $response,
+            $objectManager,
+            $frontController,
+            $eventManager,
+            $storeManager,
+            $session,
+            $url,
+            $appUrl,
+            $redirect,
+            $actionFlag,
+            $layoutService
         );
-        $this->_canUseBaseUrl = $canUseBaseUrl;
-        $this->_session = $session;
-        $this->_helper = $helper;
+
         $this->_authorization = $authorization;
         $this->_auth = $auth;
+        $this->_helper = $helper;
         $this->_backendUrl = $backendUrl;
-        $this->_locale = $locale;
         $this->_formKeyValidator = $formKeyValidator;
         $this->_title = $title;
-    }
-
-    /**
-     * @return \Magento\AuthorizationInterface
-     */
-    public function getAuthorization()
-    {
-        return $this->_authorization;
-    }
-
-    /**
-     * @return \Magento\Core\Model\Translate
-     */
-    public function getTranslator()
-    {
-        return $this->_translator;
+        $this->_locale = $locale;
+        $this->_canUseBaseUrl = $canUseBaseUrl;
     }
 
     /**
@@ -166,6 +130,14 @@ class Context extends \Magento\App\Action\Context
     public function getAuth()
     {
         return $this->_auth;
+    }
+
+    /**
+     * @return \Magento\AuthorizationInterface
+     */
+    public function getAuthorization()
+    {
+        return $this->_authorization;
     }
 
     /**
@@ -193,11 +165,26 @@ class Context extends \Magento\App\Action\Context
     }
 
     /**
+     * @return \Magento\Backend\Helper\Data
+     */
+    public function getHelper()
+    {
+        return $this->_helper;
+    }
+
+    /**
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
      * @return \Magento\App\Action\Title
      */
     public function getTitle()
     {
         return $this->_title;
     }
-
 }

@@ -50,11 +50,6 @@ class Index
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Url
-     */
-    protected $_url;
-
-    /**
      * @var \Magento\Core\App\Action\FormKeyValidator
      */
     protected $_formKeyValidator;
@@ -63,7 +58,6 @@ class Index
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
@@ -71,13 +65,11 @@ class Index
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\Core\Model\Url $url,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistConfig = $wishlistConfig;
-        $this->_url = $url;
         $this->_fileResponseFactory = $fileResponseFactory;
         $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context);

@@ -34,13 +34,6 @@ class Subscriber extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Customer factory
      *
      * @var \Magento\Customer\Model\CustomerFactory
@@ -68,14 +61,12 @@ class Subscriber extends \Magento\App\Action\Action
         \Magento\App\Action\Context $context,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Session $session
     ) {
         parent::__construct($context);
         $this->_subscriberFactory = $subscriberFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_session = $session;
     }

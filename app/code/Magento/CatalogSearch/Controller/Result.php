@@ -15,12 +15,6 @@ namespace Magento\CatalogSearch\Controller;
 
 class Result extends \Magento\App\Action\Action
 {
-    /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * Catalog session
@@ -38,11 +32,9 @@ class Result extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Catalog\Model\Session $catalogSession
     ) {
         $this->_catalogSession = $catalogSession;
-        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 

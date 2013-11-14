@@ -41,6 +41,11 @@ class Order extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translator;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
@@ -48,10 +53,12 @@ class Order extends \Magento\Backend\App\Action
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Model\Translate $translator
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
+        $this->_translator = $translator;
         parent::__construct($context);
     }
 
@@ -344,7 +351,8 @@ class Order extends \Magento\Backend\App\Action
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $html = $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
+        $html = $this->_layoutServices->getLayout()
+            ->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
         if ($this->_translator->isAllowed()) {
             $this->_translator->processResponseBody($html);
         }

@@ -18,16 +18,17 @@ use Magento\Backend\App\Action;
 class Authenticate extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
+     * @param Action\Context $context
+     * @param \Magento\Logger $logger
      */
-    public function __construct(Action\Context $context)
+    public function __construct(Action\Context $context, \Magento\Logger $logger)
     {
-        $this->_logger = $context->getLogger();
+        $this->_logger = $logger;
         parent::__construct($context);
         $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
     }

@@ -54,12 +54,13 @@ class Reports extends \Magento\Backend\App\Action
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Logger $logger
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rowFactory = $rowFactory;
         $this->_settlementFactory = $settlementFactory;
-        $this->_logger = $context->getLogger();
+        $this->_logger = $logger;
         parent::__construct($context);
         $this->_title = $title;
     }

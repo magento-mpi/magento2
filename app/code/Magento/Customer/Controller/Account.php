@@ -54,11 +54,6 @@ class Account extends \Magento\App\Action\Action
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
@@ -101,7 +96,6 @@ class Account extends \Magento\App\Action\Action
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
@@ -111,7 +105,6 @@ class Account extends \Magento\App\Action\Action
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
-        $this->_storeManager = $storeManager;
         $this->_urlFactory = $urlFactory;
         $this->_customerFactory = $customerFactory;
         $this->_formFactory = $formFactory;

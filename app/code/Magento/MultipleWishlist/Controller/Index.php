@@ -60,7 +60,6 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
@@ -73,7 +72,6 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\Core\Model\Url $url,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
@@ -87,7 +85,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig, $url, $fileResponseFactory, $formKeyValidator);
+        parent::__construct($context, $coreRegistry, $wishlistConfig, $fileResponseFactory, $formKeyValidator);
     }
 
     /**

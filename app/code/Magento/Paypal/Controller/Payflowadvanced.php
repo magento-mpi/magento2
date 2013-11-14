@@ -66,9 +66,10 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Core\Model\Session\Generic $paypalSession,
-        \Magento\Paypal\Helper\Checkout $checkoutHelper
+        \Magento\Paypal\Helper\Checkout $checkoutHelper,
+        \Magento\Logger $logger
     ) {
-        $this->_logger = $context->getLogger();
+        $this->_logger = $logger;
         $this->_checkoutHelper = $checkoutHelper;
         parent::__construct(
             $context,

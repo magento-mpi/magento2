@@ -34,10 +34,11 @@ class Order extends  \Magento\Sales\Controller\Adminhtml\Order
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\SalesArchive\Model\Archive $archiveModel,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Model\Translate $translator
     ) {
         $this->_archiveModel = $archiveModel;
-        parent::__construct($context, $coreRegistry, $fileFactory);
+        parent::__construct($context, $coreRegistry, $fileFactory, $translator);
     }
 
     /**

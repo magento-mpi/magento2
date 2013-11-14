@@ -57,11 +57,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\Translate
-     */
-    protected $_translator;
-
-    /**
      * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
@@ -98,13 +93,13 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     {
         parent::__construct($context);
         $this->_authorization = $context->getAuthorization();
-        $this->_translator = $context->getTranslator();
         $this->_auth = $context->getAuth();
+        $this->_helper = $context->getHelper();
         $this->_backendUrl = $context->getBackendUrl();
-        $this->_locale = $context->getLocale();
-        $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
         $this->_formKeyValidator = $context->getFormKeyValidator();
         $this->_title = $context->getTitle();
+        $this->_locale = $context->getLocale();
+        $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
     }
 
     protected function _isAllowed()
@@ -120,16 +115,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected function _getSession()
     {
         return $this->_session;
-    }
-
-    /**
-     * Retrieve base adminhtml helper
-     *
-     * @return \Magento\Backend\Helper\Data
-     */
-    protected function _getHelper()
-    {
-        return $this->_helper;
     }
 
     /**
@@ -352,7 +337,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     public function getUrl($route = '', $params=array())
     {
-        return $this->_getHelper()->getUrl($route, $params);
+        return $this->_helper->getUrl($route, $params);
     }
 
     /**
@@ -382,7 +367,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected function _outTemplate($tplName, $data = array())
     {
         $this->_layoutServices->getLayout()->initMessages('Magento\Backend\Model\Session');
-        $block = $this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
+        $block = $this->_layoutServices->getLayout()
+            ->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }

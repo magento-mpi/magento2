@@ -45,11 +45,6 @@ class Product extends \Magento\App\Action\Action
     protected $_reviewSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
@@ -104,7 +99,6 @@ class Product extends \Magento\App\Action\Action
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\UrlInterface $urlModel,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -118,7 +112,6 @@ class Product extends \Magento\App\Action\Action
         $this->_customerSession = $customerSession;
         $this->_urlModel = $urlModel;
         $this->_reviewSession = $reviewSession;
-        $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;
         $this->_productFactory = $productFactory;

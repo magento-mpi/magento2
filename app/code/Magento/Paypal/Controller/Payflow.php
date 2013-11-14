@@ -50,11 +50,12 @@ class Payflow extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory,
-        \Magento\Paypal\Helper\Checkout $checkoutHelper
+        \Magento\Paypal\Helper\Checkout $checkoutHelper,
+        \Magento\Logger $logger
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
-        $this->_logger = $context->getLogger();
+        $this->_logger = $logger;
         $this->_payflowlinkFactory = $payflowlinkFactory;
         $this->_checkoutHelper = $checkoutHelper;
         parent::__construct($context);

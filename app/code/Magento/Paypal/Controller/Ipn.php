@@ -36,9 +36,10 @@ class Ipn extends \Magento\App\Action\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Paypal\Model\IpnFactory $ipnFactory,
-        \Magento\HTTP\Adapter\CurlFactory $curlFactory
+        \Magento\HTTP\Adapter\CurlFactory $curlFactory,
+        \Magento\Logger $logger
     ) {
-        $this->_logger = $context->getLogger();
+        $this->_logger = $logger;
         $this->_ipnFactory = $ipnFactory;
         $this->_curlFactory = $curlFactory;
         parent::__construct($context);

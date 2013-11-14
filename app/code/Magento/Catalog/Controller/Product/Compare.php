@@ -53,13 +53,6 @@ class Compare extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Item collection factory
      *
      * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
@@ -106,7 +99,6 @@ class Compare extends \Magento\App\Action\Action
         \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
@@ -117,7 +109,6 @@ class Compare extends \Magento\App\Action\Action
         $this->_compareItemFactory = $compareItemFactory;
         $this->_productFactory = $productFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_logVisitor = $logVisitor;
         $this->_catalogProductCompareList = $catalogProductCompareList;

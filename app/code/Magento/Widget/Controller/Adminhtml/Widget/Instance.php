@@ -43,6 +43,11 @@ class Instance extends \Magento\Backend\App\Action
     protected $_title;
 
     /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translator;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
@@ -56,8 +61,10 @@ class Instance extends \Magento\Backend\App\Action
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Logger $logger,
         \Magento\Math\Random $mathRandom,
-        \Magento\App\Action\Title $title
+        \Magento\App\Action\Title $title,
+        \Magento\Core\Model\Translate $translator
     ) {
+        $this->_translator = $translator;
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetFactory = $widgetFactory;
         $this->_logger = $logger;

@@ -66,6 +66,16 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_layoutServices;
 
     /**
+     * @var \Magento\Core\Model\Session\AbstractSession
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
+
+    /**
      * @param Context $context
      */
     public function __construct(\Magento\App\Action\Context $context)
@@ -76,18 +86,10 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_objectManager     = $context->getObjectManager();
         $this->_eventManager      = $context->getEventManager();
         $this->_storeManager      = $context->getStoreManager();
-        $this->_appState          = $context->getAppState();
-        $this->_locale            = $context->getLocale();
         $this->_session           = $context->getSession();
-        $this->_filesystem        = $context->getFilesystem();
         $this->_url               = $context->getUrl();
-        $this->_translate         = $context->getTranslate();
-        $this->_storeConfig       = $context->getStoreConfig();
-        $this->_cookie            = $context->getCookie();
-        $this->_app               = $context->getApp();
-        $this->_helper            = $context->getHelper();
         $this->_actionFlag        = $context->getActionFlag();
-        $this->_appUrl            = $context->getHttpUrl();
+        $this->_appUrl            = $context->getAppUrl();
         $this->_redirect          = $context->getRedirect();
         $this->_layoutServices    = $context->getLayoutServices();
     }

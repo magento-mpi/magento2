@@ -31,13 +31,6 @@ class Manage extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\App\Action\FormKeyValidator
      */
     protected $_formKeyValidator;
@@ -56,7 +49,6 @@ class Manage extends \Magento\App\Action\Action
     ) {
         parent::__construct($context);
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
     }
 

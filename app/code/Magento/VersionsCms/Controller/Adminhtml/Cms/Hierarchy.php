@@ -51,11 +51,6 @@ class Hierarchy extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\App\Action\Title
      */
     protected $_title;
@@ -63,7 +58,6 @@ class Hierarchy extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Action\Title $title
      */
     public function __construct(
@@ -73,7 +67,6 @@ class Hierarchy extends \Magento\Backend\App\Action
         \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_storeManager = $storeManager;
         parent::__construct($context);
         $this->_title = $title;
     }
