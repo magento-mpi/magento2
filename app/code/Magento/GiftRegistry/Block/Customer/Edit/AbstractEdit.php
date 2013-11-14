@@ -75,7 +75,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
 
     /**
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -89,7 +89,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

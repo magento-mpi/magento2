@@ -41,7 +41,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Cache group Tag
      */
-    const CACHE_GROUP = \Magento\Core\Model\Cache\Type\Block::TYPE_IDENTIFIER;
+    const CACHE_GROUP = \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER;
     /**
      * Block name in layout
      *
@@ -120,7 +120,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_viewConfig;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -145,6 +145,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -165,9 +170,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_app    = $context->getApp();
+        $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
+        $this->locale           = $context->getLocale();
         parent::__construct($data);
         $this->_construct();
     }
@@ -799,7 +805,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function formatDate(
         $date = null, $format =  \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->helper('Magento\Core\Helper\Data')->formatDate($date, $format, $showTime);
+        return $this->locale->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -813,7 +819,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function formatTime(
         $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->helper('Magento\Core\Helper\Data')->formatTime($time, $format, $showDate);
+        return $this->locale->formatTime($time, $format, $showDate);
     }
 
     /**

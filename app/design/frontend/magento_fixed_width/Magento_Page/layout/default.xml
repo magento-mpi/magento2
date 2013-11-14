@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="root">
         <container name="breadcrumbs.container" as="breadcrumbsContainer" after="header" label="Breadcrumbs"/>
-        <container name="footer.before" as="footer_before" before="footer" label="Page Footer" htmlTag="div" htmlClass="footer-before-container"/>
+        <container name="footer.before" as="footer_before" before="footer" label="Page Footer Before" htmlTag="div" htmlClass="footer-before-container"/>
     </referenceBlock>
     <move element="breadcrumbs" destination="breadcrumbs.container"/>
     <referenceBlock name="head">

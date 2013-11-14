@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return Create" type="page">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return Create" design_abstraction="custom">
     <referenceContainer name="content">
         <block class="Magento\View\Block\Template" name="magento_rma_item_form_template">
             <block class="Magento\CustomAttribute\Block\Form\Renderer\Text" name="magento_rma_item_form_template_text" as="text" template="Magento_Rma::form/renderer/text.phtml"/>

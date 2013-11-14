@@ -34,18 +34,26 @@ abstract class AbstractSku
     protected $_checkoutData = null;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
+        $this->mathRandom = $mathRandom;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -89,5 +97,17 @@ abstract class AbstractSku
 
         return '<a href="' . $helper->getAccountSkuUrl() . '">'
             . $this->escapeHtml($data['link_text']) . '</a>';
+    }
+
+    /**
+     * Get random string
+     *
+     * @param int $length
+     * @param string|null $chars
+     * @return string
+     */
+    public function getRandomString($length, $chars = null)
+    {
+        return $this->mathRandom->getRandomString($length, $chars);
     }
 }

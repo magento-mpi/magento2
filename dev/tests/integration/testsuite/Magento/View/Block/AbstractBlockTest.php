@@ -421,8 +421,13 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+<<<<<<< HEAD:dev/tests/integration/testsuite/Magento/View/Block/AbstractBlockTest.php
      * @covers \Magento\View\Block\AbstractBlock::addToParentGroup
      * @covers \Magento\View\Block\AbstractBlock::getGroupChildNames
+=======
+     * @covers \Magento\Core\Model\Layout::addToParentGroup
+     * @covers \Magento\Core\Block\AbstractBlock::getGroupChildNames
+>>>>>>> origin/develop:dev/tests/integration/testsuite/Magento/Core/Block/AbstractBlockTest.php
      */
     public function testAddToParentGroup()
     {
@@ -555,14 +560,16 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatDate()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->assertEquals($helper->formatDate(), $this->_block->formatDate());
+        $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
+        $this->assertEquals($locale->formatDate(), $this->_block->formatDate());
     }
 
     public function testFormatTime()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->assertEquals($helper->formatTime(), $this->_block->formatTime());
+        $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
+        $this->assertEquals($locale->formatTime(), $this->_block->formatTime());
     }
 
     public function testGetModuleName()

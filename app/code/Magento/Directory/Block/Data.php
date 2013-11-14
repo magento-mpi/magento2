@@ -16,7 +16,7 @@ namespace Magento\Directory\Block;
 class Data extends \Magento\View\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -36,7 +36,7 @@ class Data extends \Magento\View\Block\Template
     protected $_countryCollFactory;
 
     /**
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -45,7 +45,7 @@ class Data extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

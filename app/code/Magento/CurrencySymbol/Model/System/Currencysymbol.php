@@ -45,9 +45,9 @@ class Currencysymbol
      * @var array
      */
     protected $_cacheTypes = array(
-        \Magento\Core\Model\Cache\Type\Config::TYPE_IDENTIFIER,
-        \Magento\Core\Model\Cache\Type\Block::TYPE_IDENTIFIER,
-        \Magento\Core\Model\Cache\Type\Layout::TYPE_IDENTIFIER,
+        \Magento\App\Cache\Type\Config::TYPE_IDENTIFIER,
+        \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER,
+        \Magento\App\Cache\Type\Layout::TYPE_IDENTIFIER,
     );
 
     /**
@@ -74,7 +74,7 @@ class Currencysymbol
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
@@ -114,7 +114,7 @@ class Currencysymbol
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -124,7 +124,7 @@ class Currencysymbol
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
-        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\System\Store $systemStore,

@@ -31,6 +31,7 @@
     <preference for="Magento\App\DefaultPathInterface" type="Magento\App\DefaultPath\DefaultPath" />
     <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Encryption\Encryptor" />
     <preference for="Magento\Filter\Encrypt\AdapterInterface" type=" Magento\Filter\Encrypt\Basic" />
+    <preference for="Magento\Cache\ConfigInterface" type="Magento\Cache\Config" />
     <preference for="Magento\View\Design\Theme\ThemeProviderInterface" type="Magento\Core\Model\Theme\ThemeProvider" />
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
@@ -59,7 +60,7 @@
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>collection_</value>
@@ -83,7 +84,7 @@
     </type>
     <virtualType name="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
@@ -99,7 +100,7 @@
     </virtualType>
     <virtualType name="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
@@ -115,7 +116,7 @@
     </virtualType>
     <virtualType name="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Collection" />
+            <instance type="Magento\App\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
@@ -156,12 +157,12 @@
             <instance type="Magento\View\Layout\File\Source\Aggregated" />
         </param>
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Layout" />
+            <instance type="Magento\App\Cache\Type\Layout" />
         </param>
     </type>
     <type name="Magento\Core\Model\Resource\Layout\Update">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Layout" />
+            <instance type="Magento\App\Cache\Type\Layout" />
         </param>
     </type>
     <virtualType name="layoutFileSourceBaseFiltered" type="Magento\View\Layout\File\Source\Decorator\ModuleOutput">
@@ -240,7 +241,7 @@
     </type>
     <type name="Magento\Core\Model\Config\SectionPool">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config" />
+            <instance type="Magento\App\Cache\Type\Config" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\Section\Reader\Website">
@@ -276,11 +277,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Controller\Varien\Action\Context">
-        <param name="isRenderInherited">
-            <value type="bool">false</value>
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
@@ -295,17 +291,25 @@
             <value type="bool">true</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Fieldset\Config\Reader">
+    <type name="Magento\Object\Copy\Config\Reader">
         <param name="fileName">
             <value>fieldset.xml</value>
         </param>
         <param name="schemaLocator">
-            <instance type="Magento\Core\Model\Fieldset\Config\SchemaLocator" />
+            <instance type="Magento\Object\Copy\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Fieldset\Config\Data">
+    <type name="Magento\Object\Copy\Config\SchemaLocator">
+        <param name="schema">
+            <value>lib/Magento/Object/etc/fieldset.xsd</value>
+        </param>
+        <param name="perFileSchema">
+            <value>lib/Magento/Object/etc/fieldset_file.xsd</value>
+        </param>
+    </type>
+    <type name="Magento\Object\Copy\Config\Data">
         <param name="reader">
-            <instance type="Magento\Core\Model\Fieldset\Config\Reader" />
+            <instance type="Magento\Object\Copy\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>fieldset_config</value>
@@ -324,9 +328,6 @@
     <type name="Magento\Core\Helper\Data">
         <param name="locale">
             <instance type="Magento\Core\Model\Locale\Proxy" />
-        </param>
-        <param name="dateModel">
-            <instance type="Magento\Core\Model\Date\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Resource\Setup\Migration">
@@ -389,6 +390,33 @@
             <instance type="Magento\Image\Adapter\Gd2"/>
         </param>
     </type>
+    <type name="Magento\Core\Model\Layout\PageType\Config\Reader">
+        <param name="fileName">
+            <value>page_types.xml</value>
+        </param>
+        <param name="converter">
+            <instance type="Magento\Core\Model\Layout\PageType\Config\Converter" />
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento\Core\Model\Layout\PageType\Config\SchemaLocator" />
+        </param>
+        <param name="defaultScope">
+            <value>frontend</value>
+        </param>
+    </type>
+    <virtualType name="Magento\Core\Model\Layout\PageType\Config\Data" type="Magento\Config\Data">
+        <param name='reader'>
+            <instance type="Magento\Core\Model\Layout\PageType\Config\Reader" />
+        </param>
+        <param name="cacheId">
+            <value>page_types_config</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Core\Model\Layout\PageType\Config">
+        <param name="dataStorage">
+            <instance type="Magento\Core\Model\Layout\PageType\Config\Data" />
+        </param>
+    </type>
     <type name="Magento\Core\Model\Store\Storage\Db">
         <param name="url">
             <instance type="Magento\Backend\Model\Url\Proxy" />
@@ -401,5 +429,10 @@
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
+    </type>
+    <type name="Magento\Core\Model\Locale">
+        <param name="dateModel">
+            <instance type="Magento\Core\Model\Date\Proxy" />
+        </param>
     </type>
 </config>
