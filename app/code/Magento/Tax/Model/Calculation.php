@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Tax\Model;
+
 /**
  * Tax Calculation Model
  */
-namespace Magento\Tax\Model;
-
 class Calculation extends \Magento\Core\Model\AbstractModel
 {
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL      = '0_0';
@@ -229,7 +229,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         $value = $this->getRateValue();
         $id = $this->getRateId();
 
-        $rate = array('code'=>$title, 'title'=>$title, 'percent'=>$value, 'position'=>1, 'priority'=>1);
+        $rate = array('code' => $title, 'title' => $title, 'percent' => $value, 'position' => 1, 'priority' => 1);
 
         $process = array();
         $process['percent'] = $value;
@@ -279,7 +279,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected function _getRequestCacheKey($request)
     {
         $key = $request->getStore() ? $request->getStore()->getId() . '|' : '';
-        $key.= $request->getProductClassId() . '|' . $request->getCustomerClassId() . '|'
+        $key .= $request->getProductClassId() . '|' . $request->getCustomerClassId() . '|'
             . $request->getCountryId() . '|'. $request->getRegionId() . '|' . $request->getPostcode();
         return $key;
     }
@@ -293,7 +293,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @return float
      */
-    public function getStoreRate($request, $store=null)
+    public function getStoreRate($request, $store = null)
     {
         $storeRequest = $this->getRateOriginRequest($store)
             ->setProductClassId($request->getProductClassId());
@@ -309,9 +309,18 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     public function getRateOriginRequest($store = null)
     {
         $request = new \Magento\Object();
-        $request->setCountryId($this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
-            ->setRegionId($this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, $store))
-            ->setPostcode($this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, $store))
+        $request->setCountryId($this->_coreStoreConfig->getConfig(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID,
+                $store
+            ))
+            ->setRegionId($this->_coreStoreConfig->getConfig(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID,
+                $store
+            ))
+            ->setPostcode($this->_coreStoreConfig->getConfig(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE,
+                $store
+            ))
             ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
             ->setStore($store);
         return $request;
@@ -319,6 +328,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
 
     /**
      * Get request object with information necessary for getting tax rate
+     *
      * Request object contain:
      *  country_id (->getCountryId())
      *  region_id (->getRegionId())
@@ -360,7 +370,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
 
                     if ($basedOn == 'billing' && $defBilling && $defBilling->getCountryId()) {
                         $billingAddress = $defBilling;
-                    } else if ($basedOn == 'shipping' && $defShipping && $defShipping->getCountryId()) {
+                    } elseif ($basedOn == 'shipping' && $defShipping && $defShipping->getCountryId()) {
                         $shippingAddress = $defShipping;
                     } else {
                         $basedOn = 'default';
@@ -386,7 +396,9 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                     ->setCountryId($this->_coreStoreConfig->getConfig(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
                         $store))
-                    ->setRegionId($this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
+                    ->setRegionId($this->_coreStoreConfig->getConfig(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
+                        $store))
                     ->setPostcode($this->_coreStoreConfig->getConfig(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
                         $store));
@@ -489,6 +501,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     {
         return $this->_getRates($request, 'product_class_id', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT);
     }
+
     public function getRatesForAllCustomerTaxClasses($request)
     {
         return $this->_getRates($request, 'customer_class_id', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
@@ -536,7 +549,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      */
     public function calcTaxAmount($price, $taxRate, $priceIncludeTax = false, $round = true)
     {
-        $taxRate = $taxRate/100;
+        $taxRate = $taxRate / 100;
 
         if ($priceIncludeTax) {
             $amount = $price * (1 - 1 / (1 + $taxRate));
