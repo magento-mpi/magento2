@@ -90,10 +90,18 @@
             }
         }
 
-        $('[role="navigation"]').navigationMenu({
-            responsive: true,
-            submenuContiniumEffect: true
-        });
+        if ($('[role="navigation"]').length) {
+            $('[role="navigation"]').navigationMenu({
+                responsive: true,
+                submenuContiniumEffect: true
+            });
+        } else {
+            $('<nav class="navigation" role="navigation"></nav>').navigationMenu({
+                responsive: true,
+                submenuContiniumEffect: true
+            });
+        }
+
     });
 
 })(window.jQuery);

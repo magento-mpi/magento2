@@ -113,7 +113,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Magento\DesignEditor\Model\Url\Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheStateMock = $this->getMockBuilder('Magento\Core\Model\Cache\StateInterface')
+        $this->_cacheStateMock = $this->getMockBuilder('Magento\App\Cache\StateInterface')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelper = $this->getMock('Magento\DesignEditor\Helper\Data', array('getDisabledCacheTypes'),

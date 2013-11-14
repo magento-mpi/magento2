@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Core\Model\Cache\Type\Config $layoutCache */
-$layoutCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cache\Type\Config');
+/** @var \Magento\App\Cache\Type\Config $layoutCache */
+$layoutCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Cache\Type\Config');
 $layoutCache->save('fixture config cache data', 'CONFIG_CACHE_FIXTURE');

@@ -25,7 +25,7 @@ class Widget
     protected $_dataStorage;
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 

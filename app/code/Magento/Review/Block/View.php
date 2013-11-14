@@ -38,8 +38,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_reviewFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -47,8 +45,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
@@ -63,17 +61,26 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
         \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()
     ) {
         $this->_voteFactory = $voteFactory;
-        $this->_storeManager = $storeManager;
+        $this->_ratingFactory = $ratingFactory;
         $this->_reviewFactory = $reviewFactory;
-
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
-            $context, $data);
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $data
+        );
     }
 
     /**
