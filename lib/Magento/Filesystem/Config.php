@@ -18,6 +18,8 @@ class Config
     protected $config;
 
     /**
+     * Root directory
+     *
      * @var string
      */
     protected $root;
@@ -27,11 +29,27 @@ class Config
      *
      * @param string $rootDirectory
      * @param array $directories
+     * @param array $directoryPaths
      */
-    public function __construct($rootDirectory, array $directories)
+    public function __construct($rootDirectory, array $directories, array $directoryPaths)
     {
-        $this->config = $directories;
         $this->root = $rootDirectory;
+        $this->config = $this->updatePaths($directories, $directoryPaths);
+    }
+
+    /**
+     * Update directories paths
+     *
+     * @param array $directories
+     * @param $directoryPaths
+     * @return array
+     */
+    protected function updatePaths(array $directories, $directoryPaths)
+    {
+        foreach ($directoryPaths as $code => $path) {
+            $directories[$code]['path'] = $path;
+        }
+        return $directories;
     }
 
     /**

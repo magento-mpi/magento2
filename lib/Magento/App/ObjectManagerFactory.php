@@ -15,7 +15,6 @@ use Magento\App\Dir,
     Magento\ObjectManager\Factory\Factory,
     Magento\Profiler,
     Magento\Filesystem\Config as FilesystemConfig;
-use Magento\Config\Reader\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -69,11 +68,12 @@ class ObjectManagerFactory
             )
         );
 
-        $argsDirs = isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array();
-        $filesystemConfigData = array_merge($options->get('filesystem'), $argsDirs);
+        $overrideDirectoryPaths = isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array();
+        $configData = $options->get('filesystem', array());
         $filesystemConfig = new FilesystemConfig(
             $rootDir,
-            $filesystemConfigData
+            $configData,
+            $overrideDirectoryPaths
         );
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(

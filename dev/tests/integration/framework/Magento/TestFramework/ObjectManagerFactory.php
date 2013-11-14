@@ -8,7 +8,8 @@
 
 namespace Magento\TestFramework;
 
-use Magento\App\Dir;
+use Magento\App\Dir,
+    Magento\Filesystem\Config as FilesystemConfig;
 
 class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 {
@@ -69,6 +70,16 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
             $arguments,
             new \Magento\App\Config\Loader($directories)
         );
+
+        $overrideDirectoryPaths = isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array();
+        $configData = $options->get('filesystem', array());
+        $filesystemConfig = new FilesystemConfig(
+            $rootDir,
+            $configData,
+            $overrideDirectoryPaths
+        );
+        $objectManager->addSharedInstance($filesystemConfig, 'Magento\Filesystem\Config');
+
         $objectManager->addSharedInstance($options, 'Magento\App\Config');
         $objectManager->getFactory()->setArguments($options->get());
         $objectManager->configure(
