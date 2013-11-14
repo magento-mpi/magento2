@@ -61,6 +61,11 @@ class Template extends \Magento\Core\Model\Template
     const XML_PATH_DESIGN_EMAIL_LOGO            = 'design/email/logo';
     const XML_PATH_DESIGN_EMAIL_LOGO_ALT        = 'design/email/logo_alt';
 
+    /**
+     * Config path to mail sending setting that shows if email communications are disabled
+     */
+    const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
+
     protected $_templateFilter;
     protected $_preprocessFlag = false;
     protected $_bcc = array();
