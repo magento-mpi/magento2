@@ -59,6 +59,11 @@ class Observer
     protected $_itemsFactory;
 
     /**
+     * @var \Magento\Object\Copy
+     */
+    protected $_objectCopyService;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
@@ -66,6 +71,7 @@ class Observer
      * @param \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Object\Copy $objectCopyService
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -74,7 +80,8 @@ class Observer
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
+        \Magento\Object\Copy $objectCopyService
     ) {
         $this->_helper = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -83,6 +90,7 @@ class Observer
         $this->_itemFactory = $itemFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_itemsFactory = $itemsFactory;
+        $this->_objectCopyService = $objectCopyService;
     }
 
     /**
@@ -161,13 +169,13 @@ class Observer
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = $this->_createPurchasedModel();
-                $this->_helper->copyFieldsetToTarget(
+                $this->_objectCopyService->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                $this->_helper->copyFieldsetToTarget(
+                $this->_objectCopyService->copyFieldsetToTarget(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -186,7 +194,7 @@ class Observer
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        $this->_helper->copyFieldsetToTarget(
+                        $this->_objectCopyService->copyFieldsetToTarget(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],

@@ -19,9 +19,9 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
+        /** @var \Magento\App\Cache\StateInterface $cacheState */
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\Cache\StateInterface');
+            'Magento\App\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 
