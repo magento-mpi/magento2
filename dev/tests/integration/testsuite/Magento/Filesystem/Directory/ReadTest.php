@@ -34,7 +34,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     {
         $dir = $this->getDirectoryInstance('foo');
         $this->assertContains(
-            '../_files/foo/bar',
+            '_files/foo/bar',
             $dir->getAbsolutePath('bar')
         );
     }

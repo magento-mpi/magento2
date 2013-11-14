@@ -167,11 +167,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getImgDir($website = null)
     {
-        $mediaDir =  $this->_dirs->getDir(\Magento\App\Dir::MEDIA);
-        $captchaDir = $mediaDir . '/captcha/' . $this->_storeManager->getWebsite($website)->getCode();
-        $this->_filesystem->setWorkingDirectory($mediaDir);
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($captchaDir, 0775);
+        $directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $captchaDir = '/captcha/' . $this->_storeManager->getWebsite($website)->getCode();
+        $directoryWrite->changePermissions($captchaDir, 0775);
+        $directoryWrite->create($captchaDir);
+
         return $captchaDir . '/';
     }
 

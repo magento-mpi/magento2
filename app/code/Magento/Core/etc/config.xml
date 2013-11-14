@@ -148,30 +148,36 @@
                     <pub>
                         <read_only>true</read_only>
                         <path>pub</path>
+                        <uri>pub</uri>
                         <permissions>777</permissions>
                     </pub>
                     <pub_lib>
                         <read_only>true</read_only>
                         <path>pub/lib</path>
+                        <uri>pub/lib</uri>
                     </pub_lib>
                     <media>
                         <read_only>false</read_only>
                         <path>pub/media</path>
+                        <uri>pub/media</uri>
                         <permissions>777</permissions>
                     </media>
                     <upload>
                         <read_only>false</read_only>
                         <path>pub/media/upload</path>
+                        <uri>pub/media/upload</uri>
                         <permissions>777</permissions>
                     </upload>
                     <static>
                         <read_only>false</read_only>
                         <path>pub/static</path>
+                        <uri>pub/static</uri>
                         <permissions>777</permissions>
                     </static>
                     <view_cache>
                         <read_only>false</read_only>
                         <path>pub/cache</path>
+                        <uri>pub/cache</uri>
                         <permissions>777</permissions>
                     </view_cache>
                 </directory>
