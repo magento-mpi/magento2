@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $cache \Magento\Core\Model\Cache */
+/** @var $cache \Magento\App\Cache */
 $cache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Cache');
+    ->create('Magento\App\Cache');
 $cache->clean(array(\Magento\Core\Model\Design::CACHE_TAG));

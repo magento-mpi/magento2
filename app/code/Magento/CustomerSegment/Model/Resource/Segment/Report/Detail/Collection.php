@@ -26,7 +26,7 @@ class Collection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Core\Model\Registry $registryManager
      */
     public function __construct(
@@ -39,7 +39,7 @@ class Collection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Core\Model\Registry $registryManager
     ) {
         $this->_registryManager = $registryManager;
