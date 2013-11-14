@@ -1,3 +1,4 @@
+* Improved Caching of Categories to improve Navigation menu rendering
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
 * Various improvements:
@@ -10,6 +11,7 @@
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+  * Fixed broken click for price link when "Display Actual Price" is set to in cart
 
 2.0.0.0-dev51
 =============
