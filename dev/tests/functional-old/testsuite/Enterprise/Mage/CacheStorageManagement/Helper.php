@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Tags
+ * @package     Mage_CacheStorageManagement
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}

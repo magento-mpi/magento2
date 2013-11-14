@@ -28,10 +28,10 @@ class WrapperLineBreak extends ConditionalLineBreak
 
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
-     * @return mixed
+     * @return int Order relative to other classes overriding this method.
      */
     public function getSortOrder()
     {
-        return 1;
+        return 100;
     }
 }
