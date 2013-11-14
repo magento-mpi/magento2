@@ -40,7 +40,6 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_backendSession;
 
     /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -73,7 +72,6 @@ class Context extends \Magento\Core\Block\Template\Context
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\RequestInterface $request,
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
