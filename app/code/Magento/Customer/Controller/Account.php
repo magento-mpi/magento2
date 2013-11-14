@@ -338,7 +338,8 @@ class Account extends \Magento\App\Action\Action
         $session->setEscapeMessages(true); // prevent XSS injection in user input
 
         if (!$this->getRequest()->isPost()) {
-            $this->_redirectError($this->_createUrl()->getUrl('*/*/create', array('_secure' => true)));
+            $url = $this->_createUrl()->getUrl('*/*/create', array('_secure' => true));
+            $this->getResponse()->setRedirect($this->_redirect->error($url));
             return;
         }
 
@@ -366,11 +367,12 @@ class Account extends \Magento\App\Action\Action
                 $session->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
                 );
-                $this->_redirectSuccess($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+                $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
+                $this->getResponse()->setRedirect($this->_redirect->success($url));
             } else {
                 $session->setCustomerAsLoggedIn($customer);
                 $url = $this->_welcomeCustomer($customer);
-                $this->_redirectSuccess($url);
+                $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
             return;
         } catch (\Magento\Core\Exception $e) {
@@ -393,7 +395,8 @@ class Account extends \Magento\App\Action\Action
         }
 
         $session->setCustomerFormData($this->getRequest()->getPost());
-        $this->_redirectError($this->_createUrl()->getUrl('*/*/create', array('_secure' => true)));
+        $defaultUrl = $this->_createUrl()->getUrl('*/*/create', array('_secure' => true));
+        $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
     }
 
     /**
@@ -523,6 +526,67 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
+     * load customer by id (try/catch in case if it throws exceptions)
+     *
+     * @param $customerId
+     * @return \Magento\Customer\Model\Customer
+     * @throws \Exception
+     */
+    protected function _loadCustomerById($customerId)
+    {
+        try {
+            /** @var \Magento\Customer\Model\Customer $customer */
+            $customer = $this->_createCustomer()->load($customerId);
+            if ((!$customer) || (!$customer->getId())) {
+                throw new \Exception('Failed to load customer by id.');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception(__('Wrong customer account specified.'));
+        }
+        return $customer;
+    }
+
+    /**
+     * @param \Magento\Customer\Model\Customer $customer
+     * @throws \Exception
+     */
+    protected function _activateCustomer($customer)
+    {
+        try {
+            $customer->setConfirmation(null);
+            $customer->save();
+        } catch (\Exception $e) {
+            throw new \Exception(__('Failed to confirm customer account.'));
+        }
+    }
+
+    /**
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param mixed $key
+     * @return bool|null
+     * @throws \Exception
+     */
+    protected function _checkCustomerActive($customer, $key)
+    {
+        $backUrl = $this->getRequest()->getParam('back_url', false);
+
+        // check if it is inactive
+        if ($customer->getConfirmation()) {
+            if ($customer->getConfirmation() !== $key) {
+                throw new \Exception(__('Wrong confirmation key.'));
+            }
+            $this->_activateCustomer($customer);
+
+            // log in and send greeting email, then die happy
+            $this->_getSession()->setCustomerAsLoggedIn($customer);
+            $successUrl = $this->_welcomeCustomer($customer, true);
+            $url = $backUrl ? $backUrl : $successUrl;
+            $this->getResponse()->setRedirect($this->_redirect->success($url));
+            return true;
+        }
+    }
+
+    /**
      * Confirm customer account by id and confirmation key
      */
     public function confirmAction()
@@ -534,51 +598,52 @@ class Account extends \Magento\App\Action\Action
         try {
             $customerId = $this->getRequest()->getParam('id', false);
             $key     = $this->getRequest()->getParam('key', false);
-            $backUrl = $this->getRequest()->getParam('back_url', false);
             if (empty($customerId) || empty($key)) {
                 throw new \Exception(__('Bad request.'));
             }
 
-            // load customer by id (try/catch in case if it throws exceptions)
-            try {
-                /** @var \Magento\Customer\Model\Customer $customer */
-                $customer = $this->_createCustomer()->load($customerId);
-                if ((!$customer) || (!$customer->getId())) {
-                    throw new \Exception('Failed to load customer by id.');
-                }
-            } catch (\Exception $e) {
-                throw new \Exception(__('Wrong customer account specified.'));
-            }
-
-            // check if it is inactive
-            if ($customer->getConfirmation()) {
-                if ($customer->getConfirmation() !== $key) {
-                    throw new \Exception(__('Wrong confirmation key.'));
-                }
-
-                // activate customer
-                try {
-                    $customer->setConfirmation(null);
-                    $customer->save();
-                } catch (\Exception $e) {
-                    throw new \Exception(__('Failed to confirm customer account.'));
-                }
-
-                // log in and send greeting email, then die happy
-                $this->_getSession()->setCustomerAsLoggedIn($customer);
-                $successUrl = $this->_welcomeCustomer($customer, true);
-                $this->_redirectSuccess($backUrl ? $backUrl : $successUrl);
+            $customer = $this->_loadCustomerById($customerId);
+            if (true === $this->_checkCustomerActive($customer, $key)) {
                 return;
             }
 
             // die happy
-            $this->_redirectSuccess($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+            $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
+            $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
         } catch (\Exception $e) {
             // die unhappy
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirectError($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+            $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
+            $this->getResponse()->setRedirect($this->_redirect->error($url));
             return;
+        }
+    }
+
+    /**
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param string $email
+     */
+    protected function _confirmByEmail($customer, $email)
+    {
+        try {
+            $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
+            if (!$customer->getId()) {
+                throw new \Exception('');
+            }
+            if ($customer->getConfirmation()) {
+                $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
+                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+            } else {
+                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+            }
+            $this->_getSession()->setUsername($email);
+            $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
+            $this->getResponse()->setRedirect($this->_redirect->success($url));
+        } catch (\Exception $e) {
+            $this->_getSession()->addException($e, __('Wrong email.'));
+            $url = $this->_createUrl()->getUrl('*/*/*', array('email' => $email, '_secure' => true));
+            $this->getResponse()->setRedirect($this->_redirect->error($url));
         }
     }
 
@@ -596,23 +661,7 @@ class Account extends \Magento\App\Action\Action
         // try to confirm by email
         $email = $this->getRequest()->getPost('email');
         if ($email) {
-            try {
-                $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
-                if (!$customer->getId()) {
-                    throw new \Exception('');
-                }
-                if ($customer->getConfirmation()) {
-                    $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
-                    $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
-                } else {
-                    $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
-                }
-                $this->_getSession()->setUsername($email);
-                $this->_redirectSuccess($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
-            } catch (\Exception $e) {
-                $this->_getSession()->addException($e, __('Wrong email.'));
-                $this->_redirectError($this->_createUrl()->getUrl('*/*/*', array('email' => $email, '_secure' => true)));
-            }
+            $this->_confirmByEmail($customer, $email);
             return;
         }
 

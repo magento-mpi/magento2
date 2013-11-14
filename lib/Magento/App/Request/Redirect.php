@@ -12,6 +12,8 @@ namespace Magento\App\Request;
 class Redirect
 {
     const PARAM_NAME_REFERER_URL        = 'referer_url';
+    const PARAM_NAME_ERROR_URL          = 'error_url';
+    const PARAM_NAME_SUCCESS_URL        = 'success_url';
 
     /** @var \Magento\App\RequestInterface */
     protected $_request;
@@ -93,5 +95,41 @@ class Redirect
                 : $defaultUrl;
         }
         return $refererUrl;
+    }
+
+    /**
+     * Redirect to error page
+     *
+     * @param string $defaultUrl
+     * @return  string
+     */
+    public function error($defaultUrl)
+    {
+        $errorUrl = $this->_request->getParam(self::PARAM_NAME_ERROR_URL);
+        if (empty($errorUrl)) {
+            $errorUrl = $defaultUrl;
+        }
+        if (!$this->_url->isInternal($errorUrl)) {
+            $errorUrl = $this->_storeManager->getStore()->getBaseUrl();
+        }
+        return $errorUrl;
+    }
+
+    /**
+     * Redirect to success page
+     *
+     * @param string $defaultUrl
+     * @return string
+     */
+    public function success($defaultUrl)
+    {
+        $successUrl = $this->_request->getParam(self::PARAM_NAME_SUCCESS_URL);
+        if (empty($successUrl)) {
+            $successUrl = $defaultUrl;
+        }
+        if (!$this->_url->isInternal($successUrl)) {
+            $successUrl = $this->_storeManager->getStore()->getBaseUrl();
+        }
+        return $successUrl;
     }
 }

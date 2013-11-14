@@ -17,8 +17,6 @@ class Action extends \Magento\App\Action\AbstractAction
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
 
-    const PARAM_NAME_SUCCESS_URL        = 'success_url';
-    const PARAM_NAME_ERROR_URL          = 'error_url';
     const PARAM_NAME_BASE64_URL         = 'r64';
     const PARAM_NAME_URL_ENCODED        = 'uenc';
 
@@ -45,14 +43,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     protected $_actionFlag;
 
-    /**
-     * @var \Magento\HTTP\Url
-     */
-    protected $_appUrl;
-
-    /**
-     * @var \Magento\App\Request\Redirect
-     */
+    /** @var \Magento\App\Request\Redirect */
     protected $_redirect;
 
     /**
@@ -88,7 +79,6 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_session           = $context->getSession();
         $this->_url               = $context->getUrl();
         $this->_actionFlag        = $context->getActionFlag();
-        $this->_appUrl            = $context->getAppUrl();
         $this->_redirect          = $context->getRedirect();
         $this->_layoutServices    = $context->getLayoutServices();
     }
@@ -183,44 +173,6 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->getResponse()->setRedirect(
             $this->_url->getUrl($path, $arguments)
         );
-        return $this;
-    }
-
-    /**
-     * Redirect to success page
-     *
-     * @param string $defaultUrl
-     * @return \Magento\App\ActionInterface
-     */
-    protected function _redirectSuccess($defaultUrl)
-    {
-        $successUrl = $this->getRequest()->getParam(self::PARAM_NAME_SUCCESS_URL);
-        if (empty($successUrl)) {
-            $successUrl = $defaultUrl;
-        }
-        if (!$this->_appUrl->isInternal($successUrl)) {
-            $successUrl = $this->_storeManager->getStore()->getBaseUrl();
-        }
-        $this->getResponse()->setRedirect($successUrl);
-        return $this;
-    }
-
-    /**
-     * Redirect to error page
-     *
-     * @param string $defaultUrl
-     * @return  \Magento\App\ActionInterface
-     */
-    protected function _redirectError($defaultUrl)
-    {
-        $errorUrl = $this->getRequest()->getParam(self::PARAM_NAME_ERROR_URL);
-        if (empty($errorUrl)) {
-            $errorUrl = $defaultUrl;
-        }
-        if (!$this->_appUrl->isInternal($errorUrl)) {
-            $errorUrl = $this->_storeManager->getStore()->getBaseUrl();
-        }
-        $this->getResponse()->setRedirect($errorUrl);
         return $this;
     }
 }

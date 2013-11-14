@@ -178,31 +178,89 @@ class Account extends \Magento\Customer\Controller\Account
                 ->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirectError('');
+        $this->_redirect('magento_invitation/customer_account/create',
+            array('_current' => true, '_secure' => true));
 
         return $this;
     }
 
     /**
-     * Make success redirect constant
-     *
-     * @param string $defaultUrl
-     * @return \Magento\Invitation\Controller\Customer\Account
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param mixed $key
+     * @return bool|null
+     * @throws \Exception
      */
-    protected function _redirectSuccess($defaultUrl)
+    protected function _checkCustomerActive($customer, $key)
     {
-        return $this->_redirect('customer/account/');
+        if ($customer->getConfirmation()) {
+            if ($customer->getConfirmation() !== $key) {
+                throw new \Exception(__('Wrong confirmation key.'));
+            }
+            $this->_activateCustomer($customer);
+
+            // log in and send greeting email, then die happy
+            $this->_getSession()->setCustomerAsLoggedIn($customer);
+            $this->_redirect('customer/account/');
+            return true;
+        }
     }
 
     /**
-     * Make failure redirect constant
-     *
-     * @param string $defaultUrl
-     * @return \Magento\Invitation\Controller\Customer\Account
+     * Confirm customer account by id and confirmation key
      */
-    protected function _redirectError($defaultUrl)
+    public function confirmAction()
     {
-        return $this->_redirect('magento_invitation/customer_account/create',
-            array('_current' => true, '_secure' => true));
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
+        try {
+            $customerId = $this->getRequest()->getParam('id', false);
+            $key     = $this->getRequest()->getParam('key', false);
+            if (empty($customerId) || empty($key)) {
+                throw new \Exception(__('Bad request.'));
+            }
+
+            $customer = $this->_loadCustomerById($customerId);
+            if (true === $this->_checkCustomerActive($customer, $key)) {
+                return;
+            }
+            // die happy
+            $this->_redirect('customer/account/');
+            return;
+        } catch (\Exception $e) {
+            // die unhappy
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('magento_invitation/customer_account/create',
+                array('_current' => true, '_secure' => true));
+            return;
+        }
     }
+
+    /**
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param string $email
+     */
+    protected function _confirmByEmail($customer, $email)
+    {
+        try {
+            $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
+            if (!$customer->getId()) {
+                throw new \Exception('');
+            }
+            if ($customer->getConfirmation()) {
+                $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
+                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+            } else {
+                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+            }
+            $this->_getSession()->setUsername($email);
+            $this->_redirect('customer/account/');
+        } catch (\Exception $e) {
+            $this->_getSession()->addException($e, __('Wrong email.'));
+            $this->_redirect('magento_invitation/customer_account/create',
+                array('_current' => true, '_secure' => true));
+        }
+    }
+
 }

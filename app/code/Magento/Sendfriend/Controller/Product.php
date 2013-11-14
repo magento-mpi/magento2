@@ -207,7 +207,8 @@ class Product extends \Magento\App\Action\Action
             if ($validate === true) {
                 $model->send();
                 $catalogSession->addSuccess(__('The link to a friend was sent.'));
-                $this->_redirectSuccess($product->getProductUrl());
+                $url = $product->getProductUrl();
+                $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
             }
             else {
@@ -228,10 +229,9 @@ class Product extends \Magento\App\Action\Action
         // save form data
         $catalogSession->setSendfriendFormData($data);
 
-        $this->_redirectError(
-            $this->_objectManager
-                ->create('Magento\Core\Model\Url')
-                ->getUrl('*/*/send', array('_current' => true))
-        );
+        $url = $this->_objectManager
+            ->create('Magento\Core\Model\Url')
+            ->getUrl('*/*/send', array('_current' => true));
+        $this->getResponse()->setRedirect($this->_redirect->error($url));
     }
 }

@@ -140,7 +140,7 @@ class Address extends \Magento\App\Action\Action
 
         if (!$this->getRequest()->isPost()) {
             $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-            $this->_redirectError($this->_buildUrl('*/*/edit'));
+            $this->getResponse()->setRedirect($this->_redirect->error($this->_buildUrl('*/*/edit')));
             return;
         }
 
@@ -149,7 +149,8 @@ class Address extends \Magento\App\Action\Action
             $this->_validateAddress($address);
             $address->save();
             $this->_getSession()->addSuccess(__('The address has been saved.'));
-            $this->_redirectSuccess($this->_buildUrl('*/*/index', array('_secure'=>true)));
+            $url = $this->_buildUrl('*/*/index', array('_secure'=>true));
+            $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
@@ -164,7 +165,8 @@ class Address extends \Magento\App\Action\Action
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        $this->_redirectError($this->_buildUrl('*/*/edit', array('id' => $address->getId())));
+        $url = $this->_buildUrl('*/*/edit', array('id' => $address->getId()));
+        $this->getResponse()->setRedirect($this->_redirect->error($url));
     }
 
     /**

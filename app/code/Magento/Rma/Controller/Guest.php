@@ -150,7 +150,8 @@ class Guest extends \Magento\App\Action\Action
                 );
                 $result = $rmaModel->setData($rmaData)->saveRma($post);
                 if (!$result) {
-                    $this->_redirectError($urlModel->getUrl('*/*/create', array('order_id'  => $orderId)));
+                    $url = $urlModel->getUrl('*/*/create', array('order_id'  => $orderId));
+                    $this->getResponse()->setRedirect($this->_redirect->error($url));
                     return;
                 }
                 $result->sendNewRmaEmail();
@@ -167,7 +168,8 @@ class Guest extends \Magento\App\Action\Action
                 $coreSession->addSuccess(
                     __('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
-                $this->_redirectSuccess($urlModel->getUrl('*/*/returns'));
+                $url = $urlModel->getUrl('*/*/returns');
+                $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
             } catch (\Exception $e) {
                 $coreSession->addError(

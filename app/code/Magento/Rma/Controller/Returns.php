@@ -114,7 +114,8 @@ class Returns extends \Magento\App\Action\Action
                     );
                     $result = $rmaModel->setData($rmaData)->saveRma($post);
                     if (!$result) {
-                        $this->_redirectError($urlModel->getUrl('*/*/create', array('order_id'  => $orderId)));
+                        $url = $urlModel->getUrl('*/*/create', array('order_id'  => $orderId));
+                        $this->getResponse()->setRedirect($this->_redirect->error($url));
                         return;
                     }
                     $result->sendNewRmaEmail();
@@ -131,7 +132,7 @@ class Returns extends \Magento\App\Action\Action
                     $coreSession->addSuccess(
                         __('You submitted Return #%1.', $rmaModel->getIncrementId())
                     );
-                    $this->_redirectSuccess($urlModel->getUrl('*/*/history'));
+                    $this->getResponse()->setRedirect($this->_redirect->success($urlModel->getUrl('*/*/history')));
                     return;
                 } catch (\Exception $e) {
                     $coreSession->addError(

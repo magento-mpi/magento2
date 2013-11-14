@@ -44,14 +44,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     protected $_url;
 
-    /**
-     * @var \Magento\HTTP\Url
-     */
-    protected $_appUrl;
-
-    /**
-     * @var \Magento\App\Request\Redirect
-     */
+    /** @var \Magento\App\Request\Redirect */
     protected $_redirect;
 
     /**
@@ -73,7 +66,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\HTTP\Url $appUrl
      * @param \Magento\App\Request\Redirect $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\View\Action\LayoutServiceInterface $layoutService
@@ -87,7 +79,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Url $url,
-        \Magento\HTTP\Url $appUrl,
         \Magento\App\Request\Redirect $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\View\Action\LayoutServiceInterface $layoutService
@@ -99,7 +90,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_storeManager = $storeManager;
         $this->_session = $session;
         $this->_url = $url;
-        $this->_appUrl = $appUrl;
         $this->_redirect = $redirect;
         $this->_actionFlag = $actionFlag;
         $this->_layoutServices = $layoutService;
@@ -111,14 +101,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getActionFlag()
     {
         return $this->_actionFlag;
-    }
-
-    /**
-     * @return \Magento\HTTP\Url
-     */
-    public function getAppUrl()
-    {
-        return $this->_appUrl;
     }
 
     /**

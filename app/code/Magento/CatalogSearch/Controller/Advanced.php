@@ -75,11 +75,10 @@ class Advanced extends \Magento\App\Action\Action
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
         } catch (\Magento\Core\Exception $e) {
             $this->_catalogSearchSession->addError($e->getMessage());
-            $this->_redirectError(
-                $this->_urlFactory->create()
-                    ->setQueryParams($this->getRequest()->getQuery())
-                    ->getUrl('*/*/')
-            );
+            $defaultUrl = $this->_urlFactory->create()
+                ->setQueryParams($this->getRequest()->getQuery())
+                ->getUrl('*/*/');
+            $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
         }
         $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
         $this->_layoutServices->renderLayout();
