@@ -18,7 +18,7 @@
 
 namespace Magento\Persistent\Block\Header;
 
-class Additional extends \Magento\Core\Block\Html\Link
+class Additional extends \Magento\View\Block\Html\Link
 {
     /**
      * Persistent session

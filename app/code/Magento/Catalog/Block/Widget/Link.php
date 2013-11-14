@@ -19,7 +19,7 @@
 namespace Magento\Catalog\Block\Widget;
 
 class Link
-    extends \Magento\Core\Block\Html\Link
+    extends \Magento\View\Block\Html\Link
     implements \Magento\Widget\Block\BlockInterface
 {
     /**

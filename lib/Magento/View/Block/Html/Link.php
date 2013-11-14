@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,17 +10,12 @@
 /**
  * HTML anchor element block
  *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Block\Html;
+namespace Magento\View\Block\Html;
 
 class Link extends \Magento\View\Block\Template
 {
-
-    protected $_template = 'Magento_Core::link.phtml';
-
     /**
      * Prepare link attributes as serialized and formated string
      *
@@ -71,5 +64,21 @@ class Link extends \Magento\View\Block\Template
         }
         $res = implode($fieldSeparator, $data);
         return $res;
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (false != $this->getTemplate()) {
+            return parent::_toHtml();
+        }
+
+        $html = '<a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($this->getAnchorText()) . '</a>';
+        return $html;
+
     }
 }

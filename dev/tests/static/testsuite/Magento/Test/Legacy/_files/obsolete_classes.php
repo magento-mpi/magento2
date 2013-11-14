@@ -1434,4 +1434,6 @@ return array(
     array('Magento\Core\Block\AbstractBlock', 'Magento\View\Block\AbstractBlock'),
     array('Magento\Core\Block\Template', 'Magento\View\Block\Template'),
     array('Magento\Core\Block\Html\Calendar', 'Magento\View\Block\Html\Calendar'),
+    array('Magento\Core\Block\Html\Link', 'Magento\View\Block\Html\Link'),
+
 );
