@@ -360,7 +360,7 @@ class Observer
     }
 
     /**
-     * Check if data changes duering object save affect cached pages
+     * Check if data changes during object save affect cached pages
      *
      * @param \Magento\Event\Observer $observer
      * @return \Magento\FullPageCache\Model\Observer

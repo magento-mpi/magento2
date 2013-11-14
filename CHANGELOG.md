@@ -9,6 +9,7 @@
   * Removed occurrence error on empty or not validate layout file
   * InstanceController.php setBody changed to protected
   * Media image required attribute `_media_attribute_id` verification added for product import functionality
+  * Fixed some typos
 * Themes update:
   * Plushe theme is responsive now
 * Fixed bugs:

@@ -116,7 +116,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Before save, it's overriden just to make data validation on before save event
+     * Before save, it's overridden just to make data validation on before save event
      *
      * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\AbstractModel

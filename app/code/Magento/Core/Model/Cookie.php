@@ -291,7 +291,7 @@ class Cookie
     /**
      * Retrieve cookie or false if not exists
      *
-     * @param string $neme The cookie name
+     * @param string $name The cookie name
      * @return mixed
      */
     public function get($name = null)

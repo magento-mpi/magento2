@@ -385,7 +385,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Convert xml config pathes to decorated names
+     * Convert xml config paths to decorated names
      *
      * @param array $paths
      * @return array

@@ -178,7 +178,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->getMessage()->setType($this->getEntityType());
 
-        // Overriden default data with edited when block reloads througth Ajax
+        // Overridden default data with edited when block reloads througth Ajax
         $this->_applyPostData();
 
         $form->setValues($this->getMessage()->getData());

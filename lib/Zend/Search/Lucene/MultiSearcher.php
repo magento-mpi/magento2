@@ -895,7 +895,7 @@ class Zend_Search_Lucene_Interface_MultiSearcher implements Zend_Search_Lucene_I
     }
 
     /**
-     * Skip terms stream up to specified term preffix.
+     * Skip terms stream up to specified term prefix.
      *
      * Prefix contains fully specified field info and portion of searched term
      *

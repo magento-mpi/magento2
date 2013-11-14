@@ -198,7 +198,7 @@ Flex.Object = Class.create({
     /**
      * Set object attribute for generation of html tags
      *
-     * @param Sting name
+     * @param String name
      * @param Object value
      * @return void
      */
@@ -210,7 +210,7 @@ Flex.Object = Class.create({
     /**
      * Retrieve object attribute value used for generation in html tags
      *
-     * @param Sting name
+     * @param String name
      * @return Object
      */
     getAttribute : function( name ) {

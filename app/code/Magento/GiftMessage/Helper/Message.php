@@ -299,7 +299,7 @@ class Message extends \Magento\Core\Helper\Data
     }
 
     /**
-     * Check availability for multishiping checkout items
+     * Check availability for multishipping checkout items
      *
      * @param array $items
      * @param \Magento\Core\Model\Store|integer $store

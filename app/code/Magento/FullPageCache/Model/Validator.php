@@ -71,7 +71,7 @@ class Validator
     }
 
     /**
-     * Check if duering data change was used some model related with page cache and invalidate cache
+     * Check if during data change was used some model related with page cache and invalidate cache
      *
      * @param mixed $object
      * @return \Magento\FullPageCache\Model\Validator
@@ -88,7 +88,7 @@ class Validator
     }
 
     /**
-     * Check if duering data delete was used some model related with page cache and invalidate cache
+     * Check if during data delete was used some model related with page cache and invalidate cache
      *
      * @param mixed $object
      * @return \Magento\FullPageCache\Model\Validator
