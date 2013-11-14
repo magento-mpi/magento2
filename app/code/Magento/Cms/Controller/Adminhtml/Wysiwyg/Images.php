@@ -134,10 +134,10 @@ class Images extends \Magento\Backend\Controller\Adminhtml\Action
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
-                $_filePath = $path . DS . $file;
+                $_filePath = \Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY . '/' .  $path . '/' . $file;
                 /** @var \Magento\Filesystem $filesystem */
                 $filesystem = $this->_objectManager->get('Magento\Filesystem');
-                if ($filesystem->getDirectoryRead($helper->getStorageRoot())->isFile($file)) {
+                if ($filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA)->isFile($_filePath)) {
                     $this->getStorage()->deleteFile($_filePath);
                 }
             }

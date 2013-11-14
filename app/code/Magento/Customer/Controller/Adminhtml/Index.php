@@ -876,7 +876,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             $name = pathinfo($path, PATHINFO_BASENAME);
             $this->_prepareDownloadResponse($name, array(
                 'type'  => 'filename',
-                'value' => $path
+                'value' => $fileName
             ));
         }
 

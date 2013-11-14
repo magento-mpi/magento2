@@ -16,8 +16,6 @@
  */
 namespace Magento\Adminhtml\Block\Sitemap\Grid\Renderer;
 
-use Magento\Tools\Migration\System\Writer\FileSystem;
-
 class Link extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
