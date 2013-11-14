@@ -195,7 +195,7 @@ class Read implements ReadInterface
     {
         $errorMessage = 'Warning!';
         $warning = error_get_last();
-        if (!$warning) {
+        if ($warning) {
             $errorMessage .= $warning['message'];
         } else {
             $errorMessage .= 'Unknown message';
