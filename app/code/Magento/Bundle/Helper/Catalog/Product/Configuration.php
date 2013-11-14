@@ -42,13 +42,13 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Escaper $escaper
     ) {
         $this->_ctlgProdConfigur = $ctlgProdConfigur;

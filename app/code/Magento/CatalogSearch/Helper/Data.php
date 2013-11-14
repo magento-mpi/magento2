@@ -94,7 +94,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
@@ -102,7 +102,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Filter\FilterManager $filter
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory,

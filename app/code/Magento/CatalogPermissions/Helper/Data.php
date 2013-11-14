@@ -52,13 +52,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
         $this->_customerSession = $customerSession;

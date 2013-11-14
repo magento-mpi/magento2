@@ -78,7 +78,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Helper\Data $coreData
@@ -87,7 +87,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Dir $dir
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Helper\Data $coreData,

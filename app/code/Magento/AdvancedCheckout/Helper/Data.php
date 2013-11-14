@@ -187,7 +187,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
@@ -206,7 +206,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,

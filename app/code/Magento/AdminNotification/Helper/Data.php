@@ -61,7 +61,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_inboxFactory;
 
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory
     ) {

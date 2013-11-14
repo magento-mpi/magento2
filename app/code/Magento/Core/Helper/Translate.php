@@ -33,7 +33,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\View\DesignInterface $design,
         \Magento\Event\ManagerInterface $eventManager
     ) {

@@ -56,13 +56,13 @@ class Storage extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\File\Storage $storage
      * @param \Magento\Core\Model\File\Storage\File $filesystemStorage
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\File\Storage $storage,
         \Magento\Core\Model\File\Storage\File $filesystemStorage
     ) {

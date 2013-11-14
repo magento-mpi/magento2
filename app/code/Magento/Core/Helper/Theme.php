@@ -49,7 +49,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\App\Dir $dirs,
         \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,

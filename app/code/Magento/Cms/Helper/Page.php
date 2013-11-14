@@ -91,7 +91,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Session\Pool $sessionFactory
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -104,7 +104,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Session\Pool $sessionFactory,
         \Magento\Cms\Model\Page $page,
         \Magento\Event\ManagerInterface $eventManager,

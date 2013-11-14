@@ -66,14 +66,14 @@ class Database extends \Magento\App\Helper\AbstractHelper
     protected $_dir;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
      * @param \Magento\Core\Model\File\Storage\File $fileStorage
      * @param \Magento\App\Dir $dir
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
         \Magento\Core\Model\File\Storage\File $fileStorage,
         \Magento\App\Dir $dir,

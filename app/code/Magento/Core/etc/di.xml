@@ -364,7 +364,7 @@
             <instance type="Magento\App\Request\Http\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Helper\Context">
+    <type name="Magento\App\Helper\Context">
         <param name="urlBuilder">
             <instance type="Magento\Core\Model\Url\Proxy" />
         </param>

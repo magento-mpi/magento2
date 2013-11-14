@@ -50,14 +50,14 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     protected $_website;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Cookie $cookie,
         array $data = array())

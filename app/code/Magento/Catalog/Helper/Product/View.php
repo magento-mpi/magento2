@@ -80,7 +80,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Page\Helper\Layout $pageLayout
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $messageModels
      */
@@ -90,7 +90,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Page\Helper\Layout $pageLayout,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         array $messageModels = array()
     ) {

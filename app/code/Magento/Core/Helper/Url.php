@@ -25,11 +25,11 @@ class Url extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);

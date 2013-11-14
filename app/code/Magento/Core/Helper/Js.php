@@ -36,12 +36,12 @@ class Js extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\Url $viewUrl
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\View\Url $viewUrl
     ) {
         $this->_coreData = $coreData;
