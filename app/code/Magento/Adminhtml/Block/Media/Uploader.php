@@ -111,7 +111,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Retrive uploader js object name
+     * Retrieve uploader js object name
      *
      * @return string
      */
@@ -121,7 +121,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Retrive config json
+     * Retrieve config json
      *
      * @return string
      */
@@ -131,7 +131,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Retrive config object
+     * Retrieve config object
      *
      * @return \Magento\Object
      */

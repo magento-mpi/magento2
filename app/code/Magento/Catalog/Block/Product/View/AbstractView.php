@@ -20,7 +20,7 @@ namespace Magento\Catalog\Block\Product\View;
 abstract class AbstractView extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
-     * Retrive product
+     * Retrieve product
      *
      * @return \Magento\Catalog\Model\Product
      */

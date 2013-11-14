@@ -425,7 +425,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Retrive product id by sku
+     * Retrieve product id by sku
      *
      * @param   string $sku
      * @return  integer
@@ -1073,7 +1073,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
  ** Media API
  */
     /**
-     * Retrive attributes for media gallery
+     * Retrieve attributes for media gallery
      *
      * @return array
      */
@@ -1092,7 +1092,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Retrive media gallery images
+     * Retrieve media gallery images
      *
      * @return \Magento\Data\Collection
      */
@@ -1138,7 +1138,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Retrive product media config
+     * Retrieve product media config
      *
      * @return \Magento\Catalog\Model\Product\Media\Config
      */

@@ -83,7 +83,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive payment method instance
+     * Retrieve payment method instance
      *
      * @return \Magento\Payment\Model\Method\AbstractMethod
      */

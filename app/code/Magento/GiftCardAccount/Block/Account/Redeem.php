@@ -46,7 +46,7 @@ class Redeem extends \Magento\Core\Block\Template
     }
 
     /**
-     * Retreive gift card code from url, empty if none
+     * Retrieve gift card code from url, empty if none
      *
      * @return string
      */

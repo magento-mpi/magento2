@@ -46,7 +46,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      * @var string
      */
     protected $_template = 'Magento_Backend::system/email/template/edit.phtml';
-    
+
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -329,7 +329,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Retrive email template model
+     * Retrieve email template model
      *
      * @return \Magento\Core\Model\Email\Template
      */

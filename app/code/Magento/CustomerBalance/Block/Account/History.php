@@ -70,7 +70,7 @@ class History extends \Magento\Core\Block\Template
     }
 
     /**
-     * Retreive history events collection
+     * Retrieve history events collection
      *
      * @return mixed
      */

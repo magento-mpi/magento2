@@ -139,7 +139,7 @@ class Edit
     }
 
     /**
-     * Retrive catalog event model
+     * Retrieve catalog event model
      *
      * @return \Magento\CatalogEvent\Model\Event
      */

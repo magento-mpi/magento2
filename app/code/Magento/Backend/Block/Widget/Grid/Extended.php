@@ -524,7 +524,7 @@ class Extended
     }
 
     /**
-     * Retrive massaction block name
+     * Retrieve massaction block name
      *
      * @return string
      */
@@ -546,7 +546,7 @@ class Extended
     }
 
     /**
-     * Retrive massaction block
+     * Retrieve massaction block
      *
      * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
      */

@@ -41,7 +41,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retreive event image url
+     * Retrieve event image url
      *
      * @param \Magento\CatalogEvent\Model\Event
      * @return string|boolean

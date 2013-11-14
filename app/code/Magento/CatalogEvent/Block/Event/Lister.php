@@ -34,10 +34,10 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
-    
+
     /**
      * Construct
-     * 
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -54,7 +54,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $locale, $data);
-        
+
         $this->_catalogEventData = $catalogEventData;
         $this->_eventCollectionFactory = $eventCollectionFactory;
     }
@@ -134,7 +134,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     }
 
     /**
-     * Retreive category url
+     * Retrieve category url
      *
      * @param \Magento\Catalog\Model\Category $category
      * @return string

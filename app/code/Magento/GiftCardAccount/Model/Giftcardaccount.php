@@ -505,7 +505,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive pool model instance
+     * Retrieve pool model instance
      *
      * @return \Magento\GiftCardAccount\Model\Pool\AbstractPool
      */

@@ -152,7 +152,7 @@ class Banner
     }
 
     /**
-     * Retrive converted to an array and filtered parameter "banner_ids"
+     * Retrieve converted to an array and filtered parameter "banner_ids"
      *
      * @return array
      */

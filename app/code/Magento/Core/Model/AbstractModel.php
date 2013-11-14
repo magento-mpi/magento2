@@ -658,7 +658,7 @@ abstract class AbstractModel extends \Magento\Object
     }
 
     /**
-     * Retreive entity id
+     * Retrieve entity id
      *
      * @return mixed
      */

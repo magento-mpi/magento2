@@ -51,7 +51,7 @@ class Giftcards extends \Magento\Core\Block\Template
     }
 
     /**
-     * Retreive gift cards applied to current order
+     * Retrieve gift cards applied to current order
      *
      * @return array
      */

@@ -888,7 +888,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retrive shared website ids
+     * Retrieve shared website ids
      *
      * @return array
      */
@@ -1001,7 +1001,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive errors
+     * Retrieve errors
      *
      * @return array
      */
