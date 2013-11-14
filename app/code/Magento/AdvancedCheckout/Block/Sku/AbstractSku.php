@@ -41,14 +41,14 @@ abstract class AbstractSku
     /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {

@@ -43,7 +43,7 @@ class TemplateSelector extends \Magento\View\Block\Template
      *
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param array $data
@@ -51,7 +51,7 @@ class TemplateSelector extends \Magento\View\Block\Template
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         array $data = array()

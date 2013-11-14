@@ -48,7 +48,7 @@ class Term extends \Magento\View\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -56,7 +56,7 @@ class Term extends \Magento\View\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

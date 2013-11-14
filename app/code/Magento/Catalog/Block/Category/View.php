@@ -46,7 +46,7 @@ class View extends \Magento\View\Block\Template
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -54,7 +54,7 @@ class View extends \Magento\View\Block\Template
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

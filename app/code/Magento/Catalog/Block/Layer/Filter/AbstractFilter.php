@@ -65,14 +65,14 @@ abstract class AbstractFilter extends \Magento\View\Block\Template
      *
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Layer\Filter\Factory $layerFilterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Catalog\Model\Layer\Filter\Factory $layerFilterFactory,
         array $data = array()
     ) {

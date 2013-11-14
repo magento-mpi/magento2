@@ -47,7 +47,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * $catalogProductOptionTypeDate
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
@@ -55,7 +55,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_locale = $locale;

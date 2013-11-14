@@ -61,7 +61,7 @@ class Options extends \Magento\View\Block\Template
      * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
@@ -71,7 +71,7 @@ class Options extends \Magento\View\Block\Template
         \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Core\Model\Registry $registry,
         \Magento\Stdlib\ArrayUtils $arrayUtils,

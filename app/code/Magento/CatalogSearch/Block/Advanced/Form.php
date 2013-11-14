@@ -51,7 +51,7 @@ class Form extends \Magento\View\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -60,7 +60,7 @@ class Form extends \Magento\View\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
