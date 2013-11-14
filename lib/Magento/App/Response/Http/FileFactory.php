@@ -20,6 +20,7 @@ class FileFactory
      * @var \Magento\Filesystem
      */
     protected $_filesystem;
+
     /**
      * @param \Magento\App\ResponseFactory $responseFactory
      */
@@ -38,7 +39,7 @@ class FileFactory
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
      * @throws \Exception
-     * @trows \InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return \Magento\App\ActionInterface
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)

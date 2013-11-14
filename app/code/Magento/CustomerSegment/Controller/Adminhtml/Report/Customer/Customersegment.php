@@ -225,7 +225,7 @@ class Customersegment
             $this->_layoutServices->loadLayout();
             $content = $this->_layoutServices->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
+            $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
         } else {
             $this->_redirect('adminhtml/*/detail', array('_current' => true));
             return ;
@@ -243,7 +243,7 @@ class Customersegment
             $fileName = 'customersegment_customers.csv';
             $content = $this->_layoutServices->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
+            $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
         } else {
             $this->_redirect('adminhtml/*/detail', array('_current' => true));
             return ;

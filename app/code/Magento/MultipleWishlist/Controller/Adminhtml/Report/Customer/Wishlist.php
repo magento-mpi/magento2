@@ -42,7 +42,6 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_backendAuthSession = $backendAuthSession;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**
@@ -93,7 +92,10 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_layoutServices->loadLayout();
         $fileName = 'customer_wishlists.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
+        $exportBlock =
+            $this->_layoutServices
+                ->getLayout()
+                ->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
