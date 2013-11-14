@@ -36,7 +36,7 @@ class Read implements ReadInterface
     /**
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct($path, $utils)
     {
         $this->path = $path;
         $this->open();
@@ -50,9 +50,13 @@ class Read implements ReadInterface
     protected function open()
     {
         $this->assertValid();
-        $this->resource = fopen($this->path, $this->mode);
-        if ($this->resource === false) {
-            throw new FilesystemException(sprintf('The file "%s" cannot be opened', $this->path));
+        $this->resource = @fopen($this->path, $this->mode);
+
+        if (!$this->resource) {
+            throw new FilesystemException(sprintf('The file "%s" cannot be opened. Additional information (%s)',
+                $this->path,
+                $this->_getWarningMessage()
+            ));
         }
     }
 
@@ -65,7 +69,7 @@ class Read implements ReadInterface
     {
         clearstatcache();
 
-        if (!file_exists($this->path)) {
+        if (!$this->utils->isExist($this->path)) {
             throw new FilesystemException(sprintf('The file "%s" doesn\'t exist', $this->path));
         }
     }
@@ -135,5 +139,22 @@ class Read implements ReadInterface
     public function close()
     {
         return fclose($this->resource);
+    }
+
+    /**
+     * Check a file or directory exists
+     *
+     * @param null $path
+     * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    protected function isExist($path = null)
+    {
+        clearstatcache();
+        $result = @file_exists($this->getAbsolutePath($path));
+        if ($result === null) {
+            throw new FilesystemException($this->_getWarningMessage());
+        }
+        return $result;
     }
 }

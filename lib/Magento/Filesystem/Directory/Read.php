@@ -33,6 +33,23 @@ class Read implements ReadInterface
     }
 
     /**
+     * Returns last warning message string
+     *
+     * @return string
+     */
+    protected function _getWarningMessage()
+    {
+        $errorMessage = 'Warning!';
+        $warning = error_get_last();
+        if ($warning && $warning['type'] == E_WARNING) {
+            $errorMessage .= $warning['message'];
+        } else {
+            $errorMessage .= 'Unexpected functions result';
+        }
+        return $errorMessage;
+    }
+
+    /**
      * @param string $path
      * @return string
      */
@@ -97,7 +114,6 @@ class Read implements ReadInterface
     public function search($pattern)
     {
         clearstatcache();
-
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
         $iterator = new \RegexIterator(
             new \RecursiveIteratorIterator(
@@ -135,12 +151,16 @@ class Read implements ReadInterface
      *
      * @param string $path
      * @return array
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function stat($path)
     {
         $this->assertExist($path);
-
-        return stat($this->getAbsolutePath($path));
+        $result = @stat($this->getAbsolutePath($path));
+        if ($result === null) {
+            throw new FilesystemException($this->_getWarningMessage());
+        }
+        return $result;
     }
 
     /**
@@ -148,12 +168,50 @@ class Read implements ReadInterface
      *
      * @param string $path
      * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function isReadable($path)
     {
         clearstatcache();
+        $result = @is_readable($this->getAbsolutePath($path));
+        if ($result === null) {
+            throw new FilesystemException($this->_getWarningMessage());
+        }
+        return $result;
+    }
 
-        return is_readable($this->getAbsolutePath($path));
+    /**
+     * Tells whether the filename is a regular file
+     *
+     * @param string $path
+     * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function isFile($path)
+    {
+        clearstatcache();
+        $result = @is_file($this->getAbsolutePath($path));
+        if ($result === null) {
+            throw new FilesystemException($this->_getWarningMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * Tells whether the filename is a regular directory
+     *
+     * @param string $path
+     * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function isDirectory($path)
+    {
+        clearstatcache();
+        $result = @is_dir($this->getAbsolutePath($path));
+        if ($result === null) {
+            throw new FilesystemException($this->_getWarningMessage());
+        }
+        return $result;
     }
 
     /**
@@ -176,30 +234,12 @@ class Read implements ReadInterface
      */
     public function readFile($path)
     {
-        $absolutePath = $this->getAbsolutePath($path);
         clearstatcache();
-        if (is_file($absolutePath) === false) {
-            throw new FilesystemException(
-                sprintf('The file "%s" either doesn\'t exist or not a file', $absolutePath)
-            );
+        $result = @file_get_contents($this->getAbsolutePath($path));
+        if (!$result) {
+            // @todo add message
+            throw new FilesystemException($this->_getWarningMessage());
         }
-        return file_get_contents($absolutePath);
-    }
-
-    /**
-     * Returns last warning message string
-     *
-     * @return string
-     */
-    protected function _getWarningMessage()
-    {
-        $errorMessage = 'Warning!';
-        $warning = error_get_last();
-        if ($warning) {
-            $errorMessage .= $warning['message'];
-        } else {
-            $errorMessage .= 'Unknown message';
-        }
-        return $errorMessage;
+        return $result;
     }
 }
