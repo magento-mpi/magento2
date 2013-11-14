@@ -201,7 +201,7 @@ class Template extends AbstractBlock
 
         if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::APP))
                 || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::THEMES))
-                || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
+                || $this->isAllowSymlinks()) && $this->_filesystem->isFile($fileName)
         ) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
             $templateEngine = $this->_tplEngineFactory->get($extension);
