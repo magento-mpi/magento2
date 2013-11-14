@@ -75,10 +75,10 @@ class Customer extends \Magento\Backend\App\Action
             $model = $this->_initEntity();
             $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($model->getCustomerId());
 
-            $this->_title->add(__('Customers'))
-                ->_title->add(__('Customers'))
-                ->_title->add($customer->getName())
-                ->_title->add(__("Edit '%1' Gift Registry", $model->getTitle()));
+            $this->_title->add(__('Customers'));
+            $this->_title->add(__('Customers'));
+            $this->_title->add($customer->getName());
+            $this->_title->add(__("Edit '%1' Gift Registry", $model->getTitle()));
 
             $this->_layoutServices->loadLayout()->renderLayout();
         } catch (\Magento\Core\Exception $e) {

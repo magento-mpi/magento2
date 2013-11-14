@@ -51,7 +51,8 @@ class Edit extends \Magento\Sales\Controller\Adminhtml\Order\Create
      */
     public function indexAction()
     {
-        $this->_title->add(__('Orders'))->add(__('Edit Order'));
+        $this->_title->add(__('Orders'));
+        $this->_title->add(__('Edit Order'));
         $this->_layoutServices->loadLayout();
 
         $this->_initSession()

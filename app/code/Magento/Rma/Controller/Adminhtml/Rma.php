@@ -170,9 +170,9 @@ class Rma extends \Magento\Backend\App\Action
     {
         $this->_initCreateModel();
 
-        $this->_initAction()
-            ->_title->add(__('New Return'))
-            ->renderLayout();
+        $this->_initAction();
+        $this->_title->add(__('New Return'));
+        $this->_layoutServices->renderLayout();
     }
 
     /**

@@ -35,9 +35,9 @@ class Import extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_title->add(__('Import/Export'))
-            ->loadLayout()
-            ->_setActiveMenu('Magento_ImportExport::system_convert_import');
+        $this->_title->add(__('Import/Export'));
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_ImportExport::system_convert_import');
         return $this;
     }
 
@@ -58,7 +58,9 @@ class Import extends \Magento\Backend\App\Action
     {
         $this->_getSession()->addNotice($this->_objectManager->get('Magento\ImportExport\Helper\Data')
             ->getMaxUploadSizeMessage());
-        $this->_initAction()->_title->add(__('Import'))->_addBreadcrumb(__('Import'), __('Import'));
+        $this->_initAction();
+        $this->_title->add(__('Import'));
+        $this->_addBreadcrumb(__('Import'), __('Import'));
         $this->_layoutServices->renderLayout();
     }
 

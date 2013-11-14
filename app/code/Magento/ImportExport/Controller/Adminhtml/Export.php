@@ -43,9 +43,9 @@ class Export extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_title->add(__('Import/Export'))
-            ->loadLayout()
-            ->_setActiveMenu('Magento_ImportExport::system_convert_export');
+        $this->_title->add(__('Import/Export'));
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_ImportExport::system_convert_export');
 
         return $this;
     }
@@ -97,9 +97,9 @@ class Export extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_initAction()
-            ->_title->add(__('Export'))
-            ->_addBreadcrumb(__('Export'), __('Export'));
+        $this->_initAction();
+        $this->_title->add(__('Export'));
+        $this->_addBreadcrumb(__('Export'), __('Export'));
 
         $this->_layoutServices->renderLayout();
     }

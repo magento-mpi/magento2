@@ -93,8 +93,8 @@ class Transactions extends \Magento\Backend\App\Action
         if (!$txn) {
             return;
         }
-        $this->_title->add(__('Transactions'))
-             ->_title->add(sprintf("#%s", $txn->getTxnId()));
+        $this->_title->add(__('Transactions'));
+        $this->_title->add(sprintf("#%s", $txn->getTxnId()));
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_transactions');

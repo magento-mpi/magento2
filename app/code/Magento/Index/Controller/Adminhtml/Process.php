@@ -88,10 +88,9 @@ class Process extends \Magento\Backend\App\Action
         $process = $this->_initProcess();
         if ($process) {
             $this->_title->add($process->getIndexCode());
-
-            $this->_title->add(__('System'))
-                 ->_title->add(__('Index Management'))
-                 ->_title->add(__($process->getIndexer()->getName()));
+            $this->_title->add(__('System'));
+            $this->_title->add(__('Index Management'));
+            $this->_title->add(__($process->getIndexer()->getName()));
 
             $this->_coreRegistry->register('current_index_process', $process);
             $this->_layoutServices->loadLayout();

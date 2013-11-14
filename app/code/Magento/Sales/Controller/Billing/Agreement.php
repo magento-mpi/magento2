@@ -84,8 +84,8 @@ class Agreement extends \Magento\App\Action\Action
         if (!$agreement = $this->_initAgreement()) {
             return;
         }
-        $this->_title->add(__('Billing Agreements'))
-            ->_title->add(__('Billing Agreement # %1', $agreement->getReferenceId()));
+        $this->_title->add(__('Billing Agreements'));
+        $this->_title->add(__('Billing Agreement # %1', $agreement->getReferenceId()));
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
         $navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation');

@@ -66,8 +66,8 @@ class Agreement extends \Magento\Backend\App\Action
         $agreementModel = $this->_initBillingAgreement();
 
         if ($agreementModel) {
-            $this->_title->add(__('Billing Agreements'))
-                ->_title->add(sprintf("#%s", $agreementModel->getReferenceId()));
+            $this->_title->add(__('Billing Agreements'));
+            $this->_title->add(sprintf("#%s", $agreementModel->getReferenceId()));
 
             $this->_layoutServices->loadLayout();
             $this->_setActiveMenu('Magento_Sales::sales_billing_agreement');

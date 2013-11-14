@@ -70,8 +70,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_title->add(__('URL Redirects'))
-            ->_title->add(__('[New/Edit] URL Redirect'));
+        $this->_title->add(__('URL Redirects'));
+        $this->_title->add(__('[New/Edit] URL Redirect'));
 
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');

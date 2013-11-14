@@ -43,10 +43,10 @@ class Profile extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title->add(__('Recurring Billing Profiles'))
-            ->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_recurring_profile')
-            ->renderLayout();
+        $this->_title->add(__('Recurring Billing Profiles'));
+        $this->_layoutServices->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_recurring_profile');
+        $this->_layoutServices->renderLayout();
         return $this;
     }
 
@@ -59,9 +59,9 @@ class Profile extends \Magento\Backend\App\Action
             $this->_title->add(__('Recurring Billing Profiles'));
             $profile = $this->_initProfile();
             $this->_layoutServices->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_recurring_profile')
-                ->_title->add(__('Profile #%1', $profile->getReferenceId()))
-                ->renderLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_recurring_profile');
+            $this->_title->add(__('Profile #%1', $profile->getReferenceId()));
+            $this->_layoutServices->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());

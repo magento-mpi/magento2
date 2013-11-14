@@ -324,8 +324,8 @@ class Create extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_title->add(__('Orders'))
-           ->add(__('New Order'));
+        $this->_title->add(__('Orders'));
+        $this->_title->add(__('New Order'));
         $this->_initSession();
         $this->_layoutServices->loadLayout();
 

@@ -46,9 +46,9 @@ class Operation extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         try {
-            $this->_title->add(__('Scheduled Imports/Exports'))
-                ->loadLayout()
-                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
+            $this->_title->add(__('Scheduled Imports/Exports'));
+            $this->_layoutServices->loadLayout();
+            $this->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
             $this->_redirect('adminhtml/scheduled_operation/index');
@@ -86,7 +86,8 @@ class Operation extends \Magento\Backend\App\Action
     public function newAction()
     {
         $operationType = $this->getRequest()->getParam('type');
-        $this->_initAction()->_title->add(
+        $this->_initAction();
+        $this->_title->add(
             $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
                 ->getOperationHeaderText($operationType, 'new')
         );
