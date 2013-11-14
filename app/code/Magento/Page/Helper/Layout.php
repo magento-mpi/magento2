@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Helper;
 
-class Layout extends \Magento\Core\Helper\AbstractHelper
+class Layout extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\View\LayoutInterface

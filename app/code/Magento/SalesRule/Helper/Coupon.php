@@ -17,7 +17,7 @@
  */
 namespace Magento\SalesRule\Helper;
 
-class Coupon extends \Magento\Core\Helper\AbstractHelper
+class Coupon extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Constants which defines all possible coupon codes formats

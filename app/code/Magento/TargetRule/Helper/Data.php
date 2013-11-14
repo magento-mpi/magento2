@@ -17,7 +17,7 @@
  */
 namespace Magento\TargetRule\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_TARGETRULE_CONFIG    = 'catalog/magento_targetrule/';
 

@@ -13,7 +13,7 @@
  */
 namespace Magento\Cms\Helper\Wysiwyg;
 
-class Images extends \Magento\Core\Helper\AbstractHelper
+class Images extends \Magento\App\Helper\AbstractHelper
 {
 
     /**

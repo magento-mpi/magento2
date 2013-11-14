@@ -11,7 +11,7 @@
  */
 namespace Magento\Backup\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Backup type constant for database backup

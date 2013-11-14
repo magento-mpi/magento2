@@ -17,7 +17,7 @@
 
 namespace Magento\CatalogPermissions\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';

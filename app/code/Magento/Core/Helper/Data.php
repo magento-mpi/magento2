@@ -13,7 +13,7 @@ namespace Magento\Core\Helper;
 /**
  * Core data helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';

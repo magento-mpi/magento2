@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Helper;
 
-class Page extends \Magento\Core\Helper\AbstractHelper
+class Page extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_NO_ROUTE_PAGE        = 'web/default/cms_no_route';
     const XML_PATH_NO_COOKIES_PAGE      = 'web/default/cms_no_cookies';

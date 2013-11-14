@@ -13,7 +13,7 @@ namespace Magento\Search\Helper;
 /**
  * Enterprise search helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
+class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation

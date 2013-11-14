@@ -90,7 +90,7 @@ class ListBlock extends \Magento\View\Block\Template
      * @param string $label
      * @param array $param
      * @param bool $customerGroup
-     * @return  \Magento\Core\Helper\AbstractHelper
+     * @return  \Magento\App\Helper\AbstractHelper
      */
     public function addRssFeed($url, $label, $param = array(), $customerGroup = false)
     {

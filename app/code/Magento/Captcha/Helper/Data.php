@@ -17,7 +17,7 @@
  */
 namespace Magento\Captcha\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Used for "name" attribute of captcha's input field

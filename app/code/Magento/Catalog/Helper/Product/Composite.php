@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-class Composite extends \Magento\Core\Helper\AbstractHelper
+class Composite extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Core registry

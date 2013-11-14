@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Helper\File\Storage;
 
-class Database extends \Magento\Core\Helper\AbstractHelper
+class Database extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Database storage model
@@ -56,7 +56,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     protected $_dbStorageFactory;
 
     /**
-     * @var \Magento\Core\Model\File\Storage\File\Proxy
+     * @var \Magento\Core\Model\File\Storage\File
      */
     protected $_fileStorage;
 

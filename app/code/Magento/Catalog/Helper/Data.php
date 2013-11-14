@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const PRICE_SCOPE_GLOBAL               = 0;
     const PRICE_SCOPE_WEBSITE              = 1;

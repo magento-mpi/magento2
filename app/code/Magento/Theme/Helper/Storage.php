@@ -13,7 +13,7 @@
  */
 namespace Magento\Theme\Helper;
 
-class Storage extends \Magento\Core\Helper\AbstractHelper
+class Storage extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Parameter name of node

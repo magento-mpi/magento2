@@ -13,7 +13,7 @@ namespace Magento\Customer\Helper;
 /**
  * Customer Data Helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Query param name for last url visited

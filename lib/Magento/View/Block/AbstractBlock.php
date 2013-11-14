@@ -787,7 +787,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Return helper object
      *
      * @param string $name
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @return \Magento\App\Helper\AbstractHelper
      */
     public function helper($name)
     {

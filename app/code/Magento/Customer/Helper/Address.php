@@ -15,7 +15,7 @@
  */
 namespace Magento\Customer\Helper;
 
-class Address extends \Magento\Core\Helper\AbstractHelper
+class Address extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * VAT Validation parameters XML paths

@@ -13,7 +13,7 @@
  */
 namespace Magento\Eav\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * XML path to input types validator data in config

@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Helper\Adminhtml;
 
-class Event extends \Magento\Core\Helper\AbstractHelper
+class Event extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Categories first and second level for admin

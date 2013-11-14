@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Helper;
 
-class Js extends \Magento\Core\Helper\AbstractHelper
+class Js extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Array of sentences of JS translations

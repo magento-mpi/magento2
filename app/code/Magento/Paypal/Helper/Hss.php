@@ -11,7 +11,7 @@
  */
 namespace Magento\Paypal\Helper;
 
-class Hss extends \Magento\Core\Helper\AbstractHelper
+class Hss extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Hosted Sole Solution methods

@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogEvent\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogevent/enabled';
 

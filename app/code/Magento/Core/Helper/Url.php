@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Helper;
 
-class Url extends \Magento\Core\Helper\AbstractHelper
+class Url extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface

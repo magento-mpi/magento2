@@ -232,7 +232,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param Factory\HelperFactory $factoryHelper
+     * @param \Magento\App\Helper\HelperFactory $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\DesignInterface $design
      * @param BlockFactory $blockFactory
@@ -1539,7 +1539,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $type
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @return \Magento\App\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)
     {

@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Helper;
 
-class Output extends \Magento\Core\Helper\AbstractHelper
+class Output extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Array of existing handlers

@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'promo/magento_reminder/enabled';
     const XML_PATH_SEND_LIMIT = 'promo/magento_reminder/limit';

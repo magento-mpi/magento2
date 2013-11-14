@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
     const XML_PATH_SEND_LIMIT = 'magento_giftregistry/sharing_email/send_limit';

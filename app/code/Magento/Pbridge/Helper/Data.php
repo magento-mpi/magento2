@@ -18,7 +18,7 @@
  */
 namespace Magento\Pbridge\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form

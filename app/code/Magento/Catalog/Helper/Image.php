@@ -15,7 +15,7 @@
  */
 namespace Magento\Catalog\Helper;
 
-class Image extends \Magento\Core\Helper\AbstractHelper
+class Image extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Current model

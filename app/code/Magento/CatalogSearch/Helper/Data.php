@@ -13,7 +13,7 @@ namespace Magento\CatalogSearch\Helper;
 /**
  * Catalog search helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Query variable

@@ -13,7 +13,7 @@ namespace Magento\Backend\Helper;
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
 

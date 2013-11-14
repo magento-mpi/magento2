@@ -15,7 +15,7 @@
  */
 namespace Magento\Rss\Helper;
 
-class Order extends \Magento\Core\Helper\AbstractHelper
+class Order extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Core\Model\Store\Config

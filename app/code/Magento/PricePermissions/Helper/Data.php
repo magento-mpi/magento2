@@ -17,7 +17,7 @@
  */
 namespace Magento\PricePermissions\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Path to edit_product_price node in ACL

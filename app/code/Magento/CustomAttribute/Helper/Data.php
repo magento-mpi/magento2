@@ -17,7 +17,7 @@
  */
 namespace Magento\CustomAttribute\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Array of User Defined attribute codes per entity type code

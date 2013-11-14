@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Helper;
 
-class Hierarchy extends \Magento\Core\Helper\AbstractHelper
+class Hierarchy extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';

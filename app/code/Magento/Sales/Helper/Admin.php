@@ -10,7 +10,7 @@
 
 namespace Magento\Sales\Helper;
 
-class Admin extends \Magento\Core\Helper\AbstractHelper
+class Admin extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Sales\Model\Config

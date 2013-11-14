@@ -18,7 +18,7 @@
  */
 namespace Magento\Sendfriend\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED          = 'sendfriend/email/enabled';
     const XML_PATH_ALLOW_FOR_GUEST  = 'sendfriend/email/allow_guest';

@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Helper;
 
-class Cookie extends \Magento\Core\Helper\AbstractHelper
+class Cookie extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Cookie name for users who allowed cookie save

@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Helper;
 
-class Robots extends \Magento\Core\Helper\AbstractHelper
+class Robots extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
 

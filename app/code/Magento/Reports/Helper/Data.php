@@ -13,7 +13,7 @@
  */
 namespace Magento\Reports\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const REPORT_PERIOD_TYPE_DAY    = 'day';
     const REPORT_PERIOD_TYPE_MONTH  = 'month';

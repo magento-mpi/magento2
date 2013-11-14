@@ -13,7 +13,7 @@ namespace Magento\Core\Helper\File;
 /**
  * Class Media
  */
-class Media extends \Magento\Core\Helper\AbstractHelper
+class Media extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Core\Model\Date

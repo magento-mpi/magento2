@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Helper;
 
-class Catalog extends \Magento\Core\Helper\AbstractHelper
+class Catalog extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Config path to valid file paths

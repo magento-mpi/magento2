@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Xml path google experiments enabled

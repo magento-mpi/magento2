@@ -13,7 +13,7 @@ namespace Magento\Review\Helper;
 /**
  * Default review helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_REVIEW_GUETS_ALLOW = 'catalog/review/allow_guest';
 

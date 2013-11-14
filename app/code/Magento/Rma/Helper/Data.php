@@ -13,7 +13,7 @@
  */
 namespace Magento\Rma\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Variable to contain country model

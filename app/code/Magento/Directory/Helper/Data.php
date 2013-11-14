@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Config value that lists ISO2 country codes which have optional Zip/Postal pre-configured

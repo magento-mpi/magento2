@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Helper\File;
 
-class Storage extends \Magento\Core\Helper\AbstractHelper
+class Storage extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Current storage code

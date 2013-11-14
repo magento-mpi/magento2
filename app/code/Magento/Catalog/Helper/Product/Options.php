@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-class Options extends \Magento\Core\Helper\AbstractHelper
+class Options extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Filesystem

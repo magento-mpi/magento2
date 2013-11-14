@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Helper;
+namespace Magento\App\Helper;
 
 /**
  * Abstract helper

@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Helper\Flat;
 
-abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
+abstract class AbstractFlat extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Catalog Flat index process code

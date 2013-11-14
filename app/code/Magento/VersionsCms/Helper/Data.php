@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Array of admin users in system

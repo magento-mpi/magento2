@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Helper;
 
-class Translate extends \Magento\Core\Helper\AbstractHelper
+class Translate extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Design package instance

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * XML configuration paths

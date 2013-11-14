@@ -15,7 +15,7 @@
  */
 namespace Magento\Review\Helper\Action;
 
-class Pager extends \Magento\Core\Helper\AbstractHelper
+class Pager extends \Magento\App\Helper\AbstractHelper
 {
     const STORAGE_PREFIX = 'search_result_ids';
 

@@ -13,7 +13,7 @@ namespace Magento\Downloadable\Helper;
 /**
  * Downloadable Products Download Helper
  */
-class Download extends \Magento\Core\Helper\AbstractHelper
+class Download extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Link type url

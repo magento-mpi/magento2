@@ -22,7 +22,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Helper object.
      *
-     * @var \Magento\Core\Helper\AbstractHelper
+     * @var \Magento\App\Helper\AbstractHelper
      */
     protected $_helper;
 

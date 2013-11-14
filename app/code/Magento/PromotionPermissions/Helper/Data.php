@@ -17,7 +17,7 @@
  */
 namespace Magento\PromotionPermissions\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Path to node in ACL that specifies edit permissions for catalog rules

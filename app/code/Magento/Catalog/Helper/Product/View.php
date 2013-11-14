@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-class View extends \Magento\Core\Helper\AbstractHelper
+class View extends \Magento\App\Helper\AbstractHelper
 {
     // List of exceptions throwable during prepareAndRender() method
     public $ERR_NO_PRODUCT_LOADED = 1;

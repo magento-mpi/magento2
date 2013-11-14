@@ -15,7 +15,7 @@ namespace Magento\Catalog\Helper\Product;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Configuration extends \Magento\Core\Helper\AbstractHelper
+class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**

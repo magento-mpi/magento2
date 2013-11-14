@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Helper;
 
-class Theme extends \Magento\Core\Helper\AbstractHelper
+class Theme extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Directories

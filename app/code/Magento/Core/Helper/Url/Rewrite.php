@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Helper\Url;
 
-class Rewrite extends \Magento\Core\Helper\AbstractHelper
+class Rewrite extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Validation error constants

@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Gift wrapping allow section in configuration

@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Helper;
 
-class File extends \Magento\Core\Helper\AbstractHelper
+class File extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Core file storage database

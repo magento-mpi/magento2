@@ -13,7 +13,7 @@
  */
 namespace Magento\PersistentHistory\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_PERSIST_WISHLIST             = 'persistent/options/wishlist';
     const XML_PATH_PERSIST_ORDERED_ITEMS        = 'persistent/options/recently_ordered';
