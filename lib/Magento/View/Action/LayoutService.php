@@ -26,7 +26,7 @@ class LayoutService implements LayoutServiceInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
 
@@ -56,7 +56,7 @@ class LayoutService implements LayoutServiceInterface
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\TranslateInterface $translator
      * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
@@ -65,7 +65,7 @@ class LayoutService implements LayoutServiceInterface
         \Magento\App\ResponseInterface $response,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Translate $translator,
+        \Magento\TranslateInterface $translator,
         \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_layout = $layout;
