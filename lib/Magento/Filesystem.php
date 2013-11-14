@@ -222,6 +222,28 @@ class Filesystem
     }
 
     /**
+     * Retrieve path for directory
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getPath($code)
+    {
+        $config = $this->config->get($code);
+        return isset($config['path']) ? $config['path'] : '';
+    }
+
+    /**
+     * @param string $code
+     * @return string
+     */
+    public function getUri($code)
+    {
+        $config = $this->config->get($code);
+        return isset($config['uri']) ? $config['uri'] : '';
+    }
+
+    /**
      * Sets working directory to restrict operations with filesystem.
      *
      * @param string $dir
