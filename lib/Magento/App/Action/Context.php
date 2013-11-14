@@ -30,17 +30,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Session\AbstractSession
-     */
-    protected $_session;
-
-    /**
      * @var \Magento\UrlInterface
      */
     protected $_url;
 
     /**
-     * @var \Magento\App\Request\Redirect
+     * @var \Magento\App\Response\RedirectInterface
      */
     protected $_redirect;
 
@@ -58,11 +53,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\FrontController $frontController
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\UrlInterface $url
-     * @param \Magento\App\Request\Redirect $redirect
+     * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      */
@@ -70,11 +63,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\FrontController $frontController,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\UrlInterface $url,
-        \Magento\App\Request\Redirect $redirect,
+        \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\View\Action\LayoutServiceInterface $layoutService
     ) {
@@ -82,7 +73,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
-        $this->_session = $session;
         $this->_url = $url;
         $this->_redirect = $redirect;
         $this->_actionFlag = $actionFlag;
@@ -122,7 +112,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\App\Request\Redirect
+     * @return \Magento\App\Response\RedirectInterface
      */
     public function getRedirect()
     {
@@ -143,14 +133,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getResponse()
     {
         return $this->_response;
-    }
-
-    /**
-     * @return \Magento\Core\Model\Session\AbstractSession
-     */
-    public function getSession()
-    {
-        return $this->_session;
     }
 
     /**

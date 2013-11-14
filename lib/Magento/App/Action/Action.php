@@ -44,7 +44,7 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_actionFlag;
 
     /**
-     * @var \Magento\App\Request\Redirect
+     * @var \Magento\App\Response\RedirectInterface
      */
     protected $_redirect;
 
@@ -54,12 +54,7 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_layoutServices;
 
     /**
-     * @var \Magento\Core\Model\Session\AbstractSession
-     */
-    protected $_session;
-
-    /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
@@ -69,10 +64,8 @@ class Action extends \Magento\App\Action\AbstractAction
     public function __construct(\Magento\App\Action\Context $context)
     {
         parent::__construct($context->getRequest(), $context->getResponse());
-
         $this->_objectManager     = $context->getObjectManager();
         $this->_eventManager      = $context->getEventManager();
-        $this->_session           = $context->getSession();
         $this->_url               = $context->getUrl();
         $this->_actionFlag        = $context->getActionFlag();
         $this->_redirect          = $context->getRedirect();
@@ -158,17 +151,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     protected function _redirect($path, $arguments = array())
     {
-        if ($this->_session->getCookieShouldBeReceived()
-            && $this->_url->getUseSession()
-            && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
-        ) {
-            $arguments += array('_query' => array(
-                $this->_session->getSessionIdQueryParam() => $this->_session->getSessionId()
-            ));
-        }
-        $this->getResponse()->setRedirect(
-            $this->_url->getUrl($path, $arguments)
-        );
+        $this->_redirect->redirect($this->getResponse(), $path, $arguments);
         return $this;
     }
 }

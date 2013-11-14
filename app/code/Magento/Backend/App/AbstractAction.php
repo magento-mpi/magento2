@@ -100,6 +100,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->_title = $context->getTitle();
         $this->_locale = $context->getLocale();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
+        $this->_session = $context->getSession();
     }
 
     protected function _isAllowed()

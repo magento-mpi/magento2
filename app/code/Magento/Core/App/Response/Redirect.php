@@ -1,48 +1,76 @@
 <?php
 /**
- * Request redirector
+ * Response redirector
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Request;
+namespace Magento\Core\App\Response;
 
-class Redirect
+class Redirect implements \Magento\App\Response\RedirectInterface
 {
-    const PARAM_NAME_REFERER_URL        = 'referer_url';
-    const PARAM_NAME_ERROR_URL          = 'error_url';
-    const PARAM_NAME_SUCCESS_URL        = 'success_url';
-
-    /** @var \Magento\App\RequestInterface */
+    /**
+     * @var \Magento\App\RequestInterface
+     */
     protected $_request;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
     protected $_storeManager;
 
-    /** @var \Magento\Encryption\UrlCoder */
+    /**
+     * @var \Magento\Encryption\UrlCoder
+     */
     protected $_urlCoder;
 
-    /** @var \Magento\HTTP\Url */
+    /**
+     * @var \Magento\HTTP\Url
+     */
     protected $_url;
+
+    /**
+     * @var \Magento\Core\Model\Session\AbstractSession
+     */
+    protected $_session;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseSessionIdInParam;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_urlBuilder;
 
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param \Magento\HTTP\Url $url
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\Url $urlBuilder
+     * @param bool $canUseSessionIdInParam
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Encryption\UrlCoder $urlCoder,
-        \Magento\HTTP\Url $url
+        \Magento\HTTP\Url $url,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\Url $urlBuilder,
+        $canUseSessionIdInParam = true
     ) {
+        $this->_canUseSessionIdInParam = $canUseSessionIdInParam;
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_urlCoder = $urlCoder;
         $this->_url = $url;
+        $this->_session = $session;
+        $this->_urlBuilder = $urlBuilder;
     }
 
     /**
@@ -131,5 +159,25 @@ class Redirect
             $successUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $successUrl;
+    }
+
+    /**
+     * Set redirect into response
+     *
+     * @param \Magento\App\ResponseInterface $response
+     * @param string $path
+     * @param array $arguments
+     */
+    public function redirect(\Magento\App\ResponseInterface $response, $path, $arguments = array())
+    {
+        if ($this->_session->getCookieShouldBeReceived()
+            && $this->_urlBuilder->getUseSession()
+            && $this->_canUseSessionIdInParam
+        ) {
+            $arguments += array('_query' => array(
+                $this->_session->getSessionIdQueryParam() => $this->_session->getSessionId()
+            ));
+        }
+        $response->setRedirect($this->_urlBuilder->getUrl($path, $arguments));
     }
 }

@@ -125,4 +125,9 @@
         <plugin name="adminStore" type="Magento\Backend\App\Action\Plugin\Store" sortOrder="10" />
         <plugin name="adminMassactionKey" type="Magento\Backend\App\Action\Plugin\MassactionKey" sortOrder="11" />
     </type>
+    <type name="Magento\Core\App\Response\Redirect">
+        <param name="canUseSessionIdInParam">
+            <value type="bool">false</value>
+        </param>
+    </type>
 </config>

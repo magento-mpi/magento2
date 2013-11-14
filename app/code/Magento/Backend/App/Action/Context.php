@@ -56,14 +56,18 @@ class Context extends \Magento\App\Action\Context
     protected $_canUseBaseUrl;
 
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_session;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\FrontController $frontController
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\UrlInterface $url
-     * @param \Magento\App\Request\Redirect $redirect
+     * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      * @param \Magento\AuthorizationInterface $authorization
@@ -79,11 +83,10 @@ class Context extends \Magento\App\Action\Context
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\FrontController $frontController,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Session $session,
         \Magento\UrlInterface $url,
-        \Magento\App\Request\Redirect $redirect,
+        \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\View\Action\LayoutServiceInterface $layoutService,
         \Magento\AuthorizationInterface $authorization,
@@ -99,15 +102,13 @@ class Context extends \Magento\App\Action\Context
             $request,
             $response,
             $objectManager,
-            $frontController,
             $eventManager,
-            $session,
             $url,
             $redirect,
             $actionFlag,
             $layoutService
         );
-
+        $this->_session = $session;
         $this->_authorization = $authorization;
         $this->_auth = $auth;
         $this->_helper = $helper;
@@ -180,5 +181,13 @@ class Context extends \Magento\App\Action\Context
     public function getTitle()
     {
         return $this->_title;
+    }
+
+    /**
+     * @return \Magento\Backend\Model\Session
+     */
+    public function getSession()
+    {
+        return $this->_session;
     }
 }
