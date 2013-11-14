@@ -75,8 +75,11 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * Construct
-     *
+     * @var \Magento\View\Action\LayoutServiceInterface
+     */
+    protected $_layoutService;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Session\Pool $sessionFactory
      * @param \Magento\Cms\Model\Page $page
@@ -86,6 +89,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Escaper $escaper
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -96,10 +100,11 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Escaper $escaper
+        \Magento\Escaper $escaper,
+        \Magento\View\Action\LayoutServiceInterface $layoutService
     ) {
         $this->_sessionPool = $sessionFactory;
-        // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
+        $this->_layoutService = $layoutService;
         $this->_page = $page;
         $this->_pageLayout = $pageLayout;
         $this->_design = $design;
@@ -135,9 +140,9 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected function _renderPage(\Magento\App\Action\Action  $action, $pageId = null, $renderLayout = true)
     {
         if (!is_null($pageId) && $pageId!==$this->_page->getId()) {
-            $delimeterPosition = strrpos($pageId, '|');
-            if ($delimeterPosition) {
-                $pageId = substr($pageId, 0, $delimeterPosition);
+            $delimiterPosition = strrpos($pageId, '|');
+            if ($delimiterPosition) {
+                $pageId = substr($pageId, 0, $delimiterPosition);
             }
 
             $this->_page->setStoreId($this->_storeManager->getStore()->getId());
@@ -158,10 +163,10 @@ class Page extends \Magento\Core\Helper\AbstractHelper
                 $this->_design->setDesignTheme($this->_page->getCustomTheme());
             }
         }
-        $action->getLayout()->getUpdate()->addHandle('default')->addHandle('cms_page_view');
-        $action->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
+        $this->_layoutService->getLayout()->getUpdate()->addHandle('default')->addHandle('cms_page_view');
+        $this->_layoutService->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
 
-        $action->addActionLayoutHandles();
+        $this->_layoutService->addActionLayoutHandles();
         if ($this->_page->getRootTemplate()) {
             $handle = ($this->_page->getCustomRootTemplate()
                         && $this->_page->getCustomRootTemplate() != 'empty'
@@ -174,15 +179,15 @@ class Page extends \Magento\Core\Helper\AbstractHelper
             array('page' => $this->_page, 'controller_action' => $action)
         );
 
-        $action->loadLayoutUpdates();
+        $this->_layoutService->loadLayoutUpdates();
         $layoutUpdate = ($this->_page->getCustomLayoutUpdateXml() && $inRange)
             ? $this->_page->getCustomLayoutUpdateXml() : $this->_page->getLayoutUpdateXml();
         if (!empty($layoutUpdate)) {
-            $action->getLayout()->getUpdate()->addUpdate($layoutUpdate);
+            $this->_layoutService->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         }
-        $action->generateLayoutXml()->generateLayoutBlocks();
+        $this->_layoutService->generateLayoutXml()->generateLayoutBlocks();
 
-        $contentHeadingBlock = $action->getLayout()->getBlock('page_content_heading');
+        $contentHeadingBlock = $this->_layoutService->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {
             $contentHeading = $this->_escaper->escapeHtml($this->_page->getContentHeading());
             $contentHeadingBlock->setContentHeading($contentHeading);
@@ -193,7 +198,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         }
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
-        $messageBlock = $action->getLayout()->getMessagesBlock();
+        $messageBlock = $this->_layoutService->getLayout()->getMessagesBlock();
         $sessions = array(
             'Magento\Catalog\Model\Session',
             'Magento\Checkout\Model\Session',
@@ -208,7 +213,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         }
 
         if ($renderLayout) {
-            $action->renderLayout();
+            $this->_layoutService->renderLayout();
         }
 
         return true;

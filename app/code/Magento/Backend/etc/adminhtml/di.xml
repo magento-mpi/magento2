@@ -19,6 +19,7 @@
     <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider" />
     <preference for="Magento\App\DefaultPathInterface" type="Magento\Backend\App\DefaultPath" />
     <preference for="Magento\App\Response\Http\FileFactory" type="Magento\Backend\App\Response\Http\FileFactory" />
+    <preference for="Magento\View\Action\LayoutService" type="Magento\Backend\Model\View\Action\LayoutService" />
     <type name="Magento\Backend\App\Action\Context">
         <param name="helper">
             <instance type="Magento\Backend\Helper\Data" />

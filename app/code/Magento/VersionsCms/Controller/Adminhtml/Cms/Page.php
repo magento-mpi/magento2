@@ -98,7 +98,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
 
-        $this->_isLayoutLoaded = true;
+        $this->_layoutServices->setIsLayoutLoaded(true);
 
         return $this;
     }
@@ -107,7 +107,6 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      * Prepare and place cms page model into registry
      * with loaded data if id parameter present
      *
-     * @param string $idFieldName
      * @return \Magento\Cms\Model\Page
      */
     protected function _initPage()

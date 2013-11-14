@@ -52,6 +52,11 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_orderFactory;
 
     /**
+     * @var \Magento\View\Action\LayoutServiceInterface
+     */
+    protected $_layoutService;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -63,6 +68,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Cookie $coreCookie
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -77,6 +83,7 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Cookie $coreCookie,
         \Magento\Core\Model\Session $coreSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\View\Action\LayoutServiceInterface $layoutService,
         $dbCompatibleMode = true
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -84,6 +91,7 @@ class Guest extends \Magento\Core\Helper\Data
         $this->_coreCookie = $coreCookie;
         $this->_session = $coreSession;
         $this->_orderFactory = $orderFactory;
+        $this->_layoutService = $layoutService;
         parent::__construct(
             $context,
             $coreStoreConfig,
@@ -177,12 +185,10 @@ class Guest extends \Magento\Core\Helper\Data
 
     /**
      * Get Breadcrumbs for current controller action
-     *
-     * @param  \Magento\App\Action\Action $controller
      */
-    public function getBreadcrumbs($controller)
+    public function getBreadcrumbs()
     {
-        $breadcrumbs = $controller->getLayout()->getBlock('breadcrumbs');
+        $breadcrumbs = $this->_layoutService->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb(
             'home',
             array(

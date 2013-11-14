@@ -42,7 +42,7 @@ class Guest extends \Magento\App\Action\Action
             return;
         }
         $this->_layoutServices->loadLayout();
-        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
         $this->_layoutServices->renderLayout();
     }
 
@@ -72,7 +72,7 @@ class Guest extends \Magento\App\Action\Action
         }
 
         $this->_layoutServices->loadLayout();
-        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
         $this->_layoutServices->getLayout()
             ->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));

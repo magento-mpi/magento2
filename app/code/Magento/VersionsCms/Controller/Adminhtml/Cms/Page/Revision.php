@@ -17,11 +17,6 @@ class Revision
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var \Magento\Config\Scope
-     */
-    protected $_configScope;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -44,7 +39,6 @@ class Revision
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Config\Scope $configScope
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -61,7 +55,6 @@ class Revision
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Config\Scope $configScope,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -73,7 +66,6 @@ class Revision
         \Magento\Core\Model\Design $design,
         \Magento\App\Action\Title $title
     ) {
-        $this->_configScope = $configScope;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_cmsPage = $cmsPage;

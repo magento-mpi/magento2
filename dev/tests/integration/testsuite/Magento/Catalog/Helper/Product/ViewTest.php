@@ -28,6 +28,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $_controller;
 
+    /**
+     * @var \Magento\View\LayoutInterface
+     */
+    protected $_layout;
+
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -53,6 +58,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 'context'  => $context,
             )
         );
+
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\View\LayoutInterface');
     }
 
     /**
@@ -82,10 +90,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
 
         $this->_helper->initProductLayout($product, $this->_controller);
-        $rootBlock = $this->_controller->getLayout()->getBlock('root');
+        $rootBlock = $this->_layout->getBlock('root');
         $this->assertInstanceOf('Magento\Page\Block\Html', $rootBlock);
         $this->assertContains("product-{$uniqid}", $rootBlock->getBodyClass());
-        $handles = $this->_controller->getLayout()->getUpdate()->getHandles();
+        $handles = $this->_layout->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
     }
 
@@ -156,9 +164,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_helper->prepareAndRender(10, $this->_controller);
 
         // assert messages
-        $actualMessages = $this->_controller->getLayout()
-            ->getMessagesBlock()
-            ->getMessages();
+        $actualMessages = $this->_layout->getMessagesBlock()->getMessages();
         $this->assertSameSize($expectedMessages, $actualMessages);
 
         sort($expectedMessages);

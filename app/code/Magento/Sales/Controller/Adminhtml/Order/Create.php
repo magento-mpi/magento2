@@ -564,7 +564,7 @@ class Create extends \Magento\Backend\App\Action
 
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($this, $configureResult);
+            ->renderConfigureResult($configureResult);
 
         return $this;
     }
@@ -607,7 +607,7 @@ class Create extends \Magento\Backend\App\Action
 
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($this, $configureResult);
+            ->renderConfigureResult($configureResult);
 
         return $this;
     }

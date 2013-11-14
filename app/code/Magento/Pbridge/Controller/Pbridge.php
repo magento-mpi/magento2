@@ -31,7 +31,7 @@ class Pbridge extends \Magento\App\Action\Action
         $this->_layoutServices->loadLayoutUpdates();
         $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();
-        $this->_isLayoutLoaded = true;
+        $this->_layoutServices->setIsLayoutLoaded(true);
         return $this;
     }
 

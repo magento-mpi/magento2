@@ -58,7 +58,8 @@ class Images extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_initAction()->loadLayout('overlay_popup');
+        $this->_initAction();
+        $this->_layoutServices->loadLayout('overlay_popup');
         $block = $this->_layoutServices->getLayout()->getBlock('wysiwyg_images.js');
         if ($block) {
             $block->setStoreId($storeId);

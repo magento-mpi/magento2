@@ -1269,7 +1269,7 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
             $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
             /** @var $block \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod */
-            $block = $this->_layout->getBlockSingleton(
+            $block = $this->_layoutServices->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);
@@ -1280,8 +1280,7 @@ class Rma extends \Magento\Backend\App\Action
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(),
                 'application/pdf'
             );
-        }
-        else {
+        } else {
             $this->_forward('noroute');
         }
     }

@@ -12,7 +12,7 @@ interface LayoutServiceInterface
     /**
      * Load layout updates
      *
-     * @return \Magento\View\Action\LayoutServiceInterface
+     * @return $this
      */
     public function loadLayoutUpdates();
 
@@ -20,7 +20,7 @@ interface LayoutServiceInterface
      * Rendering layout
      *
      * @param   string $output
-     * @return  \Magento\View\Action\LayoutServiceInterface
+     * @return  $this
      */
     public function renderLayout($output = '');
 
@@ -45,7 +45,7 @@ interface LayoutServiceInterface
     /**
      * Generate layout xml
      *
-     * @return \Magento\View\Action\LayoutServiceInterface
+     * @return $this
      */
     public function generateLayoutXml();
 
@@ -60,21 +60,29 @@ interface LayoutServiceInterface
     /**
      * Generate layout blocks
      *
-     * @return \Magento\View\Action\LayoutServiceInterface
+     * @return $this
      */
     public function generateLayoutBlocks();
 
     /**
      * Retrieve current layout object
      *
-     * @return \Magento\View\LayoutInterface
+     * @return $this
      */
     public function getLayout();
 
     /**
      * Add layout handle by full controller action name
      *
-     * @return \Magento\App\ActionInterface
+     * @return $this
      */
     public function addActionLayoutHandles();
+
+    /**
+     * Set isLayoutLoaded flag
+     *
+     * @param bool $value
+     */
+    public function setIsLayoutLoaded($value);
+
 }

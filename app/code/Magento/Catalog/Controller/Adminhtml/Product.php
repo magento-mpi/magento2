@@ -1091,7 +1091,7 @@ class Product extends \Magento\Backend\App\Action
         if ($session->hasCompositeProductResult()
             && $session->getCompositeProductResult() instanceof \Magento\Object) {
             $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-                ->renderUpdateResult($this, $session->getCompositeProductResult());
+                ->renderUpdateResult($session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {
             $session->unsCompositeProductResult();

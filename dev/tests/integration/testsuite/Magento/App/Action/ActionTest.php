@@ -26,6 +26,11 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @var \Magento\View\LayoutInterface
+     */
+    protected $_layout;
+
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -48,6 +53,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Controller\Varien\Action',
             array('context' => $context)
         );
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\View\LayoutInterface');
     }
 
     public function testHasAction()
@@ -88,122 +95,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->setControllerName('controller')
             ->setActionName('action');
         $this->assertEquals('test/controller/action', $this->_object->getFullActionName('/'));
-    }
-
-    /**
-     * @param string $controllerClass
-     * @param string $expectedArea
-     * @dataProvider controllerAreaDesignDataProvider
-     * @magentoAppIsolation enabled
-     */
-    public function testGetLayout($controllerClass, $expectedArea)
-    {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea($expectedArea);
-
-        $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope($expectedArea);
-        /** @var $controller \Magento\App\Action\Action */
-        $controller = $this->_objectManager->create($controllerClass);
-        $this->assertInstanceOf('Magento\Core\Model\Layout', $controller->getLayout());
-        $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Layout must be loaded only once.
-     */
-    public function testLoadLayoutThrowsExceptionWhenCalledTwice()
-    {
-        $this->_object->loadLayout();
-        $this->assertContains('default', $this->_object->getLayout()->getUpdate()->getHandles());
-        $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $this->_object->getLayout()->getBlock('root'));
-        $this->_object->loadLayout('test');
-    }
-
-    /**
-     * @param string $route
-     * @param string $controller
-     * @param string $action
-     * @param array $expected
-     * @param array $nonExpected
-     *
-     * @magentoAppIsolation enabled
-     * @dataProvider addActionLayoutHandlesDataProvider
-     */
-    public function testAddActionLayoutHandles($route, $controller, $action, $expected, $nonExpected)
-    {
-        $this->_object->getRequest()
-            ->setRouteName($route)
-            ->setControllerName($controller)
-            ->setActionName($action);
-        $this->_object->addActionLayoutHandles();
-        $handles = $this->_object->getLayout()->getUpdate()->getHandles();
-
-        foreach ($expected as $expectedHandle) {
-            $this->assertContains($expectedHandle, $handles);
-        }
-        foreach ($nonExpected as $nonExpectedHandle) {
-            $this->assertNotContains($nonExpectedHandle, $handles);
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function addActionLayoutHandlesDataProvider()
-    {
-        return array(
-            array('Test', 'Controller', 'Action', array('test_controller_action'),
-                array(
-                    'STORE_' . \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                        ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getCode()
-                )
-            ),
-            array('catalog', 'product', 'gallery', array('catalog_product_gallery'),
-                array('default', 'catalog_product_view')
-            )
-        );
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testAddPageLayoutHandles()
-    {
-        /* @var $update \Magento\Core\Model\Layout\Merge */
-        $update = $this->_object->getLayout()->getUpdate();
-
-        $this->_object->getRequest()->setRouteName('test')
-            ->setControllerName('controller')
-            ->setActionName('action');
-        $result = $this->_object->addPageLayoutHandles();
-        $this->assertFalse($result);
-        $this->assertEmpty($update->getHandles());
-
-        $this->_object->getRequest()->setRouteName('catalog')
-            ->setControllerName('product')
-            ->setActionName('view');
-        $update->addHandle('default');
-        $result = $this->_object->addPageLayoutHandles(array('type' => 'simple'));
-
-        $this->assertTrue($result);
-        $handles = $update->getHandles();
-        $this->assertContains('default', $handles);
-        $this->assertContains('catalog_product_view', $handles);
-        $this->assertContains('catalog_product_view_type_simple', $handles);
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoAppArea frontend
-     */
-    public function testRenderLayout()
-    {
-        $this->_object->loadLayout();
-        $this->assertEmpty($this->_object->getResponse()->getBody());
-        $this->_object->renderLayout();
-        $this->assertNotEmpty($this->_object->getResponse()->getBody());
     }
 
     /**

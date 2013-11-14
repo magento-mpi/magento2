@@ -28,37 +28,12 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_objectManager;
 
     /**
-     * Real module name (like 'Magento_Module')
-     *
-     * @var string
-     */
-    protected $_realModuleName;
-
-    /**
      * Namespace for session.
      * Should be defined for proper working session.
      *
      * @var string
      */
     protected $_sessionNamespace;
-
-    /**
-     * Whether layout is loaded
-     *
-     * @see self::loadLayout()
-     * @var bool
-     */
-    protected $_isLayoutLoaded = false;
-
-    /**
-     * @var \Magento\App\FrontController
-     */
-    protected $_frontController = null;
-
-    /**
-     * @var \Magento\View\LayoutInterface
-     */
-    protected $_layout;
 
     /**
      * @var \Magento\Event\ManagerInterface
@@ -68,17 +43,16 @@ class Action extends \Magento\App\Action\AbstractAction
     /**
      * @var \Magento\App\ActionFlag
      */
-    protected $_flag;
-
-    /** @var \Magento\Encryption\UrlCoder */
-    protected $_urlCoder;
+    protected $_actionFlag;
 
     /**
      * @var \Magento\HTTP\Url
      */
     protected $_appUrl;
 
-    /** @var \Magento\App\Request\Redirect */
+    /**
+     * @var \Magento\App\Request\Redirect
+     */
     protected $_redirect;
 
     /**
@@ -100,9 +74,7 @@ class Action extends \Magento\App\Action\AbstractAction
 
         $context->getFrontController()->setAction($this);
         $this->_objectManager     = $context->getObjectManager();
-        $this->_layout            = $context->getLayout();
         $this->_eventManager      = $context->getEventManager();
-        $this->_configScope       = $context->getConfigScope();
         $this->_storeManager      = $context->getStoreManager();
         $this->_appState          = $context->getAppState();
         $this->_locale            = $context->getLocale();
@@ -114,8 +86,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_cookie            = $context->getCookie();
         $this->_app               = $context->getApp();
         $this->_helper            = $context->getHelper();
-        $this->_flag              = $context->getFlag();
-        $this->_urlCoder          = $context->getUrlCoder();
+        $this->_actionFlag        = $context->getActionFlag();
         $this->_appUrl            = $context->getHttpUrl();
         $this->_redirect          = $context->getRedirect();
         $this->_layoutServices    = $context->getLayoutServices();
@@ -130,7 +101,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function getFlag($action, $flag = '') // Leave
     {
-        return $this->_flag->get($action, $flag);
+        return $this->_actionFlag->get($action, $flag);
     }
 
     /**
@@ -143,98 +114,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function setFlag($action, $flag, $value)  // Leave
     {
-        $this->_flag->set($action, $flag, $value);
-        return $this;
-    }
-
-    /**
-     * Retrieve current layout object
-     *
-     * @return \Magento\View\LayoutInterface
-     */
-    public function getLayout()  // TODO: Remove 12 usages
-    {
-        return $this->_layoutServices->getLayout();
-    }
-
-    /**
-     * Load layout by handles(s)
-     *
-     * @param   string|null|bool $handles
-     * @param   bool $generateBlocks
-     * @param   bool $generateXml
-     * @return  $this
-     * @throws  \RuntimeException
-     */
-    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)  //TODO fix 2 usages
-    {
-        $this->_layoutServices->loadLayout($handles, $generateBlocks, $generateXml);
-        return $this;
-    }
-
-    /**
-     * Add layout handle by full controller action name
-     *
-     * @return \Magento\App\ActionInterface
-     */
-    public function addActionLayoutHandles()  // TODO Fix 1 usage
-    {
-        $this->_layoutServices->addActionLayoutHandles();
-        return $this;
-    }
-
-    /**
-     * Add layout updates handles associated with the action page
-     *
-     * @param array $parameters page parameters
-     * @return bool
-     */
-    public function addPageLayoutHandles(array $parameters = array())  //TODO Fix 2 usages
-    {
-        return $this->_layoutServices->addPageLayoutHandles($parameters);
-    }
-
-    /**
-     * Load layout updates
-     *
-     * @return $this
-     */
-    public function loadLayoutUpdates() //TODO fix 4 usages
-    {
-        return $this->_layoutServices->loadLayoutUpdates();
-    }
-
-    /**
-     * Generate layout xml
-     *
-     * @return $this
-     */
-    public function generateLayoutXml() //TODO fix 4 usages
-    {
-        $this->_layoutServices->generateLayoutXml();
-        return $this;
-    }
-
-    /**
-     * Generate layout blocks
-     *
-     * @return $this
-     */
-    public function generateLayoutBlocks()  //TODO fix 4 usages
-    {
-        $this->_layoutServices->generateLayoutBlocks();
-        return $this;
-    }
-
-    /**
-     * Rendering layout
-     *
-     * @param   string $output
-     * @return  \Magento\App\ActionInterface
-     */
-    public function renderLayout($output = '')  //TODO fix 3 usages
-    {
-        $this->_layoutServices->renderLayout($output);
+        $this->_actionFlag->set($action, $flag, $value);
         return $this;
     }
 

@@ -124,26 +124,32 @@ class Observer
     protected $_httpRequest;
 
     /**
+     * @var \Magento\View\Action\LayoutServiceInterface
+     */
+    protected $_layoutService;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\VersionsCms\Model\Config $config
+     * @param Config $config
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\Url $coreUrl
-     * @param \Magento\VersionsCms\Model\Page\RevisionFactory $revisionFactory
-     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
-     * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
-     * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
-     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory
+     * @param Page\RevisionFactory $revisionFactory
+     * @param Hierarchy\NodeFactory $hierarchyNodeFactory
+     * @param Hierarchy\Node $hierarchyNode
+     * @param Page\VersionFactory $pageVersionFactory
+     * @param Resource\Page\Version\CollectionFactory $versionCollFactory
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory
-     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
-     * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
+     * @param Resource\Hierarchy\Node $hierarchyNodeResource
+     * @param Resource\Increment $cmsIncrement
      * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -167,7 +173,8 @@ class Observer
         \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
-        \Magento\App\RequestInterface $httpRequest
+        \Magento\App\RequestInterface $httpRequest,
+        \Magento\View\Action\LayoutServiceInterface $layoutService
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -189,6 +196,7 @@ class Observer
         $this->_hierarchyNodeResource = $hierarchyNodeResource;
         $this->_cmsIncrement = $cmsIncrement;
         $this->_httpRequest = $httpRequest;
+        $this->_layoutService = $layoutService;
     }
 
     /**
@@ -652,11 +660,8 @@ class Observer
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
-        /* @var $action \Magento\App\Action\Action */
-        $action = $observer->getEvent()->getControllerAction();
-
         // collect loaded handles for cms page
-        $loadedHandles = $action->getLayout()->getUpdate()->getHandles();
+        $loadedHandles = $this->_layoutService->getLayout()->getUpdate()->getHandles();
 
         $menuLayout = $node->getMenuLayout();
         if ($menuLayout === null) {
@@ -672,7 +677,7 @@ class Observer
         }
 
         // add menu handle to layout update
-        $action->getLayout()->getUpdate()->addHandle($menuLayout['handle']);
+        $this->_layoutService->getUpdate()->addHandle($menuLayout['handle']);
 
         return $this;
     }

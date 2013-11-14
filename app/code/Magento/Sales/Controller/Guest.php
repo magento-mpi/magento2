@@ -48,7 +48,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         }
 
         $this->_layoutServices->loadLayout();
-        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
         $this->_layoutServices->renderLayout();
     }
 
@@ -63,7 +63,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         }
         $this->_layoutServices->loadLayout();
         $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
-        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
         $this->_layoutServices->renderLayout();
     }
 

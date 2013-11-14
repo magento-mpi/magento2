@@ -47,10 +47,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @var \Magento\App\ActionFlag
      */
-    protected $_flag;
-
-    /** @var \Magento\Encryption\UrlCoder */
-    protected $_urlCoder;
+    protected $_actionFlag;
 
     /** @var \Magento\HTTP\Url */
     protected $_httpUrl;
@@ -73,44 +70,15 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     protected $_layoutServices;
 
-    /**
-     * @param \Magento\Logger $logger
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\FrontController $frontController
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @param \Magento\Core\Model\Url $url
-     * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Cookie $cookie
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Helper\AbstractHelper $helper
-     * @param \Magento\App\ActionFlag $flag
-     * @param \Magento\Encryption\UrlCoder $urlCoder
-     * @param \Magento\HTTP\Url $httpUrl
-     * @param \Magento\App\Request\Redirect $redirect
-     * @param \Magento\HTTP\Authentication $authentication
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
-     */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
         \Magento\App\FrontController $frontController,
-        \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\State $appState,
         \Magento\Filesystem $filesystem,
-        \Magento\Config\ScopeInterface $configScope,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Session\AbstractSession $session,
@@ -131,12 +99,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_frontController = $frontController;
-        $this->_layout = $layout;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
         $this->_appState = $appState;
         $this->_filesystem = $filesystem;
-        $this->_configScope = $configScope;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_session = $session;
@@ -146,10 +112,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cookie = $cookie;
         $this->_app = $app;
         $this->_helper = $helper;
-        $this->_urlCoder = $urlCoder;
         $this->_httpUrl = $httpUrl;
         $this->_redirect = $redirect;
-        $this->_flag = $flag;
+        $this->_actionFlag = $flag;
         $this->authentication = $authentication;
         $this->_layoutServices = $layoutService;
     }
@@ -176,15 +141,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAppState()
     {
         return $this->_appState;
-    }
-
-
-    /**
-     * @return \Magento\Config\ScopeInterface
-     */
-    public function getConfigScope()
-    {
-        return $this->_configScope;
     }
 
     /**
@@ -214,9 +170,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @return \Magento\App\ActionFlag
      */
-    public function getFlag()
+    public function getActionFlag()
     {
-        return $this->_flag;
+        return $this->_actionFlag;
     }
 
     /**
@@ -233,14 +189,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getHelper()
     {
         return $this->_helper;
-    }
-
-    /**
-     * @return \Magento\View\LayoutInterface
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
     }
 
     /**
@@ -313,14 +261,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getUrl()
     {
         return $this->_url;
-    }
-
-    /**
-     * @return \Magento\Encryption\UrlCoder
-     */
-    public function getUrlCoder()
-    {
-        return $this->_urlCoder;
     }
 
     /**

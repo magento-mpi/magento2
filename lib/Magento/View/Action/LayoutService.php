@@ -273,6 +273,16 @@ class LayoutService implements LayoutServiceInterface
     }
 
     /**
+     * Set isLayoutLoaded flag
+     *
+     * @param bool $value
+     */
+    public function setIsLayoutLoaded($value)
+    {
+        $this->_isLayoutLoaded = $value;
+    }
+
+    /**
      * Retrieve full bane of current action current controller
      *
      * @param   string $delimiter

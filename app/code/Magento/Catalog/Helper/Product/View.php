@@ -66,14 +66,18 @@ class View extends \Magento\Core\Helper\AbstractHelper
     protected $_catalogSession;
 
     /**
-     * Construct
-     *
+     * @var \Magento\View\Action\LayoutServiceInterface
+     */
+    protected $_layoutService;
+
+    /**
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
      * @param array $messageModels
      */
     public function __construct(
@@ -83,6 +87,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\View\Action\LayoutServiceInterface $layoutService,
         array $messageModels = array()
     ) {
         $this->_catalogSession = $catalogSession;
@@ -90,6 +95,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         $this->_catalogProduct = $catalogProduct;
         $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;
+        $this->_layoutService = $layoutService;
         parent::__construct($context);
         $this->_messageModels = $messageModels;
     }
@@ -110,12 +116,12 @@ class View extends \Magento\Core\Helper\AbstractHelper
             $this->_catalogDesign->applyCustomDesign($settings->getCustomDesign());
         }
 
-        $update = $controller->getLayout()->getUpdate();
+        $update = $this->_layoutService->getLayout()->getUpdate();
         $update->addHandle('default');
-        $controller->addPageLayoutHandles(
+        $this->_layoutService->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );
-        $controller->loadLayoutUpdates();
+        $this->_layoutService->loadLayoutUpdates();
         // Apply custom layout update once layout is loaded
         $layoutUpdates = $settings->getLayoutUpdates();
         if ($layoutUpdates) {
@@ -126,7 +132,8 @@ class View extends \Magento\Core\Helper\AbstractHelper
             }
         }
 
-        $controller->generateLayoutXml()->generateLayoutBlocks();
+        $this->_layoutService->generateLayoutXml();
+        $this->_layoutService->generateLayoutBlocks();
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
@@ -134,7 +141,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         }
 
         $currentCategory = $this->_coreRegistry->registry('current_category');
-        $root = $controller->getLayout()->getBlock('root');
+        $root = $this->_layoutService->getLayout()->getBlock('root');
         if ($root) {
             $controllerClass = $controller->getFullActionName();
             if ($controllerClass != 'catalog-product-view') {
@@ -202,7 +209,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
 
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
             foreach ($this->_messageModels as $sessionModel) {
-                $controller->getLayout()->initMessages($sessionModel);
+                $this->_layoutService->getLayout()->initMessages($sessionModel);
             }
         } else {
             throw new \InvalidArgumentException(
@@ -210,7 +217,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );
         }
-        $controller->renderLayout();
+        $this->_layoutService->renderLayout();
 
         return $this;
     }

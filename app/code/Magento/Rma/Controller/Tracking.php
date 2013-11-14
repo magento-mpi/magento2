@@ -214,7 +214,7 @@ class Tracking extends \Magento\App\Action\Action
         if ($shippingInfoModel) {
             /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
             $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
-            $block = $this->_layout->getBlockSingleton(
+            $block = $this->_layoutServices->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);

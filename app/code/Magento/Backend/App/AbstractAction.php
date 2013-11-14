@@ -310,28 +310,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     * Load layout by handles and verify user ACL
-     *
-     * @param string|null|bool|array $ids
-     * @param bool $generateBlocks
-     * @param bool $generateXml
-     * @return \Magento\Backend\App\AbstractAction|\Magento\App\Action\Action
-     */
-    public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
-    {
-        parent::loadLayout($ids, false, $generateXml);
-        $this->_objectManager->get('Magento\Core\Model\Layout\Filter\Acl')
-            ->filterAclNodes($this->_layoutServices->getLayout()->getNode());
-        if ($generateBlocks) {
-            $this->_layoutServices->generateLayoutBlocks();
-            $this->_isLayoutLoaded = true;
-        }
-//        $this->_initLayoutMessages('Magento\Backend\Model\Session');
-        $this->_layoutServices->getLayout()->initMessages('Magento\Backend\Model\Session');
-        return $this;
-    }
-
-    /**
      * No route action
      *
      * @param null $coreRoute
