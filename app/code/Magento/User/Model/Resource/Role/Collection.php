@@ -50,7 +50,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setRolesFilter()
     {
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('role_type', \Magento\User\Model\Acl\Role\Group::ROLE_TYPE);
         return $this;
     }
 

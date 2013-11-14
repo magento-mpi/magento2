@@ -15,7 +15,7 @@
 $roleCollection = $this->createRoleCollection()
     ->addFieldToFilter('parent_id', 0)
     ->addFieldToFilter('tree_level', 1)
-    ->addFieldToFilter('role_type', 'G')
+    ->addFieldToFilter('role_type', \Magento\User\Model\Acl\Role\Group::ROLE_TYPE)
     ->addFieldToFilter('user_id', 0)
     ->addFieldToFilter('role_name', 'Administrators');
 
@@ -24,7 +24,7 @@ if ($roleCollection->count() == 0) {
         'parent_id'     => 0,
         'tree_level'    => 1,
         'sort_order'    => 1,
-        'role_type'     => 'G',
+        'role_type'     => \Magento\User\Model\Acl\Role\Group::ROLE_TYPE,
         'user_id'       => 0,
         'role_name'     => 'Administrators'
     ))
@@ -39,14 +39,14 @@ if ($roleCollection->count() == 0) {
 $rulesCollection = $this->createRulesCollection()
     ->addFieldToFilter('role_id', $admGroupRole->getId())
     ->addFieldToFilter('resource_id', 'all')
-    ->addFieldToFilter('role_type', 'G');
+    ->addFieldToFilter('role_type', \Magento\User\Model\Acl\Role\Group::ROLE_TYPE);
 
 if ($rulesCollection->count() == 0) {
     $this->createRules()->setData(array(
         'role_id'       => $admGroupRole->getId(),
         'resource_id'   => 'Magento_Adminhtml::all',
         'privileges'    => null,
-        'role_type'     => 'G',
+        'role_type'     => \Magento\User\Model\Acl\Role\Group::ROLE_TYPE,
         'permission'    => 'allow'
         ))
     ->save();

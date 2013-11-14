@@ -7,25 +7,28 @@
  */
 namespace Magento\Authz\Service;
 
-use Magento\Authz\Model\UserContext;
 use Magento\Acl\Builder as AclBuilder;
 use Magento\Acl;
-use Magento\Core\Model\Config\Cache\Exception;
-use Magento\User\Model\RoleFactory;
-use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
-use Magento\User\Model\RulesFactory;
-use Magento\User\Model\Role;
+use Magento\Authz\Model\UserContext;
+use Magento\Logger;
+use Magento\Service\Exception as ServiceException;
 use Magento\Service\ResourceNotFoundException;
+use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\User\Model\Role;
+use Magento\User\Model\RoleFactory;
+use Magento\User\Model\RulesFactory;
 
 /**
  * Authorization service.
  *
+ * TODO: Fix code and remove warnings suppression
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
-    /** @var Acl */
-    protected $_acl;
+    /** @var AclBuilder */
+    protected $_aclBuilder;
 
     /** @var UserContext */
     protected $_userContext;
@@ -39,149 +42,158 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /** @var RulesFactory */
     protected $_rulesFactory;
 
+    /** @var Logger */
+    protected $_logger;
+
     /**
      * @param AclBuilder $aclBuilder
      * @param UserContext $userContext
      * @param RoleFactory $roleFactory
+     * @param RoleCollectionFactory $roleCollectionFactory
      * @param RulesFactory $rulesFactory
+     * @param Logger $logger
      */
     public function __construct(
         AclBuilder $aclBuilder,
         UserContext $userContext,
         RoleFactory $roleFactory,
-        RulesFactory $rulesFactory
+        RoleCollectionFactory $roleCollectionFactory,
+        RulesFactory $rulesFactory,
+        Logger $logger
     ) {
-        $this->_acl = $aclBuilder->getAcl();
+        $this->_aclBuilder = $aclBuilder;
         $this->_userContext = $userContext;
         $this->_roleFactory = $roleFactory;
         $this->_rulesFactory = $rulesFactory;
+        $this->_roleCollectionFactory = $roleCollectionFactory;
+        $this->_logger = $logger;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isAllowed($resource, $userContext = null)
+    public function isAllowed($resources, $userContext = null)
     {
+        $resources = is_array($resources) ? $resources : array($resources);
         $userContext = $userContext ? $userContext : $this->_userContext;
-        $roleId = $this->_getUserRoleId($userContext);
-        $this->_acl->isAllowed($roleId, $resource);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function grantPermission($userContext, $resources)
-    {
-        $userType = $userContext->getUserType();
-        switch ($userType) {
-            case UserContext::USER_TYPE_ADMIN:
-                // TODO: Should be implemented if current approach is accepted
-                break;
-            case UserContext::USER_TYPE_INTEGRATION:
-                $roleName = $userContext->getUserType() . $userContext->getUserId();
-                $role = $this->createRole($roleName, $userContext, $resources);
-                $role->setUserId($userContext->getUserId())->setUserType($userContext->getUserType());
-                $role->save();
-                break;
-            case UserContext::USER_TYPE_CUSTOMER:
-                /** Break is intentionally omitted. */
-            case UserContext::USER_TYPE_GUEST:
-                throw new \LogicException("Users of type '{$userType}' must not be given any permissions explicitly.");
-                break;
+        try {
+            $role = $this->_getUserRole($userContext);
+            if (!$role) {
+                throw new ResourceNotFoundException(
+                    __(
+                        'Role for user with ID "%1" and user type "%2" cannot be found.',
+                        $userContext->getUserId(),
+                        $userContext->getUserType()
+                    )
+                );
+            }
+            foreach ($resources as $resource) {
+                // TODO: Currently ACL files are located under adminhtml (except several), but should be made global
+                if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            return false;
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createRole($roleName, $userContext, $resources)
+    public function grantPermissions($userContext, $resources)
     {
-        $role = $this->_roleFactory->create();
+        try {
+            $role = $this->_getUserRole($userContext);
+            if (!$role) {
+                $role = $this->_createRole($userContext);
+            }
+            $this->_associateResourcesWithRole($role, $resources);
+        } catch (ServiceException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            $this->_logger->log($e);
+            throw new ServiceException(
+                __('Error happened while granting permissions. Check exception log for details.')
+            );
+        }
+    }
+
+    /**
+     * Create new ACL role.
+     *
+     * @param UserContext $userContext
+     * @return Role
+     * @throws \LogicException
+     */
+    protected function _createRole($userContext)
+    {
         $userType = $userContext->getUserType();
+        $userId = $userContext->getUserId();
         switch ($userType) {
             case UserContext::USER_TYPE_ADMIN:
                 // TODO: Should be implemented if current approach is accepted
-                throw new Exception("Not implemented yet.");
+                throw new \Exception("Not implemented yet.");
                 break;
             case UserContext::USER_TYPE_INTEGRATION:
-                $roleType = 'U';
+                $roleName = $userType . $userId;
+                $roleType = \Magento\User\Model\Acl\Role\User::ROLE_TYPE;
                 $parentId = 0;
                 $userId = $userContext->getUserId();
                 break;
             case UserContext::USER_TYPE_CUSTOMER:
                 /** Break is intentionally omitted. */
             case UserContext::USER_TYPE_GUEST:
-                $roleType = 'U';
+                $roleName = $userType;
+                $roleType = \Magento\User\Model\Acl\Role\User::ROLE_TYPE;
                 $parentId = 0;
                 $userId = 0;
-                $roleCollection = $this->_roleCollectionFactory->create()->setUserFilter($userId, $userType);
-                if ($roleCollection->count()) {
+                if ($this->_getUserRole($userContext)) {
                     throw new \LogicException("There should be not more than one role for '{$userType}' user type.");
                 }
                 break;
             default:
                 throw new \LogicException("Unknown user type: '{$userType}'.");
         }
+        $role = $this->_roleFactory->create();
         $role->setRoleName($roleName)
             ->setUserType($userType)
             ->setUserId($userId)
             ->setRoleType($roleType)
             ->setParentId($parentId)
             ->save();
-        /** Save resources allowed for users with current role */
-        /** @var \Magento\User\Model\Rules $rules */
-        $rules = $this->_rulesFactory->create();
-        $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
         return $role;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRole($roleId)
-    {
-        $role = $this->_roleFactory->create();
-        $role->load($roleId);
-        if (!$role->getId()) {
-            throw new ResourceNotFoundException(__('Role with ID "%1" not found.', $roleId));
-        }
-        /** TODO: \Magento\User\Model\Role is returned and it is incompatible with \Zend_Acl_Role_Interface */
-        return $role;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRoles()
-    {
-        $roleCollection = $this->_roleCollectionFactory->create();
-        /** TODO: \Magento\User\Model\Role[] is returned and it is incompatible with \Zend_Acl_Role_Interface[] */
-        return $roleCollection->getItems();
     }
 
     /**
      * Identify user role from user context.
      *
      * @param UserContext $userContext
-     * @return string Role identifier in the format compatible with ACL object.
-     * @throws ResourceNotFoundException
+     * @return Role|false Return false in case when no role associated with provided user was found.
      */
-    protected function _getUserRoleId($userContext)
+    protected function _getUserRole($userContext)
     {
         $roleCollection = $this->_roleCollectionFactory->create();
         /** @var Role $role */
-        $role = $roleCollection->setUserFilter($userContext->getUserId(), $userContext->getUserType())->getFirstItem();
-        if ($role->getId()) {
-            /** TODO: Refactor this rule, which is defined by \Magento\User\Model\Acl\Loader\Role::populateAcl() */
-            return $role->getRoleType() . $role->getUserId();
-        } else {
-            throw new ResourceNotFoundException(
-                __(
-                    'Role for user with ID "%1" and user type "%2" not found.',
-                    $userContext->getUserId(),
-                    $userContext->getUserType()
-                )
-            );
-        }
+        $userType = $userContext->getUserType();
+        /** User ID does not matter for customer permissions check as there is a single customer role. */
+        $userId = ($userType == UserContext::USER_TYPE_CUSTOMER) ? 0 : $userContext->getUserId();
+        $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
+        return $role->getId() ? $role : false;
+    }
+
+    /**
+     * Associate resources with the specified role. All resources previously assigned to the role will be unassigned.
+     *
+     * @param Role $role
+     * @param string[] $resources
+     */
+    protected function _associateResourcesWithRole($role, $resources)
+    {
+        /** @var \Magento\User\Model\Rules $rules */
+        $rules = $this->_rulesFactory->create();
+        $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
     }
 }

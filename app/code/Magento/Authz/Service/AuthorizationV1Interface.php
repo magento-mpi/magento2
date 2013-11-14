@@ -21,39 +21,16 @@ interface AuthorizationV1Interface
      * @param UserContext $userContext
      * @param string[] $resources List of resources which should be available to the specified user.
      */
-    public function grantPermission($userContext, $resources);
+    public function grantPermissions($userContext, $resources);
 
     /**
-     * Check if the user has permission to access the requested resource.
+     * Check if the user has permission to access the requested resources.
      *
-     * @param string $resource
+     * Access is prohibited if there is a lack of permissions to any of the requested resources.
+     *
+     * @param string|string[] $resources Single resource or a list of resources
      * @param UserContext|null $userContext Context of current user is used by default
      * @return bool
      */
-    public function isAllowed($resource, $userContext = null);
-
-    /**
-     * Retrieve all the roles in the system.
-     *
-     * @return \Zend_Acl_Role_Interface[]
-     */
-    public function getRoles();
-
-    /**
-     * Retrieve role by given role id.
-     *
-     * @param string $roleId
-     * @return \Zend_Acl_Role_Interface
-     */
-    public function getRole($roleId);
-
-    /**
-     * Create new role with the access to the given set of resources.
-     *
-     * @param string $roleName
-     * @param UserContext $userContext
-     * @param string[] $resources
-     * @return \Zend_Acl_Role_Interface
-     */
-    public function createRole($roleName, $userContext, $resources);
+    public function isAllowed($resources, $userContext = null);
 }

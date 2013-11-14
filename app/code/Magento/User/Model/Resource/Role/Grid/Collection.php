@@ -26,7 +26,7 @@ class Collection extends \Magento\User\Model\Resource\Role\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('role_type', \Magento\User\Model\Acl\Role\Group::ROLE_TYPE);
         return $this;
     }
 }

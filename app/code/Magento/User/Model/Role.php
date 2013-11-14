@@ -32,7 +32,6 @@ namespace Magento\User\Model;
  */
 class Role extends \Magento\Core\Model\AbstractModel
 {
-
     /**
      * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
      */

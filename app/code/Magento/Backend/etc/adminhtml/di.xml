@@ -8,39 +8,12 @@
  */
 -->
 <config>
-    <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\Acl" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Backend\Model\Locale" />
     <preference for="Magento\UrlInterface" type="Magento\Backend\Model\Url" />
     <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
     <preference for="Magento\Backend\Model\Config\Structure\SearchInterface" type="Magento\Backend\Model\Config\Structure" />
     <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
-    <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider"/>
-    <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
-        <param name="converter">
-            <instance type="Magento\Acl\Resource\Config\Converter\Dom"/>
-        </param>
-    </type>
-    <type name="Magento\Acl\Resource\Provider">
-        <param name="configReader">
-            <instance type="Magento\Acl\Resource\Config\Reader\Filesystem"/>
-        </param>
-    </type>
-    <type name="Magento\Acl\Builder">
-        <param name="resourceLoader">
-            <instance type="Magento\Acl\Loader\Resource" />
-        </param>
-    </type>
-    <type name="Magento\Core\Model\Acl\Cache">
-        <param name="cacheKey">
-            <value>backend_acl_resources</value>
-        </param>
-    </type>
-    <type name="Magento\Core\Model\Acl\RootResource">
-        <param name="identifier">
-            <value>Magento_Adminhtml::all</value>
-        </param>
-    </type>
     <type name="Magento\Core\Model\Session">
         <param name="sessionName">
             <value>adminhtml</value>
