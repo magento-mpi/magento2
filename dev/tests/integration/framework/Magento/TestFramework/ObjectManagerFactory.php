@@ -9,7 +9,7 @@
 namespace Magento\TestFramework;
 
 use Magento\App\Dir,
-    Magento\Filesystem\Config as FilesystemConfig;
+    Magento\Filesystem\DirectoryList;
 
 class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 {
@@ -42,7 +42,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      */
     public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
     {
-        $directories = new Dir(
+        $directories = new DirectoryList(
             $rootDir,
             isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array(),
             isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array()
@@ -52,6 +52,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 
         $objectManager->configure($this->_primaryConfigData);
         $objectManager->addSharedInstance($directories, 'Magento\App\Dir');
+        $objectManager->addSharedInstance($directories, 'Magento\Filesystem\DirectoryList');
         $objectManager->configure(array(
             'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
                 'parameters' => array('canSaveMap' => false)
@@ -71,15 +72,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
             new \Magento\App\Config\Loader($directories)
         );
 
-        $overrideDirectoryPaths = isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array();
-        $configData = $options->get('filesystem', array());
-        $filesystemConfig = new FilesystemConfig(
-            $rootDir,
-            $configData,
-            $overrideDirectoryPaths
-        );
-        $objectManager->addSharedInstance($filesystemConfig, 'Magento\Filesystem\Config');
-
         $objectManager->addSharedInstance($options, 'Magento\App\Config');
         $objectManager->getFactory()->setArguments($options->get());
         $objectManager->configure(
@@ -89,6 +81,9 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         /** @var \Magento\App\Dir\Verification $verification */
         $verification = $objectManager->get('Magento\App\Dir\Verification');
         $verification->createAndVerifyDirectories();
+
+        $directoryListConfig = $objectManager->get('Magento\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig->configure($directories);
 
         return $objectManager;
     }

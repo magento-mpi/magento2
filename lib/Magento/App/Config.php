@@ -52,7 +52,6 @@ class Config
         $stack = $input;
         unset($stack['resource']);
         unset($stack['connection']);
-        unset($stack['filesystem']);
         $separator = '.';
         $output = array();
 
@@ -72,7 +71,6 @@ class Config
             }
             $output[$key] = $value;
         }
-        $output['filesystem'] = isset($input['filesystem']) ? $input['filesystem'] : array();
         $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
         $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
         return $output;

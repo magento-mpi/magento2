@@ -10,11 +10,10 @@
 
 namespace Magento\App;
 
-use Magento\App\Dir,
+use Magento\Filesystem\DirectoryList,
     Magento\App\Config,
     Magento\ObjectManager\Factory\Factory,
-    Magento\Profiler,
-    Magento\Filesystem\Config as FilesystemConfig;
+    Magento\Profiler;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -50,7 +49,7 @@ class ObjectManagerFactory
      */
     public function create($rootDir, array $arguments)
     {
-        $directories = new Dir(
+        $directories = new DirectoryList(
             $rootDir,
             isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array(),
             isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array()
@@ -66,14 +65,6 @@ class ObjectManagerFactory
                     ? $arguments[Config\Loader::PARAM_CUSTOM_FILE]
                     : null
             )
-        );
-
-        $overrideDirectoryPaths = isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array();
-        $configData = $options->get('filesystem', array());
-        $filesystemConfig = new FilesystemConfig(
-            $rootDir,
-            $configData,
-            $overrideDirectoryPaths
         );
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
@@ -102,7 +93,7 @@ class ObjectManagerFactory
         $locator = new $className($factory, $diConfig, array(
             'Magento\App\Config' => $options,
             'Magento\App\Dir' => $directories,
-            'Magento\Filesystem\Config' => $filesystemConfig
+            'Magento\Filesystem\DirectoryList' => $directories
         ));
 
         \Magento\App\ObjectManager::setInstance($locator);
@@ -142,6 +133,10 @@ class ObjectManagerFactory
             'pluginList' => $pluginList
         ));
         $locator->setFactory($factory);
+
+        $directoryListConfig = $locator->get('Magento\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig->configure($directories);
+
         return $locator;
     }
 
