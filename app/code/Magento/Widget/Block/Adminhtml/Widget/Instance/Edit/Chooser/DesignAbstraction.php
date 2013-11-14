@@ -16,7 +16,7 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
  * @method getArea()
  * @method getTheme()
  */
-class DesignAbstraction extends \Magento\Core\Block\Html\Select
+class DesignAbstraction extends \Magento\View\Block\Html\Select
 {
     /**
      * @var \Magento\View\Layout\ProcessorFactory
