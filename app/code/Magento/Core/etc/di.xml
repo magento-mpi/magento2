@@ -381,11 +381,6 @@
             <instance type="Magento\Core\Model\File\Storage\File\Proxy" />
         </param>
     </type>
-    <type name="Magento\View\Service">
-        <param name="design">
-            <instance type="Magento\Core\Model\View\Design\Proxy" />
-        </param>
-    </type>
     <type name="Magento\View\TemplateEngineFactory">
         <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
     </type>
