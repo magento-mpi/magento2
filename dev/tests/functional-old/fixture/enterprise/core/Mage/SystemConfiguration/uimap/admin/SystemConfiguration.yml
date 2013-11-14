@@ -162,8 +162,6 @@ system_configuration:
                                         invitation_to_order_conversions_quantity_limit: //input[@id="magento_reward_points_invitation_order_limit"]
                                         review_submission: //input[@id="magento_reward_points_review"]
                                         rewarded_reviews_submission_quantity_limit: //input[@id="magento_reward_points_review_limit"]
-                                        new_tag_submission: //input[@id="magento_reward_points_tag"]
-                                        rewarded_tag_submission_quantity_limit: //input[@id="magento_reward_points_tag_limit"]
                                     dropdowns:
                                         purchase: //select[@id="magento_reward_points_order"]
                                         invitation_conversion_to_order_reward: //select[@id="magento_reward_points_invitation_order_frequency"]
@@ -215,9 +213,6 @@ system_configuration:
                                     xpath: //fieldset[@id='magento_reward_points']
                                     links:
                                         actions_for_acquiring_reward_points_link: //parent::div//a[@id='magento_reward_points-head']
-                                    fields:
-                                        new_tag_submission: //input[@id ='magento_reward_points_tag']
-                                        rewarded_tag_submission_limit: //input[@id ='magento_reward_points_tag_limit']
                 -
                     customer_gift_registry:
                         xpath: //a[contains(@href, 'edit/section/magento_giftregistry/')]
