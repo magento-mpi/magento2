@@ -30,6 +30,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -45,17 +46,29 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
-    )
-    {
+    ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
-            $context, $wishlistData, $customerSession, $productFactory, $helperPool, $data
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $wishlistData,
+            $customerSession,
+            $productFactory,
+            $helperPool,
+            $data
         );
     }
 

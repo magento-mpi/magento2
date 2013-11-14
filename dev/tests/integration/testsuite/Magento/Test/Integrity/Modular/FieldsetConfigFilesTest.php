@@ -18,7 +18,7 @@ class FieldsetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractCo
      */
     protected function _getReaderClassName()
     {
-        return 'Magento\Core\Model\Fieldset\Config\Reader';
+        return 'Magento\Object\Copy\Config\Reader';
     }
 
     /**
@@ -40,6 +40,6 @@ class FieldsetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractCo
      */
     protected function _getXsdPath()
     {
-        return '/Magento/Core/etc/fieldset_file.xsd';
+        return '/../../lib/Magento/Object/etc/fieldset_file.xsd';
     }
 }
