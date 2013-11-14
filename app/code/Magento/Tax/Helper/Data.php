@@ -698,7 +698,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $$rateVariable = '';
                 foreach ($$rateArray as $classId => $rate) {
                     if ($rate) {
-                        $$rateVariable .= sprintf("WHEN %d THEN %12.4f ", $classId, $rate/100);
+                        $$rateVariable .= sprintf("WHEN %d THEN %12.4F ", $classId, $rate / 100);
                     }
                 }
                 if ($$rateVariable) {
@@ -813,7 +813,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param   null|int|string|\Magento\Core\Model\Store $store
      * @return  string
      */
-    public function getCalculationSequence($store=null)
+    public function getCalculationSequence($store = null)
     {
         return $this->_config->getCalculationSequence($store);
     }
@@ -824,7 +824,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param   null|int $store
      * @return  string
      */
-    public function getCalculationAgorithm($store=null)
+    public function getCalculationAgorithm($store = null)
     {
         return $this->_config->getAlgorithm($store);
     }
