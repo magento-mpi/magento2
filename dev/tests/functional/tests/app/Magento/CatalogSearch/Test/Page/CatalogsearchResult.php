@@ -30,6 +30,13 @@ class CatalogsearchResult extends Page
     const MCA = 'catalogsearch/result';
 
     /**
+     * Css selector for products grid container
+     *
+     * @var string
+     */
+    protected $productsGridSelector = '.search.results';
+
+    /**
      * List of results of product search
      *
      * @var ListProduct
@@ -43,7 +50,7 @@ class CatalogsearchResult extends Page
     {
         $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
         $this->listProductBlock = Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
-            $this->_browser->find('.search.results', Locator::SELECTOR_CSS)
+            $this->_browser->find($this->productsGridSelector, Locator::SELECTOR_CSS)
         );
     }
 

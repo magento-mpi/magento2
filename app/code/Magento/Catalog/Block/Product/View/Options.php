@@ -51,6 +51,11 @@ class Options extends \Magento\Core\Block\Template
     protected $_catalogProduct;
 
     /**
+     * @var \Magento\Stdlib\ArrayUtils
+     */
+    protected $arrayUtils;
+
+    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\Product $catalogProduct
@@ -59,6 +64,7 @@ class Options extends \Magento\Core\Block\Template
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param array $data
      */
     public function __construct(
@@ -68,6 +74,7 @@ class Options extends \Magento\Core\Block\Template
         \Magento\Core\Block\Template\Context $context,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -75,6 +82,7 @@ class Options extends \Magento\Core\Block\Template
         $this->_registry = $registry;
         $this->_option = $option;
         $this->_taxData = $taxData;
+        $this->arrayUtils = $arrayUtils;
     }
 
     /**
@@ -157,7 +165,6 @@ class Options extends \Magento\Core\Block\Template
     public function getJsonConfig()
     {
         $config = array();
-
         foreach ($this->getOptions() as $option) {
             /* @var $option \Magento\Catalog\Model\Product\Option */
             $priceValue = 0;
@@ -182,6 +189,7 @@ class Options extends \Magento\Core\Block\Template
      * Get option html block
      *
      * @param \Magento\Catalog\Model\Product\Option $option
+     * @return string
      */
     public function getOptionHtml(\Magento\Catalog\Model\Product\Option $option)
     {
@@ -192,5 +200,18 @@ class Options extends \Magento\Core\Block\Template
             ->setOption($option);
 
         return $this->getChildHtml($type, false);
+    }
+
+    /**
+     * Decorate a plain array of arrays or objects
+     *
+     * @param mixed $array
+     * @param string $prefix
+     * @param bool $forceSetAll
+     * @return mixed
+     */
+    public function decorateArray($array, $prefix = 'decorated_', $forceSetAll = false)
+    {
+        return $this->arrayUtils->decorateArray($array, $prefix, $forceSetAll);
     }
 }

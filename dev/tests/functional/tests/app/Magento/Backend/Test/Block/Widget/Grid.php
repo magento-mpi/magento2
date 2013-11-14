@@ -58,7 +58,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $editLink;
+    protected $editLink = '//td[@data-column="action"]//a';
 
     /**
      * An element locator which allows to select entities in grid
@@ -111,7 +111,6 @@ abstract class Grid extends Block
         $this->massactionSelect = '[id*=massaction-select]';
         $this->massactionSubmit = '[id*=massaction-form] button';
         //Blocks
-        $this->editLink = '//td[@data-column="action"]//a';
         $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
         );

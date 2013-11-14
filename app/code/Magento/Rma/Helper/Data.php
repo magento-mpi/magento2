@@ -544,7 +544,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $storeDate = $this->_locale->storeDate(
             $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
         );
-        return $this->_coreData->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
