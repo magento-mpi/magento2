@@ -25,11 +25,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\FrontController
-     */
-    protected $_frontController = null;
-
-    /**
      * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
@@ -100,7 +95,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
-        $this->_frontController = $frontController;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
         $this->_session = $session;
@@ -133,14 +127,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getEventManager()
     {
         return $this->_eventManager;
-    }
-
-    /**
-     * @return \Magento\App\FrontController
-     */
-    public function getFrontController()
-    {
-        return $this->_frontController;
     }
 
     /**
