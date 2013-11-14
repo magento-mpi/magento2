@@ -36,12 +36,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Context $context
+        \Magento\App\Helper\Context $context
     ) {
         $this->string = $string;
         $this->_storeManager = $storeManager;

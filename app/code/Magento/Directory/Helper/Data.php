@@ -96,7 +96,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollFactory,
@@ -106,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Country\Collection $countryCollection,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollFactory,

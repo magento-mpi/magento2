@@ -35,12 +35,12 @@ class Hss extends \Magento\App\Helper\AbstractHelper
     protected $_layout;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\View\LayoutInterface $layout
     ) {

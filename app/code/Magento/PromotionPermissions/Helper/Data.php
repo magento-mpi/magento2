@@ -46,10 +46,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_authorization;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
+    public function __construct(\Magento\App\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;

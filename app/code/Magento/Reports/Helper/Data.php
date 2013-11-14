@@ -25,11 +25,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_itemFactory;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Adminhtml\Model\Report\ItemFactory $itemFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Adminhtml\Model\Report\ItemFactory $itemFactory
     ) {
         parent::__construct($context);

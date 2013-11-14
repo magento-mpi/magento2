@@ -28,12 +28,12 @@ class Order extends \Magento\App\Helper\AbstractHelper
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {

@@ -28,12 +28,12 @@ class File extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param array $mimeTypes
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         array $mimeTypes = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;

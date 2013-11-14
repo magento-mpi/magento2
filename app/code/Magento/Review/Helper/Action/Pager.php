@@ -36,11 +36,11 @@ class Pager extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Helper\Context $context
+        \Magento\App\Helper\Context $context
     ) {
         $this->_backendSession = $backendSession;
         parent::__construct($context);
