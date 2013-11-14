@@ -24,14 +24,11 @@ class TabsTest extends \PHPUnit_Framework_TestCase
             ->with('block')
             ->will($this->returnValue($tabBlock));
 
-        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
-        $context->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layout));
-
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-
-        $block = new \Magento\Catalog\Block\Product\View\Tabs($coreData, $context);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $block = $helper->getObject('Magento\Catalog\Block\Product\View\Tabs', array(
+               'layout' => $layout
+            )
+        );
         $block->addTab('alias', 'title', 'block', 'template', 'header');
 
         $expectedTabs = array(

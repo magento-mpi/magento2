@@ -12,55 +12,18 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function testCleanMediaAction()
     {
-        $this->fail('asd');
         // Wire object with mocks
-        $context = $this->getMock('Magento\Backend\App\Action\Context', array(), array(), '', false);
-
-        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
-        $context->expects($this->any())
-            ->method('getRequest')
-            ->will($this->returnValue($request));
-
         $response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $context->expects($this->any())
-            ->method('getResponse')
-            ->will($this->returnValue($response));
-
         $objectManager = $this->getMock('Magento\ObjectManager');
-        $context->expects($this->any())
-            ->method('getObjectManager')
-            ->will($this->returnValue($objectManager));
-
-        $frontController = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
-        $context->expects($this->any())
-            ->method('getFrontController')
-            ->will($this->returnValue($frontController));
-
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $eventManager->expects($this->once())
-            ->method('dispatch')
-            ->with('clean_media_cache_after');
-        $context->expects($this->any())
-            ->method('getEventManager')
-            ->will($this->returnValue($eventManager));
-
         $backendHelper = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $context->expects($this->any())
-            ->method('getHelper')
-            ->will($this->returnValue($backendHelper));
-
-        $cacheTypeListMock = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
-        $cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
-        $cacheFrontendPool = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
-
-        $flagMock = $this->getMock('\Magento\App\ActionFlag', array(), array(), '', false);
-        $context->expects($this->any())->method('getFlag')->will($this->returnValue($flagMock));
-        $controller = new \Magento\Backend\Controller\Adminhtml\Cache(
-            $context,
-            $cacheTypeListMock,
-            $cacheStateMock,
-            $cacheFrontendPool,
-            $this->getMock('Magento\App\Action\Title', array(), array(), '', false)
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $controller = $helper->getObject('Magento\Backend\Controller\Adminhtml\Cache', array(
+                'objectManager' => $objectManager,
+                'response' => $response,
+                'helper' => $backendHelper,
+                'eventManager' =>$eventManager
+            )
         );
 
         // Setup expectations

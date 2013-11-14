@@ -37,10 +37,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')->with('return_url')->will($this->returnValue('http://malicious.com/'));
         $requestMock->expects($this->any())
             ->method('getParam')->will($this->returnValue(null));
-        $requestMock->expects($this->once())
-            ->method('getServer')
-            ->with('HTTP_REFERER')
-            ->will($this->returnValue('http://some-url/index.php/product.html'));
+        $redirect = $this->getMock('Magento\App\Request\Redirect', array(), array(), '', false);
+        $redirect->expects($this->any())->method('getRefererUrl')->will($this->returnValue('http://some-url/index.php/product.html'));
 
         $checkoutSessionMock = $this->getMock('Magento\Checkout\Model\Session',
             array('setContinueShoppingUrl'), array(), '', false);
@@ -48,8 +46,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->method('setContinueShoppingUrl')
             ->with('http://some-url/index.php/product.html')
             ->will($this->returnSelf());
-
-        $sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
 
         $urlMock = $this->getMock('Magento\Core\Model\Url',
             array('getUrl'), array(), '', false);
@@ -60,22 +56,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://some-url/'));
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
-
-        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $objectManager->expects($this->at(1))
-            ->method('get')
-            ->with($this->equalTo('Magento\Core\Model\StoreManagerInterface'))
-            ->will($this->returnValue($storeManager));
-        $objectManager->expects($this->at(2))
-            ->method('get')
-            ->with($this->equalTo('Magento\Core\Model\Session'))
-            ->will($this->returnValue($sessionMock));
-        $objectManager->expects($this->at(3))
-            ->method('create')
-            ->with($this->equalTo('Magento\Core\Model\Url'))
-            ->will($this->returnValue($urlMock));
 
         $configMock = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $configMock->expects($this->once())
@@ -83,13 +63,14 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->with('checkout/cart/redirect_to_cart')
             ->will($this->returnValue('1'));
 
+
         $arguments = array(
             'response' => $responseMock,
             'request' => $requestMock,
-            'objectManager' => $objectManager,
             'checkoutSession' => $checkoutSessionMock,
-            'storeManager' =>$storeManager,
             'storeConfig' => $configMock,
+            'redirect' => $redirect,
+            'url' => $urlMock
         );
 
         $controller = $helper->getObject('Magento\Checkout\Controller\Cart', $arguments);
