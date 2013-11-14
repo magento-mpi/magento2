@@ -58,13 +58,8 @@ abstract class AbstractOperator extends AbstractSyntax
             $childPrecedence = $child->precedence();
             $parentPrecedence = $this->precedence();
             $parentAssociativity = $this->associativity();
-            if (
-                $childPrecedence >
-                $parentPrecedence ||
-                $parentPrecedence ==
-                $childPrecedence &&
-                $parentAssociativity !=
-                $childPosition
+            if ($childPrecedence > $parentPrecedence ||
+                $parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition
             ) {
                 $lineBreak = new WrapperLineBreak();
                 $treeNode->getData()->line->add('(')->add($lineBreak);

@@ -82,9 +82,9 @@ class AbstractScalarReference extends AbstractReference
                 $this->addToLine($treeNode, '}');
             }
         }
-        $this->addToLine($treeNode, new HardLineBreak())
-            ->add(new IndentConsumer())
-            ->add($heredocCloseTag)
-            ->add(new HardConditionalLineBreak(';'));
+        $this->addToLine(
+            $treeNode,
+            new HardLineBreak()
+        )->add(new IndentConsumer())->add($heredocCloseTag)->add(new HardConditionalLineBreak(';'));
     }
 }

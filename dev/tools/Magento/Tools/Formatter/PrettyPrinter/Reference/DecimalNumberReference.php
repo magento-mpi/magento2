@@ -34,7 +34,7 @@ class DecimalNumberReference extends AbstractScalarReference
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {
             // otherwise, do the best guess at resolving it as a number
-            $stringValue = (string) $this->node->value;
+            $stringValue = (string)$this->node->value;
             // ensure that number is really printed as decimal
             if (ctype_digit($stringValue)) {
                 $stringValue .= '.0';

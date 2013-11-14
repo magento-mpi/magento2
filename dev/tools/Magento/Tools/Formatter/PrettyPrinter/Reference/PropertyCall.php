@@ -35,7 +35,10 @@ class PropertyCall extends AbstractPropertyReference
         // add the variable
         $this->resolveVariable($this->node->var, $treeNode);
         // add the dereference
-        $this->addToLine($treeNode, new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak()))))->add('->');
+        $this->addToLine(
+            $treeNode,
+            new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak())))
+        )->add('->');
         // if the name is an expression, then use the framework to resolve
         if ($this->node->name instanceof PHPParser_Node_Expr) {
             $this->addToLine($treeNode, '{');

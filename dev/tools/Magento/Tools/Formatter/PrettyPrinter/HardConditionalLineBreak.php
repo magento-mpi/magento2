@@ -20,7 +20,8 @@ class HardConditionalLineBreak extends HardLineBreak implements LineCondition
      */
     protected $condition;
 
-    public function __construct($condition) {
+    public function __construct($condition)
+    {
         $this->condition = $condition;
     }
 

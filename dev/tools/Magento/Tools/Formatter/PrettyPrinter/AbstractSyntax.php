@@ -91,14 +91,15 @@ abstract class AbstractSyntax
         // only need to look if something was specified
         if (!empty($arguments)) {
             foreach ($arguments as $argument) {
-                if (
-                ($argument instanceof PHPParser_Node_Arg && $argument->value instanceof PHPParser_Node_Expr_Closure) ||
-                ($argument instanceof PHPParser_Node_Expr_ArrayItem && $argument->value instanceof PHPParser_Node_Expr_Closure)
+                if ($argument instanceof PHPParser_Node_Arg &&
+                    $argument->value instanceof PHPParser_Node_Expr_Closure ||
+                    $argument instanceof PHPParser_Node_Expr_ArrayItem &&
+                        $argument->value instanceof PHPParser_Node_Expr_Closure
                 ) {
                     $closure = true;
                     break;
-                } elseif (
-                    $argument instanceof PHPParser_Node_Arg && $argument->value instanceof PHPParser_Node_Expr_FuncCall
+                } elseif ($argument instanceof PHPParser_Node_Arg &&
+                    $argument->value instanceof PHPParser_Node_Expr_FuncCall
                 ) {
                     $closure = $this->hasClosure($argument->value->args);
                     if ($closure === true) {

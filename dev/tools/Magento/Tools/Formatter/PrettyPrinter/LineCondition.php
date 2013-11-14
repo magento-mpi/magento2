@@ -5,11 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-
-interface LineCondition {
+interface LineCondition
+{
     /**
      * This method checks the current condition for the next token being added to the line and
      * determines if the current token should be removed.

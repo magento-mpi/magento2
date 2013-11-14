@@ -16,7 +16,7 @@ class ConstantReference extends AbstractReference
     /**
      * This member holds the tokens that need to be replaced.
      */
-    protected $replacements = ['false', 'true', 'null'];
+    protected $replacements = array('false', 'true', 'null');
 
     /**
      * This method constructs a new reference based on the specified constant.

@@ -44,7 +44,8 @@ class CallLineBreak extends ConditionalLineBreak
         // if the level is set to be more than the default make sure only this instance can write the advanced version
         if ($level > 0) {
             // only process the first instance of the call line break
-            if (!isset($lineBreakData['conditionallb']) || $this->getGroupingId() === $lineBreakData['conditionallb']) {
+            if (!isset($lineBreakData['conditionallb']) || $this->getGroupingId() === $lineBreakData['conditionallb']
+            ) {
                 // save off which instance is being processed
                 $lineBreakData['conditionallb'] = $this->getGroupingId();
                 // determine the resolution of the break

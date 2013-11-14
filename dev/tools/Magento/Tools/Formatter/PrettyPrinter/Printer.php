@@ -68,7 +68,7 @@ class Printer
             if (count($commentMap) > 0) {
                 echo "REMOVED COMMENTS" . PHP_EOL;
                 while (list($key, $value) = each($commentMap)) {
-                    echo "line($key): $value" . PHP_EOL;
+                    echo "line({$key}): {$value}" . PHP_EOL;
                 }
             }
         }

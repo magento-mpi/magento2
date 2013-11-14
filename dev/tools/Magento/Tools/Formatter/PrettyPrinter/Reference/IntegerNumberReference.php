@@ -34,7 +34,7 @@ class IntegerNumberReference extends AbstractScalarReference
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {
             // otherwise, do the best guess at resolving it as a number
-            $stringValue = (string) $this->node->value;
+            $stringValue = (string)$this->node->value;
         }
         // add the value to the end of the current line
         $this->addToLine($treeNode, $stringValue);

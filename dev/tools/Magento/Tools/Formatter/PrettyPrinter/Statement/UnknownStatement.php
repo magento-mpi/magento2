@@ -35,7 +35,10 @@ class UnknownStatement extends AbstractStatement
     {
         parent::resolve($treeNode);
         // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $this->addToLine($treeNode, (new Line('Unknown node: '))->add($this->node->getType())->add(new HardLineBreak()));
+        $this->addToLine(
+            $treeNode,
+            (new Line('Unknown node: '))->add($this->node->getType())->add(new HardLineBreak())
+        );
         return $treeNode;
     }
 }

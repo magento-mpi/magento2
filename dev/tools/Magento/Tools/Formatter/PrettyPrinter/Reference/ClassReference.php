@@ -34,7 +34,7 @@ class ClassReference extends AbstractReference
             $this->addToLine($treeNode, '\\');
         }
         // add the name to the end of the current line
-        $this->addToLine($treeNode, (string) $this->node);
+        $this->addToLine($treeNode, (string)$this->node);
         return $treeNode;
     }
 }

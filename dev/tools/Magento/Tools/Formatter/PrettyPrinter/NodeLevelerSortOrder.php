@@ -27,6 +27,7 @@ class NodeLevelerSortOrder extends LineSizeCheck
         parent::__construct($level);
         $this->sortOrder = $sortOrder;
     }
+
     /**
      * This method is called when first visiting a node.
      * @param TreeNode $treeNode Current node in the tree.

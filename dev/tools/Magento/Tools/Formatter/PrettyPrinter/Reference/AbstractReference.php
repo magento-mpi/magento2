@@ -45,7 +45,7 @@ abstract class AbstractReference extends AbstractSyntax
      * @param bool $case_insensitivity If true, then comparison is case insensitive.
      * @return bool
      */
-    protected function endsWith($haystack, $needle, $case_insensitivity = false )
+    protected function endsWith($haystack, $needle, $case_insensitivity = false)
     {
         $found = false;
         // determine lengths to make sure the haystack is longer than the needle
