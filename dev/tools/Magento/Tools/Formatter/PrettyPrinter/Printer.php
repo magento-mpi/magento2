@@ -83,6 +83,14 @@ class Printer
     }
 
     /**
+     * This method returns if the formatted code indicates a change.
+     */
+    public function hasChange()
+    {
+        return null !== $this->formattedCode && strcmp($this->originalCode, $this->formattedCode) !== 0;
+    }
+
+    /**
      * This method performs the parsing and printing of the original code.
      */
     public function parseCode()
