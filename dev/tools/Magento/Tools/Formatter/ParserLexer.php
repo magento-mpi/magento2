@@ -43,9 +43,15 @@ class ParserLexer extends PHPParser_Lexer
      */
     const END_LINE_KEY = 'endLine';
     /**
-     * Map of comments indexed by the line numnber containing the comment
+     * Map of comments indexed by the line number containing the comment
      */
     public $commentMap;
+
+    /**
+     * This member holds the culmination of the current heredoc
+     * @var string $heredocValue
+     */
+    protected $heredocValue;
 
     /**
      * This method returns the comment map.
@@ -135,10 +141,19 @@ class ParserLexer extends PHPParser_Lexer
             if (preg_match('/<<<\'.*?\'/', $value)) {
                 $startAttributes[self::IS_NOWDOC] = true;
             }
+            // flag that the context of being a heredoc value
+            $this->heredocValue = '';
         } elseif ($tokenId == PHPParser_Parser::T_END_HEREDOC) {
             // only need to save the close tag and recreate the open take
             // because the parser saves the text with the closing element
             $endAttributes[self::HEREDOC_CLOSE_TAG] = $value;
+            $endAttributes[self::ORIGINAL_VALUE] = $this->heredocValue;
+            // no longer in a heredoc, so stop recording
+            $this->heredocValue = null;
+        }
+        // if in the context of a heredoc, just save off all the tokens
+        if (null !== $this->heredocValue && $tokenId !== PHPParser_Parser::T_START_HEREDOC) {
+            $this->heredocValue .= $value;
         }
     }
     /**

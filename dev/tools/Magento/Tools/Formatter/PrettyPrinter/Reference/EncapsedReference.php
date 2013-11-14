@@ -13,6 +13,8 @@ use PHPParser_Node_Scalar_Encapsed;
 
 class EncapsedReference extends AbstractScalarReference
 {
+    const ENCAPSED_QUOTE = '"';
+
     /**
      * This method constructs a new statement based on the specified string
      * @param PHPParser_Node_Scalar_Encapsed $node
@@ -33,11 +35,19 @@ class EncapsedReference extends AbstractScalarReference
         // need to deal with heredoc
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($treeNode, $heredocCloseTag, $this->node->parts);
+            if ($this->node->hasAttribute(ParserLexer::ORIGINAL_VALUE)) {
+                $this->processHeredoc(
+                    $treeNode,
+                    $heredocCloseTag,
+                    $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE)
+                );
+            } else {
+                $this->processHeredoc($treeNode, $heredocCloseTag, $this->node->parts);
+            }
         } else {
-            $this->addToLine($treeNode, '"');
-            $this->encapsList($this->node->parts, '"', $treeNode);
-            $this->addToLine($treeNode, '"');
+            $this->addToLine($treeNode, self::ENCAPSED_QUOTE);
+            $this->encapsList($this->node->parts, self::ENCAPSED_QUOTE, $treeNode);
+            $this->addToLine($treeNode, self::ENCAPSED_QUOTE);
         }
         return $treeNode;
     }

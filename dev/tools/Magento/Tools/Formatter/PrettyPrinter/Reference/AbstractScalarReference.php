@@ -54,37 +54,41 @@ class AbstractScalarReference extends AbstractReference
     /**
      * This method reproduces the heredoc structure.
      * @param string $heredocCloseTag String containing the value of the heredoc tag
-     * @param array $bodyLines Array containing the body lines of the heredoc.
+     * @param string|array $bodyLines string or Array containing the body lines of the heredoc.
      */
-    protected function processHeredoc(TreeNode $treeNode, $heredocCloseTag, array $bodyLines)
+    protected function processHeredoc(TreeNode $treeNode, $heredocCloseTag, $bodyLines)
     {
         // if this is a now doc add the single quote to the open tag
         $isNowDoc = $this->node->getAttribute(ParserLexer::IS_NOWDOC, false);
         $this->addToLine($treeNode, '<<<')->add($isNowDoc ? "'" . $heredocCloseTag . "'" : $heredocCloseTag);
         $this->addToLine($treeNode, new HardLineBreak());
-        foreach ($bodyLines as $bodyLine) {
-            if (is_string($bodyLine)) {
-                $heredocLines = explode(HardLineBreak::EOL, $bodyLine);
-                if (!empty($heredocLines)) {
+        // if the lines of the body specified by an array, then print them out individually since
+        // it may be lines and node references
+        if (is_array($bodyLines)) {
+            foreach ($bodyLines as $bodyLine) {
+                if (is_string($bodyLine)) {
+                    $heredocLines = explode(HardLineBreak::EOL, $bodyLine);
+                    if (!empty($heredocLines)) {
                     $heredocLineKeys = array_keys($heredocLines);
                     $lastKey = end($heredocLineKeys);
-                    foreach ($heredocLines as $key => $heredocLine) {
-                        $this->addToLine($treeNode, new IndentConsumer())->add($heredocLine);
-                        // add in a newline if we are in the middle of the list or if the original has a newline
-                        if ($lastKey !== $key || $this->endsWith($bodyLine, HardLineBreak::EOL)) {
-                            $this->addToLine($treeNode, new HardLineBreak());
+                        foreach ($heredocLines as $key => $heredocLine) {
+                            $this->addToLine($treeNode, new IndentConsumer())->add($heredocLine);
+                            // add in a newline if we are in the middle of the list or if the original has a newline
+                            if ($lastKey !== $key || $this->endsWith($bodyLine, HardLineBreak::EOL)) {
+                                $this->addToLine($treeNode, new HardLineBreak());
+                            }
                         }
                     }
+                } else {
+                    $this->addToLine($treeNode, '{');
+                    $treeNode = $this->resolveNode($bodyLine, $treeNode);
+                    $this->addToLine($treeNode, '}');
                 }
-            } else {
-                $this->addToLine($treeNode, '{');
-                $treeNode = $this->resolveNode($bodyLine, $treeNode);
-                $this->addToLine($treeNode, '}');
             }
+        } else {
+            // otherwise, just add the line
+            $this->addToLine($treeNode, new IndentConsumer())->add($bodyLines);
         }
-        $this->addToLine(
-            $treeNode,
-            new HardLineBreak()
-        )->add(new IndentConsumer())->add($heredocCloseTag)->add(new HardConditionalLineBreak(';'));
+        $this->addToLine($treeNode,new IndentConsumer())->add($heredocCloseTag)->add(new HardConditionalLineBreak(';'));
     }
 }

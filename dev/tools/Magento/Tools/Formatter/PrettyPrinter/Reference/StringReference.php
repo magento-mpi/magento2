@@ -33,13 +33,20 @@ class StringReference extends AbstractScalarReference
         // if the original value exists, just use that so that the number representation does not change
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
+        // resolve the string based on the details found in the node
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($treeNode, $heredocCloseTag, array($this->node->value));
-        } elseif (null === $stringValue) {
-            // if nothing there, then use the raw data
-            $this->addToLine($treeNode, '\'')->add(addcslashes($this->node->value, '\'\\'))->add('\'');
-        } else {
+            // heredoc was specified, so check for original string to build up the value
+            if (null !== $stringValue) {
+                $this->processHeredoc($treeNode, $heredocCloseTag, $stringValue);
+            } else {
+                $this->processHeredoc($treeNode, $heredocCloseTag, $this->node->value);
+            }
+        } elseif (null !== $stringValue) {
+            // original string detected, so use it
             $this->addToLine($treeNode, $stringValue);
+        } else {
+            // if nothing there, then use the parsed data
+            $this->addToLine($treeNode, '\'')->add(addcslashes($this->node->value, '\'\\'))->add('\'');
         }
         return $treeNode;
     }
