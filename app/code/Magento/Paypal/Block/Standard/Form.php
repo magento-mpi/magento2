@@ -40,14 +40,14 @@ class Form extends \Magento\Payment\Block\Form
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         array $data = array()

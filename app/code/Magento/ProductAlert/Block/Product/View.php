@@ -35,14 +35,14 @@ class View extends \Magento\View\Block\Template
     protected $_helper;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\ProductAlert\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\ProductAlert\Helper\Data $helper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
