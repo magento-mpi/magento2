@@ -4,6 +4,7 @@
   * Moved Magento\Core\Model\Theme to Magento\View component
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
+  * Tax helper was using %f that is locale aware. sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
 * Themes update:
   * Plushe theme is responsive now
 * Fixed bugs:
