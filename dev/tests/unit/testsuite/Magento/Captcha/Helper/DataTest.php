@@ -18,9 +18,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected $_dirMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystem;
+
     protected function setUp()
     {
         $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
     }
 
     protected function _getHelper($store, $config, $factory)
@@ -41,12 +47,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('isDirectory')
             ->will($this->returnValue(true));
 
-        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-
         $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
 
         return new \Magento\Captcha\Helper\Data(
-            $context, $this->_dirMock, $storeManager, $config, $filesystem, $factory
+            $context, $this->_dirMock, $storeManager, $config, $this->_filesystem, $factory
         );
     }
 
@@ -126,17 +130,25 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetImgDir()
     {
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
-        $this->_dirMock->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::MEDIA)
-            ->will($this->returnValue(TESTS_TEMP_DIR . '/media'));
+
+        $dirWriteMock = $this->getMock('Magento\Filesystem\Directory\Write',
+            array('changePermissions', 'create', 'getAbsolutePath'), array(), '', false);
+
+        $this->_filesystem->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(\Magento\FileSystem::MEDIA)
+            ->will($this->returnValue($dirWriteMock));
+
+        $dirWriteMock->expects($this->once())
+            ->method('getAbsolutePath')
+            ->with('/captcha/base')
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/captcha/base'));
 
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $this->assertFileNotExists(TESTS_TEMP_DIR . '/captcha');
         $result = $object->getImgDir();
-        $result = str_replace('/', DIRECTORY_SEPARATOR, $result);
         $this->assertStringStartsWith(TESTS_TEMP_DIR, $result);
-        $this->assertStringEndsWith('captcha' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR, $result);
+        $this->assertStringEndsWith('captcha/base/', $result);
     }
 
     /**
@@ -186,7 +198,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $website = $this->getMock(
             'Magento\Core\Model\Website',
-            array('getCode'),
+            array('getCode', '__wakeup'),
             array(), '', false
         );
 
