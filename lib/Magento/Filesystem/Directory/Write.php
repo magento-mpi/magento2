@@ -51,7 +51,7 @@ class Write extends Read implements WriteInterface
             $this->permissions = $config['permissions'];
         }
         if (isset($config['allow_create_dirs'])) {
-            $this->permissions = $config['allow_create_dirs'];
+            $this->allowCreateDirs = $config['allow_create_dirs'];
         }
     }
 
@@ -112,7 +112,7 @@ class Write extends Read implements WriteInterface
     public function create($path)
     {
         if (!$this->allowCreateDirs) {
-            throw new FilesystemException("Directory creation is not allowed in $this->path");
+            throw new FilesystemException("Operation is not allowed for the specified path: $this->path");
         }
         clearstatcache();
         $absolutePath = $this->getAbsolutePath($path);
