@@ -54,7 +54,7 @@
           </elementProp>
           <elementProp name="ramp_period" elementType="Argument">
             <stringProp name="Argument.name">ramp_period</stringProp>
-            <stringProp name="Argument.value">${__P(ramp_period,120)}</stringProp>
+            <stringProp name="Argument.value">${__P(ramp_period,30)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="crawl_percent" elementType="Argument">
@@ -122,7 +122,7 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -137,7 +137,7 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </SetupThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Login" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -156,6 +156,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Admin - Login</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert login form shown" enabled="true">
@@ -168,7 +169,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Login Submit Form" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="login[username]" elementType="HTTPArgument">
@@ -202,6 +203,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Admin - Login Submit Form</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert logged-in" enabled="true">
@@ -216,7 +218,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Shopping Cart Price Rule Page" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -235,6 +237,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Admin - Shopping Cart Price Rule Page</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Shopping Cart Price Rule" enabled="true">
@@ -267,7 +270,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Simple Product 1 Url Key And Name" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -286,6 +289,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Simple Product 1 Url Key And Name</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
@@ -340,7 +344,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Simple Product 1 ID" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -359,6 +363,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Simple Product 1 ID</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
@@ -392,7 +397,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Simple Product 2 Url Key And Name" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -411,6 +416,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Simple Product 2 Url Key And Name</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
@@ -465,7 +471,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Simple Product 2 ID" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -484,6 +490,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Simple Product 2 ID</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
@@ -517,7 +524,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Configurable Product 1 Url Key And Name" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -536,6 +543,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Configurable Product 1 Url Key And Name</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
@@ -590,7 +598,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Configurable Product 1 ID" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -609,6 +617,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Configurable Product 1 ID</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
@@ -642,7 +651,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Category 1" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -661,6 +670,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Category 1</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Page" enabled="true">
@@ -694,7 +704,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Category 2" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -713,6 +723,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Category 2</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Page" enabled="true">
@@ -746,9 +757,16 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Site - Get Category 3" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${base_host}</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
@@ -765,6 +783,7 @@
           <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Category 3</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Page" enabled="true">
@@ -798,7 +817,81 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SetUp" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${base_host}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}/${configurable_product_1_url_key}${url_suffix}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Site - Get Configurable Product Attribute</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Configurable Product Page" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="3599813">${configurable_product_1_name}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Configurable Product Attribute Id" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">configurable_product_attribute_id</stringProp>
+            <stringProp name="RegexExtractor.regex">name=&quot;super_attribute\[([0-9]+)\]&quot;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">175</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable">product_form_key</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Configurable Product Attribute ID" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="89649215">^\d+$</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.scope">variable</stringProp>
+            <stringProp name="Scope.variable">configurable_product_attribute_id</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Configurable Product Attribute Value" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">configurable_product_attribute_value</stringProp>
+            <stringProp name="RegexExtractor.regex">name=&quot;super_attribute\[${configurable_product_attribute_id}\]&quot;.*&lt;option\s+value=&quot;([0-9]+)&quot;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">12</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable">product_form_key</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Configurable Product Attribute Value" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="89649215">^\d+$</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.scope">variable</stringProp>
+            <stringProp name="Scope.variable">configurable_product_attribute_value</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Pass Arguments" enabled="true">
+          <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 JMeterUtils.setProperty(&quot;simple_product_1_url_key&quot;, vars.get(&quot;simple_product_1_url_key&quot;));
 JMeterUtils.setProperty(&quot;simple_product_1_name&quot;, vars.get(&quot;simple_product_1_name&quot;));
@@ -810,16 +903,27 @@ JMeterUtils.setProperty(&quot;simple_product_2_id&quot;, vars.get(&quot;simple_p
 
 JMeterUtils.setProperty(&quot;configurable_product_1_url_key&quot;, vars.get(&quot;configurable_product_1_url_key&quot;));
 JMeterUtils.setProperty(&quot;configurable_product_1_name&quot;, vars.get(&quot;configurable_product_1_name&quot;));
-JMeterUtils.setProperty(&quot;configurable_product_1_url_key&quot;, vars.get(&quot;configurable_product_1_url_key&quot;));
+JMeterUtils.setProperty(&quot;configurable_product_1_id&quot;, vars.get(&quot;configurable_product_1_id&quot;));
 
 JMeterUtils.setProperty(&quot;category_1_url_key&quot;, vars.get(&quot;category_1_url_key&quot;));
 JMeterUtils.setProperty(&quot;category_2_url_key&quot;, vars.get(&quot;category_2_url_key&quot;));
-JMeterUtils.setProperty(&quot;category_3_url_key&quot;, vars.get(&quot;category_3_url_key&quot;));</stringProp>
+JMeterUtils.setProperty(&quot;category_3_url_key&quot;, vars.get(&quot;category_3_url_key&quot;));
+
+JMeterUtils.setProperty(&quot;configurable_product_attribute_id&quot;, vars.get(&quot;configurable_product_attribute_id&quot;));
+JMeterUtils.setProperty(&quot;configurable_product_attribute_value&quot;, vars.get(&quot;configurable_product_attribute_value&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
-        <hashTree/>
+        <hashTree>
+          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion" enabled="true">
+            <stringProp name="BeanShellAssertion.query"></stringProp>
+            <stringProp name="BeanShellAssertion.filename"></stringProp>
+            <stringProp name="BeanShellAssertion.parameters"></stringProp>
+            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+          </BeanShellAssertion>
+          <hashTree/>
+        </hashTree>
         <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
           <collectionProp name="CookieManager.cookies"/>
           <boolProp name="CookieManager.clearEachIteration">true</boolProp>
@@ -842,7 +946,8 @@ JMeterUtils.setProperty(&quot;category_3_url_key&quot;, vars.get(&quot;category_
         <stringProp name="TestPlan.comments">Created in scope of MAGETWO-13442</stringProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Pass Arguments" enabled="true">
+          <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 vars.put(&quot;simple_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;simple_product_1_url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, JMeterUtils.getProperty(&quot;simple_product_1_name&quot;));
@@ -1232,7 +1337,8 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
         <stringProp name="TestPlan.comments">Created in scope of MAGETWO-13443</stringProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Pass Arguments" enabled="true">
+          <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 vars.put(&quot;simple_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;simple_product_1_url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, JMeterUtils.getProperty(&quot;simple_product_1_name&quot;));
@@ -1244,11 +1350,14 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+vars.put(&quot;configurable_product_1_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_id&quot;));
 
 vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
 vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
-vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));
+
+vars.put(&quot;configurable_product_attribute_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_id&quot;));
+vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_value&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -1739,12 +1848,12 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
               </elementProp>
-              <elementProp name="super_attribute[${attribute_id}]" elementType="HTTPArgument">
+              <elementProp name="super_attribute[${configurable_product_attribute_id}]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${attribute_value}</stringProp>
+                <stringProp name="Argument.value">${configurable_product_attribute_value}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">super_attribute[${attribute_id}]</stringProp>
+                <stringProp name="Argument.name">super_attribute[${configurable_product_attribute_id}]</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -1850,7 +1959,8 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
         <stringProp name="TestPlan.comments">Created in scope of MAGETWO-13447</stringProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Pass Arguments" enabled="true">
+          <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 vars.put(&quot;simple_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;simple_product_1_url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, JMeterUtils.getProperty(&quot;simple_product_1_name&quot;));
@@ -1862,11 +1972,15 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+vars.put(&quot;configurable_product_1_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_id&quot;));
 
 vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
 vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
-vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));
+
+
+vars.put(&quot;configurable_product_attribute_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_id&quot;));
+vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_value&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -2357,12 +2471,12 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
               </elementProp>
-              <elementProp name="super_attribute[${attribute_id}]" elementType="HTTPArgument">
+              <elementProp name="super_attribute[${configurable_product_attribute_id}]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${attribute_value}</stringProp>
+                <stringProp name="Argument.value">${configurable_product_attribute_value}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">super_attribute[${attribute_id}]</stringProp>
+                <stringProp name="Argument.name">super_attribute[${configurable_product_attribute_id}]</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -2406,7 +2520,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1346272328">You added ${configurable_product_1_name} to your shopping cart.</stringProp>
+              <stringProp name="3599813">${configurable_product_1_name}</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -3156,7 +3270,8 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
         <stringProp name="TestPlan.comments">Created in scope of MAGETWO-13448</stringProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Pass Arguments" enabled="true">
+          <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 vars.put(&quot;simple_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;simple_product_1_url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, JMeterUtils.getProperty(&quot;simple_product_1_name&quot;));
@@ -3168,11 +3283,14 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+vars.put(&quot;configurable_product_1_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_id&quot;));
 
 vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
 vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
-vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));
+
+vars.put(&quot;configurable_product_attribute_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_id&quot;));
+vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_value&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -3663,12 +3781,12 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
               </elementProp>
-              <elementProp name="super_attribute[${attribute_id}]" elementType="HTTPArgument">
+              <elementProp name="super_attribute[${configurable_product_attribute_id}]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${attribute_value}</stringProp>
+                <stringProp name="Argument.value">${configurable_product_attribute_value}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">super_attribute[${attribute_id}]</stringProp>
+                <stringProp name="Argument.name">super_attribute[${configurable_product_attribute_id}]</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -4341,7 +4459,8 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
         </elementProp>
       </kg.apc.jmeter.threads.SteppingThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Pass Arguments" enabled="true">
+          <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.apache.jmeter.util.JMeterUtils;
 vars.put(&quot;simple_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;simple_product_1_url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, JMeterUtils.getProperty(&quot;simple_product_1_name&quot;));
@@ -4353,11 +4472,15 @@ vars.put(&quot;simple_product_2_id&quot;, JMeterUtils.getProperty(&quot;simple_p
 
 vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
 vars.put(&quot;configurable_product_1_name&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_name&quot;));
-vars.put(&quot;configurable_product_1_url_key&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_url_key&quot;));
+vars.put(&quot;configurable_product_1_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_1_id&quot;));
 
 vars.put(&quot;category_1_url_key&quot;, JMeterUtils.getProperty(&quot;category_1_url_key&quot;));
 vars.put(&quot;category_2_url_key&quot;, JMeterUtils.getProperty(&quot;category_2_url_key&quot;));
-vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));</stringProp>
+vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_3_url_key&quot;));
+
+
+vars.put(&quot;configurable_product_attribute_id&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_id&quot;));
+vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProperty(&quot;configurable_product_attribute_value&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
