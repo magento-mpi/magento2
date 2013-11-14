@@ -18,7 +18,7 @@ class Title
     protected $_titles = array();
 
     /**
-     * @param $text
+     * @param string $text
      * @param bool $prepend
      * @return Title
      */

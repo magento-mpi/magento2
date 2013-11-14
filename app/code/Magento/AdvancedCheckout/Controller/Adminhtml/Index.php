@@ -44,8 +44,8 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $registry
     ) {
-        $this->_registry = $registry;
         parent::__construct($context);
+        $this->_registry = $registry;
     }
 
     /**

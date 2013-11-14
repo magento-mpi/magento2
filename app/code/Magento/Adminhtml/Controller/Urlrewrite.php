@@ -45,15 +45,6 @@ class Urlrewrite extends \Magento\Backend\App\Action
     private $_urlRewrite;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context
-    ) {
-        parent::__construct($context);
-    }
-
-    /**
      * Show URL rewrites index page
      */
     public function indexAction()
