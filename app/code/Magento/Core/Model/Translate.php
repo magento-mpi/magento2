@@ -10,6 +10,8 @@
 
 namespace Magento\Core\Model;
 
+use Magento\Phrase\TranslateInterface;
+
 /**
  * Translate model
  *
@@ -17,7 +19,7 @@ namespace Magento\Core\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Translate
+class Translate implements TranslateInterface
 {
     /**
      * CSV separator
