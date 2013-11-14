@@ -44,11 +44,15 @@
      * Moved the String Helper to the Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils libraries
      * Moved the Data Helper to the Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data libraries
      * Moved the Http Magento Helper to the Magento\HTTP library
-  * The Hint Magento Helper, Http Magento Helper helpers were removed from the Magento\Core module
+     * Moved the Data Helper date format related functions to \Magento\Core\Model\Locale
+     * Moved the Data Data Helper array decoration related functions to Magento\Stdlib\ArrayUtils
+     * Moved the Data Data Helper functions that copy data from one object to another to \Magento\Object\Copy
+  *  The Hint Magento Helper, Http Magento Helper helpers were removed from the Magento\Core module
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader was refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
   * Removed obsolete page fragment code
+  * Framework part of Cache functionality moved out of modules
 * Themes update:
   * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
   * Refactored and removed duplicated Persistent module templates

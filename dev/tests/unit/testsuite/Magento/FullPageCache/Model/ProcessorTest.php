@@ -108,7 +108,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             array(), '', false
         );
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_cacheTypeList = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
+        $this->_cacheTypeList = $this->getMock('Magento\App\Cache\TypeListInterface');
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
