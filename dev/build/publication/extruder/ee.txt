@@ -18,6 +18,7 @@ app/design/frontend/magento_plushe/Magento_Search
 app/design/frontend/magento_plushe/Magento_TargetRule
 app/design/frontend/magento_plushe/Magento_WebsiteRestriction
 app/design/frontend/magento_plushe/less/styles-ee.less
+app/design/frontend/magento_plushe/less/responsive/responsive-ee.less
 app/design/frontend/magento_plushe/css/styles-ee.css
 app/design/frontend/magento_backup/Magento_Banner
 app/design/frontend/magento_backup/Magento_CustomerBalance
