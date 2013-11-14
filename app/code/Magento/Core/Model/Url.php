@@ -126,7 +126,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -164,7 +164,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $session,
         $areaCode = null,
         array $data = array()

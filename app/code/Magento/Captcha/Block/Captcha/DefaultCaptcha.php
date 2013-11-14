@@ -35,19 +35,19 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Captcha\Helper\Data $captchaData
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Captcha\Helper\Data $captchaData,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $data);
         $this->_captchaData = $captchaData;
-        }
+    }
 
     /**
      * Returns template path

@@ -43,7 +43,7 @@ class NavigationMode extends \Magento\Core\Model\Url
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session $session
      * @param string $areaCode
      * @param array $data
@@ -55,7 +55,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $session,
         $areaCode,
         array $data = array()

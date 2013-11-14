@@ -35,7 +35,7 @@ class Cookie
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -66,7 +66,7 @@ class Cookie
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_httpRequest = $request;
         $this->_httpResponse = $response;

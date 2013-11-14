@@ -48,7 +48,7 @@ class Subscriber extends \Magento\App\Action\Action
     protected $_subscriberFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -58,7 +58,7 @@ class Subscriber extends \Magento\App\Action\Action
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -66,7 +66,7 @@ class Subscriber extends \Magento\App\Action\Action
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Session $session,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context);

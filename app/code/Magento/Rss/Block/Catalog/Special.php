@@ -40,7 +40,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -51,7 +51,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\ProductFactory $productFactory,

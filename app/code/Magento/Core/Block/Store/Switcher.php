@@ -42,7 +42,7 @@ class Switcher extends \Magento\Core\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Switcher extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeGroupFactory = $storeGroupFactory;

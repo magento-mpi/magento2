@@ -31,7 +31,7 @@ class Date
     private $_systemOffset = 0;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -45,7 +45,7 @@ class Date
      *
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_systemOffset = $this->calculateOffset();

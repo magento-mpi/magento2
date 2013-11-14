@@ -75,7 +75,7 @@ class Product extends \Magento\App\Action\Action
     protected $_catalogDesign;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +91,7 @@ class Product extends \Magento\App\Action\Action
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Core\Model\Session\Generic $reviewSession
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -105,7 +105,7 @@ class Product extends \Magento\App\Action\Action
         \Magento\Core\Model\Session $session,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Core\Model\Session\Generic $reviewSession,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;

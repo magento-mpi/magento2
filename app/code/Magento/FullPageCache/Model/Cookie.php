@@ -84,7 +84,7 @@ class Cookie extends \Magento\Core\Model\Cookie
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $_fpcCache
      * @param \Magento\Customer\Model\Session $customerSession
@@ -93,7 +93,7 @@ class Cookie extends \Magento\Core\Model\Cookie
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $_fpcCache,
         \Magento\Customer\Model\Session $customerSession

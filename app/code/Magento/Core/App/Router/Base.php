@@ -64,7 +64,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected $_url;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -90,7 +90,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
-     * @param \Magento\Core\Model\StoreManager|\Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface|\Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param $routerId

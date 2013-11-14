@@ -72,7 +72,7 @@ extends \Magento\Core\Block\Template
     /**
      * Return store manager instance
      *
-     * @return \Magento\Core\Model\StoreManager
+     * @return \Magento\Core\Model\StoreManagerInterface
      */
     protected function _getStoreManagerModel()
     {

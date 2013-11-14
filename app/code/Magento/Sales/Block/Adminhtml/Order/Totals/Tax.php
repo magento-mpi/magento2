@@ -35,7 +35,7 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
     protected $_taxOrderFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

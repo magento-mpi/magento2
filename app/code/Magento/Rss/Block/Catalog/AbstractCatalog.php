@@ -54,7 +54,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
@@ -62,7 +62,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()

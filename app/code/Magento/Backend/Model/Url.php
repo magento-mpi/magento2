@@ -84,7 +84,7 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\Session $session
      * @param Menu\Config $menuConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
@@ -100,7 +100,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\Session $session,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,

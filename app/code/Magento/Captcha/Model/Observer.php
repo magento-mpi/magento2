@@ -58,7 +58,7 @@ class Observer
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -92,7 +92,7 @@ class Observer
      * @param \Magento\Core\Model\Url $urlManager
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,
@@ -104,7 +104,7 @@ class Observer
         \Magento\Core\Model\Url $urlManager,
         \Magento\Filesystem $filesystem,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_resLogFactory = $resLogFactory;

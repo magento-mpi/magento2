@@ -25,7 +25,7 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -137,7 +137,7 @@ class Context extends \Magento\Core\Block\Template\Context
     /**
      * Get store manager
      *
-     * @return \Magento\Core\Model\StoreManager
+     * @return \Magento\Core\Model\StoreManagerInterface
      */
     public function getStoreManager()
     {

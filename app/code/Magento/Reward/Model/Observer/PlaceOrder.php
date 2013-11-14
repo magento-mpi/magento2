@@ -25,7 +25,7 @@ class PlaceOrder
     protected $_resourceFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -36,14 +36,14 @@ class PlaceOrder
 
     /**
      * @param \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $modelFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $resourceFactory
      * @param \Magento\Reward\Model\Reward\Balance\Validator $validator
      */
     public function __construct(
         \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $modelFactory,
         \Magento\Reward\Model\Resource\RewardFactory $resourceFactory,
         \Magento\Reward\Model\Reward\Balance\Validator $validator

@@ -16,7 +16,7 @@ class Currency
     protected static $_websiteBaseCurrencyCodes = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

@@ -107,7 +107,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /** @var \Magento\Core\Model\Sender */
     protected $_sender;
 
-    /** @var \Magento\Core\Model\StoreManager */
+    /** @var \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
     /** @var \Magento\Eav\Model\Config */
@@ -180,7 +180,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Sender $sender
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $resource
@@ -202,7 +202,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Sender $sender,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $resource,

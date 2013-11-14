@@ -27,7 +27,7 @@ class Revision
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,7 +41,7 @@ class Revision
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -53,7 +53,7 @@ class Revision
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_cmsPage = $cmsPage;

@@ -50,7 +50,7 @@ class Cart extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Checkout\Model\Cart $checkoutCart
@@ -58,7 +58,7 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Checkout\Model\Cart $checkoutCart,

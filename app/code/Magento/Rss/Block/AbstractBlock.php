@@ -20,17 +20,18 @@ class AbstractBlock extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $coreData, $data);
     }
@@ -43,8 +44,8 @@ class AbstractBlock extends \Magento\Core\Block\Template
     protected function _getStoreId()
     {
         $storeId =   (int) $this->getRequest()->getParam('store_id');
-        if($storeId == null) {
-           $storeId = $this->_storeManager->getStore()->getId();
+        if ($storeId == null) {
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         return $storeId;
     }

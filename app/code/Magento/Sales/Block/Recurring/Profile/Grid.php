@@ -42,7 +42,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Recurring\Profile $profile
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
@@ -51,7 +51,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Recurring\Profile $profile,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {

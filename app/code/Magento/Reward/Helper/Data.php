@@ -38,7 +38,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_ratesArray = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

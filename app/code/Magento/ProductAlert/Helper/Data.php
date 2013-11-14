@@ -53,7 +53,7 @@ class Data extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -61,7 +61,7 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
