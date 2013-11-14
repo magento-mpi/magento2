@@ -91,7 +91,7 @@ class Redirect
         $refererUrl = $this->_getUrl();
         if (empty($refererUrl)) {
             $refererUrl = empty($defaultUrl)
-                ? $this->_storeManager->getBaseUrl()
+                ? $this->_storeManager->getStore()->getBaseUrl()
                 : $defaultUrl;
         }
         return $refererUrl;
