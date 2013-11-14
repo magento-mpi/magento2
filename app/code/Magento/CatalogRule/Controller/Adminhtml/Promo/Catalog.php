@@ -34,11 +34,6 @@ class Catalog extends \Magento\Backend\App\Action
      */
     protected $_coreRegistry = null;
 
-    /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
     /*
      * @var \Magento\Core\Filter\Date
      */
@@ -47,18 +42,15 @@ class Catalog extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
      * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title,
         \Magento\Core\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
-        $this->_title = $title;
         $this->_dateFilter = $dateFilter;
     }
 

@@ -29,36 +29,38 @@ class Revision
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Filter\Date $dateFilter
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\App\Action\Title $title
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Filter\Date $dateFilter,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Design $design
     ) {
         $this->_cmsPage = $cmsPage;
         $this->_design = $design;
-        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession,
-            $pageVersion, $pageFactory, $title, $dateFilter);
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $dateFilter,
+            $cmsConfig,
+            $backendAuthSession,
+            $pageVersion,
+            $pageFactory
+        );
     }
+
 
     /**
      * Init actions

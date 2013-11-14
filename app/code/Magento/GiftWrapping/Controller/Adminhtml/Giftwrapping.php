@@ -29,23 +29,15 @@ class Giftwrapping extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
-        Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**

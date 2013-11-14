@@ -16,24 +16,6 @@ namespace Magento\Catalog\Controller\Adminhtml;
 class Category extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Action\Title $title
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Action\Title $title
-    )
-    {
-        parent::__construct($context);
-        $this->_title = $title;
-    }
-
-    /**
      * Initialize requested category and put it into registry.
      * Root category can be returned, if inappropriate store/category is specified
      *

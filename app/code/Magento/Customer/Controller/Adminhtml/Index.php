@@ -34,17 +34,14 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\App\Action\Title $title
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

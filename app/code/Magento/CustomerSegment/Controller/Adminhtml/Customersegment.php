@@ -30,25 +30,17 @@ class Customersegment extends \Magento\Backend\App\Action
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_coreRegistry = $coreRegistry;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

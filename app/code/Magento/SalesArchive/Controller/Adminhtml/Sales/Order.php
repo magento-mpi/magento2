@@ -28,14 +28,16 @@ class Order extends  \Magento\Sales\Controller\Adminhtml\Order
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\SalesArchive\Model\Archive $archiveModel,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Model\Translate $translator
+        \Magento\Core\Model\Translate $translator,
+        \Magento\SalesArchive\Model\Archive $archiveModel
     ) {
         $this->_archiveModel = $archiveModel;
         parent::__construct($context, $coreRegistry, $fileFactory, $translator);

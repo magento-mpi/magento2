@@ -41,36 +41,28 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     protected $_pageFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\App\Action\Title $title
-     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
-        \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\App\Action\Title $title,
-        \Magento\Core\Filter\Date $dateFilter
+        \Magento\Cms\Model\PageFactory $pageFactory
     ) {
         $this->_cmsConfig = $cmsConfig;
         $this->_backendAuthSession = $backendAuthSession;
         $this->_pageVersion = $pageVersion;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($context, $coreRegistry, $title, $dateFilter);
-        $this->_title = $title;
+        parent::__construct($context, $coreRegistry, $dateFilter);
     }
 
     /**

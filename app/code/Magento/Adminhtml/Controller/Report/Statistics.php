@@ -27,28 +27,18 @@ class Statistics extends \Magento\Backend\App\Action
     protected $_adminSession = null;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @var \Magento\Core\Filter\Date
      */
     protected $_dateFilter;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Action\Title $title
      * @param \Magento\Core\Filter\Date $dateFilter
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Action\Title $title,
-        \Magento\Core\Filter\Date $dateFilter
-    ) {
-        parent::__construct($context);
-        $this->_title = $title;
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Core\Filter\Date $dateFilter)
+    {
         $this->_dateFilter = $dateFilter;
+        parent::__construct($context);
     }
 
     public function _initAction()

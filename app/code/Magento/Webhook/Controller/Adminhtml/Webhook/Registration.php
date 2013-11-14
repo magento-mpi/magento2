@@ -38,18 +38,17 @@ class Registration extends \Magento\Backend\App\AbstractAction
     /** @var \Magento\Webhook\Model\Webapi\User\Factory */
     private $_userFactory;
 
-
     /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Webhook\Model\Webapi\User\Factory $userFactory
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Webhook\Model\Webapi\User\Factory $userFactory,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\App\Action\Context $context
+        \Magento\Core\Model\Registry $registry
     ) {
         parent::__construct($context);
         $this->_userFactory = $userFactory;

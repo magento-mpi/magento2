@@ -39,30 +39,21 @@ class Invitation extends \Magento\Backend\App\Action
     protected $_config;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
-        Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
-        \Magento\Invitation\Model\Config $config,
-        \Magento\App\Action\Title $title
+        \Magento\Invitation\Model\Config $config
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
         $this->_invitationFactory = $invitationFactory;
         $this->_config = $config;
-        $this->_title = $title;
+        parent::__construct($context);
     }
 
     /**

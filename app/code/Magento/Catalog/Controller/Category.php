@@ -48,20 +48,17 @@ class Category extends \Magento\App\Action\Action
     protected $_categoryFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\App\Action\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_categoryFactory = $categoryFactory;

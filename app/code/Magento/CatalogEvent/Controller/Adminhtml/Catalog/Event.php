@@ -28,38 +28,26 @@ class Event extends \Magento\Backend\App\Action
     protected $_eventFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @var \Magento\Core\Filter\DateTime
      */
     protected $_dateTimeFilter;
 
     /**
-     * Construct
-     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
-     * @param \Magento\App\Action\Title $title
      * @param \Magento\Core\Filter\DateTime $dateTimeFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\CatalogEvent\Model\EventFactory $eventFactory,
-        \Magento\App\Action\Title $title,
         \Magento\Core\Filter\DateTime $dateTimeFilter
     ) {
-        parent::__construct($context);
-
         $this->_coreRegistry = $coreRegistry;
         $this->_eventFactory = $eventFactory;
-        $this->_title = $title;
         $this->_dateTimeFilter = $dateTimeFilter;
+        parent::__construct($context);
     }
 
     /**

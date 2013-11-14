@@ -45,14 +45,14 @@ class Customersegment
     protected $_fileFactory;
 
     /**
-     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Backend\App\Action\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory
     ) {

@@ -46,31 +46,23 @@ class Attribute
     protected $_attrSetFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\AttributeFactory $attrFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\AttributeFactory $attrFactory,
-        \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory,
-        \Magento\App\Action\Title $title
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eavConfig = $eavConfig;
         $this->_attrFactory = $attrFactory;
         $this->_attrSetFactory = $attrSetFactory;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

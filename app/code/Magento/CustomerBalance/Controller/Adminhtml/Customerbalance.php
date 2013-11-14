@@ -36,15 +36,15 @@ class Customerbalance extends \Magento\Backend\App\Action
     protected $_balance;
 
     /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerBalance\Model\Balance $balance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerBalance\Model\Balance $balance,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;

@@ -31,25 +31,17 @@ class Integration extends \Magento\Backend\App\Action
     private $_integrationService;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
-        Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Registry $registry
     ) {
         $this->_registry = $registry;
         $this->_integrationService = $integrationService;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

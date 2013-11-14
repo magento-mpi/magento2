@@ -21,13 +21,13 @@ class Payment
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Helper\Product $productHelper
+        \Magento\Catalog\Helper\Product $productHelper,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $productHelper);

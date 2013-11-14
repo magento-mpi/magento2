@@ -38,23 +38,17 @@ class Reports extends \Magento\Backend\App\Action
     protected $_logger;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory
      * @param \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
-     * @param \Magento\App\Action\Title $title
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
-        \Magento\App\Action\Title $title,
         \Magento\Logger $logger
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -62,7 +56,6 @@ class Reports extends \Magento\Backend\App\Action
         $this->_settlementFactory = $settlementFactory;
         $this->_logger = $logger;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**

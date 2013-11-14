@@ -31,14 +31,14 @@ class Api extends \Magento\App\Action\Action
     protected $_transactionFactory;
 
     /**
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
-     * @param \Magento\App\Action\Context $context
      */
     public function __construct(
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
-        \Magento\Sales\Model\OrderFactory $salesOrderFactory,
-        \Magento\App\Action\Context $context
+        \Magento\Sales\Model\OrderFactory $salesOrderFactory
     ) {
         parent::__construct($context);
         $this->_transactionFactory = $transactionFactory;

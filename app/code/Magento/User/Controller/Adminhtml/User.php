@@ -24,28 +24,18 @@ class User extends \Magento\Backend\App\AbstractAction
     protected $_userFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * Construct
-     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\User\Model\UserFactory $userFactory
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\User\Model\UserFactory $userFactory,
-        \Magento\App\Action\Title $title
+        \Magento\User\Model\UserFactory $userFactory
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_userFactory = $userFactory;
-        $this->_title = $title;
     }
 
     protected function _initAction()

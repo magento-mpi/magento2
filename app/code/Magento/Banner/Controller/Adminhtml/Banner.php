@@ -20,24 +20,15 @@ class Banner extends \Magento\Backend\App\Action
      * @var \Magento\Core\Model\Registry
      */
     protected $_registry = null;
-
-    /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
-        Action\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\App\Action\Title $title
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Core\Model\Registry $registry
     ) {
         $this->_registry = $registry;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

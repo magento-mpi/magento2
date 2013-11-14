@@ -32,25 +32,17 @@ class Store extends \Magento\Backend\App\Action
     protected $filterManager;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Filter\FilterManager $filterManager,
-        \Magento\App\Action\Title $title
+        \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filterManager = $filterManager;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

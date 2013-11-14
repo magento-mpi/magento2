@@ -38,11 +38,6 @@ class Instance extends \Magento\Backend\App\Action
     protected $mathRandom;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
@@ -53,7 +48,7 @@ class Instance extends \Magento\Backend\App\Action
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\App\Action\Title $title
+     * @param \Magento\Core\Model\Translate $translator
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -61,7 +56,6 @@ class Instance extends \Magento\Backend\App\Action
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Logger $logger,
         \Magento\Math\Random $mathRandom,
-        \Magento\App\Action\Title $title,
         \Magento\Core\Model\Translate $translator
     ) {
         $this->_translator = $translator;
@@ -70,7 +64,6 @@ class Instance extends \Magento\Backend\App\Action
         $this->_logger = $logger;
         $this->mathRandom = $mathRandom;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**

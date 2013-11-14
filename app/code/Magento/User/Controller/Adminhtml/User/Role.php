@@ -50,20 +50,12 @@ class Role extends \Magento\Backend\App\AbstractAction
     protected $_authSession;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * Construct
-     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\User\Model\RulesFactory $rulesFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -71,8 +63,7 @@ class Role extends \Magento\Backend\App\AbstractAction
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\User\Model\RulesFactory $rulesFactory,
-        \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\App\Action\Title $title
+        \Magento\Backend\Model\Auth\Session $authSession
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -80,7 +71,6 @@ class Role extends \Magento\Backend\App\AbstractAction
         $this->_userFactory = $userFactory;
         $this->_rulesFactory = $rulesFactory;
         $this->_authSession = $authSession;
-        $this->_title = $title;
     }
 
     /**

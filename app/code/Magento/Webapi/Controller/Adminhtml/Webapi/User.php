@@ -17,25 +17,15 @@ class User extends \Magento\Backend\App\AbstractAction
     protected $_validatorFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * Initialize dependencies.
-     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Validator\Factory $validatorFactory,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Validator\Factory $validatorFactory
     ) {
-        parent::__construct($context);
         $this->_validatorFactory = $validatorFactory;
-        $this->_title = $title;
+        parent::__construct($context);
     }
 
     /**

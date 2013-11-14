@@ -34,6 +34,7 @@ class Version
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -41,27 +42,30 @@ class Version
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
      * @param \Magento\Adminhtml\Model\Session $adminhtmlSession
      * @param \Magento\VersionsCms\Model\Page\Revision $pageRevision
-     * @param \Magento\App\Action\Title $title
-     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\Adminhtml\Model\Session $adminhtmlSession,
-        \Magento\VersionsCms\Model\Page\Revision $pageRevision,
-        \Magento\App\Action\Title $title,
-        \Magento\Core\Filter\Date $dateFilter
+        \Magento\VersionsCms\Model\Page\Revision $pageRevision
     ) {
         $this->_pageVersionFactory = $pageVersionFactory;
         $this->_adminhtmlSession = $adminhtmlSession;
         $this->_pageRevision = $pageRevision;
         parent::__construct(
-            $context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory, $title, $dateFilter
+            $context,
+            $coreRegistry,
+            $dateFilter,
+            $cmsConfig,
+            $backendAuthSession,
+            $pageVersion,
+            $pageFactory
         );
     }
 

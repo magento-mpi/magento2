@@ -31,28 +31,20 @@ class Process extends \Magento\Backend\App\Action
     protected $_indexer;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
-        Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Index\Model\ProcessFactory $processFactory,
-        \Magento\Index\Model\Indexer $indexer,
-        \Magento\App\Action\Title $title
+        \Magento\Index\Model\Indexer $indexer
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_processFactory = $processFactory;
         $this->_indexer = $indexer;
-        $this->_title = $title;
         parent::__construct($context);
     }
 

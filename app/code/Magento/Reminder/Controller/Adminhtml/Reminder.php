@@ -37,11 +37,6 @@ class Reminder extends \Magento\Backend\App\Action
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @var \Magento\Core\Filter\Date
      */
     protected $_dateFilter;
@@ -51,22 +46,19 @@ class Reminder extends \Magento\Backend\App\Action
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
-     * @param \Magento\App\Action\Title $title
      * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
-        Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
         \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
-        \Magento\App\Action\Title $title,
         \Magento\Core\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_ruleFactory = $ruleFactory;
         $this->_conditionFactory = $conditionFactory;
-        $this->_title = $title;
         $this->_dateFilter = $dateFilter;
     }
 

@@ -21,26 +21,6 @@ class Creditmemo
     extends \Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo
 {
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Action\Title $title
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Action\Title $title,
-        \Magento\App\Response\Http\FileFactory $fileFactory
-    )
-    {
-        parent::__construct($context, $fileFactory);
-        $this->_title = $title;
-    }
-
-    /**
      * Get requested items qtys and return to stock flags
      */
     protected function _getItemData()

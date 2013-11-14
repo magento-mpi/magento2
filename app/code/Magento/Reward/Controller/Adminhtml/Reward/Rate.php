@@ -21,11 +21,6 @@ namespace Magento\Reward\Controller\Adminhtml\Reward;
 class Rate extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -35,16 +30,13 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**

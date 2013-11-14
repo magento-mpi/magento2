@@ -81,20 +81,18 @@ class Compare extends \Magento\App\Action\Action
     protected $_customerFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\App\Action\Context $context
      */
     public function __construct(
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -102,8 +100,7 @@ class Compare extends \Magento\App\Action\Action
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
-        \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\App\Action\Context $context
+        \Magento\Catalog\Model\Session $catalogSession
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_compareItemFactory = $compareItemFactory;

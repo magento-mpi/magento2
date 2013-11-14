@@ -33,13 +33,13 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
