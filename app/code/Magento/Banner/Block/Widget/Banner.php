@@ -124,8 +124,8 @@ class Banner
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_filterProvider = $filterProvider;
-        $this->_currentStoreId  = $storeManager->getStore()->getId();
-        $this->_currentWebsiteId  = $storeManager->getWebsite()->getId();
+        $this->_currentStoreId  = $this->_storeManager->getStore()->getId();
+        $this->_currentWebsiteId  = $this->_storeManager->getWebsite()->getId();
     }
 
     /**

@@ -34,8 +34,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddGetClearRss($isUseStoreInUrl)
     {
-        $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-
         $urlMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
 
         $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
@@ -69,8 +67,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('getUrl')
             ->will($this->returnValue('some_url'));
 
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $block = new \Magento\Backend\Block\Widget\Grid($helperMock, $contextMock, $storeManagerMock, $urlMock);
+        $block = $helper->getObject('Magento\Backend\Block\Widget\Grid', array(
+            'context' => $contextMock,
+            'storeManager' => $storeManagerMock,
+            'urlModel' => $urlMock,
+            )
+        );
 
         $this->assertFalse($block->getRssLists());
 
