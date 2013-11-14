@@ -21,7 +21,7 @@ namespace Magento\Pbridge\Model;
 class Observer
 {
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -50,13 +50,13 @@ class Observer
      * Construct
      *
      * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
