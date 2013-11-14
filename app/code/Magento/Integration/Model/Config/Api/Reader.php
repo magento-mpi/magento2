@@ -34,7 +34,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
         \Magento\Integration\Model\Config\Api\Converter $converter,
         \Magento\Integration\Model\Config\Api\SchemaLocator $schemeLocator,
         \Magento\Config\ValidationStateInterface $validationState,
-        $fileName = 'integration\config.xml'
+        $fileName = 'integration\api.xml'
     ) {
         parent::__construct($fileResolver, $converter, $schemeLocator, $validationState, $fileName);
     }
