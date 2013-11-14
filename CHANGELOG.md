@@ -1,4 +1,5 @@
 * Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
+* Removed Erroneous closing " in email template account_new_confirmed.html
 * Moved Mage_Catalog menu declaration into Mage_Catalog module
 * Various improvements:
   * Added static test for check incorrect dependencies in library
