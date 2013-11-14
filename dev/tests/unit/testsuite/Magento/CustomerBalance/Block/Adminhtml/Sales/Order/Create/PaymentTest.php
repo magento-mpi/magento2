@@ -83,7 +83,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(false));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -126,7 +126,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -204,7 +204,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))

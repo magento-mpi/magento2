@@ -189,7 +189,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Core data
      *
-     * @var \Magento\Core\Model\Factory\Helper
+     * @var \Magento\App\Helper\HelperFactory
      */
     protected $_factoryHelper = null;
 
@@ -232,7 +232,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param Factory\Helper $factoryHelper
+     * @param Factory\HelperFactory $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\DesignInterface $design
      * @param BlockFactory $blockFactory
@@ -249,7 +249,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Factory\Helper $factoryHelper,
+        \Magento\App\Helper\HelperFactory $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\View\DesignInterface $design,
         \Magento\View\Element\BlockFactory $blockFactory,

@@ -1447,4 +1447,5 @@ return array(
     array('Magento\Core\Block\Html\Calendar', 'Magento\View\Block\Html\Calendar'),
     array('Magento\Core\Block\Html\Link', 'Magento\View\Block\Html\Link'),
     array('Magento\Core\Block\Context', 'Magento\View\Block\Context'),
+    array('Magento\Core\Model\Factory\Helper', 'Magento\App\Helper\HelperFactory'),
 );

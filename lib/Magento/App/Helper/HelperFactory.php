@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 /**
  * Helper factory model. Used to get helper objects
  */
-namespace Magento\Core\Model\Factory;
+namespace Magento\App\Helper;
 
-class Helper
+class HelperFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -33,7 +31,7 @@ class Helper
      *
      * @param string $className
      * @param array $arguments
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @return \Magento\App\Helper\AbstractHelper
      * @throws \LogicException
      */
     public function get($className, array $arguments = array())
@@ -46,9 +44,9 @@ class Helper
 
         $helper = $this->_objectManager->get($className, $arguments);
 
-        if (false === ($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
+        if (false === ($helper instanceof \Magento\App\Helper\AbstractHelper)) {
             throw new \LogicException(
-                $className . ' doesn\'t extends Magento\App\Helper'
+                $className . ' doesn\'t extends Magento\App\Helper\AbstractHelper'
             );
         }
 

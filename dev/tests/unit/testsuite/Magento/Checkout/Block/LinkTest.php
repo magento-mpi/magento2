@@ -50,7 +50,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('canOnepageCheckout', 'isModuleOutputEnabled'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
+        $helperFactory = $this->getMockBuilder('Magento\App\Helper\HelperFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();

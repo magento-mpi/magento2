@@ -158,7 +158,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $helper->expects($this->once())->method('formatCurrency')
             ->will($this->returnValue('10 USD'));
 
-        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
+        $helperFactory = $this->getMockBuilder('Magento\App\Helper\HelperFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();

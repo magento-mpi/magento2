@@ -103,7 +103,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_frontController;
 
     /**
-     * @var \Magento\Core\Model\Factory\Helper
+     * @var \Magento\App\Helper\HelperFactory
      */
     protected $_helperFactory;
 
