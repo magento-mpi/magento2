@@ -10,6 +10,10 @@
  */
 namespace Magento\View\Block;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
@@ -130,6 +134,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         \Magento\App\RequestInterface $request,

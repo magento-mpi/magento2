@@ -9,6 +9,9 @@
  */
 namespace Magento\View\Block\Template;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Context extends \Magento\View\Block\Context
 {
     /**
@@ -73,6 +76,8 @@ class Context extends \Magento\View\Block\Context
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\RequestInterface $request,

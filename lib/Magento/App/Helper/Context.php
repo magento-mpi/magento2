@@ -72,6 +72,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Logger $logger,
