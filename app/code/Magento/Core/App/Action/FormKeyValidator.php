@@ -11,6 +11,11 @@ namespace Magento\Core\App\Action;
 class FormKeyValidator
 {
     /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
      * @param \Magento\Core\Model\Session $session
      */
     public function __construct(\Magento\Core\Model\Session $session)
