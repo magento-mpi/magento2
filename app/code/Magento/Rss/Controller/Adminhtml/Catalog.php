@@ -16,21 +16,6 @@ namespace Magento\Rss\Controller\Adminhtml;
 class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
 {
     /**
-     * Return required ACL resource for current action
-     *
-     * @return bool|string
-     */
-    protected function _getActionAclResource()
-    {
-        $acl = array(
-            'notifystock' => 'Magento_Catalog::products',
-            'review' => 'Magento_Review::reviews_all'
-        );
-        $action = $this->getRequest()->getActionName();
-        return isset($acl[$action]) ? $acl[$action] : false;
-    }
-
-    /**
      * Notify stock action
      */
     public function notifystockAction()

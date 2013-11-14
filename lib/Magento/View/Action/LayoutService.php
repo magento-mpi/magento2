@@ -133,7 +133,7 @@ class LayoutService implements LayoutServiceInterface
      */
     public function getDefaultLayoutHandle()
     {
-        return strtolower($this->_getFullActionName());
+        return strtolower($this->_request->getFullActionName());
     }
 
     /**
@@ -178,7 +178,7 @@ class LayoutService implements LayoutServiceInterface
         // dispatch event for adding handles to layout update
         $this->_eventManager->dispatch(
             'controller_action_layout_load_before',
-            array('full_action_name' => $this->_getFullActionName(), 'layout' => $this->getLayout())
+            array('full_action_name' => $this->_request->getFullActionName(), 'layout' => $this->getLayout())
         );
 
         // load layout updates by specified handles
@@ -220,7 +220,7 @@ class LayoutService implements LayoutServiceInterface
         if (!$this->_actionFlag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_before',
-                array('full_action_name' => $this->_getFullActionName(), 'layout' => $this->getLayout())
+                array('full_action_name' => $this->_request->getFullActionName(), 'layout' => $this->getLayout())
             );
         }
 
@@ -232,7 +232,7 @@ class LayoutService implements LayoutServiceInterface
         if (!$this->_actionFlag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_after',
-                array('full_action_name' => $this->_getFullActionName(), 'layout' => $this->getLayout())
+                array('full_action_name' => $this->_request->getFullActionName(), 'layout' => $this->getLayout())
             );
         }
 
@@ -261,7 +261,9 @@ class LayoutService implements LayoutServiceInterface
         }
 
         $this->_eventManager->dispatch('controller_action_layout_render_before');
-        $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->_getFullActionName());
+        $this->_eventManager->dispatch(
+            'controller_action_layout_render_before_' . $this->_request->getFullActionName()
+        );
 
         $output = $this->getLayout()->getOutput();
         $this->_translator->processResponseBody($output);
@@ -280,18 +282,5 @@ class LayoutService implements LayoutServiceInterface
     public function setIsLayoutLoaded($value)
     {
         $this->_isLayoutLoaded = $value;
-    }
-
-    /**
-     * Retrieve full bane of current action current controller
-     *
-     * @param   string $delimiter
-     * @return  string
-     */
-    protected function _getFullActionName($delimiter = '_')
-    {
-        return $this->_request->getRequestedRouteName() . $delimiter .
-            $this->_request->getRequestedControllerName() . $delimiter .
-            $this->_request->getRequestedActionName();
     }
 }

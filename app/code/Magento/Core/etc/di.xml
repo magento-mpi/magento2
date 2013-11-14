@@ -430,10 +430,10 @@
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
+        <plugin name="clickjacking" type="Magento\App\FrontController\Plugin\Clickjacking" sortOrder="0"/>
     </type>
     <type name="Magento\App\Action\Action">
         <plugin name="sessionInitializer" type="Magento\Core\App\Action\Plugin\Session" sortOrder="10"/>
         <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="20"/>
-        <plugin name="designLoader" type="Magento\App\Action\Plugin\Clickjacking" sortOrder="0"/>
     </type>
 </config>

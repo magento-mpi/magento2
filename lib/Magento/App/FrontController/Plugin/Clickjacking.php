@@ -14,10 +14,10 @@ class Clickjacking
     /**
      * Process response
      *
-     * @param \Magento\App\Response $response
-     * @return \Magento\App\Response
+     * @param \Magento\App\ResponseInterface $response
+     * @return \Magento\App\ResponseInterface
      */
-    public function afterDispatch(\Magento\App\Response $response)
+    public function afterDispatch(\Magento\App\ResponseInterface $response)
     {
         if (!$response->getHeader('X-Frame-Options')) {
             $response->setHeader('X-Frame-Options', 'SAMEORIGIN');
