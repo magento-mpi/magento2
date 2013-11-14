@@ -67,7 +67,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');
 
-        $session = $this->getMock('Magento\Adminhtml\Model\Session', array(), array(), '', false);
+        $session = $this->getMock('Magento\Adminhtml\Model\Session', array('addSuccess'), array(), '', false);
         $session->expects($this->once())
             ->method('addSuccess')
             ->with('The JavaScript/CSS cache has been cleaned.');

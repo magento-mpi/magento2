@@ -53,14 +53,11 @@ class Subscription extends \Magento\Backend\App\AbstractAction
     public function __construct(
         \Magento\Core\Model\Registry $registry,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Action\Title $title
+        \Magento\Backend\App\Action\Context $context
     ) {
         parent::__construct($context);
-
         $this->_registry = $registry;
         $this->_subscriptionService = $subscriptionService;
-        $this->_title = $title;
     }
 
     /**
@@ -71,8 +68,8 @@ class Subscription extends \Magento\Backend\App\AbstractAction
         $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook')
             ->_title->add(__('System'))
-            ->_title->add(__('Web Services'))
-            ->_title->add(__('WebHook Subscriptions'));
+            ->add(__('Web Services'))
+            ->add(__('WebHook Subscriptions'));
 
         $this->_layoutServices->renderLayout();
     }
@@ -105,8 +102,8 @@ class Subscription extends \Magento\Backend\App\AbstractAction
             $this->_layoutServices->loadLayout();
         $this->_setActiveMenu('Magento_Webapi::system_webapi')
                 ->_title->add(__('System'))
-                ->_title->add(__('Web Services'))
-                ->_title->add(__('WebHook Subscriptions'));
+                ->add(__('Web Services'))
+                ->add(__('WebHook Subscriptions'));
             if ($this->_registry->registry(self::REGISTRY_KEY_WEBHOOK_ACTION) === self::ACTION_NEW) {
                 $this->_title->add(__('Add Subscription'));
             } else {
