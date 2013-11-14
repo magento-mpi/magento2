@@ -38,6 +38,7 @@ class Product extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $this->buildSimpleWithNewCategoryData($defaultData),
         );
+        $this->_data['simple_advanced_pricing'] = $this->getSimpleAdvancedPricing();
     }
 
     /**
@@ -84,6 +85,28 @@ class Product extends AbstractRepository
         );
         $product = array_replace_recursive($this->_data['simple'], $inventory);
         unset($product['data']['fields']['qty']);
+
+        return $product;
+    }
+
+    /**
+     * Get simple product with advanced pricing
+     *
+     * @return array
+     */
+    protected function getSimpleAdvancedPricing()
+    {
+        $pricing = array(
+            'data' => array(
+                'fields' => array(
+                    'special_price' => array(
+                        'value' => '9',
+                        'group' => 'product_info_tabs_advanced-pricing'
+                    )
+                )
+            )
+        );
+        $product = array_replace_recursive($this->_data['simple'], $pricing);
 
         return $product;
     }

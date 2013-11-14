@@ -35,24 +35,18 @@ class ProductSpecialPriceTest extends Functional
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         // Preconditions
-        // Create magento configuration
-        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $config->switchData('enable_mysql_search');
-        $config->persist();
-
         // Create customer
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->persist();
 
-        /** @todo ACB add curl handlers for special price products */
         // Create simple product with special price
         $simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simpleProduct->switchData('simple');
+        $simpleProduct->switchData('simple_advanced_pricing');
         $simpleProduct->persist();
 
         // Create configurable product with special price
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable');
+        $configurableProduct->switchData('configurable_advanced_pricing');
         $configurableProduct->persist();
 
         // Steps
@@ -61,6 +55,7 @@ class ProductSpecialPriceTest extends Functional
         $this->addProductToCart($configurableProduct);
 
         // Verifying
+
     }
 
     /**
