@@ -29,10 +29,7 @@ class Page extends \Magento\Backend\Block\Template
     {
         parent::_construct();
 
-        $action = $this->_app->getFrontController()->getAction();
-        if ($action) {
-            $this->addBodyClass($action->getFullActionName('-'));
-        }
+        $this->addBodyClass($this->_request->getFullActionName('-'));
     }
 
     /**

@@ -188,16 +188,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Get controller name
-     *
-     * @return string
-     */
-    public function getControllerName()
-    {
-        return $this->_app->getFrontController()->getRequest()->getControllerName();
-    }
-
-    /**
      * Update all child and parent order's edit increment numbers.
      * Needed for Admin area.
      *

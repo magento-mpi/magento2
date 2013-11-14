@@ -194,7 +194,7 @@ class Observer
      */
     public function collectTotalsFailedItems($observer)
     {
-        if ($observer->getEvent()->getFullActionName() != 'checkout_cart_index') {
+        if ($observer->getEvent()->getRequest()->getFullActionName() != 'checkout_cart_index') {
             return;
         }
 

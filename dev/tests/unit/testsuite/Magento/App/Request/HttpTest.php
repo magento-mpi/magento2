@@ -229,4 +229,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\App\Request\Http($this->_routerListMock);
         $this->assertFalse($this->_model->isStraight());
     }
+
+
+    public function testGetFullActionName()
+    {
+        /* empty request */
+        $this->assertEquals('__', $this->_model->getFullActionName());
+
+        $this->_model->setRouteName('test')
+            ->setControllerName('controller')
+            ->setActionName('action');
+        $this->assertEquals('test/controller/action', $this->_model->getFullActionName('/'));
+    }
 }

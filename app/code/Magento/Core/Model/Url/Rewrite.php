@@ -228,9 +228,6 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         if (!$this->_appState->isInstalled()) {
             return false;
         }
-        if (is_null($request)) {
-            $request = $this->_app->getFrontController()->getRequest();
-        }
         if (is_null($this->getStoreId()) || false === $this->getStoreId()) {
             $this->setStoreId($this->_storeManager->getStore()->getId());
         }

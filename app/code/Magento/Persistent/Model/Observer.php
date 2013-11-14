@@ -295,9 +295,7 @@ class Observer
             return;
         }
 
-        /** @var $action \Magento\Checkout\Controller\Onepage */
-        $action = $observer->getEvent()->getControllerAction();
-        $actionName = $action->getFullActionName();
+        $actionName = $observer->getEvent()->getRequest()->getFullActionName();
 
         if (in_array($actionName, $stopActions)) {
             return;

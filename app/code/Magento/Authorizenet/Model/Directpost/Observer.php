@@ -108,12 +108,9 @@ class Observer
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && $payment->getMethod() == $this->_modelFactory->create()->getCode()) {
-                /* @var $controller \Magento\App\Action\Action */
-                $controller = $observer->getEvent()->getData('controller_action');
-                $result = $this->_coreData->jsonDecode(
-                    $controller->getResponse()->getBody('default'),
-                    \Zend_Json::TYPE_ARRAY
-                );
+                $request = $observer->getEvent()->getRequest();
+                $response = $observer->getEvent()->getResponse();
+                $result = $this->_coreData->jsonDecode($response->getBody('default'), \Zend_Json::TYPE_ARRAY);
 
                 if (empty($result['error'])) {
                     $payment = $order->getPayment();
@@ -121,13 +118,13 @@ class Observer
                     $this->_session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $this->_session->setLastOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
-                    $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
+                    $requestToPaygate->setControllerActionName($request->getControllerName());
                     $requestToPaygate->setIsSecure((string)$this->_storeManager->getStore()->isCurrentlySecure());
 
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
 
-                    $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody($this->_coreData->jsonEncode($result));
+                    $response->clearHeader('Location');
+                    $response->setBody($this->_coreData->jsonEncode($result));
                 }
             }
         }

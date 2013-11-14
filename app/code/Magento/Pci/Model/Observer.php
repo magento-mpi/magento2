@@ -309,8 +309,10 @@ class Observer
         $actionList = array('adminhtml_system_account_index', 'adminhtml_system_account_save',
             'adminhtml_auth_logout');
         $controller = $observer->getEvent()->getControllerAction();
+        /** @var \Magento\App\RequestInterface $request */
+        $request = $observer->getEvent()->getRequest();
         if ($this->_authSession->getPciAdminUserIsPasswordExpired()) {
-            if (!in_array($controller->getFullActionName(), $actionList)) {
+            if (!in_array($request->getFullActionName(), $actionList)) {
                 if ($this->_authorization->isAllowed('Magento_Adminhtml::myaccount')) {
                     $controller->getResponse()->setRedirect(
                         $this->_url->getUrl('adminhtml/system_account/')

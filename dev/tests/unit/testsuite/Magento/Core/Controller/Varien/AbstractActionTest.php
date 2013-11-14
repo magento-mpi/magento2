@@ -90,27 +90,4 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($headers, $action->getResponse()->getHeaders());
     }
-
-    /**
-     * Test for getFullActionName method
-     *
-     * @test
-     * @covers \Magento\App\Action\AbstractAction::getFullActionName
-     */
-    public function testGetFullActionName()
-    {
-        $this->_request->expects($this->once())
-            ->method('getRequestedRouteName')
-            ->will($this->returnValue('adminhtml'));
-
-        $this->_request->expects($this->once())
-            ->method('getRequestedControllerName')
-            ->will($this->returnValue('index'));
-
-        $this->_request->expects($this->once())
-            ->method('getRequestedActionName')
-            ->will($this->returnValue('index'));
-
-        $this->assertEquals('adminhtml_index_index', $this->_actionAbstract->getFullActionName());
-    }
 }

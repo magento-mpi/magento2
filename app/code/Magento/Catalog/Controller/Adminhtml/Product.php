@@ -228,7 +228,7 @@ class Product extends \Magento\Backend\App\Action
             }
             $this->_layoutServices->loadLayout(array(
                 'default',
-                strtolower($this->getFullActionName()),
+                strtolower($this->_request->getFullActionName()),
                 'catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
             ));
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
@@ -273,7 +273,7 @@ class Product extends \Magento\Backend\App\Action
 
         $this->_layoutServices->loadLayout(array(
             'default',
-            strtolower($this->getFullActionName()),
+            strtolower($this->_request->getFullActionName()),
             'catalog_product_'.$product->getTypeId() . $additionalLayoutPart
         ));
 

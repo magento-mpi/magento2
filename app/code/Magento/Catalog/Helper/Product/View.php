@@ -143,7 +143,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         $currentCategory = $this->_coreRegistry->registry('current_category');
         $root = $this->_layoutService->getLayout()->getBlock('root');
         if ($root) {
-            $controllerClass = $controller->getFullActionName();
+            $controllerClass = $this->_request->getFullActionName();
             if ($controllerClass != 'catalog-product-view') {
                 $root->addBodyClass('catalog-product-view');
             }

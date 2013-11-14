@@ -316,26 +316,6 @@ class Download extends \Magento\Core\Helper\AbstractHelper
         return $this;
     }
 
-    /**
-     * Retrieve Http Request Object
-     *
-     * @return \Magento\App\RequestInterface
-     */
-    public function getHttpRequest()
-    {
-        return $this->_app->getFrontController()->getRequest();
-    }
-
-    /**
-     * Retrieve Http Response Object
-     *
-     * @return \Magento\App\ResponseInterface
-     */
-    public function getHttpResponse()
-    {
-        return $this->_app->getFrontController()->getResponse();
-    }
-
     public function output()
     {
         $handle = $this->_getHandle();

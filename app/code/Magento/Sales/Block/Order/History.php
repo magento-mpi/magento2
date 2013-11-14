@@ -70,11 +70,7 @@ class History extends \Magento\Core\Block\Template
 
         $this->setOrders($orders);
 
-        if ($this->_app->getFrontController()->getAction()) {
-            $this->_app->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
-                __('My Orders')
-            );
-        }
+        $this->_layout->getBlock('root')->setHeaderTitle(__('My Orders'));
     }
 
     /**

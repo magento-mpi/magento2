@@ -204,14 +204,14 @@ class Session
             return;
         }
 
-        /** @var $controllerAction \Magento\App\Action\Action */
-        $controllerAction = $observer->getEvent()->getControllerAction();
-        if ($controllerAction) {
-            $rememberMeCheckbox = $controllerAction->getRequest()->getPost('persistent_remember_me');
+        /** @var $controllerAction \Magento\App\RequestInterface */
+        $request = $observer->getEvent()->getRequest();
+        if ($request) {
+            $rememberMeCheckbox = $request->getPost('persistent_remember_me');
             $this->_persistentSession->setRememberMeChecked((bool)$rememberMeCheckbox);
             if (
-                $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
-                    || $controllerAction->getFullActionName() == 'customer_account_createpost'
+                $request->getFullActionName() == 'checkout_onepage_saveBilling'
+                    || $request->getFullActionName() == 'customer_account_createpost'
             ) {
                 $this->_checkoutSession->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
@@ -232,12 +232,10 @@ class Session
             return;
         }
 
-        /** @var $controllerAction \Magento\App\Action\Action */
-        $controllerAction = $observer->getEvent()->getControllerAction();
+        /** @var $request \Magento\App\RequestInterface */
+        $request = $observer->getEvent()->getRequest();
 
-        if ($this->_customerSession->isLoggedIn()
-            || $controllerAction->getFullActionName() == 'customer_account_logout'
-        ) {
+        if ($this->_customerSession->isLoggedIn() || $request->getFullActionName() == 'customer_account_logout') {
             $this->_cookie->renew(
                 \Magento\Persistent\Model\Session::COOKIE_NAME,
                 $this->_persistentData->getLifeTime()

@@ -517,7 +517,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_layoutServices->getLayout()->getUpdate()->addHandle(strtolower($this->getFullActionName()));
+        $this->_layoutServices->getLayout()->getUpdate()->addHandle(strtolower($this->_request->getFullActionName()));
         $this->_layoutServices->loadLayoutUpdates();
         $this->_layoutServices->generateLayoutXml();
         $this->_layoutServices->generateLayoutBlocks();

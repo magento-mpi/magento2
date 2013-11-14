@@ -86,17 +86,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $this->_object->getFlag('', 'test'));
     }
 
-    public function testGetFullActionName()
-    {
-        /* empty request */
-        $this->assertEquals('__', $this->_object->getFullActionName());
-
-        $this->_object->getRequest()->setRouteName('test')
-            ->setControllerName('controller')
-            ->setActionName('action');
-        $this->assertEquals('test/controller/action', $this->_object->getFullActionName('/'));
-    }
-
     /**
      * @magentoAppIsolation enabled
      */

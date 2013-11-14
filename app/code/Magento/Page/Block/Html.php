@@ -53,10 +53,7 @@ class Html extends \Magento\Core\Block\Template
             'current'   => $this->_request->getRequestUri()
         );
 
-        $action = $this->_frontController->getAction();
-        if ($action) {
-            $this->addBodyClass($action->getFullActionName('-'));
-        }
+        $this->addBodyClass($this->_request->getFullActionName('-'));
 
         $this->_beforeCacheUrl();
     }
