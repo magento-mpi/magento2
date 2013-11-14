@@ -8,7 +8,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Block;
+namespace Magento\View\Block;
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {

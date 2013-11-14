@@ -24,12 +24,12 @@ class Layout extends \Magento\View\Block\Html\Select
     protected $_config;
 
     /**
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Block\Context $context
      * @param \Magento\Core\Model\Layout\PageType\Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Context $context,
+        \Magento\View\Block\Context $context,
         \Magento\Core\Model\Layout\PageType\Config $config,
         array $data = array()
     ) {

@@ -38,12 +38,12 @@ class Customergroup extends \Magento\View\Block\Html\Select
     /**
      * Construct
      *
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Block\Context $context
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Context $context,
+        \Magento\View\Block\Context $context,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory,
         array $data = array()
     ) {

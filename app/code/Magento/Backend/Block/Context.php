@@ -12,7 +12,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\Core\Block\Context
+class Context extends \Magento\View\Block\Context
 {
     /**
      * @var \Magento\AuthorizationInterface

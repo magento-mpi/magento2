@@ -150,10 +150,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $locale;
 
     /**
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Block\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Core\Block\Context $context, array $data = array())
+    public function __construct(\Magento\View\Block\Context $context, array $data = array())
     {
         $this->_request         = $context->getRequest();
         $this->_layout          = $context->getLayout();
@@ -929,7 +929,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _beforeCacheUrl()
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_storeManager->setUseSessionVar(true);
+            $this->_app->setUseSessionVar(true);
         }
         return $this;
     }
@@ -943,7 +943,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _afterCacheUrl($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_storeManager->setUseSessionVar(false);
+            $this->_app->setUseSessionVar(false);
             \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             \Magento\Profiler::stop('CACHE_URL');

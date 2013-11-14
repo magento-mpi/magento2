@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Block\Template;
 
-class Context extends \Magento\Core\Block\Context
+class Context extends \Magento\View\Block\Context
 {
     /**
      * Dirs instance
