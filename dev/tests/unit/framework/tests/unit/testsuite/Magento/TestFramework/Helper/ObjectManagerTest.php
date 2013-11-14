@@ -60,8 +60,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $appStateMock = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
         $appStateMock->expects($this->once())->method('getAreaCode')->will($this->returnValue($area));
 
-        $context = $objectManager->getObject('Magento\Core\Block\Template\Context');
-        $appStateProperty = new \ReflectionProperty('Magento\Core\Block\Template\Context', '_appState');
+        $context = $objectManager->getObject('Magento\View\Block\Template\Context');
+        $appStateProperty = new \ReflectionProperty('Magento\View\Block\Template\Context', '_appState');
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($context, $appStateMock);
 

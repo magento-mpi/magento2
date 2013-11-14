@@ -32,7 +32,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\Core\Block\Template\Context',
+            'Magento\View\Block\Template\Context',
             array('urlBuilder' => $urlBuilder)
         );
         $link = $this->_objectManagerHelper->getObject(
@@ -60,9 +60,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  \Magento\Core\Block\Template\Context $context */
+        /** @var  \Magento\View\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\Core\Block\Template\Context',
+            'Magento\View\Block\Template\Context',
             array(
                 'helperFactory' => $helperFactory
             )
@@ -98,9 +98,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  \Magento\Core\Block\Template\Context $context */
+        /** @var  \Magento\View\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\Core\Block\Template\Context',
+            'Magento\View\Block\Template\Context',
             array(
                 'helperFactory' => $helperFactory
             )

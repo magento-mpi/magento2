@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Block\Template;
+namespace Magento\View\Block\Template;
 
 class Context extends \Magento\View\Block\Context
 {

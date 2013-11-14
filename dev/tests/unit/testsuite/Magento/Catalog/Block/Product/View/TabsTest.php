@@ -24,7 +24,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
             ->with('block')
             ->will($this->returnValue($tabBlock));
 
-        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\View\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layout));

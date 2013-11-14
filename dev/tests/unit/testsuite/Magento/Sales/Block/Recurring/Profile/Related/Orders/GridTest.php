@@ -140,7 +140,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * Get context object
      *
-     * @return \Magento\Core\Block\Template\Context
+     * @return \Magento\View\Block\Template\Context
      */
     protected function _getContext()
     {
@@ -164,9 +164,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  \Magento\Core\Block\Template\Context $context */
+        /** @var  \Magento\View\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\Core\Block\Template\Context',
+            'Magento\View\Block\Template\Context',
             array(
                 'helperFactory' => $helperFactory,
                 'locale'        => $locale
