@@ -32,7 +32,7 @@ class Placeform extends \Magento\View\Block\Template
      * @param \Magento\Ogone\Model\Api $ogoneApi
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
@@ -40,7 +40,7 @@ class Placeform extends \Magento\View\Block\Template
         \Magento\Ogone\Model\Api $ogoneApi,
         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;

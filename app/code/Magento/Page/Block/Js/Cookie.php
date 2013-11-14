@@ -20,13 +20,13 @@ class Cookie extends \Magento\View\Block\Template
     /**
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cookie = $cookie;

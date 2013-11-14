@@ -27,13 +27,13 @@ class Form extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Invitation\Model\Config $config
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData, 
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Invitation\Model\Config $config,
         array $data = array()
     ) {

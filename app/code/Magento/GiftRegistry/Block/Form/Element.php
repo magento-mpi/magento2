@@ -45,7 +45,7 @@ class Element extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
@@ -55,7 +55,7 @@ class Element extends \Magento\View\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,

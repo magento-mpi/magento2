@@ -40,14 +40,14 @@ class State extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Cookie $cookie,
         array $data = array()

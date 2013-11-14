@@ -33,7 +33,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
@@ -49,7 +49,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Math\Random $mathRandom,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,

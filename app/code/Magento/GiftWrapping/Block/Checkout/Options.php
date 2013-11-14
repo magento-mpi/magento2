@@ -59,7 +59,7 @@ class Options extends \Magento\View\Block\Template
     /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -70,7 +70,7 @@ class Options extends \Magento\View\Block\Template
     public function __construct(
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
         \Magento\Checkout\Model\Session $checkoutSession,

@@ -29,7 +29,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Core\Model\Session\Generic $session
@@ -38,7 +38,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Core\Model\Session\Generic $session,

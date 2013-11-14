@@ -41,7 +41,7 @@ class End extends \Magento\Install\Block\AbstractBlock
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\AdminNotification\Model\Survey $survey
      * @param \Magento\Core\Model\Session\Generic $cryptKey
@@ -52,7 +52,7 @@ class End extends \Magento\Install\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\AdminNotification\Model\Survey $survey,
         $cryptKey,

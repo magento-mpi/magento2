@@ -42,14 +42,14 @@ class Inline extends \Magento\View\Block\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftMessageMessage = $giftMessageMessage;

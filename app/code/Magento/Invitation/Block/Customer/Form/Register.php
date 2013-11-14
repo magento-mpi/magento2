@@ -26,7 +26,7 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -39,7 +39,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

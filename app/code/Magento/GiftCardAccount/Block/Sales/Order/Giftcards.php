@@ -22,13 +22,13 @@ class Giftcards extends \Magento\View\Block\Template
     /**
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
