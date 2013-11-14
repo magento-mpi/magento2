@@ -29,8 +29,12 @@ class Refresh extends \Magento\App\Action\Action
     {
         $formId = $this->getRequest()->getPost('formId');
         $captchaModel = $this->_objectManager->get('Magento\Captcha\Helper\Data')->getCaptcha($formId);
-        $this->_layoutServices->getLayout()->createBlock($captchaModel->getBlockName())->setFormId($formId)->setIsAjax(true)->toHtml();
+        $this->_layoutServices->getLayout()
+            ->createBlock($captchaModel->getBlockName())
+            ->setFormId($formId)
+            ->setIsAjax(true)
+            ->toHtml();
         $this->getResponse()->setBody(json_encode(array('imgSrc' => $captchaModel->getImgSrc())));
-        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
     }
 }

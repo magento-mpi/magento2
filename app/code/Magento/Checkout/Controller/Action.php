@@ -54,7 +54,7 @@ abstract class Action extends \Magento\App\Action\Action
                 }
                 if ($redirect) {
                     $this->_redirect('customer/account/edit');
-                    $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                    $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
                 }
                 return false;
             }

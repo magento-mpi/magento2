@@ -94,32 +94,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Retrieve flag value
-     *
-     * @param   string $action
-     * @param   string $flag
-     * @return  bool
-     */
-    public function getFlag($action, $flag = '') // Leave
-    {
-        return $this->_actionFlag->get($action, $flag);
-    }
-
-    /**
-     * Setting flag value
-     *
-     * @param   string $action
-     * @param   string $flag
-     * @param   string $value
-     * @return  \Magento\App\ActionInterface
-     */
-    public function setFlag($action, $flag, $value)  // Leave
-    {
-        $this->_actionFlag->set($action, $flag, $value);
-        return $this;
-    }
-
-    /**
      * @param RequestInterface $request
      * @return mixed
      * @throws NotFoundException
@@ -137,12 +111,12 @@ class Action extends \Magento\App\Action\AbstractAction
         );
         \Magento\Profiler::start($profilerKey);
 
-        if ($request->isDispatched() && !$this->getFlag('', self::FLAG_NO_DISPATCH)) {
+        if ($request->isDispatched() && !$this->_actionFlag->get('', self::FLAG_NO_DISPATCH)) {
             \Magento\Profiler::start('action_body');
             $actionMethodName = $request->getActionName() . 'Action';
             $this->$actionMethodName();
             \Magento\Profiler::start('postdispatch');
-            if (!$this->getFlag('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH)) {
+            if (!$this->_actionFlag->get('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH)) {
                 $this->_eventManager->dispatch(
                     'controller_action_postdispatch_' . $request->getFullActionName(),
                     $eventParameters
@@ -166,7 +140,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param string|null $module
      * @param array|null $params
      */
-    protected function _forward($action, $controller = null, $module = null, array $params = null) // Leave
+    protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $request = $this->getRequest();
 
@@ -196,7 +170,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param   array $arguments
      * @return  \Magento\App\ActionInterface
      */
-    protected function _redirect($path, $arguments = array()) // Inline/leave
+    protected function _redirect($path, $arguments = array())
     {
         if ($this->_session->getCookieShouldBeReceived()
             && $this->_url->getUseSession()
@@ -218,7 +192,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param string $defaultUrl
      * @return \Magento\App\ActionInterface
      */
-    protected function _redirectSuccess($defaultUrl) // leave, inline?
+    protected function _redirectSuccess($defaultUrl)
     {
         $successUrl = $this->getRequest()->getParam(self::PARAM_NAME_SUCCESS_URL);
         if (empty($successUrl)) {
@@ -237,7 +211,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param string $defaultUrl
      * @return  \Magento\App\ActionInterface
      */
-    protected function _redirectError($defaultUrl) // extract
+    protected function _redirectError($defaultUrl)
     {
         $errorUrl = $this->getRequest()->getParam(self::PARAM_NAME_ERROR_URL);
         if (empty($errorUrl)) {

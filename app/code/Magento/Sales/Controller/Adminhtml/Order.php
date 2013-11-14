@@ -89,7 +89,7 @@ class Order extends \Magento\Backend\App\Action
         if (!$order->getId()) {
             $this->_getSession()->addError(__('This order no longer exists.'));
             $this->_redirect('sales/*/');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
         $this->_coreRegistry->register('sales_order', $order);

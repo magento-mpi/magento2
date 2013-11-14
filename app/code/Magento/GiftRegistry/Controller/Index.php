@@ -63,7 +63,7 @@ class Index extends \Magento\App\Action\Action
             $this->getResponse()->setRedirect(
                 $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
             );
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
         return parent::dispatch($request);
     }

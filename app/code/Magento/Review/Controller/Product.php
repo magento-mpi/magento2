@@ -138,7 +138,7 @@ class Product extends \Magento\App\Action\Action
 
         if (!$allowGuest && $request->getActionName() == 'post' && $request->isPost()) {
             if (!$this->_customerSession->isLoggedIn()) {
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
                 $this->_customerSession->setBeforeAuthUrl($this->_urlModel->getUrl('*/*/*', array('_current' => true)));
                 $this->_reviewSession
                     ->setFormData($request->getPost())

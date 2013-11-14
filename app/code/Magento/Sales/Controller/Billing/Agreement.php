@@ -70,7 +70,7 @@ class Agreement extends \Magento\App\Action\Action
             return parent::dispatch($request);
         }
         if (!$this->_getSession()->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
         }
         return parent::dispatch($request);
     }

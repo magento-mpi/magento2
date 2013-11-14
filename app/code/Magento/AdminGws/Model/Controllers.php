@@ -72,16 +72,22 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_productFactoryRes;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
+     * @param Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
-     * @param \Magento\AdminGws\Model\Role $role
+     * @param Role $role
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\ResponseInterface $response
+     * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\Backend\Model\Url $backendUrl,
@@ -93,18 +99,20 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\App\ResponseInterface $response
+        \Magento\App\ResponseInterface $response,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_registry = $registry;
         $this->_backendUrl = $backendUrl;
         $this->_backendSession = $backendSession;
         $this->_collectionsFactory = $collectionsFactory;
         $this->_productFactoryRes = $productFactoryRes;
-        parent::__construct($role);
+        $this->_actionFlag = $actionFlag;
         $this->_objectManager = $objectManager;
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_response = $response;
+        parent::__construct($role);
     }
 
     /**
@@ -123,9 +131,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     return;
                 }
             }
-        }
-        // allow specific website scope
-        elseif ($websiteCode = $this->_request->getParam('website')) {
+        } elseif ($websiteCode = $this->_request->getParam('website')) {
             try {
                 $website = $this->_storeManager->getWebsite($websiteCode);
                 if ($website) {
@@ -141,13 +147,13 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($controller, $this->_backendUrl->getUrl(
+            return $this->_redirect($this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
                     array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
                 )
             );
         }
-        $this->_redirect($controller, $this->_backendUrl->getUrl(
+        $this->_redirect($this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
                     'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
@@ -175,7 +181,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         // redirect from disallowed scope
         if ($this->_isDisallowedStoreInRequest()) {
-            return $this->_redirect($controller, array('*/*/*', 'id' => $this->_request->getParam('id')));
+            return $this->_redirect(array('*/*/*', 'id' => $this->_request->getParam('id')));
         }
     }
 
@@ -194,7 +200,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         $allowedIds = array_intersect($reviewStores, $storeIds);
         if (empty($allowedIds)) {
-            $this->_redirect($controller);
+            $this->_redirect();
         }
     }
 
@@ -356,7 +362,6 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // redirect from disallowed store scope
         if ($this->_isDisallowedStoreInRequest()) {
             return $this->_redirect(
-                $controller,
                 array(
                     '*/*/*', 'store' => $this->_storeManager->getAnyStoreView()->getId(),
                     'id' => $catalogEvent->getId()
@@ -487,12 +492,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Redirect to a specific page
      *
-     * @param \Magento\Backend\App\Action $controller
      * @param array|string $url
      */
-    protected function _redirect($controller, $url = null)
+    protected function _redirect($url = null)
     {
-        $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
             $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
         } elseif (is_array($url)) {
@@ -1227,7 +1231,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 return false;
             }
 
-            return $this->_redirect($controller, $this->_backendUrl->getUrl(
+            return $this->_redirect($this->_backendUrl->getUrl(
                     'adminhtml/rma_item_attribute/edit',
                      array('website' => $allowedWebsitesIds[0], '_current' => true)
                 )

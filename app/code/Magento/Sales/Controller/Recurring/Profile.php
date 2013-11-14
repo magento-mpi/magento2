@@ -64,7 +64,7 @@ class Profile extends \Magento\App\Action\Action
         }
         $this->_session = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$this->_session->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
         }
         $this->_coreRegistry->register('current_customer', $this->_session->getCustomer());
         return parent::dispatch($request);

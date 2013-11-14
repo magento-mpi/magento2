@@ -72,7 +72,7 @@ class Authenticate extends \Magento\Backend\App\Action
             || !$this->_objectManager->get('Magento\AuthorizationInterface')->isAllowed($aclResource)
         ) {
             $this->_objectManager->get('Magento\HTTP\Authentication')->setAuthenticationFailed('RSS Feeds');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
 

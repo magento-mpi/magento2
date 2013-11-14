@@ -44,7 +44,7 @@ class Types extends \Magento\Backend\App\Action
     public function dispatch(RequestInterface $request)
     {
         parent::dispatch($request);
-        if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
+        if ($this->_actionFlag->get('', self::FLAG_NO_POST_DISPATCH)) {
             return;
         }
         $this->_eventManager->dispatch('controller_action_postdispatch_adminhtml', array('controller_action' => $this));

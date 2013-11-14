@@ -20,6 +20,6 @@ class Ajax extends \Magento\App\Action\Action
         $translationHelper = $this->_objectManager->get('Magento\Core\Helper\Translate');
         $response = $translationHelper->apply($translationParams, $area);
         $this->getResponse()->setBody($response);
-        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
     }
 }

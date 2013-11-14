@@ -155,7 +155,7 @@ class Account extends \Magento\App\Action\Action
 
         if (!preg_match($pattern, $action)) {
             if (!$this->_getSession()->authenticate($this)) {
-                $this->setFlag('', 'no-dispatch', true);
+                $this->_actionFlag->set('', 'no-dispatch', true);
             }
         } else {
             $this->_getSession()->setNoReferer(true);

@@ -83,7 +83,7 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
             throw new NotFoundException();
         } catch (\Exception $e) {
             $this->deniedAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
     }

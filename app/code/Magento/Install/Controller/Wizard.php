@@ -89,7 +89,7 @@ class Wizard extends \Magento\Install\Controller\Action
     public function dispatch(RequestInterface $request)
     {
         if ($this->_appState->isInstalled()) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('/');
         }
         return parent::dispatch($request);
@@ -164,8 +164,8 @@ class Wizard extends \Magento\Install\Controller\Action
     {
         $this->_checkIfInstalled();
 
-        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->_actionFlag->set('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
@@ -196,8 +196,8 @@ class Wizard extends \Magento\Install\Controller\Action
     public function localeAction()
     {
         $this->_checkIfInstalled();
-        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->_actionFlag->set('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
@@ -247,8 +247,8 @@ class Wizard extends \Magento\Install\Controller\Action
     public function downloadAction()
     {
         $this->_checkIfInstalled();
-        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->_actionFlag->set('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
         $this->_layoutServices->getLayout()->initMessages('Magento\Install\Model\Session');
@@ -358,8 +358,8 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_checkIfInstalled();
         $this->_getInstaller()->checkServer();
 
-        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->_actionFlag->set('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $data = $this->getRequest()->getQuery('config');
         if ($data) {

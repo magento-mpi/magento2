@@ -50,7 +50,7 @@ class Customer extends \Magento\App\Action\Action
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
         if (!$this->_customerSession->authenticate($this, $loginUrl)) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
         return parent::dispatch($request);
     }

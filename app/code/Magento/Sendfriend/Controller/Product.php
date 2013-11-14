@@ -69,7 +69,7 @@ class Product extends \Magento\App\Action\Action
         }
 
         if (!$helper->isAllowForGuest() && !$session->authenticate($this)) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             if ($this->getRequest()->getActionName() == 'sendemail') {
                 $session->setBeforeAuthUrl($this->_objectManager
                     ->create('Magento\Core\Model\Url')

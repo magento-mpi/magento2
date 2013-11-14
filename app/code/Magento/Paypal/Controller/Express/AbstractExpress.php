@@ -538,7 +538,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      */
     public function redirectLogin()
     {
-        $this->setFlag('', 'no-dispatch', true);
+        $this->_actionFlag->set('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
             $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
                 $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),

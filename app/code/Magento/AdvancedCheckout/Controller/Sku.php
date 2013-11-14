@@ -32,7 +32,7 @@ class Sku extends \Magento\App\Action\Action
         /** @var $customerSession \Magento\Customer\Model\Session */
         $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$customerSession->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
             return parent::dispatch($request);
         }
 

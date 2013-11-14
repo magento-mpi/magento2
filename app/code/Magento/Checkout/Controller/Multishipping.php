@@ -69,7 +69,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     public function dispatch(RequestInterface $request)
     {
         $this->_request = $request;
-        if ($this->getFlag('', 'redirectLogin')) {
+        if ($this->_actionFlag->get('', 'redirectLogin')) {
             return parent::dispatch($request);
         }
 
@@ -88,21 +88,21 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             && !in_array($action, array('login', 'register', 'success'))
         ) {
             $this->_redirect('*/*/index');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return parent::dispatch($request);
         }
 
         if (!in_array($action, array('login', 'register'))) {
             $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
             if (!$customerSession->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             }
 
             if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()) {
                 $error = $this->_getCheckout()->getMinimumAmountError();
                 $this->_getCheckoutSession()->addError($error);
                 $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
                 return parent::dispatch($request);
             }
         }
@@ -115,7 +115,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             && !in_array($action, array('index', 'login', 'register', 'addresses', 'success'))
         ) {
             $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return parent::dispatch($request);
         }
 
@@ -126,7 +126,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         $quote = $this->_getCheckout()->getQuote();
         if (!$quote->hasItems() || $quote->getHasError() || $quote->isVirtual()) {
             $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
 
         return parent::dispatch($request);
@@ -534,7 +534,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     public function redirectLogin()
     {
-        $this->setFlag('', 'no-dispatch', true);
+        $this->_actionFlag->set('', 'no-dispatch', true);
         $url = $this->_objectManager->create('Magento\UrlInterface')
             ->getUrl('*/*', array('_secure' => true));
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($url);
@@ -546,6 +546,6 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             )
         );
 
-        $this->setFlag('', 'redirectLogin', true);
+        $this->_actionFlag->set('', 'redirectLogin', true);
     }
 }

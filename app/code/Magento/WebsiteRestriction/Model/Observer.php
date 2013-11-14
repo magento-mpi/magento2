@@ -53,6 +53,11 @@ class Observer
     protected $_urlFactory;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -68,7 +73,8 @@ class Observer
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\UrlFactory $urlFactory
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -77,6 +83,7 @@ class Observer
         $this->_session = $session;
         $this->_storeConfig = $storeConfig;
         $this->_urlFactory = $urlFactory;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**
@@ -156,7 +163,7 @@ class Observer
 
                         if ($redirectUrl) {
                             $response->setRedirect($redirectUrl);
-                            $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                            $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                         }
                         if ($this->_storeConfig->getConfigFlag(
                             \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
@@ -170,7 +177,7 @@ class Observer
                         $response->setRedirect(
                             $this->_session->getWebsiteRestrictionAfterLoginUrl(true)
                         );
-                        $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     break;
             }

@@ -80,7 +80,7 @@ class Address extends \Magento\App\Action\Action
     public function dispatch(RequestInterface $request)
     {
         if (!$this->_getSession()->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
         }
         return parent::dispatch($request);
     }
@@ -92,7 +92,8 @@ class Address extends \Magento\App\Action\Action
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
+            $this->_layoutServices->getLayout()
+                ->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
 
             $block = $this->_layoutServices->getLayout()->getBlock('address_book');
             if ($block) {

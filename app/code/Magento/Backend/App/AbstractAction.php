@@ -202,12 +202,12 @@ abstract class AbstractAction extends \Magento\App\Action\Action
 
         if ($request->isDispatched() && $request->getActionName() !== 'denied' && !$this->_isAllowed()) {
             $this->_forward('denied');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return parent::dispatch($request);
         }
 
         if ($this->_isUrlChecked()) {
-            $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
+            $this->_actionFlag->set('', self::FLAG_IS_URLS_CHECKED, true);
         }
 
         $this->_processLocaleSettings();
@@ -222,7 +222,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _isUrlChecked()
     {
-        return !$this->getFlag('', self::FLAG_IS_URLS_CHECKED)
+        return !$this->_actionFlag->get('', self::FLAG_IS_URLS_CHECKED)
             && !$this->getRequest()->getParam('forwarded')
             && !$this->_getSession()->getIsUrlNotice(true)
             && !$this->_canUseBaseUrl;
@@ -248,8 +248,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
             }
         }
         if (!$_isValidFormKey || !$_isValidSecretKey) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
                 $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                     'error' => true,
@@ -317,14 +317,14 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _redirect($path, $arguments=array())
     {
-        $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
+        $this->_getSession()->setIsUrlNotice($this->_actionFlag->get('', self::FLAG_IS_URLS_CHECKED));
         $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
         return $this;
     }
 
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
-        $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
+        $this->_getSession()->setIsUrlNotice($this->_actionFlag->get('', self::FLAG_IS_URLS_CHECKED));
         return parent::_forward($action, $controller, $module, $params);
     }
 

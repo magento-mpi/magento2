@@ -30,9 +30,10 @@ class Unsubscribe extends \Magento\App\Action\Action
     public function dispatch(RequestInterface $request)
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
-            if(!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeUrl($this->_redirect->getRefererUrl());
+            $this->_actionFlag->set('', 'no-dispatch', true);
+            if (!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
+                $this->_objectManager->get('Magento\Customer\Model\Session')
+                    ->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
         return parent::dispatch($request);

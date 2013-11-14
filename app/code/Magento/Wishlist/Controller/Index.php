@@ -87,7 +87,7 @@ class Index
         if (!$this->_skipAuthentication
             && !$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)
         ) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
             $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
             if (!$customerSession->getBeforeWishlistUrl()) {
                 $customerSession->setBeforeWishlistUrl($this->_redirect->getRefererUrl());

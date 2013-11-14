@@ -49,7 +49,7 @@ class Customer extends \Magento\App\Action\Action
     public function dispatch(RequestInterface $request)
     {
         if (!$this->_customerSession->authenticate($this)) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
         return parent::dispatch($request);
     }

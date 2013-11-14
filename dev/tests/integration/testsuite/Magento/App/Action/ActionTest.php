@@ -73,18 +73,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\TestFramework\Response', $this->_object->getResponse());
     }
 
-    public function testSetGetFlag()
-    {
-        $this->assertEmpty($this->_object->getFlag(''));
-
-        $this->_object->setFlag('test', 'test_flag', 'test_value');
-        $this->assertFalse($this->_object->getFlag('', 'test_flag'));
-        $this->assertEquals('test_value', $this->_object->getFlag('test', 'test_flag'));
-        $this->assertNotEmpty($this->_object->getFlag(''));
-
-        $this->_object->setFlag('', 'test', 'value');
-        $this->assertEquals('value', $this->_object->getFlag('', 'test'));
-    }
 
     /**
      * @magentoAppIsolation enabled

@@ -83,7 +83,7 @@ class Account extends \Magento\Customer\Controller\Account
         }
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('customer/account/');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return parent::dispatch($request);
         }
         return \Magento\App\Action\Action::dispatch($request);

@@ -29,7 +29,7 @@ class Cart extends \Magento\App\Action\Action
     public function dispatch(RequestInterface $request)
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
         }
         return parent::dispatch($request);
     }

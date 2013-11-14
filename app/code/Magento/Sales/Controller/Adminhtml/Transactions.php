@@ -52,7 +52,7 @@ class Transactions extends \Magento\Backend\App\Action
         if (!$txn->getId()) {
             $this->_getSession()->addError(__('Please correct the transaction ID and try again.'));
             $this->_redirect('sales/*/');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
         $orderId = $this->getRequest()->getParam('order_id');

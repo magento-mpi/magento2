@@ -60,6 +60,11 @@ class Observer
     protected $_encryptor;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
@@ -77,7 +82,8 @@ class Observer
         \Magento\Adminhtml\Model\Session $session,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
-        \Magento\Pci\Model\Encryption $encryptor
+        \Magento\Pci\Model\Encryption $encryptor,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_authorization = $authorization;
         $this->_storeConfig = $storeConfig;
@@ -87,6 +93,7 @@ class Observer
         $this->_authSession = $authSession;
         $this->_userFactory = $userFactory;
         $this->_encryptor = $encryptor;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**
@@ -317,8 +324,8 @@ class Observer
                     $controller->getResponse()->setRedirect(
                         $this->_url->getUrl('adminhtml/system_account/')
                     );
-                    $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
-                    $controller->setFlag('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH, true);
                 } else {
                     /*
                      * if admin password is expired and access to 'My Account' page is denied
