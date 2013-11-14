@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page_types>
+    <type id="authorizenet_directpost_payment_redirect" label="AuthorizeNet Directpost Redirect"/>
+    <type id="authorizenet_directpost_payment_response" label="AuthorizeNet Directpost Response"/>
+</page_types>

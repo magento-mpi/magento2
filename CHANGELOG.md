@@ -1,70 +1,88 @@
-* Application Areas Rework:
-  * Single point of access to the current area code
-  * Declare Application Areas
+* Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
+* Various improvements:
+  * Added static test for check incorrect dependencies in library
+  * Moved Magento\Core\Model\Theme to Magento\View component
+  * Moved Magento\Core\Model\Design to Magento\View component
+  * Consistent declaration of page-types
+* Themes update:
+  * Plushe theme is responsive now
+* Fixed bugs:
+  * Fixed unable to print order, invoice, or creditmemo in the front-end
+  * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+
+2.0.0.0-dev51
+=============
+* Application areas rework:
+    * Single point of access to the current area code
+    * Declare Application Areas
 * Various improvements:
   * Breakdown of the Adminhtml module:
-    * Moved Customer-related logic to Customer module
-    * Moved System-related logic to Backend module
-    * Moved Checkout-related logic to Checkout module
-    * Moved Cms-related logic to Cms module
-    * Moved Promo-related logic to respective modules: CatalogRule, SalesRule
-  * Eliminated methods setNode/getNode from Magento\Core\Model\Config and adopted all client code
-  * Moved all application bootstrapping behaviour to library
-  * Moved application-specific behaviour from entry points to Magento\AppInterface implementations
-  * Removed obsolete behaviour from routing and front-controller
-  * Refactored route configuration loading
-  * Extracted modularity support behaviour to Magento\Module component
-  * Refactored Resource configuration loading
-  * Removed obsolete configuration loaders
-  * Removed obsolete configuration from config.xml
-  * Refactored code-generation mechanism
-  * Added constructor integrity verification to Compiler tool
-  * Added strict naming rules for auto-generated Factory and Proxy classes
-  * Global functions are called now from app\functions.php
-  * mageCoreErrorHandler, string and date related methods from functions.php moved to Library components
-  * Eliminated functions.php from Magento\Core module
-  * Methods from Core Helpers were moved to appropriate libraries:
-    * from AbstractHelper to Magento\Escaper and Magento\Filter libraries
-    * from String Helper to Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils
-    * from Data Helper to Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data
-    * from Http Magento Helper to Magento\HTTP libraries
-  * Such helpers were removed totally in Magento\Core module: Hint Magento Helper, Http Magento Helper
+     * Moved the Customer-related logic to the Customer module
+     * Moved the System-related logic to the Backend module
+     * Moved the Checkout-related logic to the Checkout module
+     * Moved the Cms-related logic to the Cms module
+     * Moved the Promotions-related logic to the CatalogRule and SalesRule modules
+  * Eliminated the setNode/getNode methods from Magento\Core\Model\Config and adopted all client code
+  * Moved all application bootstrapping behavior to library
+  * Moved application-specific behavior from the entry points to the Magento\AppInterface implementations
+  * Removed the obsolete behavior from routing and front-controller
+  * Refactored the route configuration loading
+  * Extracted the modularity support behavior to the Magento\Module component
+  * Refactored the Resource configuration loading
+  * Removed the obsolete configuration loaders
+  * Removed the obsolete configuration from config.xml
+  * Refactored the code-generation mechanism
+  * Added constructor integrity verification to the Compiler tool
+  * Added strict naming rules for the auto-generated Factory and Proxy classes
+  * Global functions are now called from app\functions.php
+  * Removed functions.php from the Magento\Core module
+  * Methods related to mageCoreErrorHandler, string and date were moved from functions.php to the Library components
+  * Moved the following methods from Core Helpers to the appropriate libraries:
+     * Moved the Abstract Helper to the Magento\Escaper and Magento\Filter libraries
+     * Moved the String Helper to the Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils libraries
+     * Moved the Data Helper to the Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data libraries
+     * Moved the Http Magento Helper to the Magento\HTTP library
+     * Moved the Data Helper date format related functions to \Magento\Core\Model\Locale
+     * Moved the Data Data Helper array decoration related functions to Magento\Stdlib\ArrayUtils
+     * Moved the Data Data Helper functions that copy data from one object to another to \Magento\Object\Copy
+  *  The Hint Magento Helper, Http Magento Helper helpers were removed from the Magento\Core module
   * Implemented SOAP faults declaration in WSDL
-  * Web API config reader is refactored to use Magento\Config\Reader\Filesystem
+  * Web API config reader was refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
-  * Removed residual page fragment code
+  * Removed obsolete page fragment code
+  * Framework part of Cache functionality moved out of modules
 * Themes update:
   * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
   * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
-  * Fixed impossibility create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
-  * Fixed Minimum Advertised Price link on Product view
-  * Fixed View Files Population Tool
-  * Fixed error on save of Google AdWords configuration
-  * Fixed System displays an error 'Invalid website code requested:' while enabling payment method
-  * Fixed impossibility to use spaces in credit card number
-  * Fixed impossibility to print order from frontend
-  * Fixed fatal error when trying to delete review with rating
-  * Browser is "Not Responds" when add to cart Virtual/Downloadable product(JS)
-  * Unable to delete row form 'Order By SKU' form in IE
-  * Impossible to enable Use Flat Catalog Product option
-  * Unable to configure Grouped and Configurable products during order creation on backend
-  * It's unable to insert widget and/or banner in cms page
-  * Impossible to set Quantity value for Gift Card
-  * Fatal Error on Customer Account > Gift Registry tab in admin
-  * Unable to Import Customer Main File
-  * "Recently Viewed/Compared products" option is missed on the New Frontend App Instance page
-  * Fatal error if "Manage Shopping Cart" from backend for customer that has placed order
-  * Fatal error on attempt to create RMA for Configurable product
-  * Fixed error on admin dashboard if choose for "Select Range" dropdown any value except Last 24 Hours
-  * Fixed backend RMA pages: options doubling in select
+  * Fixed inability to create an Invoice/Shipment/Credit Memo if the Sales Archive functionality is enabled
+  * Fixed the Minimum Advertised Price link on the Product view
+  * Fixed the View Files Population Tool
+  * Fixed the error on saving the Google AdWords configuration
+  * Fixed the error with the 'Invalid website code requested:' message appearing when enabling payment methods
+  * Fixed inability to insert spaces in credit card numbers
+  * Fixed inability to print orders from the frontend
+  * Fixed the fatal error on removal of reviews that have ratings
+  * Fixed JS error with the browser not responding when Virtual/Downloadable product are added to cart
+  * Fixed inability to delete a row from the 'Order By SKU' form in Internet Explorer
+  * Fixed inability to enable the Use Flat Catalog Product option
+  * Fixed inability to configure Grouped and Configurable products during order creation in the backend
+  * Fixed inability to insert a widget and/or a banner in CMS pages
+  * Fixed inability to set the Quantity value for Gift Cards
+  * Fixed the fatal error on the Customer Account > Gift Registry tab in the backend
+  * Fixed inability to import with the "Customers Main File" entity type selected
+  * Fixed the "Recently Viewed/Compared products" option missing on the New Frontend App Instance page
+  * Fixed the fatal error on managing Shopping Cart for a customer with a placed order in the backend
+  * Fixed the fatal error on an attempt to create an RMA request for Configurable products
+  * Fixed error on the backend dashboard if any value except "Last 24 Hours" is chosen in the "Select Range" dropdown
+  * Fixed duplicate values of options in the drop-downs on the RMA pages in the backend
 
 2.0.0.0-dev50
 =============
 * Modularity improvements:
   * Breakdown of the Adminhtml module:
-    * Moved Sales, Catalog, Tax-related logic to respective modules
-    * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
+     * Moved Sales, Catalog, Tax-related logic to respective modules
+     * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
   * View abstraction was moved into library
   * Eliminated dependency in Magento\Data\Form from Magento\Core module
   * Eliminated Magento\Media module

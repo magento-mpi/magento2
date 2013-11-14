@@ -20,7 +20,7 @@ namespace Magento\Core\Model\Variable;
 class Config
 {
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -30,10 +30,10 @@ class Config
     protected $_url;
 
     /**
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Backend\Model\Url $url
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl, \Magento\Backend\Model\Url $url)
+    public function __construct(\Magento\View\Url $viewUrl, \Magento\Backend\Model\Url $url)
     {
         $this->_viewUrl = $viewUrl;
         $this->_url = $url;

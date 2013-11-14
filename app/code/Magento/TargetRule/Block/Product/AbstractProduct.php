@@ -85,31 +85,42 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\TargetRule\Model\Resource\Index $index
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
+        \Magento\TargetRule\Model\Resource\Index $index,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
         array $data = array()
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
-            $context, $data);
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $data
+        );
     }
 
     /**
