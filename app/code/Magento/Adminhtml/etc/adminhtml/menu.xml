@@ -18,8 +18,6 @@
         <add id="Magento_Adminhtml::system_convert" title="Data Transfer" module="Magento_Adminhtml" sortOrder="10" parent="Magento_Adminhtml::system" resource="Magento_Adminhtml::convert"/>
         <add id="Magento_Adminhtml::system_cache" title="Cache Management" module="Magento_Adminhtml" sortOrder="10" parent="Magento_Adminhtml::system_tools" action="adminhtml/cache" resource="Magento_Adminhtml::cache"/>
 
-        <add id="Magento_Catalog::inventory" title="Inventory" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::catalog" dependsOnModule="Magento_Catalog" resource="Magento_Catalog::catalog"/>
-
         <add id="Magento_Adminhtml::marketing" title="Marketing" module="Magento_Adminhtml" sortOrder="40" resource="Magento_Adminhtml::marketing"/>
         <add id="Magento_Adminhtml::marketing_communications" title="Communications" module="Magento_Adminhtml" sortOrder="30" parent="Magento_Adminhtml::marketing"  resource="Magento_Adminhtml::marketing_communications"/>
         <add id="Magento_Adminhtml::marketing_seo" title="SEO &amp; Search" module="Magento_Adminhtml" sortOrder="40" parent="Magento_Adminhtml::marketing"  resource="Magento_Adminhtml::marketing_seo"/>

@@ -5,6 +5,9 @@
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
   * Tax helper was using %f that is locale aware. sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
+  * Croatia added to the list of European Union countries
+  * Removed occurrence error on empty or not validate layout file
+  * InstanceController.php setBody changed to protected
   * Media image required attribute `_media_attribute_id` verification added for product import functionality
 * Themes update:
   * Plushe theme is responsive now

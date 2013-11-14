@@ -157,7 +157,7 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
      * @param string $body
      * @return null
      */
-    private function setBody($body)
+    protected function setBody($body)
     {
         $this->_translator->processResponseBody($body);
 
