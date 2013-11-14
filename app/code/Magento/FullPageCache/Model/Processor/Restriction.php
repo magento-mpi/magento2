@@ -17,7 +17,7 @@ class Restriction
 {
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -36,11 +36,11 @@ class Restriction
     protected $_environment;
 
     /**
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\FullPageCache\Model\Environment $environment
      */
     public function __construct(
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\FullPageCache\Model\Environment $environment
     ) {
         $this->_cacheState = $cacheState;

@@ -29,13 +29,11 @@ class Cache extends Page
     const MCA = 'admin/cache/';
 
     /**
-     * Actions block
+     * Actions selector
      *
-     * @var Actions $actionsBlock
-     * @locator div.page-actions
-     * @injectable
+     * @var string
      */
-    protected $actionsBlock;
+    protected $actionsSelector = 'div.page-actions';
 
     /**
      * Constructor
@@ -43,19 +41,15 @@ class Cache extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->actionsBlock = Factory::getBlockFactory()->getMagentoBackendCacheActions(
-            $this->_browser->find('div.page-actions')
-        );
     }
 
     /**
-     * Get the login form block
+     * Get the actions block
      *
      * @return Actions
      */
     public function getActionsBlock()
     {
-        return $this->actionsBlock;
+        return Factory::getBlockFactory()->getMagentoBackendCacheActions($this->_browser->find($this->actionsSelector));
     }
 }

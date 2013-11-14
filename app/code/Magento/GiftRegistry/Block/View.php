@@ -27,8 +27,6 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     protected $typeFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -36,6 +34,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
@@ -51,6 +50,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
@@ -58,8 +58,18 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
-            $itemFactory, $data);
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $itemFactory,
+            $data
+        );
     }
 
     /**

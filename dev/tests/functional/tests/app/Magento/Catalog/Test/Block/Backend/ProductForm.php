@@ -17,6 +17,7 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class ProductForm
@@ -94,12 +95,7 @@ class ProductForm extends FormTabs
     protected function fillCategory($name)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->_rootElement->find('category_ids-suggest', Locator::SELECTOR_ID)->setValue($name);
-        $parentLocation = '//*[@id="attribute-category_ids-container"]';
-        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]';
-        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
-        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
-        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
+        $this->fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
     }
 
     /**
@@ -107,11 +103,80 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      */
-    public function save(Fixture $fixture)
+    public function save(Fixture $fixture = null)
     {
         parent::save($fixture);
         if ($this->getAffectedAttributeSetBlock()->isVisible()) {
             $this->getAffectedAttributeSetBlock()->chooseAttributeSet($fixture);
         }
+    }
+
+    /**
+     * Save new category
+     *
+     * @param Product $fixture
+     */
+    public function addNewCategory(Product $fixture)
+    {
+        $this->openNewCategoryDialog();
+        $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
+            ->setValue($fixture->getNewCategoryName());
+
+        $this->clearCategorySelect();
+        $this->selectParentCategory();
+
+        $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
+        $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
+    }
+
+    /**
+     * Clear parent category field
+     */
+    protected function clearCategorySelect()
+    {
+        $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
+        if ($this->_rootElement->find($selectedCategory)->isVisible()) {
+            $this->_rootElement->find($selectedCategory)->click();
+        }
+    }
+
+    /**
+     * Select parent category for new one
+     */
+    protected function selectParentCategory()
+    {
+        // TODO should be removed after suggest widget implementation as typified element
+        $this->fillCategoryField(
+            'Default Category',
+            'new_category_parent-suggest',
+            '//*[@id="new_category_form_fieldset"]'
+        );
+    }
+
+    /**
+     * Fills select category field
+     *
+     * @param string $name
+     * @param string $elementId
+     * @param string $parentLocation
+     */
+    protected function fillCategoryField($name, $elementId, $parentLocation)
+    {
+        // TODO should be removed after suggest widget implementation as typified element
+        $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
+       //  //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
+        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
+        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
+        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
+        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Open new category dialog
+     */
+    protected function openNewCategoryDialog()
+    {
+        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible('input#new_category_name');
     }
 }
