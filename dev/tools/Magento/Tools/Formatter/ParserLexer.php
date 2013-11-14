@@ -22,22 +22,27 @@ class ParserLexer extends PHPParser_Lexer
      * This constant is used to tag the original value in certain string cases.
      */
     const ORIGINAL_VALUE = 'originalValue';
+
     /**
      * This constant is used to tag the heredoc value.
      */
     const HEREDOC_CLOSE_TAG = 'heredocCloseTag';
+
     /**
      * This constant is used to tag the heredoc value.
      */
     const IS_NOWDOC = 'isNowDoc';
+
     /**
      * Constant for comment key
      */
     const COMMENT_KEY = 'comments';
+
     /**
      * Constant for startLine key
      */
     const START_LINE_KEY = 'startLine';
+
     /**
      * Constant for endLine key
      */
@@ -86,7 +91,7 @@ class ParserLexer extends PHPParser_Lexer
     {
         // Initialize the attribute arrays
         $startAttributes = array();
-        $endAttributes   = array();
+        $endAttributes = array();
         // 0 is the EOF token
         $tokenId = 0;
         // Loop over tokens to process them
@@ -94,7 +99,7 @@ class ParserLexer extends PHPParser_Lexer
             $token = $this->tokens[$this->pos];
             if (is_string($token)) {
                 $startAttributes[self::START_LINE_KEY] = $this->line;
-                $endAttributes[self::END_LINE_KEY]     = $this->line;
+                $endAttributes[self::END_LINE_KEY] = $this->line;
 
                 // bug in token_get_all
                 if ('b"' === $token) {
@@ -119,7 +124,7 @@ class ParserLexer extends PHPParser_Lexer
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
                     $startAttributes[self::START_LINE_KEY] = $token[2];
-                    $endAttributes[self::END_LINE_KEY]     = $this->line;
+                    $endAttributes[self::END_LINE_KEY] = $this->line;
 
                     $tokenId = $this->tokenMap[$token[0]];
                     break;
@@ -183,7 +188,7 @@ class ParserLexer extends PHPParser_Lexer
         if (array_key_exists(self::COMMENT_KEY, $startAttributes)) {
             // If we have comments then see if the last one has a newline at the end
             $attId = sizeof($startAttributes[self::COMMENT_KEY]);
-            if ($attId > 0 && preg_match('/.*\n$/', $startAttributes[self::COMMENT_KEY][$attId-1])) {
+            if ($attId > 0 && preg_match('/.*\n$/', $startAttributes[self::COMMENT_KEY][$attId - 1])) {
                 // if so then count it as part of this since it could be a blank line after a comment
                 $newlineCount++;
             }
