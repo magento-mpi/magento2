@@ -56,7 +56,7 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
     /**
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
@@ -67,7 +67,7 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
     public function __construct(
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,

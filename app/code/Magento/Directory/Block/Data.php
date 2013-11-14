@@ -38,7 +38,7 @@ class Data extends \Magento\View\Block\Template
     /**
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
@@ -47,7 +47,7 @@ class Data extends \Magento\View\Block\Template
     public function __construct(
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
