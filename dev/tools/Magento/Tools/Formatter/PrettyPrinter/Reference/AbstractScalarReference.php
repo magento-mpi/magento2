@@ -69,8 +69,8 @@ class AbstractScalarReference extends AbstractReference
                 if (is_string($bodyLine)) {
                     $heredocLines = explode(HardLineBreak::EOL, $bodyLine);
                     if (!empty($heredocLines)) {
-                    $heredocLineKeys = array_keys($heredocLines);
-                    $lastKey = end($heredocLineKeys);
+                        $heredocLineKeys = array_keys($heredocLines);
+                        $lastKey = end($heredocLineKeys);
                         foreach ($heredocLines as $key => $heredocLine) {
                             $this->addToLine($treeNode, new IndentConsumer())->add($heredocLine);
                             // add in a newline if we are in the middle of the list or if the original has a newline
@@ -89,6 +89,9 @@ class AbstractScalarReference extends AbstractReference
             // otherwise, just add the line
             $this->addToLine($treeNode, new IndentConsumer())->add($bodyLines);
         }
-        $this->addToLine($treeNode,new IndentConsumer())->add($heredocCloseTag)->add(new HardConditionalLineBreak(';'));
+        $this->addToLine(
+            $treeNode,
+            new IndentConsumer()
+        )->add($heredocCloseTag)->add(new HardConditionalLineBreak(';'));
     }
 }

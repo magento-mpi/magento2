@@ -42,6 +42,7 @@ class ParserLexer extends PHPParser_Lexer
      * Constant for endLine key
      */
     const END_LINE_KEY = 'endLine';
+
     /**
      * Map of comments indexed by the line number containing the comment
      */
@@ -52,6 +53,17 @@ class ParserLexer extends PHPParser_Lexer
      * @var string $heredocValue
      */
     protected $heredocValue;
+
+    /**
+     * This member holds an array of tokens that should just capture the original value.
+     * @var array $simpleOriginalValueTokens
+     */
+    protected $simpleOriginalValueTokens = array(
+        PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING,
+        PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE,
+        PHPParser_Parser::T_LNUMBER,
+        PHPParser_Parser::T_DNUMBER
+    );
 
     /**
      * This method returns the comment map.
@@ -123,6 +135,7 @@ class ParserLexer extends PHPParser_Lexer
         // Return Token Id
         return $tokenId;
     }
+
     /**
      * This method takes tokenId, value, and endAttributes reference and then does substitution to perserve the original
      * number or strings that were in the code.
@@ -133,9 +146,7 @@ class ParserLexer extends PHPParser_Lexer
     private function handleStrings($tokenId, $value, &$startAttributes, &$endAttributes)
     {
         // if a string or number is encountered, save off the original so that it can be used in the generated code.
-        if (PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING === $tokenId ||
-            PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE === $tokenId ||
-            PHPParser_Parser::T_LNUMBER === $tokenId || PHPParser_Parser::T_DNUMBER === $tokenId) {
+        if (in_array($tokenId, $this->simpleOriginalValueTokens)) {
             $endAttributes[self::ORIGINAL_VALUE] = $value;
         } elseif ($tokenId == PHPParser_Parser::T_START_HEREDOC) {
             if (preg_match('/<<<\'.*?\'/', $value)) {
@@ -156,6 +167,7 @@ class ParserLexer extends PHPParser_Lexer
             $this->heredocValue .= $value;
         }
     }
+
     /**
      * This method takes newlineCount, token, and startAttributes reference and adds any blank lines that are likely
      * developer added spacing to the list of startAttributes.

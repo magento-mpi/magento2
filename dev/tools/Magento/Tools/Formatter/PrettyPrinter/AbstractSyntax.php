@@ -91,22 +91,33 @@ abstract class AbstractSyntax
         // only need to look if something was specified
         if (!empty($arguments)) {
             foreach ($arguments as $argument) {
-                if ($argument instanceof PHPParser_Node_Arg &&
-                    $argument->value instanceof PHPParser_Node_Expr_Closure ||
-                    $argument instanceof PHPParser_Node_Expr_ArrayItem &&
-                        $argument->value instanceof PHPParser_Node_Expr_Closure
-                ) {
+                if ($this->hasClosureArgument($argument)) {
                     $closure = true;
                     break;
-                } elseif ($argument instanceof PHPParser_Node_Arg &&
-                    $argument->value instanceof PHPParser_Node_Expr_FuncCall
-                ) {
-                    $closure = $this->hasClosure($argument->value->args);
-                    if ($closure === true) {
-                        break;
-                    }
                 }
             }
+        }
+        return $closure;
+    }
+
+    /**
+     * This method returns if the passed in argument contains a closure reference.
+     * @param mixed $argument Argument to check.
+     * @return bool
+     */
+    protected function hasClosureArgument($argument)
+    {
+        $closure = false;
+        if ($argument instanceof PHPParser_Node_Arg &&
+            $argument->value instanceof PHPParser_Node_Expr_Closure ||
+            $argument instanceof PHPParser_Node_Expr_ArrayItem &&
+            $argument->value instanceof PHPParser_Node_Expr_Closure
+        ) {
+            $closure = true;
+        } elseif ($argument instanceof PHPParser_Node_Arg &&
+            $argument->value instanceof PHPParser_Node_Expr_FuncCall
+        ) {
+            $closure = $this->hasClosure($argument->value->args);
         }
         return $closure;
     }
