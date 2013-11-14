@@ -137,8 +137,7 @@ class Images extends \Magento\Backend\Controller\Adminhtml\Action
                 $_filePath = $path . DS . $file;
                 /** @var \Magento\Filesystem $filesystem */
                 $filesystem = $this->_objectManager->get('Magento\Filesystem');
-                $filesystem->setWorkingDirectory($helper->getStorageRoot());
-                if ($filesystem->isFile($_filePath)) {
+                if ($filesystem->getDirectoryRead($helper->getStorageRoot())->isFile($file)) {
                     $this->getStorage()->deleteFile($_filePath);
                 }
             }
