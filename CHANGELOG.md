@@ -5,6 +5,7 @@
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
   * Tax helper was using %f that is locale aware. sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
+  * Media image required attribute `_media_attribute_id` verification added for product import functionality
 * Themes update:
   * Plushe theme is responsive now
 * Fixed bugs:
