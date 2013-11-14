@@ -277,11 +277,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\App\Action\Context">
-        <param name="helper">
-            <instance type="Magento\Core\Helper\Data" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>

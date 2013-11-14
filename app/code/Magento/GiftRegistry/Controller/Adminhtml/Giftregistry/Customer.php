@@ -27,11 +27,6 @@ class Customer extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var \Magento\App\Action\Title
      */
     protected $_title;
@@ -39,19 +34,13 @@ class Customer extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Action\Title $title
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Action\Title $title
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
-        $this->storeManager = $storeManager;
-        $this->_title = $title;
     }
 
     protected function _initEntity($requestParam = 'id')
@@ -195,8 +184,8 @@ class Customer extends \Magento\Backend\App\Action
             $emails = explode(',', $data);
             $emailsForSend = array();
 
-            if ($this->storeManager->hasSingleStore()) {
-                $storeId = $this->storeManager->getStore(true)->getId();
+            if ($this->_storeManager->hasSingleStore()) {
+                $storeId = $this->_storeManager->getStore(true)->getId();
             } else {
                 $storeId = $this->getRequest()->getParam('store_id');
             }

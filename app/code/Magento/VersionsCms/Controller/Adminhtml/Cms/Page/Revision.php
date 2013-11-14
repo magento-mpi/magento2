@@ -17,11 +17,6 @@ class Revision
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Cms\Model\Page
      */
     protected $_cmsPage;
@@ -55,12 +50,10 @@ class Revision
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Filter\Date $dateFilter,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Core\Model\Design $design,
         \Magento\App\Action\Title $title
     ) {
-        $this->_locale = $locale;
         $this->_cmsPage = $cmsPage;
         $this->_design = $design;
         parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession,

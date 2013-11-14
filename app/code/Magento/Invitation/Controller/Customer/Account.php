@@ -34,7 +34,6 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
@@ -48,7 +47,6 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
@@ -58,7 +56,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
-        parent::__construct($context, $coreRegistry, $customerSession, $storeManager, $urlFactory, $customerFactory,
+        parent::__construct($context, $coreRegistry, $customerSession, $urlFactory, $customerFactory,
             $formFactory, $addressFactory, $string, $formKeyValidator
         );
         $this->_config = $config;

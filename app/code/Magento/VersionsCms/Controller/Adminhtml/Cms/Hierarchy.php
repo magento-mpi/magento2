@@ -63,7 +63,6 @@ class Hierarchy extends \Magento\Backend\App\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;

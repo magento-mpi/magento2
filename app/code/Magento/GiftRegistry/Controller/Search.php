@@ -26,11 +26,6 @@ class Search extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
@@ -38,18 +33,15 @@ class Search extends \Magento\App\Action\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
-        $this->storeManager = $storeManager;
         $this->locale = $locale;
     }
 
@@ -87,7 +79,7 @@ class Search extends \Magento\App\Action\Action
     protected function _initType($typeId)
     {
         $type = $this->_objectManager->create('Magento\GiftRegistry\Model\Type')
-            ->setStoreId($this->storeManager->getStore()->getId())
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($typeId);
 
         $this->_coreRegistry->register('current_giftregistry_type', $type);
