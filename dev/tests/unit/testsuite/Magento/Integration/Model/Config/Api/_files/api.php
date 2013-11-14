@@ -11,7 +11,7 @@ return array(
             'Magento_Customer::manage',
             'Magento_Customer::online',
             'Magento_Customer::order_statuses_read',
-            'Magento_SalesArchive::archive'
+            'Magento_Sales::capture'
         )
     ),
     'TestIntegration2' => array(
