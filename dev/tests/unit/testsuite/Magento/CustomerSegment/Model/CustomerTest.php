@@ -56,18 +56,19 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_model = new \Magento\CustomerSegment\Model\Customer(
-            $this->getMock('Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory',
-                array('create'), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
-            $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false),
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
-            $this->_registry,
-            $storeManager,
-            $this->_customerSession,
-            $this->_resource
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $this->_model = $helper->getObject(
+            '\Magento\CustomerSegment\Model\Customer',
+            array(
+                'registry' => $this->_registry,
+                'resource' => $this->_resource,
+                'resourceCustomer' => $this->getMock('\Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
+                'storeManager' => $storeManager,
+                'customerSession' => $this->_customerSession,
+                'collectionFactory' => $this->getMock('Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory',
+                array(), array(), '', false)
+            )
         );
     }
 
