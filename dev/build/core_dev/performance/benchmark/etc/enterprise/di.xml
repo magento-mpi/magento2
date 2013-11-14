@@ -54,7 +54,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Frontend\Pool">
+    <type name="Magento\App\Cache\Frontend\Pool">
         <param name="advancedSettings">
             <value>
                 <full_page>
@@ -65,7 +65,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Frontend\Pool">
+    <type name="Magento\App\Cache\Frontend\Pool">
         <param name="advancedSettings">
             <value>
                 <full_page>
