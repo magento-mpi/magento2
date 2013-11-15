@@ -9,17 +9,25 @@
 namespace Magento\Filesystem\File;
 
 use Magento\Filesystem\FilesystemException;
+use Magento\Webapi\Exception;
 
 class Write extends Read implements WriteInterface
 {
     /**
-     * @param string $path
-     * @param string $mode
+     * Constructor
+     *
+     * @param $path
+     * @param \Magento\Filesystem\Driver $driver
+     * @param $mode
      */
-    public function __construct($path, $mode)
+    public function __construct(
+        $path,
+        \Magento\Filesystem\Driver $driver,
+        $mode
+    )
     {
+        parent::__construct($path, $driver);
         $this->mode = $mode;
-        parent::__construct($path);
     }
 
     /**
@@ -29,9 +37,7 @@ class Write extends Read implements WriteInterface
      */
     protected function assertValid()
     {
-        clearstatcache();
-
-        $fileExists = file_exists($this->path);
+        $fileExists = $this->driver->isExists($this->path);
         if (!$fileExists && preg_match('/r/', $this->mode)) {
             throw new FilesystemException(sprintf('The file "%s" doesn\'t exist', $this->path));
         } elseif ($fileExists && preg_match('/x/', $this->mode)) {
@@ -48,11 +54,15 @@ class Write extends Read implements WriteInterface
      */
     public function write($data)
     {
-        $result = fwrite($this->resource, $data);
-        if ($result === false) {
-            throw new FilesystemException(sprintf('Cannot write to the "%s" file', $this->path));
+        try {
+            return $this->driver->fileWrite($this->resource, $data);
+        } catch (FilesystemException $e) {
+            throw new FilesystemException(
+                sprintf('Cannot write to the "%s" file. %s',
+                    $this->path,
+                    $e->getMessage()
+                ));
         }
-        return $result;
     }
 
     /**
@@ -66,11 +76,15 @@ class Write extends Read implements WriteInterface
      */
     public function writeCsv(array $data, $delimiter = ',', $enclosure = '"')
     {
-        $result = fputcsv($this->resource, $data, $delimiter, $enclosure);
-        if ($result === false) {
-            throw new FilesystemException(sprintf('Cannot write to the "%s" file', $this->path));
+        try {
+            return $this->driver->filePutCsv($this->resource, $data, $delimiter, $enclosure);
+        } catch (FilesystemException $e) {
+            throw new FilesystemException(
+                sprintf('Cannot write to the "%s" file. %s',
+                    $this->path,
+                    $e->getMessage()
+                ));
         }
-        return $result;
     }
 
     /**
@@ -81,11 +95,15 @@ class Write extends Read implements WriteInterface
      */
     public function flush()
     {
-        $result = fflush($this->resource);
-        if ($result === false) {
-            throw new FilesystemException(sprintf('Cannot flush the "%s" file', $this->path));
+        try {
+            return $this->driver->fileFlush($this->resource);
+        } catch (FilesystemException $e) {
+            throw new FilesystemException(
+                sprintf('Cannot flush the "%s" file. %s',
+                    $this->path,
+                    $e->getMessage()
+                ));
         }
-        return $result;
     }
 
     /**
@@ -96,8 +114,7 @@ class Write extends Read implements WriteInterface
      */
     public function lock($exclusive = true)
     {
-        $lock = $exclusive ? LOCK_EX : LOCK_SH;
-        return flock($this->resource, $lock);
+        return $this->driver->fileLock($exclusive);
     }
 
     /**
@@ -107,21 +124,6 @@ class Write extends Read implements WriteInterface
      */
     public function unlock()
     {
-        return flock($this->resource, LOCK_UN);
-    }
-
-    /**
-     * Closes the file.
-     *
-     * @return bool
-     * @throws FilesystemException
-     */
-    public function close()
-    {
-        $result = fclose($this->resource);
-        if ($result === false) {
-            throw new FilesystemException(sprintf('Cannot close the "%s" file', $this->path));
-        }
-        return $result;
+        return $this->driver->fileUnlock($this->resource);
     }
 }

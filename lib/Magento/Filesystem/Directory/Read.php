@@ -23,32 +23,28 @@ class Read implements ReadInterface
     protected $fileFactory;
 
     /**
+     * @var \Magento\Filesystem\Driver
+     */
+    protected $driver;
+
+    /**
+     * Constructor
+     *
      * @param string $path
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
+     * @param \Magento\Filesystem\Driver $driver
      */
-    public function __construct($path, \Magento\Filesystem\File\ReadFactory $fileFactory)
+    public function __construct
+    (
+        $path,
+        \Magento\Filesystem\File\ReadFactory $fileFactory,
+        \Magento\Filesystem\Driver $driver
+    )
     {
         $this->path = rtrim($path, '/') . '/';
         $this->fileFactory = $fileFactory;
+        $this->driver = $driver;
     }
-
-    /**
-     * Returns last warning message string
-     *
-     * @return string
-     */
-    protected function _getWarningMessage()
-    {
-        $errorMessage = 'Warning!';
-        $warning = error_get_last();
-        if ($warning && $warning['type'] == E_WARNING) {
-            $errorMessage .= $warning['message'];
-        } else {
-            $errorMessage .= 'Unexpected functions result';
-        }
-        return $errorMessage;
-    }
-
     /**
      * @param string $path
      * @return string
@@ -75,14 +71,16 @@ class Read implements ReadInterface
     /**
      * Validate of path existence
      *
-     * @param string $path
-     * @throws FilesystemException
+     * @param $path
+     * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertExist($path)
     {
-        if ($this->isExist($path) === false) {
+        if ($this->driver->isExists($path) === false) {
             throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $this->getAbsolutePath($path)));
         }
+        return true;
     }
 
     /**
@@ -138,12 +136,7 @@ class Read implements ReadInterface
      */
     public function isExist($path = null)
     {
-        clearstatcache();
-        $result = @file_exists($this->getAbsolutePath($path));
-        if ($result === null) {
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
+        return $this->driver->isExists($this->getAbsolutePath($path));
     }
 
     /**
@@ -156,11 +149,7 @@ class Read implements ReadInterface
     public function stat($path)
     {
         $this->assertExist($path);
-        $result = @stat($this->getAbsolutePath($path));
-        if ($result === null) {
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
+        return $this->driver->stat($this->getAbsolutePath($path));
     }
 
     /**
@@ -172,46 +161,7 @@ class Read implements ReadInterface
      */
     public function isReadable($path)
     {
-        clearstatcache();
-        $result = @is_readable($this->getAbsolutePath($path));
-        if ($result === null) {
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
-    }
-
-    /**
-     * Tells whether the filename is a regular file
-     *
-     * @param string $path
-     * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    public function isFile($path)
-    {
-        clearstatcache();
-        $result = @is_file($this->getAbsolutePath($path));
-        if ($result === null) {
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
-    }
-
-    /**
-     * Tells whether the filename is a regular directory
-     *
-     * @param string $path
-     * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    public function isDirectory($path)
-    {
-        clearstatcache();
-        $result = @is_dir($this->getAbsolutePath($path));
-        if ($result === null) {
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
+        return $this->driver->isReadable($this->getAbsolutePath($path));
     }
 
     /**
@@ -234,12 +184,6 @@ class Read implements ReadInterface
      */
     public function readFile($path)
     {
-        clearstatcache();
-        $result = @file_get_contents($this->getAbsolutePath($path));
-        if (!$result) {
-            // @todo add message
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
+        return $this->driver->fileGetContents($this->getAbsolutePath($path));
     }
 }

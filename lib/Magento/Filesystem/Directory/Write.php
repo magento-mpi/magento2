@@ -20,15 +20,25 @@ class Write extends Read implements WriteInterface
     protected $permissions;
 
     /**
+     * Constructor
+     *
      * @param string $path
      * @param \Magento\Filesystem\File\WriteFactory $fileFactory
+     * @param \Magento\Filesystem\Driver $driver
      * @param $permissions
      */
-    public function __construct($path, \Magento\Filesystem\File\WriteFactory $fileFactory, $permissions)
+    public function __construct
+    (
+        $path,
+        \Magento\Filesystem\File\WriteFactory $fileFactory,
+        \Magento\Filesystem\Driver $driver,
+        $permissions
+    )
     {
-        $this->path = rtrim($path, '/') . '/';
-        $this->fileFactory = $fileFactory;
+        $this->path = $path;
+        $this->driver = $driver;
         $this->permissions = $permissions;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -38,7 +48,6 @@ class Write extends Read implements WriteInterface
      */
     protected function assertWritable($path)
     {
-        clearstatcache();
         $absolutePath = $this->getAbsolutePath($path);
         if ($this->isWritable($absolutePath) === false) {
             throw new FilesystemException(sprintf('The path "%s" is not writable', $absolutePath));
@@ -56,17 +65,10 @@ class Write extends Read implements WriteInterface
     {
         $this->assertWritable($path);
         $absolutePath = $this->getAbsolutePath($path);
-        if ($this->isDirectory($absolutePath)) {
+        if ($this->driver->isDirectory($absolutePath)) {
             return true;
         }
-        $result = @mkdir($absolutePath, $this->permissions, true);
-        if (!$result) {
-            throw new FilesystemException(sprintf('Directory "%s" cannot be created, Additional information (%s)',
-                $absolutePath,
-                $this->_getWarningMessage()
-            ));
-        }
-        return $result;
+        return $this->driver->createDirectory($absolutePath, $this->permissions);
     }
 
     /**
@@ -81,23 +83,13 @@ class Write extends Read implements WriteInterface
     public function rename($path, $newPath, WriteInterface $targetDirectory = null)
     {
         $this->assertExist($path);
-
         $targetDirectory = $targetDirectory ? : $this;
         if (!$targetDirectory->isExist(dirname($newPath))) {
             $targetDirectory->create(dirname($newPath));
         }
         $absolutePath = $this->getAbsolutePath($path);
         $absoluteNewPath = $targetDirectory->getAbsolutePath($newPath);
-        $result = @rename($absolutePath, $absoluteNewPath);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s". Additional information (%s)',
-                    $absolutePath,
-                    $absoluteNewPath,
-                    $this->_getWarningMessage()
-            ));
-        }
-        return $result;
+        return $this->driver->rename($absolutePath, $absoluteNewPath);
     }
 
     /**
@@ -119,17 +111,7 @@ class Write extends Read implements WriteInterface
 
         $absolutePath = $this->getAbsolutePath($path);
         $absoluteDestinationPath = $targetDirectory->getAbsolutePath($destination);
-
-        $result = @copy($absolutePath, $absoluteDestinationPath);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The file or directory "%s" cannot be copied to "%s". Additional information (%s)',
-                    $absolutePath,
-                    $absoluteDestinationPath,
-                    $this->_getWarningMessage()
-                ));
-        }
-        return $result;
+        return $this->driver->copy($absolutePath, $absoluteDestinationPath);
     }
 
     /**
@@ -142,24 +124,16 @@ class Write extends Read implements WriteInterface
     public function delete($path = null)
     {
         $this->assertExist($path);
-
         $absolutePath = $this->getAbsolutePath($path);
-        if ($this->isFile($absolutePath)) {
-            $result = @unlink($this->getAbsolutePath($path));
+        if ($this->driver->isFile($absolutePath)) {
+            $this->driver->deleteFile($absolutePath);
         } else {
             foreach ($this->read($path) as $subPath) {
                 $this->delete($subPath);
             }
-            $result = @rmdir($absolutePath);
+            $this->driver->deleteDirectory($absolutePath);
         }
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The file or directory "%s" cannot be deleted. Additional information (%s)',
-                    $absolutePath,
-                    $this->_getWarningMessage()
-                ));
-        }
-        return $result;
+        return true;
     }
 
     /**
@@ -173,17 +147,8 @@ class Write extends Read implements WriteInterface
     public function changePermissions($path, $permissions)
     {
         $this->assertExist($path);
-
         $absolutePath = $this->getAbsolutePath($path);
-        $result = @chmod($absolutePath, $permissions);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Cannot change permissions for path "%s". Additional information (%s)',
-                    $absolutePath,
-                    $this->_getWarningMessage()
-                ));
-        }
-        return $result;
+        return $this->driver->changePermissions($absolutePath,$permissions);
     }
 
     /**
@@ -197,24 +162,10 @@ class Write extends Read implements WriteInterface
     public function touch($path, $modificationTime = null)
     {
         $absolutePath = $this->getAbsolutePath($path);
-
-        $folder = dirname($path);
+        $folder = $this->driver->getParentDirectory($path);
         $this->create($folder);
         $this->assertWritable($folder);
-
-        if ($modificationTime === null) {
-            $result = @touch($absolutePath);
-        } else {
-            $result = @touch($absolutePath, $modificationTime);
-        }
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The file or directory "%s" cannot be touched. Additional information (%s)',
-                    $absolutePath,
-                    $this->_getWarningMessage()
-                ));
-        }
-        return $result;
+        return $this->driver->touch($path, $modificationTime);
     }
 
     /**
@@ -226,12 +177,7 @@ class Write extends Read implements WriteInterface
      */
     public function isWritable($path = null)
     {
-        clearstatcache();
-        $result = @is_writable($this->getAbsolutePath($path));
-        if ($result === null) {
-            throw new FilesystemException($this->_getWarningMessage());
-        }
-        return $result;
+        return $this->driver->isWritable($this->getAbsolutePath($path));
     }
 
     /**
@@ -244,11 +190,9 @@ class Write extends Read implements WriteInterface
     public function openFile($path, $mode = 'w')
     {
         $absolutePath = $this->getAbsolutePath($path);
-
-        $folder = dirname($path);
+        $folder = $this->driver->getParentDirectory($absolutePath);
         $this->create($folder);
         $this->assertWritable($folder);
-
         return $this->fileFactory->create($absolutePath, $mode);
     }
 
@@ -264,18 +208,9 @@ class Write extends Read implements WriteInterface
     public function writeFile($path, $content, $mode = null)
     {
         $absolutePath = $this->getAbsolutePath($path);
-
-        $folder = dirname($path);
+        $folder = $this->driver->getParentDirectory($absolutePath);
         $this->create($folder);
         $this->assertWritable($folder);
-        $result = @file_put_contents($absolutePath, $content, $mode);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The specified "%s" file could not be written. Additional information (%s)',
-                    $absolutePath,
-                    $this->_getWarningMessage()
-                ));
-        }
-        return $result;
+        return $this->driver->filePutContents($absolutePath, $content, $mode);
     }
 }
