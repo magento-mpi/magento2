@@ -131,6 +131,16 @@ class Product extends DataFixture
     }
 
     /**
+     * Get product special price
+     *
+     * @return string
+     */
+    public function getProductSpecialPrice()
+    {
+        return $this->getData('fields/special_price/value');
+    }
+
+    /**
      * Get category name
      *
      * @return string

@@ -54,8 +54,12 @@ class ProductSpecialPriceTest extends Functional
         $this->addProductToCart($simpleProduct);
         $this->addProductToCart($configurableProduct);
 
-        // Verifying
+        // Verify cart contents
+        $this->verifyCartItem($simpleProduct);
+        //$this->verifyCartItem($configurableProduct);
 
+        /** @todo ACB - step 7 - submit order via one page checkout */
+        /** @todo ACB - step 8 & 9 - verify order in admin */
     }
 
     /**
@@ -69,5 +73,30 @@ class ProductSpecialPriceTest extends Functional
         $productPage->init($product);
         $productPage->open();
         $productPage->getViewBlock()->addToCart($product);
+    }
+
+    /**
+     * Verifies the unit price and subtotal for cart item.
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $product
+     */
+    private function verifyCartItem(\Magento\Catalog\Test\Fixture\Product $product)
+    {
+        $productName = $product->getProductName();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+
+        $specialPrice = $product->getProductSpecialPrice();
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($productName);
+        $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($productName);
+        $this->assertContains(
+            $specialPrice,
+            $unitPrice,
+            'Incorrect unit price for ' . $productName
+        );
+        $this->assertContains(
+            $specialPrice,
+            $subTotal,
+            'Incorrect sub-total for ' . $productName
+        );
     }
 }
