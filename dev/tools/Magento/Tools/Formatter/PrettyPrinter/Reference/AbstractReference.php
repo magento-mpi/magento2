@@ -39,7 +39,7 @@ abstract class AbstractReference extends AbstractSyntax
     }
 
     /**
-     * This method returns if the needle can be found at the end of this string.
+     * This method returns if the needle can be found at the end of the haystack.
      * @param string $haystack String to look in.
      * @param string $needle String to find.
      * @param bool $case_insensitivity If true, then comparison is case insensitive.
