@@ -44,11 +44,6 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     protected $_countryCollFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType

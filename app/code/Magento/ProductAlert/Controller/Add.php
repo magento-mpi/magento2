@@ -17,11 +17,28 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-use Magento\App\Action\NotFoundException;
+use Magento\App\Action\Context;
 use Magento\App\RequestInterface;
 
 class Add extends \Magento\App\Action\Action
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
+    }
+
     public function dispatch(RequestInterface $request)
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
@@ -55,7 +72,7 @@ class Add extends \Magento\App\Action\Action
         if (!$product->getId()) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
-            if ($this->_appUrl->isInternal($backUrl)) {
+            if ($this->_isInternal($backUrl)) {
                 $this->getResponse()->setRedirect($backUrl);
             } else {
                 $this->_redirect('/');
@@ -112,5 +129,27 @@ class Add extends \Magento\App\Action\Action
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+    }
+
+    /**
+     * check if URL corresponds store
+     *
+     * @param string $url
+     * @return bool
+     */
+    protected function _isInternal($url)
+    {
+        if (strpos($url, 'http') === false) {
+            return false;
+        }
+
+        /**
+         * Url must start from base secure or base unsecure url
+         */
+        /** @var $store \Magento\Core\Model\Store */
+        $store = $this->_storeManager->getStore();
+        $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
+        $secure = (strpos($url, $store->getBaseUrl($store::URL_TYPE_LINK, true)) === 0);
+        return $unsecure || $secure;
     }
 }

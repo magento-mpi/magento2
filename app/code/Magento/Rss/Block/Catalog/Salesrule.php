@@ -28,7 +28,6 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
@@ -37,7 +36,6 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
@@ -45,7 +43,7 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
     ) {
         $this->_rssFactory = $rssFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $coreData, $storeManager, $customerSession, $data);
+        parent::__construct($context, $coreData, $customerSession, $data);
     }
 
     protected function _construct()

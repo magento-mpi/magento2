@@ -22,13 +22,6 @@ class Main
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * Store manager instance
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -63,7 +56,6 @@ class Main
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
-        $this->_storeManager = $context->getStoreManager();
         $this->_systemStore = $systemStore;
         $this->_customerGroup = $customerGroup;
         $this->_salesRule = $salesRule;

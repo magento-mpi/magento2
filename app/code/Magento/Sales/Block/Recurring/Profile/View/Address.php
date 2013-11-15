@@ -15,12 +15,10 @@ namespace Magento\Sales\Block\Recurring\Profile\View;
  */
 class Address extends \Magento\Sales\Block\Recurring\Profile\View
 {
-
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param array $data
@@ -29,12 +27,11 @@ class Address extends \Magento\Sales\Block\Recurring\Profile\View
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $storeManager, $locale, $data);
+        parent::__construct($context, $coreData, $registry, $locale, $data);
         $this->_addressFactory = $addressFactory;
     }
 

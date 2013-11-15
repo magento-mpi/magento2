@@ -69,11 +69,6 @@ class Head extends \Magento\Core\Block\Template
     protected $_fileStorageDatabase = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -100,8 +95,8 @@ class Head extends \Magento\Core\Block\Template
         \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
-        $this->_fileStorageDatabase = $fileStorageDatabase;
         parent::__construct($context, $coreData, $data);
+        $this->_fileStorageDatabase = $fileStorageDatabase;
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;

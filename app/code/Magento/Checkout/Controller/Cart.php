@@ -28,18 +28,26 @@ class Cart
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        parent::__construct($context);
         $this->_storeConfig = $storeConfig;
         $this->_checkoutSession = $checkoutSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
     }
 
     /**
@@ -70,7 +78,7 @@ class Cart
     protected function _goBack()
     {
         $returnUrl = $this->getRequest()->getParam('return_url');
-        if ($returnUrl && $this->_appUrl->isInternal($returnUrl)) {
+        if ($returnUrl && $this->_isInternal($returnUrl)) {
             $this->_checkoutSession->getMessages(true);
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
@@ -215,7 +223,9 @@ class Cart
             } else {
                 $messages = array_unique(explode("\n", $e->getMessage()));
                 foreach ($messages as $message) {
-                    $this->_checkoutSession->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($message));
+                    $this->_checkoutSession->addError(
+                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($message)
+                    );
                 }
             }
 
@@ -448,7 +458,7 @@ class Cart
     }
 
     /**
-     * Delete shoping cart item action
+     * Delete shopping cart item action
      */
     public function deleteAction()
     {
@@ -552,5 +562,27 @@ class Cart
         }
 
         $this->_goBack();
+    }
+
+    /**
+     * check if URL corresponds store
+     *
+     * @param string $url
+     * @return bool
+     */
+    protected function _isInternal($url)
+    {
+        if (strpos($url, 'http') === false) {
+            return false;
+        }
+
+        /**
+         * Url must start from base secure or base unsecure url
+         */
+        /** @var $store \Magento\Core\Model\Store */
+        $store = $this->_storeManager->getStore();
+        $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
+        $secure = (strpos($url, $store->getBaseUrl($store::URL_TYPE_LINK, true)) === 0);
+        return $unsecure || $secure;
     }
 }

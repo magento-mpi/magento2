@@ -76,7 +76,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_coreData;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

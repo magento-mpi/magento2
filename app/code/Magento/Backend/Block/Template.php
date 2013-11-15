@@ -23,11 +23,6 @@ class Template extends \Magento\Core\Block\Template
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -52,7 +47,6 @@ class Template extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
-        $this->_storeManager = $context->getStoreManager();
         $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();

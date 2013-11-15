@@ -35,11 +35,6 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
     protected $_taxOrderFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Model\Config $taxConfig
@@ -60,7 +55,6 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
         $this->_taxOrderFactory = $taxOrderFactory;
-        $this->_storeManager = $context->getStoreManager();
         parent::__construct($context, $coreData, $taxConfig, $data);
     }
 

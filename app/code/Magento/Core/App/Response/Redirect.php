@@ -27,11 +27,6 @@ class Redirect implements \Magento\App\Response\RedirectInterface
     protected $_urlCoder;
 
     /**
-     * @var \Magento\HTTP\Url
-     */
-    protected $_url;
-
-    /**
      * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
@@ -50,7 +45,6 @@ class Redirect implements \Magento\App\Response\RedirectInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Encryption\UrlCoder $urlCoder
-     * @param \Magento\HTTP\Url $url
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Url $urlBuilder
      * @param bool $canUseSessionIdInParam
@@ -59,7 +53,6 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Encryption\UrlCoder $urlCoder,
-        \Magento\HTTP\Url $url,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Url $urlBuilder,
         $canUseSessionIdInParam = true
@@ -68,7 +61,6 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_urlCoder = $urlCoder;
-        $this->_url = $url;
         $this->_session = $session;
         $this->_urlBuilder = $urlBuilder;
     }
@@ -92,7 +84,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
             $refererUrl = $this->_urlCoder->decode($url);
         }
 
-        if (!$this->_url->isInternal($refererUrl)) {
+        if (!$this->_isInternal($refererUrl)) {
             $refererUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $refererUrl;
@@ -137,7 +129,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         if (empty($errorUrl)) {
             $errorUrl = $defaultUrl;
         }
-        if (!$this->_url->isInternal($errorUrl)) {
+        if (!$this->_isInternal($errorUrl)) {
             $errorUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $errorUrl;
@@ -155,7 +147,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         if (empty($successUrl)) {
             $successUrl = $defaultUrl;
         }
-        if (!$this->_url->isInternal($successUrl)) {
+        if (!$this->_isInternal($successUrl)) {
             $successUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $successUrl;
@@ -179,5 +171,27 @@ class Redirect implements \Magento\App\Response\RedirectInterface
             ));
         }
         $response->setRedirect($this->_urlBuilder->getUrl($path, $arguments));
+    }
+
+    /**
+     * Check if URL corresponds store
+     *
+     * @param string $url
+     * @return bool
+     */
+    protected function _isInternal($url)
+    {
+        if (strpos($url, 'http') === false) {
+            return false;
+        }
+
+        /**
+         * Url must start from base secure or base unsecure url
+         */
+        /** @var $store \Magento\Core\Model\Store */
+        $store = $this->_storeManager->getStore();
+        $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
+        $secure = (strpos($url, $store->getBaseUrl($store::URL_TYPE_LINK, true)) === 0);
+        return $unsecure || $secure;
     }
 }
