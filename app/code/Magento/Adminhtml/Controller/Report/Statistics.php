@@ -43,7 +43,7 @@ class Statistics extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $this->_layoutServices->loadLayout()
+        $this->_view->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Statistics'), __('Statistics'));
         return $this;

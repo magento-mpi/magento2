@@ -75,9 +75,9 @@ class Customersegment extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Customer Segments'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -116,10 +116,10 @@ class Customersegment extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $block =  $this->_layoutServices->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
+        $block =  $this->_view->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
-        $this->_layoutServices->getLayout()->getBlock('head')
+        $this->_view->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
@@ -128,10 +128,10 @@ class Customersegment extends \Magento\Backend\App\Action
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->_layoutServices->getLayout()->createBlock(
+                $this->_view->getLayout()->createBlock(
                     'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs')
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -165,7 +165,7 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment')
             ->_addBreadcrumb(
                 __('Segments'),
@@ -305,7 +305,7 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->_layoutServices->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
+        $block = $this->_view->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));
@@ -323,8 +323,8 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -332,7 +332,7 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     public function chooserGridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

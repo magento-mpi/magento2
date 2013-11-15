@@ -25,8 +25,8 @@ class Ajax extends \Magento\App\Action\Action
             $this->getResponse()->setRedirect($this->_url->getBaseUrl());
         }
 
-        $this->_layoutServices->addPageLayoutHandles();
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 }

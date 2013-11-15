@@ -53,8 +53,8 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         if ($this->_storeConfig->getConfig('rss/config/active')) {
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } else {
             throw new NotFoundException();
         }
@@ -87,8 +87,8 @@ class Index extends \Magento\App\Action\Action
                     && $wishlist->getCustomerId() == $this->_getCustomer()->getId())
             ) {
                 $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-                $this->_layoutServices->loadLayout(false);
-                $this->_layoutServices->renderLayout();
+                $this->_view->loadLayout(false);
+                $this->_view->renderLayout();
                 return;
             }
         }

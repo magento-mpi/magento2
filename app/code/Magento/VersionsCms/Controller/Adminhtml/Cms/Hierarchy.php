@@ -116,7 +116,7 @@ class Hierarchy extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('CMS Page Trees'), __('CMS Page Trees'));
@@ -171,7 +171,7 @@ class Hierarchy extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -335,8 +335,8 @@ class Hierarchy extends \Magento\Backend\App\Action
      */
     public function pageGridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

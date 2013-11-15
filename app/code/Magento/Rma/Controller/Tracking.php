@@ -59,12 +59,12 @@ class Tracking extends \Magento\App\Action\Action
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             throw new NotFoundException();
         }
-        $this->_layoutServices->loadLayout();
-        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Tracking Information'));
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -84,8 +84,8 @@ class Tracking extends \Magento\App\Action\Action
         if (!$shippingInfoModel->getPackages()) {
             throw new NotFoundException();
         }
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -214,7 +214,7 @@ class Tracking extends \Magento\App\Action\Action
         if ($shippingInfoModel) {
             /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
             $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
-            $block = $this->_layoutServices->getLayout()->getBlockSingleton(
+            $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);

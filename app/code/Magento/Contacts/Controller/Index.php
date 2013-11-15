@@ -47,13 +47,13 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('contactForm')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('contactForm')
             ->setFormAction($this->_objectManager->create('Magento\Core\Model\Url')->getUrl('*/*/post'));
 
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->renderLayout();
     }
 
     /**

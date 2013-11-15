@@ -38,7 +38,7 @@ class Report extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $this->_layoutServices->loadLayout()
+        $this->_view->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }
@@ -61,8 +61,8 @@ class Report extends \Magento\Backend\App\Action
      */
     public function exportSearchCsvAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
+        $this->_view->loadLayout(false);
+        $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
         return $this->_fileFactory->create('search.csv', $content->getCsvFile());
     }
 
@@ -71,8 +71,8 @@ class Report extends \Magento\Backend\App\Action
      */
     public function exportSearchExcelAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
+        $this->_view->loadLayout(false);
+        $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
         return $this->_fileFactory->create('search.xml', $content->getExcelFile());
     }
 

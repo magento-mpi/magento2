@@ -65,18 +65,18 @@ class Editor extends \Magento\Backend\App\Action
             ->getParam('page_size', \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE);
 
         try {
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             /** @var $collection \Magento\Core\Model\Resource\Theme\Collection */
             $collection = $this->_objectManager->get('Magento\Core\Model\Resource\Theme\Collection')
                 ->filterPhysicalThemes($page, $pageSize);
 
             /** @var $availableThemeBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available */
-            $availableThemeBlock =  $this->_layoutServices->getLayout()->getBlock('available.theme.list');
+            $availableThemeBlock =  $this->_view->getLayout()->getBlock('available.theme.list');
             $availableThemeBlock->setCollection($collection)->setNextPage(++$page);
             $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
             $availableThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
 
-            $response = array('content' => $this->_layoutServices->getLayout()->getOutput());
+            $response = array('content' => $this->_view->getLayout()->getOutput());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => __('Sorry, but we can\'t load the theme list.'));
@@ -107,20 +107,20 @@ class Editor extends \Magento\Backend\App\Action
             $this->_eventManager->dispatch('design_editor_activate');
 
             $this->_setTitle();
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
 
             $this->_configureToolbarBlocks($launchedTheme, $editableTheme, $mode); //top panel
             $this->_configureToolsBlocks($launchedTheme, $mode); //bottom panel
             $this->_configureEditorBlock($launchedTheme, $mode); //editor container
 
             /** @var $storeViewBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\StoreView */
-            $storeViewBlock = $this->_layoutServices->getLayout()->getBlock('theme.selector.storeview');
+            $storeViewBlock = $this->_view->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData(array(
                 'actionOnAssign' => 'none',
                 'theme_id'       => $launchedTheme->getId()
             ));
 
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -378,13 +378,13 @@ class Editor extends \Magento\Backend\App\Action
     protected function _configureToolsBlocks($theme, $mode)
     {
         /** @var $toolsBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Tools */
-        $toolsBlock = $this->_layoutServices->getLayout()->getBlock('design_editor_tools');
+        $toolsBlock = $this->_view->getLayout()->getBlock('design_editor_tools');
         if ($toolsBlock) {
             $toolsBlock->setMode($mode);
         }
 
         /** @var $cssTabBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css */
-        $cssTabBlock = $this->_layoutServices->getLayout()->getBlock('design_editor_tools_code_css');
+        $cssTabBlock = $this->_view->getLayout()->getBlock('design_editor_tools_code_css');
         if ($cssTabBlock) {
             /** @var $helper \Magento\Core\Helper\Theme */
             $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
@@ -406,19 +406,19 @@ class Editor extends \Magento\Backend\App\Action
     protected function _configureToolbarBlocks($theme, $editableTheme, $mode)
     {
         /** @var $toolbarBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons */
-        $toolbarBlock = $this->_layoutServices->getLayout()->getBlock('design_editor_toolbar_buttons');
+        $toolbarBlock = $this->_view->getLayout()->getBlock('design_editor_toolbar_buttons');
         $toolbarBlock->setThemeId($editableTheme->getId())->setVirtualThemeId($theme->getId())
             ->setMode($mode);
 
         /** @var $saveButtonBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save */
-        $saveButtonBlock = $this->_layoutServices->getLayout()->getBlock('design_editor_toolbar_buttons_save');
+        $saveButtonBlock = $this->_view->getLayout()->getBlock('design_editor_toolbar_buttons_save');
         if ($saveButtonBlock) {
             $saveButtonBlock->setTheme($theme)->setMode($mode)->setHasThemeAssigned(
                 $this->_customizationConfig->hasThemeAssigned()
             );
         }
         /** @var $saveButtonBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Edit */
-        $editButtonBlock = $this->_layoutServices->getLayout()->getBlock('design_editor_toolbar_buttons_edit');
+        $editButtonBlock = $this->_view->getLayout()->getBlock('design_editor_toolbar_buttons_edit');
         if ($editButtonBlock) {
             $editButtonBlock->setTheme($editableTheme);
         }
@@ -436,7 +436,7 @@ class Editor extends \Magento\Backend\App\Action
     protected function _configureEditorBlock($editableTheme, $mode)
     {
         /** @var $editorBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
-        $editorBlock = $this->_layoutServices->getLayout()->getBlock('design_editor');
+        $editorBlock = $this->_view->getLayout()->getBlock('design_editor');
         $currentUrl = $this->_getCurrentUrl($editableTheme->getId(), $mode);
         $editorBlock->setFrameUrl($currentUrl);
         $editorBlock->setTheme($editableTheme);
@@ -465,24 +465,24 @@ class Editor extends \Magento\Backend\App\Action
     {
         try {
             $this->_setTitle();
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
                 /** @var $assignedThemeBlock
                  * \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Assigned */
-                $assignedThemeBlock = $this->_layoutServices->getLayout()->getBlock('assigned.theme.list');
+                $assignedThemeBlock = $this->_view->getLayout()->getBlock('assigned.theme.list');
                 $assignedThemeBlock->setCollection($this->_customizationConfig->getAssignedThemeCustomizations());
 
                 /** @var $unassignedThemeBlock
                  * \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Unassigned */
-                $unassignedThemeBlock = $this->_layoutServices->getLayout()->getBlock('unassigned.theme.list');
+                $unassignedThemeBlock = $this->_view->getLayout()->getBlock('unassigned.theme.list');
                 $unassignedThemeBlock->setCollection($this->_customizationConfig->getUnassignedThemeCustomizations());
                 $unassignedThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
             }
             /** @var $storeViewBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\StoreView */
-            $storeViewBlock = $this->_layoutServices->getLayout()->getBlock('theme.selector.storeview');
+            $storeViewBlock = $this->_view->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData('actionOnAssign', 'refresh');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t load the list of themes.'));
             $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());

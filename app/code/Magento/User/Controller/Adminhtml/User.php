@@ -40,7 +40,7 @@ class User extends \Magento\Backend\App\AbstractAction
 
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_User::system_acl_users')
             ->_addBreadcrumb(__('System'), __('System'))
             ->_addBreadcrumb(__('Permissions'), __('Permissions'))
@@ -53,7 +53,7 @@ class User extends \Magento\Backend\App\AbstractAction
     {
         $this->_title->add(__('Users'));
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function newAction()
@@ -96,7 +96,7 @@ class User extends \Magento\Backend\App\AbstractAction
             $breadcrumb = __('New User');
         }
         $this->_initAction()->_addBreadcrumb($breadcrumb, $breadcrumb);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -198,14 +198,14 @@ class User extends \Magento\Backend\App\AbstractAction
             $model->load($userId);
         }
         $this->_coreRegistry->register('permissions_user', $model);
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     public function roleGridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     protected function _isAllowed()

@@ -69,7 +69,7 @@ class Profile extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

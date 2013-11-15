@@ -64,7 +64,7 @@ class Reports extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -72,8 +72,8 @@ class Reports extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -91,10 +91,10 @@ class Reports extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('View Transaction'));
         $this->_addContent(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails')
         );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -142,7 +142,7 @@ class Reports extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_title->add(__('PayPal Settlement Reports'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Sales'), __('Sales'))

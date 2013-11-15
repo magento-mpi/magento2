@@ -177,9 +177,9 @@ class Index extends \Magento\Backend\App\Action
      */
     public function errorAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_initTitle();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -192,9 +192,9 @@ class Index extends \Magento\Backend\App\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_initTitle();
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -218,8 +218,8 @@ class Index extends \Magento\Backend\App\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -337,13 +337,13 @@ class Index extends \Magento\Backend\App\Action
                 ->collectTotals()
                 ->save();
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             if (!$quote->getCouponCode()) {
-                $this->_layoutServices->getLayout()
+                $this->_view->getLayout()
                     ->getBlock('form_coupon')
                     ->setInvalidCouponCode($code);
             }
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -367,8 +367,8 @@ class Index extends \Magento\Backend\App\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -703,7 +703,7 @@ class Index extends \Magento\Backend\App\Action
         $asJson = $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
 
-        $update = $this->_layoutServices->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         if ($asJson) {
             $update->addHandle('checkout_index_manage_load_block_json');
         } else {
@@ -724,10 +724,10 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
-        $result = $this->_layoutServices->getLayout()->renderElement('content');
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $result = $this->_view->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('checkout/*/showUpdateResult');

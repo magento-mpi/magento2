@@ -47,7 +47,7 @@ class Operation extends \Magento\Backend\App\Action
     {
         try {
             $this->_title->add(__('Scheduled Imports/Exports'));
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
@@ -75,7 +75,7 @@ class Operation extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -92,7 +92,7 @@ class Operation extends \Magento\Backend\App\Action
                 ->getOperationHeaderText($operationType, 'new')
         );
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -114,7 +114,7 @@ class Operation extends \Magento\Backend\App\Action
             $helper->getOperationHeaderText($operationType, 'edit')
         );
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -207,8 +207,8 @@ class Operation extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -289,13 +289,13 @@ class Operation extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getParams();
         if ($this->getRequest()->isXmlHttpRequest() && $data) {
             try {
-                $this->_layoutServices->loadLayout();
+                $this->_view->loadLayout();
 
                 /** @var $export \Magento\ScheduledImportExport\Model\Export */
                 $export = $this->_objectManager->create('Magento\ScheduledImportExport\Model\Export')->setData($data);
 
                 /** @var $attrFilterBlock \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
-                $attrFilterBlock = $this->_layoutServices->getLayout()->getBlock('export.filter')
+                $attrFilterBlock = $this->_view->getLayout()->getBlock('export.filter')
                     ->setOperation($export);
 
                 $export->filterAttributeCollection(
@@ -303,7 +303,7 @@ class Operation extends \Magento\Backend\App\Action
                         $export->getEntityAttributeCollection()
                     )
                 );
-                $this->_layoutServices->renderLayout();
+                $this->_view->renderLayout();
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

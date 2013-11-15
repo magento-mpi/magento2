@@ -44,7 +44,7 @@ class Export extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_title->add(__('Import/Export'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_ImportExport::system_convert_export');
 
         return $this;
@@ -101,7 +101,7 @@ class Export extends \Magento\Backend\App\Action
         $this->_title->add(__('Export'));
         $this->_addBreadcrumb(__('Export'), __('Export'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -114,10 +114,10 @@ class Export extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getParams();
         if ($this->getRequest()->isXmlHttpRequest() && $data) {
             try {
-                $this->_layoutServices->loadLayout();
+                $this->_view->loadLayout();
 
                 /** @var $attrFilterBlock \Magento\ImportExport\Block\Adminhtml\Export\Filter */
-                $attrFilterBlock = $this->_layoutServices->getLayout()->getBlock('export.filter');
+                $attrFilterBlock = $this->_view->getLayout()->getBlock('export.filter');
                 /** @var $export \Magento\ImportExport\Model\Export */
                 $export = $this->_objectManager->create('Magento\ImportExport\Model\Export');
                 $export->setData($data);
@@ -127,7 +127,7 @@ class Export extends \Magento\Backend\App\Action
                         $export->getEntityAttributeCollection()
                     )
                 );
-                $this->_layoutServices->renderLayout();
+                $this->_view->renderLayout();
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

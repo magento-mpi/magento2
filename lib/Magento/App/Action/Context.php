@@ -45,9 +45,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_actionFlag;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutServices;
+    protected $_view;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -57,7 +57,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
+     * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -67,7 +67,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\UrlInterface $url,
         \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\View\Action\LayoutServiceInterface $layoutService
+        \Magento\App\ViewInterface $view
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -76,7 +76,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_url = $url;
         $this->_redirect = $redirect;
         $this->_actionFlag = $actionFlag;
-        $this->_layoutServices = $layoutService;
+        $this->_view = $view;
     }
 
     /**
@@ -96,11 +96,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Action\LayoutServiceInterface
+     * @return \Magento\App\ViewInterface
      */
-    public function getLayoutServices()
+    public function getView()
     {
-        return $this->_layoutServices;
+        return $this->_view;
     }
 
     /**

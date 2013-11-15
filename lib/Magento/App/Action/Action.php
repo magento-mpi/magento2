@@ -49,9 +49,9 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_redirect;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutServices;
+    protected $_view;
 
     /**
      * @var \Magento\UrlInterface
@@ -69,7 +69,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_url               = $context->getUrl();
         $this->_actionFlag        = $context->getActionFlag();
         $this->_redirect          = $context->getRedirect();
-        $this->_layoutServices    = $context->getLayoutServices();
+        $this->_view              = $context->getView();
     }
 
     /**

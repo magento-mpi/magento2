@@ -109,9 +109,9 @@ class Redirect extends \Magento\App\Action\Action
             return;
         } else {
             $url = $api->getRedirectUrl();
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()->getBlock('googlecheckout_redirect')->setRedirectUrl($url);
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->getBlock('googlecheckout_redirect')->setRedirectUrl($url);
+            $this->_view->renderLayout();
         }
     }
 

@@ -39,15 +39,15 @@ class Order extends \Magento\Sales\Controller\AbstractController
      */
     public function historyAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Orders'));
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('My Orders'));
 
-        $block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back');
+        $block = $this->_view->getLayout()->getBlock('customer.account.link.back');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 }

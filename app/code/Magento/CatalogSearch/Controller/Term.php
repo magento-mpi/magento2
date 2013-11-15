@@ -31,7 +31,7 @@ class Term extends \Magento\App\Action\Action
 
     public function popularAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

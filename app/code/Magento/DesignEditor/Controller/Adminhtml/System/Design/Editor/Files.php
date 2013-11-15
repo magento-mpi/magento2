@@ -24,7 +24,7 @@ class Files
     {
         try {
             $this->getResponse()->setBody(
-                $this->_layoutServices->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree')
+                $this->_view->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (\Exception $e) {
@@ -39,9 +39,9 @@ class Files
     public function contentsAction()
     {
         try {
-            $this->_layoutServices->loadLayout('empty');
-            $this->_layoutServices->getLayout()->getBlock('editor_files.files')->setStorage($this->_getStorage());
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('empty');
+            $this->_view->getLayout()->getBlock('editor_files.files')->setStorage($this->_getStorage());
+            $this->_view->renderLayout();
 
             $this->_getSession()->setStoragePath(
                 $this->_objectManager->get('Magento\Theme\Helper\Storage')->getCurrentPath()

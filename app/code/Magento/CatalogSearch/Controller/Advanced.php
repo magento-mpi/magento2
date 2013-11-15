@@ -63,14 +63,14 @@ class Advanced extends \Magento\App\Action\Action
 
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\CatalogSearch\Model\Session');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\CatalogSearch\Model\Session');
+        $this->_view->renderLayout();
     }
 
     public function resultAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         try {
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
         } catch (\Magento\Core\Exception $e) {
@@ -80,7 +80,7 @@ class Advanced extends \Magento\App\Action\Action
                 ->getUrl('*/*/');
             $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
         }
-        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_view->renderLayout();
     }
 }

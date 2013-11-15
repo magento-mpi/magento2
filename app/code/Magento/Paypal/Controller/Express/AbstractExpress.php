@@ -246,15 +246,15 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         try {
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()->initMessages('Magento\Paypal\Model\Session');
-            $reviewBlock = $this->_layoutServices->getLayout()->getBlock('paypal.express.review');
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->initMessages('Magento\Paypal\Model\Session');
+            $reviewBlock = $this->_view->getLayout()->getBlock('paypal.express.review');
             $reviewBlock->setQuote($this->_getQuote());
             $reviewBlock->getChildBlock('details')->setQuote($this->_getQuote());
             if ($reviewBlock->getChildBlock('shipping_method')) {
                 $reviewBlock->getChildBlock('shipping_method')->setQuote($this->_getQuote());
             }
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_checkoutSession->addError($e->getMessage());
@@ -290,8 +290,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_initCheckout();
             $this->_checkout->updateShippingMethod($this->getRequest()->getParam('shipping_method'));
             if ($isAjax) {
-                $this->_layoutServices->loadLayout('paypal_express_review_details');
-                $this->getResponse()->setBody($this->_layoutServices->getLayout()->getBlock('root')
+                $this->_view->loadLayout('paypal_express_review_details');
+                $this->getResponse()->setBody($this->_view->getLayout()->getBlock('root')
                     ->setQuote($this->_getQuote())
                     ->toHtml());
                 return;
@@ -318,9 +318,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         try {
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
-            $this->_layoutServices->loadLayout('paypal_express_review');
+            $this->_view->loadLayout('paypal_express_review');
 
-            $this->getResponse()->setBody($this->_layoutServices->getLayout()->getBlock('express.review.shipping.method')
+            $this->getResponse()->setBody($this->_view->getLayout()->getBlock('express.review.shipping.method')
                 ->setQuote($this->_getQuote())
                 ->toHtml());
             return;
@@ -344,8 +344,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_initCheckout();
             $this->_checkout->updateOrder($this->getRequest()->getParams());
             if ($isAjax) {
-                $this->_layoutServices->loadLayout('paypal_express_review_details');
-                $this->getResponse()->setBody($this->_layoutServices->getLayout()->getBlock('root')
+                $this->_view->loadLayout('paypal_express_review_details');
+                $this->getResponse()->setBody($this->_view->getLayout()->getBlock('root')
                     ->setQuote($this->_getQuote())
                     ->toHtml());
                 return;

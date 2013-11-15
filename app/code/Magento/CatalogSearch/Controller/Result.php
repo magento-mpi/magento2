@@ -85,10 +85,10 @@ class Result extends \Magento\App\Action\Action
 
             $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()
+            $this->_view->loadLayout();
+            $this->_view->getLayout()
                 ->initMessages(array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session'));
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
 
             if (!$this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
                 $query->save();

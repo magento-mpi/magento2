@@ -72,25 +72,25 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     protected function _initAction()
     {
-        $update = $this->_layoutServices->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         $update->addHandle('default');
 
         // add default layout handles for this action
-        $this->_layoutServices->addActionLayoutHandles();
+        $this->_view->addActionLayoutHandles();
         $update->addHandle($this->_handles);
 
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
 
-        $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+        $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
 
-        $this->_layoutServices->setIsLayoutLoaded(true);
+        $this->_view->setIsLayoutLoaded(true);
 
         return $this;
     }
@@ -144,7 +144,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             $page->getId() ? __('Edit Page') : __('New Page')
         );
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -156,8 +156,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     {
         $this->_initPage();
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }

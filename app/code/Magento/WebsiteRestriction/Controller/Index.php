@@ -118,25 +118,25 @@ class Index extends \Magento\App\Action\Action
                 }
             }
 
-            $this->_layoutServices->addActionLayoutHandles();
+            $this->_view->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
                 $this->_objectManager->get('Magento\Page\Helper\Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
-            $this->_layoutServices->loadLayoutUpdates();
+            $this->_view->loadLayoutUpdates();
 
-            $this->_layoutServices->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
-            $this->_layoutServices->generateLayoutXml();
-            $this->_layoutServices->generateLayoutBlocks();
+            $this->_view->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
+            $this->_view->generateLayoutXml();
+            $this->_view->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
                 $this->_objectManager->get('Magento\Page\Helper\Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
 
             $this->_configCacheType->save(
                 $this->getResponse()->getBody(), $this->_cacheKey, array(\Magento\Core\Model\Website::CACHE_TAG)

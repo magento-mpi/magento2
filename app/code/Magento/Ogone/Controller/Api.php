@@ -145,8 +145,8 @@ class Api extends \Magento\App\Action\Action
         $this->_getCheckout()->setOgoneLastSuccessQuoteId($this->_getCheckout()->getLastSuccessQuoteId());
         $this->_getCheckout()->clear();
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -154,8 +154,8 @@ class Api extends \Magento\App\Action\Action
      */
     public function paypageAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

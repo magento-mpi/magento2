@@ -40,7 +40,7 @@ class Giftregistry extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
             ->_addBreadcrumb(
                 __('Gift Registry'),
@@ -79,7 +79,7 @@ class Giftregistry extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -98,15 +98,15 @@ class Giftregistry extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('New Gift Registry Type'));
 
-        $block = $this->_layoutServices->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
+        $block = $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->_addBreadcrumb(__('New Type'), __('New Type'))
             ->_addContent($block)
-            ->_addLeft($this->_layoutServices->getLayout()->createBlock(
+            ->_addLeft($this->_view->getLayout()->createBlock(
                 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -125,15 +125,15 @@ class Giftregistry extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('%1', $model->getLabel()));
 
-        $block = $this->_layoutServices->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
+        $block = $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->_addBreadcrumb(__('Edit Type'), __('Edit Type'))
             ->_addContent($block)
             ->_addLeft(
-                $this->_layoutServices->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
+                $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

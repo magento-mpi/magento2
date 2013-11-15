@@ -28,16 +28,16 @@ class Problem extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->getLayout()->getMessagesBlock()->setMessages(
+        $this->_view->getLayout()->getMessagesBlock()->setMessages(
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true)
         );
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_problem');
 
         $this->_addBreadcrumb(__('Newsletter Problem Reports'), __('Newsletter Problem Reports'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function gridAction()
@@ -73,10 +73,10 @@ class Problem extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addSuccess(__('The problems you identified have been deleted.'));
         }
-                $this->_layoutServices->getLayout()->getMessagesBlock()->setMessages($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true));
+                $this->_view->getLayout()->getMessagesBlock()->setMessages($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true));
 
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     protected function _isAllowed()

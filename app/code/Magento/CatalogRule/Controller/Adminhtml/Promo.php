@@ -22,10 +22,10 @@ class Promo extends \Magento\Backend\App\Action
 
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CatalogRule::promo');
         $this->_addBreadcrumb(__('Promotions'), __('Promo'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     protected function _isAllowed()

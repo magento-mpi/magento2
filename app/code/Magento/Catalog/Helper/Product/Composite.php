@@ -49,9 +49,9 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     protected $_customerFactory;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutServices;
+    protected $_view;
 
     /**
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -60,7 +60,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutServices
+     * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -69,14 +69,14 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\View\Action\LayoutServiceInterface $layoutServices
+        \Magento\App\ViewInterface $view
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogProduct = $catalogProduct;
-        $this->_layoutServices = $layoutServices;
+        $this->_view = $view;
         parent::__construct($context);
     }
 
@@ -87,10 +87,10 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      */
     protected function _initUpdateResultLayout()
     {
-        $this->_layoutServices->getLayout()->getUpdate()->addHandle('CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT');
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
+        $this->_view->getLayout()->getUpdate()->addHandle('CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT');
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
         return $this;
     }
 
@@ -106,7 +106,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
         $this->_coreRegistry->register('composite_update_result', $updateResult);
 
         $this->_initUpdateResultLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
      /**
@@ -121,16 +121,16 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
       */
     protected function _initConfigureResultLayout($isOk, $productType)
     {
-        $update = $this->_layoutServices->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         if ($isOk) {
             $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE')
                 ->addHandle('catalog_product_view_type_' . $productType);
         } else {
             $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR');
         }
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
         return $this;
     }
 
@@ -192,6 +192,6 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
         }
 
         $this->_initConfigureResultLayout($isOk, $productType);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 }

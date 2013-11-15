@@ -35,7 +35,7 @@ class Search extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CatalogSearch::catalog_search')
             ->_addBreadcrumb(__('Search'), __('Search'))
         ;
@@ -48,7 +48,7 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Catalog'), __('Catalog'));
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
     }
 
     public function newAction()
@@ -84,15 +84,15 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_title->add($id ? $model->getQueryText() : __('New Search'));
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
-        $this->_layoutServices->getLayout()->getBlock('adminhtml.catalog.search.edit')
+        $this->_view->getLayout()->getBlock('adminhtml.catalog.search.edit')
             ->setData('action', $this->getUrl('catalog/search/save'));
 
         $this
             ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

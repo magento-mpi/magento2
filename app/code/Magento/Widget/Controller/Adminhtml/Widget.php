@@ -67,7 +67,7 @@ class Widget extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('skip_widgets', $skipped);
 
-        $this->_layoutServices->loadLayout('empty')->renderLayout();
+        $this->_view->loadLayout('empty')->renderLayout();
     }
 
     /**
@@ -76,11 +76,11 @@ class Widget extends \Magento\Backend\App\Action
     public function loadOptionsAction()
     {
         try {
-            $this->_layoutServices->loadLayout('empty');
+            $this->_view->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
                 $request = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
-                    $optionsBlock = $this->_layoutServices->getLayout()->getBlock('wysiwyg_widget.options');
+                    $optionsBlock = $this->_view->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
                         $optionsBlock->setWidgetType($request['widget_type']);
                     }
@@ -88,7 +88,7 @@ class Widget extends \Magento\Backend\App\Action
                         $optionsBlock->setWidgetValues($request['values']);
                     }
                 }
-                $this->_layoutServices->renderLayout();
+                $this->_view->renderLayout();
             }
         } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());

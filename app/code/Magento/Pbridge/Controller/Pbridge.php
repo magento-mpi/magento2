@@ -27,11 +27,11 @@ class Pbridge extends \Magento\App\Action\Action
      */
     protected function _initActionLayout()
     {
-        $this->_layoutServices->addActionLayoutHandles();
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
-        $this->_layoutServices->setIsLayoutLoaded(true);
+        $this->_view->addActionLayoutHandles();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $this->_view->setIsLayoutLoaded(true);
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Pbridge extends \Magento\App\Action\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->_layoutServices->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
                 if($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));
@@ -84,7 +84,7 @@ class Pbridge extends \Magento\App\Action\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->_layoutServices->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
+                $block = $this->_view->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
                 $block->setMethod($methodInstance);
                 if ($block) {
                     $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
@@ -103,7 +103,7 @@ class Pbridge extends \Magento\App\Action\Action
     public function successAction()
     {
         $this->_initActionLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -114,7 +114,7 @@ class Pbridge extends \Magento\App\Action\Action
     public function errorAction()
     {
         $this->_initActionLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -125,7 +125,7 @@ class Pbridge extends \Magento\App\Action\Action
     public function resultAction()
     {
         $this->_initActionLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

@@ -41,9 +41,9 @@ class Guest extends \Magento\App\Action\Action
             $this->_forward('noroute');
             return;
         }
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -71,12 +71,12 @@ class Guest extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
-        $this->_layoutServices->getLayout()
+        $this->_view->getLayout()
             ->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -178,13 +178,13 @@ class Guest extends \Magento\App\Action\Action
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Core\Model\Session');
-        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
-        if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Core\Model\Session');
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
+        if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -307,8 +307,8 @@ class Guest extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->_layoutServices->addPageLayoutHandles();
-        $this->_layoutServices->loadLayout(false)
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)
             ->renderLayout();
         return;
     }
@@ -360,8 +360,8 @@ class Guest extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->_layoutServices->addPageLayoutHandles();
-        $this->_layoutServices->loadLayout(false)
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)
             ->renderLayout();
         return;
     }

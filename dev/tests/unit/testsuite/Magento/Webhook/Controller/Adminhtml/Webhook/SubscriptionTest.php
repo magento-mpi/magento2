@@ -528,7 +528,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     protected function _createSubscriptionController()
     {
         // Mock Layout passed into constructor
-        $layoutServicesMock = $this->getMock('Magento\View\Action\LayoutServiceInterface');
+        $viewMock = $this->getMock('Magento\App\ViewInterface');
         $layoutMock = $this->getMock('Magento\View\LayoutInterface');
         $layoutMergeMock = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
             ->disableOriginalConstructor()
@@ -538,7 +538,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
 
         // for _setActiveMenu
-        $layoutServicesMock->expects($this->any())->method('getLayout')->will($this->returnValue($layoutMock));
+        $viewMock->expects($this->any())->method('getLayout')->will($this->returnValue($layoutMock));
         $blockMock = $this->getMockBuilder('Magento\Backend\Block\Menu')
             ->disableOriginalConstructor()
             ->getMock();
@@ -554,7 +554,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $title = $this->getMock('Magento\App\Action\Title', array(), array(), '', false);
         $title->expects($this->any())->method('add')->will($this->returnValue($title));
         $contextParameters = array(
-            'layoutService' => $layoutServicesMock,
+            'view' => $viewMock,
             'objectManager' => $this->_mockObjectManager,
             'session' => $this->_mockBackendModSess,
             'translator' => $this->_mockTranslateModel,

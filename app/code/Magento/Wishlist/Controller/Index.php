@@ -167,10 +167,10 @@ class Index
         if (!$this->_getWishlist()) {
             throw new NotFoundException();
         }
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $session = $this->_objectManager->get('Magento\Customer\Model\Session');
-        $block   = $this->_layoutServices->getLayout()->getBlock('customer.wishlist');
+        $block   = $this->_view->getLayout()->getBlock('customer.wishlist');
         $referer = $session->getAddActionReferer(true);
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
@@ -185,9 +185,9 @@ class Index
             'Magento\Catalog\Model\Session',
             'Magento\Wishlist\Model\Session'
         );
-        $this->_layoutServices->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages($messageStores);
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -631,9 +631,9 @@ class Index
     public function shareAction()
     {
         $this->_getWishlist();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Wishlist\Model\Session'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Wishlist\Model\Session'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -697,13 +697,13 @@ class Index
 
             /*if share rss added rss feed to email template*/
             if ($this->getRequest()->getParam('rss_url')) {
-                $rss_url = $this->_layoutServices->getLayout()
+                $rss_url = $this->_view->getLayout()
                     ->createBlock('Magento\Wishlist\Block\Share\Email\Rss')
                     ->setWishlistId($wishlist->getId())
                     ->toHtml();
                 $message .= $rss_url;
             }
-            $wishlistBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
+            $wishlistBlock = $this->_view->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
 
             $emails = array_unique($emails);
             /* @var $emailModel \Magento\Core\Model\Email\Template */

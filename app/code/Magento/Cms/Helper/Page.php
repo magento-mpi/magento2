@@ -75,9 +75,9 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutService;
+    protected $_view;
 
     /**
      * @param \Magento\Core\Helper\Context $context
@@ -89,7 +89,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
+     * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -101,10 +101,10 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Escaper $escaper,
-        \Magento\View\Action\LayoutServiceInterface $layoutService
+        \Magento\App\ViewInterface $view
     ) {
         $this->_sessionPool = $sessionFactory;
-        $this->_layoutService = $layoutService;
+        $this->_view = $view;
         $this->_page = $page;
         $this->_pageLayout = $pageLayout;
         $this->_design = $design;
@@ -163,10 +163,10 @@ class Page extends \Magento\Core\Helper\AbstractHelper
                 $this->_design->setDesignTheme($this->_page->getCustomTheme());
             }
         }
-        $this->_layoutService->getLayout()->getUpdate()->addHandle('default')->addHandle('cms_page_view');
-        $this->_layoutService->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
+        $this->_view->getLayout()->getUpdate()->addHandle('default')->addHandle('cms_page_view');
+        $this->_view->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
 
-        $this->_layoutService->addActionLayoutHandles();
+        $this->_view->addActionLayoutHandles();
         if ($this->_page->getRootTemplate()) {
             $handle = ($this->_page->getCustomRootTemplate()
                         && $this->_page->getCustomRootTemplate() != 'empty'
@@ -179,15 +179,15 @@ class Page extends \Magento\Core\Helper\AbstractHelper
             array('page' => $this->_page, 'controller_action' => $action)
         );
 
-        $this->_layoutService->loadLayoutUpdates();
+        $this->_view->loadLayoutUpdates();
         $layoutUpdate = ($this->_page->getCustomLayoutUpdateXml() && $inRange)
             ? $this->_page->getCustomLayoutUpdateXml() : $this->_page->getLayoutUpdateXml();
         if (!empty($layoutUpdate)) {
-            $this->_layoutService->getLayout()->getUpdate()->addUpdate($layoutUpdate);
+            $this->_view->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         }
-        $this->_layoutService->generateLayoutXml()->generateLayoutBlocks();
+        $this->_view->generateLayoutXml()->generateLayoutBlocks();
 
-        $contentHeadingBlock = $this->_layoutService->getLayout()->getBlock('page_content_heading');
+        $contentHeadingBlock = $this->_view->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {
             $contentHeading = $this->_escaper->escapeHtml($this->_page->getContentHeading());
             $contentHeadingBlock->setContentHeading($contentHeading);
@@ -198,7 +198,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         }
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
-        $messageBlock = $this->_layoutService->getLayout()->getMessagesBlock();
+        $messageBlock = $this->_view->getLayout()->getMessagesBlock();
         $sessions = array(
             'Magento\Catalog\Model\Session',
             'Magento\Checkout\Model\Session',
@@ -213,7 +213,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         }
 
         if ($renderLayout) {
-            $this->_layoutService->renderLayout();
+            $this->_view->renderLayout();
         }
 
         return true;

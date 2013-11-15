@@ -47,7 +47,7 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -73,13 +73,13 @@ class Rate extends \Magento\Backend\App\Action
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('tax/rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
+                $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
                 ->assign('header', __('Add New Tax Rate'))
                 ->assign('form',
-                    $this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
+                    $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
                 )
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -199,14 +199,14 @@ class Rate extends \Magento\Backend\App\Action
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('tax/rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
+                $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
                 ->assign('header', __('Edit Tax Rate'))
                 ->assign('form',
-                    $this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
+                    $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
                         ->setShowLegend(true)
                 )
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -284,8 +284,8 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
+        $this->_view->loadLayout(false);
+        $content = $this->_view->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
         return $this->_fileFactory->create('rates.csv', $content->getCsvFile());
     }
 
@@ -294,8 +294,8 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function exportXmlAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
+        $this->_view->loadLayout(false);
+        $content = $this->_view->getLayout()->getChildBlock('adminhtml.tax.rate.grid','grid.export');
         return $this->_fileFactory->create('rates.xml', $content->getExcelFile());
     }
 
@@ -306,7 +306,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Tax::sales_tax_rates')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Tax'), __('Tax'));
@@ -323,11 +323,11 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_title->add(__('Import and Export Tax Rates'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Tax::system_convert_tax')
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader'))
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExport'));
-        $this->_layoutServices->renderLayout();
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader'))
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExport'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -420,7 +420,7 @@ class Rate extends \Magento\Backend\App\Action
 
             $content .= $rate->toString($template) . "\n";
         }
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         return $this->_fileFactory->create('tax_rates.csv', $content);
     }
 

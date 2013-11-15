@@ -39,18 +39,18 @@ class Index extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initEnityId();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function editAction()
     {
         $this->_initEnityId();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $ratingModel = $this->_objectManager->create('Magento\Rating\Model\Rating');
         if ($this->getRequest()->getParam('id')) {
@@ -62,9 +62,9 @@ class Index extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
 
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit'))
-            ->_addLeft($this->_layoutServices->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tabs'));
-        $this->_layoutServices->renderLayout();
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit'))
+            ->_addLeft($this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tabs'));
+        $this->_view->renderLayout();
     }
 
     public function newAction()

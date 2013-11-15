@@ -45,7 +45,7 @@ class Variable extends \Magento\Backend\App\Action
      */
     protected function _initLayout()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_variable')
             ->_addBreadcrumb(__('Custom Variables'), __('Custom Variables'));
         return $this;
@@ -80,7 +80,7 @@ class Variable extends \Magento\Backend\App\Action
         $this->_title->add(__('Custom Variables'));
 
         $this->_initLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -102,12 +102,12 @@ class Variable extends \Magento\Backend\App\Action
 
         $this->_initLayout()
             ->_addContent(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit')
+                $this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit')
             )
-            ->_addJs($this->_layoutServices->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
+            ->_addJs($this->_view->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Backend::system/variable/js.phtml')
             )));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -121,9 +121,9 @@ class Variable extends \Magento\Backend\App\Action
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->getResponse()->setBody($response->toJson());
     }

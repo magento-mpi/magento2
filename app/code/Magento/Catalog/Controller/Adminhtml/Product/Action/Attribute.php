@@ -40,8 +40,8 @@ class Attribute extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -240,9 +240,9 @@ class Attribute extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->_getSession()
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
-            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

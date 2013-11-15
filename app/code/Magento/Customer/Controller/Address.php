@@ -91,15 +91,15 @@ class Address extends \Magento\App\Action\Action
     public function indexAction()
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()
+            $this->_view->loadLayout();
+            $this->_view->getLayout()
                 ->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
 
-            $block = $this->_layoutServices->getLayout()->getBlock('address_book');
+            $block = $this->_view->getLayout()->getBlock('address_book');
             if ($block) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->getResponse()->setRedirect($this->_buildUrl('*/*/new'));
         }
@@ -120,13 +120,13 @@ class Address extends \Magento\App\Action\Action
      */
     public function formAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

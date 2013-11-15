@@ -35,7 +35,7 @@ class Role extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Webapi::system_api_webapi_roles');
         $this->_addBreadcrumb(
             __('Web Api'),
@@ -55,7 +55,7 @@ class Role extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('API Roles'));
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -63,8 +63,8 @@ class Role extends \Magento\Backend\App\Action
      */
     public function rolegridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -72,8 +72,8 @@ class Role extends \Magento\Backend\App\Action
      */
     public function usersgridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -117,18 +117,18 @@ class Role extends \Magento\Backend\App\Action
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit $editBlock */
-        $editBlock = $this->_layoutServices->getLayout()->getBlock('webapi.role.edit');
+        $editBlock = $this->_view->getLayout()->getBlock('webapi.role.edit');
         if ($editBlock) {
             $editBlock->setApiRole($role);
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs $tabsBlock */
-        $tabsBlock = $this->_layoutServices->getLayout()->getBlock('webapi.role.edit.tabs');
+        $tabsBlock = $this->_view->getLayout()->getBlock('webapi.role.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiRole($role);
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

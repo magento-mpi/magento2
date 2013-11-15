@@ -60,7 +60,7 @@ class Status extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Order Status'));
-        $this->_layoutServices->loadLayout()->_setActiveMenu('Magento_Sales::system_order_statuses')->renderLayout();
+        $this->_view->loadLayout()->_setActiveMenu('Magento_Sales::system_order_statuses')->renderLayout();
     }
 
     /**
@@ -76,9 +76,9 @@ class Status extends \Magento\Backend\App\Action
         }
         $this->_title->add(__('Order Status'));
         $this->_title->add(__('Create New Order Status'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::system_order_statuses');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -91,9 +91,9 @@ class Status extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('current_status', $status);
             $this->_title->add(__('Order Status'));
             $this->_title->add(__('Edit Order Status'));
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Sales::system_order_statuses');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_getSession()->addError(
                 __('We can\'t find this order status.')
@@ -169,9 +169,9 @@ class Status extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Order Status'));
         $this->_title->add(__('Assign Order Status to State'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::system_order_statuses');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

@@ -24,8 +24,8 @@ class Account extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('My Account'));
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

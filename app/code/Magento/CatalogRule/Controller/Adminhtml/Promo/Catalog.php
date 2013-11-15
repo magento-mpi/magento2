@@ -56,7 +56,7 @@ class Catalog extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CatalogRule::promo_catalog')
             ->_addBreadcrumb(
                 __('Promotions'),
@@ -117,12 +117,12 @@ class Catalog extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_promo_catalog_rule', $model);
 
         $this->_initAction();
-        $this->_layoutServices->getLayout()->getBlock('promo_catalog_edit')
+        $this->_view->getLayout()->getBlock('promo_catalog_edit')
             ->setData('action', $this->getUrl('catalog_rule/promo_catalog/save'));
 
         $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
         $this->_addBreadcrumb($breadcrumb, $breadcrumb);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -261,7 +261,7 @@ class Catalog extends \Magento\Backend\App\Action
             $type = 'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku';
         }
         if (!empty($type)) {
-            $block = $this->_layoutServices->getLayout()->createBlock($type);
+            $block = $this->_view->getLayout()->createBlock($type);
             if ($block) {
                 $this->getResponse()->setBody($block->toHtml());
             }

@@ -73,10 +73,10 @@ class Process extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Index Management'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
-        $this->_layoutServices->renderLayout();
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -93,8 +93,8 @@ class Process extends \Magento\Backend\App\Action
             $this->_title->add(__($process->getIndexer()->getName()));
 
             $this->_coreRegistry->register('current_index_process', $process);
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_getSession()->addError(
                 __('Cannot initialize the indexer process.')

@@ -44,8 +44,8 @@ class Index extends \Magento\App\Action\Action
         } elseif ($redirect->getRedirect()) {
             $this->_redirect($redirect->getPath(), $redirect->getArguments());
         } else {
-            $this->_layoutServices->loadLayout(array('default', 'noCookie'));
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout(array('default', 'noCookie'));
+            $this->_view->renderLayout();
         }
 
         $this->getRequest()->setDispatched(true);
