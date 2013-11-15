@@ -6,6 +6,7 @@
   * Consistent declaration of page-types
   * Email-related logic from Core and Adminhtml modules consolidated in new Email module
 * Themes update:
+  * Templates and layout updates are updated in Authorizenet, Centinel, Checkout, GiftMessage, Ogone, Paygate, Shipping, Tax  modules, old files moved to magento_backup theme
   * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
