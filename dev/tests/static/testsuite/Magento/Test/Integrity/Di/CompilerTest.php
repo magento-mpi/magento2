@@ -147,16 +147,58 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         );
         $replacements  = array('', '', '');
 
+        /** Convert file names into class name format */
         $classes = array();
         foreach ($files as $file) {
             $file = str_replace('/', '\\', $file);
             $filePath = preg_replace($patterns, $replacements, $file);
             $className = substr($filePath, 0, -4);
             if (class_exists($className)) {
-                $classes[$file] = array($className);
+                $classes[$file] = $className;
             }
         }
-        return $classes;
+
+        /** Build class inheritance hierarchy  */
+        $output = array();
+        foreach ($classes as $class) {
+            if (!in_array($class, $output)) {
+                $output = array_merge($output, $this->_buildInheritanceHierarchyTree($class));
+                $output = array_unique($output);
+            }
+        }
+
+        /** Convert data into data provider format */
+        $outputClasses = array();
+        foreach ($output as $className) {
+            $outputClasses[] = array($className);
+        }
+        return $outputClasses;
+    }
+
+    /**
+     * Build inheritance hierarchy tree
+     *
+     * @param string $className
+     * @return array
+     */
+    protected function _buildInheritanceHierarchyTree($className)
+    {
+        $output = array();
+        if (0 !== strpos($className, '\\')) {
+            $className = '\\' . $className;
+        }
+        $class = new \ReflectionClass($className);
+        $parent = $class->getParentClass();
+        if ($parent) {
+            $output = array_merge(
+                $this->_buildInheritanceHierarchyTree($parent->getName()),
+                array($className),
+                $output
+            );
+        } else {
+            $output[] = $className;
+        }
+        return array_unique($output);
     }
 
     /**
