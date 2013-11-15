@@ -81,6 +81,6 @@ class Edit
         if ($this->_coreRegistry->registry('current_giftregistry_entity')) {
             $customerId = $this->_coreRegistry->registry('current_giftregistry_entity')->getCustomerId();
         }
-        return $this->getUrl('adminhtml/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
+        return $this->getUrl('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }
 }

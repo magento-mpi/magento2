@@ -37,58 +37,61 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_rmaEav;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
-     * @param \Magento\Rma\Helper\Eav $rmaEav
-     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\App\Dir $dirs
+     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
-     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Rma\Helper\Eav $rmaEav,
-        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\App\Dir $dirs,
+        \Magento\App\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
-        \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
-        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $coreData, $string, $coreStoreConfig, $translate, $dirs, $pdfConfig,
-            $totalFactory);
+
+        parent::__construct(
+            $paymentData,
+            $string,
+            $coreStoreConfig,
+            $translate,
+            $coreDir,
+            $shippingConfig,
+            $pdfConfig,
+            $pdfTotalFactory,
+            $pdfItemsFactory,
+            $locale,
+            $data
+        );
     }
 
     /**
@@ -114,7 +117,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
-            $this->_locale->emulate($storeId);
+            $this->locale->emulate($storeId);
             $this->_storeManager->setCurrentStore($storeId);
         }
 
@@ -150,7 +153,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $page->drawText(
             __('Return Date: ') .
-                $this->_coreData->formatDate($rma->getDateRequested(), 'medium', false),
+                $this->locale->formatDate($rma->getDateRequested(), 'medium', false),
             35,
             $this->y - 50,
             'UTF-8'
@@ -164,7 +167,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $text = __('Order Date: ');
-        $text .= $this->_coreData->formatDate(
+        $text .= $this->locale->formatDate(
             $rma->getOrder()->getCreatedAtStoreDate(),
             'medium',
             false
@@ -244,7 +247,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
 
         if ($storeId) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
 
         $this->_afterGetPdf();

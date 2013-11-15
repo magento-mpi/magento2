@@ -138,7 +138,7 @@ class Translate
     private $_cache;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -148,12 +148,12 @@ class Translate
     protected $_placeholderRender;
 
     /**
-     * @var \Magento\App\ModuleList
+     * @var \Magento\Module\ModuleList
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\Core\Model\Config\Modules\Reader
+     * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -173,18 +173,24 @@ class Translate
     protected $_app;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
-     * @param \Magento\App\ModuleList $moduleList
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Module\ModuleList $moduleList
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Resource\Translate $translate
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -193,14 +199,15 @@ class Translate
         \Magento\Core\Model\Locale\Hierarchy\Config $config,
         \Magento\Core\Model\Translate\Factory $translateFactory,
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\View\FileSystem $viewFileSystem,
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
-        \Magento\App\ModuleList $moduleList,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Module\ModuleList $moduleList,
+        \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\Translate $translate,
-        \Magento\Core\Model\App $app
+        \Magento\Core\Model\App $app,
+        \Magento\App\State $appState
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -214,6 +221,7 @@ class Translate
         $this->_storeManager = $storeManager;
         $this->_translateResource = $translate;
         $this->_app = $app;
+        $this->_appState = $appState;
     }
 
     /**
@@ -224,12 +232,13 @@ class Translate
      * @param bool $forceReload
      * @return \Magento\Core\Model\Translate
      */
-    public function init($area, $initParams = null, $forceReload = false)
+    public function init($area = null, $initParams = null, $forceReload = false)
     {
+        $area = isset($area) ? $area : $this->_appState->getAreaCode();
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
         $this->_translateInline = $this->getInlineObject($initParams)->isAllowed(
-            $area == \Magento\Backend\Helper\Data::BACKEND_AREA_CODE ? 'admin' : null);
+            $area == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
             $this->_data = $this->_loadCache();
@@ -309,9 +318,9 @@ class Translate
      */
     public function processAjaxPost($translate)
     {
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\Core\Model\Cache\TypeListInterface');
-        $cacheTypeList->invalidate(\Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER);
+        /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\App\Cache\TypeListInterface');
+        $cacheTypeList->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
         /** @var $parser \Magento\Core\Model\Translate\InlineParser */
         $parser = $this->_translateFactory->create(array(), 'Magento\Core\Model\Translate\InlineParser');
         $parser->processAjaxPost($translate, $this->getInlineObject());
@@ -633,7 +642,7 @@ class Translate
     public function getCacheId()
     {
         if (is_null($this->_cacheId)) {
-            $this->_cacheId = \Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER;
+            $this->_cacheId = \Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER;
             if (isset($this->_config[self::CONFIG_KEY_LOCALE])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_LOCALE];
             }

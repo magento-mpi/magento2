@@ -1,5 +1,7 @@
 <?php
 /**
+ * Application area front name resolver
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

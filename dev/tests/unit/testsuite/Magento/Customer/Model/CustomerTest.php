@@ -24,7 +24,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject */
     protected $_website;
 
-    /** @var \Magento\Core\Model\Sender|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Email\Model\Sender|\PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
     /** @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -58,7 +58,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getStoreIds', '__wakeup'))
             ->getMock();
-        $this->_senderMock = $this->getMockBuilder('Magento\Core\Model\Sender')
+        $this->_senderMock = $this->getMockBuilder('Magento\Email\Model\Sender')
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
@@ -109,8 +109,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false),
+            $this->getMock('Magento\Email\Model\Template\MailerFactory', array(), array(), '', false),
+            $this->getMock('Magento\Email\Model\InfoFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\GroupFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\AttributeFactory', array(), array(), '', false),
             $encryptor,

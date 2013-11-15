@@ -16,8 +16,7 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Class CreateTest
- * Test product creation
+ * Create simple product for BAT
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
@@ -49,7 +48,7 @@ class CreateTest extends Functional
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
         //Verifying
-        $createProductPage->assertProductSaveResult($product);
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -92,7 +91,6 @@ class CreateTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());

@@ -47,6 +47,11 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->configure(array(
+            'preferences' => array(
+                'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'
+            )
+        ));
 
         /** @var $fallbackFactory \Magento\View\Design\Fallback\Factory */
         $fallbackFactory = $objectManager->get('Magento\View\Design\Fallback\Factory');
@@ -123,7 +128,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
      */
     public function testModularFallback($modularCall, array $usages, $area)
     {
-        list(, $file) = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $modularCall);
+        list(, $file) = explode(\Magento\View\Service::SCOPE_SEPARATOR, $modularCall);
 
         $wrongResolutions = array();
         foreach (self::$_themeCollection as $theme) {
@@ -183,7 +188,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
             $modulePattern = '[A-Z][a-z]+_[A-Z][a-z]+';
             $filePattern = '[[:alnum:]_/-]+\\.[[:alnum:]_./-]+';
             $pattern = '#' . $modulePattern
-                . preg_quote(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR)
+                . preg_quote(\Magento\View\Service::SCOPE_SEPARATOR)
                 . $filePattern . '#S';
             if (!preg_match_all($pattern, file_get_contents($file), $matches)) {
                 continue;

@@ -12,11 +12,10 @@
 namespace Magento\Core\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Fixture\DataFixture;
+use Mtf\Client\Element\Locator;
 
 /**
- * Class Messages
- * Messages block
+ * Global messages block
  *
  * @package Magento\Core\Test\Block
  */
@@ -27,25 +26,23 @@ class Messages extends Block
      *
      * @var string
      */
-    private $successMessage;
+    protected $successMessageSelector = '//*[contains(@data-ui-id, "message-success")]';
 
     /**
-     * Initialize block elements
+     * Error message
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        //Elements
-        $this->successMessage = '[data-ui-id=messages-message-success]';
-    }
+    protected $errorMessageSelector = '//*[contains(@data-ui-id, "message-error")]';
 
     /**
      * Check for success message
      *
      * @return bool
      */
-    public function waitForSuccessMessage()
+    public function assertSuccessMessage()
     {
-        $this->waitForElementVisible($this->successMessage);
+        $this->waitForElementVisible($this->successMessageSelector, Locator::SELECTOR_XPATH);
     }
 
     /**
@@ -56,7 +53,17 @@ class Messages extends Block
     public function getSuccessMessages()
     {
         return $this->_rootElement
-            ->find($this->successMessage)
+            ->find($this->successMessageSelector, Locator::SELECTOR_XPATH)
             ->getText();
+    }
+
+    /**
+     * Check for error message
+     *
+     * @return mixed
+     */
+    public function assertErrorMessage()
+    {
+        return $this->waitForElementVisible($this->errorMessageSelector, Locator::SELECTOR_XPATH);
     }
 }

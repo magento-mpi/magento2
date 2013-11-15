@@ -38,7 +38,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     /**
      * Mock from email template instance
      *
-     * @var \Magento\Core\Model\Email\Template
+     * @var \Magento\Email\Model\Template
      */
     protected $_emailTemplate;
 
@@ -48,7 +48,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
         $translate = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
-        $factory = $this->getMock('Magento\Core\Model\Email\TemplateFactory', array('create'), array(), '', false);
+        $factory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
@@ -57,8 +57,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));
-        $this->_emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
-            array('setDesignConfig', 'sendTransactional', '__wakeup'), array(), '', false
+        $this->_emailTemplate = $this->getMock(
+            'Magento\Email\Model\Template',
+            array('setDesignConfig', 'sendTransactional', '__wakeup'),
+            array(),
+            '',
+            false
         );
 
         $app->expects($this->any())
@@ -83,7 +87,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
         $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),

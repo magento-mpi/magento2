@@ -51,9 +51,9 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var \Magento\App\RouterListInterface
+     * @var \Magento\App\Route\ConfigInterface
      */
-    protected $_routerList;
+    protected $_routeConfig;
 
     /**
      * @var PathInfoProcessorInterface
@@ -61,18 +61,18 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     private $_pathInfoProcessor;
 
     /**
-     * @param \Magento\App\RouterListInterface $routerList
+     * @param \Magento\App\Route\ConfigInterface $routeConfig
+     * @param \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor
      * @param string $uri
      * @param array $directFrontNames
-     * @param PathInfoProcessorInterface $pathInfoProcessor
      */
     public function __construct(
-        \Magento\App\RouterListInterface $routerList,
+        \Magento\App\Route\ConfigInterface $routeConfig,
+        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor,
         $uri = null,
-        $directFrontNames = array(),
-        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor = null
+        $directFrontNames = array()
     ) {
-        $this->_routerList = $routerList;
+        $this->_routeConfig = $routeConfig;
         $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
         $this->_pathInfoProcessor = $pathInfoProcessor;
@@ -122,9 +122,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
                 $pathInfo = $requestUri;
             }
 
-            if ($this->_pathInfoProcessor) {
-                $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
-            }
+            $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
 
             $this->_originalPathInfo = (string)$pathInfo;
 
@@ -210,11 +208,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = $this->_routerList->getRouterByRoute($route);
-        if (!$router) {
-            return $this;
-        }
-        $module = $router->getFrontNameByRoute($route);
+        $module = $this->_routeConfig->getRouteFrontName($route);
         if ($module) {
             $this->setModuleName($module);
         }
@@ -368,8 +362,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $frontName = $this->_rewritedPathInfo[0];
-                $router = $this->_routerList->getRouterByFrontName($frontName);
-                $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
+                $this->_requestedRouteName = $this->_routeConfig->getRouteByFrontName($frontName);
             } else {
                 // no rewritten path found, use default route name
                 return $this->getRouteName();

@@ -34,7 +34,7 @@ abstract class AbstractAccordion
     /**
      * Url to configure this grid's items
      */
-    protected $_configureRoute = '*/checkout/configureProductToAdd';
+    protected $_configureRoute = 'checkout/index/configureProductToAdd';
 
     /**
      * Core registry

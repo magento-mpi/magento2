@@ -18,9 +18,9 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // disable config caching to not pollute it
-        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = $objectManager->get('Magento\Core\Model\Cache\StateInterface');
-        $cacheState->setEnabled(\Magento\Core\Model\Cache\Type\Config::TYPE_IDENTIFIER, false);
+        /** @var $cacheState \Magento\App\Cache\StateInterface */
+        $cacheState = $objectManager->get('Magento\App\Cache\StateInterface');
+        $cacheState->setEnabled(\Magento\App\Cache\Type\Config::TYPE_IDENTIFIER, false);
 
         /** @var $dirs \Magento\App\Dir */
         $dirs = $objectManager->get('Magento\App\Dir');
@@ -29,7 +29,7 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            'Magento\Core\Model\Config\Modules\Reader', array('getConfigurationFiles', 'getModuleDir'),
+            'Magento\Module\Dir\Reader', array('getConfigurationFiles', 'getModuleDir'),
             array(), '', false
         );
         $configMock->expects($this->any())

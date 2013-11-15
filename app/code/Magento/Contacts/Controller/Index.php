@@ -91,8 +91,8 @@ class Index extends \Magento\Core\Controller\Front\Action
                 if ($error) {
                     throw new \Exception();
                 }
-                $mailTemplate = $this->_objectManager->create('Magento\Core\Model\Email\Template');
-                /* @var $mailTemplate \Magento\Core\Model\Email\Template */
+                $mailTemplate = $this->_objectManager->create('Magento\Email\Model\Template');
+                /* @var $mailTemplate \Magento\Email\Model\Template */
                 $mailTemplate->setDesignConfig(array(
                     'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')

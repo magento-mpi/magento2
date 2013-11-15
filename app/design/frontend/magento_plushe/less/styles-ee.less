@@ -564,22 +564,28 @@
                 &:hover {
                     background: @primary2;
                 }
-                &.new {
-                    background: @primary1;
-                    white-space: nowrap;
-                    span:before {
-                        content: "+ ";
-                    }
-                    &:hover {
-                        background: @primary2;
-                    }
-                }
                 > a,
                 > span {
                     display: block;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+                }
+                .new {
+                    .resetAction();
+                    display: block;
+                    background: @primary7;
+                    float: none;
+                    margin: -3px -7px;
+                    padding: 3px 7px;
+                    white-space: nowrap;
+                    width: 100%;
+                    span:before {
+                        content: "+ ";
+                    }
+                    &:hover {
+                        background: @primary2;
+                    }
                 }
             }
         }
@@ -671,7 +677,11 @@
     }
 }
 
-.category-view .product.actions .split.button {
+.category-view .product.actions .split.button,
+.search.results .product.actions .split.button {
+    display: inline-block;
+    padding: 8px 0 0;
+    width: 49%;
     text-align: center;
     .items {
         text-align: left;
@@ -686,12 +696,6 @@
 .product.info.main .product.addto.links .split.button {
     float: left;
     margin-right: 15px;
-}
-
-.category-view .product.actions .split.button {
-    display: inline-block;
-    padding: 8px 0 0;
-    width: 49%;
 }
 
 .popup .form.wishlist {
@@ -718,6 +722,9 @@
     }
     .fieldset {
         margin: 0;
+    }
+    .action.save {
+        &:extend(.primary.action all);
     }
 }
 
@@ -1325,6 +1332,55 @@
 }
 
 /*
+    GiftWrapping
+-------------------------------------- */
+
+.gift.message {
+    .field.gift.wrapping {
+        width: 100%;
+        img {
+            display: inline-block;
+            width:auto;
+            height:80px;
+            margin:10px;
+            vertical-align: middle;
+        }
+        .label {
+            display: block;
+            padding-bottom: 5px;
+        }
+        .control {
+            select {
+                width: 100%;
+            }
+        }
+    }
+    .field.gift.wrapping .design > .price-box,
+    dt > .price-box {
+        display: inline-block;
+        vertical-align: middle;
+        margin:10px;
+        > .price-box {
+            display: block;
+            > span {
+                display: inline-block;
+            }
+        }
+    }
+}
+.data.table .gift.wrapping {
+    font-size: 13px;
+    margin: 0;
+    dt {
+        font-weight: 600;
+        margin: 5px 0 0;
+    }
+    dd {
+        margin: 0 0 5px;
+    }
+}
+
+/*
     My Account -> Advanced Checkout -> Order by SKU
 -------------------------------------- */
 .cart.table.failed {
@@ -1443,3 +1499,5 @@
         }
     }
 }
+
+@import "/responsive/responsive-ee.less";

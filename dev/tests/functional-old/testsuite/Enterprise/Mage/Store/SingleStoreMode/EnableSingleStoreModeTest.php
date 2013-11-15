@@ -11,7 +11,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
+class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
+    extends Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
 {
     public function setUpBeforeTests()
     {

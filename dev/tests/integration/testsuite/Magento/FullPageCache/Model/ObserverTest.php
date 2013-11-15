@@ -11,6 +11,9 @@
 
 namespace Magento\FullPageCache\Model;
 
+/**
+ * @magentoAppArea frontend
+ */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,9 +29,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
+        /** @var \Magento\App\Cache\StateInterface $cacheState */
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\Cache\StateInterface');
+            'Magento\App\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
             'Magento\FullPageCache\Model\Cookie',
@@ -40,7 +43,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_observer = $objectManager->create(
-            'Magento\FullPageCache\Model\Observer', 
+            'Magento\FullPageCache\Model\Observer',
             array('cookie' => $this->_cookie)
         );
     }
@@ -70,9 +73,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
-        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        /** @var $cacheState \Magento\App\Cache\StateInterface */
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\Cache\StateInterface');
+            'Magento\App\Cache\StateInterface');
 
         $cacheState->setEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP, true);
 

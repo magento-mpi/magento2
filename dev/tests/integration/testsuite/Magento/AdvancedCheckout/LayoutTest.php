@@ -13,6 +13,9 @@ namespace Magento\AdvancedCheckout;
 
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppArea frontend
+     */
     public function testCartLayout()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')

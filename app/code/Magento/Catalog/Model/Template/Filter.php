@@ -36,7 +36,7 @@ class Filter extends \Magento\Filter\Template
     protected $_useSessionInUrl = false;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -52,12 +52,12 @@ class Filter extends \Magento\Filter\Template
      *
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\View\Url $viewUrl
+        \Magento\View\Url $viewUrl
     ) {
         $this->_storeManager = $storeManager;
         $this->_viewUrl = $viewUrl;
@@ -68,7 +68,7 @@ class Filter extends \Magento\Filter\Template
      * Set use absolute links flag
      *
      * @param bool $flag
-     * @return \Magento\Core\Model\Email\Template\Filter
+     * @return \Magento\Email\Model\Template\Filter
      */
     public function setUseAbsoluteLinks($flag)
     {
@@ -81,7 +81,7 @@ class Filter extends \Magento\Filter\Template
      * Doesn't set anything intentionally, since SID is not allowed in any kind of emails
      *
      * @param bool $flag
-     * @return \Magento\Core\Model\Email\Template\Filter
+     * @return \Magento\Email\Model\Template\Filter
      */
     public function setUseSessionInUrl($flag)
     {
@@ -94,7 +94,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @param array $construction
      * @return string
-     * @see \Magento\Core\Model\Email\Template\Filter::viewDirective() method has been copypasted
+     * @see \Magento\Email\Model\Template\Filter::viewDirective() method has been copypasted
      */
     public function viewDirective($construction)
     {
@@ -111,7 +111,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @param array $construction
      * @return string
-     * @see \Magento\Core\Model\Email\Template\Filter::mediaDirective() method has been copypasted
+     * @see \Magento\Email\Model\Template\Filter::mediaDirective() method has been copypasted
      */
     public function mediaDirective($construction)
     {
@@ -125,7 +125,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @param array $construction
      * @return string
-     * @see \Magento\Core\Model\Email\Template\Filter::storeDirective() method has been copypasted
+     * @see \Magento\Email\Model\Template\Filter::storeDirective() method has been copypasted
      */
     public function storeDirective($construction)
     {

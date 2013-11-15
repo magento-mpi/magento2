@@ -30,6 +30,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(
@@ -312,9 +313,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetBlockHtml()
     {
         // Without layout
-        /** @var $blockFactory \Magento\Core\Model\BlockFactory */
+        /** @var $blockFactory \Magento\View\Element\BlockFactory */
         $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\BlockFactory');
+            ->get('Magento\View\Element\BlockFactory');
         $block1 = $blockFactory->createBlock('Magento\Core\Block\Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');
@@ -554,14 +555,16 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatDate()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->assertEquals($helper->formatDate(), $this->_block->formatDate());
+        $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
+        $this->assertEquals($locale->formatDate(), $this->_block->formatDate());
     }
 
     public function testFormatTime()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->assertEquals($helper->formatTime(), $this->_block->formatTime());
+        $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
+        $this->assertEquals($locale->formatTime(), $this->_block->formatTime());
     }
 
     public function testGetModuleName()

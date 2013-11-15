@@ -80,6 +80,9 @@ class Factory implements \Magento\ObjectManager\Factory
             $argument = null;
             if (array_key_exists($paramName, $arguments)) {
                 $argument = $arguments[$paramName];
+            } elseif (array_key_exists('options', $arguments) && array_key_exists($paramName, $arguments['options'])) {
+                // The parameter name doesn't exist in the arguments, but it is contained in the 'options' argument.
+                $argument = $arguments['options'][$paramName];
             } elseif ($paramRequired) {
                 if ($paramType) {
                     $argument = array('instance' => $paramType);
@@ -147,6 +150,10 @@ class Factory implements \Magento\ObjectManager\Factory
     {
         $type = $this->_config->getInstanceType($requestedType);
         $parameters = $this->_definitions->getParameters($type);
+        if (!isset($this->_instances[$type])) {
+            $this->_instances[$type] = 0;
+        }
+        $this->_instances[$type]++;
         if ($parameters == null) {
             return new $type();
         }

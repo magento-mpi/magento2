@@ -27,7 +27,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     protected $_designModel;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -35,7 +35,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         $pathChunks = array(__DIR__, '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
-        $this->_viewFileSystem = $this->getMock('Magento\Core\Model\View\FileSystem',
+        $this->_viewFileSystem = $this->getMock('Magento\View\FileSystem',
             array('getFilename', 'getDesignTheme'), array(), '', false);
 
         $this->_viewFileSystem->expects($this->any())
@@ -61,10 +61,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($theme));
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Core\Model\View\FileSystem');
+        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\View\FileSystem');
 
-        /** @var $moduleReader \Magento\Core\Model\Config\Modules\Reader */
-        $moduleReader = $objectManager->get('Magento\Core\Model\Config\Modules\Reader');
+        /** @var $moduleReader \Magento\Module\Dir\Reader */
+        $moduleReader = $objectManager->get('Magento\Module\Dir\Reader');
         $moduleReader->setModuleDir('Magento_Core', 'i18n', __DIR__ . '/_files/Magento/Core/i18n');
         $moduleReader->setModuleDir('Magento_Catalog', 'i18n',
             __DIR__ . '/_files/Magento/Catalog/i18n');
@@ -74,11 +74,12 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             array('getDesignTheme'),
             array(
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\Core\Model\Theme\FlyweightFactory'),
+                $objectManager->get('Magento\View\Design\Theme\FlyweightFactory'),
                 $objectManager->get('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\ThemeFactory'),
                 $objectManager->get('Magento\Core\Model\App'),
+                $objectManager->get('Magento\App\State'),
                 array('frontend' => 'test_default')
             )
         );

@@ -33,6 +33,12 @@ class MultishippingTest extends Functional
     public function testMultishippingCheckout(Checkout $fixture)
     {
         $fixture->persist();
+
+        //Ensure shopping cart is empty
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
         //Add products to cart
         $products = $fixture->getProducts();
         foreach ($products as $product) {
@@ -40,12 +46,11 @@ class MultishippingTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getCartBlock()->waitForProductAdded();
+            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-
         $checkoutCartPage->getCartBlock()->getMultishippingLinkBlock()->multipleAddressesCheckout();
 
         //Register new customer
@@ -71,8 +76,34 @@ class MultishippingTest extends Functional
         Factory::getPageFactory()->getCheckoutMultishippingBilling()->getBillingBlock()->selectPaymentMethod($fixture);
         Factory::getPageFactory()->getCheckoutMultishippingOverview()->getOverviewBlock()->placeOrder($fixture);
 
-        $orderIds = Factory::getPageFactory()->getCheckoutMultishippingSuccess()->getSuccessBlock()
-            ->getOrderIds($fixture);
+        //Verify order in Backend
+        $successPage = Factory::getPageFactory()->getCheckoutMultishippingSuccess();
+        $this->assertContains(
+            'Your order has been received.',
+            $successPage->getTitleBlock()->getTitle(),
+            'Order success page was not opened.');
+        $orderIds = $successPage->getSuccessBlock()->getOrderIds($fixture);
+        $this->_verifyOrder($orderIds, $fixture);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderMultishippingCheckout()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoCheckoutMultishippingGuestPaypalDirect()),
+        );
+    }
+
+    /**
+     * Verify order in Backend
+     *
+     * @param array $orderIds
+     * @param Checkout $fixture
+     */
+    protected function _verifyOrder($orderIds, Checkout $fixture)
+    {
         Factory::getApp()->magentoBackendLoginUser();
         $grandTotals = $fixture->getGrandTotal();
         foreach ($orderIds as $num => $orderId) {
@@ -85,15 +116,5 @@ class MultishippingTest extends Functional
                 'Incorrect grand total value for the order #' . $orderId
             );
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderMultishippingCheckout()
-    {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutMultishippingGuestPaypalDirect()),
-        );
     }
 }

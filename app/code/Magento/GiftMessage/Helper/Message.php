@@ -58,12 +58,9 @@ class Message extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\View\LayoutFactory $layoutFactory
@@ -73,12 +70,9 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\View\LayoutFactory $layoutFactory,
@@ -92,12 +86,9 @@ class Message extends \Magento\Core\Helper\Data
         $this->_giftMessageFactory = $giftMessageFactory;
         parent::__construct(
             $context,
-            $eventManager,
-            $config,
             $coreStoreConfig,
             $storeManager,
             $locale,
-            $dateModel,
             $appState,
             $dbCompatibleMode
         );

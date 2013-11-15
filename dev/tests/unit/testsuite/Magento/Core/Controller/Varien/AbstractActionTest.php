@@ -74,8 +74,10 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testResponseHeaders()
     {
-        $routerListMock = $this->getMock('\Magento\App\RouterList', array(), array(), '', false);
-        $request = new \Magento\App\Request\Http($routerListMock);
+        $routerListMock = $this->getMock('Magento\App\Route\ConfigInterface');
+        $infoProcessorMock = $this->getMock('Magento\App\Request\PathInfoProcessorInterface');
+        $infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
+        $request = new \Magento\App\Request\Http($routerListMock, $infoProcessorMock);
         $response = new \Magento\App\Response\Http();
         $response->headersSentThrowsException = false;
         $action = new \Magento\App\Action\Forward($request, $response);

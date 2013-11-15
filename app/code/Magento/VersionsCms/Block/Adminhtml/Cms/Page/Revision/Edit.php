@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
 
-class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
+class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
 {
     /**
      * @var \Magento\VersionsCms\Model\Config

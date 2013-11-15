@@ -12,37 +12,34 @@ namespace Magento\FullPageCache\Model;
 
 class Validator
 {
-    /**#@+
-     * XML paths for lists of change nad delete dependencies
+    /**
+     * @var array
      */
-    const XML_PATH_DEPENDENCIES_CHANGE = 'adminhtml/cache/dependency/change';
-    const XML_PATH_DEPENDENCIES_DELETE = 'adminhtml/cache/dependency/delete';
-    /**#@-*/
+    protected $_changeDependencies = array();
 
     /**
-     * General config object
-     *
-     * @var \Magento\Core\Model\Config
+     * @var array
      */
-    protected $_config;
+    protected $_deleteDependencies = array();
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_typeList;
 
     /**
-     * Constructor dependency injection
-     *
-     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\Cache\TypeListInterface $typeList
+     * @param $changeDependencies
+     * @param $deleteDependencies
      */
     public function __construct(
-        \Magento\Core\Model\Cache\TypeListInterface $typeList,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\App\Cache\TypeListInterface $typeList,
+        $changeDependencies,
+        $deleteDependencies
     ) {
         $this->_typeList = $typeList;
-        $this->_config = $coreConfig;
+        $this->_changeDependencies = $changeDependencies;
+        $this->_deleteDependencies = $deleteDependencies;
     }
 
     /**
@@ -82,7 +79,7 @@ class Validator
     public function checkDataChange($object)
     {
         $classes = $this->_getObjectClasses($object);
-        $intersect = array_intersect($this->_getDataChangeDependencies(), $classes);
+        $intersect = array_intersect($this->_changeDependencies, $classes);
         if (!empty($intersect)) {
             $this->_invalidateCache();
         }
@@ -99,34 +96,10 @@ class Validator
     public function checkDataDelete($object)
     {
         $classes = $this->_getObjectClasses($object);
-        $intersect = array_intersect($this->_getDataDeleteDependencies(), $classes);
+        $intersect = array_intersect($this->_deleteDependencies, $classes);
         if (!empty($intersect)) {
             $this->_invalidateCache();
         }
         return $this;
-    }
-
-    /**
-     * Returns array of data change dependencies from config
-     *
-     * @return array
-     */
-    protected function _getDataChangeDependencies()
-    {
-        $dependencies = $this->_config->getNode(self::XML_PATH_DEPENDENCIES_CHANGE)
-            ->asArray();
-        return array_values($dependencies);
-    }
-
-    /**
-     * Returns array of data delete dependencies from config
-     *
-     * @return array
-     */
-    protected function _getDataDeleteDependencies()
-    {
-        $dependencies = $this->_config->getNode(self::XML_PATH_DEPENDENCIES_DELETE)
-            ->asArray();
-        return array_values($dependencies);
     }
 }

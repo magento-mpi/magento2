@@ -29,4 +29,12 @@ class CustomerForm extends FormTabs
     protected $_tabClasses = array(
         'customer_info_tabs_account' => '\\Magento\\Backend\\Test\\Block\\Customer\\Edit\\Tab\\Account'
     );
+
+    /**
+     * Click save and continue button on form
+     */
+    public function clickSaveAndContinue()
+    {
+        $this->_rootElement->find('#save_and_continue')->click();
+    }
 }

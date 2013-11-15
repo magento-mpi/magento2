@@ -22,6 +22,15 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected static $_cachedFiles = array();
 
+    public static function setUpBeforeClass()
+    {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
+            'preferences' => array(
+                'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'
+            )
+        ));
+    }
+
     public static function tearDownAfterClass()
     {
         self::$_cachedFiles = array(); // Free memory
@@ -100,8 +109,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             function (\Magento\View\Design\ThemeInterface $theme) {
                 $xml = $this->_composeXml($theme);
 
-                $xpath = '/layouts/*['
-                    . '@type="' . \Magento\Core\Model\Layout\Merge::TYPE_PAGE  . '"]';
+                $xpath = '/layouts/*[@design_abstraction]';
                 $handles = $xml->xpath($xpath) ?: array();
 
                 /** @var \Magento\View\Layout\Element $node */

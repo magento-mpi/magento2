@@ -32,7 +32,6 @@ $cmsPage = array(
 <li>Converting Invitations to Customer — Earn points for every invitation you send out which leads to your friends registering on the site.</li>
 <li>Converting Invitations to Order — Earn points for every invitation you send out which leads to a sale.</li>
 <li>Review Submission — Earn points for submitting product reviews.</li>
-<li>New Tag Submission — Earn points for adding tags to products.</li>
 </ul>
 
 <h2>Reward Points Exchange Rates</h2>

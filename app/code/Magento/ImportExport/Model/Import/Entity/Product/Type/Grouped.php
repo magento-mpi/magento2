@@ -42,7 +42,7 @@ class Grouped
     protected $_importFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resource;
 
@@ -56,7 +56,7 @@ class Grouped
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $productLinkFactory
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param array $params
      */
     public function __construct(
@@ -64,7 +64,7 @@ class Grouped
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\Catalog\Model\Resource\Product\LinkFactory $productLinkFactory,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         array $params
     )
     {

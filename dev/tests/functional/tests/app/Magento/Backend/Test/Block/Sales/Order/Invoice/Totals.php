@@ -62,6 +62,6 @@ class Totals extends Block
      */
     public function setCaptureOption($option)
     {
-       $this->_rootElement->find($this->capture, Locator::SELECTOR_CSS, 'select')->setValue($option);
+        $this->_rootElement->find($this->capture, Locator::SELECTOR_CSS, 'select')->setValue($option);
     }
 }

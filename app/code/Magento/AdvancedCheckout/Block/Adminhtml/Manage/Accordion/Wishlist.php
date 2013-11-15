@@ -63,8 +63,8 @@ class Wishlist
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_itemFactory = $itemFactory;
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
     }
 
     /**
@@ -144,7 +144,7 @@ class Wishlist
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/viewWishlist', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewWishlist', array('_current'=>true));
     }
 
     /**

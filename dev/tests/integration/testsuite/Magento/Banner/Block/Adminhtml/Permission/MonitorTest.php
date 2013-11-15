@@ -28,7 +28,7 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);
         $tab = $layout->addBlock(
@@ -56,7 +56,7 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
             array(
                 'Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'salesrule.related.banners',
-                'Magento\Adminhtml\Block\Promo\Quote\Edit\Tabs',
+                'Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tabs',
                 'promo_quote_edit_tabs',
             ),
             array(

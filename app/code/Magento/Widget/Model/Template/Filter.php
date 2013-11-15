@@ -29,7 +29,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -37,19 +37,21 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\View\LayoutInterface $layout,
         \Magento\View\LayoutFactory $layoutFactory,
         \Magento\Widget\Model\Resource\Widget $widgetResource,
-        \Magento\Widget\Model\Widget $widget
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\App\State $appState
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
@@ -62,7 +64,8 @@ class Filter extends \Magento\Cms\Model\Template\Filter
             $coreVariableFactory,
             $storeManager,
             $layout,
-            $layoutFactory
+            $layoutFactory,
+            $appState
         );
     }
 

@@ -53,6 +53,11 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     protected $_locale;
 
     /**
+     * @var bool
+     */
+    protected $_canUseBaseUrl;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -61,7 +66,6 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\HTTP\Authentication $authentication
-     * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\AuthorizationInterface $authorization
@@ -69,7 +73,8 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
-     *
+     * @param bool $canUseBaseUrl
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -81,18 +86,19 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\HTTP\Authentication $authentication,
-        $isRenderInherited,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Translate $translator,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        $canUseBaseUrl = false
     ) {
         parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
-            $authentication, $isRenderInherited
+            $authentication
         );
+        $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;
         $this->_helper = $helper;
         $this->_authorization = $authorization;
@@ -156,5 +162,13 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     public function getLocale()
     {
         return $this->_locale;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCanUseBaseUrl()
+    {
+        return $this->_canUseBaseUrl;
     }
 }
