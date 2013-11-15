@@ -1,3 +1,4 @@
+* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
 * Various improvements:
   * Added static test for check incorrect dependencies in library
