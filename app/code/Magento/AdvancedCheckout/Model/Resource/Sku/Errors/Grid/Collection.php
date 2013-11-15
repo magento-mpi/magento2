@@ -87,7 +87,7 @@ class Collection extends \Magento\Data\Collection
                     if (!empty($status[$productId])) {
                         $product->setIsSalable($status[$productId]);
                     }
-                    $item->setPrice($this->_coreHelper)->formatPrice($product->getPrice());
+                    $item->setPrice($this->_coreHelper->formatPrice($product->getPrice()));
                 }
                 $item->setProduct($product);
                 $this->addItem($item);
