@@ -5,6 +5,11 @@
   * Moved Magento\Core\Model\Theme to Magento\View component
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
+* GitHub requests:
+  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
+  * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
+  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
+  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
 * Themes update:
   * Plushe theme is responsive now
 * Fixed bugs:
