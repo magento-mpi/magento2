@@ -130,7 +130,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_typeList;
 
@@ -190,7 +190,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param Cookie $fpcCookie
@@ -214,7 +214,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\FullPageCache\Model\Cookie $fpcCookie,
         \Magento\Core\Model\Session $coreSession,

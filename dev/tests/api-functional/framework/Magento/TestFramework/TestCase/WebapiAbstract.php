@@ -30,7 +30,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Application cache model.
      *
-     * @var \Magento\Core\Model\Cache
+     * @var \Magento\App\Cache
      */
     protected $_appCache;
 
@@ -405,7 +405,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Get application cache model
      *
-     * @return \Magento\Core\Model\Cache
+     * @return \Magento\App\Cache
      */
     protected function _getAppCache()
     {
@@ -422,7 +422,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $options->setCacheDir($dir->getDir(\Magento\App\Dir::ROOT) . '/var/cache');
             $options->setEtcDir($dir->getDir(\Magento\App\Dir::ROOT) . '/app/etc');
 
-            $this->_appCache = $objectManager->get('Magento\Core\Model\Cache');
+            $this->_appCache = $objectManager->get('Magento\App\Cache');
 
             //revert paths options
             $options->setCacheDir($currentCacheDir);

@@ -366,9 +366,9 @@ class LineBreakTest extends TestBase
         $line = $this->getLine($tokens);
         $this->assertNotNull($line);
         $actualResult = '';
+        /** @var Line $currentLine */
         foreach ($line->splitLine($level) as $currentLine) {
-            $actualResult .= $currentLine[Line::ATTRIBUTE_LINE];
-            $actualResult .= (string)$currentLine[Line::ATTRIBUTE_TERMINATOR];
+            $actualResult .= $currentLine->getLine();
         }
         $this->assertEquals($expected, $actualResult, $message);
     }
