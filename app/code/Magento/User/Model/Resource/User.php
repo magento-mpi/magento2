@@ -305,7 +305,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
                     ->from($table, array())
                     ->joinLeft(
                         array('ar' => $table),
-                        "(ar.role_id = {$table}.parent_id and ar.role_type = " . RoleGroup::ROLE_TYPE .")",
+                        "(ar.role_id = {$table}.parent_id and ar.role_type = '" . RoleGroup::ROLE_TYPE ."')",
                         array('role_id'))
                     ->where("{$table}.user_id = :user_id");
 

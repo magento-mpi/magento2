@@ -512,7 +512,7 @@ class User
      */
     public function getAclRole()
     {
-        return \Magento\User\Model\Acl\Role\User::ROLE_TYPE . $this->getUserId();
+        return $this->getRole()->getId();
     }
 
     /**
