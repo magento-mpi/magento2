@@ -18,3 +18,11 @@
         <?php endif; ?>
     </p>
 </div>
+<?php if ($this->isFullyPaidAfterApplication()): ?>
+    <script type="text/javascript">
+        head.js("<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/payment-method.js')?>", function() {
+            jQuery('#co-payment-form').paymentMethod();
+        });
+    </script>
+    <input type="hidden" name="payment[method]" value="free" />
+<?php endif; ?>

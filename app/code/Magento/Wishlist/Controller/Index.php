@@ -681,8 +681,8 @@ class Index
             $wishlistBlock = $this->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
 
             $emails = array_unique($emails);
-            /* @var $emailModel \Magento\Core\Model\Email\Template */
-            $emailModel = $this->_objectManager->create('Magento\Core\Model\Email\Template');
+            /* @var $emailModel \Magento\Email\Model\Template */
+            $emailModel = $this->_objectManager->create('Magento\Email\Model\Template');
 
             $sharingCode = $wishlist->getSharingCode();
 
