@@ -118,7 +118,7 @@ class MinifyService
             $this->_minifiers[$contentType] = $this->_objectManager->create('Magento\Code\Minifier',
                 array(
                     'strategy' => $strategy,
-                    'baseDir' => $this->_dirs->getDir(\Magento\App\Dir::PUB_VIEW_CACHE) . '/minify',
+                    'directoryName' =>  'minify',
                 )
             );
         }

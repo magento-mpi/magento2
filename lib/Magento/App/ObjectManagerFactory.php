@@ -98,8 +98,8 @@ class ObjectManagerFactory
 
         \Magento\App\ObjectManager::setInstance($locator);
 
-        /** @var \Magento\App\Dir\Verification $verification */
-        $verification = $locator->get('Magento\App\Dir\Verification');
+        /** @var \Magento\Filesystem\DirectoryList\Verification $verification */
+        $verification = $locator->get('Magento\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
 
         $diConfig->setCache($locator->get('Magento\App\ObjectManager\ConfigCache'));

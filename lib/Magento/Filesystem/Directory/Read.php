@@ -67,7 +67,7 @@ class Read implements ReadInterface
      * @param string $path
      * @return string
      */
-    protected function getRelativePath($path)
+    public function getRelativePath($path)
     {
         if (strpos($path, $this->path) === 0) {
             $result = substr($path, strlen($this->path));

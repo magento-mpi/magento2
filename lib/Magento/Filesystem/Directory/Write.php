@@ -109,7 +109,7 @@ class Write extends Read implements WriteInterface
      * @return bool
      * @throws FilesystemException
      */
-    public function create($path)
+    public function create($path = '')
     {
         if (!$this->allowCreateDirs) {
             throw new FilesystemException('Operation is not allowed for the specified path: "%s"', $this->path);

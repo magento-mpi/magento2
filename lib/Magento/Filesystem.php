@@ -115,7 +115,7 @@ class Filesystem
         if (!array_key_exists($code, $this->writeInstances)) {
             $config = $this->directoryList->getConfig($code);
             $config['path'] = $this->getPath($code);
-            if (!isset($config['read_only']) || !$config['read_only']) {
+           if (isset($config['read_only']) && !$config['read_only']) {
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
             $this->writeInstances[$code] = $this->writeFactory->create($config);

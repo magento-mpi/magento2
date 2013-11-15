@@ -16,28 +16,28 @@ class Minifier
     private $_strategy;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Read
      */
-    private $_filesystem;
+    private $pubViewCacheDir;
 
     /**
-     * @var string directory where minified files are saved
+     * @var string directory name where minified files are saved
      */
-    private $_baseDir;
+    private $directoryName;
 
     /**
      * @param \Magento\Code\Minifier\StrategyInterface $strategy
      * @param \Magento\Filesystem $filesystem
-     * @param string $baseDir
+     * @param string $directoryName
      */
     public function __construct(
         \Magento\Code\Minifier\StrategyInterface $strategy,
         \Magento\Filesystem $filesystem,
-        $baseDir
+        $directoryName
     ) {
         $this->_strategy = $strategy;
-        $this->_filesystem = $filesystem;
-        $this->_baseDir = $baseDir;
+        $this->pubViewCacheDir = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::PUB_VIEW_CACHE);
+        $this->directoryName = $directoryName;
     }
 
     /**
@@ -53,7 +53,8 @@ class Minifier
         }
         $minifiedFile = $this->_findOriginalMinifiedFile($originalFile);
         if (!$minifiedFile) {
-            $minifiedFile = $this->_baseDir . '/' . $this->_generateMinifiedFileName($originalFile);
+            $minifiedFile = $this->pubViewCacheDir
+                ->getAbsolutePath($this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile));
             $this->_strategy->minifyFile($originalFile, $minifiedFile);
         }
 
@@ -95,7 +96,7 @@ class Minifier
     {
         $fileInfo = pathinfo($originalFile);
         $minifiedFile = $fileInfo['dirname'] . '/' . $fileInfo['filename'] . '.min.' . $fileInfo['extension'];
-        if ($this->_filesystem->has($minifiedFile)) {
+        if ($this->pubViewCacheDir->isExist($this->pubViewCacheDir->getRelativePath($minifiedFile))) {
             return $minifiedFile;
         }
         return false;
