@@ -9,6 +9,11 @@
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+  * Fixed broken click for price link when "Display Actual Price" is set to in cart
+  * Fixed JavaScript error when printing order from frontend
+  * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
+  * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
+  * Fixed Fatal error when creating Shipping label for returns
   * Fixed posting coupon code with spaces
   * Fixed several typos and minor mistakes
 
