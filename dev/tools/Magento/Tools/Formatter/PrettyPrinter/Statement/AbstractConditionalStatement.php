@@ -17,6 +17,7 @@ abstract class AbstractConditionalStatement extends AbstractStatement
      * This method add in the conditional and children for the node (i.e. for if's and elseif's).
      * @param TreeNode $treeNode Node containing the current statement.
      * @param string $keyword String containing the keyword for the statement.
+     * @return TreeNode
      */
     protected function addConditional(TreeNode $treeNode, $keyword)
     {

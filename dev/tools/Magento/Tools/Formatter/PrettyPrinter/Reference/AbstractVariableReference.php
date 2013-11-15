@@ -14,6 +14,7 @@ class AbstractVariableReference extends AbstractReference
     /**
      * This method adds the variable reference to the passed in line.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     protected function addVariableReference(TreeNode $treeNode)
     {

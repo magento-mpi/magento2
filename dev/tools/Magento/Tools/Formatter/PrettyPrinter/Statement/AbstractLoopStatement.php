@@ -17,6 +17,7 @@ abstract class AbstractLoopStatement extends AbstractStatement
     /**
      * This method adds in the closing element and the body statements of a loop.
      * @param TreeNode $treeNode
+     * @return TreeNode
      */
     protected function addBody(TreeNode $treeNode)
     {
