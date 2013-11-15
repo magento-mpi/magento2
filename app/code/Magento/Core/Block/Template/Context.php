@@ -61,7 +61,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
@@ -71,6 +71,8 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -86,7 +88,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\App\Dir $dirs,
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
@@ -95,7 +97,9 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\Escaper $escaper,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
     ) {
         parent::__construct(
             $request,
@@ -115,7 +119,9 @@ class Context extends \Magento\Core\Block\Context
             $logger,
             $app,
             $escaper,
-            $filterManager
+            $filterManager,
+            $locale,
+            $data
         );
 
         $this->_appState = $appState;

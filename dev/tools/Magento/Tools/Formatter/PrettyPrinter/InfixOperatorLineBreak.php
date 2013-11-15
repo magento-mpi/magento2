@@ -23,6 +23,16 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
     }
 
     /**
+     * This method returns an id used to group line breaks occurring in the same line together.
+     * This is typically either the class name or the instance id.
+     * @return string
+     */
+    public function getGroupingId()
+    {
+        return get_class($this->operator) . 'LineBreak';
+    }
+
+    /**
      * @return AbstractInfixOperator
      */
     public function getOperator()
@@ -30,14 +40,12 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
         return $this->operator;
     }
 
-
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
-     * @return mixed
+     * @return int Order relative to other classes overriding this method.
      */
     public function getSortOrder()
     {
-        // TODO add inverse precedence to sort order
-        return 2;
+        return 200 + 99 - $this->operator->precedence();
     }
 }

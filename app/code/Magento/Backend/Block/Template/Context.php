@@ -20,11 +20,6 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
@@ -49,7 +44,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
@@ -81,7 +76,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\App\Dir $dirs,
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
@@ -119,12 +114,12 @@ class Context extends \Magento\Core\Block\Template\Context
             $app,
             $appState,
             $escaper,
-            $filterManager
+            $filterManager,
+            $locale
         );
         $this->_storeManager = $storeManager;
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
-        $this->_locale = $locale;
         $this->mathRandom = $mathRandom;
     }
 

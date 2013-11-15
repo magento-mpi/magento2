@@ -17,6 +17,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Search;
 use Magento\Page\Test\Block\Html\Title;
 use Magento\Page\Test\Block\Html\Topmenu;
+use Magento\Page\Test\Block\Html\Footer;
 
 /**
  * Class Home
@@ -53,6 +54,11 @@ class Home extends Page
     private $titleBlock;
 
     /**
+     * @var Footer
+     */
+    private $footerBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -66,6 +72,9 @@ class Home extends Page
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
+        );
+        $this->footerBlock = Factory::getBlockFactory()->getMagentoPageHtmlFooter(
+            $this->_browser->find('footer.footer', Locator::SELECTOR_CSS)
         );
     }
 
@@ -97,5 +106,15 @@ class Home extends Page
     public function getTitleBlock()
     {
         return $this->titleBlock;
+    }
+
+    /**
+     * Get footer block
+     *
+     * @return Footer
+     */
+    public function getFooterBlock()
+    {
+        return $this->footerBlock;
     }
 }
