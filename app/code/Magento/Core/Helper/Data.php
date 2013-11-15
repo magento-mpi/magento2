@@ -26,10 +26,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     const DIVIDE_EPSILON = 10000;
 
+    protected $_allowedFormats = array(
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
+    );
+
     /**
-     * Config path to mail sending setting that shows if email communications are disabled
+     * Core event manager proxy
+     *
+     * @var \Magento\Event\ManagerInterface
      */
-    const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
+    protected $_eventManager = null;
 
     /**
      * @var \Magento\Cache\ConfigInterface

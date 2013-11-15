@@ -106,9 +106,23 @@ function fixFile($filename, $rootDirectory)
     $originalCode = file_get_contents($filename);
     // create a printer with the original code
     $prettyPrinter = new Printer($originalCode);
-    // write out the formatted code
-    printMessage('Writing: ' . getReference($filename, $rootDirectory));
-    file_put_contents($filename, $prettyPrinter->getFormattedCode());
+    try {
+        // perform the parsing
+        $prettyPrinter->parseCode();
+        // write out the formatted code
+        printMessage('Writing: ' . getReference($filename, $rootDirectory));
+        file_put_contents($filename, $prettyPrinter->getFormattedCode());
+    } catch (PHPParser_Error $e) {
+        $output = $prettyPrinter->getFormattedCode();
+        if (null !== $output) {
+            file_put_contents($filename . '.error', $output);
+            echo "Invalid code placed in " . $filename . ".error" . PHP_EOL;
+            echo 'Parse Error: ', $e->getMessage();
+            echo PHP_EOL;
+        } else {
+            throw $e;
+        }
+    }
 }
 /**
  * This method fixes the named file.
