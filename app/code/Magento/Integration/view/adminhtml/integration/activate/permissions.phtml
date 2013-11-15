@@ -1,0 +1,20 @@
+<?php
+/**
+ * Permissions form container template.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
+ * @var \Magento\Adminhtml\Block\Widget\Form\Container $this
+ */
+?>
+<?php echo $this->getFormInitScripts() ?>
+<form id="edit_form" action="<?php echo $this->escapeHtml($this->getSaveUrl()) ?>" method="post">
+    <input name="form_key" type="hidden"  value="<?php echo $this->escapeHtml($this->getFormKey()) ?>" />
+    <?php echo $this->getChildHtml('form') ?>
+</form>
+<div class="page-actions" <?php echo $this->getUiId('content-header') ?>>
+    <?php echo $this->getButtonsHtml('header') ?>
+</div>

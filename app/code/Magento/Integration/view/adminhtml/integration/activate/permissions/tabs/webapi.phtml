@@ -1,0 +1,82 @@
+<?php
+/**
+ * API permissions tab template for integration activation dialog.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
+ * @var \Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webapi $this
+ */
+?>
+<fieldset class="fieldset form-inline entry-edit">
+    <div class="field" id="resources_container">
+        <div class="control">
+            <div class="tree x-tree" id="resource-tree"></div>
+        </div>
+    </div>
+</fieldset>
+
+<!-- Draw Resources Tree -->
+<script type="text/javascript">
+Ext.EventManager.onDocumentReady(function() {
+    var tree = new Ext.tree.TreePanel('resource-tree', {
+        animate: false,
+        loader: false,
+        enableDD: false,
+        containerScroll: true,
+        rootUIProvider: Ext.tree.CheckboxNodeUI,
+        selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
+        disabled: true,
+        rootVisible: false
+    });
+
+    // set the root node
+    var root = new Ext.tree.TreeNode({
+        text: 'root',
+        draggable:false,
+        checked:'false',
+        id:'<?php echo \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource::RESOURCES_TREE_ROOT_ID; ?>',
+        uiProvider: Ext.tree.CheckboxNodeUI
+    });
+
+    tree.setRootNode(root);
+    buildResourcesTree(root, <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getResourcesTree()) ?>);
+
+    // render the tree
+    tree.render();
+    // root.expand();
+    tree.expandAll();
+    // Remove all checkboxes - this is informational tree only
+    jQuery('.l-tcb').remove();
+});
+
+function buildResourcesTree(parent, config) {
+    if (!config) return null;
+
+    if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if(config[i].children){
+                buildResourcesTree(node, config[i].children);
+            }
+        }
+    }
+}
+
+function processChildren(node, state)
+{
+    if ( !node.hasChildNodes() ) return false;
+    for(var i = 0; i < node.childNodes.length; i++ ) {
+        if ( node.childNodes[i].hasChildNodes() ) {
+            processChildren(node.childNodes[i], state);
+        }
+    }
+    return true;
+}
+</script>
+
+

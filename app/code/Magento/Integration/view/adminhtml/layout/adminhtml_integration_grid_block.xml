@@ -16,6 +16,14 @@
                 <argument name="file" xsi:type="string">Magento_Integration::styles.css</argument>
             </arguments>
         </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="magento-integration-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Integration::js/integration.js</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceBlock name="content">
+        <block class="Magento\Backend\Block\Template" name="integration.popup.container" template="Magento_Integration::integration/popup_container.phtml" before="-"/>
     </referenceBlock>
     <referenceBlock name="integration.grid.container">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Grid" name="integration.grid" as="grid">

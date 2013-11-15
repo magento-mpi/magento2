@@ -12,6 +12,7 @@ namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 
 use \Magento\Integration\Model\Integration;
 use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
+use Magento\Object;
 
 class Activate extends Link
 {
@@ -29,5 +30,33 @@ class Activate extends Link
     public function getCaption()
     {
         return ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? __('Activate') : __('Deactivate');
+    }
+
+    /**
+     * {@inheritDoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function _getUrl(Object $row)
+    {
+        return 'javascript:void(0);';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function _getDataAttributes()
+    {
+        return [
+            'mage-init' => [
+                'integrationStatus' => [
+                    'status' => ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? 'activate' : 'deactivate',
+                    'name' => $this->_row->getName(),
+                    'url' => $this->getUrl(
+                        $this->getUrlPattern(),
+                        ['id' => $this->_row->getId(), '_query' => ['popup_dialog' => 'permissions']]
+                    )
+                ]
+            ]
+        ];
     }
 }

@@ -35,7 +35,7 @@ class Link extends AbstractRenderer
         $html = sprintf(
             '<a href="%s" %s>%s</a>',
             $this->_getUrl($row),
-            $this->getAdditionalHtmlParameters(),
+            $this->_getAttributesHtml(),
             $this->getCaption()
         );
 
@@ -90,9 +90,48 @@ class Link extends AbstractRenderer
      *
      * @return string
      */
-    public function getAdditionalHtmlParameters()
+    protected function _getAttributesHtml()
     {
-        return sprintf('title="%s"', $this->getCaption());
+        /** @var \Magento\Backend\Helper\Data $helper */
+        $helper = $this->_helperFactory->get('Magento\Backend\Helper\Data');
+        $html = [];
+
+        foreach ($this->_getAttributes() as $key => $value) {
+            if ($value === null || $value == '') {
+                continue;
+            }
+            $html[] = sprintf('%s="%s"', $key, $helper->escapeHtml($value));
+        }
+
+        return join(' ', $html);
+    }
+
+    /**
+     * Return additional HTML attributes for the tag.
+     *
+     * @return array
+     */
+    protected function _getAttributes()
+    {
+        $attributes = ['title' => $this->getCaption()];
+
+        foreach ($this->_getDataAttributes() as $key => $attr) {
+            $attributes['data-' . $key] = is_scalar($attr) ? $attr : json_encode($attr);
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Return HTML data attributes, which treated in special manner:
+     * - prepended by "data-"
+     * - JSON-encoded if necessary
+     *
+     * @return array
+     */
+    protected function _getDataAttributes()
+    {
+        return [];
     }
 
     /**

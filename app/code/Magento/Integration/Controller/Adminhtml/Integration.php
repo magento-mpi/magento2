@@ -174,19 +174,6 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         }
     }
 
-    /**
-     * Redirect merchant to 'Edit integration' or 'New integration' if error happened during integration save.
-     */
-    protected function _redirectOnSaveError()
-    {
-        $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
-        if ($integrationId) {
-            $this->_redirect('*/*/edit', array('id' => $integrationId));
-        } else {
-            $this->_redirect('*/*/new');
-        }
-    }
-
     public function consumerAction()
     {
         $integrationId = (int)$this->getRequest()->getParam('id');
@@ -209,5 +196,35 @@ class Integration extends \Magento\Adminhtml\Controller\Action
 
         $this->loadLayout();
         $this->renderLayout();
+    }
+
+    /**
+     * Activates the integration. Also contains intermediate steps (permissions confirmation and tokens).
+     */
+    public function activateAction()
+    {
+        $popupDialog = $this->getRequest()->getParam('popup_dialog');
+
+        if ($popupDialog) {
+            $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
+            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
+        } else {
+            $this->loadLayout();
+        }
+
+        $this->renderLayout();
+    }
+
+    /**
+     * Redirect merchant to 'Edit integration' or 'New integration' if error happened during integration save.
+     */
+    protected function _redirectOnSaveError()
+    {
+        $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+        if ($integrationId) {
+            $this->_redirect('*/*/edit', array('id' => $integrationId));
+        } else {
+            $this->_redirect('*/*/new');
+        }
     }
 }

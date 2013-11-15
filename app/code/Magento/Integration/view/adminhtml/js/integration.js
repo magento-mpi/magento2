@@ -58,4 +58,58 @@
             }
         }
     });
+
+    $.widget('mage.integrationStatus', {
+        options: {
+            status: '', // 'activate', 'deactivate', 'reauthorize'
+            url: '', // ex.: http://.../integration/activate/id/1?popup_dialog=permissions
+            name: '' // Integration name
+        },
+
+        _create: function ()
+        {
+            this._on({'click': '_showPopup'});
+        },
+
+        _showPopup: function ()
+        {
+            if (['activate', 'deactivate', 'reauthorize'].indexOf(this.options.status) === -1) {
+                throw 'Invalid integration status requested';
+            }
+
+            var that = this;
+
+            jQuery.ajax({
+                url: this.options.url,
+                showLoader: true,
+                dataType: 'html',
+                data: {formKey: window.FORM_KEY},
+                method: 'GET',
+                success: function (html) {
+                    $('#integration-popup-container').html(html);
+                    $('#integration-popup-container').dialog({
+                        title: that.options.name,
+                        modal: true,
+                        autoOpen: true,
+                        buttons: [
+                            {
+                                text: $.mage.__('Cancel'),
+                                click: function() {
+                                    $(this).dialog("close");
+                                }
+                            },
+                            {
+                                text: $.mage.__('Allow'),
+                                'class': 'primary',
+                                click: function() {
+                                    window.alert('Not implemented');
+                                }
+                            }
+                        ]
+                    }).bind(this);
+                }
+            });
+        }
+    });
 })(jQuery);
+

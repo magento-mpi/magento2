@@ -38,7 +38,7 @@ class Image extends Link
     /**
      * {@inheritDoc}
      */
-    public function getAdditionalHtmlParameters()
+    public function getAttributesHtml()
     {
         return sprintf('title="%s"', parent::getCaption());
     }
