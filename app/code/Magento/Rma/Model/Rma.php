@@ -58,9 +58,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_rmaData;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Core\Model\LocaleInterface
      */
-    protected $_coreData;
+    protected $locale;
 
     /**
      * @var \Magento\Core\Model\Session
@@ -73,7 +73,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_templateFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate\Proxy
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
@@ -173,13 +173,12 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
-     * @param \Magento\Core\Model\Translate\Proxy $translate
+     * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Config $rmaConfig
@@ -200,17 +199,17 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
      * @param Resource\Rma $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale,
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Email\TemplateFactory $templateFactory,
-        \Magento\Core\Model\Translate\Proxy $translate,
+        \Magento\Core\Model\Translate $translate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,
@@ -231,10 +230,10 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_rmaData = $rmaData;
         $this->_session = $session;
         $this->_templateFactory = $templateFactory;
@@ -258,6 +257,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_shippingFactory = $shippingFactory;
         $this->_escaper = $escaper;
+        $this->locale = $locale;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -939,7 +939,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getCreatedAtFormated($format)
     {
-        return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->locale->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**

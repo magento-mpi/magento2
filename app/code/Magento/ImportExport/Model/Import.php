@@ -20,6 +20,8 @@
  */
 namespace Magento\ImportExport\Model;
 
+use Magento\HTTP\Adapter\FileTransferFactory;
+
 class Import extends \Magento\ImportExport\Model\AbstractModel
 {
     /**#@+
@@ -95,7 +97,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_csvFactory;
 
     /**
-     * @var \Zend_File_Transfer_Adapter_HttpFactory
+     * @var \Magento\HTTP\Adapter\FileTransferFactory
      */
     protected $_httpFactory;
 
@@ -120,13 +122,13 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
-     * @param \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory
-     * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
-     * @param \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory
-     * @param \Zend_File_Transfer_Adapter_HttpFactory $httpFactory
+     * @param Import\ConfigInterface $importConfig
+     * @param Import\Entity\Factory $entityFactory
+     * @param Resource\Import\Data $importData
+     * @param Export\Adapter\CsvFactory $csvFactory
+     * @param FileTransferFactory $httpFactory
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
+     * @param Source\Import\Behavior\Factory $behaviorFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param array $data
      */
@@ -140,7 +142,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory,
-        \Zend_File_Transfer_Adapter_HttpFactory $httpFactory,
+        \Magento\HTTP\Adapter\FileTransferFactory $httpFactory,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
         \Magento\Index\Model\Indexer $indexer,

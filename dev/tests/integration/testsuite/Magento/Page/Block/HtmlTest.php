@@ -14,8 +14,8 @@ namespace Magento\Page\Block;
 class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @dataProvider getConfigValuesDataProvider
+     * @magentoAppArea frontend
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
@@ -32,13 +32,14 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Url',
             array('getBaseUrl'),
             array(
-                $this->getMock('Magento\App\RouterListInterface'),
+                $this->getMock('Magento\App\Route\ConfigInterface'),
                 $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
                 $securityInfoMock,
                 $storeConfig,
                 $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
+                null,
                 array()
             )
         );

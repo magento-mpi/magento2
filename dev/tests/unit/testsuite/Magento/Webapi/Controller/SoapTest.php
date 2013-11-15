@@ -35,11 +35,8 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App */
     protected $_applicationMock;
 
-    /** @var \Magento\Oauth\Service\OauthV1 */
+    /** @var \Magento\Oauth\Oauth */
     protected $_oauthServiceMock;
-
-    /** @var \Magento\Oauth\Helper\Service */
-    protected $_oauthHelperMock;
 
     /**
      * Set up Controller object.
@@ -85,11 +82,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_applicationMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
 
-        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Service\OauthV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Service')
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -106,8 +99,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_errorProcessorMock,
             $this->_appStateMock,
             $this->_applicationMock,
-            $this->_oauthServiceMock,
-            $this->_oauthHelperMock
+            $this->_oauthServiceMock
         );
     }
 
@@ -127,7 +119,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
 
         parent::tearDown();
     }
-
 
     /**
      * Test redirected to install page
@@ -198,7 +189,7 @@ EXPECTED_MESSAGE;
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth access_token';
         $this->_oauthServiceMock->expects($this->once())
             ->method('validateAccessToken')
-            ->will($this->returnValue(array('isValid' => true)));
+            ->will($this->returnValue(true));
 
         $this->_soapController->dispatch($this->_requestMock);
         unset($_SERVER['HTTP_AUTHORIZATION']);
@@ -249,6 +240,7 @@ EXPECTED_MESSAGE;
     /**
      * Mock getParam() of request object to return given value.
      *
+     * @param $param
      * @param $value
      */
     protected function _mockGetParam($param, $value)
@@ -258,5 +250,4 @@ EXPECTED_MESSAGE;
             ->with($param)
             ->will($this->returnValue($value));
     }
-
 }

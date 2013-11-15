@@ -7,4 +7,4 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Anchor Catalog Category Without Subcategories" type="page"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>

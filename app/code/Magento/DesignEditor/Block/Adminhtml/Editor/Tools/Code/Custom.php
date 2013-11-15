@@ -29,7 +29,7 @@ class Custom extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
@@ -37,7 +37,7 @@ class Custom extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
@@ -130,7 +130,7 @@ class Custom extends \Magento\Backend\Block\Widget\Form\Generic
      * Get theme file (with custom CSS)
      *
      * @param \Magento\View\Design\ThemeInterface $theme
-     * @return \Magento\Core\Model\Theme\FileInterface|null
+     * @return \Magento\View\Design\Theme\FileInterface|null
      */
     protected function _getCustomCss($theme)
     {

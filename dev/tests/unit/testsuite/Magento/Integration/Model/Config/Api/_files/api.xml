@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<integrations>
+    <integration id="TestIntegration1">
+        <!-- List of API resources required by the integration. These are resource ids defined
+         in etc/acl.xml of modules and subsequently mapped to web APIs in webapi.xml. -->
+        <resources>
+            <resource name="Magento_Customer::manage" />
+            <resource name="Magento_Customer::online" />
+            <resource name="Magento_Customer::order_statuses_read" />
+            <resource name="Magento_SalesArchive::archive" />
+        </resources>
+    </integration>
+    <integration id="TestIntegration2">
+        <resources>
+            <resource name="Magento_Catalog::product_read" />
+        </resources>
+    </integration>
+</integrations>

@@ -23,6 +23,7 @@ interface DesignInterface
     /**
      * Set package area
      *
+     * @deprecated
      * @param string $area
      * @return DesignInterface
      */
@@ -31,6 +32,7 @@ interface DesignInterface
     /**
      * Retrieve package area
      *
+     * @deprecated
      * @return string
      */
     public function getArea();
@@ -49,7 +51,7 @@ interface DesignInterface
      *
      * @param string $area
      * @param array $params
-     * @return string|int
+     * @return string
      */
     public function getConfigurationDesignTheme($area = null, array $params = array());
 

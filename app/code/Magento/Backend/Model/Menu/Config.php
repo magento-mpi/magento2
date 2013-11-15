@@ -15,7 +15,7 @@ class Config
     const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -56,24 +56,31 @@ class Config
     protected $_director;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Backend\Model\Menu\Builder $menuBuilder
      * @param \Magento\Backend\Model\Menu\AbstractDirector $menuDirector
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
      * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Backend\Model\Menu\Builder $menuBuilder,
         \Magento\Backend\Model\Menu\AbstractDirector $menuDirector,
         \Magento\Backend\Model\MenuFactory $menuFactory,
         \Magento\Backend\Model\Menu\Config\Reader $configReader,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\State $appState
     ) {
         $this->_menuBuilder = $menuBuilder;
         $this->_director = $menuDirector;
@@ -83,6 +90,7 @@ class Config
         $this->_menuFactory = $menuFactory;
         $this->_configReader = $configReader;
         $this->_storeManager = $storeManager;
+        $this->_appState = $appState;
     }
 
     /**
@@ -134,7 +142,7 @@ class Config
             }
 
             $this->_director->direct(
-                $this->_configReader->read(\Magento\Core\Model\App\Area::AREA_ADMINHTML),
+                $this->_configReader->read($this->_appState->getAreaCode()),
                 $this->_menuBuilder,
                 $this->_logger
             );

@@ -209,7 +209,8 @@ class Files
             $this->getMainConfigFiles(),
             $this->getLayoutFiles(),
             $this->getConfigFiles(),
-            $this->getLayoutConfigFiles()
+            $this->getLayoutConfigFiles(),
+            $this->getPageTypeFiles()
         );
     }
 
@@ -354,6 +355,55 @@ class Files
                     )
                 );
             }
+            self::$_cache[__METHOD__][$cacheKey] = $files;
+        }
+
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[__METHOD__][$cacheKey]);
+        }
+        return self::$_cache[__METHOD__][$cacheKey];
+    }
+
+    /**
+     * Returns list of page_type files, used by Magento application modules
+     *
+     * An incoming array can contain the following items
+     * array (
+     *     'namespace'      => 'namespace_name',
+     *     'module'         => 'module_name',
+     *     'area'           => 'area_name',
+     *     'theme'          => 'theme_name',
+     * )
+     *
+     * @param array $incomingParams
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getPageTypeFiles($incomingParams = array(), $asDataSet = true)
+    {
+        $params = array(
+            'namespace' => '*',
+            'module' => '*',
+            'area' => '*',
+            'theme' => '*',
+        );
+        foreach (array_keys($params) as $key) {
+            if (isset($incomingParams[$key])) {
+                $params[$key] = $incomingParams[$key];
+            }
+        }
+        $cacheKey = md5($this->_path . '|' . implode('|', $params));
+
+        if (!isset(self::$_cache[__METHOD__][$cacheKey])) {
+            $files = array();
+            $files = self::getFiles(
+                array(
+                    "{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
+                    . "/etc/{$params['area']}"
+                ),
+                'page_types.xml'
+            );
+
             self::$_cache[__METHOD__][$cacheKey] = $files;
         }
 
@@ -520,11 +570,20 @@ class Files
      * Look for DI config through the system
      * @return array
      */
-    public function getDiConfigs()
+    public function getDiConfigs($asDataSet = false)
     {
         $primaryConfigs = glob($this->_path . '/app/etc/{di.xml,*/di.xml}', GLOB_BRACE);
         $moduleConfigs = glob($this->_path . '/app/code/*/*/etc/{di,*/di}.xml', GLOB_BRACE);
         $configs = array_merge($primaryConfigs, $moduleConfigs);
+
+        if ($asDataSet) {
+            $output = array();
+            foreach ($configs as $file) {
+                $output[$file] = array($file);
+            }
+
+            return $output;
+        }
         return $configs;
     }
 

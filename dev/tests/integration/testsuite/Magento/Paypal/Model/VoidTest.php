@@ -21,7 +21,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $eventManager = $objectManager->get('Magento\Event\ManagerInterface');
-        $moduleList = $objectManager->get('Magento\App\ModuleListInterface');
+        $moduleList = $objectManager->get('Magento\Module\ModuleListInterface');
         $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
         $coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $logger = $objectManager->get('Magento\Logger');

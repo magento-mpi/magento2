@@ -36,8 +36,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->create('Magento\Filesystem'),
-                $objectManager->create('Magento\Core\Model\View\Url'),
-                $objectManager->create('Magento\Core\Model\View\FileSystem'),
+                $objectManager->create('Magento\View\Url'),
+                $objectManager->create('Magento\View\FileSystem'),
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->create('Magento\Core\Model\Store\Config'),
                 $objectManager->create('Magento\Core\Model\Config'),
@@ -47,6 +47,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             ))
             ->getMock();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
         $this->_model->setSenderName('sender')->setSenderEmail('sender@example.com')->setTemplateSubject('Subject');
     }
@@ -54,7 +55,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     /**
      * Return a disposable \Zend_Mail instance
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|Zend_Mail
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Zend_Mail
      */
     public function getMail()
     {
@@ -117,7 +118,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\View\Design\ThemeInterface');
         $theme->load('magento_blank', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore('fixturestore')->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $theme->getId());
+            ->getStore('fixturestore')->setConfig(
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
+                $theme->getId()
+            );
     }
 
     /**
@@ -213,7 +217,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Email template 'wrong_id' is not defined
      */
     public function testSendTransactionalWrongId()

@@ -113,7 +113,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     const BASE_URL_PLACEHOLDER            = '{{base_url}}';
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -271,13 +271,13 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Core\Model\Config
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\State $appState
      * @param \Magento\App\RequestInterface $request
@@ -295,7 +295,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Url $url,
         \Magento\App\State $appState,
         \Magento\App\RequestInterface $request,
@@ -318,7 +318,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_configDataResource = $configDataResource;
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->_dir = $dir;
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
     }
@@ -342,15 +342,15 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventDispatcher = \Magento\Core\Model\ObjectManager::getInstance()
+        $this->_eventDispatcher = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Event\ManagerInterface');
-        $this->_cacheManager    = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\CacheInterface');
-        $this->_coreStoreConfig = \Magento\Core\Model\ObjectManager::getInstance()
+        $this->_cacheManager    = \Magento\App\ObjectManager::getInstance()
+            ->get('Magento\App\CacheInterface');
+        $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
-        $this->_coreConfig = \Magento\Core\Model\ObjectManager::getInstance()
+        $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Config');
-        $this->_coreFileStorageDatabase = \Magento\Core\Model\ObjectManager::getInstance()
+        $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Helper\File\Storage\Database');
     }
 
@@ -370,7 +370,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         if (!$this->_session) {
-            $this->_session = \Magento\Core\Model\ObjectManager::getInstance()->create('Magento\Core\Model\Session')
+            $this->_session = \Magento\App\ObjectManager::getInstance()->create('Magento\Core\Model\Session')
                 ->init('store_'.$this->getCode());
         }
         return $this->_session;
@@ -436,15 +436,11 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function getConfig($path)
     {
-        $config = $this->_coreConfig;
-        $data = $config->getValue($path, 'store', $this->getCode());
+        $data = $this->_config->getValue($path, 'store', $this->getCode());
         if (!$data && !$this->_appState->isInstalled()) {
-            $data = $config->getValue($path, 'default');
+            $data = $this->_config->getValue($path, 'default');
         }
-        if ($data === false) {
-            return null;
-        }
-        return $data;
+        return ($data === false) ? null : $data;
     }
 
     /**
@@ -458,7 +454,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function setConfig($path, $value)
     {
-        $this->_coreConfig->setValue($path, $value, 'store', $this->getCode());
+        $this->_config->setValue($path, $value, 'store', $this->getCode());
         return $this;
     }
 
@@ -698,7 +694,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isAdminUrlSecure()
     {
         if ($this->_isAdminSecure === null) {
-            $this->_isAdminSecure = (boolean) (int) (string) $this->_coreConfig
+            $this->_isAdminSecure = (boolean) (int) (string) $this->_config
                 ->getValue(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_ADMIN, 'default');
         }
         return $this->_isAdminSecure;
@@ -726,7 +722,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isCurrentlySecure()
     {
         $standardRule = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
-        $offloaderHeader = trim((string) $this->_coreConfig->getValue(self::XML_PATH_OFFLOADER_HEADER, 'default'));
+        $offloaderHeader = trim((string) $this->_config->getValue(self::XML_PATH_OFFLOADER_HEADER, 'default'));
 
         if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {
             return true;
@@ -764,7 +760,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $configValue = $this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
         if ($configValue == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL) {
-            return \Magento\Core\Model\ObjectManager::getInstance()
+            return \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\App')->getBaseCurrencyCode();
         } else {
             return $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
@@ -780,7 +776,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = \Magento\Core\Model\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
+            $currency = \Magento\App\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
                 ->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
@@ -807,7 +803,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $currency = $this->getData('default_currency');
         if (is_null($currency)) {
-            $currency = \Magento\Core\Model\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
+            $currency = \Magento\App\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
                 ->load($this->getDefaultCurrencyCode());
             $this->setData('default_currency', $currency);
         }
@@ -826,10 +822,10 @@ class Store extends \Magento\Core\Model\AbstractModel
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
             if ($code == $this->getDefaultCurrency()) {
-                \Magento\Core\Model\ObjectManager::getInstance()
+                \Magento\App\ObjectManager::getInstance()
                     ->get('Magento\Core\Model\App')->getCookie()->delete(self::COOKIE_CURRENCY, $code);
             } else {
-                \Magento\Core\Model\ObjectManager::getInstance()
+                \Magento\App\ObjectManager::getInstance()
                     ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, $code);
             }
         }
@@ -908,7 +904,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $currency = $this->getData('current_currency');
 
         if (is_null($currency)) {
-            $currency = \Magento\Core\Model\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
+            $currency = \Magento\App\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
                 ->load($this->getCurrentCurrencyCode());
             $baseCurrency = $this->getBaseCurrency();
 
@@ -1091,7 +1087,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $sidQueryParam = $this->_getSession()->getSessionIdQueryParam();
         $requestString = $this->getUrlModel()->escape(ltrim(
-            \Magento\Core\Model\ObjectManager::getInstance()
+            \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\App')->getRequest()->getRequestString(),
             '/'
         ));
@@ -1167,7 +1163,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
-        \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
+        \Magento\App\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
             ->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         $this->_configDataResource->clearStoreData(array($this->getId()));
         return parent::_beforeDelete();
@@ -1193,7 +1189,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
+        \Magento\App\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
             ->indexEvents(self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         return $this;
     }
@@ -1205,7 +1201,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function resetConfig()
     {
-        $this->_coreConfig->reinit();
+        $this->_config->reinit();
         $this->_dirCache        = array();
         $this->_baseUrlCache    = array();
         $this->_urlCache        = array();

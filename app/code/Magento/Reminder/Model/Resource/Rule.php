@@ -50,16 +50,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_resHelperFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
-     */
-    protected $dateTime;
-
-    /**
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+     * @param \Magento\App\Resource $resource
+     * @param HelperFactory $resHelperFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {

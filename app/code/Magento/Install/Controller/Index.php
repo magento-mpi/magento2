@@ -41,8 +41,8 @@ class Index extends \Magento\Install\Controller\Action
         \Magento\App\State $appState,
         \Magento\App\Dir $coreDir
     ) {
-        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
         $this->_coreDir = $coreDir;
+        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
     }
 
     /**
@@ -64,6 +64,6 @@ class Index extends \Magento\Install\Controller\Action
      */
     public function indexAction()
     {
-        $this->_forward('begin', 'wizard', 'install');
+        $this->_redirect('install/wizard/begin');
     }
 }

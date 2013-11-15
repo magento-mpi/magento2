@@ -43,14 +43,14 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Rating\Helper\Data $ratingData
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Rating\Helper\Data $ratingData,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {

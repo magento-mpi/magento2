@@ -56,7 +56,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
             array(
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext,
-                'formFactory' => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
         ));
         $this->_model = $this->getMock(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
@@ -114,12 +114,12 @@ class JsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJsFiles()
     {
-        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
         $customization->expects($this->once())
             ->method('getFilesByType')
-            ->with(\Magento\Core\Model\Theme\Customization\File\Js::TYPE)
+            ->with(\Magento\View\Design\Theme\Customization\File\Js::TYPE)
             ->will($this->returnValue(array()));
         $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_model->expects($this->once())->method('helper')->with('Magento\Core\Helper\Data')

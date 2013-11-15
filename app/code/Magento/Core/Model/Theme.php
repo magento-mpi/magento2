@@ -33,7 +33,6 @@ namespace Magento\Core\Model;
  * @method \Magento\View\Design\ThemeInterface setThemeCode(string $themeCode)
  * @method \Magento\View\Design\ThemeInterface setThemePath(string $themePath)
  * @method \Magento\View\Design\ThemeInterface setThemeVersion(string $themeVersion)
- * @method \Magento\View\Design\ThemeInterface setArea(string $area)
  * @method \Magento\View\Design\ThemeInterface setThemeTitle(string $themeTitle)
  * @method \Magento\View\Design\ThemeInterface setType(int $type)
  * @method \Magento\View\Design\ThemeInterface setCode(string $code)
@@ -42,14 +41,6 @@ namespace Magento\Core\Model;
  */
 class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\Design\ThemeInterface
 {
-    /**#@+
-     * Theme types group
-     */
-    const TYPE_PHYSICAL = 0;
-    const TYPE_VIRTUAL  = 1;
-    const TYPE_STAGING  = 2;
-    /**#@-*/
-
     /**
      * Filename of view configuration
      */
@@ -70,58 +61,53 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     protected $_eventObject = 'theme';
 
     /**
-     * @var \Magento\Core\Model\Theme\FlyweightFactory
+     * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Domain\Factory
+     * @var \Magento\View\Design\Theme\Domain\Factory
      */
     protected $_domainFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\ImageFactory
+     * @var \Magento\View\Design\Theme\ImageFactory
      */
     protected $_imageFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\Validator
+     * @var \Magento\View\Design\Theme\Validator
      */
     protected $_validator;
 
     /**
-     * @var \Magento\Core\Model\Theme\Customization
+     * @var \Magento\View\Design\Theme\Customization
      */
     protected $_customization;
 
     /**
-     * @var \Magento\Core\Model\Theme\CustomizationFactory
+     * @var \Magento\View\Design\Theme\CustomizationFactory
      */
     protected $_customFactory;
 
     /**
-     * All possible types of a theme
-     *
-     * @var array
+     * @var \Magento\App\State
      */
-    public static $types = array(
-        self::TYPE_PHYSICAL,
-        self::TYPE_VIRTUAL,
-        self::TYPE_STAGING,
-    );
+    protected $_appState;
 
     /**
      * Initialize dependencies
-     *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\Core\Model\Theme\Domain\Factory $domainFactory
-     * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
-     * @param \Magento\Core\Model\Theme\Validator $validator
-     * @param \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory
-     * @param \Magento\Core\Model\Resource\Theme $resource
-     * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
+     * 
+     * @param Context $context
+     * @param Registry $registry
+     * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
+     * @param \Magento\View\Design\Theme\ImageFactory $imageFactory
+     * @param \Magento\View\Design\Theme\Validator $validator
+     * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
+     * @param \Magento\App\State $appState
+     * @param Resource\Theme $resource
+     * @param Resource\Theme\Collection $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -129,11 +115,12 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
-        \Magento\Core\Model\Theme\Domain\Factory $domainFactory,
-        \Magento\Core\Model\Theme\ImageFactory $imageFactory,
-        \Magento\Core\Model\Theme\Validator $validator,
-        \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory,
+        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
+        \Magento\View\Design\Theme\Domain\Factory $domainFactory,
+        \Magento\View\Design\Theme\ImageFactory $imageFactory,
+        \Magento\View\Design\Theme\Validator $validator,
+        \Magento\View\Design\Theme\CustomizationFactory $customizationFactory,
+        \Magento\App\State $appState,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
@@ -144,10 +131,10 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         $this->_imageFactory = $imageFactory;
         $this->_validator = $validator;
         $this->_customFactory = $customizationFactory;
+        $this->_appState = $appState;
 
         $this->addData(array(
-            'type' => self::TYPE_VIRTUAL,
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND
+            'type' => self::TYPE_VIRTUAL
         ));
     }
 
@@ -162,7 +149,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     /**
      * Get theme image model
      *
-     * @return \Magento\Core\Model\Theme\Image
+     * @return \Magento\View\Design\Theme\Image
      */
     public function getThemeImage()
     {
@@ -170,7 +157,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     }
 
     /**
-     * @return \Magento\Core\Model\Theme\Customization
+     * @return \Magento\View\Design\Theme\Customization
      */
     public function getCustomization()
     {
@@ -238,7 +225,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
     public function hasChildThemes()
     {
         return (bool)$this->getCollection()
-            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
+            ->addTypeFilter(self::TYPE_VIRTUAL)
             ->addFieldToFilter('parent_id', array('eq' => $this->getId()))
             ->getSize();
     }
@@ -281,10 +268,11 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
 
     /**
      * {@inheritdoc}
+     * @deprecated
      */
     public function getArea()
     {
-        return $this->getData('area');
+        return $this->_appState->getAreaCode();
     }
 
     /**

@@ -33,7 +33,7 @@ class Config extends \Magento\Object
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -83,7 +83,7 @@ class Config extends \Magento\Object
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -95,7 +95,7 @@ class Config extends \Magento\Object
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
@@ -144,7 +144,7 @@ class Config extends \Magento\Object
             'no_display'                    => false,
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
-            'directives_url'                => $this->_backendUrl->getUrl('adminhtml/cms_wysiwyg/directive'),
+            'directives_url'                => $this->_backendUrl->getUrl('cms/wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -158,7 +158,7 @@ class Config extends \Magento\Object
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
-                'files_browser_window_url' => $this->_backendUrl->getUrl('adminhtml/cms_wysiwyg_images/index'),
+                'files_browser_window_url' => $this->_backendUrl->getUrl('cms/wysiwyg_images/index'),
                 'files_browser_window_width' => $this->_windowSize['width'],
                 'files_browser_window_height'=> $this->_windowSize['height'],
             ));

@@ -33,12 +33,9 @@ class Data extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Convert\Xml $xmlConverter
@@ -47,12 +44,9 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         \Magento\Filesystem $filesystem,
         \Magento\Convert\Xml $xmlConverter,
@@ -64,12 +58,9 @@ class Data extends \Magento\Core\Helper\Data
         $this->_xmlConverter = $xmlConverter;
         parent::__construct(
             $context,
-            $eventManager,
-            $config,
             $coreStoreConfig,
             $storeManager,
             $locale,
-            $dateModel,
             $appState,
             $dbCompatibleMode
         );

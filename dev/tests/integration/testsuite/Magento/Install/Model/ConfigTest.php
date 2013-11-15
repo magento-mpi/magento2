@@ -24,14 +24,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $cacheTypeList \Magento\Core\Model\Cache\TypeListInterface */
+        /** @var $cacheTypeList \Magento\App\Cache\TypeListInterface */
         $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Cache\TypeListInterface');
+            ->create('Magento\App\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
 
-        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        /** @var $cacheState \Magento\App\Cache\StateInterface */
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Cache\StateInterface');
+            ->get('Magento\App\Cache\StateInterface');
         foreach ($types as $type) {
             $cacheState->setEnabled($type, false);
         }
@@ -48,31 +48,31 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\App\Module\Declaration\FileResolver $modulesDeclarations */
+        /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $this->_objectManager->create(
-            'Magento\App\Module\Declaration\FileResolver', array(
+            'Magento\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
             )
         );
 
 
-        /** @var \Magento\App\Module\Declaration\Reader\Filesystem $filesystemReader */
+        /** @var \Magento\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $this->_objectManager->create(
-            'Magento\App\Module\Declaration\Reader\Filesystem', array(
+            'Magento\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
-        /** @var \Magento\App\ModuleList $modulesList */
+        /** @var \Magento\Module\ModuleList $modulesList */
         $modulesList = $this->_objectManager->create(
-            'Magento\App\ModuleList', array(
+            'Magento\Module\ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
-        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
+        /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
-            'Magento\Core\Model\Config\Modules\Reader', array(
+            'Magento\Module\Dir\Reader', array(
                 'moduleList' => $modulesList
             )
         );

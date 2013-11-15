@@ -55,7 +55,7 @@ class CustomTest extends \PHPUnit_Framework_TestCase
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom',
             array(
                 'config'       => $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
-                'formFactory'  => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
+                'formFactory'  => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
                 'urlBuilder'   => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext
         ));
@@ -100,12 +100,12 @@ class CustomTest extends \PHPUnit_Framework_TestCase
     {
         $expectedContent = 'New file content';
 
-        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
-        /** @var $cssFile \Magento\Core\Model\Theme\Customization\File\Css */
+        /** @var $cssFile \Magento\View\Design\Theme\Customization\File\Css */
         $cssFile = $this->getMock(
-            'Magento\Core\Model\Theme\Customization\File', array('getContent'), array(), '', false
+            'Magento\View\Design\Theme\Customization\File\Css', array('getContent'), array(), '', false
         );
 
         $customization->expects($this->once())

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
 
-class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
+class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
 {
     /**
      * Constructor

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Backend area front name resolver. Reads front name from configuration
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,6 +15,11 @@ class FrontNameResolver implements \Magento\App\Area\FrontNameResolverInterface
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
 
     const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
+
+    /**
+     * Backend area code
+     */
+    const AREA_CODE = 'adminhtml';
 
     /**
      * @var string

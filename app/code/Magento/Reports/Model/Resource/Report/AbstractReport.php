@@ -43,20 +43,15 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_reportsFlagFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
-     */
-    protected $dateTime;
-
-    /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime

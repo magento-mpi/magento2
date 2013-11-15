@@ -36,13 +36,13 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Acl\CacheInterface $aclCache
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Acl\CacheInterface $aclCache,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Stdlib\DateTime $dateTime

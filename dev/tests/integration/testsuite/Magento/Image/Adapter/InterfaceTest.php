@@ -19,8 +19,8 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_adapters = array(
-        \Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2,
-        \Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM
+        \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2,
+        \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM
     );
 
     /**
@@ -117,7 +117,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            $adapter = $objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create($adapterType);
+            $adapter = $objectManager->get('Magento\Image\AdapterFactory')->create($adapterType);
             return $adapter;
         } catch (\Exception $e) {
             $this->markTestSkipped($e->getMessage());
@@ -138,8 +138,8 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function adaptersDataProvider()
     {
         return array(
-            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2),
-            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM),
+            array(\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2),
+            array(\Magento\Image\Adapter\AdapterInterface::ADAPTER_IM),
         );
     }
 
@@ -606,28 +606,28 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                 'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
                 array('x' => 0, 'y' => 15),
                 'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
-                \Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2
+                \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2
             ),
             array(
                 array('x' => 4, 'y' => 7),
                 'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
                 array('x' => 0, 'y' => 15),
                 'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
-                \Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM
+                \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM
             ),
             array(
                 array('x' => 1, 'y' => 14),
                 'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
                 array('x' => 5, 'y' => 12),
                 'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
-                \Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2
+                \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2
             ),
             array(
                 array('x' => 1, 'y' => 14),
                 'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
                 array('x' => 4, 'y' => 10),
                 'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
-                \Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM
+                \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM
             ),
         );
     }
@@ -635,7 +635,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testValidateUploadFile()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $imageAdapter = $objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create();
+        $imageAdapter = $objectManager->get('Magento\Image\AdapterFactory')->create();
         $this->assertTrue($imageAdapter->validateUploadFile($this->_getFixture('magento_thumbnail.jpg')));
     }
 
@@ -645,7 +645,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testValidateUploadFileException()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $imageAdapter = $objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create();
+        $imageAdapter = $objectManager->get('Magento\Image\AdapterFactory')->create();
         $imageAdapter->validateUploadFile(__FILE__);
     }
 }

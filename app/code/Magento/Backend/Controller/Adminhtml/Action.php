@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,10 +15,4 @@ namespace Magento\Backend\Controller\Adminhtml;
 
 class Action extends \Magento\Backend\Controller\AbstractAction
 {
-    /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea = 'adminhtml';
 }

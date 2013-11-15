@@ -54,7 +54,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ModuleListInterface $moduleList
+     * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -73,7 +73,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ModuleListInterface $moduleList,
+        \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
