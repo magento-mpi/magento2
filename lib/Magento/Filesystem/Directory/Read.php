@@ -55,10 +55,10 @@ class Read implements ReadInterface
     }
 
     /**
-     * @param string $path
+     * @param string $path [optional]
      * @return string
      */
-    public function getAbsolutePath($path = '')
+    public function getAbsolutePath($path = null)
     {
         return $this->path . ltrim($path, '/');
     }

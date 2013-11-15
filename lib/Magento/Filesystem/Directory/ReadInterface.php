@@ -12,10 +12,10 @@ interface ReadInterface
     /**
      * Get absolute path
      *
-     * @param string $path
+     * @param string $path [optional]
      * @return string mixed
      */
-    public function getAbsolutePath($path);
+    public function getAbsolutePath($path = null);
 
     /**
      * Retrieve list of all entities in given path
