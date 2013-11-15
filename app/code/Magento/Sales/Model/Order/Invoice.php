@@ -219,12 +219,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -243,8 +243,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory
      * @param \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -267,8 +267,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory,
         \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
