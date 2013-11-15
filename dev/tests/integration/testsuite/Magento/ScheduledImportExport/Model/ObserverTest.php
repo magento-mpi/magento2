@@ -19,9 +19,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\ScheduledImportExport\Model\Scheduled\OperationFactory');
         $emailInfoFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Email\InfoFactory');
+            ->get('Magento\Email\Model\InfoFactory');
         $templateMailer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Email\Template\Mailer');
+            ->get('Magento\Email\Model\Template\Mailer');
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManager');
         $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

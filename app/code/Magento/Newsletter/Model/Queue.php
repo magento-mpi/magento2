@@ -47,7 +47,7 @@ class Queue extends \Magento\Core\Model\Template
     protected $_template;
 
     /**
-     * @var \Magento\Core\Model\Email\Template
+     * @var \Magento\Email\Model\Template
      */
     protected $_emailTemplate = null;
 
@@ -102,7 +102,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Email template factory
      *
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_emailTemplateFactory;
 
@@ -133,7 +133,7 @@ class Queue extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Newsletter\Model\ProblemFactory $problemFactory
-     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory
+     * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
      * @param \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory
      * @param array $data
      */
@@ -148,7 +148,7 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Core\Model\Date $date,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Newsletter\Model\ProblemFactory $problemFactory,
-        \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory,
+        \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
         array $data = array()
     ) {
@@ -171,8 +171,8 @@ class Queue extends \Magento\Core\Model\Template
         $emailTemplate = $this->_getData('email_template');
         if ($emailTemplate) {
             $this->unsetData('email_template');
-            if (!($emailTemplate instanceof \Magento\Core\Model\Email\Template)) {
-                throw new \Exception('Instance of \Magento\Core\Model\Email\Template is expected.');
+            if (!($emailTemplate instanceof \Magento\Email\Model\Template)) {
+                throw new \Exception('Instance of \Magento\Email\Model\Template is expected.');
             }
             $this->_emailTemplate = $emailTemplate;
         }
@@ -238,7 +238,7 @@ class Queue extends \Magento\Core\Model\Template
             ->setCurPage(1)
             ->load();
 
-        /** @var \Magento\Core\Model\Email\Template $sender */
+        /** @var \Magento\Email\Model\Template $sender */
         $sender = $this->_emailTemplate ?: $this->_emailTemplateFactory->create();
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())

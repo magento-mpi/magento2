@@ -60,16 +60,20 @@ class Form extends FormInstance
 
     /**
      * Save the form
+     *
+     * @param Fixture|null $fixture
      */
-    public function save(Fixture $fixture)
+    public function save(Fixture $fixture = null)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
     }
 
     /**
      * Delete current form item
+     *
+     * @param Fixture|null $fixture
      */
-    public function delete(Fixture $fixture)
+    public function delete(Fixture $fixture = null)
     {
         $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_ID)->click();
     }

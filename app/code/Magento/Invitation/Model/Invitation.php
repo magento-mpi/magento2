@@ -96,7 +96,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Email Template Factory
      *
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
@@ -119,7 +119,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -134,7 +134,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -263,7 +263,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         $this->makeSureCanBeSent();
         $store = $this->_storeManager->getStore($this->getStoreId());
-        /** @var $mail \Magento\Core\Model\Email\Template */
+        /** @var $mail \Magento\Email\Model\Template */
         $mail  = $this->_templateFactory->create();
         $mail->setDesignConfig(array(
             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,

@@ -67,13 +67,13 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_authSession;
 
     /**
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
@@ -87,7 +87,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
