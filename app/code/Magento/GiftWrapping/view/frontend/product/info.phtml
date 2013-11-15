@@ -10,10 +10,9 @@
 
 /** @var $this \Magento\GiftWrapping\Block\Product\Info */
 ?>
-
 <?php if ($this->getGiftWrappingInfo()) : ?>
-<dl class="item-options">
-    <dt><?php echo __('Gift Wrapping'); ?></dt>
-    <dd><?php echo __('Design'); ?> : <?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?></dd>
-</dl>
+    <dl class="item options">
+        <dt><?php echo __('Gift Wrapping'); ?></dt>
+        <dd><em><?php echo __('Design'); ?></em> <?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?></dd>
+    </dl>
 <?php endif; ?>
