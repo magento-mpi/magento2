@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Translate\Plugin;
+namespace Magento\Core\Plugin;
 
 class Translate
 {

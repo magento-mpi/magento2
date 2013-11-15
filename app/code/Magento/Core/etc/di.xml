@@ -435,10 +435,4 @@
             <instance type="Magento\Core\Model\Date\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Helper\Data">
-        <plugin name="inlineTranslateJson" type="Magento\Core\Plugin\Translate" sortOrder="10"/>
-    </type>
-    <type name="Magento\Checkout\Helper\Data">
-        <plugin name="inlineTranslateEmail" type="Magento\Core\Plugin\Translate" sortOrder="20"/>
-    </type>
 </config>
