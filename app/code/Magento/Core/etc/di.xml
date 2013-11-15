@@ -383,7 +383,7 @@
         </param>
     </type>
     <type name="Magento\View\TemplateEngineFactory">
-        <pluginname="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+        <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
     </type>
     <type name="\Magento\Image">
         <param name="adapter">
