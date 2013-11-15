@@ -41,6 +41,18 @@ class CatalogProductEdit extends Page
     protected $messagesBlock;
 
     /**
+     * @var \Magento\Catalog\Test\Block\Backend\ProductForm
+     */
+    private $productFormBlock;
+
+    /**
+     * Catalog product grid on backend
+     *
+     * @var \Magento\Catalog\Test\Block\Backend\ProductEditGrid
+     */
+    private $productEditGrid;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -49,6 +61,14 @@ class CatalogProductEdit extends Page
 
         $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
+
+        $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find('body', Locator::SELECTOR_CSS)
+        );
+
+        $this->productEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
 
@@ -60,5 +80,25 @@ class CatalogProductEdit extends Page
     public function getMessagesBlock()
     {
         return $this->messagesBlock;
+    }
+
+    /**
+     * Get product form block
+     *
+     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
+     */
+    public function getProductBlockForm()
+    {
+        return $this->productFormBlock;
+    }
+
+    /**
+     * Get the backend catalog product block
+     *
+     * @return \Magento\Catalog\Test\Block\Backend\ProductEditGrid
+     */
+    public function getProductEditGrid()
+    {
+        return $this->productEditGrid;
     }
 }

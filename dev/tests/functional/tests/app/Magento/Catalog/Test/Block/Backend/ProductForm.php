@@ -179,4 +179,12 @@ class ProductForm extends FormTabs
         $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
         $this->waitForElementVisible('input#new_category_name');
     }
+
+    /**
+     * @return \Mtf\Client\Element
+     */
+    public function getRootElement()
+    {
+        return $this->_rootElement;
+    }
 }
