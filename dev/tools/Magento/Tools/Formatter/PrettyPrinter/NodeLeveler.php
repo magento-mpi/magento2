@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\Tree\Node;
 use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
@@ -24,6 +23,7 @@ class NodeLeveler extends LevelNodeVisitor
         parent::nodeEntry($treeNode);
         /** @var LineData $lineData */
         $lineData = $treeNode->getData();
+        // check to see if the line is too long with basic line splitting
         if ($this->checkLine($lineData->line, $treeNode)) {
             /** @var Tree $subTree */
             $subTree = $this->getLineTree($lineData->line);
@@ -31,6 +31,7 @@ class NodeLeveler extends LevelNodeVisitor
                 $roots = $subTree->getChildren();
                 if (is_array($roots)) {
                     $originalChildren = $treeNode->getChildren();
+                    /** @var TreeNode $lastNode */
                     $lastNode = null;
                     foreach ($roots as $root) {
                         // replace the line on the first node
@@ -74,7 +75,7 @@ class NodeLeveler extends LevelNodeVisitor
             case 1:
                 // if the one line fits on a single line, then replace the contents with the resolved line
                 if ($this->fitsOnLine(current($currentLines))) {
-                    $line->setTokens(current($currentLines));
+                    $line->setTokens(current($currentLines)->getTokens());
                 } else {
                     // otherwise, it needs more processing
                     $invalid = true;
@@ -83,12 +84,13 @@ class NodeLeveler extends LevelNodeVisitor
             default:
                 $fits = true;
                 $level = $this->level;
+                /** @var Line $currentLine */
                 foreach ($currentLines as $currentLine) {
                     if (!$this->fitsOnLine($currentLine)) {
                         $fits = false;
                         break;
                     }
-                    if ($currentLine[Line::ATTRIBUTE_TERMINATOR] instanceof HardIndentLineBreak) {
+                    if ($currentLine->getLastToken() instanceof HardIndentLineBreak) {
                         $level++;
                     }
                 }
@@ -140,8 +142,21 @@ class NodeLeveler extends LevelNodeVisitor
      */
     protected function copyContents(TreeNode $source, TreeNode $target)
     {
-        // replace the line contents
-        $target->getData()->line = $source->getData()->line;
+        // if the source line still has conditional line breaks, then resolve those
+        if (sizeof($source->getData()->line->getLineBreakTokens()) > 0) {
+            // split the line at level 0 as a final resort
+            $currentLines = $source->getData()->line->splitLine(0);
+            // use the first line returned; almost guaranteed that there will be one
+            $target->getData()->line = $currentLines[0];
+            // mention something if there are more than 1
+            if (sizeof($currentLines) > 1) {
+                echo "Last resort line split produced more than 1 line";
+                echo $source->getData()->line;
+            }
+        } else {
+            // replace the line contents
+            $target->getData()->line = $source->getData()->line;
+        }
         // move children from one node to the other
         $this->copyChildrenFromNode($source, $target);
     }
@@ -149,14 +164,15 @@ class NodeLeveler extends LevelNodeVisitor
     /**
      * This method determines if the line fits on the current level. To fit, it must be narrow
      * enough to fit after the indents.
-     * @param array $line Line representation as returned from line resolver.
+     * @param Line $line Line representation as returned from line resolver.
      * @return bool
      */
-    protected function fitsOnLine(array $line)
+    protected function fitsOnLine(Line $line)
     {
         // determine the length of the resulting line
-        $lineLength = strlen($line[Line::ATTRIBUTE_LINE]);
-        if (!array_key_exists(Line::ATTRIBUTE_NO_INDENT, $line)) {
+        $lineText = $line->getLine();
+        $lineLength = strlen($lineText);
+        if (!$line->isNoIndent()) {
             $lineLength += $this->level * strlen(NodePrinter::PREFIX);
         }
         // check to see if it fits
@@ -170,41 +186,26 @@ class NodeLeveler extends LevelNodeVisitor
      */
     protected function getLineTree(Line $line)
     {
-        $sortOrders = $line->getSortedLineBreaks();
+        // create a tree with the line in the root
+        $subTree = new Tree();
+        $subTree->addRoot(AbstractSyntax::getNodeLine($line));
         // determine which sort order produces the best results
-        foreach ($sortOrders as $sortOrder) {
-            $subTree = new Tree();
-            $this->getLineTreeForSortOrder($line, $sortOrder, $subTree);
-            // determine if all of these sub lines will fit
-            $lineSizeCheck = new LineSizeCheck($this->level - 1);
-            $subTree->traverse($lineSizeCheck);
-            if ($lineSizeCheck->fits) {
-                break;
+        $sortOrders = $line->getSortedLineBreaks();
+        if (sizeof($sortOrders) > 0) {
+            foreach ($sortOrders as $sortOrder) {
+                // traverse the new tree, resolving by passed in sort order
+                $visitor = new NodeLevelerSortOrder($sortOrder, $this->level);
+                $subTree->traverse($visitor);
+                // determine if all of these sub lines will fit
+                $lineSizeCheck = new LineSizeCheck($this->level - 1);
+                $subTree->traverse($lineSizeCheck);
+                if ($lineSizeCheck->fits) {
+                    break;
+                }
             }
         }
         // return the best tree
         return $subTree;
-    }
-
-    /**
-     * This method splits the passed in line based on sort order of the line breaks and adds the
-     * results to the passed in node.
-     * @param Line $line Line to check.
-     * @param int $sortOrder Sort order indicator to use to split the line.
-     * @param Node $treeNode Node to append the lines to.
-     */
-    protected function getLineTreeForSortOrder(Line $line, $sortOrder, Node $treeNode)
-    {
-        $currentLines = $line->splitLineBySortOrder($sortOrder);
-        $lastTerminator = new HardLineBreak();
-        foreach ($currentLines as $currentLine) {
-            if ($lastTerminator instanceof HardIndentLineBreak) {
-                $treeNode->addChild(AbstractSyntax::getNodeLine($currentLine));
-            } else {
-                $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($currentLine));
-            }
-            $lastTerminator = $currentLine->getLastToken();
-        }
     }
 
     /**
@@ -220,13 +221,14 @@ class NodeLeveler extends LevelNodeVisitor
         // split the lines based on resolved lines
         $lastLineBreak = null;
         $lastNode = $treeNode;
+        /** @var Line $currentLine */
         foreach ($currentLines as $index => $currentLine) {
-            $lineBreak = $currentLine[Line::ATTRIBUTE_TERMINATOR];
+            $lineBreak = $currentLine->getLastToken();
             // replace the existing data if on the first index
             if ($index == 0) {
-                $line->setTokens($currentLine);
+                $line->setTokens($currentLine->getTokens());
             } else {
-                $newNode = AbstractSyntax::getNodeLine(new Line($currentLine));
+                $newNode = AbstractSyntax::getNodeLine($currentLine);
                 // determine the indentation based on the type of terminator on the previous line
                 if ($lastLineBreak->isNextLineIndented()) {
                     $treeNode->addChild($newNode);

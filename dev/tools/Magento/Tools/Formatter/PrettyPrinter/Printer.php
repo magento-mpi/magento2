@@ -54,13 +54,6 @@ class Printer
         $this->originalCode = $code;
         // allocate the parser--should probably be done statically
         self::$lexer = new ParserLexer();
-        $parser = new PHPParser_Parser(self::$lexer);
-        // parse the code into statements
-        $statements = $parser->parse($this->originalCode);
-        // convert the statements to text
-        $this->resolveStatements($statements);
-        // Show comments that were not consumed(output) by the formatting process
-        $this->displayRemovedComments(self::$lexer->getCommentMap());
     }
 
     /**
@@ -73,9 +66,9 @@ class Printer
     {
         if (isset($commentMap)) {
             if (count($commentMap) > 0) {
-                echo "REMOVED COMMENTS\n";
+                echo "REMOVED COMMENTS" . PHP_EOL;
                 while (list($key, $value) = each($commentMap)) {
-                    echo "line($key): $value";
+                    echo "line($key): $value" . PHP_EOL;
                 }
             }
         }
@@ -87,6 +80,22 @@ class Printer
     public function getFormattedCode()
     {
         return $this->formattedCode;
+    }
+
+    /**
+     * This method performs the parsing and printing of the original code.
+     */
+    public function parseCode()
+    {
+        $parser = new PHPParser_Parser(self::$lexer);
+        // parse the code into statements
+        $statements = $parser->parse($this->originalCode);
+        // convert the statements to text
+        $this->resolveStatements($statements);
+        // Show comments that were not consumed(output) by the formatting process
+        $this->displayRemovedComments(self::$lexer->getCommentMap());
+        // parse the resulting code to verify successful printing
+        $parser->parse($this->formattedCode);
     }
 
     /**

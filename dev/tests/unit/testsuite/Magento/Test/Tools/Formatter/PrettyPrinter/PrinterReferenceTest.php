@@ -7,8 +7,6 @@
  */
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Printer;
-
 class PrinterReferenceTest extends TestBase
 {
     /**
@@ -18,8 +16,7 @@ class PrinterReferenceTest extends TestBase
      */
     public function testReferences($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     /**
