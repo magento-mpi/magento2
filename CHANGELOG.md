@@ -6,6 +6,8 @@
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+  * Fixed posting coupon code with spaces
+  * Fixed several typos and minor mistakes
 
 2.0.0.0-dev51
 =============
