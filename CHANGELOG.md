@@ -11,6 +11,7 @@
   * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
 * Themes update:
+  * Templates and layout updates are updated in Authorizenet, Centinel, Checkout, GiftMessage, Ogone, Paygate, Shipping, Tax  modules, old files moved to magento_backup theme
   * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
