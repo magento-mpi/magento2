@@ -146,17 +146,6 @@ class Filesystem
     }
 
     /**
-     * Find directory code by absolute path
-     *
-     * @param string $absolutePath
-     * @return string
-     */
-    public function getCodeByPath($absolutePath)
-    {
-        return $this->directoryList->getCodeByPath($absolutePath);
-    }
-
-    /**
      * Sets working directory to restrict operations with filesystem.
      *
      * @param string $dir

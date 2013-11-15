@@ -225,26 +225,4 @@ class DirectoryList extends Dir
         }
         return $this->directories[$code];
     }
-
-    /**
-     * @param string $absolutePath
-     * @return string
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    public function getCodeByPath($absolutePath)
-    {
-        $matches = array();
-        foreach ($this->directories as $code => $configuration) {
-            if (strpos($absolutePath, $configuration['path']) === 0) {
-                $matches[strlen($configuration['path'])] = $code;
-            }
-        }
-        if (empty($matches)) {
-            throw new \Magento\Filesystem\FilesystemException(
-                sprintf('The "%s" path is not specified in configuration', $absolutePath)
-            );
-        }
-        ksort($matches);
-        return array_pop($matches);
-    }
 }
