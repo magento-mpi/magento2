@@ -135,12 +135,6 @@ class DirectoryList extends Dir
     protected $root;
 
     /**
-     * Cached paths info
-     *
-     * @var array
-     */
-    protected $paths;
-    /**
      * Directories configurations
      *
      * @var array
@@ -159,80 +153,50 @@ class DirectoryList extends Dir
         self::SESSION       => array('path' => 'var/session'),
         self::DI            => array('path' => 'var/di'),
         self::GENERATION    => array('path' => 'var/generation'),
-        self::PUB           => array('path' => 'pub', 'uri' => ''),
-        self::PUB_LIB       => array('path' => 'pub/lib', 'uri' => ''),
-        self::MEDIA         => array('path' => 'pub/media', 'uri' => ''),
-        self::UPLOAD        => array('path' => 'pub/media/upload', 'uri' => ''),
-        self::STATIC_VIEW   => array('path' => 'pub/static', 'uri' => ''),
-        self::PUB_VIEW_CACHE => array('path' => 'pub/cache', 'uri' => '')
+        self::PUB           => array('path' => 'pub'),
+        self::PUB_LIB       => array('path' => 'pub/lib'),
+        self::MEDIA         => array('path' => 'pub/media'),
+        self::UPLOAD        => array('path' => 'pub/media/upload'),
+        self::STATIC_VIEW   => array('path' => 'pub/static'),
+        self::PUB_VIEW_CACHE => array('path' => 'pub/cache')
     );
 
+    /**
+     * @param string $root
+     * @param array $uris
+     * @param array $dirs
+     */
     public function __construct($root, array $uris = array(), array $dirs = array())
     {
-        $this->root = $root;
         parent::__construct($root, $uris, $dirs);
+        $this->root = $root;
+
+        foreach ($this->directories as $code => $configuration) {
+            $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
+        }
     }
+
     /**
      * Add directory configuration
      *
      * @param string $code
-     * @param array $directoryConfiguration
+     * @param array $configuration
      */
-    public function addDirectory($code, $directoryConfiguration)
+    public function addDirectory($code, $configuration)
     {
-        $this->directories[$code] = $directoryConfiguration;
+        $configuration['path'] = $this->makeAbsolute($configuration['path']);
+        $this->directories[$code] = $configuration;
     }
 
     /**
-     * Get configuration for directory code
+     * Add root dir for relative path
      *
-     * @param string $code
-     * @return array|null
+     * @param string $path
+     * @return string
      */
-    public function getConfig($code)
+    protected function makeAbsolute($path)
     {
-        return isset($this->directories[$code]) ? $this->directories[$code] : null;
-    }
-
-
-    /**
-     * Load directory path by code
-     *
-     * @param $path
-     * @return int|null|string
-     */
-    protected function loadDirectoryCodeByPath($path)
-    {
-        $directoryCode = null;
-        $rootInPath = substr($path, 0, strlen($this->getRoot()));
-        if ($rootInPath == $this->getRoot()) {
-            $path = substr($path, strlen($this->getRoot()) + 1);
-        }
-        $temporaryPath = '';
-        foreach ($this->directories as $code => $directory) {
-            $matchedPath = substr($path, 0, strlen($directory['path']));
-            if ($matchedPath == $directory['path']) {
-                if (strlen($directory['path']) > strlen($temporaryPath)) {
-                    $temporaryPath = $directory['path'];
-                    $directoryCode = $code;
-                }
-            }
-        }
-        return $directoryCode;
-    }
-
-    /**
-     * Returns directory by path
-     *
-     * @param $path
-     * @return int|null|string
-     */
-    public function getDirectoryCodeByPath($path)
-    {
-        if (!isset($this->paths[$path])) {
-            $this->paths[$path] = $this->loadDirectoryCodeByPath($path);
-        }
-        return $this->paths[$path];
+        return $this->getRoot() . '/' . $path;
     }
 
     /**
@@ -243,5 +207,44 @@ class DirectoryList extends Dir
     public function getRoot()
     {
         return $this->root;
+    }
+
+    /**
+     * Get configuration for directory code
+     *
+     * @param string $code
+     * @return array
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function getConfig($code)
+    {
+        if (!isset($this->directories[$code])) {
+            throw new \Magento\Filesystem\FilesystemException(
+                sprintf('The "%s" directory is not specified in configuration', $code)
+            );
+        }
+        return $this->directories[$code];
+    }
+
+    /**
+     * @param string $absolutePath
+     * @return string
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function getCodeByPath($absolutePath)
+    {
+        $matches = array();
+        foreach ($this->directories as $code => $configuration) {
+            if (strpos($absolutePath, $configuration['path']) === 0) {
+                $matches[strlen($configuration['path'])] = $code;
+            }
+        }
+        if (empty($matches)) {
+            throw new \Magento\Filesystem\FilesystemException(
+                sprintf('The "%s" path is not specified in configuration', $absolutePath)
+            );
+        }
+        ksort($matches);
+        return array_pop($matches);
     }
 }
