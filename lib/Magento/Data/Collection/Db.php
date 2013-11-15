@@ -592,12 +592,11 @@ class Db extends \Magento\Data\Collection
      * @param null $valueField
      * @param string $labelField
      * @param array $additional
-     *
      * @return array
      */
-    protected function _toOptionArray($valueField = NULL, $labelField = 'name', $additional = array())
+    protected function _toOptionArray($valueField = null, $labelField = 'name', $additional = array())
     {
-        if ($valueField === NULL) {
+        if ($valueField === null) {
             $valueField = $this->getIdFieldName();
         }
         return parent::_toOptionArray($valueField, $labelField, $additional);
@@ -608,12 +607,11 @@ class Db extends \Magento\Data\Collection
      *
      * @param   string $valueField
      * @param   string $labelField
-     *
      * @return  array
      */
-    protected function _toOptionHash($valueField = NULL, $labelField = 'name')
+    protected function _toOptionHash($valueField = null, $labelField = 'name')
     {
-        if ($valueField === NULL) {
+        if ($valueField === null) {
             $valueField = $this->getIdFieldName();
         }
         return parent::_toOptionHash($valueField, $labelField);
@@ -634,9 +632,9 @@ class Db extends \Magento\Data\Collection
      * @param   string $labelField
      * @return  array
      */
-    protected function _toOptionHashOptimized($valueField = NULL, $labelField = 'name')
+    protected function _toOptionHashOptimized($valueField = null, $labelField = 'name')
     {
-        if ($valueField === NULL) {
+        if ($valueField === null) {
             $valueField = $this->getIdFieldName();
         }
         $result = array();
