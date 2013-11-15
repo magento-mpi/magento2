@@ -57,6 +57,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_actionFlag;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -73,7 +78,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        
+        $this->_actionFlag = $this->getMock('Magento\App\ActionFlag', array(), array(), '', false);
         $this->_observer = $this->_objectManager->getObject(
             'Magento\Captcha\Model\Observer',
             array(
@@ -85,6 +90,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'helper' => $this->_helper,
                 'urlManager' => $this->_urlManager,
                 'filesystem' => $this->_filesystem,
+                'actionFlag' => $this->_actionFlag
             )
         );
 
@@ -156,7 +162,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with($formId)
             ->will($this->returnValue($this->_captcha));
         $this->_session->expects($this->once())->method('addError')->with($warningMessage);
-        $controller->expects($this->once())->method('setFlag')
+        $this->_actionFlag->expects($this->once())->method('set')
             ->with('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
 
         $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));

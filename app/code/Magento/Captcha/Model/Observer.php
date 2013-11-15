@@ -83,7 +83,7 @@ class Observer
     protected $_actionFlag;
 
     /**
-     * @param \Magento\Captcha\Model\Resource\LogFactory $resLogFactory
+     * @param Resource\LogFactory $resLogFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Checkout\Model\Type\Onepage $typeOnepage
      * @param \Magento\Core\Helper\Data $coreData
@@ -93,6 +93,7 @@ class Observer
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Controller\Varien\Action;
+namespace Magento\App;
 
 /**
  * Test class \Magento\App\ActionFactory
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class ActionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /*
     * Test controller class name

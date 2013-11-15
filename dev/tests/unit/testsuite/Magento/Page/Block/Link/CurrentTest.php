@@ -48,7 +48,10 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($url));
 
         /** @var \Magento\Page\Block\Link\Current $link */
-        $link = $this->_objectManager->getObject('\Magento\Page\Block\Link\Current', array('urlBuilder' => $this->_urlBuilderMock));
+        $link = $this->_objectManager->getObject(
+            '\Magento\Page\Block\Link\Current',
+            array('urlBuilder' => $this->_urlBuilderMock)
+        );
 
         $link->setPath($path);
         $this->assertEquals($url, $link->getHref());

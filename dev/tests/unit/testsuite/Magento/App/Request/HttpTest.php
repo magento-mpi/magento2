@@ -247,6 +247,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFullActionName()
     {
+        $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock);
         /* empty request */
         $this->assertEquals('__', $this->_model->getFullActionName());
         $this->_model->setRouteName('test')

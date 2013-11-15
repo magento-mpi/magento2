@@ -17,12 +17,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $objectManager = $this->getMock('Magento\ObjectManager');
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $backendHelper = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $session = $this->getMock('Magento\Adminhtml\Model\Session', array('addSuccess'), array(), '', false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $controller = $helper->getObject('Magento\Backend\Controller\Adminhtml\Cache', array(
                 'objectManager' => $objectManager,
                 'response' => $response,
                 'helper' => $backendHelper,
-                'eventManager' =>$eventManager
+                'eventManager' => $eventManager
             )
         );
 
@@ -31,7 +32,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');
 
-        $session = $this->getMock('Magento\Adminhtml\Model\Session', array('addSuccess'), array(), '', false);
         $session->expects($this->once())
             ->method('addSuccess')
             ->with('The JavaScript/CSS cache has been cleaned.');
@@ -52,12 +52,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $response->expects($this->once())
             ->method('setRedirect')
             ->with('redirect_url');
-
-        $response->expects($this->once())
-            ->method('getHeader')
-            ->with('X-Frame-Options')
-            ->will($this->returnValue(false));
-
         // Run
         $controller->cleanMediaAction();
     }

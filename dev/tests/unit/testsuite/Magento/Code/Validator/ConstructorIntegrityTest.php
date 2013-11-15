@@ -67,8 +67,8 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
         $fileName = realpath(__DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Six/Test.php');
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
-            'Incompatible argument type: Required type: Magento\SomeModule\Model\Proxy. ' .
-            'Actual type: Magento\SomeModule\Model\ElementFactory; File: ' . $fileName
+            'Incompatible argument type: Required type: \Magento\SomeModule\Model\Proxy. ' .
+            'Actual type: \Magento\SomeModule\Model\ElementFactory; File: ' .  PHP_EOL . $fileName
         );
         $this->_model->validate('Magento\SomeModule\Model\Six\Test');
     }
